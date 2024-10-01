@@ -15,6 +15,7 @@ dependencies = [
     "distro>=1.7.0, <2",
     "sniffio",
     "cached-property; python_version < '3.8'",
+    "tabulate>=0.9.0",
 ]
 requires-python = ">= 3.7"
 classifiers = [
@@ -210,3 +211,6 @@ known-first-party = ["llama_stack_client", "tests"]
 "scripts/**.py" = ["T201", "T203"]
 "tests/**.py" = ["T201", "T203"]
 "examples/**.py" = ["T201", "T203"]
+
+[project.scripts]
+llama-stack-client = "llama_stack_client.lib.cli.llama_stack_client:main"
