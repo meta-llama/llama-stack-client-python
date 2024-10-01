@@ -13,17 +13,17 @@ from llama_stack_client import LlamaStackClient
 from llama_stack_client.lib.cli.subcommand import Subcommand
 
 
-class ModelsList(Subcommand):
+class MemoryBanksList(Subcommand):
     def __init__(self, subparsers: argparse._SubParsersAction):
         super().__init__()
         self.parser = subparsers.add_parser(
             "list",
-            prog="llama-stack-client models list",
-            description="Show available llama models at distribution endpoint",
+            prog="llama-stack-client memory_banks list",
+            description="Show available memory banks type on distribution endpoint",
             formatter_class=argparse.RawTextHelpFormatter,
         )
         self._add_arguments()
-        self.parser.set_defaults(func=self._run_models_list_cmd)
+        self.parser.set_defaults(func=self._run_memory_banks_list_cmd)
 
     def _add_arguments(self):
         self.parser.add_argument(
@@ -32,28 +32,26 @@ class ModelsList(Subcommand):
             help="Llama Stack distribution endpoint",
         )
 
-    def _run_models_list_cmd(self, args: argparse.Namespace):
+    def _run_memory_banks_list_cmd(self, args: argparse.Namespace):
         client = LlamaStackClient(
             base_url=args.endpoint,
         )
 
         headers = [
-            "Model Id",
-            "Model Metadata",
+            "Memory Bank Type",
             "Provider ID",
             "Provider Config",
         ]
 
-        models_list_response = client.models.list()
+        memory_banks_list_response = client.memory_banks.list()
         rows = []
 
-        for model_spec in models_list_response:
+        for bank_spec in memory_banks_list_response:
             rows.append(
                 [
-                    model_spec.llama_model["core_model_id"],
-                    json.dumps(model_spec.llama_model, indent=4),
-                    model_spec.provider_config.provider_id,
-                    json.dumps(model_spec.provider_config.config, indent=4),
+                    bank_spec.bank_type,
+                    bank_spec.provider_config.provider_id,
+                    json.dumps(bank_spec.provider_config.config, indent=4),
                 ]
             )
 

@@ -1,11 +1,11 @@
 import asyncio
 
 import fire
+from termcolor import cprint
 
 from llama_stack_client import LlamaStackClient
-from llama_stack_client.lib.inference.event_logger import EventLogger
 from llama_stack_client.types import UserMessage
-from termcolor import cprint
+from llama_stack_client.lib.inference.event_logger import EventLogger
 
 
 async def run_main(host: str, port: int, stream: bool = True):
@@ -13,9 +13,7 @@ async def run_main(host: str, port: int, stream: bool = True):
         base_url=f"http://{host}:{port}",
     )
 
-    message = UserMessage(
-        content="hello world, write me a 2 sentence poem about the moon", role="user"
-    )
+    message = UserMessage(content="hello world, write me a 2 sentence poem about the moon", role="user")
     cprint(f"User>{message.content}", "green")
     iterator = client.inference.chat_completion(
         messages=[

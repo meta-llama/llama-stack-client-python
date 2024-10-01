@@ -7,20 +7,20 @@
 import argparse
 
 from llama_stack_client.lib.cli.subcommand import Subcommand
-from llama_stack_client.lib.cli.models.list import ModelsList
+from llama_stack_client.lib.cli.shields.list import ShieldsList
 
 
-class ModelsParser(Subcommand):
-    """List details about available models on distribution."""
+class ShieldsParser(Subcommand):
+    """List details about available safety shields on distribution."""
 
     def __init__(self, subparsers: argparse._SubParsersAction):
         super().__init__()
         self.parser = subparsers.add_parser(
-            "models",
-            prog="llama-stack-client models",
-            description="Query details about available models on Llama Stack distributiom. ",
+            "shields",
+            prog="llama-stack-client shields",
+            description="Query details about available safety shields on distribution.",
             formatter_class=argparse.RawTextHelpFormatter,
         )
 
-        subparsers = self.parser.add_subparsers(title="models_subcommands")
-        ModelsList.create(subparsers)
+        subparsers = self.parser.add_subparsers(title="shields_subcommands")
+        ShieldsList.create(subparsers)

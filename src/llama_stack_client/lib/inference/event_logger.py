@@ -4,13 +4,13 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-from typing import List, Optional, Union
+
+from termcolor import cprint
 
 from llama_stack_client.types import (
     ChatCompletionStreamChunk,
     InferenceChatCompletionResponse,
 )
-from termcolor import cprint
 
 
 class LogEvent:

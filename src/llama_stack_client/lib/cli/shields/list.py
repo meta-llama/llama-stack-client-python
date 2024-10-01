@@ -13,17 +13,17 @@ from llama_stack_client import LlamaStackClient
 from llama_stack_client.lib.cli.subcommand import Subcommand
 
 
-class ModelsList(Subcommand):
+class ShieldsList(Subcommand):
     def __init__(self, subparsers: argparse._SubParsersAction):
         super().__init__()
         self.parser = subparsers.add_parser(
             "list",
-            prog="llama-stack-client models list",
+            prog="llama-stack-client shields list",
             description="Show available llama models at distribution endpoint",
             formatter_class=argparse.RawTextHelpFormatter,
         )
         self._add_arguments()
-        self.parser.set_defaults(func=self._run_models_list_cmd)
+        self.parser.set_defaults(func=self._run_shields_list_cmd)
 
     def _add_arguments(self):
         self.parser.add_argument(
@@ -32,28 +32,26 @@ class ModelsList(Subcommand):
             help="Llama Stack distribution endpoint",
         )
 
-    def _run_models_list_cmd(self, args: argparse.Namespace):
+    def _run_shields_list_cmd(self, args: argparse.Namespace):
         client = LlamaStackClient(
             base_url=args.endpoint,
         )
 
         headers = [
-            "Model Id",
-            "Model Metadata",
+            "Shield Type",
             "Provider ID",
             "Provider Config",
         ]
 
-        models_list_response = client.models.list()
+        shields_list_response = client.shields.list()
         rows = []
 
-        for model_spec in models_list_response:
+        for shield_spec in shields_list_response:
             rows.append(
                 [
-                    model_spec.llama_model["core_model_id"],
-                    json.dumps(model_spec.llama_model, indent=4),
-                    model_spec.provider_config.provider_id,
-                    json.dumps(model_spec.provider_config.config, indent=4),
+                    shield_spec.shield_type,
+                    shield_spec.provider_config.provider_id,
+                    json.dumps(shield_spec.provider_config.config, indent=4),
                 ]
             )
 

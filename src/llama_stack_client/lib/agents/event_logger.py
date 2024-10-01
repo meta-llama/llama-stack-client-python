@@ -4,17 +4,15 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-from typing import List, Optional, Union
+from typing import List, Union, Optional
 
-from llama_stack_client.types import ToolResponseMessage
-
-from llama_stack_client.types.agents import AgentsTurnStreamChunk
 from termcolor import cprint
 
+from llama_stack_client.types import ToolResponseMessage
+from llama_stack_client.types.agents import AgentsTurnStreamChunk
 
-def interleaved_text_media_as_str(
-    content: Union[str, List[str]], sep: str = " "
-) -> str:
+
+def interleaved_text_media_as_str(content: Union[str, List[str]], sep: str = " ") -> str:
     def _process(c) -> str:
         if isinstance(c, str):
             return c
@@ -61,9 +59,7 @@ class EventLogger:
                 # since it does not produce event but instead
                 # a Message
                 if isinstance(chunk, ToolResponseMessage):
-                    yield LogEvent(
-                        role="CustomTool", content=chunk.content, color="grey"
-                    )
+                    yield LogEvent(role="CustomTool", content=chunk.content, color="grey")
                 continue
 
             if not isinstance(chunk, AgentsTurnStreamChunk):
@@ -83,9 +79,7 @@ class EventLogger:
             if step_type == "shield_call" and event_type == "step_complete":
                 violation = event.payload.step_details.violation
                 if not violation:
-                    yield LogEvent(
-                        role=step_type, content="No Violation", color="magenta"
-                    )
+                    yield LogEvent(role=step_type, content="No Violation", color="magenta")
                 else:
                     yield LogEvent(
                         role=step_type,
@@ -102,13 +96,8 @@ class EventLogger:
                     # this is the first time we are getting model inference response
                     # aka equivalent to step_start for inference. Hence,
                     # start with "Model>".
-                    if (
-                        previous_event_type != "step_progress"
-                        and previous_step_type != "inference"
-                    ):
-                        yield LogEvent(
-                            role=step_type, content="", end="", color="yellow"
-                        )
+                    if previous_event_type != "step_progress" and previous_step_type != "inference":
+                        yield LogEvent(role=step_type, content="", end="", color="yellow")
 
                     if event.payload.tool_call_delta:
                         if isinstance(event.payload.tool_call_delta.content, str):

@@ -7,20 +7,20 @@
 import argparse
 
 from llama_stack_client.lib.cli.subcommand import Subcommand
-from llama_stack_client.lib.cli.models.list import ModelsList
+from llama_stack_client.lib.cli.memory_banks.list import MemoryBanksList
 
 
-class ModelsParser(Subcommand):
-    """List details about available models on distribution."""
+class MemoryBanksParser(Subcommand):
+    """List details about available memory banks type on distribution."""
 
     def __init__(self, subparsers: argparse._SubParsersAction):
         super().__init__()
         self.parser = subparsers.add_parser(
-            "models",
-            prog="llama-stack-client models",
-            description="Query details about available models on Llama Stack distributiom. ",
+            "memory_banks",
+            prog="llama-stack-client memory_banks",
+            description="Query details about available memory banks type on distribution.",
             formatter_class=argparse.RawTextHelpFormatter,
         )
 
-        subparsers = self.parser.add_subparsers(title="models_subcommands")
-        ModelsList.create(subparsers)
+        subparsers = self.parser.add_subparsers(title="memory_banks_subcommands")
+        MemoryBanksList.create(subparsers)
