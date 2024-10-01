@@ -4,13 +4,14 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-import json
 import argparse
-
-from tabulate import tabulate
+import json
 
 from llama_stack_client import LlamaStackClient
+from llama_stack_client.lib.cli.configure import get_config
 from llama_stack_client.lib.cli.subcommand import Subcommand
+
+from tabulate import tabulate
 
 
 class ModelsGet(Subcommand):
@@ -32,10 +33,12 @@ class ModelsGet(Subcommand):
             help="Model ID to query information about",
         )
 
+        self.endpoint = get_config().get("endpoint")
         self.parser.add_argument(
-            "endpoint",
+            "--endpoint",
             type=str,
             help="Llama Stack distribution endpoint",
+            default=self.endpoint,
         )
 
     def _run_models_list_cmd(self, args: argparse.Namespace):
