@@ -12,8 +12,12 @@ from llama_stack_client.lib.cli.constants import LLAMA_STACK_CLIENT_CONFIG_DIR
 from llama_stack_client.lib.cli.subcommand import Subcommand
 
 
+def get_config_file_path():
+    return LLAMA_STACK_CLIENT_CONFIG_DIR / "config.yaml"
+
+
 def get_config():
-    config_file = LLAMA_STACK_CLIENT_CONFIG_DIR / "config.yaml"
+    config_file = get_config_file_path()
     if config_file.exists():
         with open(config_file, "r") as f:
             return yaml.safe_load(f)
@@ -56,7 +60,7 @@ class ConfigureParser(Subcommand):
         from prompt_toolkit.validation import Validator
 
         os.makedirs(LLAMA_STACK_CLIENT_CONFIG_DIR, exist_ok=True)
-        config_path = LLAMA_STACK_CLIENT_CONFIG_DIR / "config.yaml"
+        config_path = get_config_file_path()
 
         if args.endpoint:
             endpoint = args.endpoint
