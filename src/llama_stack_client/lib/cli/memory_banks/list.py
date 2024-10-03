@@ -42,7 +42,7 @@ class MemoryBanksList(Subcommand):
 
         headers = [
             "Memory Bank Type",
-            "Provider ID",
+            "Provider Type",
             "Provider Config",
         ]
 

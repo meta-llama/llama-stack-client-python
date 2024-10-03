@@ -45,8 +45,8 @@ class ShieldsList(Subcommand):
         )
 
         headers = [
-            "Shield Type",
-            "Provider ID",
+            "shield_type",
+            "Provider Type",
             "Provider Config",
         ]
 

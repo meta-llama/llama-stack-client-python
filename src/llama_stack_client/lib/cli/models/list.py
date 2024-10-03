@@ -41,9 +41,9 @@ class ModelsList(Subcommand):
         )
 
         headers = [
-            "Model Id",
+            "model",
             "Model Metadata",
-            "Provider ID",
+            "Provider Type",
             "Provider Config",
         ]
 
