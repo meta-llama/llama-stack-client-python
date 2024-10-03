@@ -53,7 +53,7 @@ class MemoryBanksList(Subcommand):
             rows.append(
                 [
                     bank_spec.bank_type,
-                    bank_spec.provider_config.provider_id,
+                    bank_spec.provider_config.provider_type,
                     json.dumps(bank_spec.provider_config.config, indent=4),
                 ]
             )

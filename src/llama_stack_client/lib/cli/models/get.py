@@ -47,7 +47,7 @@ class ModelsGet(Subcommand):
         )
 
         headers = [
-            "model",
+            "Model ID (model)",
             "Model Metadata",
             "Provider Type",
             "Provider Config",
@@ -66,7 +66,7 @@ class ModelsGet(Subcommand):
             [
                 models_get_response.llama_model["core_model_id"],
                 json.dumps(models_get_response.llama_model, indent=4),
-                models_get_response.provider_config.provider_id,
+                models_get_response.provider_config.provider_type,
                 json.dumps(models_get_response.provider_config.config, indent=4),
             ]
         )

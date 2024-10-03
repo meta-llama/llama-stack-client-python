@@ -45,7 +45,7 @@ class ShieldsList(Subcommand):
         )
 
         headers = [
-            "shield_type",
+            "Shield Type (shield_type)",
             "Provider Type",
             "Provider Config",
         ]
@@ -57,7 +57,7 @@ class ShieldsList(Subcommand):
             rows.append(
                 [
                     shield_spec.shield_type,
-                    shield_spec.provider_config.provider_id,
+                    shield_spec.provider_config.provider_type,
                     json.dumps(shield_spec.provider_config.config, indent=4),
                 ]
             )
