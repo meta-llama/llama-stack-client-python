@@ -1,6 +1,6 @@
 # Llama Stack Client Python API library
 
-[![PyPI version](https://img.shields.io/pypi/v/llama_stack_client.svg)](https://pypi.org/project/llama_stack_client/)
+[![PyPI version](https://img.shields.io/pypi/v/llama_stack_client.svg)](https://pypi.org/project/llama_stack_client/) [![PyPI - Downloads](https://img.shields.io/pypi/dm/llama-stack-client)](https://pypi.org/project/llama-stack-client/)
 
 The Llama Stack Client Python library provides convenient access to the Llama Stack Client REST API from any Python 3.7+
 application. The library includes type definitions for all request params and response fields,
