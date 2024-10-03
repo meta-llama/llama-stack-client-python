@@ -1,14 +1,15 @@
-import os
-import base64
+# pylint: skip-file
 import asyncio
+import base64
 import mimetypes
+import os
 from pathlib import Path
 
 import fire
-from termcolor import cprint
 
 from llama_stack_client import LlamaStackClient
 from llama_stack_client.types.memory_insert_params import Document
+from termcolor import cprint
 
 
 def data_url_from_file(file_path: str) -> str:

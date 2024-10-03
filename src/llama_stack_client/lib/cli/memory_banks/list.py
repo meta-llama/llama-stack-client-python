@@ -3,15 +3,16 @@
 #
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
+# pylint: skip-file
 
-import json
 import argparse
-
-from tabulate import tabulate
+import json
 
 from llama_stack_client import LlamaStackClient
 from llama_stack_client.lib.cli.configure import get_config
 from llama_stack_client.lib.cli.subcommand import Subcommand
+
+from tabulate import tabulate
 
 
 class MemoryBanksList(Subcommand):

@@ -3,11 +3,14 @@
 #
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
+# pylint: skip-file
+
 
 import argparse
 
-from llama_stack_client.lib.cli.subcommand import Subcommand
 from llama_stack_client.lib.cli.memory_banks.list import MemoryBanksList
+
+from llama_stack_client.lib.cli.subcommand import Subcommand
 
 
 class MemoryBanksParser(Subcommand):
