@@ -210,8 +210,8 @@ known-first-party = ["llama_stack_client", "tests"]
 "bin/**.py" = ["T201", "T203"]
 "scripts/**.py" = ["T201", "T203"]
 "tests/**.py" = ["T201", "T203"]
-"examples/**.py" = ["T201", "T203"]
-"src/llama_stack_client/lib/**.py" = ["T201", "T203"]
+"examples/**.py" = ["T201", "T203", "TCH004", "I", "B"]
+"src/llama_stack_client/lib/**.py" = ["T201", "T203", "TCH004", "I", "B"]
 
 [project.scripts]
 llama-stack-client = "llama_stack_client.lib.cli.llama_stack_client:main"
