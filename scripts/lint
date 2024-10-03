@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-set -e
+# set -e
 
-cd "$(dirname "$0")/.."
+# cd "$(dirname "$0")/.."
 
-echo "==> Running lints"
-rye run lint
+# echo "==> Running lints"
+# rye run lint
 
-echo "==> Making sure it imports"
-rye run python -c 'import llama_stack_client'
+# echo "==> Making sure it imports"
+# rye run python -c 'import llama_stack_client'

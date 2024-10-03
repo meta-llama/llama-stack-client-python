@@ -1,4 +1,3 @@
-# pylint: skip-file
 import asyncio
 import base64
 import mimetypes

@@ -3,14 +3,14 @@
 #
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
-# pylint: skip-file
 
 import argparse
 
-from .models import ModelsParser
-from .shields import ShieldsParser
 from .configure import ConfigureParser
 from .memory_banks import MemoryBanksParser
+
+from .models import ModelsParser
+from .shields import ShieldsParser
 
 
 class LlamaStackClientCLIParser:
