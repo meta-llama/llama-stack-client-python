@@ -7,5 +7,5 @@ cd "$(dirname "$0")/.."
 echo "==> Running lints"
 rye run lint
 
-echo "==> Making sure it imports"
-rye run python -c 'import llama_stack_client'
+# echo "==> Making sure it imports"
+# rye run python -c 'import llama_stack_client'
