@@ -3,8 +3,6 @@
 #
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
-import yaml
-from llama_stack_client.lib.cli.constants import LLAMA_STACK_CLIENT_CONFIG_DIR
 
 
 class Subcommand:
