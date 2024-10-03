@@ -5,11 +5,10 @@
 # the root directory of this source tree.
 import argparse
 
-from .configure import ConfigureParser
-from .memory_banks import MemoryBanksParser
-
 from .models import ModelsParser
 from .shields import ShieldsParser
+from .configure import ConfigureParser
+from .memory_banks import MemoryBanksParser
 
 
 class LlamaStackClientCLIParser:
