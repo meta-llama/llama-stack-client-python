@@ -1,6 +1,5 @@
 import asyncio
 import base64
-import json
 import mimetypes
 import os
 from pathlib import Path
@@ -27,7 +26,7 @@ def data_url_from_file(file_path: str) -> str:
     return data_url
 
 
-async def run_main(host: str, port: int, stream: bool = True):
+async def run_main(host: str, port: int):
     client = LlamaStackClient(
         base_url=f"http://{host}:{port}",
     )
@@ -122,8 +121,8 @@ async def run_main(host: str, port: int, stream: bool = True):
     print(memory_banks_response)
 
 
-def main(host: str, port: int, stream: bool = True):
-    asyncio.run(run_main(host, port, stream))
+def main(host: str, port: int):
+    asyncio.run(run_main(host, port))
 
 
 if __name__ == "__main__":

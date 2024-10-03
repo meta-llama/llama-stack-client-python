@@ -24,7 +24,7 @@ async def run_main(host: str, port: int, stream: bool = True):
                 role="user",
             ),
         ],
-        model="Meta-Llama3.1-8B-Instruct",
+        model="Llama3.1-8B-Instruct",
         stream=stream,
     )
 
