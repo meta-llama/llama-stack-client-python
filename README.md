@@ -37,7 +37,7 @@ response = client.inference.chat_completion(
             role="user",
         ),
     ],
-    model="Meta-Llama3.1-8B-Instruct",
+    model="Llama3.1-8B-Instruct",
     stream=False,
 )
 print(response)
