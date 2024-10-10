@@ -6,18 +6,9 @@ from typing import Dict, List, Union, Iterable
 from typing_extensions import Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
+from .shared_params.image_media import ImageMedia
 
-__all__ = [
-    "MemoryQueryParams",
-    "Query",
-    "QueryImageMedia",
-    "QueryImageMediaImage",
-    "QueryImageMediaImageThisClassRepresentsAnImageObjectToCreate",
-    "QueryUnionMember2",
-    "QueryUnionMember2ImageMedia",
-    "QueryUnionMember2ImageMediaImage",
-    "QueryUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate",
-]
+__all__ = ["MemoryQueryParams", "Query", "QueryUnionMember2"]
 
 
 class MemoryQueryParams(TypedDict, total=False):
@@ -30,34 +21,6 @@ class MemoryQueryParams(TypedDict, total=False):
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
 
-class QueryImageMediaImageThisClassRepresentsAnImageObjectToCreate(TypedDict, total=False):
-    format: str
+QueryUnionMember2: TypeAlias = Union[str, ImageMedia]
 
-    format_description: str
-
-
-QueryImageMediaImage: TypeAlias = Union[QueryImageMediaImageThisClassRepresentsAnImageObjectToCreate, str]
-
-
-class QueryImageMedia(TypedDict, total=False):
-    image: Required[QueryImageMediaImage]
-
-
-class QueryUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate(TypedDict, total=False):
-    format: str
-
-    format_description: str
-
-
-QueryUnionMember2ImageMediaImage: TypeAlias = Union[
-    QueryUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate, str
-]
-
-
-class QueryUnionMember2ImageMedia(TypedDict, total=False):
-    image: Required[QueryUnionMember2ImageMediaImage]
-
-
-QueryUnionMember2: TypeAlias = Union[str, QueryUnionMember2ImageMedia]
-
-Query: TypeAlias = Union[str, QueryImageMedia, List[QueryUnionMember2]]
+Query: TypeAlias = Union[str, ImageMedia, List[QueryUnionMember2]]

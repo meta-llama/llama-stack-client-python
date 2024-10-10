@@ -20,7 +20,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.agents import step_retrieve_params
-from ...types.agents.agents_step import AgentsStep
+from ...types.agents.step_retrieve_response import StepRetrieveResponse
 
 __all__ = ["StepsResource", "AsyncStepsResource"]
 
@@ -58,7 +58,7 @@ class StepsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentsStep:
+    ) -> StepRetrieveResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -89,7 +89,7 @@ class StepsResource(SyncAPIResource):
                     step_retrieve_params.StepRetrieveParams,
                 ),
             ),
-            cast_to=AgentsStep,
+            cast_to=StepRetrieveResponse,
         )
 
 
@@ -126,7 +126,7 @@ class AsyncStepsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentsStep:
+    ) -> StepRetrieveResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -157,7 +157,7 @@ class AsyncStepsResource(AsyncAPIResource):
                     step_retrieve_params.StepRetrieveParams,
                 ),
             ),
-            cast_to=AgentsStep,
+            cast_to=StepRetrieveResponse,
         )
 
 

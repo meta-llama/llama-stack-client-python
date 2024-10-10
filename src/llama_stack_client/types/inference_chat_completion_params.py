@@ -7,23 +7,15 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
 from .shared_params.user_message import UserMessage
-from .tool_param_definition_param import ToolParamDefinitionParam
 from .shared_params.system_message import SystemMessage
 from .shared_params.sampling_params import SamplingParams
 from .shared_params.completion_message import CompletionMessage
 from .shared_params.tool_response_message import ToolResponseMessage
 
-__all__ = [
-    "InferenceChatCompletionParamsBase",
-    "Message",
-    "Logprobs",
-    "Tool",
-    "InferenceChatCompletionParamsNonStreaming",
-    "InferenceChatCompletionParamsStreaming",
-]
+__all__ = ["InferenceChatCompletionParams", "Message", "Logprobs", "Tool", "ToolParameters"]
 
 
-class InferenceChatCompletionParamsBase(TypedDict, total=False):
+class InferenceChatCompletionParams(TypedDict, total=False):
     messages: Required[Iterable[Message]]
 
     model: Required[str]
@@ -31,6 +23,8 @@ class InferenceChatCompletionParamsBase(TypedDict, total=False):
     logprobs: Logprobs
 
     sampling_params: SamplingParams
+
+    stream: bool
 
     tool_choice: Literal["auto", "required"]
 
@@ -59,20 +53,19 @@ class Logprobs(TypedDict, total=False):
     top_k: int
 
 
+class ToolParameters(TypedDict, total=False):
+    param_type: Required[str]
+
+    default: Union[bool, float, str, Iterable[object], object, None]
+
+    description: str
+
+    required: bool
+
+
 class Tool(TypedDict, total=False):
     tool_name: Required[Union[Literal["brave_search", "wolfram_alpha", "photogen", "code_interpreter"], str]]
 
     description: str
 
-    parameters: Dict[str, ToolParamDefinitionParam]
-
-
-class InferenceChatCompletionParamsNonStreaming(InferenceChatCompletionParamsBase, total=False):
-    stream: Literal[False]
-
-
-class InferenceChatCompletionParamsStreaming(InferenceChatCompletionParamsBase):
-    stream: Required[Literal[True]]
-
-
-InferenceChatCompletionParams = Union[InferenceChatCompletionParamsNonStreaming, InferenceChatCompletionParamsStreaming]
+    parameters: Dict[str, ToolParameters]

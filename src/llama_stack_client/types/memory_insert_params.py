@@ -6,19 +6,9 @@ from typing import Dict, List, Union, Iterable
 from typing_extensions import Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
+from .shared_params.image_media import ImageMedia
 
-__all__ = [
-    "MemoryInsertParams",
-    "Document",
-    "DocumentContent",
-    "DocumentContentImageMedia",
-    "DocumentContentImageMediaImage",
-    "DocumentContentImageMediaImageThisClassRepresentsAnImageObjectToCreate",
-    "DocumentContentUnionMember2",
-    "DocumentContentUnionMember2ImageMedia",
-    "DocumentContentUnionMember2ImageMediaImage",
-    "DocumentContentUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate",
-]
+__all__ = ["MemoryInsertParams", "Document", "DocumentContent", "DocumentContentUnionMember2"]
 
 
 class MemoryInsertParams(TypedDict, total=False):
@@ -31,39 +21,9 @@ class MemoryInsertParams(TypedDict, total=False):
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
 
-class DocumentContentImageMediaImageThisClassRepresentsAnImageObjectToCreate(TypedDict, total=False):
-    format: str
+DocumentContentUnionMember2: TypeAlias = Union[str, ImageMedia]
 
-    format_description: str
-
-
-DocumentContentImageMediaImage: TypeAlias = Union[
-    DocumentContentImageMediaImageThisClassRepresentsAnImageObjectToCreate, str
-]
-
-
-class DocumentContentImageMedia(TypedDict, total=False):
-    image: Required[DocumentContentImageMediaImage]
-
-
-class DocumentContentUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate(TypedDict, total=False):
-    format: str
-
-    format_description: str
-
-
-DocumentContentUnionMember2ImageMediaImage: TypeAlias = Union[
-    DocumentContentUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate, str
-]
-
-
-class DocumentContentUnionMember2ImageMedia(TypedDict, total=False):
-    image: Required[DocumentContentUnionMember2ImageMediaImage]
-
-
-DocumentContentUnionMember2: TypeAlias = Union[str, DocumentContentUnionMember2ImageMedia]
-
-DocumentContent: TypeAlias = Union[str, DocumentContentImageMedia, List[DocumentContentUnionMember2]]
+DocumentContent: TypeAlias = Union[str, ImageMedia, List[DocumentContentUnionMember2]]
 
 
 class Document(TypedDict, total=False):

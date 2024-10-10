@@ -1,5 +1,13 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from .turn import (
+    TurnResource,
+    AsyncTurnResource,
+    TurnResourceWithRawResponse,
+    AsyncTurnResourceWithRawResponse,
+    TurnResourceWithStreamingResponse,
+    AsyncTurnResourceWithStreamingResponse,
+)
 from .steps import (
     StepsResource,
     AsyncStepsResource,
@@ -7,14 +15,6 @@ from .steps import (
     AsyncStepsResourceWithRawResponse,
     StepsResourceWithStreamingResponse,
     AsyncStepsResourceWithStreamingResponse,
-)
-from .turns import (
-    TurnsResource,
-    AsyncTurnsResource,
-    TurnsResourceWithRawResponse,
-    AsyncTurnsResourceWithRawResponse,
-    TurnsResourceWithStreamingResponse,
-    AsyncTurnsResourceWithStreamingResponse,
 )
 from .agents import (
     AgentsResource,
@@ -24,34 +24,34 @@ from .agents import (
     AgentsResourceWithStreamingResponse,
     AsyncAgentsResourceWithStreamingResponse,
 )
-from .sessions import (
-    SessionsResource,
-    AsyncSessionsResource,
-    SessionsResourceWithRawResponse,
-    AsyncSessionsResourceWithRawResponse,
-    SessionsResourceWithStreamingResponse,
-    AsyncSessionsResourceWithStreamingResponse,
+from .session import (
+    SessionResource,
+    AsyncSessionResource,
+    SessionResourceWithRawResponse,
+    AsyncSessionResourceWithRawResponse,
+    SessionResourceWithStreamingResponse,
+    AsyncSessionResourceWithStreamingResponse,
 )
 
 __all__ = [
-    "SessionsResource",
-    "AsyncSessionsResource",
-    "SessionsResourceWithRawResponse",
-    "AsyncSessionsResourceWithRawResponse",
-    "SessionsResourceWithStreamingResponse",
-    "AsyncSessionsResourceWithStreamingResponse",
+    "SessionResource",
+    "AsyncSessionResource",
+    "SessionResourceWithRawResponse",
+    "AsyncSessionResourceWithRawResponse",
+    "SessionResourceWithStreamingResponse",
+    "AsyncSessionResourceWithStreamingResponse",
     "StepsResource",
     "AsyncStepsResource",
     "StepsResourceWithRawResponse",
     "AsyncStepsResourceWithRawResponse",
     "StepsResourceWithStreamingResponse",
     "AsyncStepsResourceWithStreamingResponse",
-    "TurnsResource",
-    "AsyncTurnsResource",
-    "TurnsResourceWithRawResponse",
-    "AsyncTurnsResourceWithRawResponse",
-    "TurnsResourceWithStreamingResponse",
-    "AsyncTurnsResourceWithStreamingResponse",
+    "TurnResource",
+    "AsyncTurnResource",
+    "TurnResourceWithRawResponse",
+    "AsyncTurnResourceWithRawResponse",
+    "TurnResourceWithStreamingResponse",
+    "AsyncTurnResourceWithStreamingResponse",
     "AgentsResource",
     "AsyncAgentsResource",
     "AgentsResourceWithRawResponse",

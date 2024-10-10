@@ -22,7 +22,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.reward_scoring import RewardScoring
+from ..types.reward_scoring_response import RewardScoringResponse
 
 __all__ = ["RewardScoringResource", "AsyncRewardScoringResource"]
 
@@ -59,7 +59,7 @@ class RewardScoringResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> RewardScoring:
+    ) -> RewardScoringResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -86,7 +86,7 @@ class RewardScoringResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=RewardScoring,
+            cast_to=RewardScoringResponse,
         )
 
 
@@ -122,7 +122,7 @@ class AsyncRewardScoringResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> RewardScoring:
+    ) -> RewardScoringResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -149,7 +149,7 @@ class AsyncRewardScoringResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=RewardScoring,
+            cast_to=RewardScoringResponse,
         )
 
 

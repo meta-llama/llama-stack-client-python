@@ -16,14 +16,6 @@ from .evaluate import (
     EvaluateResourceWithStreamingResponse,
     AsyncEvaluateResourceWithStreamingResponse,
 )
-from .question_answering import (
-    QuestionAnsweringResource,
-    AsyncQuestionAnsweringResource,
-    QuestionAnsweringResourceWithRawResponse,
-    AsyncQuestionAnsweringResourceWithRawResponse,
-    QuestionAnsweringResourceWithStreamingResponse,
-    AsyncQuestionAnsweringResourceWithStreamingResponse,
-)
 
 __all__ = [
     "JobsResource",
@@ -32,12 +24,6 @@ __all__ = [
     "AsyncJobsResourceWithRawResponse",
     "JobsResourceWithStreamingResponse",
     "AsyncJobsResourceWithStreamingResponse",
-    "QuestionAnsweringResource",
-    "AsyncQuestionAnsweringResource",
-    "QuestionAnsweringResourceWithRawResponse",
-    "AsyncQuestionAnsweringResourceWithRawResponse",
-    "QuestionAnsweringResourceWithStreamingResponse",
-    "AsyncQuestionAnsweringResourceWithStreamingResponse",
     "EvaluateResource",
     "AsyncEvaluateResource",
     "EvaluateResourceWithRawResponse",

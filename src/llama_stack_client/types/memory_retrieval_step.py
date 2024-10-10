@@ -5,53 +5,12 @@ from datetime import datetime
 from typing_extensions import Literal, TypeAlias
 
 from .._models import BaseModel
+from .shared.image_media import ImageMedia
+from .shared.content_array import ContentArray
 
-__all__ = [
-    "MemoryRetrievalStep",
-    "InsertedContext",
-    "InsertedContextImageMedia",
-    "InsertedContextImageMediaImage",
-    "InsertedContextImageMediaImageThisClassRepresentsAnImageObjectToCreate",
-    "InsertedContextUnionMember2",
-    "InsertedContextUnionMember2ImageMedia",
-    "InsertedContextUnionMember2ImageMediaImage",
-    "InsertedContextUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate",
-]
+__all__ = ["MemoryRetrievalStep", "InsertedContext"]
 
-
-class InsertedContextImageMediaImageThisClassRepresentsAnImageObjectToCreate(BaseModel):
-    format: Optional[str] = None
-
-    format_description: Optional[str] = None
-
-
-InsertedContextImageMediaImage: TypeAlias = Union[
-    InsertedContextImageMediaImageThisClassRepresentsAnImageObjectToCreate, str
-]
-
-
-class InsertedContextImageMedia(BaseModel):
-    image: InsertedContextImageMediaImage
-
-
-class InsertedContextUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate(BaseModel):
-    format: Optional[str] = None
-
-    format_description: Optional[str] = None
-
-
-InsertedContextUnionMember2ImageMediaImage: TypeAlias = Union[
-    InsertedContextUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate, str
-]
-
-
-class InsertedContextUnionMember2ImageMedia(BaseModel):
-    image: InsertedContextUnionMember2ImageMediaImage
-
-
-InsertedContextUnionMember2: TypeAlias = Union[str, InsertedContextUnionMember2ImageMedia]
-
-InsertedContext: TypeAlias = Union[str, InsertedContextImageMedia, List[InsertedContextUnionMember2]]
+InsertedContext: TypeAlias = Union[str, ImageMedia, ContentArray]
 
 
 class MemoryRetrievalStep(BaseModel):

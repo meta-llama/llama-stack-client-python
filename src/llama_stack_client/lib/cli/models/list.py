@@ -42,9 +42,9 @@ class ModelsList(Subcommand):
 
         headers = [
             "Model ID (model)",
-            "Model Metadata",
-            "Provider Type",
-            "Provider Config",
+            "Llama Model",
+            "Provider ID",
+            "Model Metadata ",
         ]
 
         models_list_response = client.models.list()
@@ -53,10 +53,10 @@ class ModelsList(Subcommand):
         for model_spec in models_list_response:
             rows.append(
                 [
-                    model_spec.llama_model["core_model_id"],
-                    json.dumps(model_spec.llama_model, indent=4),
-                    model_spec.provider_config.provider_type,
-                    json.dumps(model_spec.provider_config.config, indent=4),
+                    model_spec.identifier,
+                    model_spec.llama_model,
+                    model_spec.provider_id,
+                    json.dumps(model_spec.metadata, indent=4),
                 ]
             )
 

@@ -47,6 +47,7 @@ class MemoryBanksList(Subcommand):
         ]
 
         memory_banks_list_response = client.memory_banks.list()
+        print(memory_banks_list_response)
         rows = []
 
         for bank_spec in memory_banks_list_response:
