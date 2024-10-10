@@ -44,22 +44,19 @@ class ShieldsList(Subcommand):
             base_url=args.endpoint,
         )
 
-        headers = [
-            "Shield Type (shield_type)",
-            "Provider Type",
-            "Provider Config",
-        ]
-
         shields_list_response = client.shields.list()
+        print(shields_list_response)
         rows = []
 
+        if shields_list_response:
+            headers = sorted(shields_list_response[0].__dict__.keys())
+
         for shield_spec in shields_list_response:
-            rows.append(
-                [
-                    shield_spec.shield_type,
-                    shield_spec.provider_config.provider_type,
-                    json.dumps(shield_spec.provider_config.config, indent=4),
-                ]
-            )
+            for k in headers:
+                rows.append(
+                    [
+                        shield_spec.__dict__[headers[i]] for i in range(len(headers))
+                    ]
+                )
 
         print(tabulate(rows, headers=headers, tablefmt="grid"))
