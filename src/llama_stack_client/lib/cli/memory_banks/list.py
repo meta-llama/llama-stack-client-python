@@ -41,9 +41,12 @@ class MemoryBanksList(Subcommand):
         )
 
         headers = [
+            "Identifier",
+            "Provider ID",
             "Memory Bank Type",
-            "Provider Type",
-            "Provider Config",
+            "embedding_model",
+            "chunk_size_in_tokens",
+            "overlap_size_in_tokens",
         ]
 
         memory_banks_list_response = client.memory_banks.list()
@@ -53,9 +56,12 @@ class MemoryBanksList(Subcommand):
         for bank_spec in memory_banks_list_response:
             rows.append(
                 [
-                    bank_spec.bank_type,
-                    bank_spec.provider_config.provider_type,
-                    json.dumps(bank_spec.provider_config.config, indent=4),
+                    bank_spec.identifier,
+                    bank_spec.provider_id,
+                    bank_spec.type,
+                    bank_spec.embedding_model,
+                    bank_spec.chunk_size_in_tokens,
+                    bank_spec.overlap_size_in_tokens,
                 ]
             )
 
