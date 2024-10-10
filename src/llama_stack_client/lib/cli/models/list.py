@@ -7,11 +7,10 @@
 import json
 import argparse
 
-from tabulate import tabulate
-
 from llama_stack_client import LlamaStackClient
 from llama_stack_client.lib.cli.configure import get_config
 from llama_stack_client.lib.cli.subcommand import Subcommand
+from llama_stack_client.lib.cli.common.utils import print_table_from_response
 
 
 class ModelsList(Subcommand):
@@ -41,23 +40,11 @@ class ModelsList(Subcommand):
         )
 
         headers = [
-            "Model ID (model)",
-            "Llama Model",
-            "Provider ID",
-            "Model Metadata ",
+            "identifier",
+            "llama_model",
+            "provider_id",
+            "metadata"
         ]
-
-        models_list_response = client.models.list()
-        rows = []
-
-        for model_spec in models_list_response:
-            rows.append(
-                [
-                    model_spec.identifier,
-                    model_spec.llama_model,
-                    model_spec.provider_id,
-                    json.dumps(model_spec.metadata, indent=4),
-                ]
-            )
-
-        print(tabulate(rows, headers=headers, tablefmt="grid"))
+        response = client.models.list()
+        if response:
+            print_table_from_response(response, headers)

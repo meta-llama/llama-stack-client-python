@@ -46,14 +46,7 @@ class ModelsGet(Subcommand):
             base_url=args.endpoint,
         )
 
-        headers = [
-            "Model ID (model)",
-            "Model Metadata",
-            "Provider Type",
-            "Provider Config",
-        ]
-
-        models_get_response = client.models.get(core_model_id=args.model_id)
+        models_get_response = client.models.retrieve(identifier=args.model_id)
 
         if not models_get_response:
             print(
@@ -61,13 +54,12 @@ class ModelsGet(Subcommand):
             )
             return
 
+        headers = sorted(models_get_response.__dict__.keys())
+
         rows = []
         rows.append(
             [
-                models_get_response.llama_model["core_model_id"],
-                json.dumps(models_get_response.llama_model, indent=4),
-                models_get_response.provider_config.provider_type,
-                json.dumps(models_get_response.provider_config.config, indent=4),
+                models_get_response.__dict__[headers[i]] for i in range(len(headers))
             ]
         )
 

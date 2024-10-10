@@ -12,6 +12,7 @@ from llama_stack_client.lib.cli.configure import get_config
 from llama_stack_client.lib.cli.subcommand import Subcommand
 
 from tabulate import tabulate
+from llama_stack_client.lib.cli.common.utils import print_table_from_response
 
 
 class MemoryBanksList(Subcommand):
@@ -41,27 +42,14 @@ class MemoryBanksList(Subcommand):
         )
 
         headers = [
-            "Identifier",
-            "Provider ID",
-            "Memory Bank Type",
+            "identifier",
+            "provider_id",
+            "type",
             "embedding_model",
             "chunk_size_in_tokens",
             "overlap_size_in_tokens",
         ]
 
         memory_banks_list_response = client.memory_banks.list()
-        rows = []
-
-        for bank_spec in memory_banks_list_response:
-            rows.append(
-                [
-                    bank_spec.identifier,
-                    bank_spec.provider_id,
-                    bank_spec.type,
-                    bank_spec.embedding_model,
-                    bank_spec.chunk_size_in_tokens,
-                    bank_spec.overlap_size_in_tokens,
-                ]
-            )
-
-        print(tabulate(rows, headers=headers, tablefmt="grid"))
+        if memory_banks_list_response:
+            print_table_from_response(memory_banks_list_response, headers)
