@@ -1,20 +1,24 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union, Optional
-from typing_extensions import TypeAlias
+from typing import Dict, List, Union, Optional
+from typing_extensions import Literal, TypeAlias
 
 from .._models import BaseModel
-from .token_log_probs import TokenLogProbs
-from .completion_stream_chunk import CompletionStreamChunk
-from .shared.completion_message import CompletionMessage
+from .completion_response import CompletionResponse
 
-__all__ = ["InferenceCompletionResponse", "CompletionResponse"]
+__all__ = ["InferenceCompletionResponse", "CompletionResponseStreamChunk", "CompletionResponseStreamChunkLogprob"]
 
 
-class CompletionResponse(BaseModel):
-    completion_message: CompletionMessage
-
-    logprobs: Optional[List[TokenLogProbs]] = None
+class CompletionResponseStreamChunkLogprob(BaseModel):
+    logprobs_by_token: Dict[str, float]
 
 
-InferenceCompletionResponse: TypeAlias = Union[CompletionResponse, CompletionStreamChunk]
+class CompletionResponseStreamChunk(BaseModel):
+    delta: str
+
+    logprobs: Optional[List[CompletionResponseStreamChunkLogprob]] = None
+
+    stop_reason: Optional[Literal["end_of_turn", "end_of_message", "out_of_tokens"]] = None
+
+
+InferenceCompletionResponse: TypeAlias = Union[CompletionResponse, CompletionResponseStreamChunk]

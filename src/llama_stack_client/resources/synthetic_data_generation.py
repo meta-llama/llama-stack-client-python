@@ -23,7 +23,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.synthetic_data_generation import SyntheticDataGeneration
+from ..types.synthetic_data_generation_response import SyntheticDataGenerationResponse
 
 __all__ = ["SyntheticDataGenerationResource", "AsyncSyntheticDataGenerationResource"]
 
@@ -61,7 +61,7 @@ class SyntheticDataGenerationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SyntheticDataGeneration:
+    ) -> SyntheticDataGenerationResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -89,7 +89,7 @@ class SyntheticDataGenerationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SyntheticDataGeneration,
+            cast_to=SyntheticDataGenerationResponse,
         )
 
 
@@ -126,7 +126,7 @@ class AsyncSyntheticDataGenerationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SyntheticDataGeneration:
+    ) -> SyntheticDataGenerationResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -154,7 +154,7 @@ class AsyncSyntheticDataGenerationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SyntheticDataGeneration,
+            cast_to=SyntheticDataGenerationResponse,
         )
 
 

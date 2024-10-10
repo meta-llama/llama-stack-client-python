@@ -7,6 +7,7 @@
 import argparse
 
 from .configure import ConfigureParser
+from .providers import ProvidersParser
 from .memory_banks import MemoryBanksParser
 
 from .models import ModelsParser
@@ -31,6 +32,7 @@ class LlamaStackClientCLIParser:
         MemoryBanksParser.create(subparsers)
         ShieldsParser.create(subparsers)
         ConfigureParser.create(subparsers)
+        ProvidersParser.create(subparsers)
 
     def parse_args(self) -> argparse.Namespace:
         return self.parser.parse_args()

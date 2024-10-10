@@ -2,6 +2,7 @@
 
 from .tool_call import ToolCall as ToolCall
 from .attachment import Attachment as Attachment
+from .image_media import ImageMedia as ImageMedia
 from .user_message import UserMessage as UserMessage
 from .system_message import SystemMessage as SystemMessage
 from .sampling_params import SamplingParams as SamplingParams

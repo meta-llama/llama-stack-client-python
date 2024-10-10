@@ -6,54 +6,12 @@ from typing_extensions import Literal, TypeAlias
 
 from .._models import BaseModel
 from .shared.tool_call import ToolCall
+from .shared.image_media import ImageMedia
+from .shared.content_array import ContentArray
 
-__all__ = [
-    "ToolExecutionStep",
-    "ToolResponse",
-    "ToolResponseContent",
-    "ToolResponseContentImageMedia",
-    "ToolResponseContentImageMediaImage",
-    "ToolResponseContentImageMediaImageThisClassRepresentsAnImageObjectToCreate",
-    "ToolResponseContentUnionMember2",
-    "ToolResponseContentUnionMember2ImageMedia",
-    "ToolResponseContentUnionMember2ImageMediaImage",
-    "ToolResponseContentUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate",
-]
+__all__ = ["ToolExecutionStep", "ToolResponse", "ToolResponseContent"]
 
-
-class ToolResponseContentImageMediaImageThisClassRepresentsAnImageObjectToCreate(BaseModel):
-    format: Optional[str] = None
-
-    format_description: Optional[str] = None
-
-
-ToolResponseContentImageMediaImage: TypeAlias = Union[
-    ToolResponseContentImageMediaImageThisClassRepresentsAnImageObjectToCreate, str
-]
-
-
-class ToolResponseContentImageMedia(BaseModel):
-    image: ToolResponseContentImageMediaImage
-
-
-class ToolResponseContentUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate(BaseModel):
-    format: Optional[str] = None
-
-    format_description: Optional[str] = None
-
-
-ToolResponseContentUnionMember2ImageMediaImage: TypeAlias = Union[
-    ToolResponseContentUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate, str
-]
-
-
-class ToolResponseContentUnionMember2ImageMedia(BaseModel):
-    image: ToolResponseContentUnionMember2ImageMediaImage
-
-
-ToolResponseContentUnionMember2: TypeAlias = Union[str, ToolResponseContentUnionMember2ImageMedia]
-
-ToolResponseContent: TypeAlias = Union[str, ToolResponseContentImageMedia, List[ToolResponseContentUnionMember2]]
+ToolResponseContent: TypeAlias = Union[str, ImageMedia, ContentArray]
 
 
 class ToolResponse(BaseModel):

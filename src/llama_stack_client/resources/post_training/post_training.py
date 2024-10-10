@@ -7,13 +7,13 @@ from typing_extensions import Literal
 
 import httpx
 
-from .jobs import (
-    JobsResource,
-    AsyncJobsResource,
-    JobsResourceWithRawResponse,
-    AsyncJobsResourceWithRawResponse,
-    JobsResourceWithStreamingResponse,
-    AsyncJobsResourceWithStreamingResponse,
+from .job import (
+    JobResource,
+    AsyncJobResource,
+    JobResourceWithRawResponse,
+    AsyncJobResourceWithRawResponse,
+    JobResourceWithStreamingResponse,
+    AsyncJobResourceWithStreamingResponse,
 )
 from ...types import (
     post_training_preference_optimize_params,
@@ -42,8 +42,8 @@ __all__ = ["PostTrainingResource", "AsyncPostTrainingResource"]
 
 class PostTrainingResource(SyncAPIResource):
     @cached_property
-    def jobs(self) -> JobsResource:
-        return JobsResource(self._client)
+    def job(self) -> JobResource:
+        return JobResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> PostTrainingResourceWithRawResponse:
@@ -183,8 +183,8 @@ class PostTrainingResource(SyncAPIResource):
 
 class AsyncPostTrainingResource(AsyncAPIResource):
     @cached_property
-    def jobs(self) -> AsyncJobsResource:
-        return AsyncJobsResource(self._client)
+    def job(self) -> AsyncJobResource:
+        return AsyncJobResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncPostTrainingResourceWithRawResponse:
@@ -334,8 +334,8 @@ class PostTrainingResourceWithRawResponse:
         )
 
     @cached_property
-    def jobs(self) -> JobsResourceWithRawResponse:
-        return JobsResourceWithRawResponse(self._post_training.jobs)
+    def job(self) -> JobResourceWithRawResponse:
+        return JobResourceWithRawResponse(self._post_training.job)
 
 
 class AsyncPostTrainingResourceWithRawResponse:
@@ -350,8 +350,8 @@ class AsyncPostTrainingResourceWithRawResponse:
         )
 
     @cached_property
-    def jobs(self) -> AsyncJobsResourceWithRawResponse:
-        return AsyncJobsResourceWithRawResponse(self._post_training.jobs)
+    def job(self) -> AsyncJobResourceWithRawResponse:
+        return AsyncJobResourceWithRawResponse(self._post_training.job)
 
 
 class PostTrainingResourceWithStreamingResponse:
@@ -366,8 +366,8 @@ class PostTrainingResourceWithStreamingResponse:
         )
 
     @cached_property
-    def jobs(self) -> JobsResourceWithStreamingResponse:
-        return JobsResourceWithStreamingResponse(self._post_training.jobs)
+    def job(self) -> JobResourceWithStreamingResponse:
+        return JobResourceWithStreamingResponse(self._post_training.job)
 
 
 class AsyncPostTrainingResourceWithStreamingResponse:
@@ -382,5 +382,5 @@ class AsyncPostTrainingResourceWithStreamingResponse:
         )
 
     @cached_property
-    def jobs(self) -> AsyncJobsResourceWithStreamingResponse:
-        return AsyncJobsResourceWithStreamingResponse(self._post_training.jobs)
+    def job(self) -> AsyncJobResourceWithStreamingResponse:
+        return AsyncJobResourceWithStreamingResponse(self._post_training.job)

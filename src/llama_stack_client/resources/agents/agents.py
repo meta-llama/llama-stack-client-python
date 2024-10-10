@@ -4,6 +4,14 @@ from __future__ import annotations
 
 import httpx
 
+from .turn import (
+    TurnResource,
+    AsyncTurnResource,
+    TurnResourceWithRawResponse,
+    AsyncTurnResourceWithRawResponse,
+    TurnResourceWithStreamingResponse,
+    AsyncTurnResourceWithStreamingResponse,
+)
 from .steps import (
     StepsResource,
     AsyncStepsResource,
@@ -12,28 +20,20 @@ from .steps import (
     StepsResourceWithStreamingResponse,
     AsyncStepsResourceWithStreamingResponse,
 )
-from .turns import (
-    TurnsResource,
-    AsyncTurnsResource,
-    TurnsResourceWithRawResponse,
-    AsyncTurnsResourceWithRawResponse,
-    TurnsResourceWithStreamingResponse,
-    AsyncTurnsResourceWithStreamingResponse,
-)
 from ...types import agent_create_params, agent_delete_params
+from .session import (
+    SessionResource,
+    AsyncSessionResource,
+    SessionResourceWithRawResponse,
+    AsyncSessionResourceWithRawResponse,
+    SessionResourceWithStreamingResponse,
+    AsyncSessionResourceWithStreamingResponse,
+)
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from ..._utils import (
     maybe_transform,
     strip_not_given,
     async_maybe_transform,
-)
-from .sessions import (
-    SessionsResource,
-    AsyncSessionsResource,
-    SessionsResourceWithRawResponse,
-    AsyncSessionsResourceWithRawResponse,
-    SessionsResourceWithStreamingResponse,
-    AsyncSessionsResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -51,16 +51,16 @@ __all__ = ["AgentsResource", "AsyncAgentsResource"]
 
 class AgentsResource(SyncAPIResource):
     @cached_property
-    def sessions(self) -> SessionsResource:
-        return SessionsResource(self._client)
+    def session(self) -> SessionResource:
+        return SessionResource(self._client)
 
     @cached_property
     def steps(self) -> StepsResource:
         return StepsResource(self._client)
 
     @cached_property
-    def turns(self) -> TurnsResource:
-        return TurnsResource(self._client)
+    def turn(self) -> TurnResource:
+        return TurnResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AgentsResourceWithRawResponse:
@@ -155,16 +155,16 @@ class AgentsResource(SyncAPIResource):
 
 class AsyncAgentsResource(AsyncAPIResource):
     @cached_property
-    def sessions(self) -> AsyncSessionsResource:
-        return AsyncSessionsResource(self._client)
+    def session(self) -> AsyncSessionResource:
+        return AsyncSessionResource(self._client)
 
     @cached_property
     def steps(self) -> AsyncStepsResource:
         return AsyncStepsResource(self._client)
 
     @cached_property
-    def turns(self) -> AsyncTurnsResource:
-        return AsyncTurnsResource(self._client)
+    def turn(self) -> AsyncTurnResource:
+        return AsyncTurnResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncAgentsResourceWithRawResponse:
@@ -269,16 +269,16 @@ class AgentsResourceWithRawResponse:
         )
 
     @cached_property
-    def sessions(self) -> SessionsResourceWithRawResponse:
-        return SessionsResourceWithRawResponse(self._agents.sessions)
+    def session(self) -> SessionResourceWithRawResponse:
+        return SessionResourceWithRawResponse(self._agents.session)
 
     @cached_property
     def steps(self) -> StepsResourceWithRawResponse:
         return StepsResourceWithRawResponse(self._agents.steps)
 
     @cached_property
-    def turns(self) -> TurnsResourceWithRawResponse:
-        return TurnsResourceWithRawResponse(self._agents.turns)
+    def turn(self) -> TurnResourceWithRawResponse:
+        return TurnResourceWithRawResponse(self._agents.turn)
 
 
 class AsyncAgentsResourceWithRawResponse:
@@ -293,16 +293,16 @@ class AsyncAgentsResourceWithRawResponse:
         )
 
     @cached_property
-    def sessions(self) -> AsyncSessionsResourceWithRawResponse:
-        return AsyncSessionsResourceWithRawResponse(self._agents.sessions)
+    def session(self) -> AsyncSessionResourceWithRawResponse:
+        return AsyncSessionResourceWithRawResponse(self._agents.session)
 
     @cached_property
     def steps(self) -> AsyncStepsResourceWithRawResponse:
         return AsyncStepsResourceWithRawResponse(self._agents.steps)
 
     @cached_property
-    def turns(self) -> AsyncTurnsResourceWithRawResponse:
-        return AsyncTurnsResourceWithRawResponse(self._agents.turns)
+    def turn(self) -> AsyncTurnResourceWithRawResponse:
+        return AsyncTurnResourceWithRawResponse(self._agents.turn)
 
 
 class AgentsResourceWithStreamingResponse:
@@ -317,16 +317,16 @@ class AgentsResourceWithStreamingResponse:
         )
 
     @cached_property
-    def sessions(self) -> SessionsResourceWithStreamingResponse:
-        return SessionsResourceWithStreamingResponse(self._agents.sessions)
+    def session(self) -> SessionResourceWithStreamingResponse:
+        return SessionResourceWithStreamingResponse(self._agents.session)
 
     @cached_property
     def steps(self) -> StepsResourceWithStreamingResponse:
         return StepsResourceWithStreamingResponse(self._agents.steps)
 
     @cached_property
-    def turns(self) -> TurnsResourceWithStreamingResponse:
-        return TurnsResourceWithStreamingResponse(self._agents.turns)
+    def turn(self) -> TurnResourceWithStreamingResponse:
+        return TurnResourceWithStreamingResponse(self._agents.turn)
 
 
 class AsyncAgentsResourceWithStreamingResponse:
@@ -341,13 +341,13 @@ class AsyncAgentsResourceWithStreamingResponse:
         )
 
     @cached_property
-    def sessions(self) -> AsyncSessionsResourceWithStreamingResponse:
-        return AsyncSessionsResourceWithStreamingResponse(self._agents.sessions)
+    def session(self) -> AsyncSessionResourceWithStreamingResponse:
+        return AsyncSessionResourceWithStreamingResponse(self._agents.session)
 
     @cached_property
     def steps(self) -> AsyncStepsResourceWithStreamingResponse:
         return AsyncStepsResourceWithStreamingResponse(self._agents.steps)
 
     @cached_property
-    def turns(self) -> AsyncTurnsResourceWithStreamingResponse:
-        return AsyncTurnsResourceWithStreamingResponse(self._agents.turns)
+    def turn(self) -> AsyncTurnResourceWithStreamingResponse:
+        return AsyncTurnResourceWithStreamingResponse(self._agents.turn)

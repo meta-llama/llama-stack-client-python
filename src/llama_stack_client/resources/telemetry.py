@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..types import telemetry_log_params, telemetry_get_trace_params
+from ..types import telemetry_get_trace_params, telemetry_log_event_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from .._utils import (
     maybe_transform,
@@ -19,8 +19,8 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ..types.trace import Trace
 from .._base_client import make_request_options
-from ..types.telemetry_get_trace_response import TelemetryGetTraceResponse
 
 __all__ = ["TelemetryResource", "AsyncTelemetryResource"]
 
@@ -56,7 +56,7 @@ class TelemetryResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TelemetryGetTraceResponse:
+    ) -> Trace:
         """
         Args:
           extra_headers: Send extra headers
@@ -80,13 +80,13 @@ class TelemetryResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"trace_id": trace_id}, telemetry_get_trace_params.TelemetryGetTraceParams),
             ),
-            cast_to=TelemetryGetTraceResponse,
+            cast_to=Trace,
         )
 
-    def log(
+    def log_event(
         self,
         *,
-        event: telemetry_log_params.Event,
+        event: telemetry_log_event_params.Event,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -112,7 +112,7 @@ class TelemetryResource(SyncAPIResource):
         }
         return self._post(
             "/telemetry/log_event",
-            body=maybe_transform({"event": event}, telemetry_log_params.TelemetryLogParams),
+            body=maybe_transform({"event": event}, telemetry_log_event_params.TelemetryLogEventParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -151,7 +151,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TelemetryGetTraceResponse:
+    ) -> Trace:
         """
         Args:
           extra_headers: Send extra headers
@@ -177,13 +177,13 @@ class AsyncTelemetryResource(AsyncAPIResource):
                     {"trace_id": trace_id}, telemetry_get_trace_params.TelemetryGetTraceParams
                 ),
             ),
-            cast_to=TelemetryGetTraceResponse,
+            cast_to=Trace,
         )
 
-    async def log(
+    async def log_event(
         self,
         *,
-        event: telemetry_log_params.Event,
+        event: telemetry_log_event_params.Event,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -209,7 +209,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
         }
         return await self._post(
             "/telemetry/log_event",
-            body=await async_maybe_transform({"event": event}, telemetry_log_params.TelemetryLogParams),
+            body=await async_maybe_transform({"event": event}, telemetry_log_event_params.TelemetryLogEventParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -224,8 +224,8 @@ class TelemetryResourceWithRawResponse:
         self.get_trace = to_raw_response_wrapper(
             telemetry.get_trace,
         )
-        self.log = to_raw_response_wrapper(
-            telemetry.log,
+        self.log_event = to_raw_response_wrapper(
+            telemetry.log_event,
         )
 
 
@@ -236,8 +236,8 @@ class AsyncTelemetryResourceWithRawResponse:
         self.get_trace = async_to_raw_response_wrapper(
             telemetry.get_trace,
         )
-        self.log = async_to_raw_response_wrapper(
-            telemetry.log,
+        self.log_event = async_to_raw_response_wrapper(
+            telemetry.log_event,
         )
 
 
@@ -248,8 +248,8 @@ class TelemetryResourceWithStreamingResponse:
         self.get_trace = to_streamed_response_wrapper(
             telemetry.get_trace,
         )
-        self.log = to_streamed_response_wrapper(
-            telemetry.log,
+        self.log_event = to_streamed_response_wrapper(
+            telemetry.log_event,
         )
 
 
@@ -260,6 +260,6 @@ class AsyncTelemetryResourceWithStreamingResponse:
         self.get_trace = async_to_streamed_response_wrapper(
             telemetry.get_trace,
         )
-        self.log = async_to_streamed_response_wrapper(
-            telemetry.log,
+        self.log_event = async_to_streamed_response_wrapper(
+            telemetry.log_event,
         )

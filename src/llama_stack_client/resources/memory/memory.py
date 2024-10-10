@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable
+from typing import Dict, Union, Iterable, Optional
 
 import httpx
 
@@ -38,6 +38,9 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.query_documents import QueryDocuments
+from ...types.memory_list_response import MemoryListResponse
+from ...types.memory_create_response import MemoryCreateResponse
+from ...types.memory_retrieve_response import MemoryRetrieveResponse
 
 __all__ = ["MemoryResource", "AsyncMemoryResource"]
 
@@ -69,7 +72,9 @@ class MemoryResource(SyncAPIResource):
     def create(
         self,
         *,
-        body: object,
+        config: memory_create_params.Config,
+        name: str,
+        url: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -77,7 +82,7 @@ class MemoryResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> MemoryCreateResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -94,11 +99,18 @@ class MemoryResource(SyncAPIResource):
         }
         return self._post(
             "/memory/create",
-            body=maybe_transform(body, memory_create_params.MemoryCreateParams),
+            body=maybe_transform(
+                {
+                    "config": config,
+                    "name": name,
+                    "url": url,
+                },
+                memory_create_params.MemoryCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=MemoryCreateResponse,
         )
 
     def retrieve(
@@ -112,7 +124,7 @@ class MemoryResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> Optional[MemoryRetrieveResponse]:
         """
         Args:
           extra_headers: Send extra headers
@@ -136,7 +148,7 @@ class MemoryResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"bank_id": bank_id}, memory_retrieve_params.MemoryRetrieveParams),
             ),
-            cast_to=object,
+            cast_to=MemoryRetrieveResponse,
         )
 
     def update(
@@ -192,7 +204,7 @@ class MemoryResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> MemoryListResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -213,7 +225,7 @@ class MemoryResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=MemoryListResponse,
         )
 
     def drop(
@@ -368,7 +380,9 @@ class AsyncMemoryResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        body: object,
+        config: memory_create_params.Config,
+        name: str,
+        url: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -376,7 +390,7 @@ class AsyncMemoryResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> MemoryCreateResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -393,11 +407,18 @@ class AsyncMemoryResource(AsyncAPIResource):
         }
         return await self._post(
             "/memory/create",
-            body=await async_maybe_transform(body, memory_create_params.MemoryCreateParams),
+            body=await async_maybe_transform(
+                {
+                    "config": config,
+                    "name": name,
+                    "url": url,
+                },
+                memory_create_params.MemoryCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=MemoryCreateResponse,
         )
 
     async def retrieve(
@@ -411,7 +432,7 @@ class AsyncMemoryResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> Optional[MemoryRetrieveResponse]:
         """
         Args:
           extra_headers: Send extra headers
@@ -435,7 +456,7 @@ class AsyncMemoryResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform({"bank_id": bank_id}, memory_retrieve_params.MemoryRetrieveParams),
             ),
-            cast_to=object,
+            cast_to=MemoryRetrieveResponse,
         )
 
     async def update(
@@ -491,7 +512,7 @@ class AsyncMemoryResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> MemoryListResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -512,7 +533,7 @@ class AsyncMemoryResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=MemoryListResponse,
         )
 
     async def drop(

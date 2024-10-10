@@ -143,6 +143,12 @@ class PageInfo:
         self.url = url
         self.params = params
 
+    @override
+    def __repr__(self) -> str:
+        if self.url:
+            return f"{self.__class__.__name__}(url={self.url})"
+        return f"{self.__class__.__name__}(params={self.params})"
+
 
 class BasePage(GenericModel, Generic[_T]):
     """
@@ -412,7 +418,10 @@ class BaseClient(Generic[_HttpxClientT, _DefaultStreamT]):
         if idempotency_header and options.method.lower() != "get" and idempotency_header not in headers:
             headers[idempotency_header] = options.idempotency_key or self._idempotency_key()
 
-        headers.setdefault("x-stainless-retry-count", str(retries_taken))
+        # Don't set the retry count header if it was already set or removed by the caller. We check
+        # `custom_headers`, which can contain `Omit()`, instead of `headers` to account for the removal case.
+        if "x-stainless-retry-count" not in (header.lower() for header in custom_headers):
+            headers["x-stainless-retry-count"] = str(retries_taken)
 
         return headers
 
@@ -686,7 +695,8 @@ class BaseClient(Generic[_HttpxClientT, _DefaultStreamT]):
         if retry_after is not None and 0 < retry_after <= 60:
             return retry_after
 
-        nb_retries = max_retries - remaining_retries
+        # Also cap retry count to 1000 to avoid any potential overflows with `pow`
+        nb_retries = min(max_retries - remaining_retries, 1000)
 
         # Apply exponential backoff, but not more than the max.
         sleep_seconds = min(INITIAL_RETRY_DELAY * pow(2.0, nb_retries), MAX_RETRY_DELAY)

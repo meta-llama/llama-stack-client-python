@@ -1,12 +1,12 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .jobs import (
-    JobsResource,
-    AsyncJobsResource,
-    JobsResourceWithRawResponse,
-    AsyncJobsResourceWithRawResponse,
-    JobsResourceWithStreamingResponse,
-    AsyncJobsResourceWithStreamingResponse,
+from .job import (
+    JobResource,
+    AsyncJobResource,
+    JobResourceWithRawResponse,
+    AsyncJobResourceWithRawResponse,
+    JobResourceWithStreamingResponse,
+    AsyncJobResourceWithStreamingResponse,
 )
 from .post_training import (
     PostTrainingResource,
@@ -18,12 +18,12 @@ from .post_training import (
 )
 
 __all__ = [
-    "JobsResource",
-    "AsyncJobsResource",
-    "JobsResourceWithRawResponse",
-    "AsyncJobsResourceWithRawResponse",
-    "JobsResourceWithStreamingResponse",
-    "AsyncJobsResourceWithStreamingResponse",
+    "JobResource",
+    "AsyncJobResource",
+    "JobResourceWithRawResponse",
+    "AsyncJobResourceWithRawResponse",
+    "JobResourceWithStreamingResponse",
+    "AsyncJobResourceWithStreamingResponse",
     "PostTrainingResource",
     "AsyncPostTrainingResource",
     "PostTrainingResourceWithRawResponse",

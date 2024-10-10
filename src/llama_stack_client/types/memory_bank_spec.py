@@ -11,7 +11,7 @@ __all__ = ["MemoryBankSpec", "ProviderConfig"]
 class ProviderConfig(BaseModel):
     config: Dict[str, Union[bool, float, str, List[object], object, None]]
 
-    provider_id: str
+    provider_type: str
 
 
 class MemoryBankSpec(BaseModel):

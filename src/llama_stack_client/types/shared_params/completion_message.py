@@ -6,51 +6,13 @@ from typing import List, Union, Iterable
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .tool_call import ToolCall
+from .image_media import ImageMedia
 
-__all__ = [
-    "CompletionMessage",
-    "Content",
-    "ContentImageMedia",
-    "ContentImageMediaImage",
-    "ContentImageMediaImageThisClassRepresentsAnImageObjectToCreate",
-    "ContentUnionMember2",
-    "ContentUnionMember2ImageMedia",
-    "ContentUnionMember2ImageMediaImage",
-    "ContentUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate",
-]
+__all__ = ["CompletionMessage", "Content", "ContentUnionMember2"]
 
+ContentUnionMember2: TypeAlias = Union[str, ImageMedia]
 
-class ContentImageMediaImageThisClassRepresentsAnImageObjectToCreate(TypedDict, total=False):
-    format: str
-
-    format_description: str
-
-
-ContentImageMediaImage: TypeAlias = Union[ContentImageMediaImageThisClassRepresentsAnImageObjectToCreate, str]
-
-
-class ContentImageMedia(TypedDict, total=False):
-    image: Required[ContentImageMediaImage]
-
-
-class ContentUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate(TypedDict, total=False):
-    format: str
-
-    format_description: str
-
-
-ContentUnionMember2ImageMediaImage: TypeAlias = Union[
-    ContentUnionMember2ImageMediaImageThisClassRepresentsAnImageObjectToCreate, str
-]
-
-
-class ContentUnionMember2ImageMedia(TypedDict, total=False):
-    image: Required[ContentUnionMember2ImageMediaImage]
-
-
-ContentUnionMember2: TypeAlias = Union[str, ContentUnionMember2ImageMedia]
-
-Content: TypeAlias = Union[str, ContentImageMedia, List[ContentUnionMember2]]
+Content: TypeAlias = Union[str, ImageMedia, List[ContentUnionMember2]]
 
 
 class CompletionMessage(TypedDict, total=False):

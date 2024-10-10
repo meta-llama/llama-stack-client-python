@@ -7,11 +7,10 @@
 import json
 import argparse
 
-from tabulate import tabulate
-
 from llama_stack_client import LlamaStackClient
 from llama_stack_client.lib.cli.configure import get_config
 from llama_stack_client.lib.cli.subcommand import Subcommand
+from llama_stack_client.lib.cli.common.utils import print_table_from_response
 
 
 class ShieldsList(Subcommand):
@@ -44,22 +43,7 @@ class ShieldsList(Subcommand):
             base_url=args.endpoint,
         )
 
-        headers = [
-            "Shield Type (shield_type)",
-            "Provider Type",
-            "Provider Config",
-        ]
-
         shields_list_response = client.shields.list()
-        rows = []
 
-        for shield_spec in shields_list_response:
-            rows.append(
-                [
-                    shield_spec.shield_type,
-                    shield_spec.provider_config.provider_type,
-                    json.dumps(shield_spec.provider_config.config, indent=4),
-                ]
-            )
-
-        print(tabulate(rows, headers=headers, tablefmt="grid"))
+        if shields_list_response:
+            print_table_from_response(shields_list_response)

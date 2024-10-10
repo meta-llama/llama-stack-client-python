@@ -7,8 +7,6 @@
 from typing import List, Optional, Union
 
 from llama_stack_client.types import ToolResponseMessage
-from llama_stack_client.types.agents import AgentsTurnStreamChunk
-
 from termcolor import cprint
 
 
@@ -64,10 +62,6 @@ class EventLogger:
                     yield LogEvent(
                         role="CustomTool", content=chunk.content, color="grey"
                     )
-                continue
-
-            if not isinstance(chunk, AgentsTurnStreamChunk):
-                yield LogEvent(chunk, color="yellow")
                 continue
 
             event = chunk.event
