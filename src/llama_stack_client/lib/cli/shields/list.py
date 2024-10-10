@@ -45,18 +45,16 @@ class ShieldsList(Subcommand):
         )
 
         shields_list_response = client.shields.list()
-        print(shields_list_response)
         rows = []
 
         if shields_list_response:
             headers = sorted(shields_list_response[0].__dict__.keys())
 
         for shield_spec in shields_list_response:
-            for k in headers:
-                rows.append(
-                    [
-                        shield_spec.__dict__[headers[i]] for i in range(len(headers))
-                    ]
-                )
+            rows.append(
+                [
+                    shield_spec.__dict__[headers[i]] for i in range(len(headers))
+                ]
+            )
 
         print(tabulate(rows, headers=headers, tablefmt="grid"))

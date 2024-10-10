@@ -7,7 +7,7 @@
 from typing import List, Optional, Union
 
 from llama_stack_client.types import ToolResponseMessage
-from llama_stack_client.types.agents import AgentsTurnStreamChunk
+from llama_stack_client.types.agents.agents_turn_stream_chunk import AgentsTurnStreamChunk
 
 from termcolor import cprint
 

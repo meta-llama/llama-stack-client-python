@@ -75,6 +75,7 @@ class TurnResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
             **(extra_headers or {}),
@@ -189,6 +190,7 @@ class AsyncTurnResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
             **(extra_headers or {}),
