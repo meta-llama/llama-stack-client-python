@@ -25,6 +25,7 @@ The full API of this library can be found in [api.md](api.md).
 
 ```python
 from llama_stack_client import LlamaStackClient
+from llama_stack_client.types import UserMessage
 
 client = LlamaStackClient(
     base_url=f"http://{host}:{port}",
