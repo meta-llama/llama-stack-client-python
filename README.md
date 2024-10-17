@@ -25,7 +25,7 @@ pip install llama-stack-client
 
 ## Usage
 
-The full API of this library can be found in [api.md](api.md).
+The full API of this library can be found in [api.md](api.md). You may find basic client examples in the [/examples](./examples/) folder. 
 
 ```python
 from llama_stack_client import LlamaStackClient
