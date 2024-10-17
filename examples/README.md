@@ -1,5 +1,7 @@
 # SDK Examples
 
+Basic demo client scripts to help you get started with using SDK. For more complex app examples, please checkout [llama-stack-apps] repo
+
 ## Setup
 ```
 pip install llama-stack-client

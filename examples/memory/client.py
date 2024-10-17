@@ -1,5 +1,12 @@
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+# All rights reserved.
+#
+# This source code is licensed under the terms described in the LICENSE file in
+# the root directory of this source tree.
+
 import asyncio
 import base64
+import json
 import mimetypes
 import os
 from pathlib import Path
@@ -26,30 +33,25 @@ def data_url_from_file(file_path: str) -> str:
     return data_url
 
 
-async def run_main(host: str, port: int):
+async def run_main(host: str, port: int, stream: bool = True):
     client = LlamaStackClient(
         base_url=f"http://{host}:{port}",
     )
 
     # create a memory bank
-    bank = client.memory.create(
-        body={
-            "name": "test_bank",
-            "config": {
-                "type": "vector",
-                "bank_id": "test_bank",
-                "embedding_model": "dragon-roberta-query-2",
-                "chunk_size_in_tokens": 512,
-                "overlap_size_in_tokens": 64,
-            },
-        },
+    client.memory_banks.register(
+        memory_bank={
+            "identifier": "test_bank",
+            "embedding_model": "all-MiniLM-L6-v2",
+            "chunk_size_in_tokens": 512,
+            "overlap_size_in_tokens": 64,
+            "provider_id": "meta-reference",
+        }
     )
-    cprint(f"> /memory/create: {bank}", "green")
 
-    retrieved_bank = client.memory.retrieve(
-        bank_id=bank["bank_id"],
-    )
-    cprint(f"> /memory/get: {retrieved_bank}", "blue")
+    # list to check memory bank is successfully registered
+    memory_banks_response = client.memory_banks.list()
+    cprint(f"> /memory_banks/list: {memory_banks_response}", "blue")
 
     urls = [
         "memory_optimizations.rst",
@@ -82,13 +84,13 @@ async def run_main(host: str, port: int):
 
     # insert some documents
     client.memory.insert(
-        bank_id=bank["bank_id"],
+        bank_id="test_bank",
         documents=documents,
     )
 
     # query the documents
     response = client.memory.query(
-        bank_id=bank["bank_id"],
+        bank_id="test_bank",
         query=[
             "How do I use lora",
         ],
@@ -98,7 +100,7 @@ async def run_main(host: str, port: int):
         print(f"Chunk:\n========\n{chunk}\n========\n")
 
     response = client.memory.query(
-        bank_id=bank["bank_id"],
+        bank_id="test_bank",
         query=[
             "Tell me more about llama3 and torchtune",
         ],
@@ -108,7 +110,7 @@ async def run_main(host: str, port: int):
         print(f"Chunk:\n========\n{chunk}\n========\n")
 
     response = client.memory.query(
-        bank_id=bank["bank_id"],
+        bank_id="test_bank",
         query=[
             "Tell me more about llama models",
         ],
@@ -121,8 +123,8 @@ async def run_main(host: str, port: int):
     print(memory_banks_response)
 
 
-def main(host: str, port: int):
-    asyncio.run(run_main(host, port))
+def main(host: str, port: int, stream: bool = True):
+    asyncio.run(run_main(host, port, stream))
 
 
 if __name__ == "__main__":
