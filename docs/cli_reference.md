@@ -1,7 +1,5 @@
 # CLI Reference
 
-# CLI Reference
-
 #### `llama-stack-client`
 ```bash
 $ llama-stack-client -h
