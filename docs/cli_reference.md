@@ -1,5 +1,7 @@
 # CLI Reference
 
+You may use the `llama-stack-client` to query information about the distribution. 
+
 #### `llama-stack-client`
 ```bash
 $ llama-stack-client -h
@@ -21,6 +23,31 @@ $ llama-stack-client configure
 > Enter the host name of the Llama Stack distribution server: localhost
 > Enter the port number of the Llama Stack distribution server: 5000
 Done! You can now use the Llama Stack Client CLI with endpoint http://localhost:5000
+```
+
+
+#### `llama-stack-client providers`
+```bash
+$ llama-stack-client providers
+```
+```
++-----------+----------------+-----------------+
+| API       | Provider ID    | Provider Type   |
++===========+================+=================+
+| scoring   | meta0          | meta-reference  |
++-----------+----------------+-----------------+
+| datasetio | meta0          | meta-reference  |
++-----------+----------------+-----------------+
+| inference | tgi0           | remote::tgi     |
++-----------+----------------+-----------------+
+| memory    | meta-reference | meta-reference  |
++-----------+----------------+-----------------+
+| agents    | meta-reference | meta-reference  |
++-----------+----------------+-----------------+
+| telemetry | meta-reference | meta-reference  |
++-----------+----------------+-----------------+
+| safety    | meta-reference | meta-reference  |
++-----------+----------------+-----------------+
 ```
 
 #### `llama-stack-client models list`
