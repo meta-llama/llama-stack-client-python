@@ -28,15 +28,15 @@ class MemoryBanksList(Subcommand):
         self.parser.set_defaults(func=self._run_memory_banks_list_cmd)
 
     def _add_arguments(self):
-        self.endpoint = get_config().get("endpoint")
         self.parser.add_argument(
             "--endpoint",
             type=str,
             help="Llama Stack distribution endpoint",
-            default=self.endpoint,
         )
 
     def _run_memory_banks_list_cmd(self, args: argparse.Namespace):
+        args.endpoint = get_config().get("endpoint") or args.endpoint
+
         client = LlamaStackClient(
             base_url=args.endpoint,
         )
