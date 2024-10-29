@@ -4,14 +4,14 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-import json
 import argparse
-
-from tabulate import tabulate
+import json
 
 from llama_stack_client import LlamaStackClient
 from llama_stack_client.lib.cli.configure import get_config
 from llama_stack_client.lib.cli.subcommand import Subcommand
+
+from tabulate import tabulate
 
 
 class ModelsGet(Subcommand):
@@ -33,15 +33,17 @@ class ModelsGet(Subcommand):
             help="Model ID to query information about",
         )
 
-        self.endpoint = get_config().get("endpoint")
         self.parser.add_argument(
             "--endpoint",
             type=str,
             help="Llama Stack distribution endpoint",
-            default=self.endpoint,
         )
 
     def _run_models_list_cmd(self, args: argparse.Namespace):
+        config = get_config()
+        if config:
+            args.endpoint = config.get("endpoint")
+
         client = LlamaStackClient(
             base_url=args.endpoint,
         )
@@ -58,9 +60,7 @@ class ModelsGet(Subcommand):
 
         rows = []
         rows.append(
-            [
-                models_get_response.__dict__[headers[i]] for i in range(len(headers))
-            ]
+            [models_get_response.__dict__[headers[i]] for i in range(len(headers))]
         )
 
         print(tabulate(rows, headers=headers, tablefmt="grid"))

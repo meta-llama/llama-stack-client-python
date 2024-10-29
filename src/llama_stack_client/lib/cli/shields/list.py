@@ -4,13 +4,13 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-import json
 import argparse
+import json
 
 from llama_stack_client import LlamaStackClient
+from llama_stack_client.lib.cli.common.utils import print_table_from_response
 from llama_stack_client.lib.cli.configure import get_config
 from llama_stack_client.lib.cli.subcommand import Subcommand
-from llama_stack_client.lib.cli.common.utils import print_table_from_response
 
 
 class ShieldsList(Subcommand):
@@ -26,15 +26,18 @@ class ShieldsList(Subcommand):
         self.parser.set_defaults(func=self._run_shields_list_cmd)
 
     def _add_arguments(self):
-        self.endpoint = get_config().get("endpoint")
         self.parser.add_argument(
             "--endpoint",
             type=str,
             help="Llama Stack distribution endpoint",
-            default=self.endpoint,
+            default="",
         )
 
     def _run_shields_list_cmd(self, args: argparse.Namespace):
+        config = get_config()
+        if config:
+            args.endpoint = config.get("endpoint")
+
         if not args.endpoint:
             self.parser.error(
                 "A valid endpoint is required. Please run llama-stack-client configure first or pass in a valid endpoint with --endpoint. "

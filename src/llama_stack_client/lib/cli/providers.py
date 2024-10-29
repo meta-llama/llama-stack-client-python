@@ -30,15 +30,17 @@ class ProvidersParser(Subcommand):
         self.parser.set_defaults(func=self._run_providers_cmd)
 
     def _add_arguments(self):
-        self.endpoint = get_config().get("endpoint")
         self.parser.add_argument(
             "--endpoint",
             type=str,
             help="Llama Stack distribution endpoint",
-            default=self.endpoint,
         )
 
     def _run_providers_cmd(self, args: argparse.Namespace):
+        config = get_config()
+        if config:
+            args.endpoint = config.get("endpoint")
+
         client = LlamaStackClient(
             base_url=args.endpoint,
         )
