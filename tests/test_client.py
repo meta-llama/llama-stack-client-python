@@ -10,6 +10,7 @@ import inspect
 import tracemalloc
 from typing import Any, Union, cast
 from unittest import mock
+from typing_extensions import Literal
 
 import httpx
 import pytest
@@ -17,6 +18,7 @@ from respx import MockRouter
 from pydantic import ValidationError
 
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient, APIResponseValidationError
+from llama_stack_client._types import Omit
 from llama_stack_client._models import BaseModel, FinalRequestOptions
 from llama_stack_client._constants import RAW_RESPONSE_HEADER
 from llama_stack_client._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
@@ -519,14 +521,6 @@ class TestLlamaStackClient:
             client = LlamaStackClient(_strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
-        # explicit environment arg requires explicitness
-        with update_env(LLAMA_STACK_CLIENT_BASE_URL="http://localhost:5000/from/env"):
-            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                LlamaStackClient(_strict_response_validation=True, environment="production")
-
-            client = LlamaStackClient(base_url=None, _strict_response_validation=True, environment="production")
-            assert str(client.base_url).startswith("http://any-hosted-llama-stack-client.com")
-
     @pytest.mark.parametrize(
         "client",
         [
@@ -663,6 +657,7 @@ class TestLlamaStackClient:
             [3, "", 0.5],
             [2, "", 0.5 * 2.0],
             [1, "", 0.5 * 4.0],
+            [-1100, "", 7.8],  # test large number potentially overflowing
         ],
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
@@ -677,12 +672,31 @@ class TestLlamaStackClient:
     @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agents/session/create").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/inference/chat_completion").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             self.client.post(
-                "/agents/session/create",
-                body=cast(object, dict(agent_id="agent_id", session_name="session_name")),
+                "/inference/chat_completion",
+                body=cast(
+                    object,
+                    dict(
+                        messages=[
+                            {
+                                "content": "string",
+                                "role": "user",
+                            },
+                            {
+                                "content": "string",
+                                "role": "user",
+                            },
+                            {
+                                "content": "string",
+                                "role": "user",
+                            },
+                        ],
+                        model="model",
+                    ),
+                ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -692,12 +706,31 @@ class TestLlamaStackClient:
     @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agents/session/create").mock(return_value=httpx.Response(500))
+        respx_mock.post("/inference/chat_completion").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             self.client.post(
-                "/agents/session/create",
-                body=cast(object, dict(agent_id="agent_id", session_name="session_name")),
+                "/inference/chat_completion",
+                body=cast(
+                    object,
+                    dict(
+                        messages=[
+                            {
+                                "content": "string",
+                                "role": "user",
+                            },
+                            {
+                                "content": "string",
+                                "role": "user",
+                            },
+                            {
+                                "content": "string",
+                                "role": "user",
+                            },
+                        ],
+                        model="model",
+                    ),
+                ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -707,7 +740,54 @@ class TestLlamaStackClient:
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
     @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
+    @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     def test_retries_taken(
+        self,
+        client: LlamaStackClient,
+        failures_before_success: int,
+        failure_mode: Literal["status", "exception"],
+        respx_mock: MockRouter,
+    ) -> None:
+        client = client.with_options(max_retries=4)
+
+        nb_retries = 0
+
+        def retry_handler(_request: httpx.Request) -> httpx.Response:
+            nonlocal nb_retries
+            if nb_retries < failures_before_success:
+                nb_retries += 1
+                if failure_mode == "exception":
+                    raise RuntimeError("oops")
+                return httpx.Response(500)
+            return httpx.Response(200)
+
+        respx_mock.post("/inference/chat_completion").mock(side_effect=retry_handler)
+
+        response = client.inference.with_raw_response.chat_completion(
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+            ],
+            model="model",
+        )
+
+        assert response.retries_taken == failures_before_success
+        assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
+
+    @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
+    @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    def test_omit_retry_count_header(
         self, client: LlamaStackClient, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = client.with_options(max_retries=4)
@@ -721,12 +801,68 @@ class TestLlamaStackClient:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agents/session/create").mock(side_effect=retry_handler)
+        respx_mock.post("/inference/chat_completion").mock(side_effect=retry_handler)
 
-        response = client.agents.sessions.with_raw_response.create(agent_id="agent_id", session_name="session_name")
+        response = client.inference.with_raw_response.chat_completion(
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+            ],
+            model="model",
+            extra_headers={"x-stainless-retry-count": Omit()},
+        )
 
-        assert response.retries_taken == failures_before_success
-        assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
+        assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
+
+    @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
+    @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    def test_overwrite_retry_count_header(
+        self, client: LlamaStackClient, failures_before_success: int, respx_mock: MockRouter
+    ) -> None:
+        client = client.with_options(max_retries=4)
+
+        nb_retries = 0
+
+        def retry_handler(_request: httpx.Request) -> httpx.Response:
+            nonlocal nb_retries
+            if nb_retries < failures_before_success:
+                nb_retries += 1
+                return httpx.Response(500)
+            return httpx.Response(200)
+
+        respx_mock.post("/inference/chat_completion").mock(side_effect=retry_handler)
+
+        response = client.inference.with_raw_response.chat_completion(
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+            ],
+            model="model",
+            extra_headers={"x-stainless-retry-count": "42"},
+        )
+
+        assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
 
 class TestAsyncLlamaStackClient:
@@ -1206,14 +1342,6 @@ class TestAsyncLlamaStackClient:
             client = AsyncLlamaStackClient(_strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
-        # explicit environment arg requires explicitness
-        with update_env(LLAMA_STACK_CLIENT_BASE_URL="http://localhost:5000/from/env"):
-            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                AsyncLlamaStackClient(_strict_response_validation=True, environment="production")
-
-            client = AsyncLlamaStackClient(base_url=None, _strict_response_validation=True, environment="production")
-            assert str(client.base_url).startswith("http://any-hosted-llama-stack-client.com")
-
     @pytest.mark.parametrize(
         "client",
         [
@@ -1353,6 +1481,7 @@ class TestAsyncLlamaStackClient:
             [3, "", 0.5],
             [2, "", 0.5 * 2.0],
             [1, "", 0.5 * 4.0],
+            [-1100, "", 7.8],  # test large number potentially overflowing
         ],
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
@@ -1368,12 +1497,31 @@ class TestAsyncLlamaStackClient:
     @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agents/session/create").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/inference/chat_completion").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             await self.client.post(
-                "/agents/session/create",
-                body=cast(object, dict(agent_id="agent_id", session_name="session_name")),
+                "/inference/chat_completion",
+                body=cast(
+                    object,
+                    dict(
+                        messages=[
+                            {
+                                "content": "string",
+                                "role": "user",
+                            },
+                            {
+                                "content": "string",
+                                "role": "user",
+                            },
+                            {
+                                "content": "string",
+                                "role": "user",
+                            },
+                        ],
+                        model="model",
+                    ),
+                ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1383,12 +1531,31 @@ class TestAsyncLlamaStackClient:
     @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agents/session/create").mock(return_value=httpx.Response(500))
+        respx_mock.post("/inference/chat_completion").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             await self.client.post(
-                "/agents/session/create",
-                body=cast(object, dict(agent_id="agent_id", session_name="session_name")),
+                "/inference/chat_completion",
+                body=cast(
+                    object,
+                    dict(
+                        messages=[
+                            {
+                                "content": "string",
+                                "role": "user",
+                            },
+                            {
+                                "content": "string",
+                                "role": "user",
+                            },
+                            {
+                                "content": "string",
+                                "role": "user",
+                            },
+                        ],
+                        model="model",
+                    ),
+                ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1399,7 +1566,55 @@ class TestAsyncLlamaStackClient:
     @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
+    @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     async def test_retries_taken(
+        self,
+        async_client: AsyncLlamaStackClient,
+        failures_before_success: int,
+        failure_mode: Literal["status", "exception"],
+        respx_mock: MockRouter,
+    ) -> None:
+        client = async_client.with_options(max_retries=4)
+
+        nb_retries = 0
+
+        def retry_handler(_request: httpx.Request) -> httpx.Response:
+            nonlocal nb_retries
+            if nb_retries < failures_before_success:
+                nb_retries += 1
+                if failure_mode == "exception":
+                    raise RuntimeError("oops")
+                return httpx.Response(500)
+            return httpx.Response(200)
+
+        respx_mock.post("/inference/chat_completion").mock(side_effect=retry_handler)
+
+        response = await client.inference.with_raw_response.chat_completion(
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+            ],
+            model="model",
+        )
+
+        assert response.retries_taken == failures_before_success
+        assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
+
+    @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
+    @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    @pytest.mark.asyncio
+    async def test_omit_retry_count_header(
         self, async_client: AsyncLlamaStackClient, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = async_client.with_options(max_retries=4)
@@ -1413,11 +1628,66 @@ class TestAsyncLlamaStackClient:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agents/session/create").mock(side_effect=retry_handler)
+        respx_mock.post("/inference/chat_completion").mock(side_effect=retry_handler)
 
-        response = await client.agents.sessions.with_raw_response.create(
-            agent_id="agent_id", session_name="session_name"
+        response = await client.inference.with_raw_response.chat_completion(
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+            ],
+            model="model",
+            extra_headers={"x-stainless-retry-count": Omit()},
         )
 
-        assert response.retries_taken == failures_before_success
-        assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
+        assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
+
+    @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
+    @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    @pytest.mark.asyncio
+    async def test_overwrite_retry_count_header(
+        self, async_client: AsyncLlamaStackClient, failures_before_success: int, respx_mock: MockRouter
+    ) -> None:
+        client = async_client.with_options(max_retries=4)
+
+        nb_retries = 0
+
+        def retry_handler(_request: httpx.Request) -> httpx.Response:
+            nonlocal nb_retries
+            if nb_retries < failures_before_success:
+                nb_retries += 1
+                return httpx.Response(500)
+            return httpx.Response(200)
+
+        respx_mock.post("/inference/chat_completion").mock(side_effect=retry_handler)
+
+        response = await client.inference.with_raw_response.chat_completion(
+            messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+                {
+                    "content": "string",
+                    "role": "user",
+                },
+            ],
+            model="model",
+            extra_headers={"x-stainless-retry-count": "42"},
+        )
+
+        assert response.http_request.headers.get("x-stainless-retry-count") == "42"

@@ -2,14 +2,11 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 import httpx
 
-from ..types import (
-    TrainEvalDataset,
-    dataset_create_params,
-    dataset_delete_params,
-    dataset_retrieve_params,
-)
+from ..types import dataset_register_params, dataset_retrieve_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from .._utils import (
     maybe_transform,
@@ -25,8 +22,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.train_eval_dataset import TrainEvalDataset
-from ..types.train_eval_dataset_param import TrainEvalDatasetParam
+from ..types.dataset_list_response import DatasetListResponse
+from ..types.dataset_retrieve_response import DatasetRetrieveResponse
 
 __all__ = ["DatasetsResource", "AsyncDatasetsResource"]
 
@@ -51,53 +48,10 @@ class DatasetsResource(SyncAPIResource):
         """
         return DatasetsResourceWithStreamingResponse(self)
 
-    def create(
-        self,
-        *,
-        dataset: TrainEvalDatasetParam,
-        uuid: str,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> None:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
-            **(extra_headers or {}),
-        }
-        return self._post(
-            "/datasets/create",
-            body=maybe_transform(
-                {
-                    "dataset": dataset,
-                    "uuid": uuid,
-                },
-                dataset_create_params.DatasetCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
     def retrieve(
         self,
         *,
-        dataset_uuid: str,
+        dataset_identifier: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -105,7 +59,7 @@ class DatasetsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TrainEvalDataset:
+    ) -> Optional[DatasetRetrieveResponse]:
         """
         Args:
           extra_headers: Send extra headers
@@ -127,15 +81,51 @@ class DatasetsResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"dataset_uuid": dataset_uuid}, dataset_retrieve_params.DatasetRetrieveParams),
+                query=maybe_transform(
+                    {"dataset_identifier": dataset_identifier}, dataset_retrieve_params.DatasetRetrieveParams
+                ),
             ),
-            cast_to=TrainEvalDataset,
+            cast_to=DatasetRetrieveResponse,
         )
 
-    def delete(
+    def list(
         self,
         *,
-        dataset_uuid: str,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DatasetListResponse:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            "/datasets/list",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DatasetListResponse,
+        )
+
+    def register(
+        self,
+        *,
+        dataset_def: dataset_register_params.DatasetDef,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -160,8 +150,8 @@ class DatasetsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/datasets/delete",
-            body=maybe_transform({"dataset_uuid": dataset_uuid}, dataset_delete_params.DatasetDeleteParams),
+            "/datasets/register",
+            body=maybe_transform({"dataset_def": dataset_def}, dataset_register_params.DatasetRegisterParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -189,53 +179,10 @@ class AsyncDatasetsResource(AsyncAPIResource):
         """
         return AsyncDatasetsResourceWithStreamingResponse(self)
 
-    async def create(
-        self,
-        *,
-        dataset: TrainEvalDatasetParam,
-        uuid: str,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> None:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
-            **(extra_headers or {}),
-        }
-        return await self._post(
-            "/datasets/create",
-            body=await async_maybe_transform(
-                {
-                    "dataset": dataset,
-                    "uuid": uuid,
-                },
-                dataset_create_params.DatasetCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
     async def retrieve(
         self,
         *,
-        dataset_uuid: str,
+        dataset_identifier: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -243,7 +190,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TrainEvalDataset:
+    ) -> Optional[DatasetRetrieveResponse]:
         """
         Args:
           extra_headers: Send extra headers
@@ -266,16 +213,50 @@ class AsyncDatasetsResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"dataset_uuid": dataset_uuid}, dataset_retrieve_params.DatasetRetrieveParams
+                    {"dataset_identifier": dataset_identifier}, dataset_retrieve_params.DatasetRetrieveParams
                 ),
             ),
-            cast_to=TrainEvalDataset,
+            cast_to=DatasetRetrieveResponse,
         )
 
-    async def delete(
+    async def list(
         self,
         *,
-        dataset_uuid: str,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DatasetListResponse:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **(extra_headers or {}),
+        }
+        return await self._get(
+            "/datasets/list",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DatasetListResponse,
+        )
+
+    async def register(
+        self,
+        *,
+        dataset_def: dataset_register_params.DatasetDef,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -300,8 +281,10 @@ class AsyncDatasetsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/datasets/delete",
-            body=await async_maybe_transform({"dataset_uuid": dataset_uuid}, dataset_delete_params.DatasetDeleteParams),
+            "/datasets/register",
+            body=await async_maybe_transform(
+                {"dataset_def": dataset_def}, dataset_register_params.DatasetRegisterParams
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -313,14 +296,14 @@ class DatasetsResourceWithRawResponse:
     def __init__(self, datasets: DatasetsResource) -> None:
         self._datasets = datasets
 
-        self.create = to_raw_response_wrapper(
-            datasets.create,
-        )
         self.retrieve = to_raw_response_wrapper(
             datasets.retrieve,
         )
-        self.delete = to_raw_response_wrapper(
-            datasets.delete,
+        self.list = to_raw_response_wrapper(
+            datasets.list,
+        )
+        self.register = to_raw_response_wrapper(
+            datasets.register,
         )
 
 
@@ -328,14 +311,14 @@ class AsyncDatasetsResourceWithRawResponse:
     def __init__(self, datasets: AsyncDatasetsResource) -> None:
         self._datasets = datasets
 
-        self.create = async_to_raw_response_wrapper(
-            datasets.create,
-        )
         self.retrieve = async_to_raw_response_wrapper(
             datasets.retrieve,
         )
-        self.delete = async_to_raw_response_wrapper(
-            datasets.delete,
+        self.list = async_to_raw_response_wrapper(
+            datasets.list,
+        )
+        self.register = async_to_raw_response_wrapper(
+            datasets.register,
         )
 
 
@@ -343,14 +326,14 @@ class DatasetsResourceWithStreamingResponse:
     def __init__(self, datasets: DatasetsResource) -> None:
         self._datasets = datasets
 
-        self.create = to_streamed_response_wrapper(
-            datasets.create,
-        )
         self.retrieve = to_streamed_response_wrapper(
             datasets.retrieve,
         )
-        self.delete = to_streamed_response_wrapper(
-            datasets.delete,
+        self.list = to_streamed_response_wrapper(
+            datasets.list,
+        )
+        self.register = to_streamed_response_wrapper(
+            datasets.register,
         )
 
 
@@ -358,12 +341,12 @@ class AsyncDatasetsResourceWithStreamingResponse:
     def __init__(self, datasets: AsyncDatasetsResource) -> None:
         self._datasets = datasets
 
-        self.create = async_to_streamed_response_wrapper(
-            datasets.create,
-        )
         self.retrieve = async_to_streamed_response_wrapper(
             datasets.retrieve,
         )
-        self.delete = async_to_streamed_response_wrapper(
-            datasets.delete,
+        self.list = async_to_streamed_response_wrapper(
+            datasets.list,
+        )
+        self.register = async_to_streamed_response_wrapper(
+            datasets.register,
         )

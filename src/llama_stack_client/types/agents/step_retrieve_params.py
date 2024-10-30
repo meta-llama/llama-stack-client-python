@@ -12,6 +12,8 @@ __all__ = ["StepRetrieveParams"]
 class StepRetrieveParams(TypedDict, total=False):
     agent_id: Required[str]
 
+    session_id: Required[str]
+
     step_id: Required[str]
 
     turn_id: Required[str]

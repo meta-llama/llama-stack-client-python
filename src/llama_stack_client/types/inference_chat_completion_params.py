@@ -12,7 +12,16 @@ from .shared_params.sampling_params import SamplingParams
 from .shared_params.completion_message import CompletionMessage
 from .shared_params.tool_response_message import ToolResponseMessage
 
-__all__ = ["InferenceChatCompletionParams", "Message", "Logprobs", "Tool", "ToolParameters"]
+__all__ = [
+    "InferenceChatCompletionParams",
+    "Message",
+    "Logprobs",
+    "ResponseFormat",
+    "ResponseFormatUnionMember0",
+    "ResponseFormatUnionMember1",
+    "Tool",
+    "ToolParameters",
+]
 
 
 class InferenceChatCompletionParams(TypedDict, total=False):
@@ -21,6 +30,8 @@ class InferenceChatCompletionParams(TypedDict, total=False):
     model: Required[str]
 
     logprobs: Logprobs
+
+    response_format: ResponseFormat
 
     sampling_params: SamplingParams
 
@@ -51,6 +62,21 @@ Message: TypeAlias = Union[UserMessage, SystemMessage, ToolResponseMessage, Comp
 
 class Logprobs(TypedDict, total=False):
     top_k: int
+
+
+class ResponseFormatUnionMember0(TypedDict, total=False):
+    json_schema: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+
+    type: Required[Literal["json_schema"]]
+
+
+class ResponseFormatUnionMember1(TypedDict, total=False):
+    bnf: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+
+    type: Required[Literal["grammar"]]
+
+
+ResponseFormat: TypeAlias = Union[ResponseFormatUnionMember0, ResponseFormatUnionMember1]
 
 
 class ToolParameters(TypedDict, total=False):

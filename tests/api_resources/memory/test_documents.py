@@ -17,6 +17,9 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestDocuments:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     def test_method_retrieve(self, client: LlamaStackClient) -> None:
         document = client.memory.documents.retrieve(
@@ -25,6 +28,9 @@ class TestDocuments:
         )
         assert_matches_type(DocumentRetrieveResponse, document, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
         document = client.memory.documents.retrieve(
@@ -34,6 +40,9 @@ class TestDocuments:
         )
         assert_matches_type(DocumentRetrieveResponse, document, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
         response = client.memory.documents.with_raw_response.retrieve(
@@ -46,6 +55,9 @@ class TestDocuments:
         document = response.parse()
         assert_matches_type(DocumentRetrieveResponse, document, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     def test_streaming_response_retrieve(self, client: LlamaStackClient) -> None:
         with client.memory.documents.with_streaming_response.retrieve(
@@ -107,6 +119,9 @@ class TestDocuments:
 class TestAsyncDocuments:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         document = await async_client.memory.documents.retrieve(
@@ -115,6 +130,9 @@ class TestAsyncDocuments:
         )
         assert_matches_type(DocumentRetrieveResponse, document, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         document = await async_client.memory.documents.retrieve(
@@ -124,6 +142,9 @@ class TestAsyncDocuments:
         )
         assert_matches_type(DocumentRetrieveResponse, document, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.memory.documents.with_raw_response.retrieve(
@@ -136,6 +157,9 @@ class TestAsyncDocuments:
         document = await response.parse()
         assert_matches_type(DocumentRetrieveResponse, document, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.memory.documents.with_streaming_response.retrieve(

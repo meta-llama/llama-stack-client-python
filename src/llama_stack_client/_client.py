@@ -48,22 +48,23 @@ __all__ = [
 class LlamaStackClient(SyncAPIClient):
     agents: resources.AgentsResource
     batch_inferences: resources.BatchInferencesResource
-    datasets: resources.DatasetsResource
-    evaluate: resources.EvaluateResource
-    evaluations: resources.EvaluationsResource
     inspect: resources.InspectResource
     inference: resources.InferenceResource
     memory: resources.MemoryResource
     memory_banks: resources.MemoryBanksResource
+    datasets: resources.DatasetsResource
     models: resources.ModelsResource
     post_training: resources.PostTrainingResource
     providers: resources.ProvidersResource
-    reward_scoring: resources.RewardScoringResource
     routes: resources.RoutesResource
     safety: resources.SafetyResource
     shields: resources.ShieldsResource
     synthetic_data_generation: resources.SyntheticDataGenerationResource
     telemetry: resources.TelemetryResource
+    datasetio: resources.DatasetioResource
+    scoring: resources.ScoringResource
+    scoring_functions: resources.ScoringFunctionsResource
+    eval: resources.EvalResource
     with_raw_response: LlamaStackClientWithRawResponse
     with_streaming_response: LlamaStackClientWithStreamedResponse
 
@@ -110,22 +111,23 @@ class LlamaStackClient(SyncAPIClient):
 
         self.agents = resources.AgentsResource(self)
         self.batch_inferences = resources.BatchInferencesResource(self)
-        self.datasets = resources.DatasetsResource(self)
-        self.evaluate = resources.EvaluateResource(self)
-        self.evaluations = resources.EvaluationsResource(self)
         self.inspect = resources.InspectResource(self)
         self.inference = resources.InferenceResource(self)
         self.memory = resources.MemoryResource(self)
         self.memory_banks = resources.MemoryBanksResource(self)
+        self.datasets = resources.DatasetsResource(self)
         self.models = resources.ModelsResource(self)
         self.post_training = resources.PostTrainingResource(self)
         self.providers = resources.ProvidersResource(self)
-        self.reward_scoring = resources.RewardScoringResource(self)
         self.routes = resources.RoutesResource(self)
         self.safety = resources.SafetyResource(self)
         self.shields = resources.ShieldsResource(self)
         self.synthetic_data_generation = resources.SyntheticDataGenerationResource(self)
         self.telemetry = resources.TelemetryResource(self)
+        self.datasetio = resources.DatasetioResource(self)
+        self.scoring = resources.ScoringResource(self)
+        self.scoring_functions = resources.ScoringFunctionsResource(self)
+        self.eval = resources.EvalResource(self)
         self.with_raw_response = LlamaStackClientWithRawResponse(self)
         self.with_streaming_response = LlamaStackClientWithStreamedResponse(self)
 
@@ -229,22 +231,23 @@ class LlamaStackClient(SyncAPIClient):
 class AsyncLlamaStackClient(AsyncAPIClient):
     agents: resources.AsyncAgentsResource
     batch_inferences: resources.AsyncBatchInferencesResource
-    datasets: resources.AsyncDatasetsResource
-    evaluate: resources.AsyncEvaluateResource
-    evaluations: resources.AsyncEvaluationsResource
     inspect: resources.AsyncInspectResource
     inference: resources.AsyncInferenceResource
     memory: resources.AsyncMemoryResource
     memory_banks: resources.AsyncMemoryBanksResource
+    datasets: resources.AsyncDatasetsResource
     models: resources.AsyncModelsResource
     post_training: resources.AsyncPostTrainingResource
     providers: resources.AsyncProvidersResource
-    reward_scoring: resources.AsyncRewardScoringResource
     routes: resources.AsyncRoutesResource
     safety: resources.AsyncSafetyResource
     shields: resources.AsyncShieldsResource
     synthetic_data_generation: resources.AsyncSyntheticDataGenerationResource
     telemetry: resources.AsyncTelemetryResource
+    datasetio: resources.AsyncDatasetioResource
+    scoring: resources.AsyncScoringResource
+    scoring_functions: resources.AsyncScoringFunctionsResource
+    eval: resources.AsyncEvalResource
     with_raw_response: AsyncLlamaStackClientWithRawResponse
     with_streaming_response: AsyncLlamaStackClientWithStreamedResponse
 
@@ -291,22 +294,23 @@ class AsyncLlamaStackClient(AsyncAPIClient):
 
         self.agents = resources.AsyncAgentsResource(self)
         self.batch_inferences = resources.AsyncBatchInferencesResource(self)
-        self.datasets = resources.AsyncDatasetsResource(self)
-        self.evaluate = resources.AsyncEvaluateResource(self)
-        self.evaluations = resources.AsyncEvaluationsResource(self)
         self.inspect = resources.AsyncInspectResource(self)
         self.inference = resources.AsyncInferenceResource(self)
         self.memory = resources.AsyncMemoryResource(self)
         self.memory_banks = resources.AsyncMemoryBanksResource(self)
+        self.datasets = resources.AsyncDatasetsResource(self)
         self.models = resources.AsyncModelsResource(self)
         self.post_training = resources.AsyncPostTrainingResource(self)
         self.providers = resources.AsyncProvidersResource(self)
-        self.reward_scoring = resources.AsyncRewardScoringResource(self)
         self.routes = resources.AsyncRoutesResource(self)
         self.safety = resources.AsyncSafetyResource(self)
         self.shields = resources.AsyncShieldsResource(self)
         self.synthetic_data_generation = resources.AsyncSyntheticDataGenerationResource(self)
         self.telemetry = resources.AsyncTelemetryResource(self)
+        self.datasetio = resources.AsyncDatasetioResource(self)
+        self.scoring = resources.AsyncScoringResource(self)
+        self.scoring_functions = resources.AsyncScoringFunctionsResource(self)
+        self.eval = resources.AsyncEvalResource(self)
         self.with_raw_response = AsyncLlamaStackClientWithRawResponse(self)
         self.with_streaming_response = AsyncLlamaStackClientWithStreamedResponse(self)
 
@@ -411,17 +415,14 @@ class LlamaStackClientWithRawResponse:
     def __init__(self, client: LlamaStackClient) -> None:
         self.agents = resources.AgentsResourceWithRawResponse(client.agents)
         self.batch_inferences = resources.BatchInferencesResourceWithRawResponse(client.batch_inferences)
-        self.datasets = resources.DatasetsResourceWithRawResponse(client.datasets)
-        self.evaluate = resources.EvaluateResourceWithRawResponse(client.evaluate)
-        self.evaluations = resources.EvaluationsResourceWithRawResponse(client.evaluations)
         self.inspect = resources.InspectResourceWithRawResponse(client.inspect)
         self.inference = resources.InferenceResourceWithRawResponse(client.inference)
         self.memory = resources.MemoryResourceWithRawResponse(client.memory)
         self.memory_banks = resources.MemoryBanksResourceWithRawResponse(client.memory_banks)
+        self.datasets = resources.DatasetsResourceWithRawResponse(client.datasets)
         self.models = resources.ModelsResourceWithRawResponse(client.models)
         self.post_training = resources.PostTrainingResourceWithRawResponse(client.post_training)
         self.providers = resources.ProvidersResourceWithRawResponse(client.providers)
-        self.reward_scoring = resources.RewardScoringResourceWithRawResponse(client.reward_scoring)
         self.routes = resources.RoutesResourceWithRawResponse(client.routes)
         self.safety = resources.SafetyResourceWithRawResponse(client.safety)
         self.shields = resources.ShieldsResourceWithRawResponse(client.shields)
@@ -429,23 +430,24 @@ class LlamaStackClientWithRawResponse:
             client.synthetic_data_generation
         )
         self.telemetry = resources.TelemetryResourceWithRawResponse(client.telemetry)
+        self.datasetio = resources.DatasetioResourceWithRawResponse(client.datasetio)
+        self.scoring = resources.ScoringResourceWithRawResponse(client.scoring)
+        self.scoring_functions = resources.ScoringFunctionsResourceWithRawResponse(client.scoring_functions)
+        self.eval = resources.EvalResourceWithRawResponse(client.eval)
 
 
 class AsyncLlamaStackClientWithRawResponse:
     def __init__(self, client: AsyncLlamaStackClient) -> None:
         self.agents = resources.AsyncAgentsResourceWithRawResponse(client.agents)
         self.batch_inferences = resources.AsyncBatchInferencesResourceWithRawResponse(client.batch_inferences)
-        self.datasets = resources.AsyncDatasetsResourceWithRawResponse(client.datasets)
-        self.evaluate = resources.AsyncEvaluateResourceWithRawResponse(client.evaluate)
-        self.evaluations = resources.AsyncEvaluationsResourceWithRawResponse(client.evaluations)
         self.inspect = resources.AsyncInspectResourceWithRawResponse(client.inspect)
         self.inference = resources.AsyncInferenceResourceWithRawResponse(client.inference)
         self.memory = resources.AsyncMemoryResourceWithRawResponse(client.memory)
         self.memory_banks = resources.AsyncMemoryBanksResourceWithRawResponse(client.memory_banks)
+        self.datasets = resources.AsyncDatasetsResourceWithRawResponse(client.datasets)
         self.models = resources.AsyncModelsResourceWithRawResponse(client.models)
         self.post_training = resources.AsyncPostTrainingResourceWithRawResponse(client.post_training)
         self.providers = resources.AsyncProvidersResourceWithRawResponse(client.providers)
-        self.reward_scoring = resources.AsyncRewardScoringResourceWithRawResponse(client.reward_scoring)
         self.routes = resources.AsyncRoutesResourceWithRawResponse(client.routes)
         self.safety = resources.AsyncSafetyResourceWithRawResponse(client.safety)
         self.shields = resources.AsyncShieldsResourceWithRawResponse(client.shields)
@@ -453,23 +455,24 @@ class AsyncLlamaStackClientWithRawResponse:
             client.synthetic_data_generation
         )
         self.telemetry = resources.AsyncTelemetryResourceWithRawResponse(client.telemetry)
+        self.datasetio = resources.AsyncDatasetioResourceWithRawResponse(client.datasetio)
+        self.scoring = resources.AsyncScoringResourceWithRawResponse(client.scoring)
+        self.scoring_functions = resources.AsyncScoringFunctionsResourceWithRawResponse(client.scoring_functions)
+        self.eval = resources.AsyncEvalResourceWithRawResponse(client.eval)
 
 
 class LlamaStackClientWithStreamedResponse:
     def __init__(self, client: LlamaStackClient) -> None:
         self.agents = resources.AgentsResourceWithStreamingResponse(client.agents)
         self.batch_inferences = resources.BatchInferencesResourceWithStreamingResponse(client.batch_inferences)
-        self.datasets = resources.DatasetsResourceWithStreamingResponse(client.datasets)
-        self.evaluate = resources.EvaluateResourceWithStreamingResponse(client.evaluate)
-        self.evaluations = resources.EvaluationsResourceWithStreamingResponse(client.evaluations)
         self.inspect = resources.InspectResourceWithStreamingResponse(client.inspect)
         self.inference = resources.InferenceResourceWithStreamingResponse(client.inference)
         self.memory = resources.MemoryResourceWithStreamingResponse(client.memory)
         self.memory_banks = resources.MemoryBanksResourceWithStreamingResponse(client.memory_banks)
+        self.datasets = resources.DatasetsResourceWithStreamingResponse(client.datasets)
         self.models = resources.ModelsResourceWithStreamingResponse(client.models)
         self.post_training = resources.PostTrainingResourceWithStreamingResponse(client.post_training)
         self.providers = resources.ProvidersResourceWithStreamingResponse(client.providers)
-        self.reward_scoring = resources.RewardScoringResourceWithStreamingResponse(client.reward_scoring)
         self.routes = resources.RoutesResourceWithStreamingResponse(client.routes)
         self.safety = resources.SafetyResourceWithStreamingResponse(client.safety)
         self.shields = resources.ShieldsResourceWithStreamingResponse(client.shields)
@@ -477,23 +480,24 @@ class LlamaStackClientWithStreamedResponse:
             client.synthetic_data_generation
         )
         self.telemetry = resources.TelemetryResourceWithStreamingResponse(client.telemetry)
+        self.datasetio = resources.DatasetioResourceWithStreamingResponse(client.datasetio)
+        self.scoring = resources.ScoringResourceWithStreamingResponse(client.scoring)
+        self.scoring_functions = resources.ScoringFunctionsResourceWithStreamingResponse(client.scoring_functions)
+        self.eval = resources.EvalResourceWithStreamingResponse(client.eval)
 
 
 class AsyncLlamaStackClientWithStreamedResponse:
     def __init__(self, client: AsyncLlamaStackClient) -> None:
         self.agents = resources.AsyncAgentsResourceWithStreamingResponse(client.agents)
         self.batch_inferences = resources.AsyncBatchInferencesResourceWithStreamingResponse(client.batch_inferences)
-        self.datasets = resources.AsyncDatasetsResourceWithStreamingResponse(client.datasets)
-        self.evaluate = resources.AsyncEvaluateResourceWithStreamingResponse(client.evaluate)
-        self.evaluations = resources.AsyncEvaluationsResourceWithStreamingResponse(client.evaluations)
         self.inspect = resources.AsyncInspectResourceWithStreamingResponse(client.inspect)
         self.inference = resources.AsyncInferenceResourceWithStreamingResponse(client.inference)
         self.memory = resources.AsyncMemoryResourceWithStreamingResponse(client.memory)
         self.memory_banks = resources.AsyncMemoryBanksResourceWithStreamingResponse(client.memory_banks)
+        self.datasets = resources.AsyncDatasetsResourceWithStreamingResponse(client.datasets)
         self.models = resources.AsyncModelsResourceWithStreamingResponse(client.models)
         self.post_training = resources.AsyncPostTrainingResourceWithStreamingResponse(client.post_training)
         self.providers = resources.AsyncProvidersResourceWithStreamingResponse(client.providers)
-        self.reward_scoring = resources.AsyncRewardScoringResourceWithStreamingResponse(client.reward_scoring)
         self.routes = resources.AsyncRoutesResourceWithStreamingResponse(client.routes)
         self.safety = resources.AsyncSafetyResourceWithStreamingResponse(client.safety)
         self.shields = resources.AsyncShieldsResourceWithStreamingResponse(client.shields)
@@ -501,6 +505,10 @@ class AsyncLlamaStackClientWithStreamedResponse:
             client.synthetic_data_generation
         )
         self.telemetry = resources.AsyncTelemetryResourceWithStreamingResponse(client.telemetry)
+        self.datasetio = resources.AsyncDatasetioResourceWithStreamingResponse(client.datasetio)
+        self.scoring = resources.AsyncScoringResourceWithStreamingResponse(client.scoring)
+        self.scoring_functions = resources.AsyncScoringFunctionsResourceWithStreamingResponse(client.scoring_functions)
+        self.eval = resources.AsyncEvalResourceWithStreamingResponse(client.eval)
 
 
 Client = LlamaStackClient

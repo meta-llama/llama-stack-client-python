@@ -185,6 +185,7 @@ class TurnResource(SyncAPIResource):
         self,
         *,
         agent_id: str,
+        session_id: str,
         turn_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -218,6 +219,7 @@ class TurnResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "agent_id": agent_id,
+                        "session_id": session_id,
                         "turn_id": turn_id,
                     },
                     turn_retrieve_params.TurnRetrieveParams,
@@ -380,6 +382,7 @@ class AsyncTurnResource(AsyncAPIResource):
         self,
         *,
         agent_id: str,
+        session_id: str,
         turn_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -413,6 +416,7 @@ class AsyncTurnResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "agent_id": agent_id,
+                        "session_id": session_id,
                         "turn_id": turn_id,
                     },
                     turn_retrieve_params.TurnRetrieveParams,

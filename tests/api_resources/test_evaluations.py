@@ -18,45 +18,6 @@ class TestEvaluations:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_summarization(self, client: LlamaStackClient) -> None:
-        evaluation = client.evaluations.summarization(
-            metrics=["rouge", "bleu"],
-        )
-        assert_matches_type(EvaluationJob, evaluation, path=["response"])
-
-    @parametrize
-    def test_method_summarization_with_all_params(self, client: LlamaStackClient) -> None:
-        evaluation = client.evaluations.summarization(
-            metrics=["rouge", "bleu"],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
-        )
-        assert_matches_type(EvaluationJob, evaluation, path=["response"])
-
-    @parametrize
-    def test_raw_response_summarization(self, client: LlamaStackClient) -> None:
-        response = client.evaluations.with_raw_response.summarization(
-            metrics=["rouge", "bleu"],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        evaluation = response.parse()
-        assert_matches_type(EvaluationJob, evaluation, path=["response"])
-
-    @parametrize
-    def test_streaming_response_summarization(self, client: LlamaStackClient) -> None:
-        with client.evaluations.with_streaming_response.summarization(
-            metrics=["rouge", "bleu"],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            evaluation = response.parse()
-            assert_matches_type(EvaluationJob, evaluation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
     def test_method_text_generation(self, client: LlamaStackClient) -> None:
         evaluation = client.evaluations.text_generation(
             metrics=["perplexity", "rouge", "bleu"],
@@ -98,45 +59,6 @@ class TestEvaluations:
 
 class TestAsyncEvaluations:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
-
-    @parametrize
-    async def test_method_summarization(self, async_client: AsyncLlamaStackClient) -> None:
-        evaluation = await async_client.evaluations.summarization(
-            metrics=["rouge", "bleu"],
-        )
-        assert_matches_type(EvaluationJob, evaluation, path=["response"])
-
-    @parametrize
-    async def test_method_summarization_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        evaluation = await async_client.evaluations.summarization(
-            metrics=["rouge", "bleu"],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
-        )
-        assert_matches_type(EvaluationJob, evaluation, path=["response"])
-
-    @parametrize
-    async def test_raw_response_summarization(self, async_client: AsyncLlamaStackClient) -> None:
-        response = await async_client.evaluations.with_raw_response.summarization(
-            metrics=["rouge", "bleu"],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        evaluation = await response.parse()
-        assert_matches_type(EvaluationJob, evaluation, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_summarization(self, async_client: AsyncLlamaStackClient) -> None:
-        async with async_client.evaluations.with_streaming_response.summarization(
-            metrics=["rouge", "bleu"],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            evaluation = await response.parse()
-            assert_matches_type(EvaluationJob, evaluation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_method_text_generation(self, async_client: AsyncLlamaStackClient) -> None:

@@ -2,65 +2,18 @@
 
 from typing import List, Union, Optional
 from datetime import datetime
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import TypeAlias
 
 from .turn import Turn
 from ..._models import BaseModel
+from ..shared.graph_memory_bank_def import GraphMemoryBankDef
+from ..shared.vector_memory_bank_def import VectorMemoryBankDef
+from ..shared.keyword_memory_bank_def import KeywordMemoryBankDef
+from ..shared.key_value_memory_bank_def import KeyValueMemoryBankDef
 
-__all__ = [
-    "Session",
-    "MemoryBank",
-    "MemoryBankVectorMemoryBankDef",
-    "MemoryBankKeyValueMemoryBankDef",
-    "MemoryBankKeywordMemoryBankDef",
-    "MemoryBankGraphMemoryBankDef",
-]
+__all__ = ["Session", "MemoryBank"]
 
-
-class MemoryBankVectorMemoryBankDef(BaseModel):
-    chunk_size_in_tokens: int
-
-    embedding_model: str
-
-    identifier: str
-
-    provider_id: str
-
-    type: Literal["vector"]
-
-    overlap_size_in_tokens: Optional[int] = None
-
-
-class MemoryBankKeyValueMemoryBankDef(BaseModel):
-    identifier: str
-
-    provider_id: str
-
-    type: Literal["keyvalue"]
-
-
-class MemoryBankKeywordMemoryBankDef(BaseModel):
-    identifier: str
-
-    provider_id: str
-
-    type: Literal["keyword"]
-
-
-class MemoryBankGraphMemoryBankDef(BaseModel):
-    identifier: str
-
-    provider_id: str
-
-    type: Literal["graph"]
-
-
-MemoryBank: TypeAlias = Union[
-    MemoryBankVectorMemoryBankDef,
-    MemoryBankKeyValueMemoryBankDef,
-    MemoryBankKeywordMemoryBankDef,
-    MemoryBankGraphMemoryBankDef,
-]
+MemoryBank: TypeAlias = Union[VectorMemoryBankDef, KeyValueMemoryBankDef, KeywordMemoryBankDef, GraphMemoryBankDef]
 
 
 class Session(BaseModel):

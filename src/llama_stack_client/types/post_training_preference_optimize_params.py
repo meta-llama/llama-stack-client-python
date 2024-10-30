@@ -6,7 +6,6 @@ from typing import Dict, Union, Iterable
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
-from .train_eval_dataset_param import TrainEvalDatasetParam
 
 __all__ = ["PostTrainingPreferenceOptimizeParams", "AlgorithmConfig", "OptimizerConfig", "TrainingConfig"]
 
@@ -16,7 +15,7 @@ class PostTrainingPreferenceOptimizeParams(TypedDict, total=False):
 
     algorithm_config: Required[AlgorithmConfig]
 
-    dataset: Required[TrainEvalDatasetParam]
+    dataset_id: Required[str]
 
     finetuned_model: Required[str]
 
@@ -30,7 +29,7 @@ class PostTrainingPreferenceOptimizeParams(TypedDict, total=False):
 
     training_config: Required[TrainingConfig]
 
-    validation_dataset: Required[TrainEvalDatasetParam]
+    validation_dataset_id: Required[str]
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 

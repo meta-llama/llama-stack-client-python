@@ -10,6 +10,6 @@ __all__ = ["DatasetRetrieveParams"]
 
 
 class DatasetRetrieveParams(TypedDict, total=False):
-    dataset_uuid: Required[str]
+    dataset_identifier: Required[str]
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]

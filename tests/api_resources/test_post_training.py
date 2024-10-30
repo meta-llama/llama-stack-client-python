@@ -29,10 +29,7 @@ class TestPostTraining:
                 "reward_clip": 0,
                 "reward_scale": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            dataset_id="dataset_id",
             finetuned_model="https://example.com",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
@@ -52,10 +49,7 @@ class TestPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            validation_dataset_id="validation_dataset_id",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
 
@@ -69,11 +63,7 @@ class TestPostTraining:
                 "reward_clip": 0,
                 "reward_scale": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-                "metadata": {"foo": True},
-            },
+            dataset_id="dataset_id",
             finetuned_model="https://example.com",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
@@ -93,11 +83,7 @@ class TestPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-                "metadata": {"foo": True},
-            },
+            validation_dataset_id="validation_dataset_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
@@ -112,10 +98,7 @@ class TestPostTraining:
                 "reward_clip": 0,
                 "reward_scale": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            dataset_id="dataset_id",
             finetuned_model="https://example.com",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
@@ -135,10 +118,7 @@ class TestPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            validation_dataset_id="validation_dataset_id",
         )
 
         assert response.is_closed is True
@@ -156,10 +136,7 @@ class TestPostTraining:
                 "reward_clip": 0,
                 "reward_scale": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            dataset_id="dataset_id",
             finetuned_model="https://example.com",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
@@ -179,10 +156,7 @@ class TestPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            validation_dataset_id="validation_dataset_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -203,10 +177,7 @@ class TestPostTraining:
                 "lora_attn_modules": ["string", "string", "string"],
                 "rank": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            dataset_id="dataset_id",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
@@ -226,10 +197,7 @@ class TestPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            validation_dataset_id="validation_dataset_id",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
 
@@ -244,11 +212,7 @@ class TestPostTraining:
                 "lora_attn_modules": ["string", "string", "string"],
                 "rank": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-                "metadata": {"foo": True},
-            },
+            dataset_id="dataset_id",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
@@ -268,11 +232,7 @@ class TestPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-                "metadata": {"foo": True},
-            },
+            validation_dataset_id="validation_dataset_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
@@ -288,10 +248,7 @@ class TestPostTraining:
                 "lora_attn_modules": ["string", "string", "string"],
                 "rank": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            dataset_id="dataset_id",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
@@ -311,10 +268,7 @@ class TestPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            validation_dataset_id="validation_dataset_id",
         )
 
         assert response.is_closed is True
@@ -333,10 +287,7 @@ class TestPostTraining:
                 "lora_attn_modules": ["string", "string", "string"],
                 "rank": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            dataset_id="dataset_id",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
@@ -356,10 +307,7 @@ class TestPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            validation_dataset_id="validation_dataset_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -383,10 +331,7 @@ class TestAsyncPostTraining:
                 "reward_clip": 0,
                 "reward_scale": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            dataset_id="dataset_id",
             finetuned_model="https://example.com",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
@@ -406,10 +351,7 @@ class TestAsyncPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            validation_dataset_id="validation_dataset_id",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
 
@@ -423,11 +365,7 @@ class TestAsyncPostTraining:
                 "reward_clip": 0,
                 "reward_scale": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-                "metadata": {"foo": True},
-            },
+            dataset_id="dataset_id",
             finetuned_model="https://example.com",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
@@ -447,11 +385,7 @@ class TestAsyncPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-                "metadata": {"foo": True},
-            },
+            validation_dataset_id="validation_dataset_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
@@ -466,10 +400,7 @@ class TestAsyncPostTraining:
                 "reward_clip": 0,
                 "reward_scale": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            dataset_id="dataset_id",
             finetuned_model="https://example.com",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
@@ -489,10 +420,7 @@ class TestAsyncPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            validation_dataset_id="validation_dataset_id",
         )
 
         assert response.is_closed is True
@@ -510,10 +438,7 @@ class TestAsyncPostTraining:
                 "reward_clip": 0,
                 "reward_scale": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            dataset_id="dataset_id",
             finetuned_model="https://example.com",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
@@ -533,10 +458,7 @@ class TestAsyncPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            validation_dataset_id="validation_dataset_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -557,10 +479,7 @@ class TestAsyncPostTraining:
                 "lora_attn_modules": ["string", "string", "string"],
                 "rank": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            dataset_id="dataset_id",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
@@ -580,10 +499,7 @@ class TestAsyncPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            validation_dataset_id="validation_dataset_id",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
 
@@ -598,11 +514,7 @@ class TestAsyncPostTraining:
                 "lora_attn_modules": ["string", "string", "string"],
                 "rank": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-                "metadata": {"foo": True},
-            },
+            dataset_id="dataset_id",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
@@ -622,11 +534,7 @@ class TestAsyncPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-                "metadata": {"foo": True},
-            },
+            validation_dataset_id="validation_dataset_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
@@ -642,10 +550,7 @@ class TestAsyncPostTraining:
                 "lora_attn_modules": ["string", "string", "string"],
                 "rank": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            dataset_id="dataset_id",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
@@ -665,10 +570,7 @@ class TestAsyncPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            validation_dataset_id="validation_dataset_id",
         )
 
         assert response.is_closed is True
@@ -687,10 +589,7 @@ class TestAsyncPostTraining:
                 "lora_attn_modules": ["string", "string", "string"],
                 "rank": 0,
             },
-            dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            dataset_id="dataset_id",
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
@@ -710,10 +609,7 @@ class TestAsyncPostTraining:
                 "n_iters": 0,
                 "shuffle": True,
             },
-            validation_dataset={
-                "columns": {"foo": "dialog"},
-                "content_url": "https://example.com",
-            },
+            validation_dataset_id="validation_dataset_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
