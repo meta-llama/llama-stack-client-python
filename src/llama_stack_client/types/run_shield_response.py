@@ -1,20 +1,12 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Union, Optional
-from typing_extensions import Literal
+from typing import Optional
 
 from .._models import BaseModel
+from .shared.safety_violation import SafetyViolation
 
-__all__ = ["RunShieldResponse", "Violation"]
-
-
-class Violation(BaseModel):
-    metadata: Dict[str, Union[bool, float, str, List[object], object, None]]
-
-    violation_level: Literal["info", "warn", "error"]
-
-    user_message: Optional[str] = None
+__all__ = ["RunShieldResponse"]
 
 
 class RunShieldResponse(BaseModel):
-    violation: Optional[Violation] = None
+    violation: Optional[SafetyViolation] = None

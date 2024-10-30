@@ -1,56 +1,14 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Union, Optional
-from typing_extensions import Literal, TypeAlias
+from typing import Union
+from typing_extensions import TypeAlias
 
-from .._models import BaseModel
+from .shared.graph_memory_bank_def import GraphMemoryBankDef
+from .shared.vector_memory_bank_def import VectorMemoryBankDef
+from .shared.keyword_memory_bank_def import KeywordMemoryBankDef
+from .shared.key_value_memory_bank_def import KeyValueMemoryBankDef
 
-__all__ = [
-    "MemoryBankListResponse",
-    "VectorMemoryBankDef",
-    "KeyValueMemoryBankDef",
-    "KeywordMemoryBankDef",
-    "GraphMemoryBankDef",
-]
-
-
-class VectorMemoryBankDef(BaseModel):
-    chunk_size_in_tokens: int
-
-    embedding_model: str
-
-    identifier: str
-
-    provider_id: str
-
-    type: Literal["vector"]
-
-    overlap_size_in_tokens: Optional[int] = None
-
-
-class KeyValueMemoryBankDef(BaseModel):
-    identifier: str
-
-    provider_id: str
-
-    type: Literal["keyvalue"]
-
-
-class KeywordMemoryBankDef(BaseModel):
-    identifier: str
-
-    provider_id: str
-
-    type: Literal["keyword"]
-
-
-class GraphMemoryBankDef(BaseModel):
-    identifier: str
-
-    provider_id: str
-
-    type: Literal["graph"]
-
+__all__ = ["MemoryBankListResponse"]
 
 MemoryBankListResponse: TypeAlias = Union[
     VectorMemoryBankDef, KeyValueMemoryBankDef, KeywordMemoryBankDef, GraphMemoryBankDef

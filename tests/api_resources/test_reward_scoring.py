@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
-from llama_stack_client.types import RewardScoring
+from llama_stack_client.types import RewardScoringResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -114,7 +114,7 @@ class TestRewardScoring:
             ],
             model="model",
         )
-        assert_matches_type(RewardScoring, reward_scoring, path=["response"])
+        assert_matches_type(RewardScoringResponse, reward_scoring, path=["response"])
 
     @parametrize
     def test_method_score_with_all_params(self, client: LlamaStackClient) -> None:
@@ -232,7 +232,7 @@ class TestRewardScoring:
             model="model",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(RewardScoring, reward_scoring, path=["response"])
+        assert_matches_type(RewardScoringResponse, reward_scoring, path=["response"])
 
     @parametrize
     def test_raw_response_score(self, client: LlamaStackClient) -> None:
@@ -335,7 +335,7 @@ class TestRewardScoring:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         reward_scoring = response.parse()
-        assert_matches_type(RewardScoring, reward_scoring, path=["response"])
+        assert_matches_type(RewardScoringResponse, reward_scoring, path=["response"])
 
     @parametrize
     def test_streaming_response_score(self, client: LlamaStackClient) -> None:
@@ -438,7 +438,7 @@ class TestRewardScoring:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             reward_scoring = response.parse()
-            assert_matches_type(RewardScoring, reward_scoring, path=["response"])
+            assert_matches_type(RewardScoringResponse, reward_scoring, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -543,7 +543,7 @@ class TestAsyncRewardScoring:
             ],
             model="model",
         )
-        assert_matches_type(RewardScoring, reward_scoring, path=["response"])
+        assert_matches_type(RewardScoringResponse, reward_scoring, path=["response"])
 
     @parametrize
     async def test_method_score_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
@@ -661,7 +661,7 @@ class TestAsyncRewardScoring:
             model="model",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(RewardScoring, reward_scoring, path=["response"])
+        assert_matches_type(RewardScoringResponse, reward_scoring, path=["response"])
 
     @parametrize
     async def test_raw_response_score(self, async_client: AsyncLlamaStackClient) -> None:
@@ -764,7 +764,7 @@ class TestAsyncRewardScoring:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         reward_scoring = await response.parse()
-        assert_matches_type(RewardScoring, reward_scoring, path=["response"])
+        assert_matches_type(RewardScoringResponse, reward_scoring, path=["response"])
 
     @parametrize
     async def test_streaming_response_score(self, async_client: AsyncLlamaStackClient) -> None:
@@ -867,6 +867,6 @@ class TestAsyncRewardScoring:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             reward_scoring = await response.parse()
-            assert_matches_type(RewardScoring, reward_scoring, path=["response"])
+            assert_matches_type(RewardScoringResponse, reward_scoring, path=["response"])
 
         assert cast(Any, response.is_closed) is True

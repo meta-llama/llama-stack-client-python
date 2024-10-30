@@ -9,7 +9,10 @@ import pytest
 
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
-from llama_stack_client.types import MemoryBankSpec
+from llama_stack_client.types import (
+    MemoryBankListResponse,
+    MemoryBankRetrieveResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -18,17 +21,65 @@ class TestMemoryBanks:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
+    def test_method_retrieve(self, client: LlamaStackClient) -> None:
+        memory_bank = client.memory_banks.retrieve(
+            identifier="identifier",
+        )
+        assert_matches_type(Optional[MemoryBankRetrieveResponse], memory_bank, path=["response"])
+
+    @parametrize
+    def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
+        memory_bank = client.memory_banks.retrieve(
+            identifier="identifier",
+            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+        )
+        assert_matches_type(Optional[MemoryBankRetrieveResponse], memory_bank, path=["response"])
+
+    @parametrize
+    def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
+        response = client.memory_banks.with_raw_response.retrieve(
+            identifier="identifier",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        memory_bank = response.parse()
+        assert_matches_type(Optional[MemoryBankRetrieveResponse], memory_bank, path=["response"])
+
+    @parametrize
+    def test_streaming_response_retrieve(self, client: LlamaStackClient) -> None:
+        with client.memory_banks.with_streaming_response.retrieve(
+            identifier="identifier",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            memory_bank = response.parse()
+            assert_matches_type(Optional[MemoryBankRetrieveResponse], memory_bank, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
+    @parametrize
     def test_method_list(self, client: LlamaStackClient) -> None:
         memory_bank = client.memory_banks.list()
-        assert_matches_type(MemoryBankSpec, memory_bank, path=["response"])
+        assert_matches_type(MemoryBankListResponse, memory_bank, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
         memory_bank = client.memory_banks.list(
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(MemoryBankSpec, memory_bank, path=["response"])
+        assert_matches_type(MemoryBankListResponse, memory_bank, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     def test_raw_response_list(self, client: LlamaStackClient) -> None:
         response = client.memory_banks.with_raw_response.list()
@@ -36,8 +87,11 @@ class TestMemoryBanks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         memory_bank = response.parse()
-        assert_matches_type(MemoryBankSpec, memory_bank, path=["response"])
+        assert_matches_type(MemoryBankListResponse, memory_bank, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     def test_streaming_response_list(self, client: LlamaStackClient) -> None:
         with client.memory_banks.with_streaming_response.list() as response:
@@ -45,46 +99,71 @@ class TestMemoryBanks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             memory_bank = response.parse()
-            assert_matches_type(MemoryBankSpec, memory_bank, path=["response"])
+            assert_matches_type(MemoryBankListResponse, memory_bank, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_get(self, client: LlamaStackClient) -> None:
-        memory_bank = client.memory_banks.get(
-            bank_type="vector",
+    def test_method_register(self, client: LlamaStackClient) -> None:
+        memory_bank = client.memory_banks.register(
+            memory_bank={
+                "chunk_size_in_tokens": 0,
+                "embedding_model": "embedding_model",
+                "identifier": "identifier",
+                "provider_id": "provider_id",
+                "type": "vector",
+            },
         )
-        assert_matches_type(Optional[MemoryBankSpec], memory_bank, path=["response"])
+        assert memory_bank is None
 
     @parametrize
-    def test_method_get_with_all_params(self, client: LlamaStackClient) -> None:
-        memory_bank = client.memory_banks.get(
-            bank_type="vector",
+    def test_method_register_with_all_params(self, client: LlamaStackClient) -> None:
+        memory_bank = client.memory_banks.register(
+            memory_bank={
+                "chunk_size_in_tokens": 0,
+                "embedding_model": "embedding_model",
+                "identifier": "identifier",
+                "provider_id": "provider_id",
+                "type": "vector",
+                "overlap_size_in_tokens": 0,
+            },
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(Optional[MemoryBankSpec], memory_bank, path=["response"])
+        assert memory_bank is None
 
     @parametrize
-    def test_raw_response_get(self, client: LlamaStackClient) -> None:
-        response = client.memory_banks.with_raw_response.get(
-            bank_type="vector",
+    def test_raw_response_register(self, client: LlamaStackClient) -> None:
+        response = client.memory_banks.with_raw_response.register(
+            memory_bank={
+                "chunk_size_in_tokens": 0,
+                "embedding_model": "embedding_model",
+                "identifier": "identifier",
+                "provider_id": "provider_id",
+                "type": "vector",
+            },
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         memory_bank = response.parse()
-        assert_matches_type(Optional[MemoryBankSpec], memory_bank, path=["response"])
+        assert memory_bank is None
 
     @parametrize
-    def test_streaming_response_get(self, client: LlamaStackClient) -> None:
-        with client.memory_banks.with_streaming_response.get(
-            bank_type="vector",
+    def test_streaming_response_register(self, client: LlamaStackClient) -> None:
+        with client.memory_banks.with_streaming_response.register(
+            memory_bank={
+                "chunk_size_in_tokens": 0,
+                "embedding_model": "embedding_model",
+                "identifier": "identifier",
+                "provider_id": "provider_id",
+                "type": "vector",
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             memory_bank = response.parse()
-            assert_matches_type(Optional[MemoryBankSpec], memory_bank, path=["response"])
+            assert memory_bank is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -93,17 +172,65 @@ class TestAsyncMemoryBanks:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
+    async def test_method_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
+        memory_bank = await async_client.memory_banks.retrieve(
+            identifier="identifier",
+        )
+        assert_matches_type(Optional[MemoryBankRetrieveResponse], memory_bank, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        memory_bank = await async_client.memory_banks.retrieve(
+            identifier="identifier",
+            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+        )
+        assert_matches_type(Optional[MemoryBankRetrieveResponse], memory_bank, path=["response"])
+
+    @parametrize
+    async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.memory_banks.with_raw_response.retrieve(
+            identifier="identifier",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        memory_bank = await response.parse()
+        assert_matches_type(Optional[MemoryBankRetrieveResponse], memory_bank, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.memory_banks.with_streaming_response.retrieve(
+            identifier="identifier",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            memory_bank = await response.parse()
+            assert_matches_type(Optional[MemoryBankRetrieveResponse], memory_bank, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
+    @parametrize
     async def test_method_list(self, async_client: AsyncLlamaStackClient) -> None:
         memory_bank = await async_client.memory_banks.list()
-        assert_matches_type(MemoryBankSpec, memory_bank, path=["response"])
+        assert_matches_type(MemoryBankListResponse, memory_bank, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         memory_bank = await async_client.memory_banks.list(
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(MemoryBankSpec, memory_bank, path=["response"])
+        assert_matches_type(MemoryBankListResponse, memory_bank, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.memory_banks.with_raw_response.list()
@@ -111,8 +238,11 @@ class TestAsyncMemoryBanks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         memory_bank = await response.parse()
-        assert_matches_type(MemoryBankSpec, memory_bank, path=["response"])
+        assert_matches_type(MemoryBankListResponse, memory_bank, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.memory_banks.with_streaming_response.list() as response:
@@ -120,45 +250,70 @@ class TestAsyncMemoryBanks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             memory_bank = await response.parse()
-            assert_matches_type(MemoryBankSpec, memory_bank, path=["response"])
+            assert_matches_type(MemoryBankListResponse, memory_bank, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_get(self, async_client: AsyncLlamaStackClient) -> None:
-        memory_bank = await async_client.memory_banks.get(
-            bank_type="vector",
+    async def test_method_register(self, async_client: AsyncLlamaStackClient) -> None:
+        memory_bank = await async_client.memory_banks.register(
+            memory_bank={
+                "chunk_size_in_tokens": 0,
+                "embedding_model": "embedding_model",
+                "identifier": "identifier",
+                "provider_id": "provider_id",
+                "type": "vector",
+            },
         )
-        assert_matches_type(Optional[MemoryBankSpec], memory_bank, path=["response"])
+        assert memory_bank is None
 
     @parametrize
-    async def test_method_get_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        memory_bank = await async_client.memory_banks.get(
-            bank_type="vector",
+    async def test_method_register_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        memory_bank = await async_client.memory_banks.register(
+            memory_bank={
+                "chunk_size_in_tokens": 0,
+                "embedding_model": "embedding_model",
+                "identifier": "identifier",
+                "provider_id": "provider_id",
+                "type": "vector",
+                "overlap_size_in_tokens": 0,
+            },
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(Optional[MemoryBankSpec], memory_bank, path=["response"])
+        assert memory_bank is None
 
     @parametrize
-    async def test_raw_response_get(self, async_client: AsyncLlamaStackClient) -> None:
-        response = await async_client.memory_banks.with_raw_response.get(
-            bank_type="vector",
+    async def test_raw_response_register(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.memory_banks.with_raw_response.register(
+            memory_bank={
+                "chunk_size_in_tokens": 0,
+                "embedding_model": "embedding_model",
+                "identifier": "identifier",
+                "provider_id": "provider_id",
+                "type": "vector",
+            },
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         memory_bank = await response.parse()
-        assert_matches_type(Optional[MemoryBankSpec], memory_bank, path=["response"])
+        assert memory_bank is None
 
     @parametrize
-    async def test_streaming_response_get(self, async_client: AsyncLlamaStackClient) -> None:
-        async with async_client.memory_banks.with_streaming_response.get(
-            bank_type="vector",
+    async def test_streaming_response_register(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.memory_banks.with_streaming_response.register(
+            memory_bank={
+                "chunk_size_in_tokens": 0,
+                "embedding_model": "embedding_model",
+                "identifier": "identifier",
+                "provider_id": "provider_id",
+                "type": "vector",
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             memory_bank = await response.parse()
-            assert_matches_type(Optional[MemoryBankSpec], memory_bank, path=["response"])
+            assert memory_bank is None
 
         assert cast(Any, response.is_closed) is True

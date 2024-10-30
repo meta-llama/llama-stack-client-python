@@ -7,22 +7,18 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
 from .shared_params.sampling_params import SamplingParams
+from .rest_api_execution_config_param import RestAPIExecutionConfigParam
 
 __all__ = [
     "AgentCreateParams",
     "AgentConfig",
     "AgentConfigTool",
     "AgentConfigToolSearchToolDefinition",
-    "AgentConfigToolSearchToolDefinitionRemoteExecution",
     "AgentConfigToolWolframAlphaToolDefinition",
-    "AgentConfigToolWolframAlphaToolDefinitionRemoteExecution",
     "AgentConfigToolPhotogenToolDefinition",
-    "AgentConfigToolPhotogenToolDefinitionRemoteExecution",
     "AgentConfigToolCodeInterpreterToolDefinition",
-    "AgentConfigToolCodeInterpreterToolDefinitionRemoteExecution",
     "AgentConfigToolFunctionCallToolDefinition",
     "AgentConfigToolFunctionCallToolDefinitionParameters",
-    "AgentConfigToolFunctionCallToolDefinitionRemoteExecution",
     "AgentConfigToolMemoryToolDefinition",
     "AgentConfigToolMemoryToolDefinitionMemoryBankConfig",
     "AgentConfigToolMemoryToolDefinitionMemoryBankConfigUnionMember0",
@@ -42,18 +38,6 @@ class AgentCreateParams(TypedDict, total=False):
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
 
-class AgentConfigToolSearchToolDefinitionRemoteExecution(TypedDict, total=False):
-    method: Required[Literal["GET", "POST", "PUT", "DELETE"]]
-
-    url: Required[str]
-
-    body: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-
-    headers: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-
-    params: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-
-
 class AgentConfigToolSearchToolDefinition(TypedDict, total=False):
     api_key: Required[str]
 
@@ -65,19 +49,7 @@ class AgentConfigToolSearchToolDefinition(TypedDict, total=False):
 
     output_shields: List[str]
 
-    remote_execution: AgentConfigToolSearchToolDefinitionRemoteExecution
-
-
-class AgentConfigToolWolframAlphaToolDefinitionRemoteExecution(TypedDict, total=False):
-    method: Required[Literal["GET", "POST", "PUT", "DELETE"]]
-
-    url: Required[str]
-
-    body: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-
-    headers: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-
-    params: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    remote_execution: RestAPIExecutionConfigParam
 
 
 class AgentConfigToolWolframAlphaToolDefinition(TypedDict, total=False):
@@ -89,19 +61,7 @@ class AgentConfigToolWolframAlphaToolDefinition(TypedDict, total=False):
 
     output_shields: List[str]
 
-    remote_execution: AgentConfigToolWolframAlphaToolDefinitionRemoteExecution
-
-
-class AgentConfigToolPhotogenToolDefinitionRemoteExecution(TypedDict, total=False):
-    method: Required[Literal["GET", "POST", "PUT", "DELETE"]]
-
-    url: Required[str]
-
-    body: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-
-    headers: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-
-    params: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    remote_execution: RestAPIExecutionConfigParam
 
 
 class AgentConfigToolPhotogenToolDefinition(TypedDict, total=False):
@@ -111,19 +71,7 @@ class AgentConfigToolPhotogenToolDefinition(TypedDict, total=False):
 
     output_shields: List[str]
 
-    remote_execution: AgentConfigToolPhotogenToolDefinitionRemoteExecution
-
-
-class AgentConfigToolCodeInterpreterToolDefinitionRemoteExecution(TypedDict, total=False):
-    method: Required[Literal["GET", "POST", "PUT", "DELETE"]]
-
-    url: Required[str]
-
-    body: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-
-    headers: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-
-    params: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    remote_execution: RestAPIExecutionConfigParam
 
 
 class AgentConfigToolCodeInterpreterToolDefinition(TypedDict, total=False):
@@ -135,7 +83,7 @@ class AgentConfigToolCodeInterpreterToolDefinition(TypedDict, total=False):
 
     output_shields: List[str]
 
-    remote_execution: AgentConfigToolCodeInterpreterToolDefinitionRemoteExecution
+    remote_execution: RestAPIExecutionConfigParam
 
 
 class AgentConfigToolFunctionCallToolDefinitionParameters(TypedDict, total=False):
@@ -146,18 +94,6 @@ class AgentConfigToolFunctionCallToolDefinitionParameters(TypedDict, total=False
     description: str
 
     required: bool
-
-
-class AgentConfigToolFunctionCallToolDefinitionRemoteExecution(TypedDict, total=False):
-    method: Required[Literal["GET", "POST", "PUT", "DELETE"]]
-
-    url: Required[str]
-
-    body: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-
-    headers: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-
-    params: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
 
 
 class AgentConfigToolFunctionCallToolDefinition(TypedDict, total=False):
@@ -173,7 +109,7 @@ class AgentConfigToolFunctionCallToolDefinition(TypedDict, total=False):
 
     output_shields: List[str]
 
-    remote_execution: AgentConfigToolFunctionCallToolDefinitionRemoteExecution
+    remote_execution: RestAPIExecutionConfigParam
 
 
 class AgentConfigToolMemoryToolDefinitionMemoryBankConfigUnionMember0(TypedDict, total=False):

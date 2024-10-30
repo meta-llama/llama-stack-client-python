@@ -1,25 +1,14 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union, Optional
+from typing import List, Optional
 from datetime import datetime
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import Literal
 
 from .._models import BaseModel
+from .tool_response import ToolResponse
 from .shared.tool_call import ToolCall
-from .shared.image_media import ImageMedia
-from .shared.content_array import ContentArray
 
-__all__ = ["ToolExecutionStep", "ToolResponse", "ToolResponseContent"]
-
-ToolResponseContent: TypeAlias = Union[str, ImageMedia, ContentArray]
-
-
-class ToolResponse(BaseModel):
-    call_id: str
-
-    content: ToolResponseContent
-
-    tool_name: Union[Literal["brave_search", "wolfram_alpha", "photogen", "code_interpreter"], str]
+__all__ = ["ToolExecutionStep"]
 
 
 class ToolExecutionStep(BaseModel):

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
@@ -19,11 +21,9 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.evaluate import job_logs_params, job_cancel_params, job_status_params, job_artifacts_params
-from ...types.evaluation_job import EvaluationJob
-from ...types.evaluate.job_logs_response import JobLogsResponse
-from ...types.evaluate.job_status_response import JobStatusResponse
-from ...types.evaluate.job_artifacts_response import JobArtifactsResponse
+from ...types.evaluate import job_cancel_params, job_result_params, job_status_params
+from ...types.evaluate.job_status import JobStatus
+from ...types.evaluate.evaluate_response import EvaluateResponse
 
 __all__ = ["JobsResource", "AsyncJobsResource"]
 
@@ -48,82 +48,10 @@ class JobsResource(SyncAPIResource):
         """
         return JobsResourceWithStreamingResponse(self)
 
-    def list(
-        self,
-        *,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> EvaluationJob:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
-            **(extra_headers or {}),
-        }
-        return self._get(
-            "/evaluate/jobs",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=EvaluationJob,
-        )
-
-    def artifacts(
-        self,
-        *,
-        job_uuid: str,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobArtifactsResponse:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
-            **(extra_headers or {}),
-        }
-        return self._get(
-            "/evaluate/job/artifacts",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"job_uuid": job_uuid}, job_artifacts_params.JobArtifactsParams),
-            ),
-            cast_to=JobArtifactsResponse,
-        )
-
     def cancel(
         self,
         *,
-        job_uuid: str,
+        job_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -148,18 +76,18 @@ class JobsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/evaluate/job/cancel",
-            body=maybe_transform({"job_uuid": job_uuid}, job_cancel_params.JobCancelParams),
+            "/eval/job/cancel",
+            body=maybe_transform({"job_id": job_id}, job_cancel_params.JobCancelParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
         )
 
-    def logs(
+    def result(
         self,
         *,
-        job_uuid: str,
+        job_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -167,7 +95,7 @@ class JobsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobLogsResponse:
+    ) -> EvaluateResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -183,21 +111,21 @@ class JobsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/evaluate/job/logs",
+            "/eval/job/result",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"job_uuid": job_uuid}, job_logs_params.JobLogsParams),
+                query=maybe_transform({"job_id": job_id}, job_result_params.JobResultParams),
             ),
-            cast_to=JobLogsResponse,
+            cast_to=EvaluateResponse,
         )
 
     def status(
         self,
         *,
-        job_uuid: str,
+        job_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -205,7 +133,7 @@ class JobsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobStatusResponse:
+    ) -> Optional[JobStatus]:
         """
         Args:
           extra_headers: Send extra headers
@@ -221,15 +149,15 @@ class JobsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/evaluate/job/status",
+            "/eval/job/status",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"job_uuid": job_uuid}, job_status_params.JobStatusParams),
+                query=maybe_transform({"job_id": job_id}, job_status_params.JobStatusParams),
             ),
-            cast_to=JobStatusResponse,
+            cast_to=JobStatus,
         )
 
 
@@ -253,82 +181,10 @@ class AsyncJobsResource(AsyncAPIResource):
         """
         return AsyncJobsResourceWithStreamingResponse(self)
 
-    async def list(
-        self,
-        *,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> EvaluationJob:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
-            **(extra_headers or {}),
-        }
-        return await self._get(
-            "/evaluate/jobs",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=EvaluationJob,
-        )
-
-    async def artifacts(
-        self,
-        *,
-        job_uuid: str,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobArtifactsResponse:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
-            **(extra_headers or {}),
-        }
-        return await self._get(
-            "/evaluate/job/artifacts",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"job_uuid": job_uuid}, job_artifacts_params.JobArtifactsParams),
-            ),
-            cast_to=JobArtifactsResponse,
-        )
-
     async def cancel(
         self,
         *,
-        job_uuid: str,
+        job_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -353,18 +209,18 @@ class AsyncJobsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/evaluate/job/cancel",
-            body=await async_maybe_transform({"job_uuid": job_uuid}, job_cancel_params.JobCancelParams),
+            "/eval/job/cancel",
+            body=await async_maybe_transform({"job_id": job_id}, job_cancel_params.JobCancelParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
         )
 
-    async def logs(
+    async def result(
         self,
         *,
-        job_uuid: str,
+        job_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -372,7 +228,7 @@ class AsyncJobsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobLogsResponse:
+    ) -> EvaluateResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -388,21 +244,21 @@ class AsyncJobsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/evaluate/job/logs",
+            "/eval/job/result",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"job_uuid": job_uuid}, job_logs_params.JobLogsParams),
+                query=await async_maybe_transform({"job_id": job_id}, job_result_params.JobResultParams),
             ),
-            cast_to=JobLogsResponse,
+            cast_to=EvaluateResponse,
         )
 
     async def status(
         self,
         *,
-        job_uuid: str,
+        job_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -410,7 +266,7 @@ class AsyncJobsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobStatusResponse:
+    ) -> Optional[JobStatus]:
         """
         Args:
           extra_headers: Send extra headers
@@ -426,15 +282,15 @@ class AsyncJobsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/evaluate/job/status",
+            "/eval/job/status",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"job_uuid": job_uuid}, job_status_params.JobStatusParams),
+                query=await async_maybe_transform({"job_id": job_id}, job_status_params.JobStatusParams),
             ),
-            cast_to=JobStatusResponse,
+            cast_to=JobStatus,
         )
 
 
@@ -442,17 +298,11 @@ class JobsResourceWithRawResponse:
     def __init__(self, jobs: JobsResource) -> None:
         self._jobs = jobs
 
-        self.list = to_raw_response_wrapper(
-            jobs.list,
-        )
-        self.artifacts = to_raw_response_wrapper(
-            jobs.artifacts,
-        )
         self.cancel = to_raw_response_wrapper(
             jobs.cancel,
         )
-        self.logs = to_raw_response_wrapper(
-            jobs.logs,
+        self.result = to_raw_response_wrapper(
+            jobs.result,
         )
         self.status = to_raw_response_wrapper(
             jobs.status,
@@ -463,17 +313,11 @@ class AsyncJobsResourceWithRawResponse:
     def __init__(self, jobs: AsyncJobsResource) -> None:
         self._jobs = jobs
 
-        self.list = async_to_raw_response_wrapper(
-            jobs.list,
-        )
-        self.artifacts = async_to_raw_response_wrapper(
-            jobs.artifacts,
-        )
         self.cancel = async_to_raw_response_wrapper(
             jobs.cancel,
         )
-        self.logs = async_to_raw_response_wrapper(
-            jobs.logs,
+        self.result = async_to_raw_response_wrapper(
+            jobs.result,
         )
         self.status = async_to_raw_response_wrapper(
             jobs.status,
@@ -484,17 +328,11 @@ class JobsResourceWithStreamingResponse:
     def __init__(self, jobs: JobsResource) -> None:
         self._jobs = jobs
 
-        self.list = to_streamed_response_wrapper(
-            jobs.list,
-        )
-        self.artifacts = to_streamed_response_wrapper(
-            jobs.artifacts,
-        )
         self.cancel = to_streamed_response_wrapper(
             jobs.cancel,
         )
-        self.logs = to_streamed_response_wrapper(
-            jobs.logs,
+        self.result = to_streamed_response_wrapper(
+            jobs.result,
         )
         self.status = to_streamed_response_wrapper(
             jobs.status,
@@ -505,17 +343,11 @@ class AsyncJobsResourceWithStreamingResponse:
     def __init__(self, jobs: AsyncJobsResource) -> None:
         self._jobs = jobs
 
-        self.list = async_to_streamed_response_wrapper(
-            jobs.list,
-        )
-        self.artifacts = async_to_streamed_response_wrapper(
-            jobs.artifacts,
-        )
         self.cancel = async_to_streamed_response_wrapper(
             jobs.cancel,
         )
-        self.logs = async_to_streamed_response_wrapper(
-            jobs.logs,
+        self.result = async_to_streamed_response_wrapper(
+            jobs.result,
         )
         self.status = async_to_streamed_response_wrapper(
             jobs.status,

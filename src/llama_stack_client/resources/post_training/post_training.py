@@ -15,10 +15,7 @@ from .job import (
     JobResourceWithStreamingResponse,
     AsyncJobResourceWithStreamingResponse,
 )
-from ...types import (
-    post_training_preference_optimize_params,
-    post_training_supervised_fine_tune_params,
-)
+from ...types import post_training_preference_optimize_params, post_training_supervised_fine_tune_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
@@ -35,7 +32,6 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.post_training_job import PostTrainingJob
-from ...types.train_eval_dataset_param import TrainEvalDatasetParam
 
 __all__ = ["PostTrainingResource", "AsyncPostTrainingResource"]
 
@@ -69,14 +65,14 @@ class PostTrainingResource(SyncAPIResource):
         *,
         algorithm: Literal["dpo"],
         algorithm_config: post_training_preference_optimize_params.AlgorithmConfig,
-        dataset: TrainEvalDatasetParam,
+        dataset_id: str,
         finetuned_model: str,
         hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         optimizer_config: post_training_preference_optimize_params.OptimizerConfig,
         training_config: post_training_preference_optimize_params.TrainingConfig,
-        validation_dataset: TrainEvalDatasetParam,
+        validation_dataset_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -105,14 +101,14 @@ class PostTrainingResource(SyncAPIResource):
                 {
                     "algorithm": algorithm,
                     "algorithm_config": algorithm_config,
-                    "dataset": dataset,
+                    "dataset_id": dataset_id,
                     "finetuned_model": finetuned_model,
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
                     "optimizer_config": optimizer_config,
                     "training_config": training_config,
-                    "validation_dataset": validation_dataset,
+                    "validation_dataset_id": validation_dataset_id,
                 },
                 post_training_preference_optimize_params.PostTrainingPreferenceOptimizeParams,
             ),
@@ -127,14 +123,14 @@ class PostTrainingResource(SyncAPIResource):
         *,
         algorithm: Literal["full", "lora", "qlora", "dora"],
         algorithm_config: post_training_supervised_fine_tune_params.AlgorithmConfig,
-        dataset: TrainEvalDatasetParam,
+        dataset_id: str,
         hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         model: str,
         optimizer_config: post_training_supervised_fine_tune_params.OptimizerConfig,
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
-        validation_dataset: TrainEvalDatasetParam,
+        validation_dataset_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -163,14 +159,14 @@ class PostTrainingResource(SyncAPIResource):
                 {
                     "algorithm": algorithm,
                     "algorithm_config": algorithm_config,
-                    "dataset": dataset,
+                    "dataset_id": dataset_id,
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
                     "model": model,
                     "optimizer_config": optimizer_config,
                     "training_config": training_config,
-                    "validation_dataset": validation_dataset,
+                    "validation_dataset_id": validation_dataset_id,
                 },
                 post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),
@@ -210,14 +206,14 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         *,
         algorithm: Literal["dpo"],
         algorithm_config: post_training_preference_optimize_params.AlgorithmConfig,
-        dataset: TrainEvalDatasetParam,
+        dataset_id: str,
         finetuned_model: str,
         hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         optimizer_config: post_training_preference_optimize_params.OptimizerConfig,
         training_config: post_training_preference_optimize_params.TrainingConfig,
-        validation_dataset: TrainEvalDatasetParam,
+        validation_dataset_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -246,14 +242,14 @@ class AsyncPostTrainingResource(AsyncAPIResource):
                 {
                     "algorithm": algorithm,
                     "algorithm_config": algorithm_config,
-                    "dataset": dataset,
+                    "dataset_id": dataset_id,
                     "finetuned_model": finetuned_model,
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
                     "optimizer_config": optimizer_config,
                     "training_config": training_config,
-                    "validation_dataset": validation_dataset,
+                    "validation_dataset_id": validation_dataset_id,
                 },
                 post_training_preference_optimize_params.PostTrainingPreferenceOptimizeParams,
             ),
@@ -268,14 +264,14 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         *,
         algorithm: Literal["full", "lora", "qlora", "dora"],
         algorithm_config: post_training_supervised_fine_tune_params.AlgorithmConfig,
-        dataset: TrainEvalDatasetParam,
+        dataset_id: str,
         hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         model: str,
         optimizer_config: post_training_supervised_fine_tune_params.OptimizerConfig,
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
-        validation_dataset: TrainEvalDatasetParam,
+        validation_dataset_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -304,14 +300,14 @@ class AsyncPostTrainingResource(AsyncAPIResource):
                 {
                     "algorithm": algorithm,
                     "algorithm_config": algorithm_config,
-                    "dataset": dataset,
+                    "dataset_id": dataset_id,
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
                     "model": model,
                     "optimizer_config": optimizer_config,
                     "training_config": training_config,
-                    "validation_dataset": validation_dataset,
+                    "validation_dataset_id": validation_dataset_id,
                 },
                 post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),

@@ -6,7 +6,6 @@ from typing import Dict, List, Union, Iterable
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
-from .train_eval_dataset_param import TrainEvalDatasetParam
 
 __all__ = [
     "PostTrainingSupervisedFineTuneParams",
@@ -24,7 +23,7 @@ class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
 
     algorithm_config: Required[AlgorithmConfig]
 
-    dataset: Required[TrainEvalDatasetParam]
+    dataset_id: Required[str]
 
     hyperparam_search_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
@@ -38,7 +37,7 @@ class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
 
     training_config: Required[TrainingConfig]
 
-    validation_dataset: Required[TrainEvalDatasetParam]
+    validation_dataset_id: Required[str]
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 

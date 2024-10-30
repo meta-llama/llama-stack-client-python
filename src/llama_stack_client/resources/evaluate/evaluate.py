@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List
-from typing_extensions import Literal
+from typing import Dict, List, Union, Iterable
 
 import httpx
 
@@ -15,7 +14,7 @@ from .jobs import (
     JobsResourceWithStreamingResponse,
     AsyncJobsResourceWithStreamingResponse,
 )
-from ...types import evaluate_summarization_params, evaluate_question_answering_params
+from ...types import evaluate_evaluate_params, evaluate_evaluate_batch_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
@@ -30,8 +29,9 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ...types.job import Job
 from ..._base_client import make_request_options
-from ...types.evaluation_job import EvaluationJob
+from ...types.evaluate.evaluate_response import EvaluateResponse
 
 __all__ = ["EvaluateResource", "AsyncEvaluateResource"]
 
@@ -60,10 +60,12 @@ class EvaluateResource(SyncAPIResource):
         """
         return EvaluateResourceWithStreamingResponse(self)
 
-    def question_answering(
+    def evaluate(
         self,
         *,
-        metrics: List[Literal["em", "f1"]],
+        candidate: evaluate_evaluate_params.Candidate,
+        input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
+        scoring_functions: List[str],
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -71,7 +73,7 @@ class EvaluateResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> EvaluationJob:
+    ) -> EvaluateResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -87,20 +89,27 @@ class EvaluateResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/evaluate/question_answering/",
+            "/eval/evaluate",
             body=maybe_transform(
-                {"metrics": metrics}, evaluate_question_answering_params.EvaluateQuestionAnsweringParams
+                {
+                    "candidate": candidate,
+                    "input_rows": input_rows,
+                    "scoring_functions": scoring_functions,
+                },
+                evaluate_evaluate_params.EvaluateEvaluateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=EvaluationJob,
+            cast_to=EvaluateResponse,
         )
 
-    def summarization(
+    def evaluate_batch(
         self,
         *,
-        metrics: List[Literal["rouge", "bleu"]],
+        candidate: evaluate_evaluate_batch_params.Candidate,
+        dataset_id: str,
+        scoring_functions: List[str],
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -108,7 +117,7 @@ class EvaluateResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> EvaluationJob:
+    ) -> Job:
         """
         Args:
           extra_headers: Send extra headers
@@ -124,12 +133,19 @@ class EvaluateResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/evaluate/summarization/",
-            body=maybe_transform({"metrics": metrics}, evaluate_summarization_params.EvaluateSummarizationParams),
+            "/eval/evaluate_batch",
+            body=maybe_transform(
+                {
+                    "candidate": candidate,
+                    "dataset_id": dataset_id,
+                    "scoring_functions": scoring_functions,
+                },
+                evaluate_evaluate_batch_params.EvaluateEvaluateBatchParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=EvaluationJob,
+            cast_to=Job,
         )
 
 
@@ -157,10 +173,12 @@ class AsyncEvaluateResource(AsyncAPIResource):
         """
         return AsyncEvaluateResourceWithStreamingResponse(self)
 
-    async def question_answering(
+    async def evaluate(
         self,
         *,
-        metrics: List[Literal["em", "f1"]],
+        candidate: evaluate_evaluate_params.Candidate,
+        input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
+        scoring_functions: List[str],
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -168,7 +186,7 @@ class AsyncEvaluateResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> EvaluationJob:
+    ) -> EvaluateResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -184,20 +202,27 @@ class AsyncEvaluateResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/evaluate/question_answering/",
+            "/eval/evaluate",
             body=await async_maybe_transform(
-                {"metrics": metrics}, evaluate_question_answering_params.EvaluateQuestionAnsweringParams
+                {
+                    "candidate": candidate,
+                    "input_rows": input_rows,
+                    "scoring_functions": scoring_functions,
+                },
+                evaluate_evaluate_params.EvaluateEvaluateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=EvaluationJob,
+            cast_to=EvaluateResponse,
         )
 
-    async def summarization(
+    async def evaluate_batch(
         self,
         *,
-        metrics: List[Literal["rouge", "bleu"]],
+        candidate: evaluate_evaluate_batch_params.Candidate,
+        dataset_id: str,
+        scoring_functions: List[str],
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -205,7 +230,7 @@ class AsyncEvaluateResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> EvaluationJob:
+    ) -> Job:
         """
         Args:
           extra_headers: Send extra headers
@@ -221,14 +246,19 @@ class AsyncEvaluateResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/evaluate/summarization/",
+            "/eval/evaluate_batch",
             body=await async_maybe_transform(
-                {"metrics": metrics}, evaluate_summarization_params.EvaluateSummarizationParams
+                {
+                    "candidate": candidate,
+                    "dataset_id": dataset_id,
+                    "scoring_functions": scoring_functions,
+                },
+                evaluate_evaluate_batch_params.EvaluateEvaluateBatchParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=EvaluationJob,
+            cast_to=Job,
         )
 
 
@@ -236,11 +266,11 @@ class EvaluateResourceWithRawResponse:
     def __init__(self, evaluate: EvaluateResource) -> None:
         self._evaluate = evaluate
 
-        self.question_answering = to_raw_response_wrapper(
-            evaluate.question_answering,
+        self.evaluate = to_raw_response_wrapper(
+            evaluate.evaluate,
         )
-        self.summarization = to_raw_response_wrapper(
-            evaluate.summarization,
+        self.evaluate_batch = to_raw_response_wrapper(
+            evaluate.evaluate_batch,
         )
 
     @cached_property
@@ -252,11 +282,11 @@ class AsyncEvaluateResourceWithRawResponse:
     def __init__(self, evaluate: AsyncEvaluateResource) -> None:
         self._evaluate = evaluate
 
-        self.question_answering = async_to_raw_response_wrapper(
-            evaluate.question_answering,
+        self.evaluate = async_to_raw_response_wrapper(
+            evaluate.evaluate,
         )
-        self.summarization = async_to_raw_response_wrapper(
-            evaluate.summarization,
+        self.evaluate_batch = async_to_raw_response_wrapper(
+            evaluate.evaluate_batch,
         )
 
     @cached_property
@@ -268,11 +298,11 @@ class EvaluateResourceWithStreamingResponse:
     def __init__(self, evaluate: EvaluateResource) -> None:
         self._evaluate = evaluate
 
-        self.question_answering = to_streamed_response_wrapper(
-            evaluate.question_answering,
+        self.evaluate = to_streamed_response_wrapper(
+            evaluate.evaluate,
         )
-        self.summarization = to_streamed_response_wrapper(
-            evaluate.summarization,
+        self.evaluate_batch = to_streamed_response_wrapper(
+            evaluate.evaluate_batch,
         )
 
     @cached_property
@@ -284,11 +314,11 @@ class AsyncEvaluateResourceWithStreamingResponse:
     def __init__(self, evaluate: AsyncEvaluateResource) -> None:
         self._evaluate = evaluate
 
-        self.question_answering = async_to_streamed_response_wrapper(
-            evaluate.question_answering,
+        self.evaluate = async_to_streamed_response_wrapper(
+            evaluate.evaluate,
         )
-        self.summarization = async_to_streamed_response_wrapper(
-            evaluate.summarization,
+        self.evaluate_batch = async_to_streamed_response_wrapper(
+            evaluate.evaluate_batch,
         )
 
     @cached_property

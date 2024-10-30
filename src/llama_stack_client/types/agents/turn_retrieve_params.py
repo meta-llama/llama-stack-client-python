@@ -12,6 +12,8 @@ __all__ = ["TurnRetrieveParams"]
 class TurnRetrieveParams(TypedDict, total=False):
     agent_id: Required[str]
 
+    session_id: Required[str]
+
     turn_id: Required[str]
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]

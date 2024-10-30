@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
-from llama_stack_client.types import ModelServingSpec
+from llama_stack_client.types import ModelDefWithProvider
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -18,17 +18,65 @@ class TestModels:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
+    def test_method_retrieve(self, client: LlamaStackClient) -> None:
+        model = client.models.retrieve(
+            identifier="identifier",
+        )
+        assert_matches_type(Optional[ModelDefWithProvider], model, path=["response"])
+
+    @parametrize
+    def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
+        model = client.models.retrieve(
+            identifier="identifier",
+            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+        )
+        assert_matches_type(Optional[ModelDefWithProvider], model, path=["response"])
+
+    @parametrize
+    def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
+        response = client.models.with_raw_response.retrieve(
+            identifier="identifier",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        model = response.parse()
+        assert_matches_type(Optional[ModelDefWithProvider], model, path=["response"])
+
+    @parametrize
+    def test_streaming_response_retrieve(self, client: LlamaStackClient) -> None:
+        with client.models.with_streaming_response.retrieve(
+            identifier="identifier",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            model = response.parse()
+            assert_matches_type(Optional[ModelDefWithProvider], model, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
+    @parametrize
     def test_method_list(self, client: LlamaStackClient) -> None:
         model = client.models.list()
-        assert_matches_type(ModelServingSpec, model, path=["response"])
+        assert_matches_type(ModelDefWithProvider, model, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
         model = client.models.list(
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(ModelServingSpec, model, path=["response"])
+        assert_matches_type(ModelDefWithProvider, model, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     def test_raw_response_list(self, client: LlamaStackClient) -> None:
         response = client.models.with_raw_response.list()
@@ -36,8 +84,11 @@ class TestModels:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         model = response.parse()
-        assert_matches_type(ModelServingSpec, model, path=["response"])
+        assert_matches_type(ModelDefWithProvider, model, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     def test_streaming_response_list(self, client: LlamaStackClient) -> None:
         with client.models.with_streaming_response.list() as response:
@@ -45,46 +96,66 @@ class TestModels:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             model = response.parse()
-            assert_matches_type(ModelServingSpec, model, path=["response"])
+            assert_matches_type(ModelDefWithProvider, model, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_get(self, client: LlamaStackClient) -> None:
-        model = client.models.get(
-            core_model_id="core_model_id",
+    def test_method_register(self, client: LlamaStackClient) -> None:
+        model = client.models.register(
+            model={
+                "identifier": "identifier",
+                "llama_model": "llama_model",
+                "metadata": {"foo": True},
+                "provider_id": "provider_id",
+            },
         )
-        assert_matches_type(Optional[ModelServingSpec], model, path=["response"])
+        assert model is None
 
     @parametrize
-    def test_method_get_with_all_params(self, client: LlamaStackClient) -> None:
-        model = client.models.get(
-            core_model_id="core_model_id",
+    def test_method_register_with_all_params(self, client: LlamaStackClient) -> None:
+        model = client.models.register(
+            model={
+                "identifier": "identifier",
+                "llama_model": "llama_model",
+                "metadata": {"foo": True},
+                "provider_id": "provider_id",
+            },
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(Optional[ModelServingSpec], model, path=["response"])
+        assert model is None
 
     @parametrize
-    def test_raw_response_get(self, client: LlamaStackClient) -> None:
-        response = client.models.with_raw_response.get(
-            core_model_id="core_model_id",
+    def test_raw_response_register(self, client: LlamaStackClient) -> None:
+        response = client.models.with_raw_response.register(
+            model={
+                "identifier": "identifier",
+                "llama_model": "llama_model",
+                "metadata": {"foo": True},
+                "provider_id": "provider_id",
+            },
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         model = response.parse()
-        assert_matches_type(Optional[ModelServingSpec], model, path=["response"])
+        assert model is None
 
     @parametrize
-    def test_streaming_response_get(self, client: LlamaStackClient) -> None:
-        with client.models.with_streaming_response.get(
-            core_model_id="core_model_id",
+    def test_streaming_response_register(self, client: LlamaStackClient) -> None:
+        with client.models.with_streaming_response.register(
+            model={
+                "identifier": "identifier",
+                "llama_model": "llama_model",
+                "metadata": {"foo": True},
+                "provider_id": "provider_id",
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             model = response.parse()
-            assert_matches_type(Optional[ModelServingSpec], model, path=["response"])
+            assert model is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -93,17 +164,65 @@ class TestAsyncModels:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
+    async def test_method_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
+        model = await async_client.models.retrieve(
+            identifier="identifier",
+        )
+        assert_matches_type(Optional[ModelDefWithProvider], model, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        model = await async_client.models.retrieve(
+            identifier="identifier",
+            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+        )
+        assert_matches_type(Optional[ModelDefWithProvider], model, path=["response"])
+
+    @parametrize
+    async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.models.with_raw_response.retrieve(
+            identifier="identifier",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        model = await response.parse()
+        assert_matches_type(Optional[ModelDefWithProvider], model, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.models.with_streaming_response.retrieve(
+            identifier="identifier",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            model = await response.parse()
+            assert_matches_type(Optional[ModelDefWithProvider], model, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
+    @parametrize
     async def test_method_list(self, async_client: AsyncLlamaStackClient) -> None:
         model = await async_client.models.list()
-        assert_matches_type(ModelServingSpec, model, path=["response"])
+        assert_matches_type(ModelDefWithProvider, model, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         model = await async_client.models.list(
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(ModelServingSpec, model, path=["response"])
+        assert_matches_type(ModelDefWithProvider, model, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.models.with_raw_response.list()
@@ -111,8 +230,11 @@ class TestAsyncModels:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         model = await response.parse()
-        assert_matches_type(ModelServingSpec, model, path=["response"])
+        assert_matches_type(ModelDefWithProvider, model, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
+    )
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.models.with_streaming_response.list() as response:
@@ -120,45 +242,65 @@ class TestAsyncModels:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             model = await response.parse()
-            assert_matches_type(ModelServingSpec, model, path=["response"])
+            assert_matches_type(ModelDefWithProvider, model, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_get(self, async_client: AsyncLlamaStackClient) -> None:
-        model = await async_client.models.get(
-            core_model_id="core_model_id",
+    async def test_method_register(self, async_client: AsyncLlamaStackClient) -> None:
+        model = await async_client.models.register(
+            model={
+                "identifier": "identifier",
+                "llama_model": "llama_model",
+                "metadata": {"foo": True},
+                "provider_id": "provider_id",
+            },
         )
-        assert_matches_type(Optional[ModelServingSpec], model, path=["response"])
+        assert model is None
 
     @parametrize
-    async def test_method_get_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        model = await async_client.models.get(
-            core_model_id="core_model_id",
+    async def test_method_register_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        model = await async_client.models.register(
+            model={
+                "identifier": "identifier",
+                "llama_model": "llama_model",
+                "metadata": {"foo": True},
+                "provider_id": "provider_id",
+            },
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(Optional[ModelServingSpec], model, path=["response"])
+        assert model is None
 
     @parametrize
-    async def test_raw_response_get(self, async_client: AsyncLlamaStackClient) -> None:
-        response = await async_client.models.with_raw_response.get(
-            core_model_id="core_model_id",
+    async def test_raw_response_register(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.models.with_raw_response.register(
+            model={
+                "identifier": "identifier",
+                "llama_model": "llama_model",
+                "metadata": {"foo": True},
+                "provider_id": "provider_id",
+            },
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         model = await response.parse()
-        assert_matches_type(Optional[ModelServingSpec], model, path=["response"])
+        assert model is None
 
     @parametrize
-    async def test_streaming_response_get(self, async_client: AsyncLlamaStackClient) -> None:
-        async with async_client.models.with_streaming_response.get(
-            core_model_id="core_model_id",
+    async def test_streaming_response_register(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.models.with_streaming_response.register(
+            model={
+                "identifier": "identifier",
+                "llama_model": "llama_model",
+                "metadata": {"foo": True},
+                "provider_id": "provider_id",
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             model = await response.parse()
-            assert_matches_type(Optional[ModelServingSpec], model, path=["response"])
+            assert model is None
 
         assert cast(Any, response.is_closed) is True

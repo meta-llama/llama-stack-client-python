@@ -1,18 +1,17 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Optional
+from typing import List, Optional
+from typing_extensions import Literal
 
 from .._models import BaseModel
-from .shared.completion_message import CompletionMessage
+from .token_log_probs import TokenLogProbs
 
-__all__ = ["CompletionResponse", "Logprob"]
-
-
-class Logprob(BaseModel):
-    logprobs_by_token: Dict[str, float]
+__all__ = ["CompletionResponse"]
 
 
 class CompletionResponse(BaseModel):
-    completion_message: CompletionMessage
+    content: str
 
-    logprobs: Optional[List[Logprob]] = None
+    stop_reason: Literal["end_of_turn", "end_of_message", "out_of_tokens"]
+
+    logprobs: Optional[List[TokenLogProbs]] = None

@@ -1,20 +1,13 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Union, Optional
+from typing import Optional
 from datetime import datetime
 from typing_extensions import Literal
 
 from .._models import BaseModel
+from .shared.safety_violation import SafetyViolation
 
-__all__ = ["ShieldCallStep", "Violation"]
-
-
-class Violation(BaseModel):
-    metadata: Dict[str, Union[bool, float, str, List[object], object, None]]
-
-    violation_level: Literal["info", "warn", "error"]
-
-    user_message: Optional[str] = None
+__all__ = ["ShieldCallStep"]
 
 
 class ShieldCallStep(BaseModel):
@@ -28,4 +21,4 @@ class ShieldCallStep(BaseModel):
 
     started_at: Optional[datetime] = None
 
-    violation: Optional[Violation] = None
+    violation: Optional[SafetyViolation] = None
