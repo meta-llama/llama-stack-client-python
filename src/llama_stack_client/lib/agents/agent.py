@@ -3,7 +3,7 @@
 #
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
-from types import List, Tuple, Optional, Union
+from types import List, Optional, Tuple, Union
 
 from llama_stack_client import LlamaStackClient
 from llama_stack_client.types import Attachment, ToolResponseMessage, UserMessage

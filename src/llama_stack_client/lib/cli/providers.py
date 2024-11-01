@@ -5,9 +5,7 @@
 # the root directory of this source tree.
 
 import argparse
-import os
 
-import yaml
 from tabulate import tabulate
 
 from llama_stack_client import LlamaStackClient

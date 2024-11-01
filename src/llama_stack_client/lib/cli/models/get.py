@@ -5,7 +5,6 @@
 # the root directory of this source tree.
 
 import argparse
-import json
 
 from tabulate import tabulate
 
