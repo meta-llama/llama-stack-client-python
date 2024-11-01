@@ -9,12 +9,8 @@ import os
 
 import yaml
 
-from llama_stack_client.lib.cli.constants import LLAMA_STACK_CLIENT_CONFIG_DIR
+from llama_stack_client.lib.cli.constants import get_config_file_path
 from llama_stack_client.lib.cli.subcommand import Subcommand
-
-
-def get_config_file_path():
-    return LLAMA_STACK_CLIENT_CONFIG_DIR / "config.yaml"
 
 
 def get_config():
