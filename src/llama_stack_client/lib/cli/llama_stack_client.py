@@ -6,11 +6,13 @@
 
 import argparse
 
+from llama_stack_client.lib.cli.constants import get_config_file_path
+
 from .configure import ConfigureParser
-from .providers import ProvidersParser
 from .memory_banks import MemoryBanksParser
 
 from .models import ModelsParser
+from .providers import ProvidersParser
 from .shields import ShieldsParser
 
 
@@ -38,6 +40,12 @@ class LlamaStackClientCLIParser:
         return self.parser.parse_args()
 
     def run(self, args: argparse.Namespace) -> None:
+        if not get_config_file_path().exists():
+            print(
+                "Config file not found. Please run 'llama-stack-client configure' to create one."
+            )
+            return
+
         args.func(args)
 
 
