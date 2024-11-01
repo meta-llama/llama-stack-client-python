@@ -1,6 +1,6 @@
 # CLI Reference
 
-You may use the `llama-stack-client` to query information about the distribution. 
+You may use the `llama-stack-client` to query information about the distribution.
 
 #### `llama-stack-client`
 ```bash

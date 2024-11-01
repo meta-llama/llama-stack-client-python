@@ -5,6 +5,7 @@
 # the root directory of this source tree.
 
 import argparse
+
 from llama_stack_client import LlamaStackClient
 from llama_stack_client.lib.cli.common.utils import print_table_from_response
 from llama_stack_client.lib.cli.configure import get_config

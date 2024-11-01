@@ -1,6 +1,6 @@
 # SDK Examples
 
-Basic demo client scripts to help you get started with using SDK. For more complex app examples, please checkout our [llama-stack-apps](https://github.com/meta-llama/llama-stack-apps/tree/main) repo. 
+Basic demo client scripts to help you get started with using SDK. For more complex app examples, please checkout our [llama-stack-apps](https://github.com/meta-llama/llama-stack-apps/tree/main) repo.
 
 ## Setup
 ```
