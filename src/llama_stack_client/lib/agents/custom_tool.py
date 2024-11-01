@@ -9,7 +9,8 @@ import json
 from abc import abstractmethod
 from typing import Dict, List, Union
 
-from llama_stack_client.types import ToolParamDefinitionParam, ToolResponseMessage, UserMessage
+from llama_stack_client.types.tool_param_definition_param import ToolParamDefinitionParam
+from llama_stack_client.types import ToolResponseMessage, UserMessage
 from llama_stack_client.types.agent_create_params import AgentConfigToolFunctionCallToolDefinition
 
 

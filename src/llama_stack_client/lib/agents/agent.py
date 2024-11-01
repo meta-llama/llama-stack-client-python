@@ -3,7 +3,7 @@
 #
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
-from types import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union
 
 from llama_stack_client import LlamaStackClient
 from llama_stack_client.types import Attachment, ToolResponseMessage, UserMessage
@@ -36,11 +36,12 @@ class Agent:
         return self.session_id
 
     def create_turn(
-        self, messages: List[Union[UserMessage, ToolResponseMessage]], attachments: Optional[List[Attachment]] = None
+        self, messages: List[Union[UserMessage, ToolResponseMessage]], attachments: Optional[List[Attachment]] = None, session_id: Optional[str] = None,
     ):
         response = self.client.agents.turn.create(
             agent_id=self.agent_id,
-            session_id=self.session_id,
+            # use specified session_id or last session created
+            session_id=session_id or self.session_id[-1],
             messages=messages,
             attachments=attachments,
             stream=True,

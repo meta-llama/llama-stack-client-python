@@ -48,7 +48,7 @@ class LogEvent:
 
 
 class EventLogger:
-    def log(self, event_generator):
+    async def log(self, event_generator):
         previous_event_type = None
         previous_step_type = None
 
@@ -66,7 +66,7 @@ class EventLogger:
 
             if event_type in {"turn_start", "turn_complete"}:
                 # Currently not logging any turn realted info
-                yield None
+                yield LogEvent(role=None, content="", end="", color="grey")
                 continue
 
             step_type = event.payload.step_type
