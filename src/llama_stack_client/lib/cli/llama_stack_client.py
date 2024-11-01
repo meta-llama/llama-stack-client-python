@@ -7,10 +7,10 @@
 import argparse
 
 from .configure import ConfigureParser
-from .providers import ProvidersParser
 from .memory_banks import MemoryBanksParser
 
 from .models import ModelsParser
+from .providers import ProvidersParser
 from .shields import ShieldsParser
 
 

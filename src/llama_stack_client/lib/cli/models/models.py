@@ -7,8 +7,8 @@
 import argparse
 
 from llama_stack_client.lib.cli.models.get import ModelsGet
-from llama_stack_client.lib.cli.subcommand import Subcommand
 from llama_stack_client.lib.cli.models.list import ModelsList
+from llama_stack_client.lib.cli.subcommand import Subcommand
 
 
 class ModelsParser(Subcommand):

@@ -7,11 +7,11 @@
 import argparse
 import json
 
+from tabulate import tabulate
+
 from llama_stack_client import LlamaStackClient
 from llama_stack_client.lib.cli.configure import get_config
 from llama_stack_client.lib.cli.subcommand import Subcommand
-
-from tabulate import tabulate
 
 
 class ModelsGet(Subcommand):
@@ -59,8 +59,6 @@ class ModelsGet(Subcommand):
         headers = sorted(models_get_response.__dict__.keys())
 
         rows = []
-        rows.append(
-            [models_get_response.__dict__[headers[i]] for i in range(len(headers))]
-        )
+        rows.append([models_get_response.__dict__[headers[i]] for i in range(len(headers))])
 
         print(tabulate(rows, headers=headers, tablefmt="grid"))

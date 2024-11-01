@@ -11,8 +11,8 @@ import yaml
 from tabulate import tabulate
 
 from llama_stack_client import LlamaStackClient
-from llama_stack_client.lib.cli.subcommand import Subcommand
 from llama_stack_client.lib.cli.configure import get_config
+from llama_stack_client.lib.cli.subcommand import Subcommand
 
 
 class ProvidersParser(Subcommand):
@@ -53,15 +53,9 @@ class ProvidersParser(Subcommand):
 
         providers_response = client.providers.list()
         rows = []
-    
+
         for k, v in providers_response.items():
             for provider_info in v:
-                rows.append(
-                    [
-                        k,
-                        provider_info.provider_id,
-                        provider_info.provider_type
-                    ]
-                )
-        
+                rows.append([k, provider_info.provider_id, provider_info.provider_type])
+
         print(tabulate(rows, headers=headers, tablefmt="grid"))
