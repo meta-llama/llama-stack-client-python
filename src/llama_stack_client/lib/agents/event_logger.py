@@ -52,13 +52,13 @@ class EventLogger:
         previous_event_type = None
         previous_step_type = None
 
-        for chunk in event_generator:
+        async for chunk in event_generator:
             if not hasattr(chunk, "event"):
                 # Need to check for custom tool first
                 # since it does not produce event but instead
                 # a Message
                 if isinstance(chunk, ToolResponseMessage):
-                    yield LogEvent(role="CustomTool", content=chunk.content, color="grey")
+                    yield LogEvent(role="CustomTool", content=chunk.content, color="green")
                 continue
 
             event = chunk.event

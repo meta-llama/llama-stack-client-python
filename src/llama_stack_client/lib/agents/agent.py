@@ -35,7 +35,7 @@ class Agent:
         self.sessions.append(self.session_id)
         return self.session_id
 
-    def create_turn(
+    async def create_turn(
         self, messages: List[Union[UserMessage, ToolResponseMessage]], attachments: Optional[List[Attachment]] = None, session_id: Optional[str] = None,
     ):
         response = self.client.agents.turn.create(
@@ -73,13 +73,13 @@ class Agent:
             next_message = m
         else:
             tool = self.custom_tools[tool_call.tool_name]
-            result_messages = self.execute_custom_tool(tool, message)
+            result_messages = await self.execute_custom_tool(tool, message)
             next_message = result_messages[0]
 
         yield next_message
 
-    def execute_custom_tool(
+    async def execute_custom_tool(
         self, tool: CustomTool, message: Union[UserMessage, ToolResponseMessage]
     ) -> List[Union[UserMessage, ToolResponseMessage]]:
-        result_messages = tool.run([message])
+        result_messages = await tool.run([message])
         return result_messages
