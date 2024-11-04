@@ -91,6 +91,4 @@ class ConfigureParser(Subcommand):
                 )
             )
 
-        print(
-            f"Done! You can now use the Llama Stack Client CLI with endpoint {endpoint}"
-        )
+        print(f"Done! You can now use the Llama Stack Client CLI with endpoint {endpoint}")

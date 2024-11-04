@@ -6,8 +6,9 @@
 
 import argparse
 
-from llama_stack_client.lib.cli.subcommand import Subcommand
 from llama_stack_client.lib.cli.shields.list import ShieldsList
+
+from llama_stack_client.lib.cli.subcommand import Subcommand
 
 
 class ShieldsParser(Subcommand):

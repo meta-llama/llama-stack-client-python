@@ -5,16 +5,13 @@
 # the root directory of this source tree.
 from tabulate import tabulate
 
-def print_table_from_response(response, headers=[]):
+
+def print_table_from_response(response, headers=()):
     if not headers:
         headers = sorted(response[0].__dict__.keys())
 
     rows = []
     for spec in response:
-        rows.append(
-            [
-                spec.__dict__[headers[i]] for i in range(len(headers))
-            ]
-        )
+        rows.append([spec.__dict__[headers[i]] for i in range(len(headers))])
 
     print(tabulate(rows, headers=headers, tablefmt="grid"))

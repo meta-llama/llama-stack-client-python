@@ -4,13 +4,12 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-import json
 import argparse
 
 from llama_stack_client import LlamaStackClient
+from llama_stack_client.lib.cli.common.utils import print_table_from_response
 from llama_stack_client.lib.cli.configure import get_config
 from llama_stack_client.lib.cli.subcommand import Subcommand
-from llama_stack_client.lib.cli.common.utils import print_table_from_response
 
 
 class ModelsList(Subcommand):
@@ -41,12 +40,7 @@ class ModelsList(Subcommand):
             base_url=args.endpoint,
         )
 
-        headers = [
-            "identifier",
-            "llama_model",
-            "provider_id",
-            "metadata"
-        ]
+        headers = ["identifier", "llama_model", "provider_id", "metadata"]
         response = client.models.list()
         if response:
             print_table_from_response(response, headers)

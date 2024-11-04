@@ -11,7 +11,7 @@ It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Documentation
 
-For starting up a Llama Stack server, please checkout our guides in our [llama-stack](https://github.com/meta-llama/llama-stack/blob/main/docs/resources/llama-stack-spec.html) repo. 
+For starting up a Llama Stack server, please checkout our guides in our [llama-stack](https://github.com/meta-llama/llama-stack/blob/main/docs/resources/llama-stack-spec.html) repo.
 
 The REST API documentation can be found on our [llama-stack OpenAPI spec](https://github.com/meta-llama/llama-stack/blob/main/docs/resources/llama-stack-spec.html). The full API of this library can be found in [api.md](api.md).
 
@@ -25,7 +25,7 @@ pip install llama-stack-client
 
 ## Usage
 
-The full API of this library can be found in [api.md](api.md). You may find basic client examples in the [/examples](./examples/) folder. 
+The full API of this library can be found in [api.md](api.md). You may find basic client examples in the [/examples](./examples/) folder.
 
 ```python
 from llama_stack_client import LlamaStackClient
