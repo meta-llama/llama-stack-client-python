@@ -29,11 +29,17 @@ class LlamaStackDirectClient(LlamaStackClient):
         self.impls = await resolve_impls(self.config, get_provider_registry(), self.dist_registry)
 
     def _convert_param(self, param_type: Any, value: Any) -> Any:
-        # TODO: are there any APIs with even more complex nesting that fail this?
-        if get_origin(param_type) == list:
+        origin = get_origin(param_type)
+        if origin == list:
             item_type = get_args(param_type)[0]
             if isinstance(item_type, type) and issubclass(item_type, BaseModel):
                 return [item_type(**item) for item in value]
+            return value
+
+        elif origin == dict:
+            _, val_type = get_args(param_type)
+            if isinstance(val_type, type) and issubclass(val_type, BaseModel):
+                return {k: val_type(**v) for k, v in value.items()}
             return value
 
         elif isinstance(param_type, type) and issubclass(param_type, BaseModel):
