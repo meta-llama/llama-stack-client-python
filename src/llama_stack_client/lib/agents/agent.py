@@ -36,7 +36,10 @@ class Agent:
         return self.session_id
 
     async def create_turn(
-        self, messages: List[Union[UserMessage, ToolResponseMessage]], attachments: Optional[List[Attachment]] = None, session_id: Optional[str] = None,
+        self,
+        messages: List[Union[UserMessage, ToolResponseMessage]],
+        attachments: Optional[List[Attachment]] = None,
+        session_id: Optional[str] = None,
     ):
         response = self.client.agents.turn.create(
             agent_id=self.agent_id,
