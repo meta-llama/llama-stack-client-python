@@ -39,8 +39,11 @@ class LlamaStackClientCLIParser:
     def parse_args(self) -> argparse.Namespace:
         return self.parser.parse_args()
 
+    def command_requires_config(self, args: argparse.Namespace) -> bool:
+        return not (hasattr(args.func, '__self__') and isinstance(args.func.__self__, ConfigureParser))
+
     def run(self, args: argparse.Namespace) -> None:
-        if not get_config_file_path().exists():
+        if self.command_requires_config(args) and not get_config_file_path().exists():
             print(
                 "Config file not found. Please run 'llama-stack-client configure' to create one."
             )
