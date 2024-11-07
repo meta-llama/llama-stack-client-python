@@ -78,7 +78,7 @@ class LlamaStackClient(SyncAPIClient):
         # outlining your use-case to help us decide if it should be
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
-        provider_data: Mapping[str, str] | None = None,
+        provider_data: Mapping[str, Any] | None = None,
     ) -> None:
         """Construct a new synchronous llama-stack-client client instance."""
         if base_url is None:
@@ -267,7 +267,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         # outlining your use-case to help us decide if it should be
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
-        provider_data: Mapping[str, str] | None = None,
+        provider_data: Mapping[str, Any] | None = None,
     ) -> None:
         """Construct a new async llama-stack-client client instance."""
         if base_url is None:
