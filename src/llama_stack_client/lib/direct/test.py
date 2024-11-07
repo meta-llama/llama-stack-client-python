@@ -1,9 +1,10 @@
+import argparse
+
+import yaml
+from llama_stack.distribution.configure import parse_and_maybe_upgrade_config
 from llama_stack_client.lib.direct.direct import LlamaStackDirectClient
 from llama_stack_client.types import UserMessage
-import yaml
-import argparse
-from llama_stack.distribution.datatypes import *
-from llama_stack.distribution.configure import parse_and_maybe_upgrade_config
+
 
 async def main(config_path: str):
     with open(config_path, "r") as f:
@@ -16,19 +17,19 @@ async def main(config_path: str):
 
     response = await client.models.list()
     print(response)
-    
+
     response = await client.inference.chat_completion(
-        messages = [
-            UserMessage(content="What is the capital of France?", role="user")
-        ],
+        messages=[UserMessage(content="What is the capital of France?", role="user")],
         model="Llama3.1-8B-Instruct",
         stream=False,
     )
     print("\nChat completion response:")
     print(response)
 
+
 if __name__ == "__main__":
     import asyncio
+
     parser = argparse.ArgumentParser()
     parser.add_argument("config_path", help="Path to the config YAML file")
     args = parser.parse_args()
