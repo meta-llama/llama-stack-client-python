@@ -112,6 +112,14 @@ from .telemetry import (
     TelemetryResourceWithStreamingResponse,
     AsyncTelemetryResourceWithStreamingResponse,
 )
+from .eval_tasks import (
+    EvalTasksResource,
+    AsyncEvalTasksResource,
+    EvalTasksResourceWithRawResponse,
+    AsyncEvalTasksResourceWithRawResponse,
+    EvalTasksResourceWithStreamingResponse,
+    AsyncEvalTasksResourceWithStreamingResponse,
+)
 from .memory_banks import (
     MemoryBanksResource,
     AsyncMemoryBanksResource,
@@ -268,4 +276,10 @@ __all__ = [
     "AsyncScoringFunctionsResourceWithRawResponse",
     "ScoringFunctionsResourceWithStreamingResponse",
     "AsyncScoringFunctionsResourceWithStreamingResponse",
+    "EvalTasksResource",
+    "AsyncEvalTasksResource",
+    "EvalTasksResourceWithRawResponse",
+    "AsyncEvalTasksResourceWithRawResponse",
+    "EvalTasksResourceWithStreamingResponse",
+    "AsyncEvalTasksResourceWithStreamingResponse",
 ]

@@ -52,6 +52,7 @@ class LlamaStackClient(SyncAPIClient):
     datasetio: resources.DatasetioResource
     scoring: resources.ScoringResource
     scoring_functions: resources.ScoringFunctionsResource
+    eval_tasks: resources.EvalTasksResource
     with_raw_response: LlamaStackClientWithRawResponse
     with_streaming_response: LlamaStackClientWithStreamedResponse
 
@@ -121,6 +122,7 @@ class LlamaStackClient(SyncAPIClient):
         self.datasetio = resources.DatasetioResource(self)
         self.scoring = resources.ScoringResource(self)
         self.scoring_functions = resources.ScoringFunctionsResource(self)
+        self.eval_tasks = resources.EvalTasksResource(self)
         self.with_raw_response = LlamaStackClientWithRawResponse(self)
         self.with_streaming_response = LlamaStackClientWithStreamedResponse(self)
 
@@ -241,6 +243,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
     datasetio: resources.AsyncDatasetioResource
     scoring: resources.AsyncScoringResource
     scoring_functions: resources.AsyncScoringFunctionsResource
+    eval_tasks: resources.AsyncEvalTasksResource
     with_raw_response: AsyncLlamaStackClientWithRawResponse
     with_streaming_response: AsyncLlamaStackClientWithStreamedResponse
 
@@ -310,6 +313,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         self.datasetio = resources.AsyncDatasetioResource(self)
         self.scoring = resources.AsyncScoringResource(self)
         self.scoring_functions = resources.AsyncScoringFunctionsResource(self)
+        self.eval_tasks = resources.AsyncEvalTasksResource(self)
         self.with_raw_response = AsyncLlamaStackClientWithRawResponse(self)
         self.with_streaming_response = AsyncLlamaStackClientWithStreamedResponse(self)
 
@@ -433,6 +437,7 @@ class LlamaStackClientWithRawResponse:
         self.datasetio = resources.DatasetioResourceWithRawResponse(client.datasetio)
         self.scoring = resources.ScoringResourceWithRawResponse(client.scoring)
         self.scoring_functions = resources.ScoringFunctionsResourceWithRawResponse(client.scoring_functions)
+        self.eval_tasks = resources.EvalTasksResourceWithRawResponse(client.eval_tasks)
 
 
 class AsyncLlamaStackClientWithRawResponse:
@@ -458,6 +463,7 @@ class AsyncLlamaStackClientWithRawResponse:
         self.datasetio = resources.AsyncDatasetioResourceWithRawResponse(client.datasetio)
         self.scoring = resources.AsyncScoringResourceWithRawResponse(client.scoring)
         self.scoring_functions = resources.AsyncScoringFunctionsResourceWithRawResponse(client.scoring_functions)
+        self.eval_tasks = resources.AsyncEvalTasksResourceWithRawResponse(client.eval_tasks)
 
 
 class LlamaStackClientWithStreamedResponse:
@@ -483,6 +489,7 @@ class LlamaStackClientWithStreamedResponse:
         self.datasetio = resources.DatasetioResourceWithStreamingResponse(client.datasetio)
         self.scoring = resources.ScoringResourceWithStreamingResponse(client.scoring)
         self.scoring_functions = resources.ScoringFunctionsResourceWithStreamingResponse(client.scoring_functions)
+        self.eval_tasks = resources.EvalTasksResourceWithStreamingResponse(client.eval_tasks)
 
 
 class AsyncLlamaStackClientWithStreamedResponse:
@@ -508,6 +515,7 @@ class AsyncLlamaStackClientWithStreamedResponse:
         self.datasetio = resources.AsyncDatasetioResourceWithStreamingResponse(client.datasetio)
         self.scoring = resources.AsyncScoringResourceWithStreamingResponse(client.scoring)
         self.scoring_functions = resources.AsyncScoringFunctionsResourceWithStreamingResponse(client.scoring_functions)
+        self.eval_tasks = resources.AsyncEvalTasksResourceWithStreamingResponse(client.eval_tasks)
 
 
 Client = LlamaStackClient

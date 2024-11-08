@@ -9,6 +9,7 @@ import argparse
 from llama_stack_client.lib.cli.constants import get_config_file_path
 
 from .configure import ConfigureParser
+from .eval_tasks import EvalTasksParser
 from .memory_banks import MemoryBanksParser
 
 from .models import ModelsParser
@@ -33,6 +34,7 @@ class LlamaStackClientCLIParser:
         ModelsParser.create(subparsers)
         MemoryBanksParser.create(subparsers)
         ShieldsParser.create(subparsers)
+        EvalTasksParser.create(subparsers)
         ConfigureParser.create(subparsers)
         ProvidersParser.create(subparsers)
 
@@ -40,13 +42,11 @@ class LlamaStackClientCLIParser:
         return self.parser.parse_args()
 
     def command_requires_config(self, args: argparse.Namespace) -> bool:
-        return not (hasattr(args.func, '__self__') and isinstance(args.func.__self__, ConfigureParser))
+        return not (hasattr(args.func, "__self__") and isinstance(args.func.__self__, ConfigureParser))
 
     def run(self, args: argparse.Namespace) -> None:
         if self.command_requires_config(args) and not get_config_file_path().exists():
-            print(
-                "Config file not found. Please run 'llama-stack-client configure' to create one."
-            )
+            print("Config file not found. Please run 'llama-stack-client configure' to create one.")
             return
 
         args.func(args)
