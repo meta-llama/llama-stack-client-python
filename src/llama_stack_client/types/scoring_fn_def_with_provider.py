@@ -7,39 +7,12 @@ from .._models import BaseModel
 
 __all__ = [
     "ScoringFnDefWithProvider",
-    "Parameter",
-    "ParameterType",
-    "ParameterTypeType",
     "ReturnType",
     "ReturnTypeType",
-    "Context",
+    "Params",
+    "ParamsLlmAsJudgeScoringFnParams",
+    "ParamsRegexParserScoringFnParams",
 ]
-
-
-class ParameterTypeType(BaseModel):
-    type: Literal["string"]
-
-
-ParameterType: TypeAlias = Union[
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-]
-
-
-class Parameter(BaseModel):
-    name: str
-
-    type: ParameterType
-
-    description: Optional[str] = None
 
 
 class ReturnTypeType(BaseModel):
@@ -60,12 +33,23 @@ ReturnType: TypeAlias = Union[
 ]
 
 
-class Context(BaseModel):
+class ParamsLlmAsJudgeScoringFnParams(BaseModel):
     judge_model: str
 
-    judge_score_regex: Optional[List[str]] = None
+    type: Literal["llm_as_judge"]
+
+    judge_score_regexes: Optional[List[str]] = None
 
     prompt_template: Optional[str] = None
+
+
+class ParamsRegexParserScoringFnParams(BaseModel):
+    type: Literal["regex_parser"]
+
+    parsing_regexes: Optional[List[str]] = None
+
+
+Params: TypeAlias = Union[ParamsLlmAsJudgeScoringFnParams, ParamsRegexParserScoringFnParams]
 
 
 class ScoringFnDefWithProvider(BaseModel):
@@ -73,12 +57,12 @@ class ScoringFnDefWithProvider(BaseModel):
 
     metadata: Dict[str, Union[bool, float, str, List[object], object, None]]
 
-    parameters: List[Parameter]
-
     provider_id: str
 
     return_type: ReturnType
 
-    context: Optional[Context] = None
+    type: Literal["scoring_fn"]
 
     description: Optional[str] = None
+
+    params: Optional[Params] = None

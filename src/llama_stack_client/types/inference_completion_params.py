@@ -12,11 +12,11 @@ from .shared_params.sampling_params import SamplingParams
 __all__ = [
     "InferenceCompletionParams",
     "Content",
-    "ContentUnionMember2",
+    "ContentImageMediaArray",
     "Logprobs",
     "ResponseFormat",
-    "ResponseFormatUnionMember0",
-    "ResponseFormatUnionMember1",
+    "ResponseFormatJsonSchemaFormat",
+    "ResponseFormatGrammarFormat",
 ]
 
 
@@ -36,25 +36,25 @@ class InferenceCompletionParams(TypedDict, total=False):
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
 
-ContentUnionMember2: TypeAlias = Union[str, ImageMedia]
+ContentImageMediaArray: TypeAlias = Union[str, ImageMedia]
 
-Content: TypeAlias = Union[str, ImageMedia, List[ContentUnionMember2]]
+Content: TypeAlias = Union[str, ImageMedia, List[ContentImageMediaArray]]
 
 
 class Logprobs(TypedDict, total=False):
     top_k: int
 
 
-class ResponseFormatUnionMember0(TypedDict, total=False):
+class ResponseFormatJsonSchemaFormat(TypedDict, total=False):
     json_schema: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
     type: Required[Literal["json_schema"]]
 
 
-class ResponseFormatUnionMember1(TypedDict, total=False):
+class ResponseFormatGrammarFormat(TypedDict, total=False):
     bnf: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
     type: Required[Literal["grammar"]]
 
 
-ResponseFormat: TypeAlias = Union[ResponseFormatUnionMember0, ResponseFormatUnionMember1]
+ResponseFormat: TypeAlias = Union[ResponseFormatJsonSchemaFormat, ResponseFormatGrammarFormat]

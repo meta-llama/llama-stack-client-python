@@ -7,11 +7,11 @@ from typing_extensions import Required, TypeAlias, TypedDict
 
 from .image_media import ImageMedia
 
-__all__ = ["Attachment", "Content", "ContentUnionMember2"]
+__all__ = ["Attachment", "Content", "ContentContentArray"]
 
-ContentUnionMember2: TypeAlias = Union[str, ImageMedia]
+ContentContentArray: TypeAlias = Union[str, ImageMedia]
 
-Content: TypeAlias = Union[str, ImageMedia, List[ContentUnionMember2]]
+Content: TypeAlias = Union[str, ImageMedia, List[ContentContentArray]]
 
 
 class Attachment(TypedDict, total=False):

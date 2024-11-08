@@ -15,20 +15,21 @@ from ..memory_retrieval_step import MemoryRetrievalStep
 
 __all__ = [
     "TurnCreateResponse",
-    "Event",
-    "EventPayload",
-    "EventPayloadAgentTurnResponseStepStartPayload",
-    "EventPayloadAgentTurnResponseStepProgressPayload",
-    "EventPayloadAgentTurnResponseStepProgressPayloadToolCallDelta",
-    "EventPayloadAgentTurnResponseStepProgressPayloadToolCallDeltaContent",
-    "EventPayloadAgentTurnResponseStepCompletePayload",
-    "EventPayloadAgentTurnResponseStepCompletePayloadStepDetails",
-    "EventPayloadAgentTurnResponseTurnStartPayload",
-    "EventPayloadAgentTurnResponseTurnCompletePayload",
+    "AgentTurnResponseStreamChunk",
+    "AgentTurnResponseStreamChunkEvent",
+    "AgentTurnResponseStreamChunkEventPayload",
+    "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepStartPayload",
+    "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayload",
+    "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayloadToolCallDelta",
+    "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayloadToolCallDeltaContent",
+    "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePayload",
+    "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePayloadStepDetails",
+    "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseTurnStartPayload",
+    "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseTurnCompletePayload",
 ]
 
 
-class EventPayloadAgentTurnResponseStepStartPayload(BaseModel):
+class AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepStartPayload(BaseModel):
     event_type: Literal["step_start"]
 
     step_id: str
@@ -38,16 +39,18 @@ class EventPayloadAgentTurnResponseStepStartPayload(BaseModel):
     metadata: Optional[Dict[str, Union[bool, float, str, List[object], object, None]]] = None
 
 
-EventPayloadAgentTurnResponseStepProgressPayloadToolCallDeltaContent: TypeAlias = Union[str, ToolCall]
+AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayloadToolCallDeltaContent: TypeAlias = Union[
+    str, ToolCall
+]
 
 
-class EventPayloadAgentTurnResponseStepProgressPayloadToolCallDelta(BaseModel):
-    content: EventPayloadAgentTurnResponseStepProgressPayloadToolCallDeltaContent
+class AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayloadToolCallDelta(BaseModel):
+    content: AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayloadToolCallDeltaContent
 
     parse_status: Literal["started", "in_progress", "failure", "success"]
 
 
-class EventPayloadAgentTurnResponseStepProgressPayload(BaseModel):
+class AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayload(BaseModel):
     event_type: Literal["step_progress"]
 
     step_id: str
@@ -56,48 +59,53 @@ class EventPayloadAgentTurnResponseStepProgressPayload(BaseModel):
 
     text_delta_model_response: Optional[str] = FieldInfo(alias="model_response_text_delta", default=None)
 
-    tool_call_delta: Optional[EventPayloadAgentTurnResponseStepProgressPayloadToolCallDelta] = None
+    tool_call_delta: Optional[
+        AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayloadToolCallDelta
+    ] = None
 
     tool_response_text_delta: Optional[str] = None
 
 
-EventPayloadAgentTurnResponseStepCompletePayloadStepDetails: TypeAlias = Union[
+AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePayloadStepDetails: TypeAlias = Union[
     InferenceStep, ToolExecutionStep, ShieldCallStep, MemoryRetrievalStep
 ]
 
 
-class EventPayloadAgentTurnResponseStepCompletePayload(BaseModel):
+class AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePayload(BaseModel):
     event_type: Literal["step_complete"]
 
-    step_details: EventPayloadAgentTurnResponseStepCompletePayloadStepDetails
+    step_details: AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePayloadStepDetails
 
     step_type: Literal["inference", "tool_execution", "shield_call", "memory_retrieval"]
 
 
-class EventPayloadAgentTurnResponseTurnStartPayload(BaseModel):
+class AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseTurnStartPayload(BaseModel):
     event_type: Literal["turn_start"]
 
     turn_id: str
 
 
-class EventPayloadAgentTurnResponseTurnCompletePayload(BaseModel):
+class AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseTurnCompletePayload(BaseModel):
     event_type: Literal["turn_complete"]
 
     turn: Turn
 
 
-EventPayload: TypeAlias = Union[
-    EventPayloadAgentTurnResponseStepStartPayload,
-    EventPayloadAgentTurnResponseStepProgressPayload,
-    EventPayloadAgentTurnResponseStepCompletePayload,
-    EventPayloadAgentTurnResponseTurnStartPayload,
-    EventPayloadAgentTurnResponseTurnCompletePayload,
+AgentTurnResponseStreamChunkEventPayload: TypeAlias = Union[
+    AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepStartPayload,
+    AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayload,
+    AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePayload,
+    AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseTurnStartPayload,
+    AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseTurnCompletePayload,
 ]
 
 
-class Event(BaseModel):
-    payload: EventPayload
+class AgentTurnResponseStreamChunkEvent(BaseModel):
+    payload: AgentTurnResponseStreamChunkEventPayload
 
 
-class TurnCreateResponse(BaseModel):
-    event: Event
+class AgentTurnResponseStreamChunk(BaseModel):
+    event: AgentTurnResponseStreamChunkEvent
+
+
+TurnCreateResponse: TypeAlias = Union[Turn, AgentTurnResponseStreamChunk]

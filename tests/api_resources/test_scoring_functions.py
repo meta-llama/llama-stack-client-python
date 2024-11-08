@@ -108,22 +108,9 @@ class TestScoringFunctions:
             function_def={
                 "identifier": "identifier",
                 "metadata": {"foo": True},
-                "parameters": [
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                ],
                 "provider_id": "provider_id",
                 "return_type": {"type": "string"},
+                "type": "scoring_fn",
             },
         )
         assert scoring_function is None
@@ -134,31 +121,16 @@ class TestScoringFunctions:
             function_def={
                 "identifier": "identifier",
                 "metadata": {"foo": True},
-                "parameters": [
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                        "description": "description",
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                        "description": "description",
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                        "description": "description",
-                    },
-                ],
                 "provider_id": "provider_id",
                 "return_type": {"type": "string"},
-                "context": {
+                "type": "scoring_fn",
+                "description": "description",
+                "params": {
                     "judge_model": "judge_model",
-                    "judge_score_regex": ["string", "string", "string"],
+                    "type": "llm_as_judge",
+                    "judge_score_regexes": ["string", "string", "string"],
                     "prompt_template": "prompt_template",
                 },
-                "description": "description",
             },
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
@@ -170,22 +142,9 @@ class TestScoringFunctions:
             function_def={
                 "identifier": "identifier",
                 "metadata": {"foo": True},
-                "parameters": [
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                ],
                 "provider_id": "provider_id",
                 "return_type": {"type": "string"},
+                "type": "scoring_fn",
             },
         )
 
@@ -200,22 +159,9 @@ class TestScoringFunctions:
             function_def={
                 "identifier": "identifier",
                 "metadata": {"foo": True},
-                "parameters": [
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                ],
                 "provider_id": "provider_id",
                 "return_type": {"type": "string"},
+                "type": "scoring_fn",
             },
         ) as response:
             assert not response.is_closed
@@ -319,22 +265,9 @@ class TestAsyncScoringFunctions:
             function_def={
                 "identifier": "identifier",
                 "metadata": {"foo": True},
-                "parameters": [
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                ],
                 "provider_id": "provider_id",
                 "return_type": {"type": "string"},
+                "type": "scoring_fn",
             },
         )
         assert scoring_function is None
@@ -345,31 +278,16 @@ class TestAsyncScoringFunctions:
             function_def={
                 "identifier": "identifier",
                 "metadata": {"foo": True},
-                "parameters": [
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                        "description": "description",
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                        "description": "description",
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                        "description": "description",
-                    },
-                ],
                 "provider_id": "provider_id",
                 "return_type": {"type": "string"},
-                "context": {
+                "type": "scoring_fn",
+                "description": "description",
+                "params": {
                     "judge_model": "judge_model",
-                    "judge_score_regex": ["string", "string", "string"],
+                    "type": "llm_as_judge",
+                    "judge_score_regexes": ["string", "string", "string"],
                     "prompt_template": "prompt_template",
                 },
-                "description": "description",
             },
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
@@ -381,22 +299,9 @@ class TestAsyncScoringFunctions:
             function_def={
                 "identifier": "identifier",
                 "metadata": {"foo": True},
-                "parameters": [
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                ],
                 "provider_id": "provider_id",
                 "return_type": {"type": "string"},
+                "type": "scoring_fn",
             },
         )
 
@@ -411,22 +316,9 @@ class TestAsyncScoringFunctions:
             function_def={
                 "identifier": "identifier",
                 "metadata": {"foo": True},
-                "parameters": [
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                    {
-                        "name": "name",
-                        "type": {"type": "string"},
-                    },
-                ],
                 "provider_id": "provider_id",
                 "return_type": {"type": "string"},
+                "type": "scoring_fn",
             },
         ) as response:
             assert not response.is_closed

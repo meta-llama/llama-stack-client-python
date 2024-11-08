@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable
-from typing_extensions import Required, TypedDict
+from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["ShieldDefWithProviderParam"]
 
@@ -15,4 +15,6 @@ class ShieldDefWithProviderParam(TypedDict, total=False):
 
     provider_id: Required[str]
 
-    type: Required[str]
+    shield_type: Required[str]
+
+    type: Required[Literal["shield"]]

@@ -7,39 +7,12 @@ from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 __all__ = [
     "ScoringFnDefWithProviderParam",
-    "Parameter",
-    "ParameterType",
-    "ParameterTypeType",
     "ReturnType",
     "ReturnTypeType",
-    "Context",
+    "Params",
+    "ParamsLlmAsJudgeScoringFnParams",
+    "ParamsRegexParserScoringFnParams",
 ]
-
-
-class ParameterTypeType(TypedDict, total=False):
-    type: Required[Literal["string"]]
-
-
-ParameterType: TypeAlias = Union[
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-    ParameterTypeType,
-]
-
-
-class Parameter(TypedDict, total=False):
-    name: Required[str]
-
-    type: Required[ParameterType]
-
-    description: str
 
 
 class ReturnTypeType(TypedDict, total=False):
@@ -60,12 +33,23 @@ ReturnType: TypeAlias = Union[
 ]
 
 
-class Context(TypedDict, total=False):
+class ParamsLlmAsJudgeScoringFnParams(TypedDict, total=False):
     judge_model: Required[str]
 
-    judge_score_regex: List[str]
+    type: Required[Literal["llm_as_judge"]]
+
+    judge_score_regexes: List[str]
 
     prompt_template: str
+
+
+class ParamsRegexParserScoringFnParams(TypedDict, total=False):
+    type: Required[Literal["regex_parser"]]
+
+    parsing_regexes: List[str]
+
+
+Params: TypeAlias = Union[ParamsLlmAsJudgeScoringFnParams, ParamsRegexParserScoringFnParams]
 
 
 class ScoringFnDefWithProviderParam(TypedDict, total=False):
@@ -73,12 +57,12 @@ class ScoringFnDefWithProviderParam(TypedDict, total=False):
 
     metadata: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
-    parameters: Required[Iterable[Parameter]]
-
     provider_id: Required[str]
 
     return_type: Required[ReturnType]
 
-    context: Context
+    type: Required[Literal["scoring_fn"]]
 
     description: str
+
+    params: Params

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable
-from typing_extensions import Required, TypedDict
+from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["ModelDefWithProviderParam"]
 
@@ -16,3 +16,5 @@ class ModelDefWithProviderParam(TypedDict, total=False):
     metadata: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
     provider_id: Required[str]
+
+    type: Required[Literal["model"]]

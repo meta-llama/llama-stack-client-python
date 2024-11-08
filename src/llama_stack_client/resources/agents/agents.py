@@ -45,6 +45,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.agent_create_response import AgentCreateResponse
+from ...types.shared_params.agent_config import AgentConfig
 
 __all__ = ["AgentsResource", "AsyncAgentsResource"]
 
@@ -84,7 +85,7 @@ class AgentsResource(SyncAPIResource):
     def create(
         self,
         *,
-        agent_config: agent_create_params.AgentConfig,
+        agent_config: AgentConfig,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -188,7 +189,7 @@ class AsyncAgentsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        agent_config: agent_create_params.AgentConfig,
+        agent_config: AgentConfig,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.

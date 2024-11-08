@@ -51,7 +51,7 @@ class ShieldsResource(SyncAPIResource):
     def retrieve(
         self,
         *,
-        shield_type: str,
+        identifier: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -81,7 +81,7 @@ class ShieldsResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"shield_type": shield_type}, shield_retrieve_params.ShieldRetrieveParams),
+                query=maybe_transform({"identifier": identifier}, shield_retrieve_params.ShieldRetrieveParams),
             ),
             cast_to=ShieldDefWithProvider,
         )
@@ -180,7 +180,7 @@ class AsyncShieldsResource(AsyncAPIResource):
     async def retrieve(
         self,
         *,
-        shield_type: str,
+        identifier: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -211,7 +211,7 @@ class AsyncShieldsResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"shield_type": shield_type}, shield_retrieve_params.ShieldRetrieveParams
+                    {"identifier": identifier}, shield_retrieve_params.ShieldRetrieveParams
                 ),
             ),
             cast_to=ShieldDefWithProvider,

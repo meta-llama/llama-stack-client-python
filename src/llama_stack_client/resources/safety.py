@@ -50,9 +50,9 @@ class SafetyResource(SyncAPIResource):
     def run_shield(
         self,
         *,
+        identifier: str,
         messages: Iterable[safety_run_shield_params.Message],
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
-        shield_type: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -79,9 +79,9 @@ class SafetyResource(SyncAPIResource):
             "/safety/run_shield",
             body=maybe_transform(
                 {
+                    "identifier": identifier,
                     "messages": messages,
                     "params": params,
-                    "shield_type": shield_type,
                 },
                 safety_run_shield_params.SafetyRunShieldParams,
             ),
@@ -115,9 +115,9 @@ class AsyncSafetyResource(AsyncAPIResource):
     async def run_shield(
         self,
         *,
+        identifier: str,
         messages: Iterable[safety_run_shield_params.Message],
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
-        shield_type: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -144,9 +144,9 @@ class AsyncSafetyResource(AsyncAPIResource):
             "/safety/run_shield",
             body=await async_maybe_transform(
                 {
+                    "identifier": identifier,
                     "messages": messages,
                     "params": params,
-                    "shield_type": shield_type,
                 },
                 safety_run_shield_params.SafetyRunShieldParams,
             ),

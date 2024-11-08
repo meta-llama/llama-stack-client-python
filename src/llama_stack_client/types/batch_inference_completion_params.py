@@ -9,7 +9,7 @@ from .._utils import PropertyInfo
 from .shared_params.image_media import ImageMedia
 from .shared_params.sampling_params import SamplingParams
 
-__all__ = ["BatchInferenceCompletionParams", "ContentBatch", "ContentBatchUnionMember2", "Logprobs"]
+__all__ = ["BatchInferenceCompletionParams", "ContentBatch", "ContentBatchImageMediaArray", "Logprobs"]
 
 
 class BatchInferenceCompletionParams(TypedDict, total=False):
@@ -24,9 +24,9 @@ class BatchInferenceCompletionParams(TypedDict, total=False):
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
 
-ContentBatchUnionMember2: TypeAlias = Union[str, ImageMedia]
+ContentBatchImageMediaArray: TypeAlias = Union[str, ImageMedia]
 
-ContentBatch: TypeAlias = Union[str, ImageMedia, List[ContentBatchUnionMember2]]
+ContentBatch: TypeAlias = Union[str, ImageMedia, List[ContentBatchImageMediaArray]]
 
 
 class Logprobs(TypedDict, total=False):

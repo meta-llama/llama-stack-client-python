@@ -15,11 +15,11 @@ __all__ = ["SafetyRunShieldParams", "Message"]
 
 
 class SafetyRunShieldParams(TypedDict, total=False):
+    identifier: Required[str]
+
     messages: Required[Iterable[Message]]
 
     params: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
-
-    shield_type: Required[str]
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 

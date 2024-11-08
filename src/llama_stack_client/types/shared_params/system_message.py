@@ -7,11 +7,11 @@ from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .image_media import ImageMedia
 
-__all__ = ["SystemMessage", "Content", "ContentUnionMember2"]
+__all__ = ["SystemMessage", "Content", "ContentImageMediaArray"]
 
-ContentUnionMember2: TypeAlias = Union[str, ImageMedia]
+ContentImageMediaArray: TypeAlias = Union[str, ImageMedia]
 
-Content: TypeAlias = Union[str, ImageMedia, List[ContentUnionMember2]]
+Content: TypeAlias = Union[str, ImageMedia, List[ContentImageMediaArray]]
 
 
 class SystemMessage(TypedDict, total=False):

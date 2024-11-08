@@ -10,6 +10,6 @@ __all__ = ["ShieldRetrieveParams"]
 
 
 class ShieldRetrieveParams(TypedDict, total=False):
-    shield_type: Required[str]
+    identifier: Required[str]
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]

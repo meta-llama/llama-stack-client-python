@@ -108,6 +108,7 @@ class TestModels:
                 "llama_model": "llama_model",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "model",
             },
         )
         assert model is None
@@ -120,6 +121,7 @@ class TestModels:
                 "llama_model": "llama_model",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "model",
             },
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
@@ -133,6 +135,7 @@ class TestModels:
                 "llama_model": "llama_model",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "model",
             },
         )
 
@@ -149,6 +152,7 @@ class TestModels:
                 "llama_model": "llama_model",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "model",
             },
         ) as response:
             assert not response.is_closed
@@ -254,6 +258,7 @@ class TestAsyncModels:
                 "llama_model": "llama_model",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "model",
             },
         )
         assert model is None
@@ -266,6 +271,7 @@ class TestAsyncModels:
                 "llama_model": "llama_model",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "model",
             },
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
@@ -279,6 +285,7 @@ class TestAsyncModels:
                 "llama_model": "llama_model",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "model",
             },
         )
 
@@ -295,6 +302,7 @@ class TestAsyncModels:
                 "llama_model": "llama_model",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "model",
             },
         ) as response:
             assert not response.is_closed

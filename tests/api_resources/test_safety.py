@@ -20,6 +20,7 @@ class TestSafety:
     @parametrize
     def test_method_run_shield(self, client: LlamaStackClient) -> None:
         safety = client.safety.run_shield(
+            identifier="identifier",
             messages=[
                 {
                     "content": "string",
@@ -35,13 +36,13 @@ class TestSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
         )
         assert_matches_type(RunShieldResponse, safety, path=["response"])
 
     @parametrize
     def test_method_run_shield_with_all_params(self, client: LlamaStackClient) -> None:
         safety = client.safety.run_shield(
+            identifier="identifier",
             messages=[
                 {
                     "content": "string",
@@ -60,7 +61,6 @@ class TestSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(RunShieldResponse, safety, path=["response"])
@@ -68,6 +68,7 @@ class TestSafety:
     @parametrize
     def test_raw_response_run_shield(self, client: LlamaStackClient) -> None:
         response = client.safety.with_raw_response.run_shield(
+            identifier="identifier",
             messages=[
                 {
                     "content": "string",
@@ -83,7 +84,6 @@ class TestSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
         )
 
         assert response.is_closed is True
@@ -94,6 +94,7 @@ class TestSafety:
     @parametrize
     def test_streaming_response_run_shield(self, client: LlamaStackClient) -> None:
         with client.safety.with_streaming_response.run_shield(
+            identifier="identifier",
             messages=[
                 {
                     "content": "string",
@@ -109,7 +110,6 @@ class TestSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -126,6 +126,7 @@ class TestAsyncSafety:
     @parametrize
     async def test_method_run_shield(self, async_client: AsyncLlamaStackClient) -> None:
         safety = await async_client.safety.run_shield(
+            identifier="identifier",
             messages=[
                 {
                     "content": "string",
@@ -141,13 +142,13 @@ class TestAsyncSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
         )
         assert_matches_type(RunShieldResponse, safety, path=["response"])
 
     @parametrize
     async def test_method_run_shield_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         safety = await async_client.safety.run_shield(
+            identifier="identifier",
             messages=[
                 {
                     "content": "string",
@@ -166,7 +167,6 @@ class TestAsyncSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(RunShieldResponse, safety, path=["response"])
@@ -174,6 +174,7 @@ class TestAsyncSafety:
     @parametrize
     async def test_raw_response_run_shield(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.safety.with_raw_response.run_shield(
+            identifier="identifier",
             messages=[
                 {
                     "content": "string",
@@ -189,7 +190,6 @@ class TestAsyncSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
         )
 
         assert response.is_closed is True
@@ -200,6 +200,7 @@ class TestAsyncSafety:
     @parametrize
     async def test_streaming_response_run_shield(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.safety.with_streaming_response.run_shield(
+            identifier="identifier",
             messages=[
                 {
                     "content": "string",
@@ -215,7 +216,6 @@ class TestAsyncSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

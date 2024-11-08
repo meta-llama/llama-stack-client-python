@@ -20,14 +20,14 @@ class TestShields:
     @parametrize
     def test_method_retrieve(self, client: LlamaStackClient) -> None:
         shield = client.shields.retrieve(
-            shield_type="shield_type",
+            identifier="identifier",
         )
         assert_matches_type(Optional[ShieldDefWithProvider], shield, path=["response"])
 
     @parametrize
     def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
         shield = client.shields.retrieve(
-            shield_type="shield_type",
+            identifier="identifier",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(Optional[ShieldDefWithProvider], shield, path=["response"])
@@ -35,7 +35,7 @@ class TestShields:
     @parametrize
     def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
         response = client.shields.with_raw_response.retrieve(
-            shield_type="shield_type",
+            identifier="identifier",
         )
 
         assert response.is_closed is True
@@ -46,7 +46,7 @@ class TestShields:
     @parametrize
     def test_streaming_response_retrieve(self, client: LlamaStackClient) -> None:
         with client.shields.with_streaming_response.retrieve(
-            shield_type="shield_type",
+            identifier="identifier",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -107,7 +107,8 @@ class TestShields:
                 "identifier": "identifier",
                 "params": {"foo": True},
                 "provider_id": "provider_id",
-                "type": "type",
+                "shield_type": "shield_type",
+                "type": "shield",
             },
         )
         assert shield is None
@@ -119,7 +120,8 @@ class TestShields:
                 "identifier": "identifier",
                 "params": {"foo": True},
                 "provider_id": "provider_id",
-                "type": "type",
+                "shield_type": "shield_type",
+                "type": "shield",
             },
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
@@ -132,7 +134,8 @@ class TestShields:
                 "identifier": "identifier",
                 "params": {"foo": True},
                 "provider_id": "provider_id",
-                "type": "type",
+                "shield_type": "shield_type",
+                "type": "shield",
             },
         )
 
@@ -148,7 +151,8 @@ class TestShields:
                 "identifier": "identifier",
                 "params": {"foo": True},
                 "provider_id": "provider_id",
-                "type": "type",
+                "shield_type": "shield_type",
+                "type": "shield",
             },
         ) as response:
             assert not response.is_closed
@@ -166,14 +170,14 @@ class TestAsyncShields:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         shield = await async_client.shields.retrieve(
-            shield_type="shield_type",
+            identifier="identifier",
         )
         assert_matches_type(Optional[ShieldDefWithProvider], shield, path=["response"])
 
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         shield = await async_client.shields.retrieve(
-            shield_type="shield_type",
+            identifier="identifier",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(Optional[ShieldDefWithProvider], shield, path=["response"])
@@ -181,7 +185,7 @@ class TestAsyncShields:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.shields.with_raw_response.retrieve(
-            shield_type="shield_type",
+            identifier="identifier",
         )
 
         assert response.is_closed is True
@@ -192,7 +196,7 @@ class TestAsyncShields:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.shields.with_streaming_response.retrieve(
-            shield_type="shield_type",
+            identifier="identifier",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -253,7 +257,8 @@ class TestAsyncShields:
                 "identifier": "identifier",
                 "params": {"foo": True},
                 "provider_id": "provider_id",
-                "type": "type",
+                "shield_type": "shield_type",
+                "type": "shield",
             },
         )
         assert shield is None
@@ -265,7 +270,8 @@ class TestAsyncShields:
                 "identifier": "identifier",
                 "params": {"foo": True},
                 "provider_id": "provider_id",
-                "type": "type",
+                "shield_type": "shield_type",
+                "type": "shield",
             },
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
@@ -278,7 +284,8 @@ class TestAsyncShields:
                 "identifier": "identifier",
                 "params": {"foo": True},
                 "provider_id": "provider_id",
-                "type": "type",
+                "shield_type": "shield_type",
+                "type": "shield",
             },
         )
 
@@ -294,7 +301,8 @@ class TestAsyncShields:
                 "identifier": "identifier",
                 "params": {"foo": True},
                 "provider_id": "provider_id",
-                "type": "type",
+                "shield_type": "shield_type",
+                "type": "shield",
             },
         ) as response:
             assert not response.is_closed

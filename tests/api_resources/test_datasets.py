@@ -111,6 +111,7 @@ class TestDatasets:
                 "identifier": "identifier",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "dataset",
                 "url": "https://example.com",
             },
         )
@@ -124,6 +125,7 @@ class TestDatasets:
                 "identifier": "identifier",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "dataset",
                 "url": "https://example.com",
             },
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
@@ -138,6 +140,7 @@ class TestDatasets:
                 "identifier": "identifier",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "dataset",
                 "url": "https://example.com",
             },
         )
@@ -155,6 +158,7 @@ class TestDatasets:
                 "identifier": "identifier",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "dataset",
                 "url": "https://example.com",
             },
         ) as response:
@@ -261,6 +265,7 @@ class TestAsyncDatasets:
                 "identifier": "identifier",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "dataset",
                 "url": "https://example.com",
             },
         )
@@ -274,6 +279,7 @@ class TestAsyncDatasets:
                 "identifier": "identifier",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "dataset",
                 "url": "https://example.com",
             },
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
@@ -288,6 +294,7 @@ class TestAsyncDatasets:
                 "identifier": "identifier",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "dataset",
                 "url": "https://example.com",
             },
         )
@@ -305,6 +312,7 @@ class TestAsyncDatasets:
                 "identifier": "identifier",
                 "metadata": {"foo": True},
                 "provider_id": "provider_id",
+                "type": "dataset",
                 "url": "https://example.com",
             },
         ) as response:
