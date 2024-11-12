@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Dict, Union, Iterable, Optional
 
 import httpx
 
@@ -51,7 +51,7 @@ class DatasetsResource(SyncAPIResource):
     def retrieve(
         self,
         *,
-        dataset_identifier: str,
+        dataset_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -81,9 +81,7 @@ class DatasetsResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {"dataset_identifier": dataset_identifier}, dataset_retrieve_params.DatasetRetrieveParams
-                ),
+                query=maybe_transform({"dataset_id": dataset_id}, dataset_retrieve_params.DatasetRetrieveParams),
             ),
             cast_to=DatasetRetrieveResponse,
         )
@@ -125,7 +123,12 @@ class DatasetsResource(SyncAPIResource):
     def register(
         self,
         *,
-        dataset_def: dataset_register_params.DatasetDef,
+        dataset_id: str,
+        schema: Dict[str, dataset_register_params.Schema],
+        url: str,
+        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        provider_dataset_id: str | NotGiven = NOT_GIVEN,
+        provider_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -151,7 +154,17 @@ class DatasetsResource(SyncAPIResource):
         }
         return self._post(
             "/datasets/register",
-            body=maybe_transform({"dataset_def": dataset_def}, dataset_register_params.DatasetRegisterParams),
+            body=maybe_transform(
+                {
+                    "dataset_id": dataset_id,
+                    "schema": schema,
+                    "url": url,
+                    "metadata": metadata,
+                    "provider_dataset_id": provider_dataset_id,
+                    "provider_id": provider_id,
+                },
+                dataset_register_params.DatasetRegisterParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -182,7 +195,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
     async def retrieve(
         self,
         *,
-        dataset_identifier: str,
+        dataset_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -213,7 +226,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"dataset_identifier": dataset_identifier}, dataset_retrieve_params.DatasetRetrieveParams
+                    {"dataset_id": dataset_id}, dataset_retrieve_params.DatasetRetrieveParams
                 ),
             ),
             cast_to=DatasetRetrieveResponse,
@@ -256,7 +269,12 @@ class AsyncDatasetsResource(AsyncAPIResource):
     async def register(
         self,
         *,
-        dataset_def: dataset_register_params.DatasetDef,
+        dataset_id: str,
+        schema: Dict[str, dataset_register_params.Schema],
+        url: str,
+        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        provider_dataset_id: str | NotGiven = NOT_GIVEN,
+        provider_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -283,7 +301,15 @@ class AsyncDatasetsResource(AsyncAPIResource):
         return await self._post(
             "/datasets/register",
             body=await async_maybe_transform(
-                {"dataset_def": dataset_def}, dataset_register_params.DatasetRegisterParams
+                {
+                    "dataset_id": dataset_id,
+                    "schema": schema,
+                    "url": url,
+                    "metadata": metadata,
+                    "provider_dataset_id": provider_dataset_id,
+                    "provider_id": provider_id,
+                },
+                dataset_register_params.DatasetRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout

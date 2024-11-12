@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable
+from typing import Dict, Union, Iterable, Optional
 
 import httpx
 
@@ -22,8 +22,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.score_response import ScoreResponse
-from ..types.score_batch_response import ScoreBatchResponse
+from ..types.scoring_score_response import ScoringScoreResponse
+from ..types.scoring_score_batch_response import ScoringScoreBatchResponse
 
 __all__ = ["ScoringResource", "AsyncScoringResource"]
 
@@ -52,7 +52,7 @@ class ScoringResource(SyncAPIResource):
         self,
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
-        scoring_functions: List[str],
+        scoring_functions: Dict[str, Optional[scoring_score_params.ScoringFunctions]],
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -60,7 +60,7 @@ class ScoringResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ScoreResponse:
+    ) -> ScoringScoreResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -87,7 +87,7 @@ class ScoringResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ScoreResponse,
+            cast_to=ScoringScoreResponse,
         )
 
     def score_batch(
@@ -95,7 +95,7 @@ class ScoringResource(SyncAPIResource):
         *,
         dataset_id: str,
         save_results_dataset: bool,
-        scoring_functions: List[str],
+        scoring_functions: Dict[str, Optional[scoring_score_batch_params.ScoringFunctions]],
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -103,7 +103,7 @@ class ScoringResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ScoreBatchResponse:
+    ) -> ScoringScoreBatchResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -131,7 +131,7 @@ class ScoringResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ScoreBatchResponse,
+            cast_to=ScoringScoreBatchResponse,
         )
 
 
@@ -159,7 +159,7 @@ class AsyncScoringResource(AsyncAPIResource):
         self,
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
-        scoring_functions: List[str],
+        scoring_functions: Dict[str, Optional[scoring_score_params.ScoringFunctions]],
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -167,7 +167,7 @@ class AsyncScoringResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ScoreResponse:
+    ) -> ScoringScoreResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -194,7 +194,7 @@ class AsyncScoringResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ScoreResponse,
+            cast_to=ScoringScoreResponse,
         )
 
     async def score_batch(
@@ -202,7 +202,7 @@ class AsyncScoringResource(AsyncAPIResource):
         *,
         dataset_id: str,
         save_results_dataset: bool,
-        scoring_functions: List[str],
+        scoring_functions: Dict[str, Optional[scoring_score_batch_params.ScoringFunctions]],
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -210,7 +210,7 @@ class AsyncScoringResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ScoreBatchResponse:
+    ) -> ScoringScoreBatchResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -238,7 +238,7 @@ class AsyncScoringResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ScoreBatchResponse,
+            cast_to=ScoringScoreBatchResponse,
         )
 
 

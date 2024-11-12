@@ -3,36 +3,42 @@
 from typing import Dict, List, Union
 from typing_extensions import Literal, TypeAlias
 
+from pydantic import Field as FieldInfo
+
 from .._models import BaseModel
 
-__all__ = ["DatasetRetrieveResponse", "DatasetSchema", "DatasetSchemaType"]
+__all__ = ["DatasetRetrieveResponse", "Schema", "SchemaType"]
 
 
-class DatasetSchemaType(BaseModel):
+class SchemaType(BaseModel):
     type: Literal["string"]
 
 
-DatasetSchema: TypeAlias = Union[
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
+Schema: TypeAlias = Union[
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
 ]
 
 
 class DatasetRetrieveResponse(BaseModel):
-    dataset_schema: Dict[str, DatasetSchema]
-
     identifier: str
 
     metadata: Dict[str, Union[bool, float, str, List[object], object, None]]
 
     provider_id: str
+
+    provider_resource_id: str
+
+    schema_: Dict[str, Schema] = FieldInfo(alias="schema")
+
+    type: Literal["dataset"]
 
     url: str

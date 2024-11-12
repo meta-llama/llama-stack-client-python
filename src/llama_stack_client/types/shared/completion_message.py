@@ -7,11 +7,11 @@ from ..._models import BaseModel
 from .tool_call import ToolCall
 from .image_media import ImageMedia
 
-__all__ = ["CompletionMessage", "Content", "ContentUnionMember2"]
+__all__ = ["CompletionMessage", "Content", "ContentImageMediaArray"]
 
-ContentUnionMember2: TypeAlias = Union[str, ImageMedia]
+ContentImageMediaArray: TypeAlias = Union[str, ImageMedia]
 
-Content: TypeAlias = Union[str, ImageMedia, List[ContentUnionMember2]]
+Content: TypeAlias = Union[str, ImageMedia, List[ContentImageMediaArray]]
 
 
 class CompletionMessage(BaseModel):

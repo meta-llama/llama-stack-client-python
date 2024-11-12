@@ -19,7 +19,7 @@ class SafetyRunShieldParams(TypedDict, total=False):
 
     params: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
-    shield_type: Required[str]
+    shield_id: Required[str]
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 

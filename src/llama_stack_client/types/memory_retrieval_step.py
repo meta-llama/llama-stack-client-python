@@ -7,11 +7,11 @@ from typing_extensions import Literal, TypeAlias
 from .._models import BaseModel
 from .shared.image_media import ImageMedia
 
-__all__ = ["MemoryRetrievalStep", "InsertedContext", "InsertedContextUnionMember2"]
+__all__ = ["MemoryRetrievalStep", "InsertedContext", "InsertedContextImageMediaArray"]
 
-InsertedContextUnionMember2: TypeAlias = Union[str, ImageMedia]
+InsertedContextImageMediaArray: TypeAlias = Union[str, ImageMedia]
 
-InsertedContext: TypeAlias = Union[str, ImageMedia, List[InsertedContextUnionMember2]]
+InsertedContext: TypeAlias = Union[str, ImageMedia, List[InsertedContextImageMediaArray]]
 
 
 class MemoryRetrievalStep(BaseModel):

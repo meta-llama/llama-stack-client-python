@@ -6,11 +6,11 @@ from typing_extensions import TypeAlias
 from .._models import BaseModel
 from .shared.image_media import ImageMedia
 
-__all__ = ["QueryDocumentsResponse", "Chunk", "ChunkContent", "ChunkContentUnionMember2"]
+__all__ = ["QueryDocumentsResponse", "Chunk", "ChunkContent", "ChunkContentImageMediaArray"]
 
-ChunkContentUnionMember2: TypeAlias = Union[str, ImageMedia]
+ChunkContentImageMediaArray: TypeAlias = Union[str, ImageMedia]
 
-ChunkContent: TypeAlias = Union[str, ImageMedia, List[ChunkContentUnionMember2]]
+ChunkContent: TypeAlias = Union[str, ImageMedia, List[ChunkContentImageMediaArray]]
 
 
 class Chunk(BaseModel):

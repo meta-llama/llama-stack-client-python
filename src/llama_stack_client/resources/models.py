@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Dict, Union, Iterable, Optional
 
 import httpx
 
-from ..types import ModelDefWithProvider, model_register_params, model_retrieve_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
+from ..types import model_register_params, model_retrieve_params
+from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
     strip_not_given,
@@ -21,9 +21,8 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ..types.model import Model
 from .._base_client import make_request_options
-from ..types.model_def_with_provider import ModelDefWithProvider
-from ..types.model_def_with_provider_param import ModelDefWithProviderParam
 
 __all__ = ["ModelsResource", "AsyncModelsResource"]
 
@@ -59,7 +58,7 @@ class ModelsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[ModelDefWithProvider]:
+    ) -> Optional[Model]:
         """
         Args:
           extra_headers: Send extra headers
@@ -83,7 +82,7 @@ class ModelsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"identifier": identifier}, model_retrieve_params.ModelRetrieveParams),
             ),
-            cast_to=ModelDefWithProvider,
+            cast_to=Model,
         )
 
     def list(
@@ -96,7 +95,7 @@ class ModelsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelDefWithProvider:
+    ) -> Model:
         """
         Args:
           extra_headers: Send extra headers
@@ -117,13 +116,16 @@ class ModelsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ModelDefWithProvider,
+            cast_to=Model,
         )
 
     def register(
         self,
         *,
-        model: ModelDefWithProviderParam,
+        model_id: str,
+        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        provider_id: str | NotGiven = NOT_GIVEN,
+        provider_model_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -131,7 +133,7 @@ class ModelsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> None:
+    ) -> Model:
         """
         Args:
           extra_headers: Send extra headers
@@ -142,18 +144,25 @@ class ModelsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
             **(extra_headers or {}),
         }
         return self._post(
             "/models/register",
-            body=maybe_transform({"model": model}, model_register_params.ModelRegisterParams),
+            body=maybe_transform(
+                {
+                    "model_id": model_id,
+                    "metadata": metadata,
+                    "provider_id": provider_id,
+                    "provider_model_id": provider_model_id,
+                },
+                model_register_params.ModelRegisterParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=Model,
         )
 
 
@@ -188,7 +197,7 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[ModelDefWithProvider]:
+    ) -> Optional[Model]:
         """
         Args:
           extra_headers: Send extra headers
@@ -214,7 +223,7 @@ class AsyncModelsResource(AsyncAPIResource):
                     {"identifier": identifier}, model_retrieve_params.ModelRetrieveParams
                 ),
             ),
-            cast_to=ModelDefWithProvider,
+            cast_to=Model,
         )
 
     async def list(
@@ -227,7 +236,7 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelDefWithProvider:
+    ) -> Model:
         """
         Args:
           extra_headers: Send extra headers
@@ -248,13 +257,16 @@ class AsyncModelsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ModelDefWithProvider,
+            cast_to=Model,
         )
 
     async def register(
         self,
         *,
-        model: ModelDefWithProviderParam,
+        model_id: str,
+        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        provider_id: str | NotGiven = NOT_GIVEN,
+        provider_model_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -262,7 +274,7 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> None:
+    ) -> Model:
         """
         Args:
           extra_headers: Send extra headers
@@ -273,18 +285,25 @@ class AsyncModelsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
             **(extra_headers or {}),
         }
         return await self._post(
             "/models/register",
-            body=await async_maybe_transform({"model": model}, model_register_params.ModelRegisterParams),
+            body=await async_maybe_transform(
+                {
+                    "model_id": model_id,
+                    "metadata": metadata,
+                    "provider_id": provider_id,
+                    "provider_model_id": provider_model_id,
+                },
+                model_register_params.ModelRegisterParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=Model,
         )
 
 

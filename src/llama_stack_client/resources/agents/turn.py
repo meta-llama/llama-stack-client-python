@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Any, Iterable, cast
 from typing_extensions import Literal, overload
 
 import httpx
@@ -161,24 +161,29 @@ class TurnResource(SyncAPIResource):
             **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
             **(extra_headers or {}),
         }
-        return self._post(
-            "/agents/turn/create",
-            body=maybe_transform(
-                {
-                    "agent_id": agent_id,
-                    "messages": messages,
-                    "session_id": session_id,
-                    "attachments": attachments,
-                    "stream": stream,
-                },
-                turn_create_params.TurnCreateParams,
+        return cast(
+            TurnCreateResponse,
+            self._post(
+                "/agents/turn/create",
+                body=maybe_transform(
+                    {
+                        "agent_id": agent_id,
+                        "messages": messages,
+                        "session_id": session_id,
+                        "attachments": attachments,
+                        "stream": stream,
+                    },
+                    turn_create_params.TurnCreateParams,
+                ),
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(
+                    Any, TurnCreateResponse
+                ),  # Union types cannot be passed in as arguments in the type system
+                stream=stream or False,
+                stream_cls=Stream[TurnCreateResponse],
             ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=TurnCreateResponse,
-            stream=stream or False,
-            stream_cls=Stream[TurnCreateResponse],
         )
 
     def retrieve(
@@ -358,24 +363,29 @@ class AsyncTurnResource(AsyncAPIResource):
             **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
             **(extra_headers or {}),
         }
-        return await self._post(
-            "/agents/turn/create",
-            body=await async_maybe_transform(
-                {
-                    "agent_id": agent_id,
-                    "messages": messages,
-                    "session_id": session_id,
-                    "attachments": attachments,
-                    "stream": stream,
-                },
-                turn_create_params.TurnCreateParams,
+        return cast(
+            TurnCreateResponse,
+            await self._post(
+                "/agents/turn/create",
+                body=await async_maybe_transform(
+                    {
+                        "agent_id": agent_id,
+                        "messages": messages,
+                        "session_id": session_id,
+                        "attachments": attachments,
+                        "stream": stream,
+                    },
+                    turn_create_params.TurnCreateParams,
+                ),
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(
+                    Any, TurnCreateResponse
+                ),  # Union types cannot be passed in as arguments in the type system
+                stream=stream or False,
+                stream_cls=AsyncStream[TurnCreateResponse],
             ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=TurnCreateResponse,
-            stream=stream or False,
-            stream_cls=AsyncStream[TurnCreateResponse],
         )
 
     async def retrieve(

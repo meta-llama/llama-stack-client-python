@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Dict, Union, Iterable, Optional
+from typing_extensions import Literal
 
 import httpx
 
-from ..types import ShieldDefWithProvider, shield_register_params, shield_retrieve_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
+from ..types import shield_register_params, shield_retrieve_params
+from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
     strip_not_given,
@@ -22,8 +23,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.shield_def_with_provider import ShieldDefWithProvider
-from ..types.shield_def_with_provider_param import ShieldDefWithProviderParam
+from ..types.shield import Shield
 
 __all__ = ["ShieldsResource", "AsyncShieldsResource"]
 
@@ -51,7 +51,7 @@ class ShieldsResource(SyncAPIResource):
     def retrieve(
         self,
         *,
-        shield_type: str,
+        identifier: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -59,7 +59,7 @@ class ShieldsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[ShieldDefWithProvider]:
+    ) -> Optional[Shield]:
         """
         Args:
           extra_headers: Send extra headers
@@ -81,9 +81,9 @@ class ShieldsResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"shield_type": shield_type}, shield_retrieve_params.ShieldRetrieveParams),
+                query=maybe_transform({"identifier": identifier}, shield_retrieve_params.ShieldRetrieveParams),
             ),
-            cast_to=ShieldDefWithProvider,
+            cast_to=Shield,
         )
 
     def list(
@@ -96,7 +96,7 @@ class ShieldsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ShieldDefWithProvider:
+    ) -> Shield:
         """
         Args:
           extra_headers: Send extra headers
@@ -117,13 +117,17 @@ class ShieldsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ShieldDefWithProvider,
+            cast_to=Shield,
         )
 
     def register(
         self,
         *,
-        shield: ShieldDefWithProviderParam,
+        shield_id: str,
+        shield_type: Literal["generic_content_shield", "llama_guard", "code_scanner", "prompt_guard"],
+        params: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        provider_id: str | NotGiven = NOT_GIVEN,
+        provider_shield_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -131,7 +135,7 @@ class ShieldsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> None:
+    ) -> Shield:
         """
         Args:
           extra_headers: Send extra headers
@@ -142,18 +146,26 @@ class ShieldsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
             **(extra_headers or {}),
         }
         return self._post(
             "/shields/register",
-            body=maybe_transform({"shield": shield}, shield_register_params.ShieldRegisterParams),
+            body=maybe_transform(
+                {
+                    "shield_id": shield_id,
+                    "shield_type": shield_type,
+                    "params": params,
+                    "provider_id": provider_id,
+                    "provider_shield_id": provider_shield_id,
+                },
+                shield_register_params.ShieldRegisterParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=Shield,
         )
 
 
@@ -180,7 +192,7 @@ class AsyncShieldsResource(AsyncAPIResource):
     async def retrieve(
         self,
         *,
-        shield_type: str,
+        identifier: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -188,7 +200,7 @@ class AsyncShieldsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[ShieldDefWithProvider]:
+    ) -> Optional[Shield]:
         """
         Args:
           extra_headers: Send extra headers
@@ -211,10 +223,10 @@ class AsyncShieldsResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"shield_type": shield_type}, shield_retrieve_params.ShieldRetrieveParams
+                    {"identifier": identifier}, shield_retrieve_params.ShieldRetrieveParams
                 ),
             ),
-            cast_to=ShieldDefWithProvider,
+            cast_to=Shield,
         )
 
     async def list(
@@ -227,7 +239,7 @@ class AsyncShieldsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ShieldDefWithProvider:
+    ) -> Shield:
         """
         Args:
           extra_headers: Send extra headers
@@ -248,13 +260,17 @@ class AsyncShieldsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ShieldDefWithProvider,
+            cast_to=Shield,
         )
 
     async def register(
         self,
         *,
-        shield: ShieldDefWithProviderParam,
+        shield_id: str,
+        shield_type: Literal["generic_content_shield", "llama_guard", "code_scanner", "prompt_guard"],
+        params: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        provider_id: str | NotGiven = NOT_GIVEN,
+        provider_shield_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -262,7 +278,7 @@ class AsyncShieldsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> None:
+    ) -> Shield:
         """
         Args:
           extra_headers: Send extra headers
@@ -273,18 +289,26 @@ class AsyncShieldsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
             **(extra_headers or {}),
         }
         return await self._post(
             "/shields/register",
-            body=await async_maybe_transform({"shield": shield}, shield_register_params.ShieldRegisterParams),
+            body=await async_maybe_transform(
+                {
+                    "shield_id": shield_id,
+                    "shield_type": shield_type,
+                    "params": params,
+                    "provider_id": provider_id,
+                    "provider_shield_id": provider_shield_id,
+                },
+                shield_register_params.ShieldRegisterParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=Shield,
         )
 
 

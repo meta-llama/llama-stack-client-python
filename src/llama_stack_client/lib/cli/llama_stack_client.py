@@ -9,10 +9,13 @@ import argparse
 from llama_stack_client.lib.cli.constants import get_config_file_path
 
 from .configure import ConfigureParser
+from .datasets import DatasetsParser
+from .eval_tasks import EvalTasksParser
 from .memory_banks import MemoryBanksParser
 
 from .models import ModelsParser
 from .providers import ProvidersParser
+from .scoring_functions import ScoringFunctionsParser
 from .shields import ShieldsParser
 
 
@@ -33,8 +36,11 @@ class LlamaStackClientCLIParser:
         ModelsParser.create(subparsers)
         MemoryBanksParser.create(subparsers)
         ShieldsParser.create(subparsers)
+        EvalTasksParser.create(subparsers)
         ConfigureParser.create(subparsers)
         ProvidersParser.create(subparsers)
+        DatasetsParser.create(subparsers)
+        ScoringFunctionsParser.create(subparsers)
 
     def parse_args(self) -> argparse.Namespace:
         return self.parser.parse_args()

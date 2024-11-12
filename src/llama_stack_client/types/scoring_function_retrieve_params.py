@@ -10,6 +10,6 @@ __all__ = ["ScoringFunctionRetrieveParams"]
 
 
 class ScoringFunctionRetrieveParams(TypedDict, total=False):
-    name: Required[str]
+    scoring_fn_id: Required[str]
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]

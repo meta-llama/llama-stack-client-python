@@ -12,4 +12,6 @@ __all__ = ["JobCancelParams"]
 class JobCancelParams(TypedDict, total=False):
     job_id: Required[str]
 
+    task_id: Required[str]
+
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]

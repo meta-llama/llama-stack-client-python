@@ -51,7 +51,7 @@ class MemoryBanksResource(SyncAPIResource):
     def retrieve(
         self,
         *,
-        identifier: str,
+        memory_bank_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -84,7 +84,7 @@ class MemoryBanksResource(SyncAPIResource):
                     extra_body=extra_body,
                     timeout=timeout,
                     query=maybe_transform(
-                        {"identifier": identifier}, memory_bank_retrieve_params.MemoryBankRetrieveParams
+                        {"memory_bank_id": memory_bank_id}, memory_bank_retrieve_params.MemoryBankRetrieveParams
                     ),
                 ),
                 cast_to=cast(
@@ -135,7 +135,10 @@ class MemoryBanksResource(SyncAPIResource):
     def register(
         self,
         *,
-        memory_bank: memory_bank_register_params.MemoryBank,
+        memory_bank_id: str,
+        params: memory_bank_register_params.Params,
+        provider_id: str | NotGiven = NOT_GIVEN,
+        provider_memorybank_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -161,7 +164,15 @@ class MemoryBanksResource(SyncAPIResource):
         }
         return self._post(
             "/memory_banks/register",
-            body=maybe_transform({"memory_bank": memory_bank}, memory_bank_register_params.MemoryBankRegisterParams),
+            body=maybe_transform(
+                {
+                    "memory_bank_id": memory_bank_id,
+                    "params": params,
+                    "provider_id": provider_id,
+                    "provider_memorybank_id": provider_memorybank_id,
+                },
+                memory_bank_register_params.MemoryBankRegisterParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -192,7 +203,7 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
     async def retrieve(
         self,
         *,
-        identifier: str,
+        memory_bank_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -225,7 +236,7 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
                     extra_body=extra_body,
                     timeout=timeout,
                     query=await async_maybe_transform(
-                        {"identifier": identifier}, memory_bank_retrieve_params.MemoryBankRetrieveParams
+                        {"memory_bank_id": memory_bank_id}, memory_bank_retrieve_params.MemoryBankRetrieveParams
                     ),
                 ),
                 cast_to=cast(
@@ -276,7 +287,10 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
     async def register(
         self,
         *,
-        memory_bank: memory_bank_register_params.MemoryBank,
+        memory_bank_id: str,
+        params: memory_bank_register_params.Params,
+        provider_id: str | NotGiven = NOT_GIVEN,
+        provider_memorybank_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -303,7 +317,13 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
         return await self._post(
             "/memory_banks/register",
             body=await async_maybe_transform(
-                {"memory_bank": memory_bank}, memory_bank_register_params.MemoryBankRegisterParams
+                {
+                    "memory_bank_id": memory_bank_id,
+                    "params": params,
+                    "provider_id": provider_id,
+                    "provider_memorybank_id": provider_memorybank_id,
+                },
+                memory_bank_register_params.MemoryBankRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
