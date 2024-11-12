@@ -1,15 +1,73 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Union
-from typing_extensions import TypeAlias
+from typing import Union, Optional
+from typing_extensions import Literal, TypeAlias
 
-from .shared.graph_memory_bank_def import GraphMemoryBankDef
-from .shared.vector_memory_bank_def import VectorMemoryBankDef
-from .shared.keyword_memory_bank_def import KeywordMemoryBankDef
-from .shared.key_value_memory_bank_def import KeyValueMemoryBankDef
+from .._models import BaseModel
 
-__all__ = ["MemoryBankRetrieveResponse"]
+__all__ = [
+    "MemoryBankRetrieveResponse",
+    "VectorMemoryBank",
+    "KeyValueMemoryBank",
+    "KeywordMemoryBank",
+    "GraphMemoryBank",
+]
+
+
+class VectorMemoryBank(BaseModel):
+    chunk_size_in_tokens: int
+
+    embedding_model: str
+
+    identifier: str
+
+    memory_bank_type: Literal["vector"]
+
+    provider_id: str
+
+    provider_resource_id: str
+
+    type: Literal["memory_bank"]
+
+    overlap_size_in_tokens: Optional[int] = None
+
+
+class KeyValueMemoryBank(BaseModel):
+    identifier: str
+
+    memory_bank_type: Literal["keyvalue"]
+
+    provider_id: str
+
+    provider_resource_id: str
+
+    type: Literal["memory_bank"]
+
+
+class KeywordMemoryBank(BaseModel):
+    identifier: str
+
+    memory_bank_type: Literal["keyword"]
+
+    provider_id: str
+
+    provider_resource_id: str
+
+    type: Literal["memory_bank"]
+
+
+class GraphMemoryBank(BaseModel):
+    identifier: str
+
+    memory_bank_type: Literal["graph"]
+
+    provider_id: str
+
+    provider_resource_id: str
+
+    type: Literal["memory_bank"]
+
 
 MemoryBankRetrieveResponse: TypeAlias = Union[
-    VectorMemoryBankDef, KeyValueMemoryBankDef, KeywordMemoryBankDef, GraphMemoryBankDef, None
+    VectorMemoryBank, KeyValueMemoryBank, KeywordMemoryBank, GraphMemoryBank, None
 ]

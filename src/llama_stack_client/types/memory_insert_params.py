@@ -8,7 +8,7 @@ from typing_extensions import Required, Annotated, TypeAlias, TypedDict
 from .._utils import PropertyInfo
 from .shared_params.image_media import ImageMedia
 
-__all__ = ["MemoryInsertParams", "Document", "DocumentContent", "DocumentContentUnionMember2"]
+__all__ = ["MemoryInsertParams", "Document", "DocumentContent", "DocumentContentContentArray"]
 
 
 class MemoryInsertParams(TypedDict, total=False):
@@ -21,9 +21,9 @@ class MemoryInsertParams(TypedDict, total=False):
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
 
-DocumentContentUnionMember2: TypeAlias = Union[str, ImageMedia]
+DocumentContentContentArray: TypeAlias = Union[str, ImageMedia]
 
-DocumentContent: TypeAlias = Union[str, ImageMedia, List[DocumentContentUnionMember2]]
+DocumentContent: TypeAlias = Union[str, ImageMedia, List[DocumentContentContentArray]]
 
 
 class Document(TypedDict, total=False):

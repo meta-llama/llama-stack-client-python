@@ -7,15 +7,15 @@ from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .image_media import ImageMedia
 
-__all__ = ["UserMessage", "Content", "ContentUnionMember2", "Context", "ContextUnionMember2"]
+__all__ = ["UserMessage", "Content", "ContentImageMediaArray", "Context", "ContextImageMediaArray"]
 
-ContentUnionMember2: TypeAlias = Union[str, ImageMedia]
+ContentImageMediaArray: TypeAlias = Union[str, ImageMedia]
 
-Content: TypeAlias = Union[str, ImageMedia, List[ContentUnionMember2]]
+Content: TypeAlias = Union[str, ImageMedia, List[ContentImageMediaArray]]
 
-ContextUnionMember2: TypeAlias = Union[str, ImageMedia]
+ContextImageMediaArray: TypeAlias = Union[str, ImageMedia]
 
-Context: TypeAlias = Union[str, ImageMedia, List[ContextUnionMember2]]
+Context: TypeAlias = Union[str, ImageMedia, List[ContextImageMediaArray]]
 
 
 class UserMessage(TypedDict, total=False):

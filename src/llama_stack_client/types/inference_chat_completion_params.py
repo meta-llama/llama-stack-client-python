@@ -10,6 +10,7 @@ from .shared_params.user_message import UserMessage
 from .shared_params.system_message import SystemMessage
 from .shared_params.sampling_params import SamplingParams
 from .shared_params.completion_message import CompletionMessage
+from .shared_params.tool_param_definition import ToolParamDefinition
 from .shared_params.tool_response_message import ToolResponseMessage
 
 __all__ = [
@@ -17,10 +18,9 @@ __all__ = [
     "Message",
     "Logprobs",
     "ResponseFormat",
-    "ResponseFormatUnionMember0",
-    "ResponseFormatUnionMember1",
+    "ResponseFormatJsonSchemaFormat",
+    "ResponseFormatGrammarFormat",
     "Tool",
-    "ToolParameters",
 ]
 
 
@@ -64,29 +64,19 @@ class Logprobs(TypedDict, total=False):
     top_k: int
 
 
-class ResponseFormatUnionMember0(TypedDict, total=False):
+class ResponseFormatJsonSchemaFormat(TypedDict, total=False):
     json_schema: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
     type: Required[Literal["json_schema"]]
 
 
-class ResponseFormatUnionMember1(TypedDict, total=False):
+class ResponseFormatGrammarFormat(TypedDict, total=False):
     bnf: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
     type: Required[Literal["grammar"]]
 
 
-ResponseFormat: TypeAlias = Union[ResponseFormatUnionMember0, ResponseFormatUnionMember1]
-
-
-class ToolParameters(TypedDict, total=False):
-    param_type: Required[str]
-
-    default: Union[bool, float, str, Iterable[object], object, None]
-
-    description: str
-
-    required: bool
+ResponseFormat: TypeAlias = Union[ResponseFormatJsonSchemaFormat, ResponseFormatGrammarFormat]
 
 
 class Tool(TypedDict, total=False):
@@ -94,4 +84,4 @@ class Tool(TypedDict, total=False):
 
     description: str
 
-    parameters: Dict[str, ToolParameters]
+    parameters: Dict[str, ToolParamDefinition]

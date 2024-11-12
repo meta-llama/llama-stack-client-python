@@ -6,11 +6,11 @@ from typing_extensions import Literal, TypeAlias
 from .._models import BaseModel
 from .shared.image_media import ImageMedia
 
-__all__ = ["ToolResponse", "Content", "ContentUnionMember2"]
+__all__ = ["ToolResponse", "Content", "ContentImageMediaArray"]
 
-ContentUnionMember2: TypeAlias = Union[str, ImageMedia]
+ContentImageMediaArray: TypeAlias = Union[str, ImageMedia]
 
-Content: TypeAlias = Union[str, ImageMedia, List[ContentUnionMember2]]
+Content: TypeAlias = Union[str, ImageMedia, List[ContentImageMediaArray]]
 
 
 class ToolResponse(BaseModel):

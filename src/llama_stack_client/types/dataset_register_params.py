@@ -7,40 +7,38 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["DatasetRegisterParams", "DatasetDef", "DatasetDefDatasetSchema", "DatasetDefDatasetSchemaType"]
+__all__ = ["DatasetRegisterParams", "Schema", "SchemaType"]
 
 
 class DatasetRegisterParams(TypedDict, total=False):
-    dataset_def: Required[DatasetDef]
+    dataset_id: Required[str]
+
+    schema: Required[Dict[str, Schema]]
+
+    url: Required[str]
+
+    metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+
+    provider_dataset_id: str
+
+    provider_id: str
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
 
-class DatasetDefDatasetSchemaType(TypedDict, total=False):
+class SchemaType(TypedDict, total=False):
     type: Required[Literal["string"]]
 
 
-DatasetDefDatasetSchema: TypeAlias = Union[
-    DatasetDefDatasetSchemaType,
-    DatasetDefDatasetSchemaType,
-    DatasetDefDatasetSchemaType,
-    DatasetDefDatasetSchemaType,
-    DatasetDefDatasetSchemaType,
-    DatasetDefDatasetSchemaType,
-    DatasetDefDatasetSchemaType,
-    DatasetDefDatasetSchemaType,
-    DatasetDefDatasetSchemaType,
-    DatasetDefDatasetSchemaType,
+Schema: TypeAlias = Union[
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
+    SchemaType,
 ]
-
-
-class DatasetDef(TypedDict, total=False):
-    dataset_schema: Required[Dict[str, DatasetDefDatasetSchema]]
-
-    identifier: Required[str]
-
-    metadata: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
-
-    provider_id: Required[str]
-
-    url: Required[str]

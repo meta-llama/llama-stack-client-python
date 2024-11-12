@@ -35,7 +35,7 @@ class TestSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
+            shield_id="shield_id",
         )
         assert_matches_type(RunShieldResponse, safety, path=["response"])
 
@@ -60,7 +60,7 @@ class TestSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
+            shield_id="shield_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(RunShieldResponse, safety, path=["response"])
@@ -83,7 +83,7 @@ class TestSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
+            shield_id="shield_id",
         )
 
         assert response.is_closed is True
@@ -109,7 +109,7 @@ class TestSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
+            shield_id="shield_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -141,7 +141,7 @@ class TestAsyncSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
+            shield_id="shield_id",
         )
         assert_matches_type(RunShieldResponse, safety, path=["response"])
 
@@ -166,7 +166,7 @@ class TestAsyncSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
+            shield_id="shield_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(RunShieldResponse, safety, path=["response"])
@@ -189,7 +189,7 @@ class TestAsyncSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
+            shield_id="shield_id",
         )
 
         assert response.is_closed is True
@@ -215,7 +215,7 @@ class TestAsyncSafety:
                 },
             ],
             params={"foo": True},
-            shield_type="shield_type",
+            shield_id="shield_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

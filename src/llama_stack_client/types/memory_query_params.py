@@ -8,7 +8,7 @@ from typing_extensions import Required, Annotated, TypeAlias, TypedDict
 from .._utils import PropertyInfo
 from .shared_params.image_media import ImageMedia
 
-__all__ = ["MemoryQueryParams", "Query", "QueryUnionMember2"]
+__all__ = ["MemoryQueryParams", "Query", "QueryImageMediaArray"]
 
 
 class MemoryQueryParams(TypedDict, total=False):
@@ -21,6 +21,6 @@ class MemoryQueryParams(TypedDict, total=False):
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
 
-QueryUnionMember2: TypeAlias = Union[str, ImageMedia]
+QueryImageMediaArray: TypeAlias = Union[str, ImageMedia]
 
-Query: TypeAlias = Union[str, ImageMedia, List[QueryUnionMember2]]
+Query: TypeAlias = Union[str, ImageMedia, List[QueryImageMediaArray]]

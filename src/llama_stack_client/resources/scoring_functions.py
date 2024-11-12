@@ -6,11 +6,7 @@ from typing import Optional
 
 import httpx
 
-from ..types import (
-    ScoringFnDefWithProvider,
-    scoring_function_register_params,
-    scoring_function_retrieve_params,
-)
+from ..types import scoring_function_register_params, scoring_function_retrieve_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from .._utils import (
     maybe_transform,
@@ -26,8 +22,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.scoring_fn_def_with_provider import ScoringFnDefWithProvider
-from ..types.scoring_fn_def_with_provider_param import ScoringFnDefWithProviderParam
+from ..types.scoring_fn import ScoringFn
 
 __all__ = ["ScoringFunctionsResource", "AsyncScoringFunctionsResource"]
 
@@ -55,7 +50,7 @@ class ScoringFunctionsResource(SyncAPIResource):
     def retrieve(
         self,
         *,
-        name: str,
+        scoring_fn_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -63,7 +58,7 @@ class ScoringFunctionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[ScoringFnDefWithProvider]:
+    ) -> Optional[ScoringFn]:
         """
         Args:
           extra_headers: Send extra headers
@@ -85,9 +80,11 @@ class ScoringFunctionsResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"name": name}, scoring_function_retrieve_params.ScoringFunctionRetrieveParams),
+                query=maybe_transform(
+                    {"scoring_fn_id": scoring_fn_id}, scoring_function_retrieve_params.ScoringFunctionRetrieveParams
+                ),
             ),
-            cast_to=ScoringFnDefWithProvider,
+            cast_to=ScoringFn,
         )
 
     def list(
@@ -100,7 +97,7 @@ class ScoringFunctionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ScoringFnDefWithProvider:
+    ) -> ScoringFn:
         """
         Args:
           extra_headers: Send extra headers
@@ -121,13 +118,18 @@ class ScoringFunctionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ScoringFnDefWithProvider,
+            cast_to=ScoringFn,
         )
 
     def register(
         self,
         *,
-        function_def: ScoringFnDefWithProviderParam,
+        description: str,
+        return_type: scoring_function_register_params.ReturnType,
+        scoring_fn_id: str,
+        params: scoring_function_register_params.Params | NotGiven = NOT_GIVEN,
+        provider_id: str | NotGiven = NOT_GIVEN,
+        provider_scoring_fn_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -154,7 +156,15 @@ class ScoringFunctionsResource(SyncAPIResource):
         return self._post(
             "/scoring_functions/register",
             body=maybe_transform(
-                {"function_def": function_def}, scoring_function_register_params.ScoringFunctionRegisterParams
+                {
+                    "description": description,
+                    "return_type": return_type,
+                    "scoring_fn_id": scoring_fn_id,
+                    "params": params,
+                    "provider_id": provider_id,
+                    "provider_scoring_fn_id": provider_scoring_fn_id,
+                },
+                scoring_function_register_params.ScoringFunctionRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -186,7 +196,7 @@ class AsyncScoringFunctionsResource(AsyncAPIResource):
     async def retrieve(
         self,
         *,
-        name: str,
+        scoring_fn_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -194,7 +204,7 @@ class AsyncScoringFunctionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[ScoringFnDefWithProvider]:
+    ) -> Optional[ScoringFn]:
         """
         Args:
           extra_headers: Send extra headers
@@ -217,10 +227,10 @@ class AsyncScoringFunctionsResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"name": name}, scoring_function_retrieve_params.ScoringFunctionRetrieveParams
+                    {"scoring_fn_id": scoring_fn_id}, scoring_function_retrieve_params.ScoringFunctionRetrieveParams
                 ),
             ),
-            cast_to=ScoringFnDefWithProvider,
+            cast_to=ScoringFn,
         )
 
     async def list(
@@ -233,7 +243,7 @@ class AsyncScoringFunctionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ScoringFnDefWithProvider:
+    ) -> ScoringFn:
         """
         Args:
           extra_headers: Send extra headers
@@ -254,13 +264,18 @@ class AsyncScoringFunctionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ScoringFnDefWithProvider,
+            cast_to=ScoringFn,
         )
 
     async def register(
         self,
         *,
-        function_def: ScoringFnDefWithProviderParam,
+        description: str,
+        return_type: scoring_function_register_params.ReturnType,
+        scoring_fn_id: str,
+        params: scoring_function_register_params.Params | NotGiven = NOT_GIVEN,
+        provider_id: str | NotGiven = NOT_GIVEN,
+        provider_scoring_fn_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -287,7 +302,15 @@ class AsyncScoringFunctionsResource(AsyncAPIResource):
         return await self._post(
             "/scoring_functions/register",
             body=await async_maybe_transform(
-                {"function_def": function_def}, scoring_function_register_params.ScoringFunctionRegisterParams
+                {
+                    "description": description,
+                    "return_type": return_type,
+                    "scoring_fn_id": scoring_fn_id,
+                    "params": params,
+                    "provider_id": provider_id,
+                    "provider_scoring_fn_id": provider_scoring_fn_id,
+                },
+                scoring_function_register_params.ScoringFunctionRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
