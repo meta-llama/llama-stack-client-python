@@ -6,6 +6,9 @@
 
 
 import click
+import json
+import yaml
+from typing import Optional
 
 from .list import list_eval_tasks
 
@@ -16,5 +19,44 @@ def eval_tasks():
     pass
 
 
+@eval_tasks.command()
+@click.option("--eval-task-id", required=True, help="ID of the eval task")
+@click.option("--dataset-id", required=True, help="ID of the dataset to evaluate")
+@click.option("--scoring-functions", required=True, multiple=True, help="Scoring functions to use for evaluation")
+@click.option("--provider-id", help="Provider ID for the eval task", default=None)
+@click.option("--provider-eval-task-id", help="Provider's eval task ID", default=None)
+@click.option("--metadata", type=str, help="Metadata for the eval task in JSON format")
+@click.pass_context
+def register(
+    ctx,
+    eval_task_id: str,
+    dataset_id: str,
+    scoring_functions: tuple[str, ...],
+    provider_id: Optional[str],
+    provider_eval_task_id: Optional[str],
+    metadata: Optional[str],
+):
+    """Register a new eval task"""
+    client = ctx.obj["client"]
+
+    if metadata:
+        try:
+            metadata = json.loads(metadata)
+        except json.JSONDecodeError:
+            raise click.BadParameter("Metadata must be valid JSON")
+
+    response = client.eval_tasks.register(
+        eval_task_id=eval_task_id,
+        dataset_id=dataset_id,
+        scoring_functions=scoring_functions,
+        provider_id=provider_id,
+        provider_eval_task_id=provider_eval_task_id,
+        metadata=metadata,
+    )
+    if response:
+        click.echo(yaml.dump(response.dict()))
+
+
 # Register subcommands
 eval_tasks.add_command(list_eval_tasks)
+eval_tasks.add_command(register)
