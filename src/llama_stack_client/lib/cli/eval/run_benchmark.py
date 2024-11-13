@@ -51,49 +51,44 @@ class EvalRunBenchmark(Subcommand):
             },
         )
 
-        eval_tasks_list_response = client.eval_tasks.list()
+        # eval_tasks_list_response = client.eval_tasks.list()
 
         # register dataset
         # TODO: move this to files for registering benchmarks
-        client.datasets.register(
-            dataset_id="mmlu",
-            dataset_schema={
-                "input_query": {
-                    "type": "string",
-                },
-                "expected_answer": {
-                    "type": "string",
-                },
-            },
-            url={
-                "uri": "https://huggingface.co/datasets/llamastack/evals",
-            },
-            metadata={
-                "path": "llamastack/evals",
-                "name": "evals__mmlu__details",
-                "split": "train",
-            },
-            provider_id="huggingface-0",
-        )
-        # list datasets
-        print(client.datasets.list())
-
-        # register model
-        client.models.register(
-            model_id="Llama3.2-3B-Instruct",
-        )
+        # client.datasets.register(
+        #     dataset_id="mmlu",
+        #     dataset_schema={
+        #         "input_query": {
+        #             "type": "string",
+        #         },
+        #         "expected_answer": {
+        #             "type": "string",
+        #         },
+        #     },
+        #     url={
+        #         "uri": "https://huggingface.co/datasets/llamastack/evals",
+        #     },
+        #     metadata={
+        #         "path": "llamastack/evals",
+        #         "name": "evals__mmlu__details",
+        #         "split": "train",
+        #     },
+        #     provider_id="huggingface-0",
+        # )
+        # # list datasets
+        # print(client.datasets.list())
 
         # register eval task
-        task_id = "meta-reference-mmlu"
+        # task_id = "meta-reference-mmlu"
+        # client.eval_tasks.register(
+        #     eval_task_id=task_id,
+        #     dataset_id="mmlu",
+        #     scoring_functions=scoring_functions,
+        # )
+
         scoring_functions = [
             "basic::regex_parser_multiple_choice_answer",
         ]
-        client.eval_tasks.register(
-            eval_task_id=task_id,
-            dataset_id="mmlu",
-            scoring_functions=scoring_functions,
-        )
-
         rows = client.datasetio.get_rows_paginated(
             dataset_id="mmlu",
             rows_in_page=10,
@@ -111,7 +106,7 @@ class EvalRunBenchmark(Subcommand):
         # TODO: jobs for background job scheduling
         for r in tqdm(rows.rows):
             eval_response = client.eval.evaluate_rows(
-                task_id=task_id,
+                task_id="meta-reference-mmlu",
                 input_rows=[r],
                 scoring_functions=scoring_functions,
                 task_config={
