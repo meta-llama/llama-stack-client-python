@@ -5,24 +5,16 @@
 # the root directory of this source tree.
 
 
-import argparse
+import click
 
-from llama_stack_client.lib.cli.eval_tasks.list import EvalTasksList
-
-from llama_stack_client.lib.cli.subcommand import Subcommand
+from .list import list_eval_tasks
 
 
-class EvalTasksParser(Subcommand):
-    """List details about available eval banks type on distribution."""
+@click.group()
+def eval_tasks():
+    """Query details about available eval tasks type on distribution."""
+    pass
 
-    def __init__(self, subparsers: argparse._SubParsersAction):
-        super().__init__()
-        self.parser = subparsers.add_parser(
-            "eval_tasks",
-            prog="llama-stack-client eval_tasks",
-            description="Query details about available eval tasks type on distribution.",
-            formatter_class=argparse.RawTextHelpFormatter,
-        )
 
-        subparsers = self.parser.add_subparsers(title="eval_tasks_subcommands")
-        EvalTasksList.create(subparsers)
+# Register subcommands
+eval_tasks.add_command(list_eval_tasks)
