@@ -40,7 +40,6 @@ class ModelsList(Subcommand):
             base_url=args.endpoint,
         )
 
-        headers = ["identifier", "llama_model", "provider_id", "metadata"]
         response = client.models.list()
         if response:
-            print_table_from_response(response, headers)
+            print_table_from_response(response)

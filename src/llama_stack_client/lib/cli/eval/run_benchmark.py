@@ -57,7 +57,7 @@ class EvalRunBenchmark(Subcommand):
         # TODO: move this to files for registering benchmarks
         client.datasets.register(
             dataset_id="mmlu",
-            schema={
+            dataset_schema={
                 "input_query": {
                     "type": "string",
                 },
@@ -96,7 +96,7 @@ class EvalRunBenchmark(Subcommand):
 
         rows = client.datasetio.get_rows_paginated(
             dataset_id="mmlu",
-            rows_in_page=-1,
+            rows_in_page=10,
         )
 
         output_res = {
