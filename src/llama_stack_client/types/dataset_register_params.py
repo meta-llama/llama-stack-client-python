@@ -7,13 +7,13 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["DatasetRegisterParams", "Schema", "SchemaType"]
+__all__ = ["DatasetRegisterParams", "DatasetSchema", "DatasetSchemaType"]
 
 
 class DatasetRegisterParams(TypedDict, total=False):
     dataset_id: Required[str]
 
-    schema: Required[Dict[str, Schema]]
+    dataset_schema: Required[Dict[str, DatasetSchema]]
 
     url: Required[str]
 
@@ -26,19 +26,19 @@ class DatasetRegisterParams(TypedDict, total=False):
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
 
-class SchemaType(TypedDict, total=False):
+class DatasetSchemaType(TypedDict, total=False):
     type: Required[Literal["string"]]
 
 
-Schema: TypeAlias = Union[
-    SchemaType,
-    SchemaType,
-    SchemaType,
-    SchemaType,
-    SchemaType,
-    SchemaType,
-    SchemaType,
-    SchemaType,
-    SchemaType,
-    SchemaType,
+DatasetSchema: TypeAlias = Union[
+    DatasetSchemaType,
+    DatasetSchemaType,
+    DatasetSchemaType,
+    DatasetSchemaType,
+    DatasetSchemaType,
+    DatasetSchemaType,
+    DatasetSchemaType,
+    DatasetSchemaType,
+    DatasetSchemaType,
+    DatasetSchemaType,
 ]

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
@@ -12,8 +12,6 @@ __all__ = ["ShieldRegisterParams"]
 
 class ShieldRegisterParams(TypedDict, total=False):
     shield_id: Required[str]
-
-    shield_type: Required[Literal["generic_content_shield", "llama_guard", "code_scanner", "prompt_guard"]]
 
     params: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
 

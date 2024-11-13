@@ -126,7 +126,7 @@ class TestMemoryBanks:
                 "overlap_size_in_tokens": 0,
             },
             provider_id="provider_id",
-            provider_memorybank_id="provider_memorybank_id",
+            provider_memory_bank_id="provider_memory_bank_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert memory_bank is None
@@ -275,7 +275,7 @@ class TestAsyncMemoryBanks:
                 "overlap_size_in_tokens": 0,
             },
             provider_id="provider_id",
-            provider_memorybank_id="provider_memorybank_id",
+            provider_memory_bank_id="provider_memory_bank_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert memory_bank is None

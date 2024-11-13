@@ -27,7 +27,7 @@ __all__ = [
 class InferenceChatCompletionParams(TypedDict, total=False):
     messages: Required[Iterable[Message]]
 
-    model: Required[str]
+    model_id: Required[str]
 
     logprobs: Logprobs
 
