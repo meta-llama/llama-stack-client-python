@@ -104,7 +104,6 @@ class TestShields:
     def test_method_register(self, client: LlamaStackClient) -> None:
         shield = client.shields.register(
             shield_id="shield_id",
-            shield_type="generic_content_shield",
         )
         assert_matches_type(Shield, shield, path=["response"])
 
@@ -112,7 +111,6 @@ class TestShields:
     def test_method_register_with_all_params(self, client: LlamaStackClient) -> None:
         shield = client.shields.register(
             shield_id="shield_id",
-            shield_type="generic_content_shield",
             params={"foo": True},
             provider_id="provider_id",
             provider_shield_id="provider_shield_id",
@@ -124,7 +122,6 @@ class TestShields:
     def test_raw_response_register(self, client: LlamaStackClient) -> None:
         response = client.shields.with_raw_response.register(
             shield_id="shield_id",
-            shield_type="generic_content_shield",
         )
 
         assert response.is_closed is True
@@ -136,7 +133,6 @@ class TestShields:
     def test_streaming_response_register(self, client: LlamaStackClient) -> None:
         with client.shields.with_streaming_response.register(
             shield_id="shield_id",
-            shield_type="generic_content_shield",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -237,7 +233,6 @@ class TestAsyncShields:
     async def test_method_register(self, async_client: AsyncLlamaStackClient) -> None:
         shield = await async_client.shields.register(
             shield_id="shield_id",
-            shield_type="generic_content_shield",
         )
         assert_matches_type(Shield, shield, path=["response"])
 
@@ -245,7 +240,6 @@ class TestAsyncShields:
     async def test_method_register_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         shield = await async_client.shields.register(
             shield_id="shield_id",
-            shield_type="generic_content_shield",
             params={"foo": True},
             provider_id="provider_id",
             provider_shield_id="provider_shield_id",
@@ -257,7 +251,6 @@ class TestAsyncShields:
     async def test_raw_response_register(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.shields.with_raw_response.register(
             shield_id="shield_id",
-            shield_type="generic_content_shield",
         )
 
         assert response.is_closed is True
@@ -269,7 +262,6 @@ class TestAsyncShields:
     async def test_streaming_response_register(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.shields.with_streaming_response.register(
             shield_id="shield_id",
-            shield_type="generic_content_shield",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
