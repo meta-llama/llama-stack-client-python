@@ -9,6 +9,7 @@ import yaml
 from typing import Optional
 import json
 
+from llama_models.llama3.api.datatypes import URL
 from .list import list_datasets
 
 
@@ -52,7 +53,7 @@ def register(
     response = client.datasets.register(
         dataset_id=dataset_id,
         dataset_schema=dataset_schema,
-        url=url,
+        url={"uri": url},
         provider_id=provider_id,
         provider_dataset_id=provider_dataset_id,
         metadata=metadata,
