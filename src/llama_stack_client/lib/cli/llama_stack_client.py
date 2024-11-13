@@ -5,9 +5,11 @@
 # the root directory of this source tree.
 
 import click
+import yaml
 from llama_stack_client import LlamaStackClient
 
-# from .configure import configure
+from .constants import get_config_file_path
+from .configure import configure
 from .datasets import datasets
 from .eval_tasks import eval_tasks
 from .memory_banks import memory_banks
@@ -20,14 +22,34 @@ from .shields import shields
 
 
 @click.group()
-@click.option("--endpoint", type=str, help="Llama Stack distribution endpoint", default="http://localhost:5000")
+@click.option("--endpoint", type=str, help="Llama Stack distribution endpoint", default="")
+@click.option("--config", type=str, help="Path to config file", default=None)
 @click.pass_context
-def cli(ctx, endpoint: str):
+def cli(ctx, endpoint: str, config: str | None):
     """Welcome to the LlamaStackClient CLI"""
     ctx.ensure_object(dict)
-    client = LlamaStackClient(
-        base_url=endpoint,
-    )
+
+    # If no config provided, check default location
+    if config is None:
+        if endpoint != "":
+            raise ValueError("Cannot use both config and endpoint")
+        default_config = get_config_file_path()
+        if default_config.exists():
+            config = str(default_config)
+
+    if config:
+        try:
+            with open(config, "r") as f:
+                config_dict = yaml.safe_load(f)
+                endpoint = config_dict.get("endpoint", endpoint)
+        except Exception as e:
+            click.echo(f"Error loading config from {config}: {str(e)}", err=True)
+            click.echo("Falling back to HTTP client with endpoint", err=True)
+
+    if endpoint == "":
+        endpoint = "http://localhost:5000"
+
+    client = LlamaStackClient(base_url=endpoint)
     ctx.obj = {"client": client}
 
 
@@ -38,6 +60,7 @@ cli.add_command(shields, "shields")
 cli.add_command(eval_tasks, "eval_tasks")
 cli.add_command(providers, "providers")
 cli.add_command(datasets, "datasets")
+cli.add_command(configure, "configure")
 cli.add_command(scoring_functions, "scoring_functions")
 
 

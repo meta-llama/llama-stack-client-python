@@ -10,8 +10,7 @@ from .list import list_scoring_functions
 
 
 @click.group()
-@click.pass_context
-def scoring_functions(ctx):
+def scoring_functions():
     """Manage scoring functions"""
     pass
 
