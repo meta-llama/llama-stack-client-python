@@ -21,10 +21,10 @@ def scoring_functions():
 @scoring_functions.command()
 @click.option("--scoring-fn-id", required=True, help="Id of the scoring function")
 @click.option("--description", required=True, help="Description of the scoring function")
-@click.option("--return-type", required=True, help="Return type of the scoring function")
-@click.option("--provider-id", help="Provider ID for the scoring function", default=None)
-@click.option("--provider-scoring-fn-id", help="Provider's scoring function ID", default=None)
-@click.option("--params", type=str, help="Parameters for the scoring function in JSON format")
+@click.option("--return-type", type=str, required=True, help="Return type of the scoring function")
+@click.option("--provider-id", type=str, help="Provider ID for the scoring function", default=None)
+@click.option("--provider-scoring-fn-id", type=str, help="Provider's scoring function ID", default=None)
+@click.option("--params", type=str, help="Parameters for the scoring function in JSON format", default=None)
 @click.pass_context
 def register(
     ctx,
@@ -47,7 +47,7 @@ def register(
     response = client.scoring_functions.register(
         scoring_fn_id=scoring_fn_id,
         description=description,
-        return_type=return_type,
+        return_type=json.loads(return_type),
         provider_id=provider_id,
         provider_scoring_fn_id=provider_scoring_fn_id,
         params=params,
