@@ -107,7 +107,7 @@ class TestDatasets:
     def test_method_register(self, client: LlamaStackClient) -> None:
         dataset = client.datasets.register(
             dataset_id="dataset_id",
-            schema={"foo": {"type": "string"}},
+            dataset_schema={"foo": {"type": "string"}},
             url="https://example.com",
         )
         assert dataset is None
@@ -116,7 +116,7 @@ class TestDatasets:
     def test_method_register_with_all_params(self, client: LlamaStackClient) -> None:
         dataset = client.datasets.register(
             dataset_id="dataset_id",
-            schema={"foo": {"type": "string"}},
+            dataset_schema={"foo": {"type": "string"}},
             url="https://example.com",
             metadata={"foo": True},
             provider_dataset_id="provider_dataset_id",
@@ -129,7 +129,7 @@ class TestDatasets:
     def test_raw_response_register(self, client: LlamaStackClient) -> None:
         response = client.datasets.with_raw_response.register(
             dataset_id="dataset_id",
-            schema={"foo": {"type": "string"}},
+            dataset_schema={"foo": {"type": "string"}},
             url="https://example.com",
         )
 
@@ -142,7 +142,7 @@ class TestDatasets:
     def test_streaming_response_register(self, client: LlamaStackClient) -> None:
         with client.datasets.with_streaming_response.register(
             dataset_id="dataset_id",
-            schema={"foo": {"type": "string"}},
+            dataset_schema={"foo": {"type": "string"}},
             url="https://example.com",
         ) as response:
             assert not response.is_closed
@@ -244,7 +244,7 @@ class TestAsyncDatasets:
     async def test_method_register(self, async_client: AsyncLlamaStackClient) -> None:
         dataset = await async_client.datasets.register(
             dataset_id="dataset_id",
-            schema={"foo": {"type": "string"}},
+            dataset_schema={"foo": {"type": "string"}},
             url="https://example.com",
         )
         assert dataset is None
@@ -253,7 +253,7 @@ class TestAsyncDatasets:
     async def test_method_register_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         dataset = await async_client.datasets.register(
             dataset_id="dataset_id",
-            schema={"foo": {"type": "string"}},
+            dataset_schema={"foo": {"type": "string"}},
             url="https://example.com",
             metadata={"foo": True},
             provider_dataset_id="provider_dataset_id",
@@ -266,7 +266,7 @@ class TestAsyncDatasets:
     async def test_raw_response_register(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.datasets.with_raw_response.register(
             dataset_id="dataset_id",
-            schema={"foo": {"type": "string"}},
+            dataset_schema={"foo": {"type": "string"}},
             url="https://example.com",
         )
 
@@ -279,7 +279,7 @@ class TestAsyncDatasets:
     async def test_streaming_response_register(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.datasets.with_streaming_response.register(
             dataset_id="dataset_id",
-            schema={"foo": {"type": "string"}},
+            dataset_schema={"foo": {"type": "string"}},
             url="https://example.com",
         ) as response:
             assert not response.is_closed

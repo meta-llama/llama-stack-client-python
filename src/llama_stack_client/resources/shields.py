@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable, Optional
-from typing_extensions import Literal
 
 import httpx
 
@@ -124,7 +123,6 @@ class ShieldsResource(SyncAPIResource):
         self,
         *,
         shield_id: str,
-        shield_type: Literal["generic_content_shield", "llama_guard", "code_scanner", "prompt_guard"],
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
         provider_shield_id: str | NotGiven = NOT_GIVEN,
@@ -155,7 +153,6 @@ class ShieldsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "shield_id": shield_id,
-                    "shield_type": shield_type,
                     "params": params,
                     "provider_id": provider_id,
                     "provider_shield_id": provider_shield_id,
@@ -267,7 +264,6 @@ class AsyncShieldsResource(AsyncAPIResource):
         self,
         *,
         shield_id: str,
-        shield_type: Literal["generic_content_shield", "llama_guard", "code_scanner", "prompt_guard"],
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
         provider_shield_id: str | NotGiven = NOT_GIVEN,
@@ -298,7 +294,6 @@ class AsyncShieldsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "shield_id": shield_id,
-                    "shield_type": shield_type,
                     "params": params,
                     "provider_id": provider_id,
                     "provider_shield_id": provider_shield_id,

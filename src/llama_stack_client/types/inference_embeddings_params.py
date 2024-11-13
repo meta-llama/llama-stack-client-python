@@ -14,7 +14,7 @@ __all__ = ["InferenceEmbeddingsParams", "Content", "ContentImageMediaArray"]
 class InferenceEmbeddingsParams(TypedDict, total=False):
     contents: Required[List[Content]]
 
-    model: Required[str]
+    model_id: Required[str]
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 

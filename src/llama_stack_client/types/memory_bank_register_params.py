@@ -24,7 +24,7 @@ class MemoryBankRegisterParams(TypedDict, total=False):
 
     provider_id: str
 
-    provider_memorybank_id: str
+    provider_memory_bank_id: str
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
