@@ -124,7 +124,7 @@ class DatasetsResource(SyncAPIResource):
         self,
         *,
         dataset_id: str,
-        schema: Dict[str, dataset_register_params.Schema],
+        dataset_schema: Dict[str, dataset_register_params.DatasetSchema],
         url: str,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         provider_dataset_id: str | NotGiven = NOT_GIVEN,
@@ -157,7 +157,7 @@ class DatasetsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "dataset_id": dataset_id,
-                    "schema": schema,
+                    "dataset_schema": dataset_schema,
                     "url": url,
                     "metadata": metadata,
                     "provider_dataset_id": provider_dataset_id,
@@ -270,7 +270,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
         self,
         *,
         dataset_id: str,
-        schema: Dict[str, dataset_register_params.Schema],
+        dataset_schema: Dict[str, dataset_register_params.DatasetSchema],
         url: str,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         provider_dataset_id: str | NotGiven = NOT_GIVEN,
@@ -303,7 +303,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "dataset_id": dataset_id,
-                    "schema": schema,
+                    "dataset_schema": dataset_schema,
                     "url": url,
                     "metadata": metadata,
                     "provider_dataset_id": provider_dataset_id,

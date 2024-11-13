@@ -41,7 +41,7 @@ class TestInference:
                     "role": "user",
                 },
             ],
-            model="model",
+            model_id="model_id",
         )
         assert_matches_type(InferenceChatCompletionResponse, inference, path=["response"])
 
@@ -68,7 +68,7 @@ class TestInference:
                     "context": "string",
                 },
             ],
-            model="model",
+            model_id="model_id",
             logprobs={"top_k": 0},
             response_format={
                 "json_schema": {"foo": True},
@@ -147,7 +147,7 @@ class TestInference:
                     "role": "user",
                 },
             ],
-            model="model",
+            model_id="model_id",
         )
 
         assert response.is_closed is True
@@ -175,7 +175,7 @@ class TestInference:
                     "role": "user",
                 },
             ],
-            model="model",
+            model_id="model_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -189,7 +189,7 @@ class TestInference:
     def test_method_completion(self, client: LlamaStackClient) -> None:
         inference = client.inference.completion(
             content="string",
-            model="model",
+            model_id="model_id",
         )
         assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
 
@@ -197,7 +197,7 @@ class TestInference:
     def test_method_completion_with_all_params(self, client: LlamaStackClient) -> None:
         inference = client.inference.completion(
             content="string",
-            model="model",
+            model_id="model_id",
             logprobs={"top_k": 0},
             response_format={
                 "json_schema": {"foo": True},
@@ -220,7 +220,7 @@ class TestInference:
     def test_raw_response_completion(self, client: LlamaStackClient) -> None:
         response = client.inference.with_raw_response.completion(
             content="string",
-            model="model",
+            model_id="model_id",
         )
 
         assert response.is_closed is True
@@ -232,7 +232,7 @@ class TestInference:
     def test_streaming_response_completion(self, client: LlamaStackClient) -> None:
         with client.inference.with_streaming_response.completion(
             content="string",
-            model="model",
+            model_id="model_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -246,7 +246,7 @@ class TestInference:
     def test_method_embeddings(self, client: LlamaStackClient) -> None:
         inference = client.inference.embeddings(
             contents=["string", "string", "string"],
-            model="model",
+            model_id="model_id",
         )
         assert_matches_type(EmbeddingsResponse, inference, path=["response"])
 
@@ -254,7 +254,7 @@ class TestInference:
     def test_method_embeddings_with_all_params(self, client: LlamaStackClient) -> None:
         inference = client.inference.embeddings(
             contents=["string", "string", "string"],
-            model="model",
+            model_id="model_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(EmbeddingsResponse, inference, path=["response"])
@@ -263,7 +263,7 @@ class TestInference:
     def test_raw_response_embeddings(self, client: LlamaStackClient) -> None:
         response = client.inference.with_raw_response.embeddings(
             contents=["string", "string", "string"],
-            model="model",
+            model_id="model_id",
         )
 
         assert response.is_closed is True
@@ -275,7 +275,7 @@ class TestInference:
     def test_streaming_response_embeddings(self, client: LlamaStackClient) -> None:
         with client.inference.with_streaming_response.embeddings(
             contents=["string", "string", "string"],
-            model="model",
+            model_id="model_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -309,7 +309,7 @@ class TestAsyncInference:
                     "role": "user",
                 },
             ],
-            model="model",
+            model_id="model_id",
         )
         assert_matches_type(InferenceChatCompletionResponse, inference, path=["response"])
 
@@ -336,7 +336,7 @@ class TestAsyncInference:
                     "context": "string",
                 },
             ],
-            model="model",
+            model_id="model_id",
             logprobs={"top_k": 0},
             response_format={
                 "json_schema": {"foo": True},
@@ -415,7 +415,7 @@ class TestAsyncInference:
                     "role": "user",
                 },
             ],
-            model="model",
+            model_id="model_id",
         )
 
         assert response.is_closed is True
@@ -443,7 +443,7 @@ class TestAsyncInference:
                     "role": "user",
                 },
             ],
-            model="model",
+            model_id="model_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -457,7 +457,7 @@ class TestAsyncInference:
     async def test_method_completion(self, async_client: AsyncLlamaStackClient) -> None:
         inference = await async_client.inference.completion(
             content="string",
-            model="model",
+            model_id="model_id",
         )
         assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
 
@@ -465,7 +465,7 @@ class TestAsyncInference:
     async def test_method_completion_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         inference = await async_client.inference.completion(
             content="string",
-            model="model",
+            model_id="model_id",
             logprobs={"top_k": 0},
             response_format={
                 "json_schema": {"foo": True},
@@ -488,7 +488,7 @@ class TestAsyncInference:
     async def test_raw_response_completion(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.inference.with_raw_response.completion(
             content="string",
-            model="model",
+            model_id="model_id",
         )
 
         assert response.is_closed is True
@@ -500,7 +500,7 @@ class TestAsyncInference:
     async def test_streaming_response_completion(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.inference.with_streaming_response.completion(
             content="string",
-            model="model",
+            model_id="model_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -514,7 +514,7 @@ class TestAsyncInference:
     async def test_method_embeddings(self, async_client: AsyncLlamaStackClient) -> None:
         inference = await async_client.inference.embeddings(
             contents=["string", "string", "string"],
-            model="model",
+            model_id="model_id",
         )
         assert_matches_type(EmbeddingsResponse, inference, path=["response"])
 
@@ -522,7 +522,7 @@ class TestAsyncInference:
     async def test_method_embeddings_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         inference = await async_client.inference.embeddings(
             contents=["string", "string", "string"],
-            model="model",
+            model_id="model_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(EmbeddingsResponse, inference, path=["response"])
@@ -531,7 +531,7 @@ class TestAsyncInference:
     async def test_raw_response_embeddings(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.inference.with_raw_response.embeddings(
             contents=["string", "string", "string"],
-            model="model",
+            model_id="model_id",
         )
 
         assert response.is_closed is True
@@ -543,7 +543,7 @@ class TestAsyncInference:
     async def test_streaming_response_embeddings(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.inference.with_streaming_response.embeddings(
             contents=["string", "string", "string"],
-            model="model",
+            model_id="model_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

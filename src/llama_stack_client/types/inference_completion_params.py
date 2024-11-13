@@ -23,7 +23,7 @@ __all__ = [
 class InferenceCompletionParams(TypedDict, total=False):
     content: Required[Content]
 
-    model: Required[str]
+    model_id: Required[str]
 
     logprobs: Logprobs
 

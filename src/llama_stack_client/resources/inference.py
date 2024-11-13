@@ -59,7 +59,7 @@ class InferenceResource(SyncAPIResource):
         self,
         *,
         messages: Iterable[inference_chat_completion_params.Message],
-        model: str,
+        model_id: str,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
@@ -107,7 +107,7 @@ class InferenceResource(SyncAPIResource):
                 body=maybe_transform(
                     {
                         "messages": messages,
-                        "model": model,
+                        "model_id": model_id,
                         "logprobs": logprobs,
                         "response_format": response_format,
                         "sampling_params": sampling_params,
@@ -131,7 +131,7 @@ class InferenceResource(SyncAPIResource):
         self,
         *,
         content: inference_completion_params.Content,
-        model: str,
+        model_id: str,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
@@ -165,7 +165,7 @@ class InferenceResource(SyncAPIResource):
                 body=maybe_transform(
                     {
                         "content": content,
-                        "model": model,
+                        "model_id": model_id,
                         "logprobs": logprobs,
                         "response_format": response_format,
                         "sampling_params": sampling_params,
@@ -186,7 +186,7 @@ class InferenceResource(SyncAPIResource):
         self,
         *,
         contents: List[inference_embeddings_params.Content],
-        model: str,
+        model_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -214,7 +214,7 @@ class InferenceResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "contents": contents,
-                    "model": model,
+                    "model_id": model_id,
                 },
                 inference_embeddings_params.InferenceEmbeddingsParams,
             ),
@@ -249,7 +249,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         self,
         *,
         messages: Iterable[inference_chat_completion_params.Message],
-        model: str,
+        model_id: str,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
@@ -297,7 +297,7 @@ class AsyncInferenceResource(AsyncAPIResource):
                 body=await async_maybe_transform(
                     {
                         "messages": messages,
-                        "model": model,
+                        "model_id": model_id,
                         "logprobs": logprobs,
                         "response_format": response_format,
                         "sampling_params": sampling_params,
@@ -321,7 +321,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         self,
         *,
         content: inference_completion_params.Content,
-        model: str,
+        model_id: str,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
@@ -355,7 +355,7 @@ class AsyncInferenceResource(AsyncAPIResource):
                 body=await async_maybe_transform(
                     {
                         "content": content,
-                        "model": model,
+                        "model_id": model_id,
                         "logprobs": logprobs,
                         "response_format": response_format,
                         "sampling_params": sampling_params,
@@ -376,7 +376,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         self,
         *,
         contents: List[inference_embeddings_params.Content],
-        model: str,
+        model_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -404,7 +404,7 @@ class AsyncInferenceResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "contents": contents,
-                    "model": model,
+                    "model_id": model_id,
                 },
                 inference_embeddings_params.InferenceEmbeddingsParams,
             ),
