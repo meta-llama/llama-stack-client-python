@@ -16,8 +16,10 @@ def list_eval_tasks(ctx):
 
     client = ctx.obj["client"]
 
-    headers = ["identifier", "provider_id", "description", "type"]
-
+    headers = []
     eval_tasks_list_response = client.eval_tasks.list()
+    if eval_tasks_list_response and len(eval_tasks_list_response) > 0:
+        headers = sorted(eval_tasks_list_response[0].__dict__.keys())
+
     if eval_tasks_list_response:
         print_table_from_response(eval_tasks_list_response, headers)
