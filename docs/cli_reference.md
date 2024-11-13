@@ -26,9 +26,9 @@ Done! You can now use the Llama Stack Client CLI with endpoint http://localhost:
 ```
 
 
-#### `llama-stack-client providers`
+#### `llama-stack-client providers list`
 ```bash
-$ llama-stack-client providers
+$ llama-stack-client providers list
 ```
 ```
 +-----------+----------------+-----------------+

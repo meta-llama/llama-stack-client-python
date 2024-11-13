@@ -4,25 +4,17 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-import argparse
-
-from llama_stack_client.lib.cli.models.get import ModelsGet
-from llama_stack_client.lib.cli.models.list import ModelsList
-from llama_stack_client.lib.cli.subcommand import Subcommand
+import click
+from llama_stack_client.lib.cli.models.get import get_model
+from llama_stack_client.lib.cli.models.list import list_models
 
 
-class ModelsParser(Subcommand):
-    """List details about available models on distribution."""
+@click.group()
+def models():
+    """Query details about available models on Llama Stack distribution."""
+    pass
 
-    def __init__(self, subparsers: argparse._SubParsersAction):
-        super().__init__()
-        self.parser = subparsers.add_parser(
-            "models",
-            prog="llama-stack-client models",
-            description="Query details about available models on Llama Stack distributiom. ",
-            formatter_class=argparse.RawTextHelpFormatter,
-        )
 
-        subparsers = self.parser.add_subparsers(title="models_subcommands")
-        ModelsList.create(subparsers)
-        ModelsGet.create(subparsers)
+# Register subcommands
+models.add_command(list_models)
+models.add_command(get_model)

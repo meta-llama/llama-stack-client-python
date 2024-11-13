@@ -4,4 +4,4 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-from .eval_tasks import EvalTasksParser  # noqa
+from .eval_tasks import eval_tasks

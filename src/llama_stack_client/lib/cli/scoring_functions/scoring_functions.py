@@ -4,24 +4,16 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-import argparse
+import click
 
-from llama_stack_client.lib.cli.subcommand import Subcommand
-from .list import ScoringFunctionsList
+from .list import list_scoring_functions
 
 
-class ScoringFunctionsParser(Subcommand):
-    """Parser for scoring functions commands"""
+@click.group()
+def scoring_functions():
+    """Manage scoring functions"""
+    pass
 
-    @classmethod
-    def create(cls, subparsers: argparse._SubParsersAction):
-        parser = subparsers.add_parser(
-            "scoring_functions",
-            help="Manage scoring functions",
-            formatter_class=argparse.RawTextHelpFormatter,
-        )
-        parser.set_defaults(func=lambda _: parser.print_help())
 
-        # Create subcommands
-        scoring_functions_subparsers = parser.add_subparsers(title="subcommands")
-        ScoringFunctionsList(scoring_functions_subparsers)
+# Register subcommands
+scoring_functions.add_command(list_scoring_functions)

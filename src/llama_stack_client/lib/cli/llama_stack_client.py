@@ -4,62 +4,68 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-import argparse
+import click
+import yaml
+from llama_stack_client import LlamaStackClient
 
-from llama_stack_client.lib.cli.constants import get_config_file_path
+from .constants import get_config_file_path
+from .configure import configure
+from .datasets import datasets
+from .eval_tasks import eval_tasks
+from .memory_banks import memory_banks
+from .models import models
 
-from .configure import ConfigureParser
-from .datasets import DatasetsParser
-from .eval_tasks import EvalTasksParser
-from .memory_banks import MemoryBanksParser
+from .providers import providers
+from .scoring_functions import scoring_functions
 
-from .models import ModelsParser
-from .providers import ProvidersParser
-from .scoring_functions import ScoringFunctionsParser
-from .shields import ShieldsParser
+from .shields import shields
 
 
-class LlamaStackClientCLIParser:
-    """Define CLI parse for LlamaStackClient CLI"""
+@click.group()
+@click.option("--endpoint", type=str, help="Llama Stack distribution endpoint", default="")
+@click.option("--config", type=str, help="Path to config file", default=None)
+@click.pass_context
+def cli(ctx, endpoint: str, config: str | None):
+    """Welcome to the LlamaStackClient CLI"""
+    ctx.ensure_object(dict)
 
-    def __init__(self):
-        self.parser = argparse.ArgumentParser(
-            prog="llama-stack-client",
-            description="Welcome to the LlamaStackClient CLI",
-        )
-        # Default command is to print help
-        self.parser.set_defaults(func=lambda _: self.parser.print_help())
+    # If no config provided, check default location
+    if config is None:
+        if endpoint != "":
+            raise ValueError("Cannot use both config and endpoint")
+        default_config = get_config_file_path()
+        if default_config.exists():
+            config = str(default_config)
 
-        subparsers = self.parser.add_subparsers(title="subcommands")
+    if config:
+        try:
+            with open(config, "r") as f:
+                config_dict = yaml.safe_load(f)
+                endpoint = config_dict.get("endpoint", endpoint)
+        except Exception as e:
+            click.echo(f"Error loading config from {config}: {str(e)}", err=True)
+            click.echo("Falling back to HTTP client with endpoint", err=True)
 
-        # add sub-commands
-        ModelsParser.create(subparsers)
-        MemoryBanksParser.create(subparsers)
-        ShieldsParser.create(subparsers)
-        EvalTasksParser.create(subparsers)
-        ConfigureParser.create(subparsers)
-        ProvidersParser.create(subparsers)
-        DatasetsParser.create(subparsers)
-        ScoringFunctionsParser.create(subparsers)
+    if endpoint == "":
+        endpoint = "http://localhost:5000"
 
-    def parse_args(self) -> argparse.Namespace:
-        return self.parser.parse_args()
+    client = LlamaStackClient(base_url=endpoint)
+    ctx.obj = {"client": client}
 
-    def command_requires_config(self, args: argparse.Namespace) -> bool:
-        return not (hasattr(args.func, "__self__") and isinstance(args.func.__self__, ConfigureParser))
 
-    def run(self, args: argparse.Namespace) -> None:
-        if self.command_requires_config(args) and not get_config_file_path().exists():
-            print("Config file not found. Please run 'llama-stack-client configure' to create one.")
-            return
-
-        args.func(args)
+# Register all subcommands
+cli.add_command(models, "models")
+cli.add_command(memory_banks, "memory_banks")
+cli.add_command(shields, "shields")
+cli.add_command(eval_tasks, "eval_tasks")
+cli.add_command(providers, "providers")
+cli.add_command(datasets, "datasets")
+cli.add_command(configure, "configure")
+cli.add_command(scoring_functions, "scoring_functions")
 
 
 def main():
-    parser = LlamaStackClientCLIParser()
-    args = parser.parse_args()
-    parser.run(args)
+    cli()
 
 
 if __name__ == "__main__":
