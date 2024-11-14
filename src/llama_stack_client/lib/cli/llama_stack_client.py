@@ -6,10 +6,11 @@
 
 import click
 import yaml
+
 from llama_stack_client import LlamaStackClient
+from .configure import configure
 
 from .constants import get_config_file_path
-from .configure import configure
 from .datasets import datasets
 from .eval_tasks import eval_tasks
 from .memory_banks import memory_banks

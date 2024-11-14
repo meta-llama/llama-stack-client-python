@@ -5,10 +5,11 @@
 # the root directory of this source tree.
 
 
-import click
 import json
-import yaml
 from typing import Optional
+
+import click
+import yaml
 
 from .list import list_eval_tasks
 
@@ -42,8 +43,8 @@ def register(
     if metadata:
         try:
             metadata = json.loads(metadata)
-        except json.JSONDecodeError:
-            raise click.BadParameter("Metadata must be valid JSON")
+        except json.JSONDecodeError as err:
+            raise click.BadParameter("Metadata must be valid JSON") from err
 
     response = client.eval_tasks.register(
         eval_task_id=eval_task_id,

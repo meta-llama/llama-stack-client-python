@@ -4,10 +4,11 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-import click
-from rich.table import Table
-from rich.console import Console
 from typing import Optional
+
+import click
+from rich.console import Console
+from rich.table import Table
 
 
 @click.group()

@@ -5,3 +5,5 @@
 # the root directory of this source tree.
 
 from .shields import shields
+
+__all__ = ["shields"]

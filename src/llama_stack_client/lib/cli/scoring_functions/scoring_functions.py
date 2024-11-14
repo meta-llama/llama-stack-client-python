@@ -4,10 +4,11 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
+import json
+from typing import Optional
+
 import click
 import yaml
-from typing import Optional
-import json
 
 from .list import list_scoring_functions
 
@@ -41,8 +42,8 @@ def register(
     if params:
         try:
             params = json.loads(params)
-        except json.JSONDecodeError:
-            raise click.BadParameter("Parameters must be valid JSON")
+        except json.JSONDecodeError as err:
+            raise click.BadParameter("Parameters must be valid JSON") from err
 
     response = client.scoring_functions.register(
         scoring_fn_id=scoring_fn_id,

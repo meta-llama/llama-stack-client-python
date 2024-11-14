@@ -4,12 +4,12 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
+import json
+from typing import Optional
+
 import click
 import yaml
-from typing import Optional
-import json
 
-from llama_models.llama3.api.datatypes import URL
 from .list import list_datasets
 
 
@@ -41,14 +41,14 @@ def register(
 
     try:
         dataset_schema = json.loads(schema)
-    except json.JSONDecodeError:
-        raise click.BadParameter("Schema must be valid JSON")
+    except json.JSONDecodeError as err:
+        raise click.BadParameter("Schema must be valid JSON") from err
 
     if metadata:
         try:
             metadata = json.loads(metadata)
-        except json.JSONDecodeError:
-            raise click.BadParameter("Metadata must be valid JSON")
+        except json.JSONDecodeError as err:
+            raise click.BadParameter("Metadata must be valid JSON") from err
 
     response = client.datasets.register(
         dataset_id=dataset_id,
