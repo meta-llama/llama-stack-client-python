@@ -5,3 +5,5 @@
 # the root directory of this source tree.
 
 from .eval_tasks import eval_tasks
+
+__all__ = ["eval_tasks"]
