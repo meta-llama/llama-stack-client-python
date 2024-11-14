@@ -4,22 +4,31 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
+import json
+import os
 from typing import Optional
 
 import click
-
-# from rich.console import Console
-# from rich.table import Table
 from tqdm.rich import tqdm
 
 
 @click.command("run_benchmark")
 @click.option("--eval-task-id", required=True, help="ID of the eval task")
 @click.option(
+    "--eval-task-config",
+    required=True,
+    help="Path to the eval task config file in JSON format",
+)
+@click.option(
+    "--output-dir",
+    required=True,
+    help="Path to the dump eval results output directory",
+)
+@click.option(
     "--num-examples", required=False, help="Number of examples to evaluate on, useful for debugging", default=None
 )
 @click.pass_context
-def run_benchmark(ctx, eval_task_id: str, num_examples: Optional[int]):
+def run_benchmark(ctx, eval_task_id: str, eval_task_config: str, output_dir: str, num_examples: Optional[int]):
     """Run a evaluation benchmark"""
 
     client = ctx.obj["client"]
@@ -32,43 +41,38 @@ def run_benchmark(ctx, eval_task_id: str, num_examples: Optional[int]):
         dataset_id=dataset_id, rows_in_page=-1 if num_examples is None else num_examples
     )
 
-    for row in rows:
-        print(row)
+    with open(eval_task_config, "r") as f:
+        eval_task_config = json.load(f)
 
-    output_res = {
-        "chat_completion_input": [],
-        "generated_output": [],
-        "expected_output": [],
-    }
-    for x in scoring_functions:
-        output_res[x] = []
+    output_res = {}
 
     for r in tqdm(rows.rows):
         eval_res = client.eval.evaluate_rows(
             task_id=eval_task_id,
             input_rows=[r],
             scoring_functions=scoring_functions,
-            task_config={
-                "type": "benchmark",
-                "eval_candidate": {
-                    "type": "model",
-                    "model": "Llama3.2-3B-Instruct",
-                    "sampling_params": {
-                        "strategy": "greedy",
-                        "temperature": 0,
-                        "top_p": 0.95,
-                        "top_k": 0,
-                        "max_tokens": 0,
-                        "repetition_penalty": 1.0,
-                    },
-                },
-            },
+            task_config=eval_task_config,
         )
-    # if eval_tasks_list_response:
-    #     table = Table()
-    #     for header in headers:
-    #         table.add_column(header)
+        for k in r.keys():
+            if k not in output_res:
+                output_res[k] = []
+            output_res[k].append(r[k])
 
-    #     for item in eval_tasks_list_response:
-    #         table.add_row(*[str(getattr(item, header)) for header in headers])
-    #     console.print(table)
+        for k in eval_res.generations[0].keys():
+            if k not in output_res:
+                output_res[k] = []
+            output_res[k].append(eval_res.generations[0][k])
+
+        for scoring_fn in scoring_functions:
+            if scoring_fn not in output_res:
+                output_res[scoring_fn] = []
+            output_res[scoring_fn].append(eval_res.scores[scoring_fn].score_rows[0])
+
+    # Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+    # Save results to JSON file
+    output_file = os.path.join(output_dir, f"{eval_task_id}_results.json")
+    with open(output_file, "w") as f:
+        json.dump(output_res, f, indent=2)
+
+    print(f"Results saved to: {output_file}")
