@@ -7,7 +7,8 @@
 import click
 from typing import Optional
 import yaml
-from llama_stack_client.lib.cli.common.utils import print_table_from_response
+from rich.table import Table
+from rich.console import Console
 
 
 @click.group()
@@ -21,6 +22,7 @@ def shields():
 def list(ctx):
     """Show available safety shields on distribution endpoint"""
     client = ctx.obj["client"]
+    console = Console()
 
     shields_list_response = client.shields.list()
     headers = []
@@ -28,7 +30,13 @@ def list(ctx):
         headers = sorted(shields_list_response[0].__dict__.keys())
 
     if shields_list_response:
-        print_table_from_response(shields_list_response, headers)
+        table = Table()
+        for header in headers:
+            table.add_column(header)
+
+        for item in shields_list_response:
+            table.add_row(*[str(getattr(item, header)) for header in headers])
+        console.print(table)
 
 
 @shields.command()

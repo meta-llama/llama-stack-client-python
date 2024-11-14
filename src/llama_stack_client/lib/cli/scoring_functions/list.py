@@ -5,8 +5,8 @@
 # the root directory of this source tree.
 
 import click
-
-from llama_stack_client.lib.cli.common.utils import print_table_from_response
+from rich.table import Table
+from rich.console import Console
 
 
 @click.command("list")
@@ -15,7 +15,7 @@ def list_scoring_functions(ctx):
     """Show available scoring functions on distribution endpoint"""
 
     client = ctx.obj["client"]
-
+    console = Console()
     headers = [
         "identifier",
         "provider_id",
@@ -25,4 +25,10 @@ def list_scoring_functions(ctx):
 
     scoring_functions_list_response = client.scoring_functions.list()
     if scoring_functions_list_response:
-        print_table_from_response(scoring_functions_list_response, headers)
+        table = Table()
+        for header in headers:
+            table.add_column(header)
+
+        for item in scoring_functions_list_response:
+            table.add_row(*[str(getattr(item, header)) for header in headers])
+        console.print(table)

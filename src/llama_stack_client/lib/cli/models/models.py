@@ -5,8 +5,8 @@
 # the root directory of this source tree.
 
 import click
-from tabulate import tabulate
-from llama_stack_client.lib.cli.common.utils import print_table_from_response
+from rich.table import Table
+from rich.console import Console
 from typing import Optional
 
 
@@ -20,11 +20,23 @@ def models():
 @click.pass_context
 def list_models(ctx):
     client = ctx.obj["client"]
+    console = Console()
 
     headers = ["identifier", "provider_id", "provider_resource_id", "metadata"]
     response = client.models.list()
     if response:
-        print_table_from_response(response, headers)
+        table = Table()
+        for header in headers:
+            table.add_column(header)
+
+        for item in response:
+            table.add_row(
+                str(getattr(item, headers[0])),
+                str(getattr(item, headers[1])),
+                str(getattr(item, headers[2])),
+                str(getattr(item, headers[3])),
+            )
+        console.print(table)
 
 
 @click.command(name="get")
@@ -33,6 +45,7 @@ def list_models(ctx):
 def get_model(ctx, model_id: str):
     """Show available llama models at distribution endpoint"""
     client = ctx.obj["client"]
+    console = Console()
 
     models_get_response = client.models.retrieve(identifier=model_id)
 
@@ -44,10 +57,12 @@ def get_model(ctx, model_id: str):
         return
 
     headers = sorted(models_get_response.__dict__.keys())
-    rows = []
-    rows.append([models_get_response.__dict__[headers[i]] for i in range(len(headers))])
+    table = Table()
+    for header in headers:
+        table.add_column(header)
 
-    click.echo(tabulate(rows, headers=headers, tablefmt="grid"))
+    table.add_row(*[str(models_get_response.__dict__[header]) for header in headers])
+    console.print(table)
 
 
 @click.command(name="register", help="Register a new model at distribution endpoint")
