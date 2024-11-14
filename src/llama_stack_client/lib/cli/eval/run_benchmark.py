@@ -13,7 +13,7 @@ from tqdm.rich import tqdm
 
 
 @click.command("run_benchmark")
-@click.argument("eval-task-ids", nargs=-1, required=True)  # Changed from option to argument, supports multiple IDs
+@click.argument("eval-task-ids", nargs=-1, required=True)
 @click.option(
     "--eval-task-config",
     required=True,

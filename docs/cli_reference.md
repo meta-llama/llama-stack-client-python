@@ -127,7 +127,7 @@ $ llama-stack-client shields list
 
 #### `llama-stack-client eval_tasks list`
 ```bash
-$ llama-stack-client eval run_benchmark --eval-task-id meta-reference-mmlu --num-examples 10 --output-dir ./ --eval-task-config ~/eval_task_config.json
+$ llama-stack-client eval run_benchmark <task_id1> <task_id2> --num-examples 10 --output-dir ./ --eval-task-config ~/eval_task_config.json
 ```
 
 where `eval_task_config.json` is the path to the eval task config file in JSON format. An example eval_task_config
