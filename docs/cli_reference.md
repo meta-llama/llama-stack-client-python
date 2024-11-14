@@ -52,7 +52,7 @@ $ llama-stack-client providers list
 
 #### `llama-stack-client models list`
 ```bash
-llama-stack-client models list
+$ llama-stack-client models list
 ```
 ```
 +----------------------+----------------------+---------------+----------------------------------------------------------+
@@ -64,7 +64,7 @@ llama-stack-client models list
 
 #### `llama-stack-client models get`
 ```bash
-llama-stack-client models get Llama3.1-8B-Instruct
+$ llama-stack-client models get Llama3.1-8B-Instruct
 ```
 
 ```
@@ -82,11 +82,27 @@ $ llama-stack-client models get Random-Model
 Model RandomModel is not found at distribution endpoint host:port. Please ensure endpoint is serving specified model.
 ```
 
+#### `llama-stack-client models register`
 
+```bash
+$ llama-stack-client models register <model_id> [--provider-id <provider_id>] [--provider-model-id <provider_model_id>] [--metadata <metadata>]
+```
+
+#### `llama-stack-client models update`
+
+```bash
+$ llama-stack-client models update <model_id> [--provider-id <provider_id>] [--provider-model-id <provider_model_id>] [--metadata <metadata>]
+```
+
+#### `llama-stack-client models delete`
+
+```bash
+$ llama-stack-client models delete <model_id>
+```
 
 #### `llama-stack-client memory_banks list`
 ```bash
-llama-stack-client memory_banks list
+$ llama-stack-client memory_banks list
 ```
 ```
 +--------------+----------------+--------+-------------------+------------------------+--------------------------+
@@ -98,7 +114,7 @@ llama-stack-client memory_banks list
 
 #### `llama-stack-client shields list`
 ```bash
-llama-stack-client shields list
+$ llama-stack-client shields list
 ```
 
 ```
