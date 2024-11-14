@@ -124,3 +124,28 @@ $ llama-stack-client shields list
 | llama_guard  | {}       | meta-reference | llama_guard |
 +--------------+----------+----------------+-------------+
 ```
+
+#### `llama-stack-client eval_tasks list`
+```bash
+$ llama-stack-client eval run_benchmark <task_id1> <task_id2> --num-examples 10 --output-dir ./ --eval-task-config ~/eval_task_config.json
+```
+
+where `eval_task_config.json` is the path to the eval task config file in JSON format. An example eval_task_config
+```
+$ cat ~/eval_task_config.json
+{
+    "type": "benchmark",
+    "eval_candidate": {
+        "type": "model",
+        "model": "Llama3.1-405B-Instruct",
+        "sampling_params": {
+            "strategy": "greedy",
+            "temperature": 0,
+            "top_p": 0.95,
+            "top_k": 0,
+            "max_tokens": 0,
+            "repetition_penalty": 1.0
+        }
+    }
+}
+```

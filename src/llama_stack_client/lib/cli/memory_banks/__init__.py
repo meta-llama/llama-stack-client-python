@@ -5,3 +5,5 @@
 # the root directory of this source tree.
 
 from .memory_banks import memory_banks
+
+__all__ = ["memory_banks"]
