@@ -13,11 +13,12 @@ from tqdm.rich import tqdm
 
 
 @click.command("run_benchmark")
-@click.option("--eval-task-id", required=True, help="ID of the eval task")
+@click.argument("eval-task-ids", nargs=-1, required=True)  # Changed from option to argument, supports multiple IDs
 @click.option(
     "--eval-task-config",
     required=True,
     help="Path to the eval task config file in JSON format",
+    type=click.Path(exists=True),
 )
 @click.option(
     "--output-dir",
@@ -28,51 +29,54 @@ from tqdm.rich import tqdm
     "--num-examples", required=False, help="Number of examples to evaluate on, useful for debugging", default=None
 )
 @click.pass_context
-def run_benchmark(ctx, eval_task_id: str, eval_task_config: str, output_dir: str, num_examples: Optional[int]):
+def run_benchmark(
+    ctx, eval_task_ids: tuple[str, ...], eval_task_config: str, output_dir: str, num_examples: Optional[int]
+):
     """Run a evaluation benchmark"""
 
     client = ctx.obj["client"]
 
-    eval_task = client.eval_tasks.retrieve(name=eval_task_id)
-    scoring_functions = eval_task.scoring_functions
-    dataset_id = eval_task.dataset_id
+    for eval_task_id in eval_task_ids:
+        eval_task = client.eval_tasks.retrieve(name=eval_task_id)
+        scoring_functions = eval_task.scoring_functions
+        dataset_id = eval_task.dataset_id
 
-    rows = client.datasetio.get_rows_paginated(
-        dataset_id=dataset_id, rows_in_page=-1 if num_examples is None else num_examples
-    )
-
-    with open(eval_task_config, "r") as f:
-        eval_task_config = json.load(f)
-
-    output_res = {}
-
-    for r in tqdm(rows.rows):
-        eval_res = client.eval.evaluate_rows(
-            task_id=eval_task_id,
-            input_rows=[r],
-            scoring_functions=scoring_functions,
-            task_config=eval_task_config,
+        rows = client.datasetio.get_rows_paginated(
+            dataset_id=dataset_id, rows_in_page=-1 if num_examples is None else num_examples
         )
-        for k in r.keys():
-            if k not in output_res:
-                output_res[k] = []
-            output_res[k].append(r[k])
 
-        for k in eval_res.generations[0].keys():
-            if k not in output_res:
-                output_res[k] = []
-            output_res[k].append(eval_res.generations[0][k])
+        with open(eval_task_config, "r") as f:
+            eval_task_config = json.load(f)
 
-        for scoring_fn in scoring_functions:
-            if scoring_fn not in output_res:
-                output_res[scoring_fn] = []
-            output_res[scoring_fn].append(eval_res.scores[scoring_fn].score_rows[0])
+        output_res = {}
 
-    # Create output directory if it doesn't exist
-    os.makedirs(output_dir, exist_ok=True)
-    # Save results to JSON file
-    output_file = os.path.join(output_dir, f"{eval_task_id}_results.json")
-    with open(output_file, "w") as f:
-        json.dump(output_res, f, indent=2)
+        for r in tqdm(rows.rows):
+            eval_res = client.eval.evaluate_rows(
+                task_id=eval_task_id,
+                input_rows=[r],
+                scoring_functions=scoring_functions,
+                task_config=eval_task_config,
+            )
+            for k in r.keys():
+                if k not in output_res:
+                    output_res[k] = []
+                output_res[k].append(r[k])
 
-    print(f"Results saved to: {output_file}")
+            for k in eval_res.generations[0].keys():
+                if k not in output_res:
+                    output_res[k] = []
+                output_res[k].append(eval_res.generations[0][k])
+
+            for scoring_fn in scoring_functions:
+                if scoring_fn not in output_res:
+                    output_res[scoring_fn] = []
+                output_res[scoring_fn].append(eval_res.scores[scoring_fn].score_rows[0])
+
+        # Create output directory if it doesn't exist
+        os.makedirs(output_dir, exist_ok=True)
+        # Save results to JSON file
+        output_file = os.path.join(output_dir, f"{eval_task_id}_results.json")
+        with open(output_file, "w") as f:
+            json.dump(output_res, f, indent=2)
+
+        print(f"Results saved to: {output_file}")
