@@ -72,7 +72,46 @@ def register_model(
         click.echo(f"Failed to register model: {str(e)}")
 
 
+@click.command(name="update", help="Update an existing model at distribution endpoint")
+@click.argument("model_id")
+@click.option("--provider-id", help="Provider ID for the model", default=None)
+@click.option("--provider-model-id", help="Provider's model ID", default=None)
+@click.option("--metadata", help="JSON metadata for the model", default=None)
+@click.pass_context
+def update_model(
+    ctx, model_id: str, provider_id: Optional[str], provider_model_id: Optional[str], metadata: Optional[str]
+):
+    """Update an existing model at distribution endpoint"""
+    client = ctx.obj["client"]
+
+    try:
+        response = client.models.update(
+            model_id=model_id, provider_id=provider_id, provider_model_id=provider_model_id, metadata=metadata
+        )
+        if response:
+            click.echo(f"Successfully updated model {model_id}")
+    except Exception as e:
+        click.echo(f"Failed to update model: {str(e)}")
+
+
+@click.command(name="delete", help="Delete a model from distribution endpoint")
+@click.argument("model_id")
+@click.pass_context
+def delete_model(ctx, model_id: str):
+    """Delete a model from distribution endpoint"""
+    client = ctx.obj["client"]
+
+    try:
+        response = client.models.delete(model_id=model_id)
+        if response:
+            click.echo(f"Successfully deleted model {model_id}")
+    except Exception as e:
+        click.echo(f"Failed to delete model: {str(e)}")
+
+
 # Register subcommands
 models.add_command(list_models)
 models.add_command(get_model)
 models.add_command(register_model)
+models.add_command(update_model)
+models.add_command(delete_model)
