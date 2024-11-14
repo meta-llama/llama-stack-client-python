@@ -43,6 +43,8 @@ from .agent_delete_params import AgentDeleteParams as AgentDeleteParams
 from .completion_response import CompletionResponse as CompletionResponse
 from .embeddings_response import EmbeddingsResponse as EmbeddingsResponse
 from .memory_query_params import MemoryQueryParams as MemoryQueryParams
+from .model_delete_params import ModelDeleteParams as ModelDeleteParams
+from .model_update_params import ModelUpdateParams as ModelUpdateParams
 from .route_list_response import RouteListResponse as RouteListResponse
 from .run_shield_response import RunShieldResponse as RunShieldResponse
 from .tool_execution_step import ToolExecutionStep as ToolExecutionStep
