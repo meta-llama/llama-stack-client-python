@@ -5,8 +5,8 @@
 # the root directory of this source tree.
 
 import click
-
-from llama_stack_client.lib.cli.common.utils import print_table_from_response
+from rich.table import Table
+from rich.console import Console
 
 
 @click.command("list")
@@ -14,9 +14,15 @@ from llama_stack_client.lib.cli.common.utils import print_table_from_response
 def list_datasets(ctx):
     """Show available datasets on distribution endpoint"""
     client = ctx.obj["client"]
-
+    console = Console()
     headers = ["identifier", "provider_id", "metadata", "type"]
 
     datasets_list_response = client.datasets.list()
     if datasets_list_response:
-        print_table_from_response(datasets_list_response, headers)
+        table = Table()
+        for header in headers:
+            table.add_column(header)
+
+        for item in datasets_list_response:
+            table.add_row(*[str(getattr(item, header)) for header in headers])
+        console.print(table)

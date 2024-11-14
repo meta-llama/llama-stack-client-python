@@ -7,7 +7,8 @@
 import click
 from typing import Optional
 import yaml
-from llama_stack_client.lib.cli.common.utils import print_table_from_response
+from rich.table import Table
+from rich.console import Console
 
 
 @click.group()
@@ -22,14 +23,20 @@ def list(ctx):
     """Show available memory banks on distribution endpoint"""
 
     client = ctx.obj["client"]
-
+    console = Console()
     memory_banks_list_response = client.memory_banks.list()
     headers = []
     if memory_banks_list_response and len(memory_banks_list_response) > 0:
         headers = sorted(memory_banks_list_response[0].__dict__.keys())
 
     if memory_banks_list_response:
-        print_table_from_response(memory_banks_list_response, headers)
+        table = Table()
+        for header in headers:
+            table.add_column(header)
+
+        for item in memory_banks_list_response:
+            table.add_row(*[str(getattr(item, header)) for header in headers])
+        console.print(table)
 
 
 @memory_banks.command()

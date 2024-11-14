@@ -1,5 +1,6 @@
 import click
-from tabulate import tabulate
+from rich.table import Table
+from rich.console import Console
 
 
 @click.command("list")
@@ -7,14 +8,16 @@ from tabulate import tabulate
 def list_providers(ctx):
     """Show available providers on distribution endpoint"""
     client = ctx.obj["client"]
-
+    console = Console()
     headers = ["API", "Provider ID", "Provider Type"]
 
     providers_response = client.providers.list()
-    rows = []
+    table = Table()
+    for header in headers:
+        table.add_column(header)
 
     for k, v in providers_response.items():
         for provider_info in v:
-            rows.append([k, provider_info.provider_id, provider_info.provider_type])
+            table.add_row(k, provider_info.provider_id, provider_info.provider_type)
 
-    click.echo(tabulate(rows, headers=headers, tablefmt="grid"))
+    console.print(table)
