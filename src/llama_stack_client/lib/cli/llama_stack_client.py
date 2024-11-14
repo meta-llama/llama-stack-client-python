@@ -4,6 +4,8 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
+import os
+
 import click
 import yaml
 
@@ -12,6 +14,7 @@ from .configure import configure
 
 from .constants import get_config_file_path
 from .datasets import datasets
+from .eval import eval
 from .eval_tasks import eval_tasks
 from .memory_banks import memory_banks
 from .models import models
@@ -50,7 +53,13 @@ def cli(ctx, endpoint: str, config: str | None):
     if endpoint == "":
         endpoint = "http://localhost:5000"
 
-    client = LlamaStackClient(base_url=endpoint)
+    client = LlamaStackClient(
+        base_url=endpoint,
+        provider_data={
+            "fireworks_api_key": os.environ.get("FIREWORKS_API_KEY", ""),
+            "togethers_api_key": os.environ.get("TOGETHERS_API_KEY", ""),
+        },
+    )
     ctx.obj = {"client": client}
 
 
@@ -63,6 +72,7 @@ cli.add_command(providers, "providers")
 cli.add_command(datasets, "datasets")
 cli.add_command(configure, "configure")
 cli.add_command(scoring_functions, "scoring_functions")
+cli.add_command(eval, "eval")
 
 
 def main():
