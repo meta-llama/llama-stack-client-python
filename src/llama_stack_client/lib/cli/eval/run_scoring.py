@@ -34,7 +34,11 @@ from tqdm.rich import tqdm
     type=click.Path(exists=True),
 )
 @click.option(
-    "--num-examples", required=False, help="Number of examples to evaluate on, useful for debugging", default=None
+    "--num-examples",
+    required=False,
+    help="Number of examples to evaluate on, useful for debugging",
+    default=None,
+    type=int,
 )
 @click.option(
     "--output-dir",
@@ -89,6 +93,8 @@ def run_scoring(
     if dataset_path is not None:
         df = pandas.read_csv(dataset_path)
         rows = df.to_dict(orient="records")
+        if num_examples is not None:
+            rows = rows[:num_examples]
 
     for r in tqdm(rows):
         score_res = client.scoring.score(
