@@ -18,8 +18,14 @@ from tqdm.rich import tqdm
 @click.argument("scoring-function-ids", nargs=-1, required=True)
 @click.option(
     "--dataset-id",
-    required=True,
+    required=False,
     help="Pre-registered dataset_id to score (from llama-stack-client datasets list)",
+)
+@click.option(
+    "--dataset-path",
+    required=False,
+    help="Path to the dataset file to score",
+    type=click.Path(exists=True),
 )
 @click.option(
     "--scoring-params-config",
@@ -45,13 +51,18 @@ from tqdm.rich import tqdm
 def run_scoring(
     ctx,
     scoring_function_ids: tuple[str, ...],
-    dataset_id: str,
+    dataset_id: Optional[str],
+    dataset_path: Optional[str],
     scoring_params_config: Optional[str],
     num_examples: Optional[int],
     output_dir: str,
     visualize: bool,
 ):
     """Run scoring from application datasets"""
+    # one of dataset_id or dataset_path is required
+    if dataset_id is None and dataset_path is None:
+        raise click.BadParameter("Specify either dataset_id (pre-registered dataset) or dataset_path (local file)")
+
     client = ctx.obj["client"]
 
     scoring_params = {fn_id: None for fn_id in scoring_function_ids}
@@ -59,18 +70,27 @@ def run_scoring(
         with open(scoring_params_config, "r") as f:
             scoring_params = json.load(f)
 
-    dataset = client.datasets.retrieve(dataset_id=dataset_id)
-    if not dataset:
-        click.BadParameter(
-            f"Dataset {dataset_id} not found. Please register using llama-stack-client datasets register"
-        )
-
     output_res = {}
 
-    rows = client.datasetio.get_rows_paginated(
-        dataset_id=dataset_id, rows_in_page=-1 if num_examples is None else num_examples
-    )
-    for r in tqdm(rows.rows):
+    if dataset_id is not None:
+        dataset = client.datasets.retrieve(dataset_id=dataset_id)
+        if not dataset:
+            click.BadParameter(
+                f"Dataset {dataset_id} not found. Please register using llama-stack-client datasets register"
+            )
+
+        # TODO: this will eventually be replaced with jobs polling from server vis score_bath
+        # For now, get all datasets rows via datasetio API
+        rows = client.datasetio.get_rows_paginated(
+            dataset_id=dataset_id, rows_in_page=-1 if num_examples is None else num_examples
+        )
+        rows = rows.rows
+
+    if dataset_path is not None:
+        df = pandas.read_csv(dataset_path)
+        rows = df.to_dict(orient="records")
+
+    for r in tqdm(rows):
         score_res = client.scoring.score(
             input_rows=[r],
             scoring_functions=scoring_params,
