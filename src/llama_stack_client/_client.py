@@ -1,23 +1,37 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
-
 import json
 
 import os
-from typing import Any, Mapping, Union
+from typing import Any, Union, Mapping
+from typing_extensions import Self, override
 
 import httpx
-from typing_extensions import override, Self
 
-from . import _exceptions, resources
-from ._base_client import AsyncAPIClient, DEFAULT_MAX_RETRIES, SyncAPIClient
-from ._exceptions import APIStatusError
+from . import resources, _exceptions
 from ._qs import Querystring
-from ._streaming import AsyncStream as AsyncStream, Stream as Stream
-from ._types import NOT_GIVEN, NotGiven, Omit, ProxiesTypes, RequestOptions, Timeout, Transport
-from ._utils import get_async_library, is_given
+from ._types import (
+    NOT_GIVEN,
+    Omit,
+    Timeout,
+    NotGiven,
+    Transport,
+    ProxiesTypes,
+    RequestOptions,
+)
+from ._utils import (
+    is_given,
+    get_async_library,
+)
 from ._version import __version__
+from ._streaming import Stream as Stream, AsyncStream as AsyncStream
+from ._exceptions import APIStatusError
+from ._base_client import (
+    DEFAULT_MAX_RETRIES,
+    SyncAPIClient,
+    AsyncAPIClient,
+)
 
 __all__ = [
     "Timeout",
@@ -86,11 +100,11 @@ class LlamaStackClient(SyncAPIClient):
             base_url = os.environ.get("LLAMA_STACK_CLIENT_BASE_URL")
         if base_url is None:
             base_url = f"http://any-hosted-llama-stack.com"
-        if provider_data:
+
+        if provider_data is not None:
             if default_headers is None:
                 default_headers = {}
             default_headers["X-LlamaStack-ProviderData"] = json.dumps(provider_data)
-
         super().__init__(
             version=__version__,
             base_url=base_url,
@@ -277,11 +291,10 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         if base_url is None:
             base_url = f"http://any-hosted-llama-stack.com"
 
-        if provider_data:
+        if provider_data is not None:
             if default_headers is None:
                 default_headers = {}
             default_headers["X-LlamaStack-ProviderData"] = json.dumps(provider_data)
-
         super().__init__(
             version=__version__,
             base_url=base_url,

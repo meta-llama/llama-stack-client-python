@@ -10,7 +10,8 @@ from abc import abstractmethod
 from typing import Dict, List, Union
 
 from llama_stack_client.types import ToolResponseMessage, UserMessage
-from llama_stack_client.types.agent_create_params import AgentConfigToolFunctionCallToolDefinition
+from llama_stack_client.types.shared_params.function_call_tool_definition import FunctionCallToolDefinition
+
 
 from llama_stack_client.types.tool_param_definition_param import ToolParamDefinitionParam
 
@@ -53,8 +54,8 @@ class CustomTool:
             }
         )
 
-    def get_tool_definition(self) -> AgentConfigToolFunctionCallToolDefinition:
-        return AgentConfigToolFunctionCallToolDefinition(
+    def get_tool_definition(self) -> FunctionCallToolDefinition:
+        return FunctionCallToolDefinition(
             type="function_call",
             function_name=self.get_name(),
             description=self.get_description(),

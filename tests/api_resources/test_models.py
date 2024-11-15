@@ -142,6 +142,45 @@ class TestModels:
 
         assert cast(Any, response.is_closed) is True
 
+    @parametrize
+    def test_method_unregister(self, client: LlamaStackClient) -> None:
+        model = client.models.unregister(
+            model_id="model_id",
+        )
+        assert model is None
+
+    @parametrize
+    def test_method_unregister_with_all_params(self, client: LlamaStackClient) -> None:
+        model = client.models.unregister(
+            model_id="model_id",
+            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+        )
+        assert model is None
+
+    @parametrize
+    def test_raw_response_unregister(self, client: LlamaStackClient) -> None:
+        response = client.models.with_raw_response.unregister(
+            model_id="model_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        model = response.parse()
+        assert model is None
+
+    @parametrize
+    def test_streaming_response_unregister(self, client: LlamaStackClient) -> None:
+        with client.models.with_streaming_response.unregister(
+            model_id="model_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            model = response.parse()
+            assert model is None
+
+        assert cast(Any, response.is_closed) is True
+
 
 class TestAsyncModels:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
@@ -268,5 +307,44 @@ class TestAsyncModels:
 
             model = await response.parse()
             assert_matches_type(Model, model, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_unregister(self, async_client: AsyncLlamaStackClient) -> None:
+        model = await async_client.models.unregister(
+            model_id="model_id",
+        )
+        assert model is None
+
+    @parametrize
+    async def test_method_unregister_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        model = await async_client.models.unregister(
+            model_id="model_id",
+            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+        )
+        assert model is None
+
+    @parametrize
+    async def test_raw_response_unregister(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.models.with_raw_response.unregister(
+            model_id="model_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        model = await response.parse()
+        assert model is None
+
+    @parametrize
+    async def test_streaming_response_unregister(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.models.with_streaming_response.unregister(
+            model_id="model_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            model = await response.parse()
+            assert model is None
 
         assert cast(Any, response.is_closed) is True
