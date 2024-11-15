@@ -8,6 +8,7 @@
 import click
 
 from .run_benchmark import run_benchmark
+from .run_scoring import run_scoring
 
 
 @click.group()
@@ -18,3 +19,4 @@ def eval():
 
 # Register subcommands
 eval.add_command(run_benchmark)
+eval.add_command(run_scoring)
