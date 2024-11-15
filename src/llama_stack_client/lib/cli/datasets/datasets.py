@@ -3,63 +3,16 @@
 #
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
-
-import json
-from typing import Optional
-
 import click
-import yaml
 
 from .list import list_datasets
+from .register import register
 
 
 @click.group()
 def datasets():
     """Query details about available datasets on Llama Stack distribution."""
     pass
-
-
-@datasets.command()
-@click.option("--dataset-id", required=True, help="Id of the dataset")
-@click.option("--provider-id", help="Provider ID for the dataset", default=None)
-@click.option("--provider-dataset-id", help="Provider's dataset ID", default=None)
-@click.option("--metadata", type=str, help="Metadata of the dataset")
-@click.option("--url", type=str, help="URL of the dataset", required=True)
-@click.option("--schema", type=str, help="JSON schema of the dataset", required=True)
-@click.pass_context
-def register(
-    ctx,
-    dataset_id: str,
-    provider_id: Optional[str],
-    provider_dataset_id: Optional[str],
-    metadata: Optional[str],
-    url: str,
-    schema: str,
-):
-    """Create a new dataset"""
-    client = ctx.obj["client"]
-
-    try:
-        dataset_schema = json.loads(schema)
-    except json.JSONDecodeError as err:
-        raise click.BadParameter("Schema must be valid JSON") from err
-
-    if metadata:
-        try:
-            metadata = json.loads(metadata)
-        except json.JSONDecodeError as err:
-            raise click.BadParameter("Metadata must be valid JSON") from err
-
-    response = client.datasets.register(
-        dataset_id=dataset_id,
-        dataset_schema=dataset_schema,
-        url={"uri": url},
-        provider_id=provider_id,
-        provider_dataset_id=provider_dataset_id,
-        metadata=metadata,
-    )
-    if response:
-        click.echo(yaml.dump(response.dict()))
 
 
 # Register subcommands

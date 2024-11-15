@@ -46,7 +46,7 @@ def run_benchmark(
     num_examples: Optional[int],
     visualize: bool,
 ):
-    """Run a evaluation benchmark"""
+    """Run a evaluation benchmark task"""
 
     client = ctx.obj["client"]
 
