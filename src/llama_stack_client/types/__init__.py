@@ -43,8 +43,6 @@ from .agent_delete_params import AgentDeleteParams as AgentDeleteParams
 from .completion_response import CompletionResponse as CompletionResponse
 from .embeddings_response import EmbeddingsResponse as EmbeddingsResponse
 from .memory_query_params import MemoryQueryParams as MemoryQueryParams
-from .model_delete_params import ModelDeleteParams as ModelDeleteParams
-from .model_update_params import ModelUpdateParams as ModelUpdateParams
 from .route_list_response import RouteListResponse as RouteListResponse
 from .run_shield_response import RunShieldResponse as RunShieldResponse
 from .tool_execution_step import ToolExecutionStep as ToolExecutionStep
@@ -63,6 +61,7 @@ from .shield_register_params import ShieldRegisterParams as ShieldRegisterParams
 from .shield_retrieve_params import ShieldRetrieveParams as ShieldRetrieveParams
 from .dataset_register_params import DatasetRegisterParams as DatasetRegisterParams
 from .dataset_retrieve_params import DatasetRetrieveParams as DatasetRetrieveParams
+from .model_unregister_params import ModelUnregisterParams as ModelUnregisterParams
 from .query_documents_response import QueryDocumentsResponse as QueryDocumentsResponse
 from .safety_run_shield_params import SafetyRunShieldParams as SafetyRunShieldParams
 from .dataset_retrieve_response import DatasetRetrieveResponse as DatasetRetrieveResponse
@@ -80,6 +79,7 @@ from .memory_bank_retrieve_params import MemoryBankRetrieveParams as MemoryBankR
 from .scoring_score_batch_response import ScoringScoreBatchResponse as ScoringScoreBatchResponse
 from .inference_completion_response import InferenceCompletionResponse as InferenceCompletionResponse
 from .memory_bank_retrieve_response import MemoryBankRetrieveResponse as MemoryBankRetrieveResponse
+from .memory_bank_unregister_params import MemoryBankUnregisterParams as MemoryBankUnregisterParams
 from .rest_api_execution_config_param import RestAPIExecutionConfigParam as RestAPIExecutionConfigParam
 from .inference_chat_completion_params import InferenceChatCompletionParams as InferenceChatCompletionParams
 from .scoring_function_register_params import ScoringFunctionRegisterParams as ScoringFunctionRegisterParams

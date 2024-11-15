@@ -185,6 +185,9 @@ class TestInference:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
+    )
     @parametrize
     def test_method_completion(self, client: LlamaStackClient) -> None:
         inference = client.inference.completion(
@@ -193,6 +196,9 @@ class TestInference:
         )
         assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
+    )
     @parametrize
     def test_method_completion_with_all_params(self, client: LlamaStackClient) -> None:
         inference = client.inference.completion(
@@ -216,6 +222,9 @@ class TestInference:
         )
         assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
+    )
     @parametrize
     def test_raw_response_completion(self, client: LlamaStackClient) -> None:
         response = client.inference.with_raw_response.completion(
@@ -228,6 +237,9 @@ class TestInference:
         inference = response.parse()
         assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
+    )
     @parametrize
     def test_streaming_response_completion(self, client: LlamaStackClient) -> None:
         with client.inference.with_streaming_response.completion(
@@ -453,6 +465,9 @@ class TestAsyncInference:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
+    )
     @parametrize
     async def test_method_completion(self, async_client: AsyncLlamaStackClient) -> None:
         inference = await async_client.inference.completion(
@@ -461,6 +476,9 @@ class TestAsyncInference:
         )
         assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
+    )
     @parametrize
     async def test_method_completion_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         inference = await async_client.inference.completion(
@@ -484,6 +502,9 @@ class TestAsyncInference:
         )
         assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
+    )
     @parametrize
     async def test_raw_response_completion(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.inference.with_raw_response.completion(
@@ -496,6 +517,9 @@ class TestAsyncInference:
         inference = await response.parse()
         assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
 
+    @pytest.mark.skip(
+        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
+    )
     @parametrize
     async def test_streaming_response_completion(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.inference.with_streaming_response.completion(
