@@ -102,4 +102,4 @@ def run_benchmark(
                 scores = [str(r["score"]) for r in res]
                 unique_scores = sorted(list(set(scores)))
                 counts = [scores.count(s) for s in unique_scores]
-                create_bar_chart(counts, unique_scores, title=f"ScoringFunction = {scoring_fn}")
+                create_bar_chart(counts, unique_scores, title=f"{scoring_fn}")
