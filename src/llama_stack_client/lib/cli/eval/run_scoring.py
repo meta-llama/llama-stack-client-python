@@ -85,10 +85,10 @@ def run_scoring(
 
         # TODO: this will eventually be replaced with jobs polling from server vis score_bath
         # For now, get all datasets rows via datasetio API
-        rows = client.datasetio.get_rows_paginated(
+        results = client.datasetio.get_rows_paginated(
             dataset_id=dataset_id, rows_in_page=-1 if num_examples is None else num_examples
         )
-        rows = rows.rows
+        rows = results.rows
 
     if dataset_path is not None:
         df = pandas.read_csv(dataset_path)
