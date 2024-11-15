@@ -28,6 +28,9 @@ from tqdm.rich import tqdm
     type=click.Path(exists=True),
 )
 @click.option(
+    "--num-examples", required=False, help="Number of examples to evaluate on, useful for debugging", default=None
+)
+@click.option(
     "--output-dir",
     required=True,
     help="Path to the dump eval results output directory",
@@ -44,6 +47,7 @@ def run_scoring(
     scoring_function_ids: tuple[str, ...],
     dataset_id: str,
     scoring_params_config: Optional[str],
+    num_examples: Optional[int],
     output_dir: str,
     visualize: bool,
 ):
@@ -54,7 +58,6 @@ def run_scoring(
     if scoring_params_config:
         with open(scoring_params_config, "r") as f:
             scoring_params = json.load(f)
-            print(scoring_params)
 
     dataset = client.datasets.retrieve(dataset_id=dataset_id)
     if not dataset:
@@ -64,7 +67,9 @@ def run_scoring(
 
     output_res = {}
 
-    rows = client.datasetio.get_rows_paginated(dataset_id=dataset_id, rows_in_page=-1)
+    rows = client.datasetio.get_rows_paginated(
+        dataset_id=dataset_id, rows_in_page=-1 if num_examples is None else num_examples
+    )
     for r in tqdm(rows.rows):
         score_res = client.scoring.score(
             input_rows=[r],
@@ -79,8 +84,6 @@ def run_scoring(
             if fn_id not in output_res:
                 output_res[fn_id] = []
             output_res[fn_id].append(score_res.results[fn_id].score_rows[0])
-
-        break
 
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
