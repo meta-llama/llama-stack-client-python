@@ -96,10 +96,10 @@ def run_benchmark(
         rprint(f"[green]✓[/green] Results saved to: [blue]{output_file}[/blue]!\n")
 
         if visualize:
-            for scoring_fn in ["llm-as-judge::llm_as_judge_base"]:
+            for scoring_fn in scoring_functions:
                 res = output_res[scoring_fn]
                 assert len(res) > 0 and "score" in res[0]
-                scores = [r["score"] for r in res]
-                unique_scores = sorted(list(set([r["score"] for r in res])))
+                scores = [str(r["score"]) for r in res]
+                unique_scores = sorted(list(set(scores)))
                 counts = [scores.count(s) for s in unique_scores]
                 create_bar_chart(counts, unique_scores, title=f"ScoringFunction = {scoring_fn}")
