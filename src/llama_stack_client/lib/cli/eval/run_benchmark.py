@@ -29,7 +29,11 @@ from ..common.utils import create_bar_chart
     help="Path to the dump eval results output directory",
 )
 @click.option(
-    "--num-examples", required=False, help="Number of examples to evaluate on, useful for debugging", default=None
+    "--num-examples",
+    required=False,
+    help="Number of examples to evaluate on, useful for debugging",
+    default=None,
+    type=int,
 )
 @click.option(
     "--visualize",
