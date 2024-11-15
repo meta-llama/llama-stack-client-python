@@ -9,7 +9,10 @@ import os
 from typing import Optional
 
 import click
+from rich import print as rprint
 from tqdm.rich import tqdm
+
+from ..common.utils import create_bar_chart
 
 
 @click.command("run_benchmark")
@@ -28,9 +31,20 @@ from tqdm.rich import tqdm
 @click.option(
     "--num-examples", required=False, help="Number of examples to evaluate on, useful for debugging", default=None
 )
+@click.option(
+    "--visualize",
+    is_flag=True,
+    default=False,
+    help="Visualize evaluation results after completion",
+)
 @click.pass_context
 def run_benchmark(
-    ctx, eval_task_ids: tuple[str, ...], eval_task_config: str, output_dir: str, num_examples: Optional[int]
+    ctx,
+    eval_task_ids: tuple[str, ...],
+    eval_task_config: str,
+    output_dir: str,
+    num_examples: Optional[int],
+    visualize: bool,
 ):
     """Run a evaluation benchmark"""
 
@@ -79,4 +93,13 @@ def run_benchmark(
         with open(output_file, "w") as f:
             json.dump(output_res, f, indent=2)
 
-        print(f"Results saved to: {output_file}")
+        rprint(f"[green]✓[/green] Results saved to: [blue]{output_file}[/blue]!\n")
+
+        if visualize:
+            for scoring_fn in scoring_functions:
+                res = output_res[scoring_fn]
+                assert len(res) > 0 and "score" in res[0]
+                scores = [str(r["score"]) for r in res]
+                unique_scores = sorted(list(set(scores)))
+                counts = [scores.count(s) for s in unique_scores]
+                create_bar_chart(counts, unique_scores, title=f"{scoring_fn}")

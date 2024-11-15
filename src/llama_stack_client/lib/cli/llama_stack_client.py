@@ -57,7 +57,7 @@ def cli(ctx, endpoint: str, config: str | None):
         base_url=endpoint,
         provider_data={
             "fireworks_api_key": os.environ.get("FIREWORKS_API_KEY", ""),
-            "togethers_api_key": os.environ.get("TOGETHERS_API_KEY", ""),
+            "together_api_key": os.environ.get("TOGETHER_API_KEY", ""),
         },
     )
     ctx.obj = {"client": client}
