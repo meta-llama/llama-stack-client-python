@@ -11,6 +11,7 @@ from typing import Optional
 import click
 import yaml
 
+from ..common.utils import handle_client_errors
 from .list import list_eval_tasks
 
 
@@ -28,6 +29,7 @@ def eval_tasks():
 @click.option("--provider-eval-task-id", help="Provider's eval task ID", default=None)
 @click.option("--metadata", type=str, help="Metadata for the eval task in JSON format")
 @click.pass_context
+@handle_client_errors("register eval task")
 def register(
     ctx,
     eval_task_id: str,

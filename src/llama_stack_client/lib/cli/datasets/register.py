@@ -12,6 +12,8 @@ from typing import Optional
 import click
 import yaml
 
+from ..common.utils import handle_client_errors
+
 
 def data_url_from_file(file_path: str) -> str:
     if not os.path.exists(file_path):
@@ -38,6 +40,7 @@ def data_url_from_file(file_path: str) -> str:
 )
 @click.option("--schema", type=str, help="JSON schema of the dataset", required=True)
 @click.pass_context
+@handle_client_errors("register dataset")
 def register(
     ctx,
     dataset_id: str,

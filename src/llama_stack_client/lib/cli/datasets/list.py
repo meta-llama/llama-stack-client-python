@@ -8,9 +8,12 @@ import click
 from rich.console import Console
 from rich.table import Table
 
+from ..common.utils import handle_client_errors
+
 
 @click.command("list")
 @click.pass_context
+@handle_client_errors("list datasets")
 def list_datasets(ctx):
     """Show available datasets on distribution endpoint"""
     client = ctx.obj["client"]

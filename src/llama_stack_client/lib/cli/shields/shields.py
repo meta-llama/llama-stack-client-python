@@ -11,6 +11,8 @@ import yaml
 from rich.console import Console
 from rich.table import Table
 
+from ..common.utils import handle_client_errors
+
 
 @click.group()
 def shields():
@@ -20,6 +22,7 @@ def shields():
 
 @click.command("list")
 @click.pass_context
+@handle_client_errors("list shields")
 def list(ctx):
     """Show available safety shields on distribution endpoint"""
     client = ctx.obj["client"]
@@ -46,6 +49,7 @@ def list(ctx):
 @click.option("--provider-shield-id", help="Provider's shield ID", default=None)
 @click.option("--params", type=str, help="JSON configuration parameters for the shield", default=None)
 @click.pass_context
+@handle_client_errors("register shield")
 def register(
     ctx,
     shield_id: str,

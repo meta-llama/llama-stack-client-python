@@ -10,6 +10,8 @@ import click
 from rich.console import Console
 from rich.table import Table
 
+from ..common.utils import handle_client_errors
+
 
 @click.group()
 def models():
@@ -19,6 +21,7 @@ def models():
 
 @click.command(name="list", help="Show available llama models at distribution endpoint")
 @click.pass_context
+@handle_client_errors("list models")
 def list_models(ctx):
     client = ctx.obj["client"]
     console = Console()
@@ -43,6 +46,7 @@ def list_models(ctx):
 @click.command(name="get")
 @click.argument("model_id")
 @click.pass_context
+@handle_client_errors("get model details")
 def get_model(ctx, model_id: str):
     """Show available llama models at distribution endpoint"""
     client = ctx.obj["client"]
@@ -51,9 +55,10 @@ def get_model(ctx, model_id: str):
     models_get_response = client.models.retrieve(identifier=model_id)
 
     if not models_get_response:
-        click.echo(
+        console.print(
             f"Model {model_id} is not found at distribution endpoint. "
-            "Please ensure endpoint is serving specified model."
+            "Please ensure endpoint is serving specified model.",
+            style="bold red",
         )
         return
 
@@ -72,34 +77,32 @@ def get_model(ctx, model_id: str):
 @click.option("--provider-model-id", help="Provider's model ID", default=None)
 @click.option("--metadata", help="JSON metadata for the model", default=None)
 @click.pass_context
+@handle_client_errors("register model")
 def register_model(
     ctx, model_id: str, provider_id: Optional[str], provider_model_id: Optional[str], metadata: Optional[str]
 ):
     """Register a new model at distribution endpoint"""
     client = ctx.obj["client"]
+    console = Console()
 
-    try:
-        response = client.models.register(
-            model_id=model_id, provider_id=provider_id, provider_model_id=provider_model_id, metadata=metadata
-        )
-        if response:
-            click.echo(f"Successfully registered model {model_id}")
-    except Exception as e:
-        click.echo(f"Failed to register model: {str(e)}")
+    response = client.models.register(
+        model_id=model_id, provider_id=provider_id, provider_model_id=provider_model_id, metadata=metadata
+    )
+    if response:
+        console.print(f"[green]Successfully registered model {model_id}[/green]")
 
 
 @click.command(name="unregister", help="Unregister a model from distribution endpoint")
 @click.argument("model_id")
 @click.pass_context
+@handle_client_errors("unregister model")
 def unregister_model(ctx, model_id: str):
     client = ctx.obj["client"]
+    console = Console()
 
-    try:
-        response = client.models.unregister(model_id=model_id)
-        if response:
-            click.echo(f"Successfully deleted model {model_id}")
-    except Exception as e:
-        click.echo(f"Failed to delete model: {str(e)}")
+    response = client.models.unregister(model_id=model_id)
+    if response:
+        console.print(f"[green]Successfully deleted model {model_id}[/green]")
 
 
 # Register subcommands

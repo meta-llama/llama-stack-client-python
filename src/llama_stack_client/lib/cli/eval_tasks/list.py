@@ -9,8 +9,12 @@ from rich.console import Console
 from rich.table import Table
 
 
+from ..common.utils import handle_client_errors
+
+
 @click.command("list")
 @click.pass_context
+@handle_client_errors("list eval tasks")
 def list_eval_tasks(ctx):
     """Show available eval tasks on distribution endpoint"""
 

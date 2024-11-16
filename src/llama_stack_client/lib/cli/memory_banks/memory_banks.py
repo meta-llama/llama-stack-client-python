@@ -11,6 +11,8 @@ import yaml
 from rich.console import Console
 from rich.table import Table
 
+from ..common.utils import handle_client_errors
+
 
 @click.group()
 def memory_banks():
@@ -20,6 +22,7 @@ def memory_banks():
 
 @click.command("list")
 @click.pass_context
+@handle_client_errors("list memory banks")
 def list(ctx):
     """Show available memory banks on distribution endpoint"""
 
@@ -77,6 +80,7 @@ def list(ctx):
     default=64,
 )
 @click.pass_context
+@handle_client_errors("register memory bank")
 def register(
     ctx,
     memory_bank_id: str,
@@ -125,6 +129,7 @@ def register(
 @memory_banks.command()
 @click.argument("memory-bank-id")
 @click.pass_context
+@handle_client_errors("delete memory bank")
 def unregister(ctx, memory_bank_id: str):
     """Delete a memory bank"""
     client = ctx.obj["client"]
