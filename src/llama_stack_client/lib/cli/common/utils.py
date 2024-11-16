@@ -5,6 +5,8 @@
 # the root directory of this source tree.
 from rich.console import Console
 from rich.table import Table
+from rich.panel import Panel
+from functools import wraps
 
 
 def create_bar_chart(data, labels, title=""):
@@ -28,3 +30,24 @@ def create_bar_chart(data, labels, title=""):
         table.add_row(label, f"[{color}]{bar}[/] {value}/{total_count}")
 
     console.print(table)
+
+
+def handle_client_errors(operation_name):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            try:
+                return func(*args, **kwargs)
+            except Exception as e:
+                console = Console()
+                console.print(
+                    Panel.fit(
+                        f"[bold red]Failed to {operation_name}[/bold red]\n\n"
+                        f"[yellow]Error Type:[/yellow] {e.__class__.__name__}\n"
+                        f"[yellow]Details:[/yellow] {str(e)}"
+                    )
+                )
+
+        return wrapper
+
+    return decorator
