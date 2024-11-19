@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Any, List, Iterable, cast
-from typing_extensions import Literal
+from typing_extensions import Literal, overload
 
 import httpx
 
@@ -14,6 +14,7 @@ from ..types import (
 )
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
+    required_args,
     maybe_transform,
     strip_not_given,
     async_maybe_transform,
@@ -26,6 +27,7 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .._streaming import Stream, AsyncStream
 from .._base_client import make_request_options
 from ..types.embeddings_response import EmbeddingsResponse
 from ..types.inference_completion_response import InferenceCompletionResponse
@@ -55,6 +57,7 @@ class InferenceResource(SyncAPIResource):
         """
         return InferenceResourceWithStreamingResponse(self)
 
+    @overload
     def chat_completion(
         self,
         *,
@@ -63,7 +66,7 @@ class InferenceResource(SyncAPIResource):
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        stream: bool | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
@@ -95,6 +98,115 @@ class InferenceResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def chat_completion(
+        self,
+        *,
+        messages: Iterable[inference_chat_completion_params.Message],
+        model_id: str,
+        stream: Literal[True],
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Stream[InferenceChatCompletionResponse]:
+        """
+        Args:
+          tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
+              form like { "type": "function", "function" : { "name": "function_name",
+              "description": "function_description", "parameters": {...} } }
+
+              `function_tag` -- This is an example of how you could define your own user
+              defined format for making tool calls. The function_tag format looks like this,
+              <function=function_name>(parameters)</function>
+
+              The detailed prompts for each of these formats are added to llama cli
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def chat_completion(
+        self,
+        *,
+        messages: Iterable[inference_chat_completion_params.Message],
+        model_id: str,
+        stream: bool,
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> InferenceChatCompletionResponse | Stream[InferenceChatCompletionResponse]:
+        """
+        Args:
+          tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
+              form like { "type": "function", "function" : { "name": "function_name",
+              "description": "function_description", "parameters": {...} } }
+
+              `function_tag` -- This is an example of how you could define your own user
+              defined format for making tool calls. The function_tag format looks like this,
+              <function=function_name>(parameters)</function>
+
+              The detailed prompts for each of these formats are added to llama cli
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["messages", "model_id"], ["messages", "model_id", "stream"])
+    def chat_completion(
+        self,
+        *,
+        messages: Iterable[inference_chat_completion_params.Message],
+        model_id: str,
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> InferenceChatCompletionResponse | Stream[InferenceChatCompletionResponse]:
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
@@ -124,9 +236,12 @@ class InferenceResource(SyncAPIResource):
                 cast_to=cast(
                     Any, InferenceChatCompletionResponse
                 ),  # Union types cannot be passed in as arguments in the type system
+                stream=stream or False,
+                stream_cls=Stream[InferenceChatCompletionResponse],
             ),
         )
 
+    @overload
     def completion(
         self,
         *,
@@ -135,7 +250,7 @@ class InferenceResource(SyncAPIResource):
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        stream: bool | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -154,6 +269,86 @@ class InferenceResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def completion(
+        self,
+        *,
+        content: inference_completion_params.Content,
+        model_id: str,
+        stream: Literal[True],
+        logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Stream[InferenceCompletionResponse]:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def completion(
+        self,
+        *,
+        content: inference_completion_params.Content,
+        model_id: str,
+        stream: bool,
+        logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> InferenceCompletionResponse | Stream[InferenceCompletionResponse]:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["content", "model_id"], ["content", "model_id", "stream"])
+    def completion(
+        self,
+        *,
+        content: inference_completion_params.Content,
+        model_id: str,
+        logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> InferenceCompletionResponse | Stream[InferenceCompletionResponse]:
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
@@ -180,6 +375,8 @@ class InferenceResource(SyncAPIResource):
                 cast_to=cast(
                     Any, InferenceCompletionResponse
                 ),  # Union types cannot be passed in as arguments in the type system
+                stream=stream or False,
+                stream_cls=Stream[InferenceCompletionResponse],
             ),
         )
 
@@ -246,6 +443,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         """
         return AsyncInferenceResourceWithStreamingResponse(self)
 
+    @overload
     async def chat_completion(
         self,
         *,
@@ -254,7 +452,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        stream: bool | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
@@ -286,6 +484,115 @@ class AsyncInferenceResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def chat_completion(
+        self,
+        *,
+        messages: Iterable[inference_chat_completion_params.Message],
+        model_id: str,
+        stream: Literal[True],
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> AsyncStream[InferenceChatCompletionResponse]:
+        """
+        Args:
+          tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
+              form like { "type": "function", "function" : { "name": "function_name",
+              "description": "function_description", "parameters": {...} } }
+
+              `function_tag` -- This is an example of how you could define your own user
+              defined format for making tool calls. The function_tag format looks like this,
+              <function=function_name>(parameters)</function>
+
+              The detailed prompts for each of these formats are added to llama cli
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def chat_completion(
+        self,
+        *,
+        messages: Iterable[inference_chat_completion_params.Message],
+        model_id: str,
+        stream: bool,
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> InferenceChatCompletionResponse | AsyncStream[InferenceChatCompletionResponse]:
+        """
+        Args:
+          tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
+              form like { "type": "function", "function" : { "name": "function_name",
+              "description": "function_description", "parameters": {...} } }
+
+              `function_tag` -- This is an example of how you could define your own user
+              defined format for making tool calls. The function_tag format looks like this,
+              <function=function_name>(parameters)</function>
+
+              The detailed prompts for each of these formats are added to llama cli
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["messages", "model_id"], ["messages", "model_id", "stream"])
+    async def chat_completion(
+        self,
+        *,
+        messages: Iterable[inference_chat_completion_params.Message],
+        model_id: str,
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> InferenceChatCompletionResponse | AsyncStream[InferenceChatCompletionResponse]:
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
@@ -315,9 +622,12 @@ class AsyncInferenceResource(AsyncAPIResource):
                 cast_to=cast(
                     Any, InferenceChatCompletionResponse
                 ),  # Union types cannot be passed in as arguments in the type system
+                stream=stream or False,
+                stream_cls=AsyncStream[InferenceChatCompletionResponse],
             ),
         )
 
+    @overload
     async def completion(
         self,
         *,
@@ -326,7 +636,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        stream: bool | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -345,6 +655,86 @@ class AsyncInferenceResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def completion(
+        self,
+        *,
+        content: inference_completion_params.Content,
+        model_id: str,
+        stream: Literal[True],
+        logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> AsyncStream[InferenceCompletionResponse]:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def completion(
+        self,
+        *,
+        content: inference_completion_params.Content,
+        model_id: str,
+        stream: bool,
+        logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> InferenceCompletionResponse | AsyncStream[InferenceCompletionResponse]:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["content", "model_id"], ["content", "model_id", "stream"])
+    async def completion(
+        self,
+        *,
+        content: inference_completion_params.Content,
+        model_id: str,
+        logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> InferenceCompletionResponse | AsyncStream[InferenceCompletionResponse]:
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
@@ -371,6 +761,8 @@ class AsyncInferenceResource(AsyncAPIResource):
                 cast_to=cast(
                     Any, InferenceCompletionResponse
                 ),  # Union types cannot be passed in as arguments in the type system
+                stream=stream or False,
+                stream_cls=AsyncStream[InferenceCompletionResponse],
             ),
         )
 

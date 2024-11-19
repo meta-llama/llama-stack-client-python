@@ -14,17 +14,19 @@ from .shared_params.tool_param_definition import ToolParamDefinition
 from .shared_params.tool_response_message import ToolResponseMessage
 
 __all__ = [
-    "InferenceChatCompletionParams",
+    "InferenceChatCompletionParamsBase",
     "Message",
     "Logprobs",
     "ResponseFormat",
     "ResponseFormatJsonSchemaFormat",
     "ResponseFormatGrammarFormat",
     "Tool",
+    "InferenceChatCompletionParamsNonStreaming",
+    "InferenceChatCompletionParamsStreaming",
 ]
 
 
-class InferenceChatCompletionParams(TypedDict, total=False):
+class InferenceChatCompletionParamsBase(TypedDict, total=False):
     messages: Required[Iterable[Message]]
 
     model_id: Required[str]
@@ -34,8 +36,6 @@ class InferenceChatCompletionParams(TypedDict, total=False):
     response_format: ResponseFormat
 
     sampling_params: SamplingParams
-
-    stream: bool
 
     tool_choice: Literal["auto", "required"]
 
@@ -85,3 +85,14 @@ class Tool(TypedDict, total=False):
     description: str
 
     parameters: Dict[str, ToolParamDefinition]
+
+
+class InferenceChatCompletionParamsNonStreaming(InferenceChatCompletionParamsBase, total=False):
+    stream: Literal[False]
+
+
+class InferenceChatCompletionParamsStreaming(InferenceChatCompletionParamsBase):
+    stream: Required[Literal[True]]
+
+
+InferenceChatCompletionParams = Union[InferenceChatCompletionParamsNonStreaming, InferenceChatCompletionParamsStreaming]
