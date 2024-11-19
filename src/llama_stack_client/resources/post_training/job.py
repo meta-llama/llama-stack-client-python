@@ -75,7 +75,7 @@ class JobResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/post_training/jobs",
+            "/alpha/post-training/jobs",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -109,7 +109,7 @@ class JobResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/post_training/job/artifacts",
+            "/alpha/post-training/job/artifacts",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -148,7 +148,7 @@ class JobResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/post_training/job/cancel",
+            "/alpha/post-training/job/cancel",
             body=maybe_transform({"job_uuid": job_uuid}, job_cancel_params.JobCancelParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -183,7 +183,7 @@ class JobResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/post_training/job/logs",
+            "/alpha/post-training/job/logs",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -221,7 +221,7 @@ class JobResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/post_training/job/status",
+            "/alpha/post-training/job/status",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -280,7 +280,7 @@ class AsyncJobResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/post_training/jobs",
+            "/alpha/post-training/jobs",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -314,7 +314,7 @@ class AsyncJobResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/post_training/job/artifacts",
+            "/alpha/post-training/job/artifacts",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -353,7 +353,7 @@ class AsyncJobResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/post_training/job/cancel",
+            "/alpha/post-training/job/cancel",
             body=await async_maybe_transform({"job_uuid": job_uuid}, job_cancel_params.JobCancelParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -388,7 +388,7 @@ class AsyncJobResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/post_training/job/logs",
+            "/alpha/post-training/job/logs",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -426,7 +426,7 @@ class AsyncJobResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/post_training/job/status",
+            "/alpha/post-training/job/status",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

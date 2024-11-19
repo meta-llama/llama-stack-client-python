@@ -118,7 +118,7 @@ class TestScoringFunctions:
             params={
                 "judge_model": "judge_model",
                 "type": "llm_as_judge",
-                "judge_score_regexes": ["string", "string", "string"],
+                "judge_score_regexes": ["string"],
                 "prompt_template": "prompt_template",
             },
             provider_id="provider_id",
@@ -260,7 +260,7 @@ class TestAsyncScoringFunctions:
             params={
                 "judge_model": "judge_model",
                 "type": "llm_as_judge",
-                "judge_score_regexes": ["string", "string", "string"],
+                "judge_score_regexes": ["string"],
                 "prompt_template": "prompt_template",
             },
             provider_id="provider_id",

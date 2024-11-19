@@ -1,11 +1,12 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Optional
+
 from typing_extensions import Literal
 
 from ..._models import BaseModel
-from .tool_param_definition import ToolParamDefinition
 from ..rest_api_execution_config_param import RestAPIExecutionConfigParam
+from .tool_param_definition import ToolParamDefinition
 
 __all__ = ["FunctionCallToolDefinition"]
 

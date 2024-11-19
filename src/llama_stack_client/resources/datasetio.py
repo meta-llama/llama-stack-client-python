@@ -75,7 +75,7 @@ class DatasetioResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/datasetio/get_rows_paginated",
+            "/alpha/datasetio/get-rows-paginated",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -145,7 +145,7 @@ class AsyncDatasetioResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/datasetio/get_rows_paginated",
+            "/alpha/datasetio/get-rows-paginated",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

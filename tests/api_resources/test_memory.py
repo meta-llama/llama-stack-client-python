@@ -26,17 +26,7 @@ class TestMemory:
                     "content": "string",
                     "document_id": "document_id",
                     "metadata": {"foo": True},
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                },
+                }
             ],
         )
         assert memory is None
@@ -51,19 +41,7 @@ class TestMemory:
                     "document_id": "document_id",
                     "metadata": {"foo": True},
                     "mime_type": "mime_type",
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                    "mime_type": "mime_type",
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                    "mime_type": "mime_type",
-                },
+                }
             ],
             ttl_seconds=0,
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
@@ -79,17 +57,7 @@ class TestMemory:
                     "content": "string",
                     "document_id": "document_id",
                     "metadata": {"foo": True},
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                },
+                }
             ],
         )
 
@@ -107,17 +75,7 @@ class TestMemory:
                     "content": "string",
                     "document_id": "document_id",
                     "metadata": {"foo": True},
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                },
+                }
             ],
         ) as response:
             assert not response.is_closed
@@ -185,17 +143,7 @@ class TestAsyncMemory:
                     "content": "string",
                     "document_id": "document_id",
                     "metadata": {"foo": True},
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                },
+                }
             ],
         )
         assert memory is None
@@ -210,19 +158,7 @@ class TestAsyncMemory:
                     "document_id": "document_id",
                     "metadata": {"foo": True},
                     "mime_type": "mime_type",
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                    "mime_type": "mime_type",
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                    "mime_type": "mime_type",
-                },
+                }
             ],
             ttl_seconds=0,
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
@@ -238,17 +174,7 @@ class TestAsyncMemory:
                     "content": "string",
                     "document_id": "document_id",
                     "metadata": {"foo": True},
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                },
+                }
             ],
         )
 
@@ -266,17 +192,7 @@ class TestAsyncMemory:
                     "content": "string",
                     "document_id": "document_id",
                     "metadata": {"foo": True},
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                },
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                },
+                }
             ],
         ) as response:
             assert not response.is_closed

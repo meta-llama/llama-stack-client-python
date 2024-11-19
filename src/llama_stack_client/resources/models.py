@@ -74,7 +74,7 @@ class ModelsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/models/get",
+            "/alpha/models/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -112,7 +112,7 @@ class ModelsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/models/list",
+            "/alpha/models/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -149,7 +149,7 @@ class ModelsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/models/register",
+            "/alpha/models/register",
             body=maybe_transform(
                 {
                     "model_id": model_id,
@@ -193,7 +193,7 @@ class ModelsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/models/unregister",
+            "/alpha/models/unregister",
             body=maybe_transform({"model_id": model_id}, model_unregister_params.ModelUnregisterParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -249,7 +249,7 @@ class AsyncModelsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/models/get",
+            "/alpha/models/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -289,7 +289,7 @@ class AsyncModelsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/models/list",
+            "/alpha/models/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -326,7 +326,7 @@ class AsyncModelsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/models/register",
+            "/alpha/models/register",
             body=await async_maybe_transform(
                 {
                     "model_id": model_id,
@@ -370,7 +370,7 @@ class AsyncModelsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/models/unregister",
+            "/alpha/models/unregister",
             body=await async_maybe_transform({"model_id": model_id}, model_unregister_params.ModelUnregisterParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout

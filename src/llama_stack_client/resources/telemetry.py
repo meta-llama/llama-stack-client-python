@@ -72,7 +72,7 @@ class TelemetryResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/telemetry/get_trace",
+            "/alpha/telemetry/get-trace",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -111,7 +111,7 @@ class TelemetryResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/telemetry/log_event",
+            "/alpha/telemetry/log-event",
             body=maybe_transform({"event": event}, telemetry_log_event_params.TelemetryLogEventParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -167,7 +167,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/telemetry/get_trace",
+            "/alpha/telemetry/get-trace",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -208,7 +208,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/telemetry/log_event",
+            "/alpha/telemetry/log-event",
             body=await async_maybe_transform({"event": event}, telemetry_log_event_params.TelemetryLogEventParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout

@@ -48,7 +48,7 @@ __all__ = [
 
 class LlamaStackClient(SyncAPIClient):
     agents: resources.AgentsResource
-    batch_inferences: resources.BatchInferencesResource
+    batch_inference: resources.BatchInferenceResource
     datasets: resources.DatasetsResource
     eval: resources.EvalResource
     inspect: resources.InspectResource
@@ -117,7 +117,7 @@ class LlamaStackClient(SyncAPIClient):
         )
 
         self.agents = resources.AgentsResource(self)
-        self.batch_inferences = resources.BatchInferencesResource(self)
+        self.batch_inference = resources.BatchInferenceResource(self)
         self.datasets = resources.DatasetsResource(self)
         self.eval = resources.EvalResource(self)
         self.inspect = resources.InspectResource(self)
@@ -238,7 +238,7 @@ class LlamaStackClient(SyncAPIClient):
 
 class AsyncLlamaStackClient(AsyncAPIClient):
     agents: resources.AsyncAgentsResource
-    batch_inferences: resources.AsyncBatchInferencesResource
+    batch_inference: resources.AsyncBatchInferenceResource
     datasets: resources.AsyncDatasetsResource
     eval: resources.AsyncEvalResource
     inspect: resources.AsyncInspectResource
@@ -307,7 +307,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         )
 
         self.agents = resources.AsyncAgentsResource(self)
-        self.batch_inferences = resources.AsyncBatchInferencesResource(self)
+        self.batch_inference = resources.AsyncBatchInferenceResource(self)
         self.datasets = resources.AsyncDatasetsResource(self)
         self.eval = resources.AsyncEvalResource(self)
         self.inspect = resources.AsyncInspectResource(self)
@@ -429,7 +429,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
 class LlamaStackClientWithRawResponse:
     def __init__(self, client: LlamaStackClient) -> None:
         self.agents = resources.AgentsResourceWithRawResponse(client.agents)
-        self.batch_inferences = resources.BatchInferencesResourceWithRawResponse(client.batch_inferences)
+        self.batch_inference = resources.BatchInferenceResourceWithRawResponse(client.batch_inference)
         self.datasets = resources.DatasetsResourceWithRawResponse(client.datasets)
         self.eval = resources.EvalResourceWithRawResponse(client.eval)
         self.inspect = resources.InspectResourceWithRawResponse(client.inspect)
@@ -455,7 +455,7 @@ class LlamaStackClientWithRawResponse:
 class AsyncLlamaStackClientWithRawResponse:
     def __init__(self, client: AsyncLlamaStackClient) -> None:
         self.agents = resources.AsyncAgentsResourceWithRawResponse(client.agents)
-        self.batch_inferences = resources.AsyncBatchInferencesResourceWithRawResponse(client.batch_inferences)
+        self.batch_inference = resources.AsyncBatchInferenceResourceWithRawResponse(client.batch_inference)
         self.datasets = resources.AsyncDatasetsResourceWithRawResponse(client.datasets)
         self.eval = resources.AsyncEvalResourceWithRawResponse(client.eval)
         self.inspect = resources.AsyncInspectResourceWithRawResponse(client.inspect)
@@ -481,7 +481,7 @@ class AsyncLlamaStackClientWithRawResponse:
 class LlamaStackClientWithStreamedResponse:
     def __init__(self, client: LlamaStackClient) -> None:
         self.agents = resources.AgentsResourceWithStreamingResponse(client.agents)
-        self.batch_inferences = resources.BatchInferencesResourceWithStreamingResponse(client.batch_inferences)
+        self.batch_inference = resources.BatchInferenceResourceWithStreamingResponse(client.batch_inference)
         self.datasets = resources.DatasetsResourceWithStreamingResponse(client.datasets)
         self.eval = resources.EvalResourceWithStreamingResponse(client.eval)
         self.inspect = resources.InspectResourceWithStreamingResponse(client.inspect)
@@ -507,7 +507,7 @@ class LlamaStackClientWithStreamedResponse:
 class AsyncLlamaStackClientWithStreamedResponse:
     def __init__(self, client: AsyncLlamaStackClient) -> None:
         self.agents = resources.AsyncAgentsResourceWithStreamingResponse(client.agents)
-        self.batch_inferences = resources.AsyncBatchInferencesResourceWithStreamingResponse(client.batch_inferences)
+        self.batch_inference = resources.AsyncBatchInferenceResourceWithStreamingResponse(client.batch_inference)
         self.datasets = resources.AsyncDatasetsResourceWithStreamingResponse(client.datasets)
         self.eval = resources.AsyncEvalResourceWithStreamingResponse(client.eval)
         self.inspect = resources.AsyncInspectResourceWithStreamingResponse(client.inspect)
