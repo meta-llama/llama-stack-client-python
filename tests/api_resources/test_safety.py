@@ -24,15 +24,7 @@ class TestSafety:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             params={"foo": True},
             shield_id="shield_id",
@@ -47,17 +39,7 @@ class TestSafety:
                     "content": "string",
                     "role": "user",
                     "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
+                }
             ],
             params={"foo": True},
             shield_id="shield_id",
@@ -72,15 +54,7 @@ class TestSafety:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             params={"foo": True},
             shield_id="shield_id",
@@ -98,15 +72,7 @@ class TestSafety:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             params={"foo": True},
             shield_id="shield_id",
@@ -130,15 +96,7 @@ class TestAsyncSafety:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             params={"foo": True},
             shield_id="shield_id",
@@ -153,17 +111,7 @@ class TestAsyncSafety:
                     "content": "string",
                     "role": "user",
                     "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
+                }
             ],
             params={"foo": True},
             shield_id="shield_id",
@@ -178,15 +126,7 @@ class TestAsyncSafety:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             params={"foo": True},
             shield_id="shield_id",
@@ -204,15 +144,7 @@ class TestAsyncSafety:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             params={"foo": True},
             shield_id="shield_id",

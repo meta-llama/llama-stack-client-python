@@ -105,7 +105,7 @@ class TestEvalTasks:
         eval_task = client.eval_tasks.register(
             dataset_id="dataset_id",
             eval_task_id="eval_task_id",
-            scoring_functions=["string", "string", "string"],
+            scoring_functions=["string"],
         )
         assert eval_task is None
 
@@ -114,7 +114,7 @@ class TestEvalTasks:
         eval_task = client.eval_tasks.register(
             dataset_id="dataset_id",
             eval_task_id="eval_task_id",
-            scoring_functions=["string", "string", "string"],
+            scoring_functions=["string"],
             metadata={"foo": True},
             provider_eval_task_id="provider_eval_task_id",
             provider_id="provider_id",
@@ -127,7 +127,7 @@ class TestEvalTasks:
         response = client.eval_tasks.with_raw_response.register(
             dataset_id="dataset_id",
             eval_task_id="eval_task_id",
-            scoring_functions=["string", "string", "string"],
+            scoring_functions=["string"],
         )
 
         assert response.is_closed is True
@@ -140,7 +140,7 @@ class TestEvalTasks:
         with client.eval_tasks.with_streaming_response.register(
             dataset_id="dataset_id",
             eval_task_id="eval_task_id",
-            scoring_functions=["string", "string", "string"],
+            scoring_functions=["string"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -242,7 +242,7 @@ class TestAsyncEvalTasks:
         eval_task = await async_client.eval_tasks.register(
             dataset_id="dataset_id",
             eval_task_id="eval_task_id",
-            scoring_functions=["string", "string", "string"],
+            scoring_functions=["string"],
         )
         assert eval_task is None
 
@@ -251,7 +251,7 @@ class TestAsyncEvalTasks:
         eval_task = await async_client.eval_tasks.register(
             dataset_id="dataset_id",
             eval_task_id="eval_task_id",
-            scoring_functions=["string", "string", "string"],
+            scoring_functions=["string"],
             metadata={"foo": True},
             provider_eval_task_id="provider_eval_task_id",
             provider_id="provider_id",
@@ -264,7 +264,7 @@ class TestAsyncEvalTasks:
         response = await async_client.eval_tasks.with_raw_response.register(
             dataset_id="dataset_id",
             eval_task_id="eval_task_id",
-            scoring_functions=["string", "string", "string"],
+            scoring_functions=["string"],
         )
 
         assert response.is_closed is True
@@ -277,7 +277,7 @@ class TestAsyncEvalTasks:
         async with async_client.eval_tasks.with_streaming_response.register(
             dataset_id="dataset_id",
             eval_task_id="eval_task_id",
-            scoring_functions=["string", "string", "string"],
+            scoring_functions=["string"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

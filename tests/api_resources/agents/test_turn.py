@@ -28,15 +28,7 @@ class TestTurn:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             session_id="session_id",
         )
@@ -54,32 +46,14 @@ class TestTurn:
                     "content": "string",
                     "role": "user",
                     "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
+                }
             ],
             session_id="session_id",
             attachments=[
                 {
                     "content": "string",
                     "mime_type": "mime_type",
-                },
-                {
-                    "content": "string",
-                    "mime_type": "mime_type",
-                },
-                {
-                    "content": "string",
-                    "mime_type": "mime_type",
-                },
+                }
             ],
             stream=False,
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
@@ -97,15 +71,7 @@ class TestTurn:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             session_id="session_id",
         )
@@ -126,15 +92,7 @@ class TestTurn:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             session_id="session_id",
         ) as response:
@@ -157,15 +115,7 @@ class TestTurn:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             session_id="session_id",
             stream=True,
@@ -184,17 +134,7 @@ class TestTurn:
                     "content": "string",
                     "role": "user",
                     "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
+                }
             ],
             session_id="session_id",
             stream=True,
@@ -202,15 +142,7 @@ class TestTurn:
                 {
                     "content": "string",
                     "mime_type": "mime_type",
-                },
-                {
-                    "content": "string",
-                    "mime_type": "mime_type",
-                },
-                {
-                    "content": "string",
-                    "mime_type": "mime_type",
-                },
+                }
             ],
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
@@ -227,15 +159,7 @@ class TestTurn:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             session_id="session_id",
             stream=True,
@@ -256,15 +180,7 @@ class TestTurn:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             session_id="session_id",
             stream=True,
@@ -339,15 +255,7 @@ class TestAsyncTurn:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             session_id="session_id",
         )
@@ -365,32 +273,14 @@ class TestAsyncTurn:
                     "content": "string",
                     "role": "user",
                     "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
+                }
             ],
             session_id="session_id",
             attachments=[
                 {
                     "content": "string",
                     "mime_type": "mime_type",
-                },
-                {
-                    "content": "string",
-                    "mime_type": "mime_type",
-                },
-                {
-                    "content": "string",
-                    "mime_type": "mime_type",
-                },
+                }
             ],
             stream=False,
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
@@ -408,15 +298,7 @@ class TestAsyncTurn:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             session_id="session_id",
         )
@@ -437,15 +319,7 @@ class TestAsyncTurn:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             session_id="session_id",
         ) as response:
@@ -468,15 +342,7 @@ class TestAsyncTurn:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             session_id="session_id",
             stream=True,
@@ -495,17 +361,7 @@ class TestAsyncTurn:
                     "content": "string",
                     "role": "user",
                     "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
+                }
             ],
             session_id="session_id",
             stream=True,
@@ -513,15 +369,7 @@ class TestAsyncTurn:
                 {
                     "content": "string",
                     "mime_type": "mime_type",
-                },
-                {
-                    "content": "string",
-                    "mime_type": "mime_type",
-                },
-                {
-                    "content": "string",
-                    "mime_type": "mime_type",
-                },
+                }
             ],
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
@@ -538,15 +386,7 @@ class TestAsyncTurn:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             session_id="session_id",
             stream=True,
@@ -567,15 +407,7 @@ class TestAsyncTurn:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             session_id="session_id",
             stream=True,

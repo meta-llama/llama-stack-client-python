@@ -76,7 +76,7 @@ class TestSession:
         session = client.agents.session.retrieve(
             agent_id="agent_id",
             session_id="session_id",
-            turn_ids=["string", "string", "string"],
+            turn_ids=["string"],
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(Session, session, path=["response"])
@@ -210,7 +210,7 @@ class TestAsyncSession:
         session = await async_client.agents.session.retrieve(
             agent_id="agent_id",
             session_id="session_id",
-            turn_ids=["string", "string", "string"],
+            turn_ids=["string"],
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
         assert_matches_type(Session, session, path=["response"])
