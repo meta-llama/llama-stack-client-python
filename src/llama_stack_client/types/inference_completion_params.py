@@ -10,17 +10,19 @@ from .shared_params.image_media import ImageMedia
 from .shared_params.sampling_params import SamplingParams
 
 __all__ = [
-    "InferenceCompletionParams",
+    "InferenceCompletionParamsBase",
     "Content",
     "ContentImageMediaArray",
     "Logprobs",
     "ResponseFormat",
     "ResponseFormatJsonSchemaFormat",
     "ResponseFormatGrammarFormat",
+    "InferenceCompletionParamsNonStreaming",
+    "InferenceCompletionParamsStreaming",
 ]
 
 
-class InferenceCompletionParams(TypedDict, total=False):
+class InferenceCompletionParamsBase(TypedDict, total=False):
     content: Required[Content]
 
     model_id: Required[str]
@@ -30,8 +32,6 @@ class InferenceCompletionParams(TypedDict, total=False):
     response_format: ResponseFormat
 
     sampling_params: SamplingParams
-
-    stream: bool
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
@@ -58,3 +58,14 @@ class ResponseFormatGrammarFormat(TypedDict, total=False):
 
 
 ResponseFormat: TypeAlias = Union[ResponseFormatJsonSchemaFormat, ResponseFormatGrammarFormat]
+
+
+class InferenceCompletionParamsNonStreaming(InferenceCompletionParamsBase, total=False):
+    stream: Literal[False]
+
+
+class InferenceCompletionParamsStreaming(InferenceCompletionParamsBase):
+    stream: Required[Literal[True]]
+
+
+InferenceCompletionParams = Union[InferenceCompletionParamsNonStreaming, InferenceCompletionParamsStreaming]
