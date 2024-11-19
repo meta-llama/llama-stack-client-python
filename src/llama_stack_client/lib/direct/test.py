@@ -12,7 +12,7 @@ async def main(config_path: str):
 
     run_config = parse_and_maybe_upgrade_config(config_dict)
 
-    client = LlamaStackDirectClient(config=run_config)
+    client = await LlamaStackDirectClient.from_config(run_config)
     await client.initialize()
 
     response = await client.models.list()
