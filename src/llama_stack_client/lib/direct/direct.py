@@ -6,6 +6,9 @@ from llama_stack.distribution.distribution import get_provider_registry
 from llama_stack.distribution.resolver import resolve_impls
 from llama_stack.distribution.server.endpoints import get_all_api_endpoints
 from llama_stack.distribution.server.server import is_streaming_request
+from llama_stack.distribution.stack import (
+    get_stack_run_config_from_template,
+)
 
 from llama_stack.distribution.store.registry import create_dist_registry
 from pydantic import BaseModel
@@ -17,15 +20,21 @@ from ..._types import Body, NOT_GIVEN, RequestFiles, RequestOptions
 
 
 class LlamaStackDirectClient(LlamaStackClient):
-    def __init__(self, config: StackRunConfig, **kwargs):
+    def __init__(self, config: StackRunConfig | str, **kwargs):
         super().__init__(**kwargs)
         self.endpoints = get_all_api_endpoints()
-        self.config = config
+
+        # Allow initialization with template name string
+        if isinstance(config, str):
+            self.config = get_stack_run_config_from_template(config)
+        else:
+            self.config = config
+
         self.dist_registry = None
         self.impls = None
 
     async def initialize(self) -> None:
-        self.dist_registry, _ = await create_dist_registry(self.config)
+        self.dist_registry, _ = await create_dist_registry(self.config.metadata_store, image_name="")
         self.impls = await resolve_impls(self.config, get_provider_registry(), self.dist_registry)
 
     def _convert_param(self, param_type: Any, value: Any) -> Any:
