@@ -22,7 +22,7 @@ from ..._types import Body, NOT_GIVEN, RequestFiles, RequestOptions
 
 class LlamaStackDirectClient(LlamaStackClient):
     def __init__(self, config: StackRunConfig, **kwargs):
-        raise TypeError("Use from_yaml() or from_template() instead of direct initialization")
+        raise TypeError("Use from_config() or from_template() instead of direct initialization")
 
     @classmethod
     async def from_config(cls, config: StackRunConfig, **kwargs):
