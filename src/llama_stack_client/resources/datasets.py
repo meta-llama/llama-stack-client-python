@@ -75,7 +75,7 @@ class DatasetsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/datasets/get",
+            "/alpha/datasets/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -113,7 +113,7 @@ class DatasetsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/datasets/list",
+            "/alpha/datasets/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -153,7 +153,7 @@ class DatasetsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/datasets/register",
+            "/alpha/datasets/register",
             body=maybe_transform(
                 {
                     "dataset_id": dataset_id,
@@ -219,7 +219,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/datasets/get",
+            "/alpha/datasets/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -259,7 +259,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/datasets/list",
+            "/alpha/datasets/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -299,7 +299,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/datasets/register",
+            "/alpha/datasets/register",
             body=await async_maybe_transform(
                 {
                     "dataset_id": dataset_id,

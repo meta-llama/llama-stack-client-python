@@ -103,7 +103,7 @@ class InferenceResource(SyncAPIResource):
         return cast(
             InferenceChatCompletionResponse,
             self._post(
-                "/inference/chat_completion",
+                "/alpha/inference/chat-completion",
                 body=maybe_transform(
                     {
                         "messages": messages,
@@ -162,7 +162,7 @@ class InferenceResource(SyncAPIResource):
         return cast(
             InferenceCompletionResponse,
             self._post(
-                "/inference/completion",
+                "/alpha/inference/completion",
                 body=maybe_transform(
                     {
                         "content": content,
@@ -211,7 +211,7 @@ class InferenceResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/inference/embeddings",
+            "/alpha/inference/embeddings",
             body=maybe_transform(
                 {
                     "contents": contents,
@@ -294,7 +294,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         return cast(
             InferenceChatCompletionResponse,
             await self._post(
-                "/inference/chat_completion",
+                "/alpha/inference/chat-completion",
                 body=await async_maybe_transform(
                     {
                         "messages": messages,
@@ -353,7 +353,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         return cast(
             InferenceCompletionResponse,
             await self._post(
-                "/inference/completion",
+                "/alpha/inference/completion",
                 body=await async_maybe_transform(
                     {
                         "content": content,
@@ -402,7 +402,7 @@ class AsyncInferenceResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/inference/embeddings",
+            "/alpha/inference/embeddings",
             body=await async_maybe_transform(
                 {
                     "contents": contents,

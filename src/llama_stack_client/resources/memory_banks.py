@@ -81,7 +81,7 @@ class MemoryBanksResource(SyncAPIResource):
         return cast(
             Optional[MemoryBankRetrieveResponse],
             self._get(
-                "/memory_banks/get",
+                "/alpha/memory-banks/get",
                 options=make_request_options(
                     extra_headers=extra_headers,
                     extra_query=extra_query,
@@ -126,7 +126,7 @@ class MemoryBanksResource(SyncAPIResource):
         return cast(
             MemoryBankListResponse,
             self._get(
-                "/memory_banks/list",
+                "/alpha/memory-banks/list",
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
@@ -167,7 +167,7 @@ class MemoryBanksResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/memory_banks/register",
+            "/alpha/memory-banks/register",
             body=maybe_transform(
                 {
                     "memory_bank_id": memory_bank_id,
@@ -211,7 +211,7 @@ class MemoryBanksResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/memory_banks/unregister",
+            "/alpha/memory-banks/unregister",
             body=maybe_transform(
                 {"memory_bank_id": memory_bank_id}, memory_bank_unregister_params.MemoryBankUnregisterParams
             ),
@@ -271,7 +271,7 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
         return cast(
             Optional[MemoryBankRetrieveResponse],
             await self._get(
-                "/memory_banks/get",
+                "/alpha/memory-banks/get",
                 options=make_request_options(
                     extra_headers=extra_headers,
                     extra_query=extra_query,
@@ -316,7 +316,7 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
         return cast(
             MemoryBankListResponse,
             await self._get(
-                "/memory_banks/list",
+                "/alpha/memory-banks/list",
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
@@ -357,7 +357,7 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/memory_banks/register",
+            "/alpha/memory-banks/register",
             body=await async_maybe_transform(
                 {
                     "memory_bank_id": memory_bank_id,
@@ -401,7 +401,7 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/memory_banks/unregister",
+            "/alpha/memory-banks/unregister",
             body=await async_maybe_transform(
                 {"memory_bank_id": memory_bank_id}, memory_bank_unregister_params.MemoryBankUnregisterParams
             ),

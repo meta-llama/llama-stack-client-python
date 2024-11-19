@@ -20,8 +20,8 @@ class TestEval:
     @parametrize
     def test_method_evaluate_rows(self, client: LlamaStackClient) -> None:
         eval = client.eval.evaluate_rows(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
-            scoring_functions=["string", "string", "string"],
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
             task_config={
                 "eval_candidate": {
                     "model": "model",
@@ -37,8 +37,8 @@ class TestEval:
     @parametrize
     def test_method_evaluate_rows_with_all_params(self, client: LlamaStackClient) -> None:
         eval = client.eval.evaluate_rows(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
-            scoring_functions=["string", "string", "string"],
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
             task_config={
                 "eval_candidate": {
                     "model": "model",
@@ -67,8 +67,8 @@ class TestEval:
     @parametrize
     def test_raw_response_evaluate_rows(self, client: LlamaStackClient) -> None:
         response = client.eval.with_raw_response.evaluate_rows(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
-            scoring_functions=["string", "string", "string"],
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
             task_config={
                 "eval_candidate": {
                     "model": "model",
@@ -88,8 +88,8 @@ class TestEval:
     @parametrize
     def test_streaming_response_evaluate_rows(self, client: LlamaStackClient) -> None:
         with client.eval.with_streaming_response.evaluate_rows(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
-            scoring_functions=["string", "string", "string"],
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
             task_config={
                 "eval_candidate": {
                     "model": "model",
@@ -198,8 +198,8 @@ class TestAsyncEval:
     @parametrize
     async def test_method_evaluate_rows(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.evaluate_rows(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
-            scoring_functions=["string", "string", "string"],
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
             task_config={
                 "eval_candidate": {
                     "model": "model",
@@ -215,8 +215,8 @@ class TestAsyncEval:
     @parametrize
     async def test_method_evaluate_rows_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.evaluate_rows(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
-            scoring_functions=["string", "string", "string"],
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
             task_config={
                 "eval_candidate": {
                     "model": "model",
@@ -245,8 +245,8 @@ class TestAsyncEval:
     @parametrize
     async def test_raw_response_evaluate_rows(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.eval.with_raw_response.evaluate_rows(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
-            scoring_functions=["string", "string", "string"],
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
             task_config={
                 "eval_candidate": {
                     "model": "model",
@@ -266,8 +266,8 @@ class TestAsyncEval:
     @parametrize
     async def test_streaming_response_evaluate_rows(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.eval.with_streaming_response.evaluate_rows(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
-            scoring_functions=["string", "string", "string"],
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
             task_config={
                 "eval_candidate": {
                     "model": "model",

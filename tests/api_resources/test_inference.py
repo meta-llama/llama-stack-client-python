@@ -31,15 +31,7 @@ class TestInference:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             model_id="model_id",
         )
@@ -56,17 +48,7 @@ class TestInference:
                     "content": "string",
                     "role": "user",
                     "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
+                }
             ],
             model_id="model_id",
             logprobs={"top_k": 0},
@@ -97,31 +79,7 @@ class TestInference:
                             "required": True,
                         }
                     },
-                },
-                {
-                    "tool_name": "brave_search",
-                    "description": "description",
-                    "parameters": {
-                        "foo": {
-                            "param_type": "param_type",
-                            "default": True,
-                            "description": "description",
-                            "required": True,
-                        }
-                    },
-                },
-                {
-                    "tool_name": "brave_search",
-                    "description": "description",
-                    "parameters": {
-                        "foo": {
-                            "param_type": "param_type",
-                            "default": True,
-                            "description": "description",
-                            "required": True,
-                        }
-                    },
-                },
+                }
             ],
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
@@ -137,15 +95,7 @@ class TestInference:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             model_id="model_id",
         )
@@ -165,15 +115,7 @@ class TestInference:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             model_id="model_id",
         ) as response:
@@ -257,7 +199,7 @@ class TestInference:
     @parametrize
     def test_method_embeddings(self, client: LlamaStackClient) -> None:
         inference = client.inference.embeddings(
-            contents=["string", "string", "string"],
+            contents=["string"],
             model_id="model_id",
         )
         assert_matches_type(EmbeddingsResponse, inference, path=["response"])
@@ -265,7 +207,7 @@ class TestInference:
     @parametrize
     def test_method_embeddings_with_all_params(self, client: LlamaStackClient) -> None:
         inference = client.inference.embeddings(
-            contents=["string", "string", "string"],
+            contents=["string"],
             model_id="model_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
@@ -274,7 +216,7 @@ class TestInference:
     @parametrize
     def test_raw_response_embeddings(self, client: LlamaStackClient) -> None:
         response = client.inference.with_raw_response.embeddings(
-            contents=["string", "string", "string"],
+            contents=["string"],
             model_id="model_id",
         )
 
@@ -286,7 +228,7 @@ class TestInference:
     @parametrize
     def test_streaming_response_embeddings(self, client: LlamaStackClient) -> None:
         with client.inference.with_streaming_response.embeddings(
-            contents=["string", "string", "string"],
+            contents=["string"],
             model_id="model_id",
         ) as response:
             assert not response.is_closed
@@ -311,15 +253,7 @@ class TestAsyncInference:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             model_id="model_id",
         )
@@ -336,17 +270,7 @@ class TestAsyncInference:
                     "content": "string",
                     "role": "user",
                     "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
+                }
             ],
             model_id="model_id",
             logprobs={"top_k": 0},
@@ -377,31 +301,7 @@ class TestAsyncInference:
                             "required": True,
                         }
                     },
-                },
-                {
-                    "tool_name": "brave_search",
-                    "description": "description",
-                    "parameters": {
-                        "foo": {
-                            "param_type": "param_type",
-                            "default": True,
-                            "description": "description",
-                            "required": True,
-                        }
-                    },
-                },
-                {
-                    "tool_name": "brave_search",
-                    "description": "description",
-                    "parameters": {
-                        "foo": {
-                            "param_type": "param_type",
-                            "default": True,
-                            "description": "description",
-                            "required": True,
-                        }
-                    },
-                },
+                }
             ],
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
@@ -417,15 +317,7 @@ class TestAsyncInference:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             model_id="model_id",
         )
@@ -445,15 +337,7 @@ class TestAsyncInference:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             model_id="model_id",
         ) as response:
@@ -537,7 +421,7 @@ class TestAsyncInference:
     @parametrize
     async def test_method_embeddings(self, async_client: AsyncLlamaStackClient) -> None:
         inference = await async_client.inference.embeddings(
-            contents=["string", "string", "string"],
+            contents=["string"],
             model_id="model_id",
         )
         assert_matches_type(EmbeddingsResponse, inference, path=["response"])
@@ -545,7 +429,7 @@ class TestAsyncInference:
     @parametrize
     async def test_method_embeddings_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         inference = await async_client.inference.embeddings(
-            contents=["string", "string", "string"],
+            contents=["string"],
             model_id="model_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
@@ -554,7 +438,7 @@ class TestAsyncInference:
     @parametrize
     async def test_raw_response_embeddings(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.inference.with_raw_response.embeddings(
-            contents=["string", "string", "string"],
+            contents=["string"],
             model_id="model_id",
         )
 
@@ -566,7 +450,7 @@ class TestAsyncInference:
     @parametrize
     async def test_streaming_response_embeddings(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.inference.with_streaming_response.embeddings(
-            contents=["string", "string", "string"],
+            contents=["string"],
             model_id="model_id",
         ) as response:
             assert not response.is_closed

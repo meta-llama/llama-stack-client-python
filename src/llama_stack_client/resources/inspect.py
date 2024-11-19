@@ -66,7 +66,7 @@ class InspectResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/health",
+            "/alpha/health",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -120,7 +120,7 @@ class AsyncInspectResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/health",
+            "/alpha/health",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

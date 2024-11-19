@@ -24,15 +24,7 @@ class TestSyntheticDataGeneration:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             filtering_function="none",
         )
@@ -46,17 +38,7 @@ class TestSyntheticDataGeneration:
                     "content": "string",
                     "role": "user",
                     "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
+                }
             ],
             filtering_function="none",
             model="model",
@@ -71,15 +53,7 @@ class TestSyntheticDataGeneration:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             filtering_function="none",
         )
@@ -96,15 +70,7 @@ class TestSyntheticDataGeneration:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             filtering_function="none",
         ) as response:
@@ -127,15 +93,7 @@ class TestAsyncSyntheticDataGeneration:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             filtering_function="none",
         )
@@ -149,17 +107,7 @@ class TestAsyncSyntheticDataGeneration:
                     "content": "string",
                     "role": "user",
                     "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                },
+                }
             ],
             filtering_function="none",
             model="model",
@@ -174,15 +122,7 @@ class TestAsyncSyntheticDataGeneration:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             filtering_function="none",
         )
@@ -199,15 +139,7 @@ class TestAsyncSyntheticDataGeneration:
                 {
                     "content": "string",
                     "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
-                {
-                    "content": "string",
-                    "role": "user",
-                },
+                }
             ],
             filtering_function="none",
         ) as response:

@@ -96,7 +96,7 @@ class PostTrainingResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/post_training/preference_optimize",
+            "/alpha/post-training/preference-optimize",
             body=maybe_transform(
                 {
                     "algorithm": algorithm,
@@ -154,7 +154,7 @@ class PostTrainingResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/post_training/supervised_fine_tune",
+            "/alpha/post-training/supervised-fine-tune",
             body=maybe_transform(
                 {
                     "algorithm": algorithm,
@@ -237,7 +237,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/post_training/preference_optimize",
+            "/alpha/post-training/preference-optimize",
             body=await async_maybe_transform(
                 {
                     "algorithm": algorithm,
@@ -295,7 +295,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/post_training/supervised_fine_tune",
+            "/alpha/post-training/supervised-fine-tune",
             body=await async_maybe_transform(
                 {
                     "algorithm": algorithm,

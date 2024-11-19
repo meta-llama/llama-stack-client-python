@@ -23,7 +23,7 @@ class TestScoring:
     @parametrize
     def test_method_score(self, client: LlamaStackClient) -> None:
         scoring = client.scoring.score(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
+            input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
                     "judge_model": "judge_model",
@@ -36,12 +36,12 @@ class TestScoring:
     @parametrize
     def test_method_score_with_all_params(self, client: LlamaStackClient) -> None:
         scoring = client.scoring.score(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
+            input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
                     "judge_model": "judge_model",
                     "type": "llm_as_judge",
-                    "judge_score_regexes": ["string", "string", "string"],
+                    "judge_score_regexes": ["string"],
                     "prompt_template": "prompt_template",
                 }
             },
@@ -52,7 +52,7 @@ class TestScoring:
     @parametrize
     def test_raw_response_score(self, client: LlamaStackClient) -> None:
         response = client.scoring.with_raw_response.score(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
+            input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
                     "judge_model": "judge_model",
@@ -69,7 +69,7 @@ class TestScoring:
     @parametrize
     def test_streaming_response_score(self, client: LlamaStackClient) -> None:
         with client.scoring.with_streaming_response.score(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
+            input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
                     "judge_model": "judge_model",
@@ -108,7 +108,7 @@ class TestScoring:
                 "foo": {
                     "judge_model": "judge_model",
                     "type": "llm_as_judge",
-                    "judge_score_regexes": ["string", "string", "string"],
+                    "judge_score_regexes": ["string"],
                     "prompt_template": "prompt_template",
                 }
             },
@@ -161,7 +161,7 @@ class TestAsyncScoring:
     @parametrize
     async def test_method_score(self, async_client: AsyncLlamaStackClient) -> None:
         scoring = await async_client.scoring.score(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
+            input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
                     "judge_model": "judge_model",
@@ -174,12 +174,12 @@ class TestAsyncScoring:
     @parametrize
     async def test_method_score_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         scoring = await async_client.scoring.score(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
+            input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
                     "judge_model": "judge_model",
                     "type": "llm_as_judge",
-                    "judge_score_regexes": ["string", "string", "string"],
+                    "judge_score_regexes": ["string"],
                     "prompt_template": "prompt_template",
                 }
             },
@@ -190,7 +190,7 @@ class TestAsyncScoring:
     @parametrize
     async def test_raw_response_score(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.scoring.with_raw_response.score(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
+            input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
                     "judge_model": "judge_model",
@@ -207,7 +207,7 @@ class TestAsyncScoring:
     @parametrize
     async def test_streaming_response_score(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.scoring.with_streaming_response.score(
-            input_rows=[{"foo": True}, {"foo": True}, {"foo": True}],
+            input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
                     "judge_model": "judge_model",
@@ -246,7 +246,7 @@ class TestAsyncScoring:
                 "foo": {
                     "judge_model": "judge_model",
                     "type": "llm_as_judge",
-                    "judge_score_regexes": ["string", "string", "string"],
+                    "judge_score_regexes": ["string"],
                     "prompt_template": "prompt_template",
                 }
             },

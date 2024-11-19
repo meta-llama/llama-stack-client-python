@@ -23,9 +23,9 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.batch_chat_completion import BatchChatCompletion
 from ..types.shared.batch_completion import BatchCompletion
 from ..types.shared_params.sampling_params import SamplingParams
+from ..types.batch_inference_chat_completion_response import BatchInferenceChatCompletionResponse
 
 __all__ = ["BatchInferenceResource", "AsyncBatchInferenceResource"]
 
@@ -67,7 +67,7 @@ class BatchInferenceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BatchChatCompletion:
+    ) -> BatchInferenceChatCompletionResponse:
         """
         Args:
           tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
@@ -93,7 +93,7 @@ class BatchInferenceResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/batch_inference/chat_completion",
+            "/alpha/batch-inference/chat-completion",
             body=maybe_transform(
                 {
                     "messages_batch": messages_batch,
@@ -109,7 +109,7 @@ class BatchInferenceResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BatchChatCompletion,
+            cast_to=BatchInferenceChatCompletionResponse,
         )
 
     def completion(
@@ -142,7 +142,7 @@ class BatchInferenceResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/batch_inference/completion",
+            "/alpha/batch-inference/completion",
             body=maybe_transform(
                 {
                     "content_batch": content_batch,
@@ -196,7 +196,7 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BatchChatCompletion:
+    ) -> BatchInferenceChatCompletionResponse:
         """
         Args:
           tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
@@ -222,7 +222,7 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/batch_inference/chat_completion",
+            "/alpha/batch-inference/chat-completion",
             body=await async_maybe_transform(
                 {
                     "messages_batch": messages_batch,
@@ -238,7 +238,7 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BatchChatCompletion,
+            cast_to=BatchInferenceChatCompletionResponse,
         )
 
     async def completion(
@@ -271,7 +271,7 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/batch_inference/completion",
+            "/alpha/batch-inference/completion",
             body=await async_maybe_transform(
                 {
                     "content_batch": content_batch,

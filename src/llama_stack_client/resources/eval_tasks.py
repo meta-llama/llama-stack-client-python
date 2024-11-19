@@ -74,7 +74,7 @@ class EvalTasksResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/eval_tasks/get",
+            "/alpha/eval-tasks/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -112,7 +112,7 @@ class EvalTasksResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/eval_tasks/list",
+            "/alpha/eval-tasks/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -152,7 +152,7 @@ class EvalTasksResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/eval_tasks/register",
+            "/alpha/eval-tasks/register",
             body=maybe_transform(
                 {
                     "dataset_id": dataset_id,
@@ -218,7 +218,7 @@ class AsyncEvalTasksResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/eval_tasks/get",
+            "/alpha/eval-tasks/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -256,7 +256,7 @@ class AsyncEvalTasksResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/eval_tasks/list",
+            "/alpha/eval-tasks/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -296,7 +296,7 @@ class AsyncEvalTasksResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/eval_tasks/register",
+            "/alpha/eval-tasks/register",
             body=await async_maybe_transform(
                 {
                     "dataset_id": dataset_id,

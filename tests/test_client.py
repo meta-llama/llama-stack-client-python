@@ -4,11 +4,14 @@ from __future__ import annotations
 
 import gc
 import os
+import sys
 import json
 import asyncio
 import inspect
+import subprocess
 import tracemalloc
 from typing import Any, Union, cast
+from textwrap import dedent
 from unittest import mock
 from typing_extensions import Literal
 
@@ -672,11 +675,11 @@ class TestLlamaStackClient:
     @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/models/register").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/alpha/models/register").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             self.client.post(
-                "/models/register",
+                "/alpha/models/register",
                 body=cast(object, dict(model_id="model_id")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
@@ -687,11 +690,11 @@ class TestLlamaStackClient:
     @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/models/register").mock(return_value=httpx.Response(500))
+        respx_mock.post("/alpha/models/register").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             self.client.post(
-                "/models/register",
+                "/alpha/models/register",
                 body=cast(object, dict(model_id="model_id")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
@@ -723,7 +726,7 @@ class TestLlamaStackClient:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/models/register").mock(side_effect=retry_handler)
+        respx_mock.post("/alpha/models/register").mock(side_effect=retry_handler)
 
         response = client.models.with_raw_response.register(model_id="model_id")
 
@@ -747,7 +750,7 @@ class TestLlamaStackClient:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/models/register").mock(side_effect=retry_handler)
+        respx_mock.post("/alpha/models/register").mock(side_effect=retry_handler)
 
         response = client.models.with_raw_response.register(
             model_id="model_id", extra_headers={"x-stainless-retry-count": Omit()}
@@ -772,7 +775,7 @@ class TestLlamaStackClient:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/models/register").mock(side_effect=retry_handler)
+        respx_mock.post("/alpha/models/register").mock(side_effect=retry_handler)
 
         response = client.models.with_raw_response.register(
             model_id="model_id", extra_headers={"x-stainless-retry-count": "42"}
@@ -1413,11 +1416,11 @@ class TestAsyncLlamaStackClient:
     @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/models/register").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/alpha/models/register").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             await self.client.post(
-                "/models/register",
+                "/alpha/models/register",
                 body=cast(object, dict(model_id="model_id")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
@@ -1428,11 +1431,11 @@ class TestAsyncLlamaStackClient:
     @mock.patch("llama_stack_client._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/models/register").mock(return_value=httpx.Response(500))
+        respx_mock.post("/alpha/models/register").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             await self.client.post(
-                "/models/register",
+                "/alpha/models/register",
                 body=cast(object, dict(model_id="model_id")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
@@ -1465,7 +1468,7 @@ class TestAsyncLlamaStackClient:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/models/register").mock(side_effect=retry_handler)
+        respx_mock.post("/alpha/models/register").mock(side_effect=retry_handler)
 
         response = await client.models.with_raw_response.register(model_id="model_id")
 
@@ -1490,7 +1493,7 @@ class TestAsyncLlamaStackClient:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/models/register").mock(side_effect=retry_handler)
+        respx_mock.post("/alpha/models/register").mock(side_effect=retry_handler)
 
         response = await client.models.with_raw_response.register(
             model_id="model_id", extra_headers={"x-stainless-retry-count": Omit()}
@@ -1516,10 +1519,45 @@ class TestAsyncLlamaStackClient:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/models/register").mock(side_effect=retry_handler)
+        respx_mock.post("/alpha/models/register").mock(side_effect=retry_handler)
 
         response = await client.models.with_raw_response.register(
             model_id="model_id", extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
+
+    def test_get_platform(self) -> None:
+        # A previous implementation of asyncify could leave threads unterminated when
+        # used with nest_asyncio.
+        #
+        # Since nest_asyncio.apply() is global and cannot be un-applied, this
+        # test is run in a separate process to avoid affecting other tests.
+        test_code = dedent("""
+        import asyncio
+        import nest_asyncio
+        import threading
+
+        from llama_stack_client._utils import asyncify
+        from llama_stack_client._base_client import get_platform 
+
+        async def test_main() -> None:
+            result = await asyncify(get_platform)()
+            print(result)
+            for thread in threading.enumerate():
+                print(thread.name)
+
+        nest_asyncio.apply()
+        asyncio.run(test_main())
+        """)
+        with subprocess.Popen(
+            [sys.executable, "-c", test_code],
+            text=True,
+        ) as process:
+            try:
+                process.wait(2)
+                if process.returncode:
+                    raise AssertionError("calling get_platform using asyncify resulted in a non-zero exit code")
+            except subprocess.TimeoutExpired as e:
+                process.kill()
+                raise AssertionError("calling get_platform using asyncify resulted in a hung process") from e
