@@ -20,12 +20,12 @@ def inference():
     pass
 
 
-@click.command("chat_completion")
+@click.command("chat-completion")
 @click.option("--message", required=True, help="Message")
 @click.option("--stream", is_flag=True, help="Streaming", default=False)
 @click.option("--model-id", required=False, help="Model ID")
 @click.pass_context
-@handle_client_errors("inference chat completion")
+@handle_client_errors("inference chat-completion")
 def chat_completion(ctx, message: str, stream: bool, model_id: Optional[str]):
     """Show available inference chat completion endpoints on distribution endpoint"""
     client = ctx.obj["client"]
