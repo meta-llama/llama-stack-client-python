@@ -120,19 +120,15 @@ class SessionsResource(SyncAPIResource):
         }
         return self._post(
             "/agents/session/get",
-            body=maybe_transform({"turn_ids": turn_ids}, session_retrieve_params.SessionRetrieveParams),
+            body=maybe_transform({"agent_id": agent_id,
+                                  "session_id": session_id,
+                                  "turn_ids": turn_ids},
+                                 session_retrieve_params.SessionRetrieveParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "agent_id": agent_id,
-                        "session_id": session_id,
-                    },
-                    session_retrieve_params.SessionRetrieveParams,
-                ),
             ),
             cast_to=Session,
         )
@@ -273,19 +269,14 @@ class AsyncSessionsResource(AsyncAPIResource):
         }
         return await self._post(
             "/agents/session/get",
-            body=await async_maybe_transform({"turn_ids": turn_ids}, session_retrieve_params.SessionRetrieveParams),
+            body=await async_maybe_transform({"agent_id": agent_id,
+                                              "session_id": session_id,
+                                              "turn_ids": turn_ids}, session_retrieve_params.SessionRetrieveParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "agent_id": agent_id,
-                        "session_id": session_id,
-                    },
-                    session_retrieve_params.SessionRetrieveParams,
-                ),
             ),
             cast_to=Session,
         )
