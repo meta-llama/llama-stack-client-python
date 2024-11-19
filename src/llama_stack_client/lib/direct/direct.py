@@ -1,6 +1,8 @@
 import inspect
+import yaml
 from typing import Any, cast, get_args, get_origin, Type
 
+from rich.console import Console
 from llama_stack.distribution.datatypes import StackRunConfig
 from llama_stack.distribution.distribution import get_provider_registry
 from llama_stack.distribution.resolver import resolve_impls
@@ -31,6 +33,9 @@ class LlamaStackDirectClient(LlamaStackClient):
     @classmethod
     async def from_template(cls, template_name: str, **kwargs):
         config = get_stack_run_config_from_template(template_name)
+        console = Console()
+        console.print(f"[green]Using template[/green] [blue]{template_name}[/blue] with config:")
+        console.print(yaml.dump(config.model_dump(), indent=2, default_flow_style=False))
         instance = object.__new__(cls)
         await instance._initialize(config, **kwargs)
         return instance
