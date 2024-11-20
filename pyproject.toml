@@ -15,6 +15,12 @@ dependencies = [
     "distro>=1.7.0, <2",
     "sniffio",
     "cached-property; python_version < '3.8'",
+    "tqdm",
+    "rich",
+    "click",
+    "pyaml",
+    "prompt_toolkit",
+    "pandas"
 ]
 requires-python = ">= 3.7"
 classifiers = [
