@@ -34,14 +34,12 @@ def cli(ctx, endpoint: str, config: str | None):
     ctx.ensure_object(dict)
 
     # If no config provided, check default location
-    if config is None:
+    if config:
         if endpoint != "":
             raise ValueError("Cannot use both config and endpoint")
         default_config = get_config_file_path()
         if default_config.exists():
             config = str(default_config)
-
-    if config:
         try:
             with open(config, "r") as f:
                 config_dict = yaml.safe_load(f)
