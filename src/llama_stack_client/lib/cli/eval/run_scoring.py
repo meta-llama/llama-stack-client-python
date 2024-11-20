@@ -113,8 +113,9 @@ def run_scoring(
 
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
-    output_file = os.path.join(output_dir, f"{dataset_id}_score_results.csv")
+    output_file = os.path.join(output_dir, f"{dataset_path or dataset_id}_score_results.csv")
     df = pandas.DataFrame(output_res)
     df.to_csv(output_file, index=False)
+    print(df)
 
     rprint(f"[green]✓[/green] Results saved to: [blue]{output_file}[/blue]!\n")
