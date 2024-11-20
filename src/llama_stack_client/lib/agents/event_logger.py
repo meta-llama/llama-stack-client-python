@@ -6,12 +6,14 @@
 
 from typing import List, Optional, Union
 
-from termcolor import cprint
-
 from llama_stack_client.types import ToolResponseMessage
 
+from termcolor import cprint
 
-def interleaved_text_media_as_str(content: Union[str, List[str]], sep: str = " ") -> str:
+
+def interleaved_text_media_as_str(
+    content: Union[str, List[str]], sep: str = " "
+) -> str:
     def _process(c) -> str:
         if isinstance(c, str):
             return c
@@ -49,14 +51,18 @@ class LogEvent:
 
 class EventLogger:
     def _get_log_event(self, chunk, previous_event_type=None, previous_step_type=None):
+        if hasattr(chunk, "error"):
+            yield LogEvent(role=None, content=chunk.error["message"], color="red")
+            return
         if not hasattr(chunk, "event"):
             # Need to check for custom tool first
             # since it does not produce event but instead
             # a Message
             if isinstance(chunk, ToolResponseMessage):
-                yield LogEvent(role="CustomTool", content=chunk.content, color="green")
+                yield LogEvent(
+                        role="CustomTool", content=chunk.content, color="green"
+                    )
                 return
-
         event = chunk.event
         event_type = event.payload.event_type
 
