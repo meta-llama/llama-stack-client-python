@@ -58,25 +58,9 @@ class Agent:
                 role="ipython",
             )
         tool = self.custom_tools[tool_call.tool_name]
-        result_messages = await tool.async_run([message])
+        result_messages = await tool.run([message])
         next_message = result_messages[0]
         return next_message
-
-    def _run_tool(self, chunk):
-        message = chunk.event.payload.turn.output_message
-        tool_call = message.tool_calls[0]
-        if tool_call.tool_name not in self.custom_tools:
-            return ToolResponseMessage(
-                call_id=tool_call.call_id,
-                tool_name=tool_call.tool_name,
-                content=f"Unknown tool `{tool_call.tool_name}` was called. Try again with something else",
-                role="ipython",
-            )
-        tool = self.custom_tools[tool_call.tool_name]
-        result_messages = tool.run([message])
-        next_message = result_messages[0]
-        return next_message
-
 
     def create_turn(
         self,
@@ -95,8 +79,6 @@ class Agent:
         for chunk in response:
             if not self._has_tool_call(chunk):
                 yield chunk
-            else:
-                yield self._run_tool(chunk)
 
     async def async_create_turn(
         self,
@@ -116,4 +98,5 @@ class Agent:
             if not self._has_tool_call(chunk):
                 yield chunk
             else:
-                yield await self._async_run_tool(chunk)
+                next_message = await self._async_run_tool(chunk)
+                yield next_message

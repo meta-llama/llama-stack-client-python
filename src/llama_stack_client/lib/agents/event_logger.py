@@ -48,7 +48,7 @@ class LogEvent:
 
 
 class EventLogger:
-    def get_log_event(self, chunk, previous_event_type=None, previous_step_type=None):
+    def _get_log_event(self, chunk, previous_event_type=None, previous_step_type=None):
         if not hasattr(chunk, "event"):
             # Need to check for custom tool first
             # since it does not produce event but instead
@@ -139,12 +139,26 @@ class EventLogger:
                 color="cyan",
             )
 
+    async def async_log(self, event_generator):
+        previous_event_type = None
+        previous_step_type = None
+
+        async for chunk in event_generator:
+            for log_event in self._get_log_event(chunk, previous_event_type, previous_step_type):
+                yield log_event
+
+            event_type = chunk.event.payload.event_type if hasattr(chunk, "event") else None
+            step_type = chunk.event.payload.step_type if event_type not in {"turn_start", "turn_complete"} else None
+        
+            previous_event_type = event_type
+            previous_step_type = step_type
+    
     def log(self, event_generator):
         previous_event_type = None
         previous_step_type = None
 
         for chunk in event_generator:
-            for log_event in self.get_log_event(chunk, previous_event_type, previous_step_type):
+            for log_event in self._get_log_event(chunk, previous_event_type, previous_step_type):
                 yield log_event
 
             event_type = chunk.event.payload.event_type if hasattr(chunk, "event") else None
