@@ -38,11 +38,9 @@ class Agent:
         if chunk.event.payload.event_type != "turn_complete":
             return False
         message = chunk.event.payload.turn.output_message
-        if len(message.tool_calls) == 0:
-            return False
         if message.stop_reason == "out_of_tokens":
             return False
-        return True
+        return len(message.tool_calls) > 0
 
     async def _async_run_tool(self, chunk):
         message = chunk.event.payload.turn.output_message
