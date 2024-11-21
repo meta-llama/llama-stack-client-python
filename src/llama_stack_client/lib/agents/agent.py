@@ -9,9 +9,6 @@ from llama_stack_client import LlamaStackClient
 from llama_stack_client.types import Attachment, ToolResponseMessage, UserMessage
 from llama_stack_client.types.agent_create_params import AgentConfig
 from .custom_tool import CustomTool
-from rich.console import Console
-
-console = Console()
 
 class Agent:
     def __init__(self, client: LlamaStackClient, agent_config: AgentConfig, custom_tools: Tuple[CustomTool] = ()):
