@@ -10,7 +10,6 @@ from llama_stack_client.types import Attachment, ToolResponseMessage, UserMessag
 from llama_stack_client.types.agent_create_params import AgentConfig
 from .custom_tool import CustomTool
 
-
 class Agent:
     def __init__(self, client: LlamaStackClient, agent_config: AgentConfig, custom_tools: Tuple[CustomTool] = ()):
         self.client = client
@@ -35,7 +34,30 @@ class Agent:
         self.sessions.append(self.session_id)
         return self.session_id
 
-    async def create_turn(
+    def _has_tool_call(self, chunk):
+        if chunk.event.payload.event_type != "turn_complete":
+            return False
+        message = chunk.event.payload.turn.output_message
+        if message.stop_reason == "out_of_tokens":
+            return False
+        return len(message.tool_calls) > 0
+
+    def _run_tool(self, chunk):
+        message = chunk.event.payload.turn.output_message
+        tool_call = message.tool_calls[0]
+        if tool_call.tool_name not in self.custom_tools:
+            return ToolResponseMessage(
+                call_id=tool_call.call_id,
+                tool_name=tool_call.tool_name,
+                content=f"Unknown tool `{tool_call.tool_name}` was called.",
+                role="ipython",
+            )
+        tool = self.custom_tools[tool_call.tool_name]
+        result_messages = tool.run([message])
+        next_message = result_messages[0]
+        return next_message
+
+    def create_turn(
         self,
         messages: List[Union[UserMessage, ToolResponseMessage]],
         attachments: Optional[List[Attachment]] = None,
@@ -49,40 +71,9 @@ class Agent:
             attachments=attachments,
             stream=True,
         )
-        turn = None
         for chunk in response:
-            if chunk.event.payload.event_type != "turn_complete":
+            if not self._has_tool_call(chunk):
                 yield chunk
             else:
-                turn = chunk.event.payload.turn
-
-        message = turn.output_message
-        if len(message.tool_calls) == 0:
-            yield chunk
-            return
-
-        if message.stop_reason == "out_of_tokens":
-            yield chunk
-            return
-
-        tool_call = message.tool_calls[0]
-        if tool_call.tool_name not in self.custom_tools:
-            m = ToolResponseMessage(
-                call_id=tool_call.call_id,
-                tool_name=tool_call.tool_name,
-                content=f"Unknown tool `{tool_call.tool_name}` was called. Try again with something else",
-                role="ipython",
-            )
-            next_message = m
-        else:
-            tool = self.custom_tools[tool_call.tool_name]
-            result_messages = await self.execute_custom_tool(tool, message)
-            next_message = result_messages[0]
-
-        yield next_message
-
-    async def execute_custom_tool(
-        self, tool: CustomTool, message: Union[UserMessage, ToolResponseMessage]
-    ) -> List[Union[UserMessage, ToolResponseMessage]]:
-        result_messages = await tool.run([message])
-        return result_messages
+                next_message = self._run_tool(chunk)
+                yield next_message

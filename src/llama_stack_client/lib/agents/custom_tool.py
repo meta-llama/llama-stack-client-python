@@ -61,7 +61,7 @@ class CustomTool:
         )
 
     @abstractmethod
-    async def run(
+    def run(
         self, messages: List[Union[UserMessage, ToolResponseMessage]]
     ) -> List[Union[UserMessage, ToolResponseMessage]]:
         raise NotImplementedError
