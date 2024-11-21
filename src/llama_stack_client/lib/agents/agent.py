@@ -51,7 +51,7 @@ class Agent:
             return ToolResponseMessage(
                 call_id=tool_call.call_id,
                 tool_name=tool_call.tool_name,
-                content=f"Unknown tool `{tool_call.tool_name}` was called. Try again with something else",
+                content=f"Unknown tool `{tool_call.tool_name}` was called.",
                 role="ipython",
             )
         tool = self.custom_tools[tool_call.tool_name]
