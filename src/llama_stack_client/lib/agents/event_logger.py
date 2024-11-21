@@ -146,12 +146,10 @@ class EventLogger:
         async for chunk in event_generator:
             for log_event in self._get_log_event(chunk, previous_event_type, previous_step_type):
                 yield log_event
-
-            event_type = chunk.event.payload.event_type if hasattr(chunk, "event") else None
-            step_type = chunk.event.payload.step_type if event_type not in {"turn_start", "turn_complete"} else None
-        
-            previous_event_type = event_type
-            previous_step_type = step_type
+            
+            if hasattr(chunk, "event"):
+                previous_event_type = chunk.event.payload.event_type if hasattr(chunk, "event") else None
+                previous_step_type = chunk.event.payload.step_type if previous_event_type not in {"turn_start", "turn_complete"} else None
     
     def log(self, event_generator):
         previous_event_type = None
@@ -161,8 +159,6 @@ class EventLogger:
             for log_event in self._get_log_event(chunk, previous_event_type, previous_step_type):
                 yield log_event
 
-            event_type = chunk.event.payload.event_type if hasattr(chunk, "event") else None
-            step_type = chunk.event.payload.step_type if event_type not in {"turn_start", "turn_complete"} else None
-        
-            previous_event_type = event_type
-            previous_step_type = step_type
+            if hasattr(chunk, "event"):
+                previous_event_type = chunk.event.payload.event_type if hasattr(chunk, "event") else None
+                previous_step_type = chunk.event.payload.step_type if previous_event_type not in {"turn_start", "turn_complete"} else None
