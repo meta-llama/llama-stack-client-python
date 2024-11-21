@@ -48,100 +48,107 @@ class LogEvent:
 
 
 class EventLogger:
-    async def log(self, event_generator):
+    def get_log_event(self, chunk, previous_event_type=None, previous_step_type=None):
+        if not hasattr(chunk, "event"):
+            # Need to check for custom tool first
+            # since it does not produce event but instead
+            # a Message
+            if isinstance(chunk, ToolResponseMessage):
+                yield LogEvent(role="CustomTool", content=chunk.content, color="green")
+                return
+
+        event = chunk.event
+        event_type = event.payload.event_type
+
+        if event_type in {"turn_start", "turn_complete"}:
+            # Currently not logging any turn realted info
+            yield LogEvent(role=None, content="", end="", color="grey")
+            return
+
+        step_type = event.payload.step_type
+        # handle safety
+        if step_type == "shield_call" and event_type == "step_complete":
+            violation = event.payload.step_details.violation
+            if not violation:
+                yield LogEvent(role=step_type, content="No Violation", color="magenta")
+            else:
+                yield LogEvent(
+                    role=step_type,
+                    content=f"{violation.metadata} {violation.user_message}",
+                    color="red",
+                )
+
+        # handle inference
+        if step_type == "inference":
+            if event_type == "step_start":
+                yield LogEvent(role=step_type, content="", end="", color="yellow")
+            elif event_type == "step_progress":
+                # HACK: if previous was not step/event was not inference's step_progress
+                # this is the first time we are getting model inference response
+                # aka equivalent to step_start for inference. Hence,
+                # start with "Model>".
+                if previous_event_type != "step_progress" and previous_step_type != "inference":
+                    yield LogEvent(role=step_type, content="", end="", color="yellow")
+
+                if event.payload.tool_call_delta:
+                    if isinstance(event.payload.tool_call_delta.content, str):
+                        yield LogEvent(
+                            role=None,
+                            content=event.payload.tool_call_delta.content,
+                            end="",
+                            color="cyan",
+                        )
+                else:
+                    yield LogEvent(
+                        role=None,
+                        content=event.payload.text_delta_model_response,
+                        end="",
+                        color="yellow",
+                    )
+            else:
+                # step complete
+                yield LogEvent(role=None, content="")
+
+        # handle tool_execution
+        if step_type == "tool_execution" and event_type == "step_complete":
+            # Only print tool calls and responses at the step_complete event
+            details = event.payload.step_details
+            for t in details.tool_calls:
+                yield LogEvent(
+                    role=step_type,
+                    content=f"Tool:{t.tool_name} Args:{t.arguments}",
+                    color="green",
+                )
+
+            for r in details.tool_responses:
+                yield LogEvent(
+                    role=step_type,
+                    content=f"Tool:{r.tool_name} Response:{r.content}",
+                    color="green",
+                )
+
+        # memory retrieval
+        if step_type == "memory_retrieval" and event_type == "step_complete":
+            details = event.payload.step_details
+            content = interleaved_text_media_as_str(details.inserted_context)
+            content = content[:200] + "..." if len(content) > 200 else content
+
+            yield LogEvent(
+                role=step_type,
+                content=f"Retrieved context from banks: {details.memory_bank_ids}.\n====\n{content}\n>",
+                color="cyan",
+            )
+
+    def log(self, event_generator):
         previous_event_type = None
         previous_step_type = None
 
-        async for chunk in event_generator:
-            if not hasattr(chunk, "event"):
-                # Need to check for custom tool first
-                # since it does not produce event but instead
-                # a Message
-                if isinstance(chunk, ToolResponseMessage):
-                    yield LogEvent(role="CustomTool", content=chunk.content, color="green")
-                continue
+        for chunk in event_generator:
+            for log_event in self.get_log_event(chunk, previous_event_type, previous_step_type):
+                yield log_event
 
-            event = chunk.event
-            event_type = event.payload.event_type
-
-            if event_type in {"turn_start", "turn_complete"}:
-                # Currently not logging any turn realted info
-                yield LogEvent(role=None, content="", end="", color="grey")
-                continue
-
-            step_type = event.payload.step_type
-            # handle safety
-            if step_type == "shield_call" and event_type == "step_complete":
-                violation = event.payload.step_details.violation
-                if not violation:
-                    yield LogEvent(role=step_type, content="No Violation", color="magenta")
-                else:
-                    yield LogEvent(
-                        role=step_type,
-                        content=f"{violation.metadata} {violation.user_message}",
-                        color="red",
-                    )
-
-            # handle inference
-            if step_type == "inference":
-                if event_type == "step_start":
-                    yield LogEvent(role=step_type, content="", end="", color="yellow")
-                elif event_type == "step_progress":
-                    # HACK: if previous was not step/event was not inference's step_progress
-                    # this is the first time we are getting model inference response
-                    # aka equivalent to step_start for inference. Hence,
-                    # start with "Model>".
-                    if previous_event_type != "step_progress" and previous_step_type != "inference":
-                        yield LogEvent(role=step_type, content="", end="", color="yellow")
-
-                    if event.payload.tool_call_delta:
-                        if isinstance(event.payload.tool_call_delta.content, str):
-                            yield LogEvent(
-                                role=None,
-                                content=event.payload.tool_call_delta.content,
-                                end="",
-                                color="cyan",
-                            )
-                    else:
-                        yield LogEvent(
-                            role=None,
-                            content=event.payload.text_delta_model_response,
-                            end="",
-                            color="yellow",
-                        )
-                else:
-                    # step complete
-                    yield LogEvent(role=None, content="")
-
-            # handle tool_execution
-            if step_type == "tool_execution" and event_type == "step_complete":
-                # Only print tool calls and responses at the step_complete event
-                details = event.payload.step_details
-                for t in details.tool_calls:
-                    yield LogEvent(
-                        role=step_type,
-                        content=f"Tool:{t.tool_name} Args:{t.arguments}",
-                        color="green",
-                    )
-
-                for r in details.tool_responses:
-                    yield LogEvent(
-                        role=step_type,
-                        content=f"Tool:{r.tool_name} Response:{r.content}",
-                        color="green",
-                    )
-
-            # memory retrieval
-            if step_type == "memory_retrieval" and event_type == "step_complete":
-                details = event.payload.step_details
-                content = interleaved_text_media_as_str(details.inserted_context)
-                content = content[:200] + "..." if len(content) > 200 else content
-
-                yield LogEvent(
-                    role=step_type,
-                    content=f"Retrieved context from banks: {details.memory_bank_ids}.\n====\n{content}\n>",
-                    color="cyan",
-                )
-
+            event_type = chunk.event.payload.event_type if hasattr(chunk, "event") else None
+            step_type = chunk.event.payload.step_type if event_type not in {"turn_start", "turn_complete"} else None
+        
             previous_event_type = event_type
             previous_step_type = step_type

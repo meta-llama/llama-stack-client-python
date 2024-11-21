@@ -9,7 +9,9 @@ from llama_stack_client import LlamaStackClient
 from llama_stack_client.types import Attachment, ToolResponseMessage, UserMessage
 from llama_stack_client.types.agent_create_params import AgentConfig
 from .custom_tool import CustomTool
+from rich.console import Console
 
+console = Console()
 
 class Agent:
     def __init__(self, client: LlamaStackClient, agent_config: AgentConfig, custom_tools: Tuple[CustomTool] = ()):
@@ -35,7 +37,7 @@ class Agent:
         self.sessions.append(self.session_id)
         return self.session_id
 
-    async def create_turn(
+    def _create_turn(
         self,
         messages: List[Union[UserMessage, ToolResponseMessage]],
         attachments: Optional[List[Attachment]] = None,
@@ -73,16 +75,56 @@ class Agent:
                 content=f"Unknown tool `{tool_call.tool_name}` was called. Try again with something else",
                 role="ipython",
             )
-            next_message = m
+            yield m
         else:
-            tool = self.custom_tools[tool_call.tool_name]
-            result_messages = await self.execute_custom_tool(tool, message)
-            next_message = result_messages[0]
+            yield chunk
 
-        yield next_message
+    def _has_tool_call(self, chunk):
+        if chunk.event.payload.event_type != "turn_complete":
+            return False
+        message = chunk.event.payload.turn.output_message
+        if len(message.tool_calls) == 0:
+            return False
+        if message.stop_reason == "out_of_tokens":
+            return False
+        return True
 
-    async def execute_custom_tool(
-        self, tool: CustomTool, message: Union[UserMessage, ToolResponseMessage]
-    ) -> List[Union[UserMessage, ToolResponseMessage]]:
-        result_messages = await tool.run([message])
-        return result_messages
+    def create_turn(
+        self,
+        messages: List[Union[UserMessage, ToolResponseMessage]],
+        attachments: Optional[List[Attachment]] = None,
+        session_id: Optional[str] = None,
+    ):
+        response = self.client.agents.turn.create(
+            agent_id=self.agent_id,
+            # use specified session_id or last session created
+            session_id=session_id or self.session_id[-1],
+            messages=messages,
+            attachments=attachments,
+            stream=True,
+        )
+        for chunk in response:
+            if not self._has_tool_call(chunk):
+                yield chunk
+            else:
+                console.print(chunk)
+    
+    async def async_create_turn(
+        self,
+        messages: List[Union[UserMessage, ToolResponseMessage]],
+        attachments: Optional[List[Attachment]] = None,
+        session_id: Optional[str] = None,
+    ):
+        response = self.client.agents.turn.create(
+            agent_id=self.agent_id,
+            # use specified session_id or last session created
+            session_id=session_id or self.session_id[-1],
+            messages=messages,
+            attachments=attachments,
+            stream=True,
+        )
+        for chunk in response:
+            if not self._has_tool_call(chunk):
+                yield chunk
+            else:
+                console.print(chunk)
