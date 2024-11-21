@@ -42,7 +42,7 @@ class Agent:
             return False
         return len(message.tool_calls) > 0
 
-    async def _async_run_tool(self, chunk):
+    def _run_tool(self, chunk):
         message = chunk.event.payload.turn.output_message
         tool_call = message.tool_calls[0]
         if tool_call.tool_name not in self.custom_tools:
@@ -53,7 +53,7 @@ class Agent:
                 role="ipython",
             )
         tool = self.custom_tools[tool_call.tool_name]
-        result_messages = await tool.run([message])
+        result_messages = tool.run([message])
         next_message = result_messages[0]
         return next_message
 
@@ -74,24 +74,6 @@ class Agent:
         for chunk in response:
             if not self._has_tool_call(chunk):
                 yield chunk
-
-    async def async_create_turn(
-        self,
-        messages: List[Union[UserMessage, ToolResponseMessage]],
-        attachments: Optional[List[Attachment]] = None,
-        session_id: Optional[str] = None,
-    ):
-        response = self.client.agents.turn.create(
-            agent_id=self.agent_id,
-            # use specified session_id or last session created
-            session_id=session_id or self.session_id[-1],
-            messages=messages,
-            attachments=attachments,
-            stream=True,
-        )
-        for chunk in response:
-            if not self._has_tool_call(chunk):
-                yield chunk
             else:
-                next_message = await self._async_run_tool(chunk)
+                next_message = self._run_tool(chunk)
                 yield next_message
