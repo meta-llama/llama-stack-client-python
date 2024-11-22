@@ -3,10 +3,11 @@
 #
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
-from rich.console import Console
-from rich.table import Table
-from rich.panel import Panel
 from functools import wraps
+
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
 
 
 def create_bar_chart(data, labels, title=""):

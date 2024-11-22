@@ -8,7 +8,6 @@ import click
 from rich.console import Console
 from rich.table import Table
 
-
 from ..common.utils import handle_client_errors
 
 

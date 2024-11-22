@@ -11,7 +11,8 @@ import yaml
 from prompt_toolkit import prompt
 from prompt_toolkit.validation import Validator
 
-from llama_stack_client.lib.cli.constants import get_config_file_path, LLAMA_STACK_CLIENT_CONFIG_DIR
+from llama_stack_client.lib.cli.constants import (
+    LLAMA_STACK_CLIENT_CONFIG_DIR, get_config_file_path)
 
 
 def get_config():

@@ -2,6 +2,7 @@ import argparse
 
 import yaml
 from llama_stack.distribution.configure import parse_and_maybe_upgrade_config
+
 from llama_stack_client.lib.direct.direct import LlamaStackDirectClient
 from llama_stack_client.types import UserMessage
 

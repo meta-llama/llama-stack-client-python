@@ -1,23 +1,21 @@
 import inspect
-import yaml
-from typing import Any, cast, get_args, get_origin, Type
+from typing import Any, Type, cast, get_args, get_origin
 
-from rich.console import Console
+import yaml
 from llama_stack.distribution.datatypes import StackRunConfig
 from llama_stack.distribution.distribution import get_provider_registry
 from llama_stack.distribution.resolver import resolve_impls
 from llama_stack.distribution.server.endpoints import get_all_api_endpoints
 from llama_stack.distribution.server.server import is_streaming_request
-from llama_stack.distribution.stack import (
-    get_stack_run_config_from_template,
-)
-from llama_stack.distribution.stack import construct_stack
+from llama_stack.distribution.stack import (construct_stack,
+                                            get_stack_run_config_from_template)
 from pydantic import BaseModel
+from rich.console import Console
 
 from ..._base_client import ResponseT
 from ..._client import LlamaStackClient
 from ..._streaming import Stream
-from ..._types import Body, NOT_GIVEN, RequestFiles, RequestOptions
+from ..._types import NOT_GIVEN, Body, RequestFiles, RequestOptions
 
 
 class LlamaStackDirectClient(LlamaStackClient):

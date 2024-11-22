@@ -5,13 +5,13 @@
 # the root directory of this source tree.
 
 import json
-
 from abc import abstractmethod
 from typing import Dict, List, Union
 
-from llama_stack_client.types import FunctionCallToolDefinition, ToolResponseMessage, UserMessage
-
-from llama_stack_client.types.tool_param_definition_param import ToolParamDefinitionParam
+from llama_stack_client.types import (FunctionCallToolDefinition,
+                                      ToolResponseMessage, UserMessage)
+from llama_stack_client.types.tool_param_definition_param import \
+    ToolParamDefinitionParam
 
 
 class CustomTool:

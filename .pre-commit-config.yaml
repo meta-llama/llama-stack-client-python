@@ -26,11 +26,8 @@ repos:
           - torchfix
         args: ['--config=.flake8']
 
--   repo: https://github.com/omnilib/ufmt
-    rev: v2.7.0
+-   repo: https://github.com/pycqa/isort
+    rev: 5.13.2
     hooks:
-    -   id: ufmt
-        files: ^src/llama_stack_client/lib/.*  # Only run on files in specific-folder
-        additional_dependencies:
-          - black == 24.4.2
-          - usort == 1.0.8
+    -   id: isort
+        files: ^src/llama_stack_client/lib/.*
