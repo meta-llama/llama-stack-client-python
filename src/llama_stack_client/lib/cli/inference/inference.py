@@ -7,9 +7,7 @@
 from typing import Optional
 
 import click
-import yaml
 from rich.console import Console
-from rich.table import Table
 
 from ..common.utils import handle_client_errors
 
