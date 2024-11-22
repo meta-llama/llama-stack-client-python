@@ -14,7 +14,12 @@ from .custom_tool import CustomTool
 
 
 class Agent:
-    def __init__(self, client: LlamaStackClient, agent_config: AgentConfig, custom_tools: Tuple[CustomTool] = ()):
+    def __init__(
+        self,
+        client: LlamaStackClient,
+        agent_config: AgentConfig,
+        custom_tools: Tuple[CustomTool] = (),
+    ):
         self.client = client
         self.agent_config = agent_config
         self.agent_id = self._create_agent(agent_config)
@@ -75,7 +80,10 @@ class Agent:
             stream=True,
         )
         for chunk in response:
-            if not self._has_tool_call(chunk):
+            if hasattr(chunk, "error"):
+                yield chunk
+                return
+            elif not self._has_tool_call(chunk):
                 yield chunk
             else:
                 next_message = self._run_tool(chunk)
