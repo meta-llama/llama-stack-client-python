@@ -25,7 +25,7 @@ pip install llama-stack-client
 
 ## Usage
 
-The full API of this library can be found in [api.md](api.md). You may find basic client examples in the [/examples](./examples/) folder.
+The full API of this library can be found in [api.md](api.md). You may find basic client examples in our [llama-stack-apps](https://github.com/meta-llama/llama-stack-apps/tree/main) repo.
 
 ```python
 from llama_stack_client import LlamaStackClient
@@ -42,10 +42,29 @@ response = client.inference.chat_completion(
             role="user",
         ),
     ],
-    model="Llama3.1-8B-Instruct",
+    model="meta-llama/Llama-3.2-3B-Instruct",
     stream=False,
 )
 print(response)
+```
+
+After installing the `llama-stack-client` package, you can also use the [`llama-stack-client` CLI](https://github.com/meta-llama/llama-stack/tree/main/llama-stack-client) to interact with the Llama Stack server.
+```bash
+llama-stack-client inference chat-completion --message "hello, what model are you"
+```
+
+```python
+ChatCompletionResponse(
+    completion_message=CompletionMessage(
+        content="Hello! I'm an AI model, and I'm based on a large language model architecture. My knowledge cutoff is December 2023, which means I was trained on a dataset that was current up to that point in time.\n\nI don't have a specific model name, but I'm similar to other 
+conversational AI models like LLaMA, Bard, or ChatGPT. My primary function is to understand and respond to human language, generating human-like text based on the input I receive.\n\nI'm designed to be helpful and informative, and I can assist with a wide range of topics and tasks, 
+from answering questions and providing information to generating text and completing tasks. How can I help you today?",
+        role='assistant',
+        stop_reason='end_of_turn',
+        tool_calls=[]
+    ),
+    logprobs=None
+)
 ```
 
 ## Async usage
