@@ -1,9 +1,10 @@
 import inspect
-from typing import Any, Type, cast, get_args, get_origin
+from typing import Any, Optional, Type, cast, get_args, get_origin
 
 import yaml
 from llama_stack.distribution.build import print_pip_install_help
 from llama_stack.distribution.datatypes import StackRunConfig
+from llama_stack.distribution.resolver import ProviderRegistry
 from llama_stack.distribution.server.endpoints import get_all_api_endpoints
 from llama_stack.distribution.server.server import is_streaming_request
 from llama_stack.distribution.stack import (construct_stack,
@@ -24,13 +25,13 @@ class LlamaStackDirectClient(LlamaStackClient):
         )
 
     @classmethod
-    async def from_config(cls, config: StackRunConfig, **kwargs):
+    async def from_config(cls, config: StackRunConfig, custom_provider_registry: Optional[ProviderRegistry] = None, **kwargs):
         instance = object.__new__(cls)
-        await instance._initialize(config, **kwargs)
+        await instance._initialize(config, custom_provider_registry, **kwargs)
         return instance
 
     @classmethod
-    async def from_template(cls, template_name: str, **kwargs):
+    async def from_template(cls, template_name: str, custom_provider_registry: Optional[ProviderRegistry] = None, **kwargs):
         config = get_stack_run_config_from_template(template_name)
         console = Console()
         console.print(
@@ -40,19 +41,20 @@ class LlamaStackDirectClient(LlamaStackClient):
             yaml.dump(config.model_dump(), indent=2, default_flow_style=False)
         )
         instance = object.__new__(cls)
-        await instance._initialize(config, **kwargs)
+        await instance._initialize(config, custom_provider_registry, **kwargs)
         return instance
 
-    async def _initialize(self, config: StackRunConfig, **kwargs) -> None:
+    async def _initialize(self, config: StackRunConfig, custom_provider_registry: Optional[ProviderRegistry] = None, **kwargs) -> None:
         super().__init__(**kwargs)
         self.endpoints = get_all_api_endpoints()
         self.config = config
         self.impls = None
+        self.custom_provider_registry = custom_provider_registry
         await self.initialize()
 
     async def initialize(self) -> None:
         try:
-            self.impls = await construct_stack(self.config)
+            self.impls = await construct_stack(self.config, self.custom_provider_registry)
         except ModuleNotFoundError as e:
             print_pip_install_help(self.config.providers)
             raise e
