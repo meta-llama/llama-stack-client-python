@@ -1,26 +1,31 @@
 import inspect
-from typing import Any, Type, cast, get_args, get_origin
+from typing import Any, cast, get_args, get_origin, Type
 
 import yaml
+from llama_stack.distribution.build import print_pip_install_help
 from llama_stack.distribution.datatypes import StackRunConfig
 from llama_stack.distribution.distribution import get_provider_registry
 from llama_stack.distribution.resolver import resolve_impls
 from llama_stack.distribution.server.endpoints import get_all_api_endpoints
 from llama_stack.distribution.server.server import is_streaming_request
-from llama_stack.distribution.stack import (construct_stack,
-                                            get_stack_run_config_from_template)
+from llama_stack.distribution.stack import (
+    construct_stack,
+    get_stack_run_config_from_template,
+)
 from pydantic import BaseModel
 from rich.console import Console
 
 from ..._base_client import ResponseT
 from ..._client import LlamaStackClient
 from ..._streaming import Stream
-from ..._types import NOT_GIVEN, Body, RequestFiles, RequestOptions
+from ..._types import Body, NOT_GIVEN, RequestFiles, RequestOptions
 
 
 class LlamaStackDirectClient(LlamaStackClient):
     def __init__(self, config: StackRunConfig, **kwargs):
-        raise TypeError("Use from_config() or from_template() instead of direct initialization")
+        raise TypeError(
+            "Use from_config() or from_template() instead of direct initialization"
+        )
 
     @classmethod
     async def from_config(cls, config: StackRunConfig, **kwargs):
@@ -32,8 +37,12 @@ class LlamaStackDirectClient(LlamaStackClient):
     async def from_template(cls, template_name: str, **kwargs):
         config = get_stack_run_config_from_template(template_name)
         console = Console()
-        console.print(f"[green]Using template[/green] [blue]{template_name}[/blue] with config:")
-        console.print(yaml.dump(config.model_dump(), indent=2, default_flow_style=False))
+        console.print(
+            f"[green]Using template[/green] [blue]{template_name}[/blue] with config:"
+        )
+        console.print(
+            yaml.dump(config.model_dump(), indent=2, default_flow_style=False)
+        )
         instance = object.__new__(cls)
         await instance._initialize(config, **kwargs)
         return instance
@@ -46,7 +55,11 @@ class LlamaStackDirectClient(LlamaStackClient):
         await self.initialize()
 
     async def initialize(self) -> None:
-        self.impls = await construct_stack(self.config)
+        try:
+            self.impls = await construct_stack(self.config)
+        except ModuleNotFoundError as e:
+            print_pip_install_help(self.config.providers)
+            raise e
 
     def _convert_param(self, param_type: Any, value: Any) -> Any:
         origin = get_origin(param_type)
@@ -85,7 +98,9 @@ class LlamaStackDirectClient(LlamaStackClient):
                         for param_name, param in sig.parameters.items():
                             if param_name in body:
                                 value = body.get(param_name)
-                                converted_body[param_name] = self._convert_param(param.annotation, value)
+                                converted_body[param_name] = self._convert_param(
+                                    param.annotation, value
+                                )
                         body = converted_body
 
                     if is_streaming_request(endpoint.name, body):
