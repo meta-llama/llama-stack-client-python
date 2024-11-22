@@ -56,8 +56,8 @@ llama-stack-client inference chat-completion --message "hello, what model are yo
 ```python
 ChatCompletionResponse(
     completion_message=CompletionMessage(
-        content="Hello! I'm an AI model, and I'm based on a large language model architecture. My knowledge cutoff is December 2023, which means I was trained on a dataset that was current up to that point in time.\n\nI don't have a specific model name, but I'm similar to other 
-conversational AI models like LLaMA, Bard, or ChatGPT. My primary function is to understand and respond to human language, generating human-like text based on the input I receive.\n\nI'm designed to be helpful and informative, and I can assist with a wide range of topics and tasks, 
+        content="Hello! I'm an AI model, and I'm based on a large language model architecture. My knowledge cutoff is December 2023, which means I was trained on a dataset that was current up to that point in time.\n\nI don't have a specific model name, but I'm similar to other
+conversational AI models like LLaMA, Bard, or ChatGPT. My primary function is to understand and respond to human language, generating human-like text based on the input I receive.\n\nI'm designed to be helpful and informative, and I can assist with a wide range of topics and tasks,
 from answering questions and providing information to generating text and completing tasks. How can I help you today?",
         role='assistant',
         stop_reason='end_of_turn',

@@ -6,9 +6,9 @@
 
 from typing import List, Optional, Union
 
-from llama_stack_client.types import ToolResponseMessage
-
 from termcolor import cprint
+
+from llama_stack_client.types import ToolResponseMessage
 
 
 def interleaved_text_media_as_str(
