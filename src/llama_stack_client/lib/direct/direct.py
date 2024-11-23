@@ -5,11 +5,15 @@ import yaml
 from llama_stack.distribution.build import print_pip_install_help
 from llama_stack.distribution.datatypes import StackRunConfig
 from llama_stack.distribution.resolver import ProviderRegistry
+from llama_stack.distribution.configure import parse_and_maybe_upgrade_config
 from llama_stack.distribution.server.endpoints import get_all_api_endpoints
 from llama_stack.distribution.server.server import is_streaming_request
-from llama_stack.distribution.stack import (construct_stack,
-                                            get_stack_run_config_from_template)
+from llama_stack.distribution.stack import (
+    construct_stack,
+    get_stack_run_config_from_template
+)
 from pydantic import BaseModel
+from pathlib import Path
 from rich.console import Console
 
 from ..._base_client import ResponseT
@@ -19,14 +23,20 @@ from ..._types import NOT_GIVEN, Body, RequestFiles, RequestOptions
 
 
 class LlamaStackDirectClient(LlamaStackClient):
-    def __init__(self, config: StackRunConfig, **kwargs):
+    def __init__(self, config: Any, **kwargs):
         raise TypeError(
             "Use from_config() or from_template() instead of direct initialization"
         )
 
     @classmethod
-    async def from_config(cls, config: StackRunConfig, custom_provider_registry: Optional[ProviderRegistry] = None, **kwargs):
+    async def from_config(cls, config_path: str, custom_provider_registry: Optional[ProviderRegistry] = None, **kwargs):
         instance = object.__new__(cls)
+        config_path = Path(config_path)
+        if not config_path.exists():
+            raise ValueError(f"Config file {config_path} does not exist")
+
+        config_dict = yaml.safe_load(config_path.read_text())
+        config = parse_and_maybe_upgrade_config(config_dict)
         await instance._initialize(config, custom_provider_registry, **kwargs)
         return instance
 
