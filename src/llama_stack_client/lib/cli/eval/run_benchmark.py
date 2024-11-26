@@ -15,7 +15,7 @@ from tqdm.rich import tqdm
 from ..common.utils import create_bar_chart
 
 
-@click.command("run_benchmark")
+@click.command("run-benchmark")
 @click.argument("eval-task-ids", nargs=-1, required=True)
 @click.option(
     "--eval-task-config",
