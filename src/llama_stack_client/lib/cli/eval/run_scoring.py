@@ -14,7 +14,7 @@ from rich import print as rprint
 from tqdm.rich import tqdm
 
 
-@click.command("run_scoring")
+@click.command("run-scoring")
 @click.argument("scoring-function-ids", nargs=-1, required=True)
 @click.option(
     "--dataset-id",
