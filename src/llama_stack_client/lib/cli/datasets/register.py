@@ -47,7 +47,7 @@ def register(
     provider_id: Optional[str],
     provider_dataset_id: Optional[str],
     metadata: Optional[str],
-    url: str,
+    url: Optional[str],
     dataset_path: Optional[str],
     schema: str,
 ):
