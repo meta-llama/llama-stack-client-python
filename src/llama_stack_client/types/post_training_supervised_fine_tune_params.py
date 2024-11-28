@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable
-from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
+from typing import Dict, Iterable, List, Union
+
+from typing_extensions import Annotated, Literal, Required, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
 
@@ -25,11 +26,15 @@ class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
 
     dataset_id: Required[str]
 
-    hyperparam_search_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+    hyperparam_search_config: Required[
+        Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    ]
 
     job_uuid: Required[str]
 
-    logger_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+    logger_config: Required[
+        Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    ]
 
     model: Required[str]
 
@@ -39,7 +44,9 @@ class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
 
     validation_dataset_id: Required[str]
 
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
+    x_llama_stack_provider_data: Annotated[
+        str, PropertyInfo(alias="X-LlamaStack-ProviderData")
+    ]
 
 
 class AlgorithmConfigLoraFinetuningConfig(TypedDict, total=False):
@@ -79,7 +86,9 @@ class AlgorithmConfigDoraFinetuningConfig(TypedDict, total=False):
 
 
 AlgorithmConfig: TypeAlias = Union[
-    AlgorithmConfigLoraFinetuningConfig, AlgorithmConfigQLoraFinetuningConfig, AlgorithmConfigDoraFinetuningConfig
+    AlgorithmConfigLoraFinetuningConfig,
+    AlgorithmConfigQLoraFinetuningConfig,
+    AlgorithmConfigDoraFinetuningConfig,
 ]
 
 
@@ -91,6 +100,8 @@ class OptimizerConfig(TypedDict, total=False):
     optimizer_type: Required[Literal["adam", "adamw", "sgd"]]
 
     weight_decay: Required[float]
+
+    num_warmup_steps: Required[int]
 
 
 class TrainingConfig(TypedDict, total=False):
@@ -104,6 +115,12 @@ class TrainingConfig(TypedDict, total=False):
 
     n_epochs: Required[int]
 
-    n_iters: Required[int]
+    # n_iters: Required[int]
 
     shuffle: Required[bool]
+
+    dtype: Required[Literal["bf16", "fp16", "fp32"]]
+
+    max_steps_per_epoch: Required[int]
+
+    gradient_accumulation_steps: Required[int]
