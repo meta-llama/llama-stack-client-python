@@ -35,7 +35,10 @@ from ._exceptions import (
     APIResponseValidationError,
 )
 from ._base_client import DefaultHttpxClient, DefaultAsyncHttpxClient
-from .lib.direct.direct import LlamaStackDirectClient
+try:
+    from .lib.direct.direct import LlamaStackDirectClient
+except ImportError:
+    LlamaStackDirectClient = None
 from ._utils._logs import setup_logging as _setup_logging
 
 __all__ = [
@@ -48,7 +51,6 @@ __all__ = [
     "NotGiven",
     "NOT_GIVEN",
     "LlamaStackClientError",
-    "LlamaStackDirectClient",
     "APIError",
     "APIStatusError",
     "APITimeoutError",
@@ -78,6 +80,8 @@ __all__ = [
     "DefaultHttpxClient",
     "DefaultAsyncHttpxClient",
 ]
+if LlamaStackDirectClient is not None:
+   __all__.append("LlamaStackDirectClient")
 
 _setup_logging()
 
