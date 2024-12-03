@@ -38,8 +38,6 @@ class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
 
     model: Required[str]
 
-    optimizer_config: Required[OptimizerConfig]
-
     training_config: Required[TrainingConfig]
 
     validation_dataset_id: Required[str]
@@ -59,6 +57,8 @@ class AlgorithmConfigLoraFinetuningConfig(TypedDict, total=False):
     lora_attn_modules: Required[List[str]]
 
     rank: Required[int]
+
+    use_dora: Required[bool]
 
 
 class AlgorithmConfigQLoraFinetuningConfig(TypedDict, total=False):
@@ -115,7 +115,7 @@ class TrainingConfig(TypedDict, total=False):
 
     n_epochs: Required[int]
 
-    # n_iters: Required[int]
+    optimizer_config: Required[OptimizerConfig]
 
     shuffle: Required[bool]
 

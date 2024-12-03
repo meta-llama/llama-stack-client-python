@@ -7,6 +7,8 @@
 from typing import Optional
 
 import click
+
+from llama_stack_client.types import post_training_supervised_fine_tune_params
 from rich.console import Console
 
 from ..common.utils import handle_client_errors
@@ -16,6 +18,39 @@ from ..common.utils import handle_client_errors
 def post_training():
     """Query details about available post_training endpoints on distribution."""
     pass
+
+
+lora_config = (
+    post_training_supervised_fine_tune_params.AlgorithmConfigLoraFinetuningConfig(
+        lora_attn_modules=["q_proj", "v_proj", "output_proj"],
+        apply_lora_to_mlp=True,
+        apply_lora_to_output=False,
+        rank=8,
+        alpha=16,
+        use_dora=False,
+    )
+)
+
+optimizer_config = post_training_supervised_fine_tune_params.OptimizerConfig(
+    optimizer_type="adamw",
+    lr=3e-4,
+    lr_min=3e-5,
+    weight_decay=0.1,
+    num_warmup_steps=100,
+)
+
+training_config = post_training_supervised_fine_tune_params.TrainingConfig(
+    dtype="bf16",
+    n_epochs=1,
+    optimizer_config=optimizer_config,
+    max_steps_per_epoch=10,
+    gradient_accumulation_steps=1,
+    batch_size=1,
+    shuffle=False,
+    enable_activation_checkpointing=False,
+    memory_efficient_fsdp_wrap=False,
+    fsdp_cpu_offload=False,
+)
 
 
 @click.command("supervised_fine_tune")
@@ -31,6 +66,9 @@ def supervised_fine_tune(ctx):
         job_uuid="1234",
         model="meta-llama/Llama-3.2-3B-Instruct",
         validation_dataset_id="alpaca",
+        algorithm="lora",
+        algorithm_config=lora_config,
+        training_config=training_config,
     )
     console.print(post_training_job.job_uuid)
 

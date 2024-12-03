@@ -74,7 +74,6 @@ class PostTrainingResource(SyncAPIResource):
         logger_config: Dict[
             str, Union[bool, float, str, Iterable[object], object, None]
         ],
-        optimizer_config: post_training_preference_optimize_params.OptimizerConfig,
         training_config: post_training_preference_optimize_params.TrainingConfig,
         validation_dataset_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -112,7 +111,6 @@ class PostTrainingResource(SyncAPIResource):
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
-                    "optimizer_config": optimizer_config,
                     "training_config": training_config,
                     "validation_dataset_id": validation_dataset_id,
                 },
@@ -127,41 +125,11 @@ class PostTrainingResource(SyncAPIResource):
             cast_to=PostTrainingJob,
         )
 
-    lora_config = (
-        post_training_supervised_fine_tune_params.AlgorithmConfigLoraFinetuningConfig(
-            lora_attn_modules=["q_proj", "v_proj", "output_proj"],
-            apply_lora_to_mlp=True,
-            apply_lora_to_output=False,
-            rank=8,
-            alpha=16,
-        )
-    )
-
-    optimizer_config = post_training_supervised_fine_tune_params.OptimizerConfig(
-        optimizer_type="adamw",
-        lr=3e-4,
-        lr_min=3e-5,
-        weight_decay=0.1,
-        num_warmup_steps=100,
-    )
-
-    training_config = post_training_supervised_fine_tune_params.TrainingConfig(
-        dtype="bf16",
-        n_epochs=1,
-        max_steps_per_epoch=10,
-        gradient_accumulation_steps=1,
-        batch_size=1,
-        shuffle=False,
-        enable_activation_checkpointing=False,
-        memory_efficient_fsdp_wrap=False,
-        fsdp_cpu_offload=False,
-    )
-
     def supervised_fine_tune(
         self,
         *,
-        algorithm: Literal["full", "lora", "qlora", "dora"] = "lora",
-        algorithm_config: post_training_supervised_fine_tune_params.AlgorithmConfig = lora_config,
+        algorithm: Literal["full", "lora", "qlora", "dora"],
+        algorithm_config: post_training_supervised_fine_tune_params.AlgorithmConfig,
         dataset_id: str,
         hyperparam_search_config: Dict[
             str, Union[bool, float, str, Iterable[object], object, None]
@@ -171,8 +139,7 @@ class PostTrainingResource(SyncAPIResource):
             str, Union[bool, float, str, Iterable[object], object, None]
         ] = {},
         model: str,
-        optimizer_config: post_training_supervised_fine_tune_params.OptimizerConfig = optimizer_config,
-        training_config: post_training_supervised_fine_tune_params.TrainingConfig = training_config,
+        training_config: post_training_supervised_fine_tune_params.TrainingConfig,
         validation_dataset_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -209,7 +176,6 @@ class PostTrainingResource(SyncAPIResource):
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
                     "model": model,
-                    "optimizer_config": optimizer_config,
                     "training_config": training_config,
                     "validation_dataset_id": validation_dataset_id,
                 },
