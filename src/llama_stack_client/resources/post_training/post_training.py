@@ -128,9 +128,8 @@ class PostTrainingResource(SyncAPIResource):
     def supervised_fine_tune(
         self,
         *,
-        algorithm: Literal["full", "lora", "qlora", "dora"],
+        algorithm: Literal["full", "lora", "qat"],
         algorithm_config: post_training_supervised_fine_tune_params.AlgorithmConfig,
-        dataset_id: str,
         hyperparam_search_config: Dict[
             str, Union[bool, float, str, Iterable[object], object, None]
         ] = {},
@@ -140,7 +139,6 @@ class PostTrainingResource(SyncAPIResource):
         ] = {},
         model: str,
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
-        validation_dataset_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -171,13 +169,11 @@ class PostTrainingResource(SyncAPIResource):
                 {
                     "algorithm": algorithm,
                     "algorithm_config": algorithm_config,
-                    "dataset_id": dataset_id,
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
                     "model": model,
                     "training_config": training_config,
-                    "validation_dataset_id": validation_dataset_id,
                 },
                 post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),

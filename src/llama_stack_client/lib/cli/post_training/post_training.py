@@ -27,8 +27,13 @@ lora_config = (
         apply_lora_to_output=False,
         rank=8,
         alpha=16,
-        use_dora=False,
     )
+)
+
+data_config = post_training_supervised_fine_tune_params.DataConfig(
+    dataset_id="alpaca",
+    batch_size=1,
+    shuffle=False,
 )
 
 optimizer_config = post_training_supervised_fine_tune_params.OptimizerConfig(
@@ -39,17 +44,17 @@ optimizer_config = post_training_supervised_fine_tune_params.OptimizerConfig(
     num_warmup_steps=100,
 )
 
+effiency_config = post_training_supervised_fine_tune_params.EfficienctConfig(
+    enable_activation_checkpointing=True,
+)
+
 training_config = post_training_supervised_fine_tune_params.TrainingConfig(
-    dtype="bf16",
     n_epochs=1,
+    data_config=data_config,
+    efficient_config=effiency_config,
     optimizer_config=optimizer_config,
     max_steps_per_epoch=10,
     gradient_accumulation_steps=1,
-    batch_size=1,
-    shuffle=False,
-    enable_activation_checkpointing=False,
-    memory_efficient_fsdp_wrap=False,
-    fsdp_cpu_offload=False,
 )
 
 
@@ -62,10 +67,8 @@ def supervised_fine_tune(ctx):
     console = Console()
 
     post_training_job = client.post_training.supervised_fine_tune(
-        dataset_id="alpaca",
         job_uuid="1234",
         model="meta-llama/Llama-3.2-3B-Instruct",
-        validation_dataset_id="alpaca",
         algorithm="lora",
         algorithm_config=lora_config,
         training_config=training_config,
