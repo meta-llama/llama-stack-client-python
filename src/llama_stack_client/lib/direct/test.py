@@ -1,19 +1,13 @@
 import argparse
 
 import yaml
-from llama_stack.distribution.configure import parse_and_maybe_upgrade_config
 
 from llama_stack_client import LlamaStackDirectClient
 from llama_stack_client.types import UserMessage
 
 
 async def main(config_path: str):
-    with open(config_path, "r") as f:
-        config_dict = yaml.safe_load(f)
-
-    run_config = parse_and_maybe_upgrade_config(config_dict)
-
-    client = await LlamaStackDirectClient.from_config(run_config)
+    client = await LlamaStackDirectClient.from_config(config_path)
     await client.initialize()
 
     response = await client.models.list()
