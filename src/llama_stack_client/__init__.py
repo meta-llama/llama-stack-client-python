@@ -1,45 +1,41 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from . import types
-from ._types import NOT_GIVEN, NoneType, NotGiven, Transport, ProxiesTypes
-from ._utils import file_from_path
+from ._base_client import DefaultAsyncHttpxClient, DefaultHttpxClient
+from ._types import NoneType, NOT_GIVEN, NotGiven, Omit, ProxiesTypes, Transport
 from ._client import (
+    AsyncClient,
+    AsyncLlamaStackClient,
+    AsyncStream,
     Client,
+    LlamaStackClient,
+    RequestOptions,
     Stream,
     Timeout,
     Transport,
-    AsyncClient,
-    AsyncStream,
-    RequestOptions,
-    LlamaStackClient,
-    AsyncLlamaStackClient,
 )
-from ._models import BaseModel
-from ._version import __title__, __version__
-from ._response import APIResponse as APIResponse, AsyncAPIResponse as AsyncAPIResponse
-from ._constants import DEFAULT_TIMEOUT, DEFAULT_MAX_RETRIES, DEFAULT_CONNECTION_LIMITS
+from ._constants import DEFAULT_CONNECTION_LIMITS, DEFAULT_MAX_RETRIES, DEFAULT_TIMEOUT
 from ._exceptions import (
-    APIError,
-    ConflictError,
-    NotFoundError,
-    APIStatusError,
-    RateLimitError,
-    APITimeoutError,
-    BadRequestError,
     APIConnectionError,
+    APIError,
+    APIResponseValidationError,
+    APIStatusError,
+    APITimeoutError,
     AuthenticationError,
+    BadRequestError,
+    ConflictError,
     InternalServerError,
     LlamaStackClientError,
+    NotFoundError,
     PermissionDeniedError,
+    RateLimitError,
     UnprocessableEntityError,
-    APIResponseValidationError,
 )
-from ._base_client import DefaultHttpxClient, DefaultAsyncHttpxClient
-try:
-    from .lib.direct.direct import LlamaStackDirectClient
-except ImportError:
-    LlamaStackDirectClient = None
+from ._models import BaseModel
+from ._response import APIResponse as APIResponse, AsyncAPIResponse as AsyncAPIResponse
+from ._utils import file_from_path
 from ._utils._logs import setup_logging as _setup_logging
+from ._version import __title__, __version__
 
 __all__ = [
     "types",
@@ -50,6 +46,7 @@ __all__ = [
     "ProxiesTypes",
     "NotGiven",
     "NOT_GIVEN",
+    "Omit",
     "LlamaStackClientError",
     "APIError",
     "APIStatusError",
@@ -80,8 +77,26 @@ __all__ = [
     "DefaultHttpxClient",
     "DefaultAsyncHttpxClient",
 ]
-if LlamaStackDirectClient is not None:
-   __all__.append("LlamaStackDirectClient")
+
+
+# Only expose the direct client if its dependencies are installed
+class _MissingDependencyProxy:
+    def __init__(self, import_error):
+        self._error = f"LlamaStackDirectClient is not available because its dependencies are not installed. Original error: {import_error}"
+
+    def __getattr__(self, _):
+        raise ImportError(self._error)
+
+    def __call__(self, *args, **kwargs):
+        raise ImportError(self._error)
+
+
+try:
+    from .lib.direct.direct import LlamaStackDirectClient
+
+    __all__.append("LlamaStackDirectClient")
+except ImportError:
+    LlamaStackDirectClient = _MissingDependencyProxy(e)
 
 _setup_logging()
 
