@@ -77,7 +77,19 @@ __all__ = [
     "DefaultHttpxClient",
     "DefaultAsyncHttpxClient",
 ]
+
 # Only expose the direct client if its dependencies are installed
+class _MissingDependencyProxy:
+    def __init__(self, import_error):
+        self._error = f"LlamaStackDirectClient is not available because its dependencies are not installed. Original error: {import_error}"
+
+    def __getattr__(self, _):
+        raise ImportError(self._error)
+
+    def __call__(self, *args, **kwargs):
+        raise ImportError(self._error)
+
+
 try:
     from .lib.direct.direct import LlamaStackDirectClient
     __all__.append("LlamaStackDirectClient")
