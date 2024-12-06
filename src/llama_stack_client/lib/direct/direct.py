@@ -1,6 +1,6 @@
 import inspect
 from pathlib import Path
-from typing import Any, Optional, Type, cast, get_args, get_origin
+from typing import Any, cast, get_args, get_origin, Optional, Type
 
 import yaml
 from llama_stack.distribution.build import print_pip_install_help
@@ -9,16 +9,20 @@ from llama_stack.distribution.datatypes import StackRunConfig
 from llama_stack.distribution.resolver import ProviderRegistry
 from llama_stack.distribution.server.endpoints import get_all_api_endpoints
 from llama_stack.distribution.server.server import is_streaming_request
-from llama_stack.distribution.stack import (construct_stack,
-                                            get_stack_run_config_from_template,
-                                            replace_env_vars)
-from pydantic import BaseModel
+from llama_stack.distribution.stack import (
+    construct_stack,
+    get_stack_run_config_from_template,
+    replace_env_vars,
+)
+from pydantic import BaseModel, parse_obj_as
 from rich.console import Console
+
+from termcolor import cprint
 
 from ..._base_client import ResponseT
 from ..._client import LlamaStackClient
 from ..._streaming import Stream
-from ..._types import NOT_GIVEN, Body, RequestFiles, RequestOptions
+from ..._types import Body, NOT_GIVEN, RequestFiles, RequestOptions
 
 
 class LlamaStackDirectClient(LlamaStackClient):
@@ -85,25 +89,34 @@ class LlamaStackDirectClient(LlamaStackClient):
             print_pip_install_help(self.config.providers)
             raise e
 
-    def _convert_param(self, param_type: Any, value: Any) -> Any:
-        origin = get_origin(param_type)
-        if origin == list:
-            item_type = get_args(param_type)[0]
-            if isinstance(item_type, type) and issubclass(item_type, BaseModel):
-                return [item_type(**item) for item in value]
+    def _convert_param(self, annotation: Any, value: Any) -> Any:
+        if annotation in (str, int, float, bool):
             return value
+
+        origin = get_origin(annotation)
+        if origin == list:
+            item_type = get_args(annotation)[0]
+            try:
+                return [self._convert_param(item_type, item) for item in value]
+            except Exception:
+                return value
 
         elif origin == dict:
-            _, val_type = get_args(param_type)
-            if isinstance(val_type, type) and issubclass(val_type, BaseModel):
-                return {k: val_type(**v) for k, v in value.items()}
+            key_type, val_type = get_args(annotation)
+            try:
+                return {k: self._convert_param(val_type, v) for k, v in value.items()}
+            except Exception:
+                return value
+
+        try:
+            # Handle Pydantic models and discriminated unions
+            return parse_obj_as(annotation, value)
+        except Exception as e:
+            cprint(
+                f"Warning: direct client failed to convert parameter {value} into {annotation}: {e}",
+                "yellow",
+            )
             return value
-
-        elif isinstance(param_type, type) and issubclass(param_type, BaseModel):
-            return param_type(**value)
-
-        # Return as-is for primitive types
-        return value
 
     async def _call_endpoint(self, path: str, method: str, body: dict = None) -> Any:
         for api, endpoints in self.endpoints.items():

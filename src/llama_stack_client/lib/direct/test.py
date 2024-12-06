@@ -20,13 +20,12 @@ async def main(config_path: str):
     print(response)
 
     response = await client.memory_banks.register(
-        memory_bank_id="test_memory_bank",
+        memory_bank_id="memory_bank_id",
         params={
-            "embedding_model": "all-MiniLM-L6-v2",
-            "chunk_size_in_tokens": 512,
-            "overlap_size_in_tokens": 64,
+            "chunk_size_in_tokens": 0,
+            "embedding_model": "embedding_model",
+            "memory_bank_type": "vector",
         },
-        provider_id="test_memory_bank",
     )
     print("\nRegister memory bank response:")
     print(response)
