@@ -95,7 +95,7 @@ try:
     from .lib.direct.direct import LlamaStackDirectClient
 
     __all__.append("LlamaStackDirectClient")
-except ImportError:
+except ImportError as e:
     LlamaStackDirectClient = _MissingDependencyProxy(e)
 
 _setup_logging()
