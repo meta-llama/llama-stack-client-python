@@ -19,6 +19,18 @@ async def main(config_path: str):
     print("\nChat completion response:")
     print(response)
 
+    response = await client.memory_banks.register(
+        memory_bank_id="test_memory_bank",
+        params={
+            "embedding_model": "all-MiniLM-L6-v2",
+            "chunk_size_in_tokens": 512,
+            "overlap_size_in_tokens": 64,
+        },
+        provider_id="test_memory_bank",
+    )
+    print("\nRegister memory bank response:")
+    print(response)
+
 
 if __name__ == "__main__":
     import asyncio
