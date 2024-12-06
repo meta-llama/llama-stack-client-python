@@ -8,11 +8,6 @@ from llama_stack_client.types import UserMessage
 
 
 async def main(config_path: str):
-    with open(config_path, "r") as f:
-        config_dict = yaml.safe_load(f)
-
-    run_config = parse_and_maybe_upgrade_config(config_dict)
-
     client = await LlamaStackDirectClient.from_config(run_config)
     await client.initialize()
 
