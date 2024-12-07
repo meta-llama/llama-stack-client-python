@@ -54,15 +54,15 @@ class EventLogger:
         if hasattr(chunk, "error"):
             yield LogEvent(role=None, content=chunk.error["message"], color="red")
             return
+
         if not hasattr(chunk, "event"):
             # Need to check for custom tool first
             # since it does not produce event but instead
             # a Message
             if isinstance(chunk, ToolResponseMessage):
-                yield LogEvent(
-                        role="CustomTool", content=chunk.content, color="green"
-                    )
+                yield LogEvent(role="CustomTool", content=chunk.content, color="green")
                 return
+
         event = chunk.event
         event_type = event.payload.event_type
 
@@ -71,7 +71,7 @@ class EventLogger:
             yield LogEvent(role=None, content="", end="", color="grey")
             return
 
-        step_type = event.payload.step_type
+        step_type = event.payload.step_type.value
         # handle safety
         if step_type == "shield_call" and event_type == "step_complete":
             violation = event.payload.step_details.violation
@@ -89,13 +89,6 @@ class EventLogger:
             if event_type == "step_start":
                 yield LogEvent(role=step_type, content="", end="", color="yellow")
             elif event_type == "step_progress":
-                # HACK: if previous was not step/event was not inference's step_progress
-                # this is the first time we are getting model inference response
-                # aka equivalent to step_start for inference. Hence,
-                # start with "Model>".
-                if previous_event_type != "step_progress" and previous_step_type != "inference":
-                    yield LogEvent(role=step_type, content="", end="", color="yellow")
-
                 if event.payload.tool_call_delta:
                     if isinstance(event.payload.tool_call_delta.content, str):
                         yield LogEvent(
@@ -107,7 +100,7 @@ class EventLogger:
                 else:
                     yield LogEvent(
                         role=None,
-                        content=event.payload.text_delta_model_response,
+                        content=event.payload.model_response_text_delta,
                         end="",
                         color="yellow",
                     )
@@ -147,8 +140,14 @@ class EventLogger:
 
     def _get_event_type_step_type(self, chunk):
         if hasattr(chunk, "event"):
-            previous_event_type = chunk.event.payload.event_type if hasattr(chunk, "event") else None
-            previous_step_type = chunk.event.payload.step_type if previous_event_type not in {"turn_start", "turn_complete"} else None
+            previous_event_type = (
+                chunk.event.payload.event_type if hasattr(chunk, "event") else None
+            )
+            previous_step_type = (
+                chunk.event.payload.step_type
+                if previous_event_type not in {"turn_start", "turn_complete"}
+                else None
+            )
             return previous_event_type, previous_step_type
         return None, None
 
@@ -157,6 +156,10 @@ class EventLogger:
         previous_step_type = None
 
         for chunk in event_generator:
-            for log_event in self._get_log_event(chunk, previous_event_type, previous_step_type):
+            for log_event in self._get_log_event(
+                chunk, previous_event_type, previous_step_type
+            ):
                 yield log_event
-            previous_event_type, previous_step_type = self._get_event_type_step_type(chunk)
+            previous_event_type, previous_step_type = self._get_event_type_step_type(
+                chunk
+            )

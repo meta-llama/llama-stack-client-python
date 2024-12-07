@@ -22,12 +22,12 @@ class LogEvent:
 
 
 class EventLogger:
-    async def log(self, event_generator):
+    def log(self, event_generator):
         for chunk in event_generator:
             event = chunk.event
-            if event.event_type == "start":
+            if event.event_type.value == "start":
                 yield LogEvent("Assistant> ", color="cyan", end="")
-            elif event.event_type == "progress":
+            elif event.event_type.value == "progress":
                 yield LogEvent(event.delta, color="yellow", end="")
-            elif event.event_type == "complete":
+            elif event.event_type.value == "complete":
                 yield LogEvent("")
