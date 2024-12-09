@@ -71,7 +71,12 @@ class EventLogger:
             yield LogEvent(role=None, content="", end="", color="grey")
             return
 
-        step_type = event.payload.step_type.value
+        # TODO: discrepancy between DirectClient & HTTP Client
+        if type(event.payload.step_type) == str:
+            step_type = event.payload.step_type
+        else:
+            step_type = event.payload.step_type.value
+
         # handle safety
         if step_type == "shield_call" and event_type == "step_complete":
             violation = event.payload.step_details.violation
@@ -98,12 +103,21 @@ class EventLogger:
                             color="cyan",
                         )
                 else:
-                    yield LogEvent(
-                        role=None,
-                        content=event.payload.model_response_text_delta,
-                        end="",
-                        color="yellow",
-                    )
+                    # TODO: discrepancy between DirectClient & HTTP Client
+                    if hasattr(event.payload, "model_response_text_delta"):
+                        yield LogEvent(
+                            role=None,
+                            content=event.payload.model_response_text_delta,
+                            end="",
+                            color="yellow",
+                        )
+                    else:
+                        yield LogEvent(
+                            role=None,
+                            content=event.payload.text_delta_model_response,
+                            end="",
+                            color="yellow",
+                        )
             else:
                 # step complete
                 yield LogEvent(role=None, content="")
