@@ -6,11 +6,10 @@ from typing import List, Union
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
+from .shared_params.return_type import ReturnType
 
 __all__ = [
     "ScoringFunctionRegisterParams",
-    "ReturnType",
-    "ReturnTypeType",
     "Params",
     "ParamsLlmAsJudgeScoringFnParams",
     "ParamsRegexParserScoringFnParams",
@@ -31,24 +30,6 @@ class ScoringFunctionRegisterParams(TypedDict, total=False):
     provider_scoring_fn_id: str
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
-
-
-class ReturnTypeType(TypedDict, total=False):
-    type: Required[Literal["string"]]
-
-
-ReturnType: TypeAlias = Union[
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-]
 
 
 class ParamsLlmAsJudgeScoringFnParams(TypedDict, total=False):

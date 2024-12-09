@@ -25,9 +25,11 @@ class EventLogger:
     def log(self, event_generator):
         for chunk in event_generator:
             event = chunk.event
-            if event.event_type.value == "start":
+            # TODO: discrepancy between DirectClient & HTTP Client
+            event_type = event.event_type if type(event.event_type) == str else event.event_type.value                
+            if event_type == "start":
                 yield LogEvent("Assistant> ", color="cyan", end="")
-            elif event.event_type.value == "progress":
+            elif event_type == "progress":
                 yield LogEvent(event.delta, color="yellow", end="")
-            elif event.event_type.value == "complete":
+            elif event_type == "complete":
                 yield LogEvent("")
