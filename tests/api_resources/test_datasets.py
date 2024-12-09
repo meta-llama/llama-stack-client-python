@@ -153,6 +153,45 @@ class TestDatasets:
 
         assert cast(Any, response.is_closed) is True
 
+    @parametrize
+    def test_method_unregister(self, client: LlamaStackClient) -> None:
+        dataset = client.datasets.unregister(
+            dataset_id="dataset_id",
+        )
+        assert dataset is None
+
+    @parametrize
+    def test_method_unregister_with_all_params(self, client: LlamaStackClient) -> None:
+        dataset = client.datasets.unregister(
+            dataset_id="dataset_id",
+            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+        )
+        assert dataset is None
+
+    @parametrize
+    def test_raw_response_unregister(self, client: LlamaStackClient) -> None:
+        response = client.datasets.with_raw_response.unregister(
+            dataset_id="dataset_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        dataset = response.parse()
+        assert dataset is None
+
+    @parametrize
+    def test_streaming_response_unregister(self, client: LlamaStackClient) -> None:
+        with client.datasets.with_streaming_response.unregister(
+            dataset_id="dataset_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            dataset = response.parse()
+            assert dataset is None
+
+        assert cast(Any, response.is_closed) is True
+
 
 class TestAsyncDatasets:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
@@ -281,6 +320,45 @@ class TestAsyncDatasets:
             dataset_id="dataset_id",
             dataset_schema={"foo": {"type": "string"}},
             url="https://example.com",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            dataset = await response.parse()
+            assert dataset is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_unregister(self, async_client: AsyncLlamaStackClient) -> None:
+        dataset = await async_client.datasets.unregister(
+            dataset_id="dataset_id",
+        )
+        assert dataset is None
+
+    @parametrize
+    async def test_method_unregister_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        dataset = await async_client.datasets.unregister(
+            dataset_id="dataset_id",
+            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+        )
+        assert dataset is None
+
+    @parametrize
+    async def test_raw_response_unregister(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.datasets.with_raw_response.unregister(
+            dataset_id="dataset_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        dataset = await response.parse()
+        assert dataset is None
+
+    @parametrize
+    async def test_streaming_response_unregister(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.datasets.with_streaming_response.unregister(
+            dataset_id="dataset_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

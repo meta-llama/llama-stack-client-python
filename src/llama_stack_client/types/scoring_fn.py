@@ -4,33 +4,9 @@ from typing import Dict, List, Union, Optional
 from typing_extensions import Literal, TypeAlias
 
 from .._models import BaseModel
+from .shared.return_type import ReturnType
 
-__all__ = [
-    "ScoringFn",
-    "ReturnType",
-    "ReturnTypeType",
-    "Params",
-    "ParamsLlmAsJudgeScoringFnParams",
-    "ParamsRegexParserScoringFnParams",
-]
-
-
-class ReturnTypeType(BaseModel):
-    type: Literal["string"]
-
-
-ReturnType: TypeAlias = Union[
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-]
+__all__ = ["ScoringFn", "Params", "ParamsLlmAsJudgeScoringFnParams", "ParamsRegexParserScoringFnParams"]
 
 
 class ParamsLlmAsJudgeScoringFnParams(BaseModel):

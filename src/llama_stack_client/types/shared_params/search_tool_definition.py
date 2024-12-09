@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import List
 from typing_extensions import Literal, Required, TypedDict
 
-from ..rest_api_execution_config_param import RestAPIExecutionConfigParam
+from .rest_api_execution_config import RestAPIExecutionConfig
 
 __all__ = ["SearchToolDefinition"]
 
@@ -13,7 +13,7 @@ __all__ = ["SearchToolDefinition"]
 class SearchToolDefinition(TypedDict, total=False):
     api_key: Required[str]
 
-    engine: Required[Literal["bing", "brave"]]
+    engine: Required[Literal["bing", "brave", "tavily"]]
 
     type: Required[Literal["brave_search"]]
 
@@ -21,4 +21,4 @@ class SearchToolDefinition(TypedDict, total=False):
 
     output_shields: List[str]
 
-    remote_execution: RestAPIExecutionConfigParam
+    remote_execution: RestAPIExecutionConfig
