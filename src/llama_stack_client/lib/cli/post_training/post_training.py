@@ -68,8 +68,7 @@ def supervised_fine_tune(ctx):
 
     post_training_job = client.post_training.supervised_fine_tune(
         job_uuid="1234",
-        model="meta-llama/Llama-3.2-3B-Instruct",
-        algorithm="lora",
+        model="Llama3.2-3B-Instruct",
         algorithm_config=lora_config,
         training_config=training_config,
     )
