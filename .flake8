@@ -28,3 +28,4 @@ exclude =
     .pre-commit-config.yaml,
     *.md,
     .flake8
+pkg install mangal
