@@ -129,12 +129,14 @@ class EventLogger:
         # memory retrieval
         if step_type == "memory_retrieval" and event_type == "step_complete":
             details = event.payload.step_details
-            content = interleaved_text_media_as_str(details.inserted_context)
-            content = content[:200] + "..." if len(content) > 200 else content
+            inserted_context = interleaved_text_media_as_str(
+                details.inserted_context
+            )
+            content = f"fetched {len(inserted_context)} bytes from {details.memory_bank_ids}"
 
             yield LogEvent(
                 role=step_type,
-                content=f"Retrieved context from banks: {details.memory_bank_ids}.\n====\n{content}\n>",
+                content=content,
                 color="cyan",
             )
 
