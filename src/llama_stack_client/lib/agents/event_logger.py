@@ -71,9 +71,7 @@ class EventLogger:
             yield LogEvent(role=None, content="", end="", color="grey")
             return
 
-        # TODO: discrepancy between DirectClient & HTTP Client
-        step_type = event.payload.step_type if type(event.payload.step_type) == str else event.payload.step_type.value
-    
+        step_type = event.payload.step_type
         # handle safety
         if step_type == "shield_call" and event_type == "step_complete":
             violation = event.payload.step_details.violation
