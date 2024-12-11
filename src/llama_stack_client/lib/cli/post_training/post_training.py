@@ -62,7 +62,7 @@ training_config = post_training_supervised_fine_tune_params.TrainingConfig(
 @click.pass_context
 @handle_client_errors("post_training supervised_fine_tune")
 def supervised_fine_tune(ctx):
-    """Show available post_training supervies finetune endpoints on distribution endpoint"""
+    """Kick off a supervised fine tune job"""
     client = ctx.obj["client"]
     console = Console()
 
@@ -75,5 +75,44 @@ def supervised_fine_tune(ctx):
     console.print(post_training_job.job_uuid)
 
 
+@click.command("get_training_jobs")
+@click.pass_context
+@handle_client_errors("post_training get_training_jobs")
+def get_training_jobs(ctx):
+    """Show the list of available post training jobs"""
+    client = ctx.obj["client"]
+    console = Console()
+
+    training_jobs = client.post_training.get_training_jobs()
+    console.print([training_job.job_uuid for training_job in training_jobs])
+
+
+@click.command("get_training_job_status")
+@click.pass_context
+@handle_client_errors("post_training get_training_job_status")
+def get_training_job_status(ctx):
+    """Show the status of a specific post training job"""
+    client = ctx.obj["client"]
+    console = Console()
+
+    job_status_reponse = client.post_training.get_training_job_status(job_uuid="1234")
+    console.print(job_status_reponse)
+
+
+@click.command("get_training_job_artifacts")
+@click.pass_context
+@handle_client_errors("post_training get_training_job_artifacts")
+def get_training_job_artifacts(ctx):
+    """Get the training artifacts of a specific post training job"""
+    client = ctx.obj["client"]
+    console = Console()
+
+    job_artifacts = client.post_training.get_training_job_artifacts(job_uuid="1234")
+    console.print(job_artifacts)
+
+
 # Register subcommands
 post_training.add_command(supervised_fine_tune)
+post_training.add_command(get_training_jobs)
+post_training.add_command(get_training_job_status)
+post_training.add_command(get_training_job_artifacts)
