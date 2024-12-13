@@ -32,6 +32,7 @@ lora_config = (
 
 data_config = post_training_supervised_fine_tune_params.DataConfig(
     dataset_id="alpaca",
+    validation_dataset_id="alpaca",
     batch_size=1,
     shuffle=False,
 )
@@ -53,7 +54,7 @@ training_config = post_training_supervised_fine_tune_params.TrainingConfig(
     data_config=data_config,
     efficient_config=effiency_config,
     optimizer_config=optimizer_config,
-    max_steps_per_epoch=10,
+    max_steps_per_epoch=30,
     gradient_accumulation_steps=1,
 )
 
@@ -67,7 +68,7 @@ def supervised_fine_tune(ctx):
     console = Console()
 
     post_training_job = client.post_training.supervised_fine_tune(
-        job_uuid="1234",
+        job_uuid="1235",
         model="Llama3.2-3B-Instruct",
         algorithm_config=lora_config,
         training_config=training_config,
@@ -107,7 +108,7 @@ def get_training_job_artifacts(ctx):
     client = ctx.obj["client"]
     console = Console()
 
-    job_artifacts = client.post_training.get_training_job_artifacts(job_uuid="1234")
+    job_artifacts = client.post_training.get_training_job_artifacts(job_uuid="1235")
     console.print(job_artifacts)
 
 

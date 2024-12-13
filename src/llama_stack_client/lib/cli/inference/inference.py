@@ -34,7 +34,7 @@ def chat_completion(ctx, message: str, stream: bool, model_id: Optional[str]):
         model_id = available_models[0]
 
     response = client.inference.chat_completion(
-        model_id=model_id,
+        model_id="meta-llama/Llama-3.2-3B-Instruct",
         messages=[{"role": "user", "content": message}],
         stream=stream,
     )
