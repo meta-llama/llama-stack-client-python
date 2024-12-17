@@ -1,33 +1,16 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Union
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import Literal
 
 from .._models import BaseModel
+from .shared.param_type import ParamType
 
-__all__ = ["DatasetRetrieveResponse", "DatasetSchema", "DatasetSchemaType"]
-
-
-class DatasetSchemaType(BaseModel):
-    type: Literal["string"]
-
-
-DatasetSchema: TypeAlias = Union[
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-]
+__all__ = ["DatasetRetrieveResponse"]
 
 
 class DatasetRetrieveResponse(BaseModel):
-    dataset_schema: Dict[str, DatasetSchema]
+    dataset_schema: Dict[str, ParamType]
 
     identifier: str
 

@@ -23,6 +23,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.query_documents_response import QueryDocumentsResponse
+from ..types.shared_params.interleaved_content import InterleavedContent
 
 __all__ = ["MemoryResource", "AsyncMemoryResource"]
 
@@ -96,7 +97,7 @@ class MemoryResource(SyncAPIResource):
         self,
         *,
         bank_id: str,
-        query: memory_query_params.Query,
+        query: InterleavedContent,
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -206,7 +207,7 @@ class AsyncMemoryResource(AsyncAPIResource):
         self,
         *,
         bank_id: str,
-        query: memory_query_params.Query,
+        query: InterleavedContent,
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.

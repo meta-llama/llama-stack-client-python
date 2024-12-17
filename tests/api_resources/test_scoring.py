@@ -41,6 +41,7 @@ class TestScoring:
                 "foo": {
                     "judge_model": "judge_model",
                     "type": "llm_as_judge",
+                    "aggregation_functions": ["average"],
                     "judge_score_regexes": ["string"],
                     "prompt_template": "prompt_template",
                 }
@@ -108,6 +109,7 @@ class TestScoring:
                 "foo": {
                     "judge_model": "judge_model",
                     "type": "llm_as_judge",
+                    "aggregation_functions": ["average"],
                     "judge_score_regexes": ["string"],
                     "prompt_template": "prompt_template",
                 }
@@ -179,6 +181,7 @@ class TestAsyncScoring:
                 "foo": {
                     "judge_model": "judge_model",
                     "type": "llm_as_judge",
+                    "aggregation_functions": ["average"],
                     "judge_score_regexes": ["string"],
                     "prompt_template": "prompt_template",
                 }
@@ -246,6 +249,7 @@ class TestAsyncScoring:
                 "foo": {
                     "judge_model": "judge_model",
                     "type": "llm_as_judge",
+                    "aggregation_functions": ["average"],
                     "judge_score_regexes": ["string"],
                     "prompt_template": "prompt_template",
                 }

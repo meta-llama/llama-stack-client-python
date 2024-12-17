@@ -2,17 +2,15 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable
+from typing import Dict, Union, Iterable
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
-from .shared_params.image_media import ImageMedia
 from .shared_params.sampling_params import SamplingParams
+from .shared_params.interleaved_content import InterleavedContent
 
 __all__ = [
     "InferenceCompletionParamsBase",
-    "Content",
-    "ContentImageMediaArray",
     "Logprobs",
     "ResponseFormat",
     "ResponseFormatJsonSchemaFormat",
@@ -23,7 +21,7 @@ __all__ = [
 
 
 class InferenceCompletionParamsBase(TypedDict, total=False):
-    content: Required[Content]
+    content: Required[InterleavedContent]
 
     model_id: Required[str]
 
@@ -34,11 +32,6 @@ class InferenceCompletionParamsBase(TypedDict, total=False):
     sampling_params: SamplingParams
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
-
-
-ContentImageMediaArray: TypeAlias = Union[str, ImageMedia]
-
-Content: TypeAlias = Union[str, ImageMedia, List[ContentImageMediaArray]]
 
 
 class Logprobs(TypedDict, total=False):

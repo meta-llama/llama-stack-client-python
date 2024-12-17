@@ -6,10 +6,10 @@ from typing_extensions import Literal, TypeAlias
 from ..._models import BaseModel
 from .interleaved_content_item import InterleavedContentItem
 
-__all__ = ["Attachment", "Content", "ContentImageContentItem", "ContentTextContentItem"]
+__all__ = ["InterleavedContent", "ImageContentItem", "TextContentItem"]
 
 
-class ContentImageContentItem(BaseModel):
+class ImageContentItem(BaseModel):
     type: Literal["image"]
 
     data: Optional[str] = None
@@ -17,16 +17,10 @@ class ContentImageContentItem(BaseModel):
     url: Optional[str] = None
 
 
-class ContentTextContentItem(BaseModel):
+class TextContentItem(BaseModel):
     text: str
 
     type: Literal["text"]
 
 
-Content: TypeAlias = Union[str, ContentImageContentItem, ContentTextContentItem, List[InterleavedContentItem]]
-
-
-class Attachment(BaseModel):
-    content: Content
-
-    mime_type: str
+InterleavedContent: TypeAlias = Union[str, ImageContentItem, TextContentItem, List[InterleavedContentItem]]

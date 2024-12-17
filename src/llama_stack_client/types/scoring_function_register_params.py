@@ -13,6 +13,7 @@ __all__ = [
     "Params",
     "ParamsLlmAsJudgeScoringFnParams",
     "ParamsRegexParserScoringFnParams",
+    "ParamsBasicScoringFnParams",
 ]
 
 
@@ -37,6 +38,8 @@ class ParamsLlmAsJudgeScoringFnParams(TypedDict, total=False):
 
     type: Required[Literal["llm_as_judge"]]
 
+    aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
+
     judge_score_regexes: List[str]
 
     prompt_template: str
@@ -45,7 +48,15 @@ class ParamsLlmAsJudgeScoringFnParams(TypedDict, total=False):
 class ParamsRegexParserScoringFnParams(TypedDict, total=False):
     type: Required[Literal["regex_parser"]]
 
+    aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
+
     parsing_regexes: List[str]
 
 
-Params: TypeAlias = Union[ParamsLlmAsJudgeScoringFnParams, ParamsRegexParserScoringFnParams]
+class ParamsBasicScoringFnParams(TypedDict, total=False):
+    type: Required[Literal["basic"]]
+
+    aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
+
+
+Params: TypeAlias = Union[ParamsLlmAsJudgeScoringFnParams, ParamsRegexParserScoringFnParams, ParamsBasicScoringFnParams]

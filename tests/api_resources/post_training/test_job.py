@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, cast
+from typing import Any, Optional, cast
 
 import pytest
 
@@ -11,7 +11,6 @@ from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
 from llama_stack_client.types import PostTrainingJob
 from llama_stack_client.types.post_training import (
-    JobLogsResponse,
     JobStatusResponse,
     JobArtifactsResponse,
 )
@@ -71,7 +70,7 @@ class TestJob:
         job = client.post_training.job.artifacts(
             job_uuid="job_uuid",
         )
-        assert_matches_type(JobArtifactsResponse, job, path=["response"])
+        assert_matches_type(Optional[JobArtifactsResponse], job, path=["response"])
 
     @parametrize
     def test_method_artifacts_with_all_params(self, client: LlamaStackClient) -> None:
@@ -79,7 +78,7 @@ class TestJob:
             job_uuid="job_uuid",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(JobArtifactsResponse, job, path=["response"])
+        assert_matches_type(Optional[JobArtifactsResponse], job, path=["response"])
 
     @parametrize
     def test_raw_response_artifacts(self, client: LlamaStackClient) -> None:
@@ -90,7 +89,7 @@ class TestJob:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         job = response.parse()
-        assert_matches_type(JobArtifactsResponse, job, path=["response"])
+        assert_matches_type(Optional[JobArtifactsResponse], job, path=["response"])
 
     @parametrize
     def test_streaming_response_artifacts(self, client: LlamaStackClient) -> None:
@@ -101,7 +100,7 @@ class TestJob:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             job = response.parse()
-            assert_matches_type(JobArtifactsResponse, job, path=["response"])
+            assert_matches_type(Optional[JobArtifactsResponse], job, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -145,50 +144,11 @@ class TestJob:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_logs(self, client: LlamaStackClient) -> None:
-        job = client.post_training.job.logs(
-            job_uuid="job_uuid",
-        )
-        assert_matches_type(JobLogsResponse, job, path=["response"])
-
-    @parametrize
-    def test_method_logs_with_all_params(self, client: LlamaStackClient) -> None:
-        job = client.post_training.job.logs(
-            job_uuid="job_uuid",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
-        )
-        assert_matches_type(JobLogsResponse, job, path=["response"])
-
-    @parametrize
-    def test_raw_response_logs(self, client: LlamaStackClient) -> None:
-        response = client.post_training.job.with_raw_response.logs(
-            job_uuid="job_uuid",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        job = response.parse()
-        assert_matches_type(JobLogsResponse, job, path=["response"])
-
-    @parametrize
-    def test_streaming_response_logs(self, client: LlamaStackClient) -> None:
-        with client.post_training.job.with_streaming_response.logs(
-            job_uuid="job_uuid",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            job = response.parse()
-            assert_matches_type(JobLogsResponse, job, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
     def test_method_status(self, client: LlamaStackClient) -> None:
         job = client.post_training.job.status(
             job_uuid="job_uuid",
         )
-        assert_matches_type(JobStatusResponse, job, path=["response"])
+        assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 
     @parametrize
     def test_method_status_with_all_params(self, client: LlamaStackClient) -> None:
@@ -196,7 +156,7 @@ class TestJob:
             job_uuid="job_uuid",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(JobStatusResponse, job, path=["response"])
+        assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 
     @parametrize
     def test_raw_response_status(self, client: LlamaStackClient) -> None:
@@ -207,7 +167,7 @@ class TestJob:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         job = response.parse()
-        assert_matches_type(JobStatusResponse, job, path=["response"])
+        assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 
     @parametrize
     def test_streaming_response_status(self, client: LlamaStackClient) -> None:
@@ -218,7 +178,7 @@ class TestJob:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             job = response.parse()
-            assert_matches_type(JobStatusResponse, job, path=["response"])
+            assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -275,7 +235,7 @@ class TestAsyncJob:
         job = await async_client.post_training.job.artifacts(
             job_uuid="job_uuid",
         )
-        assert_matches_type(JobArtifactsResponse, job, path=["response"])
+        assert_matches_type(Optional[JobArtifactsResponse], job, path=["response"])
 
     @parametrize
     async def test_method_artifacts_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
@@ -283,7 +243,7 @@ class TestAsyncJob:
             job_uuid="job_uuid",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(JobArtifactsResponse, job, path=["response"])
+        assert_matches_type(Optional[JobArtifactsResponse], job, path=["response"])
 
     @parametrize
     async def test_raw_response_artifacts(self, async_client: AsyncLlamaStackClient) -> None:
@@ -294,7 +254,7 @@ class TestAsyncJob:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         job = await response.parse()
-        assert_matches_type(JobArtifactsResponse, job, path=["response"])
+        assert_matches_type(Optional[JobArtifactsResponse], job, path=["response"])
 
     @parametrize
     async def test_streaming_response_artifacts(self, async_client: AsyncLlamaStackClient) -> None:
@@ -305,7 +265,7 @@ class TestAsyncJob:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             job = await response.parse()
-            assert_matches_type(JobArtifactsResponse, job, path=["response"])
+            assert_matches_type(Optional[JobArtifactsResponse], job, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -349,50 +309,11 @@ class TestAsyncJob:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_logs(self, async_client: AsyncLlamaStackClient) -> None:
-        job = await async_client.post_training.job.logs(
-            job_uuid="job_uuid",
-        )
-        assert_matches_type(JobLogsResponse, job, path=["response"])
-
-    @parametrize
-    async def test_method_logs_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        job = await async_client.post_training.job.logs(
-            job_uuid="job_uuid",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
-        )
-        assert_matches_type(JobLogsResponse, job, path=["response"])
-
-    @parametrize
-    async def test_raw_response_logs(self, async_client: AsyncLlamaStackClient) -> None:
-        response = await async_client.post_training.job.with_raw_response.logs(
-            job_uuid="job_uuid",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        job = await response.parse()
-        assert_matches_type(JobLogsResponse, job, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_logs(self, async_client: AsyncLlamaStackClient) -> None:
-        async with async_client.post_training.job.with_streaming_response.logs(
-            job_uuid="job_uuid",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            job = await response.parse()
-            assert_matches_type(JobLogsResponse, job, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
     async def test_method_status(self, async_client: AsyncLlamaStackClient) -> None:
         job = await async_client.post_training.job.status(
             job_uuid="job_uuid",
         )
-        assert_matches_type(JobStatusResponse, job, path=["response"])
+        assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 
     @parametrize
     async def test_method_status_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
@@ -400,7 +321,7 @@ class TestAsyncJob:
             job_uuid="job_uuid",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(JobStatusResponse, job, path=["response"])
+        assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 
     @parametrize
     async def test_raw_response_status(self, async_client: AsyncLlamaStackClient) -> None:
@@ -411,7 +332,7 @@ class TestAsyncJob:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         job = await response.parse()
-        assert_matches_type(JobStatusResponse, job, path=["response"])
+        assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 
     @parametrize
     async def test_streaming_response_status(self, async_client: AsyncLlamaStackClient) -> None:
@@ -422,6 +343,6 @@ class TestAsyncJob:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             job = await response.parse()
-            assert_matches_type(JobStatusResponse, job, path=["response"])
+            assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 
         assert cast(Any, response.is_closed) is True
