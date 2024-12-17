@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union
+from typing import List, Union, Optional
 from typing_extensions import Literal, TypeAlias
 
 from ..._models import BaseModel
@@ -10,9 +10,11 @@ __all__ = ["Attachment", "Content", "ContentImageContentItem", "ContentTextConte
 
 
 class ContentImageContentItem(BaseModel):
-    data: str
-
     type: Literal["image"]
+
+    data: Optional[str] = None
+
+    url: Optional[str] = None
 
 
 class ContentTextContentItem(BaseModel):

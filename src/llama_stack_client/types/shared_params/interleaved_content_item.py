@@ -9,9 +9,11 @@ __all__ = ["InterleavedContentItem", "ImageContentItem", "TextContentItem"]
 
 
 class ImageContentItem(TypedDict, total=False):
-    data: Required[str]
-
     type: Required[Literal["image"]]
+
+    data: str
+
+    url: str
 
 
 class TextContentItem(TypedDict, total=False):

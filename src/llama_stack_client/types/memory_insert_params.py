@@ -28,9 +28,11 @@ class MemoryInsertParams(TypedDict, total=False):
 
 
 class DocumentContentImageContentItem(TypedDict, total=False):
-    data: Required[str]
-
     type: Required[Literal["image"]]
+
+    data: str
+
+    url: str
 
 
 class DocumentContentTextContentItem(TypedDict, total=False):

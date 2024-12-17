@@ -11,9 +11,11 @@ __all__ = ["Attachment", "Content", "ContentImageContentItem", "ContentTextConte
 
 
 class ContentImageContentItem(TypedDict, total=False):
-    data: Required[str]
-
     type: Required[Literal["image"]]
+
+    data: str
+
+    url: str
 
 
 class ContentTextContentItem(TypedDict, total=False):
