@@ -29,8 +29,8 @@ from .._response import (
 )
 from ..types.trace import Trace
 from .._base_client import make_request_options
-from ..types.span_with_children import SpanWithChildren
 from ..types.telemetry_query_spans_response import TelemetryQuerySpansResponse
+from ..types.telemetry_get_span_tree_response import TelemetryGetSpanTreeResponse
 
 __all__ = ["TelemetryResource", "AsyncTelemetryResource"]
 
@@ -68,7 +68,7 @@ class TelemetryResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SpanWithChildren:
+    ) -> TelemetryGetSpanTreeResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -102,7 +102,7 @@ class TelemetryResource(SyncAPIResource):
                     telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
                 ),
             ),
-            cast_to=SpanWithChildren,
+            cast_to=TelemetryGetSpanTreeResponse,
         )
 
     def log_event(
@@ -321,7 +321,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SpanWithChildren:
+    ) -> TelemetryGetSpanTreeResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -355,7 +355,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
                     telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
                 ),
             ),
-            cast_to=SpanWithChildren,
+            cast_to=TelemetryGetSpanTreeResponse,
         )
 
     async def log_event(

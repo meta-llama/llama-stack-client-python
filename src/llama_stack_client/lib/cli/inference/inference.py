@@ -10,6 +10,7 @@ import click
 from rich.console import Console
 
 from ..common.utils import handle_client_errors
+from ...inference.event_logger import EventLogger
 
 
 @click.group()
@@ -41,12 +42,8 @@ def chat_completion(ctx, message: str, stream: bool, model_id: Optional[str]):
     if not stream:
         console.print(response)
     else:
-        for chunk in response:
-            if chunk.event.event_type == "complete":
-                console.print(chunk.event.delta)
-            elif chunk.event.event_type == "progress":
-                console.print(chunk.event.delta, end="")
-
+        for event in EventLogger().log(response):
+            event.print()
 
 # Register subcommands
 inference.add_command(chat_completion)

@@ -25,6 +25,7 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.shared.batch_completion import BatchCompletion
 from ..types.shared_params.sampling_params import SamplingParams
+from ..types.shared_params.interleaved_content import InterleavedContent
 from ..types.batch_inference_chat_completion_response import BatchInferenceChatCompletionResponse
 
 __all__ = ["BatchInferenceResource", "AsyncBatchInferenceResource"]
@@ -115,7 +116,7 @@ class BatchInferenceResource(SyncAPIResource):
     def completion(
         self,
         *,
-        content_batch: List[batch_inference_completion_params.ContentBatch],
+        content_batch: List[InterleavedContent],
         model: str,
         logprobs: batch_inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
@@ -244,7 +245,7 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
     async def completion(
         self,
         *,
-        content_batch: List[batch_inference_completion_params.ContentBatch],
+        content_batch: List[InterleavedContent],
         model: str,
         logprobs: batch_inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,

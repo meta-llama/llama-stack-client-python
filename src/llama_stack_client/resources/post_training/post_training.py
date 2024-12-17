@@ -70,9 +70,7 @@ class PostTrainingResource(SyncAPIResource):
     def preference_optimize(
         self,
         *,
-        algorithm: Literal["dpo"],
         algorithm_config: post_training_preference_optimize_params.AlgorithmConfig,
-        dataset_id: str,
         finetuned_model: str,
         hyperparam_search_config: Dict[
             str, Union[bool, float, str, Iterable[object], object, None]
@@ -82,7 +80,6 @@ class PostTrainingResource(SyncAPIResource):
             str, Union[bool, float, str, Iterable[object], object, None]
         ],
         training_config: post_training_preference_optimize_params.TrainingConfig,
-        validation_dataset_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -111,15 +108,12 @@ class PostTrainingResource(SyncAPIResource):
             "/alpha/post-training/preference-optimize",
             body=maybe_transform(
                 {
-                    "algorithm": algorithm,
                     "algorithm_config": algorithm_config,
-                    "dataset_id": dataset_id,
                     "finetuned_model": finetuned_model,
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
                     "training_config": training_config,
-                    "validation_dataset_id": validation_dataset_id,
                 },
                 post_training_preference_optimize_params.PostTrainingPreferenceOptimizeParams,
             ),
@@ -135,19 +129,19 @@ class PostTrainingResource(SyncAPIResource):
     def supervised_fine_tune(
         self,
         *,
-        job_uuid: str,
-        training_config: post_training_supervised_fine_tune_params.TrainingConfig,
         hyperparam_search_config: Dict[
             str, Union[bool, float, str, Iterable[object], object, None]
-        ] = {},
+        ],
+        job_uuid: str,
         logger_config: Dict[
             str, Union[bool, float, str, Iterable[object], object, None]
-        ] = {},
+        ],
         model: str,
+        training_config: post_training_supervised_fine_tune_params.TrainingConfig,
         algorithm_config: (
             post_training_supervised_fine_tune_params.AlgorithmConfig | NotGiven
         ) = NOT_GIVEN,
-        checkpoint_dir: str = "null",
+        checkpoint_dir: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -176,13 +170,13 @@ class PostTrainingResource(SyncAPIResource):
             "/alpha/post-training/supervised-fine-tune",
             body=maybe_transform(
                 {
-                    "algorithm_config": algorithm_config,
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
                     "model": model,
-                    "checkpoint_dir": checkpoint_dir,
                     "training_config": training_config,
+                    "algorithm_config": algorithm_config,
+                    "checkpoint_dir": checkpoint_dir,
                 },
                 post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),
@@ -348,9 +342,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
     async def preference_optimize(
         self,
         *,
-        algorithm: Literal["dpo"],
         algorithm_config: post_training_preference_optimize_params.AlgorithmConfig,
-        dataset_id: str,
         finetuned_model: str,
         hyperparam_search_config: Dict[
             str, Union[bool, float, str, Iterable[object], object, None]
@@ -359,9 +351,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         logger_config: Dict[
             str, Union[bool, float, str, Iterable[object], object, None]
         ],
-        optimizer_config: post_training_preference_optimize_params.OptimizerConfig,
         training_config: post_training_preference_optimize_params.TrainingConfig,
-        validation_dataset_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -390,16 +380,12 @@ class AsyncPostTrainingResource(AsyncAPIResource):
             "/alpha/post-training/preference-optimize",
             body=await async_maybe_transform(
                 {
-                    "algorithm": algorithm,
                     "algorithm_config": algorithm_config,
-                    "dataset_id": dataset_id,
                     "finetuned_model": finetuned_model,
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
-                    "optimizer_config": optimizer_config,
                     "training_config": training_config,
-                    "validation_dataset_id": validation_dataset_id,
                 },
                 post_training_preference_optimize_params.PostTrainingPreferenceOptimizeParams,
             ),
@@ -415,15 +401,15 @@ class AsyncPostTrainingResource(AsyncAPIResource):
     async def supervised_fine_tune(
         self,
         *,
-        job_uuid: str,
-        training_config: post_training_supervised_fine_tune_params.TrainingConfig,
         hyperparam_search_config: Dict[
             str, Union[bool, float, str, Iterable[object], object, None]
-        ] = {},
+        ],
+        job_uuid: str,
         logger_config: Dict[
             str, Union[bool, float, str, Iterable[object], object, None]
-        ] = {},
+        ],
         model: str,
+        training_config: post_training_supervised_fine_tune_params.TrainingConfig,
         algorithm_config: (
             post_training_supervised_fine_tune_params.AlgorithmConfig | NotGiven
         ) = NOT_GIVEN,
@@ -456,13 +442,13 @@ class AsyncPostTrainingResource(AsyncAPIResource):
             "/alpha/post-training/supervised-fine-tune",
             body=await async_maybe_transform(
                 {
-                    "algorithm_config": algorithm_config,
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
                     "model": model,
-                    "checkpoint_dir": checkpoint_dir,
                     "training_config": training_config,
+                    "algorithm_config": algorithm_config,
+                    "checkpoint_dir": checkpoint_dir,
                 },
                 post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),

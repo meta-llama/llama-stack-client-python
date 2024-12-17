@@ -11,8 +11,8 @@ from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
 from llama_stack_client.types import (
     Trace,
-    SpanWithChildren,
     TelemetryQuerySpansResponse,
+    TelemetryGetSpanTreeResponse,
 )
 from llama_stack_client._utils import parse_datetime
 
@@ -27,7 +27,7 @@ class TestTelemetry:
         telemetry = client.telemetry.get_span_tree(
             span_id="span_id",
         )
-        assert_matches_type(SpanWithChildren, telemetry, path=["response"])
+        assert_matches_type(TelemetryGetSpanTreeResponse, telemetry, path=["response"])
 
     @parametrize
     def test_method_get_span_tree_with_all_params(self, client: LlamaStackClient) -> None:
@@ -37,7 +37,7 @@ class TestTelemetry:
             attributes_to_return=["string"],
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(SpanWithChildren, telemetry, path=["response"])
+        assert_matches_type(TelemetryGetSpanTreeResponse, telemetry, path=["response"])
 
     @parametrize
     def test_raw_response_get_span_tree(self, client: LlamaStackClient) -> None:
@@ -48,7 +48,7 @@ class TestTelemetry:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         telemetry = response.parse()
-        assert_matches_type(SpanWithChildren, telemetry, path=["response"])
+        assert_matches_type(TelemetryGetSpanTreeResponse, telemetry, path=["response"])
 
     @parametrize
     def test_streaming_response_get_span_tree(self, client: LlamaStackClient) -> None:
@@ -59,7 +59,7 @@ class TestTelemetry:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             telemetry = response.parse()
-            assert_matches_type(SpanWithChildren, telemetry, path=["response"])
+            assert_matches_type(TelemetryGetSpanTreeResponse, telemetry, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -350,7 +350,7 @@ class TestAsyncTelemetry:
         telemetry = await async_client.telemetry.get_span_tree(
             span_id="span_id",
         )
-        assert_matches_type(SpanWithChildren, telemetry, path=["response"])
+        assert_matches_type(TelemetryGetSpanTreeResponse, telemetry, path=["response"])
 
     @parametrize
     async def test_method_get_span_tree_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
@@ -360,7 +360,7 @@ class TestAsyncTelemetry:
             attributes_to_return=["string"],
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
         )
-        assert_matches_type(SpanWithChildren, telemetry, path=["response"])
+        assert_matches_type(TelemetryGetSpanTreeResponse, telemetry, path=["response"])
 
     @parametrize
     async def test_raw_response_get_span_tree(self, async_client: AsyncLlamaStackClient) -> None:
@@ -371,7 +371,7 @@ class TestAsyncTelemetry:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         telemetry = await response.parse()
-        assert_matches_type(SpanWithChildren, telemetry, path=["response"])
+        assert_matches_type(TelemetryGetSpanTreeResponse, telemetry, path=["response"])
 
     @parametrize
     async def test_streaming_response_get_span_tree(self, async_client: AsyncLlamaStackClient) -> None:
@@ -382,7 +382,7 @@ class TestAsyncTelemetry:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             telemetry = await response.parse()
-            assert_matches_type(SpanWithChildren, telemetry, path=["response"])
+            assert_matches_type(TelemetryGetSpanTreeResponse, telemetry, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

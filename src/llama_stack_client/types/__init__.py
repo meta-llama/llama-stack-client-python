@@ -7,8 +7,8 @@ from .model import Model as Model
 from .trace import Trace as Trace
 from .shared import (
     ToolCall as ToolCall,
+    ParamType as ParamType,
     Attachment as Attachment,
-    ImageMedia as ImageMedia,
     ReturnType as ReturnType,
     AgentConfig as AgentConfig,
     UserMessage as UserMessage,
@@ -18,10 +18,12 @@ from .shared import (
     BatchCompletion as BatchCompletion,
     SafetyViolation as SafetyViolation,
     CompletionMessage as CompletionMessage,
+    InterleavedContent as InterleavedContent,
     ToolParamDefinition as ToolParamDefinition,
     ToolResponseMessage as ToolResponseMessage,
     MemoryToolDefinition as MemoryToolDefinition,
     SearchToolDefinition as SearchToolDefinition,
+    InterleavedContentItem as InterleavedContentItem,
     PhotogenToolDefinition as PhotogenToolDefinition,
     RestAPIExecutionConfig as RestAPIExecutionConfig,
     FunctionCallToolDefinition as FunctionCallToolDefinition,
@@ -38,9 +40,9 @@ from .tool_response import ToolResponse as ToolResponse
 from .inference_step import InferenceStep as InferenceStep
 from .token_log_probs import TokenLogProbs as TokenLogProbs
 from .shield_call_step import ShieldCallStep as ShieldCallStep
+from .span_with_status import SpanWithStatus as SpanWithStatus
 from .evaluate_response import EvaluateResponse as EvaluateResponse
 from .post_training_job import PostTrainingJob as PostTrainingJob
-from .span_with_children import SpanWithChildren as SpanWithChildren
 from .agent_create_params import AgentCreateParams as AgentCreateParams
 from .agent_delete_params import AgentDeleteParams as AgentDeleteParams
 from .completion_response import CompletionResponse as CompletionResponse
@@ -91,6 +93,7 @@ from .telemetry_query_spans_response import TelemetryQuerySpansResponse as Telem
 from .inference_chat_completion_params import InferenceChatCompletionParams as InferenceChatCompletionParams
 from .scoring_function_register_params import ScoringFunctionRegisterParams as ScoringFunctionRegisterParams
 from .scoring_function_retrieve_params import ScoringFunctionRetrieveParams as ScoringFunctionRetrieveParams
+from .telemetry_get_span_tree_response import TelemetryGetSpanTreeResponse as TelemetryGetSpanTreeResponse
 from .batch_inference_completion_params import BatchInferenceCompletionParams as BatchInferenceCompletionParams
 from .inference_chat_completion_response import InferenceChatCompletionResponse as InferenceChatCompletionResponse
 from .synthetic_data_generation_response import SyntheticDataGenerationResponse as SyntheticDataGenerationResponse
