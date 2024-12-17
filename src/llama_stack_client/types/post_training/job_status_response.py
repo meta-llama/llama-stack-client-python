@@ -14,7 +14,7 @@ class JobStatusResponse(BaseModel):
 
     job_uuid: str
 
-    status: Literal["running", "completed", "failed", "scheduled"]
+    status: Literal["completed", "in_progress", "failed", "scheduled"]
 
     completed_at: Optional[datetime] = None
 

@@ -9,22 +9,17 @@ from .._utils import PropertyInfo
 
 __all__ = [
     "PostTrainingSupervisedFineTuneParams",
+    "TrainingConfig",
+    "TrainingConfigDataConfig",
+    "TrainingConfigOptimizerConfig",
+    "TrainingConfigEfficiencyConfig",
     "AlgorithmConfig",
     "AlgorithmConfigLoraFinetuningConfig",
-    "AlgorithmConfigQLoraFinetuningConfig",
-    "AlgorithmConfigDoraFinetuningConfig",
-    "OptimizerConfig",
-    "TrainingConfig",
+    "AlgorithmConfigQatFinetuningConfig",
 ]
 
 
 class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
-    algorithm: Required[Literal["full", "lora", "qlora", "dora"]]
-
-    algorithm_config: Required[AlgorithmConfig]
-
-    dataset_id: Required[str]
-
     hyperparam_search_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
     job_uuid: Required[str]
@@ -33,13 +28,63 @@ class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
 
     model: Required[str]
 
-    optimizer_config: Required[OptimizerConfig]
-
     training_config: Required[TrainingConfig]
 
-    validation_dataset_id: Required[str]
+    algorithm_config: AlgorithmConfig
+
+    checkpoint_dir: str
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
+
+
+class TrainingConfigDataConfig(TypedDict, total=False):
+    batch_size: Required[int]
+
+    dataset_id: Required[str]
+
+    shuffle: Required[bool]
+
+    packed: bool
+
+    train_on_input: bool
+
+    validation_dataset_id: str
+
+
+class TrainingConfigOptimizerConfig(TypedDict, total=False):
+    lr: Required[float]
+
+    num_warmup_steps: Required[int]
+
+    optimizer_type: Required[Literal["adam", "adamw", "sgd"]]
+
+    weight_decay: Required[float]
+
+
+class TrainingConfigEfficiencyConfig(TypedDict, total=False):
+    enable_activation_checkpointing: bool
+
+    enable_activation_offloading: bool
+
+    fsdp_cpu_offload: bool
+
+    memory_efficient_fsdp_wrap: bool
+
+
+class TrainingConfig(TypedDict, total=False):
+    data_config: Required[TrainingConfigDataConfig]
+
+    gradient_accumulation_steps: Required[int]
+
+    max_steps_per_epoch: Required[int]
+
+    n_epochs: Required[int]
+
+    optimizer_config: Required[TrainingConfigOptimizerConfig]
+
+    dtype: str
+
+    efficiency_config: TrainingConfigEfficiencyConfig
 
 
 class AlgorithmConfigLoraFinetuningConfig(TypedDict, total=False):
@@ -53,57 +98,19 @@ class AlgorithmConfigLoraFinetuningConfig(TypedDict, total=False):
 
     rank: Required[int]
 
+    type: Required[Literal["LoRA"]]
 
-class AlgorithmConfigQLoraFinetuningConfig(TypedDict, total=False):
-    alpha: Required[int]
+    quantize_base: bool
 
-    apply_lora_to_mlp: Required[bool]
-
-    apply_lora_to_output: Required[bool]
-
-    lora_attn_modules: Required[List[str]]
-
-    rank: Required[int]
+    use_dora: bool
 
 
-class AlgorithmConfigDoraFinetuningConfig(TypedDict, total=False):
-    alpha: Required[int]
+class AlgorithmConfigQatFinetuningConfig(TypedDict, total=False):
+    group_size: Required[int]
 
-    apply_lora_to_mlp: Required[bool]
+    quantizer_name: Required[str]
 
-    apply_lora_to_output: Required[bool]
-
-    lora_attn_modules: Required[List[str]]
-
-    rank: Required[int]
+    type: Required[Literal["QAT"]]
 
 
-AlgorithmConfig: TypeAlias = Union[
-    AlgorithmConfigLoraFinetuningConfig, AlgorithmConfigQLoraFinetuningConfig, AlgorithmConfigDoraFinetuningConfig
-]
-
-
-class OptimizerConfig(TypedDict, total=False):
-    lr: Required[float]
-
-    lr_min: Required[float]
-
-    optimizer_type: Required[Literal["adam", "adamw", "sgd"]]
-
-    weight_decay: Required[float]
-
-
-class TrainingConfig(TypedDict, total=False):
-    batch_size: Required[int]
-
-    enable_activation_checkpointing: Required[bool]
-
-    fsdp_cpu_offload: Required[bool]
-
-    memory_efficient_fsdp_wrap: Required[bool]
-
-    n_epochs: Required[int]
-
-    n_iters: Required[int]
-
-    shuffle: Required[bool]
+AlgorithmConfig: TypeAlias = Union[AlgorithmConfigLoraFinetuningConfig, AlgorithmConfigQatFinetuningConfig]

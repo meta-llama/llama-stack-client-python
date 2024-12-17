@@ -112,6 +112,7 @@ class TestModels:
         model = client.models.register(
             model_id="model_id",
             metadata={"foo": True},
+            model_type="llm",
             provider_id="provider_id",
             provider_model_id="provider_model_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",
@@ -280,6 +281,7 @@ class TestAsyncModels:
         model = await async_client.models.register(
             model_id="model_id",
             metadata={"foo": True},
+            model_type="llm",
             provider_id="provider_id",
             provider_model_id="provider_model_id",
             x_llama_stack_provider_data="X-LlamaStack-ProviderData",

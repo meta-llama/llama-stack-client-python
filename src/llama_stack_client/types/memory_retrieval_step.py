@@ -1,21 +1,17 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union, Optional
+from typing import List, Optional
 from datetime import datetime
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import Literal
 
 from .._models import BaseModel
-from .shared.image_media import ImageMedia
+from .shared.interleaved_content import InterleavedContent
 
-__all__ = ["MemoryRetrievalStep", "InsertedContext", "InsertedContextImageMediaArray"]
-
-InsertedContextImageMediaArray: TypeAlias = Union[str, ImageMedia]
-
-InsertedContext: TypeAlias = Union[str, ImageMedia, List[InsertedContextImageMediaArray]]
+__all__ = ["MemoryRetrievalStep"]
 
 
 class MemoryRetrievalStep(BaseModel):
-    inserted_context: InsertedContext
+    inserted_context: InterleavedContent
 
     memory_bank_ids: List[str]
 

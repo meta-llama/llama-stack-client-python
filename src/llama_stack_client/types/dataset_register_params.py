@@ -3,17 +3,18 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable
-from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
+from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
+from .shared_params.param_type import ParamType
 
-__all__ = ["DatasetRegisterParams", "DatasetSchema", "DatasetSchemaType"]
+__all__ = ["DatasetRegisterParams"]
 
 
 class DatasetRegisterParams(TypedDict, total=False):
     dataset_id: Required[str]
 
-    dataset_schema: Required[Dict[str, DatasetSchema]]
+    dataset_schema: Required[Dict[str, ParamType]]
 
     url: Required[str]
 
@@ -24,21 +25,3 @@ class DatasetRegisterParams(TypedDict, total=False):
     provider_id: str
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
-
-
-class DatasetSchemaType(TypedDict, total=False):
-    type: Required[Literal["string"]]
-
-
-DatasetSchema: TypeAlias = Union[
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-    DatasetSchemaType,
-]

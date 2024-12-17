@@ -29,6 +29,8 @@ class VectorMemoryBank(BaseModel):
 
     type: Literal["memory_bank"]
 
+    embedding_dimension: Optional[int] = None
+
     overlap_size_in_tokens: Optional[int] = None
 
 

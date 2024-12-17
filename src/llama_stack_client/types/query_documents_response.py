@@ -1,20 +1,15 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union
-from typing_extensions import TypeAlias
+from typing import List
 
 from .._models import BaseModel
-from .shared.image_media import ImageMedia
+from .shared.interleaved_content import InterleavedContent
 
-__all__ = ["QueryDocumentsResponse", "Chunk", "ChunkContent", "ChunkContentImageMediaArray"]
-
-ChunkContentImageMediaArray: TypeAlias = Union[str, ImageMedia]
-
-ChunkContent: TypeAlias = Union[str, ImageMedia, List[ChunkContentImageMediaArray]]
+__all__ = ["QueryDocumentsResponse", "Chunk"]
 
 
 class Chunk(BaseModel):
-    content: ChunkContent
+    content: InterleavedContent
 
     document_id: str
 

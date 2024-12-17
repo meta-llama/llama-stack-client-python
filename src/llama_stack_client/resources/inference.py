@@ -32,6 +32,7 @@ from .._base_client import make_request_options
 from ..types.embeddings_response import EmbeddingsResponse
 from ..types.inference_completion_response import InferenceCompletionResponse
 from ..types.shared_params.sampling_params import SamplingParams
+from ..types.shared_params.interleaved_content import InterleavedContent
 from ..types.inference_chat_completion_response import InferenceChatCompletionResponse
 
 __all__ = ["InferenceResource", "AsyncInferenceResource"]
@@ -245,7 +246,7 @@ class InferenceResource(SyncAPIResource):
     def completion(
         self,
         *,
-        content: inference_completion_params.Content,
+        content: InterleavedContent,
         model_id: str,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
@@ -275,7 +276,7 @@ class InferenceResource(SyncAPIResource):
     def completion(
         self,
         *,
-        content: inference_completion_params.Content,
+        content: InterleavedContent,
         model_id: str,
         stream: Literal[True],
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
@@ -305,7 +306,7 @@ class InferenceResource(SyncAPIResource):
     def completion(
         self,
         *,
-        content: inference_completion_params.Content,
+        content: InterleavedContent,
         model_id: str,
         stream: bool,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
@@ -335,7 +336,7 @@ class InferenceResource(SyncAPIResource):
     def completion(
         self,
         *,
-        content: inference_completion_params.Content,
+        content: InterleavedContent,
         model_id: str,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
@@ -383,7 +384,7 @@ class InferenceResource(SyncAPIResource):
     def embeddings(
         self,
         *,
-        contents: List[inference_embeddings_params.Content],
+        contents: List[InterleavedContent],
         model_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -631,7 +632,7 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def completion(
         self,
         *,
-        content: inference_completion_params.Content,
+        content: InterleavedContent,
         model_id: str,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
@@ -661,7 +662,7 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def completion(
         self,
         *,
-        content: inference_completion_params.Content,
+        content: InterleavedContent,
         model_id: str,
         stream: Literal[True],
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
@@ -691,7 +692,7 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def completion(
         self,
         *,
-        content: inference_completion_params.Content,
+        content: InterleavedContent,
         model_id: str,
         stream: bool,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
@@ -721,7 +722,7 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def completion(
         self,
         *,
-        content: inference_completion_params.Content,
+        content: InterleavedContent,
         model_id: str,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
@@ -769,7 +770,7 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def embeddings(
         self,
         *,
-        contents: List[inference_embeddings_params.Content],
+        contents: List[InterleavedContent],
         model_id: str,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.

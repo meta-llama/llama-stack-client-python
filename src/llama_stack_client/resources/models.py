@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable, Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -124,6 +125,7 @@ class ModelsResource(SyncAPIResource):
         *,
         model_id: str,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        model_type: Literal["llm", "embedding"] | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
         provider_model_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -154,6 +156,7 @@ class ModelsResource(SyncAPIResource):
                 {
                     "model_id": model_id,
                     "metadata": metadata,
+                    "model_type": model_type,
                     "provider_id": provider_id,
                     "provider_model_id": provider_model_id,
                 },
@@ -301,6 +304,7 @@ class AsyncModelsResource(AsyncAPIResource):
         *,
         model_id: str,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        model_type: Literal["llm", "embedding"] | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
         provider_model_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -331,6 +335,7 @@ class AsyncModelsResource(AsyncAPIResource):
                 {
                     "model_id": model_id,
                     "metadata": metadata,
+                    "model_type": model_type,
                     "provider_id": provider_id,
                     "provider_model_id": provider_model_id,
                 },

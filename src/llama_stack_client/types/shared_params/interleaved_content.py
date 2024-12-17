@@ -7,25 +7,19 @@ from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .interleaved_content_item import InterleavedContentItem
 
-__all__ = ["Attachment", "Content", "ContentImageContentItem", "ContentTextContentItem"]
+__all__ = ["InterleavedContent", "ImageContentItem", "TextContentItem"]
 
 
-class ContentImageContentItem(TypedDict, total=False):
+class ImageContentItem(TypedDict, total=False):
     data: Required[str]
 
     type: Required[Literal["image"]]
 
 
-class ContentTextContentItem(TypedDict, total=False):
+class TextContentItem(TypedDict, total=False):
     text: Required[str]
 
     type: Required[Literal["text"]]
 
 
-Content: TypeAlias = Union[str, ContentImageContentItem, ContentTextContentItem, Iterable[InterleavedContentItem]]
-
-
-class Attachment(TypedDict, total=False):
-    content: Required[Content]
-
-    mime_type: Required[str]
+InterleavedContent: TypeAlias = Union[str, ImageContentItem, TextContentItem, Iterable[InterleavedContentItem]]

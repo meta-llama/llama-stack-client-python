@@ -23,6 +23,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.dataset_list_response import DatasetListResponse
+from ..types.shared_params.param_type import ParamType
 from ..types.dataset_retrieve_response import DatasetRetrieveResponse
 
 __all__ = ["DatasetsResource", "AsyncDatasetsResource"]
@@ -124,7 +125,7 @@ class DatasetsResource(SyncAPIResource):
         self,
         *,
         dataset_id: str,
-        dataset_schema: Dict[str, dataset_register_params.DatasetSchema],
+        dataset_schema: Dict[str, ParamType],
         url: str,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         provider_dataset_id: str | NotGiven = NOT_GIVEN,
@@ -306,7 +307,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
         self,
         *,
         dataset_id: str,
-        dataset_schema: Dict[str, dataset_register_params.DatasetSchema],
+        dataset_schema: Dict[str, ParamType],
         url: str,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         provider_dataset_id: str | NotGiven = NOT_GIVEN,

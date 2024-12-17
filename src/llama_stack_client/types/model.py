@@ -3,6 +3,8 @@
 from typing import Dict, List, Union
 from typing_extensions import Literal
 
+from pydantic import Field as FieldInfo
+
 from .._models import BaseModel
 
 __all__ = ["Model"]
@@ -12,6 +14,8 @@ class Model(BaseModel):
     identifier: str
 
     metadata: Dict[str, Union[bool, float, str, List[object], object, None]]
+
+    api_model_type: Literal["llm", "embedding"] = FieldInfo(alias="model_type")
 
     provider_id: str
 
