@@ -79,14 +79,21 @@ def get_model(ctx, model_id: str):
 @click.pass_context
 @handle_client_errors("register model")
 def register_model(
-    ctx, model_id: str, provider_id: Optional[str], provider_model_id: Optional[str], metadata: Optional[str]
+    ctx,
+    model_id: str,
+    provider_id: Optional[str],
+    provider_model_id: Optional[str],
+    metadata: Optional[str],
 ):
     """Register a new model at distribution endpoint"""
     client = ctx.obj["client"]
     console = Console()
 
     response = client.models.register(
-        model_id=model_id, provider_id=provider_id, provider_model_id=provider_model_id, metadata=metadata
+        model_id="Llama3.2-3B-Instruct",
+        provider_id="meta-reference-inference",
+        provider_model_id="Llama3.2-3B-Instruct",
+        metadata={"skip_initialize": True},
     )
     if response:
         console.print(f"[green]Successfully registered model {model_id}[/green]")

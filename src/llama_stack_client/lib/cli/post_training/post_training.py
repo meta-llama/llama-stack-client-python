@@ -22,6 +22,7 @@ def post_training():
 
 lora_config = (
     post_training_supervised_fine_tune_params.AlgorithmConfigLoraFinetuningConfig(
+        type="LoRA",
         lora_attn_modules=["q_proj", "v_proj", "output_proj"],
         apply_lora_to_mlp=True,
         apply_lora_to_output=False,
@@ -96,7 +97,7 @@ def get_training_job_status(ctx):
     client = ctx.obj["client"]
     console = Console()
 
-    job_status_reponse = client.post_training.get_training_job_status(job_uuid="1234")
+    job_status_reponse = client.post_training.get_training_job_status(job_uuid="1235")
     console.print(job_status_reponse)
 
 
