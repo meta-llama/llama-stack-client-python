@@ -4,21 +4,26 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-from typing import List, Optional, Union
+from typing import Optional
 
 from termcolor import cprint
 
-from llama_stack_client.types import ToolResponseMessage
+from llama_stack_client.types import InterleavedContent, ToolResponseMessage
 
 
-def interleaved_text_media_as_str(
-    content: Union[str, List[str]], sep: str = " "
-) -> str:
+def interleaved_content_as_str(content: InterleavedContent, sep: str = " ") -> str:
     def _process(c) -> str:
         if isinstance(c, str):
             return c
+        elif hasattr(c, "type"):
+            if c.type == "text":
+                return c.text
+            elif c.type == "image":
+                return "<image>"
+            else:
+                raise ValueError(f"Unexpected type {c}")
         else:
-            return "<media>"
+            raise ValueError(f"Unsupported content type: {type(c)}")
 
     if isinstance(content, list):
         return sep.join(_process(c) for c in content)
@@ -129,10 +134,10 @@ class EventLogger:
         # memory retrieval
         if step_type == "memory_retrieval" and event_type == "step_complete":
             details = event.payload.step_details
-            inserted_context = interleaved_text_media_as_str(
-                details.inserted_context
+            inserted_context = interleaved_content_as_str(details.inserted_context)
+            content = (
+                f"fetched {len(inserted_context)} bytes from {details.memory_bank_ids}"
             )
-            content = f"fetched {len(inserted_context)} bytes from {details.memory_bank_ids}"
 
             yield LogEvent(
                 role=step_type,
