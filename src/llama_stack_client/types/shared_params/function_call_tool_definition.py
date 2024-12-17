@@ -6,7 +6,7 @@ from typing import Dict, List
 from typing_extensions import Literal, Required, TypedDict
 
 from .tool_param_definition import ToolParamDefinition
-from ..rest_api_execution_config_param import RestAPIExecutionConfigParam
+from .rest_api_execution_config import RestAPIExecutionConfig
 
 __all__ = ["FunctionCallToolDefinition"]
 
@@ -24,4 +24,4 @@ class FunctionCallToolDefinition(TypedDict, total=False):
 
     output_shields: List[str]
 
-    remote_execution: RestAPIExecutionConfigParam
+    remote_execution: RestAPIExecutionConfig

@@ -22,7 +22,7 @@ class LogEvent:
 
 
 class EventLogger:
-    async def log(self, event_generator):
+    def log(self, event_generator):
         for chunk in event_generator:
             event = chunk.event
             if event.event_type == "start":

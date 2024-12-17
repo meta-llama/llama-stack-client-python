@@ -23,6 +23,8 @@ __all__ = [
 class TelemetryLogEventParams(TypedDict, total=False):
     event: Required[Event]
 
+    ttl_seconds: Required[int]
+
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
 

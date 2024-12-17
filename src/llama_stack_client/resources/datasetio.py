@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+from typing import Dict, Union, Iterable
+
 import httpx
 
-from ..types import datasetio_get_rows_paginated_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..types import datasetio_append_rows_params, datasetio_get_rows_paginated_params
+from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from .._utils import (
     maybe_transform,
     strip_not_given,
@@ -44,6 +46,49 @@ class DatasetioResource(SyncAPIResource):
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#with_streaming_response
         """
         return DatasetioResourceWithStreamingResponse(self)
+
+    def append_rows(
+        self,
+        *,
+        dataset_id: str,
+        rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> None:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **(extra_headers or {}),
+        }
+        return self._post(
+            "/alpha/datasetio/append-rows",
+            body=maybe_transform(
+                {
+                    "dataset_id": dataset_id,
+                    "rows": rows,
+                },
+                datasetio_append_rows_params.DatasetioAppendRowsParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
 
     def get_rows_paginated(
         self,
@@ -115,6 +160,49 @@ class AsyncDatasetioResource(AsyncAPIResource):
         """
         return AsyncDatasetioResourceWithStreamingResponse(self)
 
+    async def append_rows(
+        self,
+        *,
+        dataset_id: str,
+        rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> None:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **(extra_headers or {}),
+        }
+        return await self._post(
+            "/alpha/datasetio/append-rows",
+            body=await async_maybe_transform(
+                {
+                    "dataset_id": dataset_id,
+                    "rows": rows,
+                },
+                datasetio_append_rows_params.DatasetioAppendRowsParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     async def get_rows_paginated(
         self,
         *,
@@ -169,6 +257,9 @@ class DatasetioResourceWithRawResponse:
     def __init__(self, datasetio: DatasetioResource) -> None:
         self._datasetio = datasetio
 
+        self.append_rows = to_raw_response_wrapper(
+            datasetio.append_rows,
+        )
         self.get_rows_paginated = to_raw_response_wrapper(
             datasetio.get_rows_paginated,
         )
@@ -178,6 +269,9 @@ class AsyncDatasetioResourceWithRawResponse:
     def __init__(self, datasetio: AsyncDatasetioResource) -> None:
         self._datasetio = datasetio
 
+        self.append_rows = async_to_raw_response_wrapper(
+            datasetio.append_rows,
+        )
         self.get_rows_paginated = async_to_raw_response_wrapper(
             datasetio.get_rows_paginated,
         )
@@ -187,6 +281,9 @@ class DatasetioResourceWithStreamingResponse:
     def __init__(self, datasetio: DatasetioResource) -> None:
         self._datasetio = datasetio
 
+        self.append_rows = to_streamed_response_wrapper(
+            datasetio.append_rows,
+        )
         self.get_rows_paginated = to_streamed_response_wrapper(
             datasetio.get_rows_paginated,
         )
@@ -196,6 +293,9 @@ class AsyncDatasetioResourceWithStreamingResponse:
     def __init__(self, datasetio: AsyncDatasetioResource) -> None:
         self._datasetio = datasetio
 
+        self.append_rows = async_to_streamed_response_wrapper(
+            datasetio.append_rows,
+        )
         self.get_rows_paginated = async_to_streamed_response_wrapper(
             datasetio.get_rows_paginated,
         )
