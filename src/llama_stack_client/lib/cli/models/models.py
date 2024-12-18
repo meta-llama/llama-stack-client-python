@@ -90,10 +90,10 @@ def register_model(
     console = Console()
 
     response = client.models.register(
-        model_id="Llama3.2-3B-Instruct",
-        provider_id="meta-reference-inference",
-        provider_model_id="Llama3.2-3B-Instruct",
-        metadata={"skip_initialize": True},
+        model_id=model_id,
+        provider_id=provider_id,
+        provider_model_id=provider_model_id,
+        metadata=metadata,
     )
     if response:
         console.print(f"[green]Successfully registered model {model_id}[/green]")

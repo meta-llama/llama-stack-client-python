@@ -6,12 +6,6 @@ from typing import Dict, Iterable, Union
 
 import httpx
 
-from llama_stack_client.types import (
-    post_training_get_training_job_artifacts_params,
-    post_training_get_training_job_status_params,
-)
-from typing_extensions import Literal
-
 from ..._base_client import make_request_options
 from ..._compat import cached_property
 from ..._resource import AsyncAPIResource, SyncAPIResource
@@ -27,8 +21,6 @@ from ...types import (
     post_training_preference_optimize_params,
     post_training_supervised_fine_tune_params,
 )
-from ...types.post_training.post_training_job_artifacts import PostTrainingJobArtifacts
-from ...types.post_training.post_training_job_status import PostTrainingJobStatus
 from ...types.post_training_job import PostTrainingJob
 
 from .job import (
@@ -187,131 +179,6 @@ class PostTrainingResource(SyncAPIResource):
                 timeout=timeout,
             ),
             cast_to=PostTrainingJob,
-        )
-
-    def get_training_jobs(
-        self,
-        *,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PostTrainingJob:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {"X-LlamaStack-ProviderData": x_llama_stack_provider_data}
-            ),
-            **(extra_headers or {}),
-        }
-        return self._get(
-            "/alpha/post-training/jobs",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-            ),
-            cast_to=PostTrainingJob,
-        )
-
-    def get_training_job_status(
-        self,
-        *,
-        job_uuid: str,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PostTrainingJobStatus:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {
-            **strip_not_given(
-                {"X-LlamaStack-ProviderData": x_llama_stack_provider_data}
-            ),
-            **(extra_headers or {}),
-        }
-        return self._get(
-            "/alpha/post-training/job/status",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {"job_uuid": job_uuid},
-                    post_training_get_training_job_status_params.PostTrainingGetTrainingJobStatusParams,
-                ),
-            ),
-            cast_to=PostTrainingJobStatus,
-        )
-
-    def get_training_job_artifacts(
-        self,
-        *,
-        job_uuid: str,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PostTrainingJobArtifacts:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {
-            **strip_not_given(
-                {"X-LlamaStack-ProviderData": x_llama_stack_provider_data}
-            ),
-            **(extra_headers or {}),
-        }
-        return self._get(
-            "/alpha/post-training/job/artifacts",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {"job_uuid": job_uuid},
-                    post_training_get_training_job_artifacts_params.PostTrainingGetTrainingJobArtifactsParams,
-                ),
-            ),
-            cast_to=PostTrainingJobArtifacts,
         )
 
 

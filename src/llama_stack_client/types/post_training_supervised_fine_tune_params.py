@@ -95,8 +95,6 @@ class TrainingConfig(TypedDict, total=False):
 
 
 class AlgorithmConfigLoraFinetuningConfig(TypedDict, total=False):
-    type: str
-
     alpha: Required[int]
 
     apply_lora_to_mlp: Required[bool]

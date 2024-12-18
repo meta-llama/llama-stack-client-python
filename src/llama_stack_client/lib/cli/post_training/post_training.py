@@ -8,7 +8,10 @@ from typing import Optional
 
 import click
 
-from llama_stack_client.types import post_training_supervised_fine_tune_params
+from llama_stack_client.types.post_training_supervised_fine_tune_params import (
+    AlgorithmConfig,
+    TrainingConfig,
+)
 from rich.console import Console
 
 from ..common.utils import handle_client_errors
@@ -20,25 +23,23 @@ def post_training():
     pass
 
 
-lora_config = (
-    post_training_supervised_fine_tune_params.AlgorithmConfigLoraFinetuningConfig(
-        type="LoRA",
-        lora_attn_modules=["q_proj", "v_proj", "output_proj"],
-        apply_lora_to_mlp=True,
-        apply_lora_to_output=False,
-        rank=8,
-        alpha=16,
-    )
+lora_config = AlgorithmConfig(
+    type="LoRA",
+    lora_attn_modules=["q_proj", "v_proj", "output_proj"],
+    apply_lora_to_mlp=True,
+    apply_lora_to_output=False,
+    rank=8,
+    alpha=16,
 )
 
-data_config = post_training_supervised_fine_tune_params.DataConfig(
+data_config = DataConfig(
     dataset_id="alpaca",
     validation_dataset_id="alpaca",
     batch_size=1,
     shuffle=False,
 )
 
-optimizer_config = post_training_supervised_fine_tune_params.OptimizerConfig(
+optimizer_config = OptimizerConfig(
     optimizer_type="adamw",
     lr=3e-4,
     lr_min=3e-5,
@@ -46,11 +47,11 @@ optimizer_config = post_training_supervised_fine_tune_params.OptimizerConfig(
     num_warmup_steps=100,
 )
 
-effiency_config = post_training_supervised_fine_tune_params.EfficienctConfig(
+effiency_config = EfficienctConfig(
     enable_activation_checkpointing=True,
 )
 
-training_config = post_training_supervised_fine_tune_params.TrainingConfig(
+training_config = TrainingConfig(
     n_epochs=1,
     data_config=data_config,
     efficient_config=effiency_config,
@@ -61,18 +62,36 @@ training_config = post_training_supervised_fine_tune_params.TrainingConfig(
 
 
 @click.command("supervised_fine_tune")
+@click.option("--job-uuid", required=True, help="Job UUID")
+@click.option("--model", required=True, help="Model ID")
+@click.option("--algorithm-config", required=True, help="Algorithm Config")
+@click.option("--training-config", required=True, help="Training Config")
+@click.option(
+    "--checkpoint-dir", required=False, help="Checkpoint Config", default=None
+)
 @click.pass_context
 @handle_client_errors("post_training supervised_fine_tune")
-def supervised_fine_tune(ctx):
+def supervised_fine_tune(
+    ctx,
+    job_uuid: str,
+    model: str,
+    algorithm_config: AlgorithmConfig,
+    training_config: TrainingConfig,
+    checkpoint_dir: Optional[str],
+):
     """Kick off a supervised fine tune job"""
     client = ctx.obj["client"]
     console = Console()
 
     post_training_job = client.post_training.supervised_fine_tune(
-        job_uuid="1235",
-        model="Llama3.2-3B-Instruct",
-        algorithm_config=lora_config,
+        job_uuid=job_uuid,
+        model=model,
+        algorithm_config=algorithm_config,
         training_config=training_config,
+        checkpoint_dir=checkpoint_dir,
+        # logger_config and hyperparam_search_config haven't been used yet
+        logger_config={},
+        hyperparam_search_config={},
     )
     console.print(post_training_job.job_uuid)
 
@@ -90,26 +109,28 @@ def get_training_jobs(ctx):
 
 
 @click.command("get_training_job_status")
+@click.option("--job-uuid", required=True, help="Job UUID")
 @click.pass_context
 @handle_client_errors("post_training get_training_job_status")
-def get_training_job_status(ctx):
+def get_training_job_status(ctx, job_uuid: str):
     """Show the status of a specific post training job"""
     client = ctx.obj["client"]
     console = Console()
 
-    job_status_reponse = client.post_training.get_training_job_status(job_uuid="1235")
+    job_status_reponse = client.post_training.get_training_job_status(job_uuid=job_uuid)
     console.print(job_status_reponse)
 
 
 @click.command("get_training_job_artifacts")
+@click.option("--job-uuid", required=True, help="Job UUID")
 @click.pass_context
 @handle_client_errors("post_training get_training_job_artifacts")
-def get_training_job_artifacts(ctx):
+def get_training_job_artifacts(ctx, job_uuid: str):
     """Get the training artifacts of a specific post training job"""
     client = ctx.obj["client"]
     console = Console()
 
-    job_artifacts = client.post_training.get_training_job_artifacts(job_uuid="1235")
+    job_artifacts = client.post_training.get_training_job_artifacts(job_uuid=job_uuid)
     console.print(job_artifacts)
 
 

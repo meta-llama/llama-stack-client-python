@@ -9,8 +9,9 @@ from typing import Optional
 import click
 from rich.console import Console
 
-from ..common.utils import handle_client_errors
 from ...inference.event_logger import EventLogger
+
+from ..common.utils import handle_client_errors
 
 
 @click.group()
@@ -35,7 +36,7 @@ def chat_completion(ctx, message: str, stream: bool, model_id: Optional[str]):
         model_id = available_models[0]
 
     response = client.inference.chat_completion(
-        model_id="Llama3.2-3B-Instruct",
+        model_id=model_id,
         messages=[{"role": "user", "content": message}],
         stream=stream,
     )
@@ -44,6 +45,7 @@ def chat_completion(ctx, message: str, stream: bool, model_id: Optional[str]):
     else:
         for event in EventLogger().log(response):
             event.print()
+
 
 # Register subcommands
 inference.add_command(chat_completion)
