@@ -23,44 +23,6 @@ def post_training():
     pass
 
 
-lora_config = AlgorithmConfig(
-    type="LoRA",
-    lora_attn_modules=["q_proj", "v_proj", "output_proj"],
-    apply_lora_to_mlp=True,
-    apply_lora_to_output=False,
-    rank=8,
-    alpha=16,
-)
-
-data_config = DataConfig(
-    dataset_id="alpaca",
-    validation_dataset_id="alpaca",
-    batch_size=1,
-    shuffle=False,
-)
-
-optimizer_config = OptimizerConfig(
-    optimizer_type="adamw",
-    lr=3e-4,
-    lr_min=3e-5,
-    weight_decay=0.1,
-    num_warmup_steps=100,
-)
-
-effiency_config = EfficienctConfig(
-    enable_activation_checkpointing=True,
-)
-
-training_config = TrainingConfig(
-    n_epochs=1,
-    data_config=data_config,
-    efficient_config=effiency_config,
-    optimizer_config=optimizer_config,
-    max_steps_per_epoch=30,
-    gradient_accumulation_steps=1,
-)
-
-
 @click.command("supervised_fine_tune")
 @click.option("--job-uuid", required=True, help="Job UUID")
 @click.option("--model", required=True, help="Model ID")

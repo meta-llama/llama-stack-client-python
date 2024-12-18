@@ -78,7 +78,7 @@ async def run_main(
         gradient_accumulation_steps=1,
     )
 
-    training_jobs = client.post_training.supervised_fine_tune(
+    training_job = client.post_training.supervised_fine_tune(
         job_uuid=job_uuid,
         model=model,
         algorithm_config=algorithm_config,
@@ -89,7 +89,7 @@ async def run_main(
         hyperparam_search_config={},
     )
 
-    print(f"started the training job: {training_jobs}")
+    print(f"finished the training job: {training_job.job_uuid}")
 
 
 def main(
