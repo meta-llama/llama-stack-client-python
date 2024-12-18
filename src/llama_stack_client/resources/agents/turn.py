@@ -7,6 +7,7 @@ from typing_extensions import Literal, overload
 
 import httpx
 
+from ..._types import inference_chat_completion_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     required_args,
@@ -61,6 +62,7 @@ class TurnResource(SyncAPIResource):
         session_id: str,
         attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -89,6 +91,7 @@ class TurnResource(SyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         session_id: str,
         stream: Literal[True],
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -118,6 +121,7 @@ class TurnResource(SyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         session_id: str,
         stream: bool,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -148,6 +152,7 @@ class TurnResource(SyncAPIResource):
         session_id: str,
         attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -172,6 +177,7 @@ class TurnResource(SyncAPIResource):
                         "session_id": session_id,
                         "attachments": attachments,
                         "stream": stream,
+                        "response_format": response_format,
                     },
                     turn_create_params.TurnCreateParams,
                 ),
@@ -263,6 +269,7 @@ class AsyncTurnResource(AsyncAPIResource):
         session_id: str,
         attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -291,6 +298,7 @@ class AsyncTurnResource(AsyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         session_id: str,
         stream: Literal[True],
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -320,6 +328,7 @@ class AsyncTurnResource(AsyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         session_id: str,
         stream: bool,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -348,6 +357,7 @@ class AsyncTurnResource(AsyncAPIResource):
         agent_id: str,
         messages: Iterable[turn_create_params.Message],
         session_id: str,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -374,6 +384,7 @@ class AsyncTurnResource(AsyncAPIResource):
                         "session_id": session_id,
                         "attachments": attachments,
                         "stream": stream,
+                        "response_format": response_format,
                     },
                     turn_create_params.TurnCreateParams,
                 ),
