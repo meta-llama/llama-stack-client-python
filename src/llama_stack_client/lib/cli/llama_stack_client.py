@@ -19,6 +19,7 @@ from .eval_tasks import eval_tasks
 from .inference import inference
 from .memory_banks import memory_banks
 from .models import models
+from .post_training import post_training
 from .providers import providers
 from .scoring_functions import scoring_functions
 from .shields import shields
@@ -75,6 +76,7 @@ cli.add_command(configure, "configure")
 cli.add_command(scoring_functions, "scoring_functions")
 cli.add_command(eval, "eval")
 cli.add_command(inference, "inference")
+cli.add_command(post_training, "post_training")
 
 
 def main():
