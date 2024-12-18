@@ -50,7 +50,7 @@ def supervised_fine_tune(
         model=model,
         algorithm_config=algorithm_config,
         training_config=training_config,
-        checkpoint_dir=None,
+        checkpoint_dir=checkpoint_dir,
         # logger_config and hyperparam_search_config haven't been used yet
         logger_config={},
         hyperparam_search_config={},
@@ -66,8 +66,10 @@ def get_training_jobs(ctx):
     client = ctx.obj["client"]
     console = Console()
 
-    training_jobs = client.post_training.job.list()
-    console.print([training_job.job_uuid for training_job in training_jobs])
+    post_training_jobs = client.post_training.job.list()
+    console.print(
+        [post_training_job.job_uuid for post_training_job in post_training_jobs]
+    )
 
 
 @click.command("status")
