@@ -26,9 +26,7 @@ from .shields import shields
 
 
 @click.group()
-@click.option(
-    "--endpoint", type=str, help="Llama Stack distribution endpoint", default=""
-)
+@click.option("--endpoint", type=str, help="Llama Stack distribution endpoint", default="")
 @click.option("--config", type=str, help="Path to config file", default=None)
 @click.pass_context
 def cli(ctx, endpoint: str, config: str | None):

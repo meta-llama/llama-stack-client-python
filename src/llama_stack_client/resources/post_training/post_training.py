@@ -2,35 +2,35 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Union
+from typing import Dict, Union, Iterable
 
 import httpx
 
-from ..._base_client import make_request_options
+from .job import (
+    JobResource,
+    AsyncJobResource,
+    JobResourceWithRawResponse,
+    AsyncJobResourceWithRawResponse,
+    JobResourceWithStreamingResponse,
+    AsyncJobResourceWithStreamingResponse,
+)
+from ...types import post_training_preference_optimize_params, post_training_supervised_fine_tune_params
+from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._utils import (
+    maybe_transform,
+    strip_not_given,
+    async_maybe_transform,
+)
 from ..._compat import cached_property
-from ..._resource import AsyncAPIResource, SyncAPIResource
+from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
 )
-from ..._types import Body, Headers, NOT_GIVEN, NotGiven, Query
-from ..._utils import async_maybe_transform, maybe_transform, strip_not_given
-from ...types import (
-    post_training_preference_optimize_params,
-    post_training_supervised_fine_tune_params,
-)
+from ..._base_client import make_request_options
 from ...types.post_training_job import PostTrainingJob
-
-from .job import (
-    AsyncJobResource,
-    AsyncJobResourceWithRawResponse,
-    AsyncJobResourceWithStreamingResponse,
-    JobResource,
-    JobResourceWithRawResponse,
-    JobResourceWithStreamingResponse,
-)
 
 __all__ = ["PostTrainingResource", "AsyncPostTrainingResource"]
 
@@ -64,13 +64,9 @@ class PostTrainingResource(SyncAPIResource):
         *,
         algorithm_config: post_training_preference_optimize_params.AlgorithmConfig,
         finetuned_model: str,
-        hyperparam_search_config: Dict[
-            str, Union[bool, float, str, Iterable[object], object, None]
-        ],
+        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
-        logger_config: Dict[
-            str, Union[bool, float, str, Iterable[object], object, None]
-        ],
+        logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         training_config: post_training_preference_optimize_params.TrainingConfig,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -91,9 +87,7 @@ class PostTrainingResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given(
-                {"X-LlamaStack-ProviderData": x_llama_stack_provider_data}
-            ),
+            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
             **(extra_headers or {}),
         }
         return self._post(
@@ -110,10 +104,7 @@ class PostTrainingResource(SyncAPIResource):
                 post_training_preference_optimize_params.PostTrainingPreferenceOptimizeParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=PostTrainingJob,
         )
@@ -121,18 +112,12 @@ class PostTrainingResource(SyncAPIResource):
     def supervised_fine_tune(
         self,
         *,
-        hyperparam_search_config: Dict[
-            str, Union[bool, float, str, Iterable[object], object, None]
-        ],
+        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
-        logger_config: Dict[
-            str, Union[bool, float, str, Iterable[object], object, None]
-        ],
+        logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         model: str,
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
-        algorithm_config: (
-            post_training_supervised_fine_tune_params.AlgorithmConfig | NotGiven
-        ) = NOT_GIVEN,
+        algorithm_config: post_training_supervised_fine_tune_params.AlgorithmConfig | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -153,9 +138,7 @@ class PostTrainingResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given(
-                {"X-LlamaStack-ProviderData": x_llama_stack_provider_data}
-            ),
+            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
             **(extra_headers or {}),
         }
         return self._post(
@@ -173,10 +156,7 @@ class PostTrainingResource(SyncAPIResource):
                 post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=PostTrainingJob,
         )
@@ -211,13 +191,9 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         *,
         algorithm_config: post_training_preference_optimize_params.AlgorithmConfig,
         finetuned_model: str,
-        hyperparam_search_config: Dict[
-            str, Union[bool, float, str, Iterable[object], object, None]
-        ],
+        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
-        logger_config: Dict[
-            str, Union[bool, float, str, Iterable[object], object, None]
-        ],
+        logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         training_config: post_training_preference_optimize_params.TrainingConfig,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -238,9 +214,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given(
-                {"X-LlamaStack-ProviderData": x_llama_stack_provider_data}
-            ),
+            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
             **(extra_headers or {}),
         }
         return await self._post(
@@ -257,10 +231,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
                 post_training_preference_optimize_params.PostTrainingPreferenceOptimizeParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=PostTrainingJob,
         )
@@ -268,18 +239,12 @@ class AsyncPostTrainingResource(AsyncAPIResource):
     async def supervised_fine_tune(
         self,
         *,
-        hyperparam_search_config: Dict[
-            str, Union[bool, float, str, Iterable[object], object, None]
-        ],
+        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
-        logger_config: Dict[
-            str, Union[bool, float, str, Iterable[object], object, None]
-        ],
+        logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         model: str,
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
-        algorithm_config: (
-            post_training_supervised_fine_tune_params.AlgorithmConfig | NotGiven
-        ) = NOT_GIVEN,
+        algorithm_config: post_training_supervised_fine_tune_params.AlgorithmConfig | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -300,9 +265,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given(
-                {"X-LlamaStack-ProviderData": x_llama_stack_provider_data}
-            ),
+            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
             **(extra_headers or {}),
         }
         return await self._post(
@@ -320,10 +283,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
                 post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=PostTrainingJob,
         )

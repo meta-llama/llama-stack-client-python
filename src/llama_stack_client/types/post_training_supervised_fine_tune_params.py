@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, List, Union
-
-from typing_extensions import Annotated, Literal, Required, TypeAlias, TypedDict
+from typing import Dict, List, Union, Iterable
+from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
 
@@ -21,15 +20,11 @@ __all__ = [
 
 
 class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
-    hyperparam_search_config: Required[
-        Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-    ]
+    hyperparam_search_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
     job_uuid: Required[str]
 
-    logger_config: Required[
-        Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-    ]
+    logger_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
     model: Required[str]
 
@@ -39,9 +34,7 @@ class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
 
     checkpoint_dir: str
 
-    x_llama_stack_provider_data: Annotated[
-        str, PropertyInfo(alias="X-LlamaStack-ProviderData")
-    ]
+    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
 
 class TrainingConfigDataConfig(TypedDict, total=False):
@@ -120,6 +113,4 @@ class AlgorithmConfigQatFinetuningConfig(TypedDict, total=False):
     type: Required[Literal["QAT"]]
 
 
-AlgorithmConfig: TypeAlias = Union[
-    AlgorithmConfigLoraFinetuningConfig, AlgorithmConfigQatFinetuningConfig
-]
+AlgorithmConfig: TypeAlias = Union[AlgorithmConfigLoraFinetuningConfig, AlgorithmConfigQatFinetuningConfig]

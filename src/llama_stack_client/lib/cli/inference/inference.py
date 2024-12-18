@@ -9,9 +9,8 @@ from typing import Optional
 import click
 from rich.console import Console
 
-from ...inference.event_logger import EventLogger
-
 from ..common.utils import handle_client_errors
+from ...inference.event_logger import EventLogger
 
 
 @click.group()
@@ -45,7 +44,6 @@ def chat_completion(ctx, message: str, stream: bool, model_id: Optional[str]):
     else:
         for event in EventLogger().log(response):
             event.print()
-
 
 # Register subcommands
 inference.add_command(chat_completion)
