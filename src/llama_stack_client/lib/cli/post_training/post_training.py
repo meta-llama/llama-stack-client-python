@@ -88,7 +88,7 @@ def supervised_fine_tune(
         model=model,
         algorithm_config=algorithm_config,
         training_config=training_config,
-        checkpoint_dir=checkpoint_dir,
+        checkpoint_dir=None,
         # logger_config and hyperparam_search_config haven't been used yet
         logger_config={},
         hyperparam_search_config={},
@@ -96,7 +96,7 @@ def supervised_fine_tune(
     console.print(post_training_job.job_uuid)
 
 
-@click.command("get_training_jobs")
+@click.command("list")
 @click.pass_context
 @handle_client_errors("post_training get_training_jobs")
 def get_training_jobs(ctx):
@@ -104,11 +104,11 @@ def get_training_jobs(ctx):
     client = ctx.obj["client"]
     console = Console()
 
-    training_jobs = client.post_training.get_training_jobs()
+    training_jobs = client.post_training.job.list()
     console.print([training_job.job_uuid for training_job in training_jobs])
 
 
-@click.command("get_training_job_status")
+@click.command("status")
 @click.option("--job-uuid", required=True, help="Job UUID")
 @click.pass_context
 @handle_client_errors("post_training get_training_job_status")
@@ -117,11 +117,11 @@ def get_training_job_status(ctx, job_uuid: str):
     client = ctx.obj["client"]
     console = Console()
 
-    job_status_reponse = client.post_training.get_training_job_status(job_uuid=job_uuid)
+    job_status_reponse = client.post_training.job.status(job_uuid=job_uuid)
     console.print(job_status_reponse)
 
 
-@click.command("get_training_job_artifacts")
+@click.command("artifacts")
 @click.option("--job-uuid", required=True, help="Job UUID")
 @click.pass_context
 @handle_client_errors("post_training get_training_job_artifacts")
@@ -130,8 +130,19 @@ def get_training_job_artifacts(ctx, job_uuid: str):
     client = ctx.obj["client"]
     console = Console()
 
-    job_artifacts = client.post_training.get_training_job_artifacts(job_uuid=job_uuid)
+    job_artifacts = client.post_training.job.artifacts(job_uuid=job_uuid)
     console.print(job_artifacts)
+
+
+@click.command("cancel")
+@click.option("--job-uuid", required=True, help="Job UUID")
+@click.pass_context
+@handle_client_errors("post_training cancel_training_job")
+def cancel_training_job(ctx, job_uuid: str):
+    """Cancel the training job"""
+    client = ctx.obj["client"]
+
+    client.post_training.job.cancel(job_uuid=job_uuid)
 
 
 # Register subcommands
@@ -139,3 +150,4 @@ post_training.add_command(supervised_fine_tune)
 post_training.add_command(get_training_jobs)
 post_training.add_command(get_training_job_status)
 post_training.add_command(get_training_job_artifacts)
+post_training.add_command(cancel_training_job)
