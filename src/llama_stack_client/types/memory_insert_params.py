@@ -6,6 +6,7 @@ from typing import Dict, Union, Iterable
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
+from .shared_params.url import URL
 from .shared_params.interleaved_content_item import InterleavedContentItem
 
 __all__ = [
@@ -32,7 +33,7 @@ class DocumentContentImageContentItem(TypedDict, total=False):
 
     data: str
 
-    url: str
+    url: URL
 
 
 class DocumentContentTextContentItem(TypedDict, total=False):
@@ -42,7 +43,7 @@ class DocumentContentTextContentItem(TypedDict, total=False):
 
 
 DocumentContent: TypeAlias = Union[
-    str, DocumentContentImageContentItem, DocumentContentTextContentItem, Iterable[InterleavedContentItem]
+    str, DocumentContentImageContentItem, DocumentContentTextContentItem, Iterable[InterleavedContentItem], URL
 ]
 
 

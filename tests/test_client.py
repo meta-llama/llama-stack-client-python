@@ -322,11 +322,11 @@ class TestLlamaStackClient:
             FinalRequestOptions(
                 method="get",
                 url="/foo",
-                params={"foo": "baz", "query_param": "overriden"},
+                params={"foo": "baz", "query_param": "overridden"},
             )
         )
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"foo": "baz", "query_param": "overriden"}
+        assert dict(url.params) == {"foo": "baz", "query_param": "overridden"}
 
     def test_request_extra_json(self) -> None:
         request = self.client._build_request(
@@ -1105,11 +1105,11 @@ class TestAsyncLlamaStackClient:
             FinalRequestOptions(
                 method="get",
                 url="/foo",
-                params={"foo": "baz", "query_param": "overriden"},
+                params={"foo": "baz", "query_param": "overridden"},
             )
         )
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"foo": "baz", "query_param": "overriden"}
+        assert dict(url.params) == {"foo": "baz", "query_param": "overridden"}
 
     def test_request_extra_json(self) -> None:
         request = self.client._build_request(
@@ -1631,7 +1631,7 @@ class TestAsyncLlamaStackClient:
         import threading
 
         from llama_stack_client._utils import asyncify
-        from llama_stack_client._base_client import get_platform 
+        from llama_stack_client._base_client import get_platform
 
         async def test_main() -> None:
             result = await asyncify(get_platform)()

@@ -3,6 +3,7 @@
 from typing import Union, Optional
 from typing_extensions import Literal, TypeAlias
 
+from .url import URL
 from ..._models import BaseModel
 
 __all__ = ["InterleavedContentItem", "ImageContentItem", "TextContentItem"]
@@ -13,7 +14,7 @@ class ImageContentItem(BaseModel):
 
     data: Optional[str] = None
 
-    url: Optional[str] = None
+    url: Optional[URL] = None
 
 
 class TextContentItem(BaseModel):

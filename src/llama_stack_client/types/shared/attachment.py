@@ -3,6 +3,7 @@
 from typing import List, Union, Optional
 from typing_extensions import Literal, TypeAlias
 
+from .url import URL
 from ..._models import BaseModel
 from .interleaved_content_item import InterleavedContentItem
 
@@ -14,7 +15,7 @@ class ContentImageContentItem(BaseModel):
 
     data: Optional[str] = None
 
-    url: Optional[str] = None
+    url: Optional[URL] = None
 
 
 class ContentTextContentItem(BaseModel):
@@ -23,7 +24,7 @@ class ContentTextContentItem(BaseModel):
     type: Literal["text"]
 
 
-Content: TypeAlias = Union[str, ContentImageContentItem, ContentTextContentItem, List[InterleavedContentItem]]
+Content: TypeAlias = Union[str, ContentImageContentItem, ContentTextContentItem, List[InterleavedContentItem], URL]
 
 
 class Attachment(BaseModel):

@@ -58,7 +58,7 @@ class TestAgents:
                         "output_shields": ["string"],
                         "remote_execution": {
                             "method": "GET",
-                            "url": "https://example.com",
+                            "url": {"uri": "uri"},
                             "body": {"foo": True},
                             "headers": {"foo": True},
                             "params": {"foo": True},
@@ -188,7 +188,7 @@ class TestAsyncAgents:
                         "output_shields": ["string"],
                         "remote_execution": {
                             "method": "GET",
-                            "url": "https://example.com",
+                            "url": {"uri": "uri"},
                             "body": {"foo": True},
                             "headers": {"foo": True},
                             "params": {"foo": True},

@@ -6,6 +6,7 @@ from .job import Job as Job
 from .model import Model as Model
 from .trace import Trace as Trace
 from .shared import (
+    URL as URL,
     ToolCall as ToolCall,
     ParamType as ParamType,
     Attachment as Attachment,

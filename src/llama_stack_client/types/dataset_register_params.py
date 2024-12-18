@@ -6,6 +6,7 @@ from typing import Dict, Union, Iterable
 from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
+from .shared_params.url import URL
 from .shared_params.param_type import ParamType
 
 __all__ = ["DatasetRegisterParams"]
@@ -16,7 +17,7 @@ class DatasetRegisterParams(TypedDict, total=False):
 
     dataset_schema: Required[Dict[str, ParamType]]
 
-    url: Required[str]
+    url: Required[URL]
 
     metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
 

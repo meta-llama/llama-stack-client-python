@@ -1,5 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from .url import URL as URL
 from .tool_call import ToolCall as ToolCall
 from .attachment import Attachment as Attachment
 from .param_type import ParamType as ParamType

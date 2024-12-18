@@ -108,7 +108,7 @@ class TestDatasets:
         dataset = client.datasets.register(
             dataset_id="dataset_id",
             dataset_schema={"foo": {"type": "string"}},
-            url="https://example.com",
+            url={"uri": "uri"},
         )
         assert dataset is None
 
@@ -117,7 +117,7 @@ class TestDatasets:
         dataset = client.datasets.register(
             dataset_id="dataset_id",
             dataset_schema={"foo": {"type": "string"}},
-            url="https://example.com",
+            url={"uri": "uri"},
             metadata={"foo": True},
             provider_dataset_id="provider_dataset_id",
             provider_id="provider_id",
@@ -130,7 +130,7 @@ class TestDatasets:
         response = client.datasets.with_raw_response.register(
             dataset_id="dataset_id",
             dataset_schema={"foo": {"type": "string"}},
-            url="https://example.com",
+            url={"uri": "uri"},
         )
 
         assert response.is_closed is True
@@ -143,7 +143,7 @@ class TestDatasets:
         with client.datasets.with_streaming_response.register(
             dataset_id="dataset_id",
             dataset_schema={"foo": {"type": "string"}},
-            url="https://example.com",
+            url={"uri": "uri"},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -284,7 +284,7 @@ class TestAsyncDatasets:
         dataset = await async_client.datasets.register(
             dataset_id="dataset_id",
             dataset_schema={"foo": {"type": "string"}},
-            url="https://example.com",
+            url={"uri": "uri"},
         )
         assert dataset is None
 
@@ -293,7 +293,7 @@ class TestAsyncDatasets:
         dataset = await async_client.datasets.register(
             dataset_id="dataset_id",
             dataset_schema={"foo": {"type": "string"}},
-            url="https://example.com",
+            url={"uri": "uri"},
             metadata={"foo": True},
             provider_dataset_id="provider_dataset_id",
             provider_id="provider_id",
@@ -306,7 +306,7 @@ class TestAsyncDatasets:
         response = await async_client.datasets.with_raw_response.register(
             dataset_id="dataset_id",
             dataset_schema={"foo": {"type": "string"}},
-            url="https://example.com",
+            url={"uri": "uri"},
         )
 
         assert response.is_closed is True
@@ -319,7 +319,7 @@ class TestAsyncDatasets:
         async with async_client.datasets.with_streaming_response.register(
             dataset_id="dataset_id",
             dataset_schema={"foo": {"type": "string"}},
-            url="https://example.com",
+            url={"uri": "uri"},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

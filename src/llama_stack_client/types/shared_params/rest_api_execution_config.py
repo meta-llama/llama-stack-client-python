@@ -5,13 +5,15 @@ from __future__ import annotations
 from typing import Dict, Union, Iterable
 from typing_extensions import Literal, Required, TypedDict
 
+from .url import URL
+
 __all__ = ["RestAPIExecutionConfig"]
 
 
 class RestAPIExecutionConfig(TypedDict, total=False):
     method: Required[Literal["GET", "POST", "PUT", "DELETE"]]
 
-    url: Required[str]
+    url: Required[URL]
 
     body: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
 
