@@ -20,7 +20,8 @@ dependencies = [
     "click",
     "pyaml",
     "prompt_toolkit",
-    "pandas"
+    "pandas",
+    "termcolor",
 ]
 requires-python = ">= 3.7"
 classifiers = [
