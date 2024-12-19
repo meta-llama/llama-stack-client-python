@@ -9,8 +9,8 @@ from typing import Optional
 import click
 from rich.console import Console
 
-from ..common.utils import handle_client_errors
 from ...inference.event_logger import EventLogger
+from ..common.utils import handle_client_errors
 
 
 @click.group()
@@ -31,7 +31,7 @@ def chat_completion(ctx, message: str, stream: bool, model_id: Optional[str]):
     console = Console()
 
     if not model_id:
-        available_models = [model.identifier for model in client.models.list()]
+        available_models = [model.identifier for model in client.models.list() if model.model_type == "llm"]
         model_id = available_models[0]
 
     response = client.inference.chat_completion(
