@@ -96,7 +96,7 @@ class ModelsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Model:
+    ) -> list[Model]:
         """
         Args:
           extra_headers: Send extra headers
@@ -275,7 +275,7 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Model:
+    ) -> list[Model]:
         """
         Args:
           extra_headers: Send extra headers
