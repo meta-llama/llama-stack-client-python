@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import json
 from __future__ import annotations
+import json
 
 import os
 from typing import Any, Union, Mapping
