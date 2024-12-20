@@ -91,56 +91,65 @@ async def run_main(
 
     print(f"finished the training job: {training_job.job_uuid}")
 
-    # response = client.datasets.register(
-    #     dataset_id="post_training_eval",
-    #     provider_id="huggingface",
-    #     url={"uri": "https://huggingface.co/datasets/llamastack/evals"},
-    #     metadata={
-    #         "path": "llamastack/evals",
-    #         "name": "evals__simpleqa",
-    #         "split": "train",
-    #     },
-    #     dataset_schema={
-    #         "input_query": {"type": "string"},
-    #         "expected_answer": {"type": "string"},
-    #         "chat_completion_input": {"type": "chat_completion_input"},
-    #     },
-    # )
+    response = client.models.register(
+        model_id=f"{model}-sft-{training_config['n_epochs']-1}",
+        provider_id="meta-reference-inference",
+        provider_model_id="null",
+        metadata={"llama_model": "meta-llama/Llama-3.2-3B-Instruct"},
+    )
 
-    # if response:
-    #     print("registered dataset post_training_eval successfully")
+    print(f"registerd model {model}-sft-{training_config['n_epochs']-1} successfully")
 
-    # eval_rows = client.datasetio.get_rows_paginated(
-    #     dataset_id="post_training_eval",
-    #     rows_in_page=5,
-    # )
+    response = client.datasets.register(
+        dataset_id="post_training_eval",
+        provider_id="huggingface-0",
+        url={"uri": "https://huggingface.co/datasets/llamastack/evals"},
+        metadata={
+            "path": "llamastack/evals",
+            "name": "evals__simpleqa",
+            "split": "train",
+        },
+        dataset_schema={
+            "input_query": {"type": "string"},
+            "expected_answer": {"type": "string"},
+            "chat_completion_input": {"type": "chat_completion_input"},
+        },
+    )
 
-    # client.eval_tasks.register(
-    #     eval_task_id="torchtune::evals",
-    #     dataset_id=f"post_training_eval",
-    #     scoring_functions=["basic::regex_parser_multiple_choice_answer"],
-    # )
+    if response:
+        print("registered dataset post_training_eval successfully")
 
-    # response = client.eval.evaluate_rows(
-    #     task_id="torchtune::evals",
-    #     input_rows=eval_rows.rows,
-    #     scoring_functions=["basic::regex_parser_multiple_choice_answer"],
-    #     task_config={
-    #         "type": "benchmark",
-    #         "eval_candidate": {
-    #             "type": "model",
-    #             "model": "meta-llama/Llama-3.2-3B-Instruct",
-    #             "sampling_params": {
-    #                 "temperature": 0.0,
-    #                 "max_tokens": 4096,
-    #                 "top_p": 0.9,
-    #                 "repeat_penalty": 1.0,
-    #             },
-    #         },
-    #     },
-    # )
+    eval_rows = client.datasetio.get_rows_paginated(
+        dataset_id="post_training_eval",
+        rows_in_page=5,
+    )
 
-    # print(response)
+    client.eval_tasks.register(
+        eval_task_id="torchtune::evals",
+        dataset_id=f"post_training_eval",
+        scoring_functions=["basic::regex_parser_multiple_choice_answer"],
+    )
+
+    response = client.eval.evaluate_rows(
+        task_id="torchtune::evals",
+        input_rows=eval_rows.rows,
+        scoring_functions=["basic::regex_parser_multiple_choice_answer"],
+        task_config={
+            "type": "benchmark",
+            "eval_candidate": {
+                "type": "model",
+                "model": f"{model}-sft-{training_config['n_epochs']-1}",
+                "sampling_params": {
+                    "temperature": 0.0,
+                    "max_tokens": 4096,
+                    "top_p": 0.9,
+                    "repeat_penalty": 1.0,
+                },
+            },
+        },
+    )
+
+    print(response)
 
 
 def main(
