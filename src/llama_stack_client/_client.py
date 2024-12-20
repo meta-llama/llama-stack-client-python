@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from __future__ import annotations
 import json
+from __future__ import annotations
 
 import os
 from typing import Any, Union, Mapping
@@ -126,6 +126,7 @@ class LlamaStackClient(SyncAPIClient):
             if default_headers is None:
                 default_headers = {}
             default_headers["X-LlamaStack-ProviderData"] = json.dumps(provider_data)
+
         super().__init__(
             version=__version__,
             base_url=base_url,
@@ -316,6 +317,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
             if default_headers is None:
                 default_headers = {}
             default_headers["X-LlamaStack-ProviderData"] = json.dumps(provider_data)
+
         super().__init__(
             version=__version__,
             base_url=base_url,
