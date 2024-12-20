@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union, Optional
+from typing import Dict, List, Union, Optional
 from typing_extensions import Literal, TypeAlias
 
 from ..._models import BaseModel
@@ -12,7 +12,22 @@ from .function_call_tool_definition import FunctionCallToolDefinition
 from .wolfram_alpha_tool_definition import WolframAlphaToolDefinition
 from .code_interpreter_tool_definition import CodeInterpreterToolDefinition
 
-__all__ = ["AgentConfig", "Tool"]
+__all__ = ["AgentConfig", "ResponseFormat", "ResponseFormatUnionMember0", "ResponseFormatUnionMember1", "Tool"]
+
+
+class ResponseFormatUnionMember0(BaseModel):
+    json_schema: Dict[str, Union[bool, float, str, List[object], object, None]]
+
+    type: Literal["json_schema"]
+
+
+class ResponseFormatUnionMember1(BaseModel):
+    bnf: Dict[str, Union[bool, float, str, List[object], object, None]]
+
+    type: Literal["grammar"]
+
+
+ResponseFormat: TypeAlias = Union[ResponseFormatUnionMember0, ResponseFormatUnionMember1]
 
 Tool: TypeAlias = Union[
     SearchToolDefinition,
@@ -36,6 +51,8 @@ class AgentConfig(BaseModel):
     input_shields: Optional[List[str]] = None
 
     output_shields: Optional[List[str]] = None
+
+    response_format: Optional[ResponseFormat] = None
 
     sampling_params: Optional[SamplingParams] = None
 

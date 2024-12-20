@@ -39,6 +39,10 @@ class TestAgents:
                 "model": "model",
                 "input_shields": ["string"],
                 "output_shields": ["string"],
+                "response_format": {
+                    "json_schema": {"foo": True},
+                    "type": "json_schema",
+                },
                 "sampling_params": {
                     "strategy": "greedy",
                     "max_tokens": 0,
@@ -169,6 +173,10 @@ class TestAsyncAgents:
                 "model": "model",
                 "input_shields": ["string"],
                 "output_shields": ["string"],
+                "response_format": {
+                    "json_schema": {"foo": True},
+                    "type": "json_schema",
+                },
                 "sampling_params": {
                     "strategy": "greedy",
                     "max_tokens": 0,

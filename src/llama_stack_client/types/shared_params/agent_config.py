@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Union, Iterable
+from typing import Dict, List, Union, Iterable
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .sampling_params import SamplingParams
@@ -13,7 +13,22 @@ from .function_call_tool_definition import FunctionCallToolDefinition
 from .wolfram_alpha_tool_definition import WolframAlphaToolDefinition
 from .code_interpreter_tool_definition import CodeInterpreterToolDefinition
 
-__all__ = ["AgentConfig", "Tool"]
+__all__ = ["AgentConfig", "ResponseFormat", "ResponseFormatUnionMember0", "ResponseFormatUnionMember1", "Tool"]
+
+
+class ResponseFormatUnionMember0(TypedDict, total=False):
+    json_schema: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+
+    type: Required[Literal["json_schema"]]
+
+
+class ResponseFormatUnionMember1(TypedDict, total=False):
+    bnf: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+
+    type: Required[Literal["grammar"]]
+
+
+ResponseFormat: TypeAlias = Union[ResponseFormatUnionMember0, ResponseFormatUnionMember1]
 
 Tool: TypeAlias = Union[
     SearchToolDefinition,
@@ -37,6 +52,8 @@ class AgentConfig(TypedDict, total=False):
     input_shields: List[str]
 
     output_shields: List[str]
+
+    response_format: ResponseFormat
 
     sampling_params: SamplingParams
 

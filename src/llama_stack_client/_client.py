@@ -126,6 +126,7 @@ class LlamaStackClient(SyncAPIClient):
             if default_headers is None:
                 default_headers = {}
             default_headers["X-LlamaStack-ProviderData"] = json.dumps(provider_data)
+
         super().__init__(
             version=__version__,
             base_url=base_url,
@@ -316,6 +317,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
             if default_headers is None:
                 default_headers = {}
             default_headers["X-LlamaStack-ProviderData"] = json.dumps(provider_data)
+
         super().__init__(
             version=__version__,
             base_url=base_url,
