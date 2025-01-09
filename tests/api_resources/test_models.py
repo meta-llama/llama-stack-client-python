@@ -28,7 +28,8 @@ class TestModels:
     def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
         model = client.models.retrieve(
             identifier="identifier",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[Model], model, path=["response"])
 
@@ -70,7 +71,8 @@ class TestModels:
     @parametrize
     def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
         model = client.models.list(
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Model, model, path=["response"])
 
@@ -112,9 +114,11 @@ class TestModels:
         model = client.models.register(
             model_id="model_id",
             metadata={"foo": True},
+            model_type="llm",
             provider_id="provider_id",
             provider_model_id="provider_model_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Model, model, path=["response"])
 
@@ -153,7 +157,8 @@ class TestModels:
     def test_method_unregister_with_all_params(self, client: LlamaStackClient) -> None:
         model = client.models.unregister(
             model_id="model_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert model is None
 
@@ -196,7 +201,8 @@ class TestAsyncModels:
     async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         model = await async_client.models.retrieve(
             identifier="identifier",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[Model], model, path=["response"])
 
@@ -238,7 +244,8 @@ class TestAsyncModels:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         model = await async_client.models.list(
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Model, model, path=["response"])
 
@@ -280,9 +287,11 @@ class TestAsyncModels:
         model = await async_client.models.register(
             model_id="model_id",
             metadata={"foo": True},
+            model_type="llm",
             provider_id="provider_id",
             provider_model_id="provider_model_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Model, model, path=["response"])
 
@@ -321,7 +330,8 @@ class TestAsyncModels:
     async def test_method_unregister_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         model = await async_client.models.unregister(
             model_id="model_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert model is None
 

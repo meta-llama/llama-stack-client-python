@@ -9,7 +9,9 @@ import pytest
 
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
-from llama_stack_client.types import ScoringFn
+from llama_stack_client.types import (
+    ScoringFn,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -28,7 +30,8 @@ class TestScoringFunctions:
     def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
         scoring_function = client.scoring_functions.retrieve(
             scoring_fn_id="scoring_fn_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[ScoringFn], scoring_function, path=["response"])
 
@@ -70,7 +73,8 @@ class TestScoringFunctions:
     @parametrize
     def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
         scoring_function = client.scoring_functions.list(
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ScoringFn, scoring_function, path=["response"])
 
@@ -118,12 +122,14 @@ class TestScoringFunctions:
             params={
                 "judge_model": "judge_model",
                 "type": "llm_as_judge",
+                "aggregation_functions": ["average"],
                 "judge_score_regexes": ["string"],
                 "prompt_template": "prompt_template",
             },
             provider_id="provider_id",
             provider_scoring_fn_id="provider_scoring_fn_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert scoring_function is None
 
@@ -170,7 +176,8 @@ class TestAsyncScoringFunctions:
     async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         scoring_function = await async_client.scoring_functions.retrieve(
             scoring_fn_id="scoring_fn_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[ScoringFn], scoring_function, path=["response"])
 
@@ -212,7 +219,8 @@ class TestAsyncScoringFunctions:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         scoring_function = await async_client.scoring_functions.list(
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ScoringFn, scoring_function, path=["response"])
 
@@ -260,12 +268,14 @@ class TestAsyncScoringFunctions:
             params={
                 "judge_model": "judge_model",
                 "type": "llm_as_judge",
+                "aggregation_functions": ["average"],
                 "judge_score_regexes": ["string"],
                 "prompt_template": "prompt_template",
             },
             provider_id="provider_id",
             provider_scoring_fn_id="provider_scoring_fn_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert scoring_function is None
 

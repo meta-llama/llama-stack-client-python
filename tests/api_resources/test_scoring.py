@@ -41,11 +41,13 @@ class TestScoring:
                 "foo": {
                     "judge_model": "judge_model",
                     "type": "llm_as_judge",
+                    "aggregation_functions": ["average"],
                     "judge_score_regexes": ["string"],
                     "prompt_template": "prompt_template",
                 }
             },
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ScoringScoreResponse, scoring, path=["response"])
 
@@ -108,11 +110,13 @@ class TestScoring:
                 "foo": {
                     "judge_model": "judge_model",
                     "type": "llm_as_judge",
+                    "aggregation_functions": ["average"],
                     "judge_score_regexes": ["string"],
                     "prompt_template": "prompt_template",
                 }
             },
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ScoringScoreBatchResponse, scoring, path=["response"])
 
@@ -179,11 +183,13 @@ class TestAsyncScoring:
                 "foo": {
                     "judge_model": "judge_model",
                     "type": "llm_as_judge",
+                    "aggregation_functions": ["average"],
                     "judge_score_regexes": ["string"],
                     "prompt_template": "prompt_template",
                 }
             },
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ScoringScoreResponse, scoring, path=["response"])
 
@@ -246,11 +252,13 @@ class TestAsyncScoring:
                 "foo": {
                     "judge_model": "judge_model",
                     "type": "llm_as_judge",
+                    "aggregation_functions": ["average"],
                     "judge_score_regexes": ["string"],
                     "prompt_template": "prompt_template",
                 }
             },
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ScoringScoreBatchResponse, scoring, path=["response"])
 

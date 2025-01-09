@@ -7,15 +7,18 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["PostTrainingPreferenceOptimizeParams", "AlgorithmConfig", "OptimizerConfig", "TrainingConfig"]
+__all__ = [
+    "PostTrainingPreferenceOptimizeParams",
+    "AlgorithmConfig",
+    "TrainingConfig",
+    "TrainingConfigDataConfig",
+    "TrainingConfigOptimizerConfig",
+    "TrainingConfigEfficiencyConfig",
+]
 
 
 class PostTrainingPreferenceOptimizeParams(TypedDict, total=False):
-    algorithm: Required[Literal["dpo"]]
-
     algorithm_config: Required[AlgorithmConfig]
-
-    dataset_id: Required[str]
 
     finetuned_model: Required[str]
 
@@ -25,13 +28,11 @@ class PostTrainingPreferenceOptimizeParams(TypedDict, total=False):
 
     logger_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
-    optimizer_config: Required[OptimizerConfig]
-
     training_config: Required[TrainingConfig]
 
-    validation_dataset_id: Required[str]
+    x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
 
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
+    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
 
 
 class AlgorithmConfig(TypedDict, total=False):
@@ -44,27 +45,53 @@ class AlgorithmConfig(TypedDict, total=False):
     reward_scale: Required[float]
 
 
-class OptimizerConfig(TypedDict, total=False):
+class TrainingConfigDataConfig(TypedDict, total=False):
+    batch_size: Required[int]
+
+    dataset_id: Required[str]
+
+    shuffle: Required[bool]
+
+    packed: bool
+
+    train_on_input: bool
+
+    validation_dataset_id: str
+
+
+class TrainingConfigOptimizerConfig(TypedDict, total=False):
     lr: Required[float]
 
-    lr_min: Required[float]
+    num_warmup_steps: Required[int]
 
     optimizer_type: Required[Literal["adam", "adamw", "sgd"]]
 
     weight_decay: Required[float]
 
 
+class TrainingConfigEfficiencyConfig(TypedDict, total=False):
+    enable_activation_checkpointing: bool
+
+    enable_activation_offloading: bool
+
+    fsdp_cpu_offload: bool
+
+    memory_efficient_fsdp_wrap: bool
+
+
 class TrainingConfig(TypedDict, total=False):
-    batch_size: Required[int]
+    data_config: Required[TrainingConfigDataConfig]
 
-    enable_activation_checkpointing: Required[bool]
+    gradient_accumulation_steps: Required[int]
 
-    fsdp_cpu_offload: Required[bool]
+    max_steps_per_epoch: Required[int]
 
-    memory_efficient_fsdp_wrap: Required[bool]
+    max_validation_steps: Required[int]
 
     n_epochs: Required[int]
 
-    n_iters: Required[int]
+    optimizer_config: Required[TrainingConfigOptimizerConfig]
 
-    shuffle: Required[bool]
+    dtype: str
+
+    efficiency_config: TrainingConfigEfficiencyConfig

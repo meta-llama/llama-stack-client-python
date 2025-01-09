@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
@@ -15,8 +15,12 @@ class ModelRegisterParams(TypedDict, total=False):
 
     metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
 
+    model_type: Literal["llm", "embedding"]
+
     provider_id: str
 
     provider_model_id: str
 
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
+    x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
+
+    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]

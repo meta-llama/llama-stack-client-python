@@ -2,22 +2,18 @@
 
 from __future__ import annotations
 
-from typing import List, Union
-from typing_extensions import Literal, Required, TypeAlias, TypedDict
+from typing import Union
+from typing_extensions import Literal, Required, TypedDict
 
-from .image_media import ImageMedia
+from .interleaved_content import InterleavedContent
 
-__all__ = ["ToolResponseMessage", "Content", "ContentImageMediaArray"]
-
-ContentImageMediaArray: TypeAlias = Union[str, ImageMedia]
-
-Content: TypeAlias = Union[str, ImageMedia, List[ContentImageMediaArray]]
+__all__ = ["ToolResponseMessage"]
 
 
 class ToolResponseMessage(TypedDict, total=False):
     call_id: Required[str]
 
-    content: Required[Content]
+    content: Required[InterleavedContent]
 
     role: Required[Literal["ipython"]]
 

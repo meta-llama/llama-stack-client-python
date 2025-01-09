@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable, Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -51,6 +52,7 @@ class ModelsResource(SyncAPIResource):
         self,
         *,
         identifier: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -70,7 +72,12 @@ class ModelsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._get(
@@ -88,6 +95,7 @@ class ModelsResource(SyncAPIResource):
     def list(
         self,
         *,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -108,7 +116,12 @@ class ModelsResource(SyncAPIResource):
         """
         extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._get(
@@ -124,8 +137,10 @@ class ModelsResource(SyncAPIResource):
         *,
         model_id: str,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        model_type: Literal["llm", "embedding"] | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
         provider_model_id: str | NotGiven = NOT_GIVEN,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -145,7 +160,12 @@ class ModelsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._post(
@@ -154,6 +174,7 @@ class ModelsResource(SyncAPIResource):
                 {
                     "model_id": model_id,
                     "metadata": metadata,
+                    "model_type": model_type,
                     "provider_id": provider_id,
                     "provider_model_id": provider_model_id,
                 },
@@ -169,6 +190,7 @@ class ModelsResource(SyncAPIResource):
         self,
         *,
         model_id: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -189,7 +211,12 @@ class ModelsResource(SyncAPIResource):
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._post(
@@ -226,6 +253,7 @@ class AsyncModelsResource(AsyncAPIResource):
         self,
         *,
         identifier: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -245,7 +273,12 @@ class AsyncModelsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._get(
@@ -265,6 +298,7 @@ class AsyncModelsResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -285,7 +319,12 @@ class AsyncModelsResource(AsyncAPIResource):
         """
         extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._get(
@@ -301,8 +340,10 @@ class AsyncModelsResource(AsyncAPIResource):
         *,
         model_id: str,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        model_type: Literal["llm", "embedding"] | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
         provider_model_id: str | NotGiven = NOT_GIVEN,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -322,7 +363,12 @@ class AsyncModelsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._post(
@@ -331,6 +377,7 @@ class AsyncModelsResource(AsyncAPIResource):
                 {
                     "model_id": model_id,
                     "metadata": metadata,
+                    "model_type": model_type,
                     "provider_id": provider_id,
                     "provider_model_id": provider_model_id,
                 },
@@ -346,6 +393,7 @@ class AsyncModelsResource(AsyncAPIResource):
         self,
         *,
         model_id: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -366,7 +414,12 @@ class AsyncModelsResource(AsyncAPIResource):
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._post(

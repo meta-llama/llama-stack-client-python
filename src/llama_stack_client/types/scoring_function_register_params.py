@@ -6,14 +6,14 @@ from typing import List, Union
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
+from .shared_params.return_type import ReturnType
 
 __all__ = [
     "ScoringFunctionRegisterParams",
-    "ReturnType",
-    "ReturnTypeType",
     "Params",
     "ParamsLlmAsJudgeScoringFnParams",
     "ParamsRegexParserScoringFnParams",
+    "ParamsBasicScoringFnParams",
 ]
 
 
@@ -30,31 +30,17 @@ class ScoringFunctionRegisterParams(TypedDict, total=False):
 
     provider_scoring_fn_id: str
 
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
+    x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
 
-
-class ReturnTypeType(TypedDict, total=False):
-    type: Required[Literal["string"]]
-
-
-ReturnType: TypeAlias = Union[
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-    ReturnTypeType,
-]
+    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
 
 
 class ParamsLlmAsJudgeScoringFnParams(TypedDict, total=False):
     judge_model: Required[str]
 
     type: Required[Literal["llm_as_judge"]]
+
+    aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
 
     judge_score_regexes: List[str]
 
@@ -64,7 +50,15 @@ class ParamsLlmAsJudgeScoringFnParams(TypedDict, total=False):
 class ParamsRegexParserScoringFnParams(TypedDict, total=False):
     type: Required[Literal["regex_parser"]]
 
+    aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
+
     parsing_regexes: List[str]
 
 
-Params: TypeAlias = Union[ParamsLlmAsJudgeScoringFnParams, ParamsRegexParserScoringFnParams]
+class ParamsBasicScoringFnParams(TypedDict, total=False):
+    type: Required[Literal["basic"]]
+
+    aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
+
+
+Params: TypeAlias = Union[ParamsLlmAsJudgeScoringFnParams, ParamsRegexParserScoringFnParams, ParamsBasicScoringFnParams]

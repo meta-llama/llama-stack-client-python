@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import List
 from typing_extensions import Literal, Required, TypedDict
 
-from ..rest_api_execution_config_param import RestAPIExecutionConfigParam
+from .rest_api_execution_config import RestAPIExecutionConfig
 
 __all__ = ["CodeInterpreterToolDefinition"]
 
@@ -19,4 +19,4 @@ class CodeInterpreterToolDefinition(TypedDict, total=False):
 
     output_shields: List[str]
 
-    remote_execution: RestAPIExecutionConfigParam
+    remote_execution: RestAPIExecutionConfig

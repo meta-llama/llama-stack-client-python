@@ -2,16 +2,30 @@
 
 from __future__ import annotations
 
-from typing import List, Union
-from typing_extensions import Required, TypeAlias, TypedDict
+from typing import Union, Iterable
+from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
-from .image_media import ImageMedia
+from .url import URL
+from .interleaved_content_item import InterleavedContentItem
 
-__all__ = ["Attachment", "Content", "ContentContentArray"]
+__all__ = ["Attachment", "Content", "ContentImageContentItem", "ContentTextContentItem"]
 
-ContentContentArray: TypeAlias = Union[str, ImageMedia]
 
-Content: TypeAlias = Union[str, ImageMedia, List[ContentContentArray]]
+class ContentImageContentItem(TypedDict, total=False):
+    type: Required[Literal["image"]]
+
+    data: str
+
+    url: URL
+
+
+class ContentTextContentItem(TypedDict, total=False):
+    text: Required[str]
+
+    type: Required[Literal["text"]]
+
+
+Content: TypeAlias = Union[str, ContentImageContentItem, ContentTextContentItem, Iterable[InterleavedContentItem], URL]
 
 
 class Attachment(TypedDict, total=False):

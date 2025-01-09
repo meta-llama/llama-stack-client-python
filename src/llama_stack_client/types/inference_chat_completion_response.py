@@ -6,11 +6,12 @@ from typing_extensions import Literal, TypeAlias
 from .._models import BaseModel
 from .token_log_probs import TokenLogProbs
 from .shared.tool_call import ToolCall
-from .shared.completion_message import CompletionMessage
+from .shared.interleaved_content import InterleavedContent
 
 __all__ = [
     "InferenceChatCompletionResponse",
     "ChatCompletionResponse",
+    "ChatCompletionResponseCompletionMessage",
     "ChatCompletionResponseStreamChunk",
     "ChatCompletionResponseStreamChunkEvent",
     "ChatCompletionResponseStreamChunkEventDelta",
@@ -19,8 +20,18 @@ __all__ = [
 ]
 
 
+class ChatCompletionResponseCompletionMessage(BaseModel):
+    content: InterleavedContent
+
+    role: Literal["assistant"]
+
+    stop_reason: Literal["end_of_turn", "end_of_message", "out_of_tokens"]
+
+    tool_calls: List[ToolCall]
+
+
 class ChatCompletionResponse(BaseModel):
-    completion_message: CompletionMessage
+    completion_message: ChatCompletionResponseCompletionMessage
 
     logprobs: Optional[List[TokenLogProbs]] = None
 

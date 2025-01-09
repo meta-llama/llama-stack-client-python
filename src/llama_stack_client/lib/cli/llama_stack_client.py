@@ -5,6 +5,7 @@
 # the root directory of this source tree.
 
 import os
+from importlib.metadata import version
 
 import click
 import yaml
@@ -17,15 +18,23 @@ from .datasets import datasets
 from .eval import eval
 from .eval_tasks import eval_tasks
 from .inference import inference
+from .inspect import inspect
 from .memory_banks import memory_banks
 from .models import models
+from .post_training import post_training
 from .providers import providers
 from .scoring_functions import scoring_functions
 from .shields import shields
+from .toolgroups import toolgroups
 
 
 @click.group()
-@click.option("--endpoint", type=str, help="Llama Stack distribution endpoint", default="")
+@click.version_option(
+    version=version("llama-stack-client"), prog_name="llama-stack-client"
+)
+@click.option(
+    "--endpoint", type=str, help="Llama Stack distribution endpoint", default=""
+)
 @click.option("--config", type=str, help="Path to config file", default=None)
 @click.pass_context
 def cli(ctx, endpoint: str, config: str | None):
@@ -75,6 +84,9 @@ cli.add_command(configure, "configure")
 cli.add_command(scoring_functions, "scoring_functions")
 cli.add_command(eval, "eval")
 cli.add_command(inference, "inference")
+cli.add_command(post_training, "post_training")
+cli.add_command(inspect, "inspect")
+cli.add_command(toolgroups, "toolgroups")
 
 
 def main():

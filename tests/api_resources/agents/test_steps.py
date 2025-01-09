@@ -34,7 +34,8 @@ class TestSteps:
             session_id="session_id",
             step_id="step_id",
             turn_id="turn_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(StepRetrieveResponse, step, path=["response"])
 
@@ -89,7 +90,8 @@ class TestAsyncSteps:
             session_id="session_id",
             step_id="step_id",
             turn_id="turn_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(StepRetrieveResponse, step, path=["response"])
 

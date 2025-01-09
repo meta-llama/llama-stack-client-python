@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 from .job import Job as Job
+from .tool import Tool as Tool
 from .model import Model as Model
 from .trace import Trace as Trace
 from .shared import (
+    URL as URL,
     ToolCall as ToolCall,
-    Attachment as Attachment,
-    ImageMedia as ImageMedia,
+    ParamType as ParamType,
+    ReturnType as ReturnType,
     AgentConfig as AgentConfig,
     UserMessage as UserMessage,
     ScoringResult as ScoringResult,
@@ -16,26 +18,28 @@ from .shared import (
     SamplingParams as SamplingParams,
     BatchCompletion as BatchCompletion,
     SafetyViolation as SafetyViolation,
-    CompletionMessage as CompletionMessage,
+    InterleavedContent as InterleavedContent,
     ToolParamDefinition as ToolParamDefinition,
     ToolResponseMessage as ToolResponseMessage,
-    MemoryToolDefinition as MemoryToolDefinition,
-    SearchToolDefinition as SearchToolDefinition,
-    PhotogenToolDefinition as PhotogenToolDefinition,
-    FunctionCallToolDefinition as FunctionCallToolDefinition,
-    WolframAlphaToolDefinition as WolframAlphaToolDefinition,
-    CodeInterpreterToolDefinition as CodeInterpreterToolDefinition,
+    InterleavedContentItem as InterleavedContentItem,
 )
 from .shield import Shield as Shield
+from .tool_def import ToolDef as ToolDef
 from .eval_task import EvalTask as EvalTask
 from .route_info import RouteInfo as RouteInfo
 from .scoring_fn import ScoringFn as ScoringFn
+from .tool_group import ToolGroup as ToolGroup
 from .health_info import HealthInfo as HealthInfo
+from .version_info import VersionInfo as VersionInfo
 from .provider_info import ProviderInfo as ProviderInfo
 from .tool_response import ToolResponse as ToolResponse
 from .inference_step import InferenceStep as InferenceStep
+from .tool_def_param import ToolDefParam as ToolDefParam
 from .token_log_probs import TokenLogProbs as TokenLogProbs
+from .tool_get_params import ToolGetParams as ToolGetParams
 from .shield_call_step import ShieldCallStep as ShieldCallStep
+from .span_with_status import SpanWithStatus as SpanWithStatus
+from .tool_list_params import ToolListParams as ToolListParams
 from .evaluate_response import EvaluateResponse as EvaluateResponse
 from .post_training_job import PostTrainingJob as PostTrainingJob
 from .agent_create_params import AgentCreateParams as AgentCreateParams
@@ -49,6 +53,7 @@ from .tool_execution_step import ToolExecutionStep as ToolExecutionStep
 from .eval_run_eval_params import EvalRunEvalParams as EvalRunEvalParams
 from .memory_insert_params import MemoryInsertParams as MemoryInsertParams
 from .scoring_score_params import ScoringScoreParams as ScoringScoreParams
+from .toolgroup_get_params import ToolgroupGetParams as ToolgroupGetParams
 from .agent_create_response import AgentCreateResponse as AgentCreateResponse
 from .dataset_list_response import DatasetListResponse as DatasetListResponse
 from .memory_retrieval_step import MemoryRetrievalStep as MemoryRetrievalStep
@@ -59,37 +64,50 @@ from .provider_list_response import ProviderListResponse as ProviderListResponse
 from .scoring_score_response import ScoringScoreResponse as ScoringScoreResponse
 from .shield_register_params import ShieldRegisterParams as ShieldRegisterParams
 from .shield_retrieve_params import ShieldRetrieveParams as ShieldRetrieveParams
+from .tool_invocation_result import ToolInvocationResult as ToolInvocationResult
 from .dataset_register_params import DatasetRegisterParams as DatasetRegisterParams
 from .dataset_retrieve_params import DatasetRetrieveParams as DatasetRetrieveParams
 from .model_unregister_params import ModelUnregisterParams as ModelUnregisterParams
 from .query_documents_response import QueryDocumentsResponse as QueryDocumentsResponse
 from .safety_run_shield_params import SafetyRunShieldParams as SafetyRunShieldParams
 from .dataset_retrieve_response import DatasetRetrieveResponse as DatasetRetrieveResponse
+from .dataset_unregister_params import DatasetUnregisterParams as DatasetUnregisterParams
 from .eval_evaluate_rows_params import EvalEvaluateRowsParams as EvalEvaluateRowsParams
 from .eval_task_register_params import EvalTaskRegisterParams as EvalTaskRegisterParams
 from .eval_task_retrieve_params import EvalTaskRetrieveParams as EvalTaskRetrieveParams
 from .memory_bank_list_response import MemoryBankListResponse as MemoryBankListResponse
+from .toolgroup_register_params import ToolgroupRegisterParams as ToolgroupRegisterParams
 from .scoring_score_batch_params import ScoringScoreBatchParams as ScoringScoreBatchParams
-from .telemetry_get_trace_params import TelemetryGetTraceParams as TelemetryGetTraceParams
 from .telemetry_log_event_params import TelemetryLogEventParams as TelemetryLogEventParams
 from .inference_completion_params import InferenceCompletionParams as InferenceCompletionParams
 from .inference_embeddings_params import InferenceEmbeddingsParams as InferenceEmbeddingsParams
 from .memory_bank_register_params import MemoryBankRegisterParams as MemoryBankRegisterParams
 from .memory_bank_retrieve_params import MemoryBankRetrieveParams as MemoryBankRetrieveParams
+from .toolgroup_unregister_params import ToolgroupUnregisterParams as ToolgroupUnregisterParams
+from .datasetio_append_rows_params import DatasetioAppendRowsParams as DatasetioAppendRowsParams
 from .scoring_score_batch_response import ScoringScoreBatchResponse as ScoringScoreBatchResponse
+from .telemetry_query_spans_params import TelemetryQuerySpansParams as TelemetryQuerySpansParams
 from .inference_completion_response import InferenceCompletionResponse as InferenceCompletionResponse
 from .memory_bank_retrieve_response import MemoryBankRetrieveResponse as MemoryBankRetrieveResponse
 from .memory_bank_unregister_params import MemoryBankUnregisterParams as MemoryBankUnregisterParams
-from .rest_api_execution_config_param import RestAPIExecutionConfigParam as RestAPIExecutionConfigParam
+from .telemetry_query_traces_params import TelemetryQueryTracesParams as TelemetryQueryTracesParams
+from .telemetry_get_span_tree_params import TelemetryGetSpanTreeParams as TelemetryGetSpanTreeParams
+from .telemetry_query_spans_response import TelemetryQuerySpansResponse as TelemetryQuerySpansResponse
+from .tool_runtime_list_tools_params import ToolRuntimeListToolsParams as ToolRuntimeListToolsParams
+from .tool_runtime_invoke_tool_params import ToolRuntimeInvokeToolParams as ToolRuntimeInvokeToolParams
 from .inference_chat_completion_params import InferenceChatCompletionParams as InferenceChatCompletionParams
 from .scoring_function_register_params import ScoringFunctionRegisterParams as ScoringFunctionRegisterParams
 from .scoring_function_retrieve_params import ScoringFunctionRetrieveParams as ScoringFunctionRetrieveParams
+from .telemetry_get_span_tree_response import TelemetryGetSpanTreeResponse as TelemetryGetSpanTreeResponse
 from .batch_inference_completion_params import BatchInferenceCompletionParams as BatchInferenceCompletionParams
 from .inference_chat_completion_response import InferenceChatCompletionResponse as InferenceChatCompletionResponse
 from .synthetic_data_generation_response import SyntheticDataGenerationResponse as SyntheticDataGenerationResponse
 from .datasetio_get_rows_paginated_params import DatasetioGetRowsPaginatedParams as DatasetioGetRowsPaginatedParams
 from .batch_inference_chat_completion_params import (
     BatchInferenceChatCompletionParams as BatchInferenceChatCompletionParams,
+)
+from .telemetry_save_spans_to_dataset_params import (
+    TelemetrySaveSpansToDatasetParams as TelemetrySaveSpansToDatasetParams,
 )
 from .batch_inference_chat_completion_response import (
     BatchInferenceChatCompletionResponse as BatchInferenceChatCompletionResponse,

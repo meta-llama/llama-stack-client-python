@@ -23,6 +23,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.query_documents_response import QueryDocumentsResponse
+from ..types.shared_params.interleaved_content import InterleavedContent
 
 __all__ = ["MemoryResource", "AsyncMemoryResource"]
 
@@ -53,6 +54,7 @@ class MemoryResource(SyncAPIResource):
         bank_id: str,
         documents: Iterable[memory_insert_params.Document],
         ttl_seconds: int | NotGiven = NOT_GIVEN,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -73,7 +75,12 @@ class MemoryResource(SyncAPIResource):
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._post(
@@ -96,8 +103,9 @@ class MemoryResource(SyncAPIResource):
         self,
         *,
         bank_id: str,
-        query: memory_query_params.Query,
+        query: InterleavedContent,
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -117,7 +125,12 @@ class MemoryResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._post(
@@ -163,6 +176,7 @@ class AsyncMemoryResource(AsyncAPIResource):
         bank_id: str,
         documents: Iterable[memory_insert_params.Document],
         ttl_seconds: int | NotGiven = NOT_GIVEN,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -183,7 +197,12 @@ class AsyncMemoryResource(AsyncAPIResource):
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._post(
@@ -206,8 +225,9 @@ class AsyncMemoryResource(AsyncAPIResource):
         self,
         *,
         bank_id: str,
-        query: memory_query_params.Query,
+        query: InterleavedContent,
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -227,7 +247,12 @@ class AsyncMemoryResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._post(

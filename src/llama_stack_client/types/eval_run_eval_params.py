@@ -24,6 +24,7 @@ __all__ = [
     "TaskConfigAppEvalTaskConfigScoringParams",
     "TaskConfigAppEvalTaskConfigScoringParamsLlmAsJudgeScoringFnParams",
     "TaskConfigAppEvalTaskConfigScoringParamsRegexParserScoringFnParams",
+    "TaskConfigAppEvalTaskConfigScoringParamsBasicScoringFnParams",
 ]
 
 
@@ -32,7 +33,9 @@ class EvalRunEvalParams(TypedDict, total=False):
 
     task_id: Required[str]
 
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
+    x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
+
+    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
 
 
 class TaskConfigBenchmarkEvalTaskConfigEvalCandidateModelCandidate(TypedDict, total=False):
@@ -91,6 +94,8 @@ class TaskConfigAppEvalTaskConfigScoringParamsLlmAsJudgeScoringFnParams(TypedDic
 
     type: Required[Literal["llm_as_judge"]]
 
+    aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
+
     judge_score_regexes: List[str]
 
     prompt_template: str
@@ -99,12 +104,21 @@ class TaskConfigAppEvalTaskConfigScoringParamsLlmAsJudgeScoringFnParams(TypedDic
 class TaskConfigAppEvalTaskConfigScoringParamsRegexParserScoringFnParams(TypedDict, total=False):
     type: Required[Literal["regex_parser"]]
 
+    aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
+
     parsing_regexes: List[str]
+
+
+class TaskConfigAppEvalTaskConfigScoringParamsBasicScoringFnParams(TypedDict, total=False):
+    type: Required[Literal["basic"]]
+
+    aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
 
 
 TaskConfigAppEvalTaskConfigScoringParams: TypeAlias = Union[
     TaskConfigAppEvalTaskConfigScoringParamsLlmAsJudgeScoringFnParams,
     TaskConfigAppEvalTaskConfigScoringParamsRegexParserScoringFnParams,
+    TaskConfigAppEvalTaskConfigScoringParamsBasicScoringFnParams,
 ]
 
 

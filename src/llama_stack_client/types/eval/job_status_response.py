@@ -5,4 +5,4 @@ from typing_extensions import Literal, TypeAlias
 
 __all__ = ["JobStatusResponse"]
 
-JobStatusResponse: TypeAlias = Optional[Literal["completed", "in_progress"]]
+JobStatusResponse: TypeAlias = Optional[Literal["completed", "in_progress", "failed", "scheduled"]]

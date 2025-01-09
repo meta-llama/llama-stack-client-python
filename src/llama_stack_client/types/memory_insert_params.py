@@ -2,13 +2,20 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable
-from typing_extensions import Required, Annotated, TypeAlias, TypedDict
+from typing import Dict, Union, Iterable
+from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
-from .shared_params.image_media import ImageMedia
+from .shared_params.url import URL
+from .shared_params.interleaved_content_item import InterleavedContentItem
 
-__all__ = ["MemoryInsertParams", "Document", "DocumentContent", "DocumentContentContentArray"]
+__all__ = [
+    "MemoryInsertParams",
+    "Document",
+    "DocumentContent",
+    "DocumentContentImageContentItem",
+    "DocumentContentTextContentItem",
+]
 
 
 class MemoryInsertParams(TypedDict, total=False):
@@ -18,12 +25,28 @@ class MemoryInsertParams(TypedDict, total=False):
 
     ttl_seconds: int
 
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
+    x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
+
+    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
 
 
-DocumentContentContentArray: TypeAlias = Union[str, ImageMedia]
+class DocumentContentImageContentItem(TypedDict, total=False):
+    type: Required[Literal["image"]]
 
-DocumentContent: TypeAlias = Union[str, ImageMedia, List[DocumentContentContentArray]]
+    data: str
+
+    url: URL
+
+
+class DocumentContentTextContentItem(TypedDict, total=False):
+    text: Required[str]
+
+    type: Required[Literal["text"]]
+
+
+DocumentContent: TypeAlias = Union[
+    str, DocumentContentImageContentItem, DocumentContentTextContentItem, Iterable[InterleavedContentItem], URL
+]
 
 
 class Document(TypedDict, total=False):

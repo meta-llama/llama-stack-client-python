@@ -12,6 +12,7 @@ __all__ = [
     "ScoringFunctions",
     "ScoringFunctionsLlmAsJudgeScoringFnParams",
     "ScoringFunctionsRegexParserScoringFnParams",
+    "ScoringFunctionsBasicScoringFnParams",
 ]
 
 
@@ -20,13 +21,17 @@ class ScoringScoreParams(TypedDict, total=False):
 
     scoring_functions: Required[Dict[str, Optional[ScoringFunctions]]]
 
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
+    x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
+
+    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
 
 
 class ScoringFunctionsLlmAsJudgeScoringFnParams(TypedDict, total=False):
     judge_model: Required[str]
 
     type: Required[Literal["llm_as_judge"]]
+
+    aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
 
     judge_score_regexes: List[str]
 
@@ -36,9 +41,19 @@ class ScoringFunctionsLlmAsJudgeScoringFnParams(TypedDict, total=False):
 class ScoringFunctionsRegexParserScoringFnParams(TypedDict, total=False):
     type: Required[Literal["regex_parser"]]
 
+    aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
+
     parsing_regexes: List[str]
 
 
+class ScoringFunctionsBasicScoringFnParams(TypedDict, total=False):
+    type: Required[Literal["basic"]]
+
+    aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
+
+
 ScoringFunctions: TypeAlias = Union[
-    ScoringFunctionsLlmAsJudgeScoringFnParams, ScoringFunctionsRegexParserScoringFnParams
+    ScoringFunctionsLlmAsJudgeScoringFnParams,
+    ScoringFunctionsRegexParserScoringFnParams,
+    ScoringFunctionsBasicScoringFnParams,
 ]

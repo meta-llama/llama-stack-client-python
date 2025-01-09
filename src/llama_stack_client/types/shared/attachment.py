@@ -1,16 +1,30 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union
-from typing_extensions import TypeAlias
+from typing import List, Union, Optional
+from typing_extensions import Literal, TypeAlias
 
+from .url import URL
 from ..._models import BaseModel
-from .image_media import ImageMedia
+from .interleaved_content_item import InterleavedContentItem
 
-__all__ = ["Attachment", "Content", "ContentContentArray"]
+__all__ = ["Attachment", "Content", "ContentImageContentItem", "ContentTextContentItem"]
 
-ContentContentArray: TypeAlias = Union[str, ImageMedia]
 
-Content: TypeAlias = Union[str, ImageMedia, List[ContentContentArray]]
+class ContentImageContentItem(BaseModel):
+    type: Literal["image"]
+
+    data: Optional[str] = None
+
+    url: Optional[URL] = None
+
+
+class ContentTextContentItem(BaseModel):
+    text: str
+
+    type: Literal["text"]
+
+
+Content: TypeAlias = Union[str, ContentImageContentItem, ContentTextContentItem, List[InterleavedContentItem], URL]
 
 
 class Attachment(BaseModel):

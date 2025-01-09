@@ -6,11 +6,12 @@
 from typing import List, Optional, Tuple, Union
 
 from llama_stack_client import LlamaStackClient
-from llama_stack_client.types import (Attachment, ToolResponseMessage,
-                                      UserMessage)
+from llama_stack_client.types import ToolResponseMessage, UserMessage
 from llama_stack_client.types.agent_create_params import AgentConfig
+from llama_stack_client.types.agents.turn_create_params import (Document,
+                                                                Toolgroup)
 
-from .custom_tool import CustomTool
+from .client_tool import ClientTool
 
 
 class Agent:
@@ -18,13 +19,15 @@ class Agent:
         self,
         client: LlamaStackClient,
         agent_config: AgentConfig,
-        custom_tools: Tuple[CustomTool] = (),
+        client_tools: Tuple[ClientTool] = (),
+        memory_bank_id: Optional[str] = None,
     ):
         self.client = client
         self.agent_config = agent_config
         self.agent_id = self._create_agent(agent_config)
-        self.custom_tools = {t.get_name(): t for t in custom_tools}
+        self.client_tools = {t.get_name(): t for t in client_tools}
         self.sessions = []
+        self.memory_bank_id = memory_bank_id
 
     def _create_agent(self, agent_config: AgentConfig) -> int:
         agentic_system_create_response = self.client.agents.create(
@@ -53,14 +56,14 @@ class Agent:
     def _run_tool(self, chunk):
         message = chunk.event.payload.turn.output_message
         tool_call = message.tool_calls[0]
-        if tool_call.tool_name not in self.custom_tools:
+        if tool_call.tool_name not in self.client_tools:
             return ToolResponseMessage(
                 call_id=tool_call.call_id,
                 tool_name=tool_call.tool_name,
                 content=f"Unknown tool `{tool_call.tool_name}` was called.",
                 role="ipython",
             )
-        tool = self.custom_tools[tool_call.tool_name]
+        tool = self.client_tools[tool_call.tool_name]
         result_messages = tool.run([message])
         next_message = result_messages[0]
         return next_message
@@ -68,16 +71,18 @@ class Agent:
     def create_turn(
         self,
         messages: List[Union[UserMessage, ToolResponseMessage]],
-        attachments: Optional[List[Attachment]] = None,
         session_id: Optional[str] = None,
+        toolgroups: Optional[List[Toolgroup]] = None,
+        documents: Optional[List[Document]] = None,
     ):
         response = self.client.agents.turn.create(
             agent_id=self.agent_id,
             # use specified session_id or last session created
             session_id=session_id or self.session_id[-1],
             messages=messages,
-            attachments=attachments,
             stream=True,
+            documents=documents,
+            toolgroups=toolgroups,
         )
         for chunk in response:
             if hasattr(chunk, "error"):

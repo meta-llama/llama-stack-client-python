@@ -81,7 +81,8 @@ class TestInference:
                     },
                 }
             ],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(InferenceChatCompletionResponse, inference, path=["response"])
 
@@ -188,7 +189,8 @@ class TestInference:
                     },
                 }
             ],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         inference_stream.response.close()
 
@@ -268,7 +270,8 @@ class TestInference:
                 "top_p": 0,
             },
             stream=False,
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
 
@@ -338,7 +341,8 @@ class TestInference:
                 "top_k": 0,
                 "top_p": 0,
             },
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         inference_stream.response.close()
 
@@ -388,7 +392,8 @@ class TestInference:
         inference = client.inference.embeddings(
             contents=["string"],
             model_id="model_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(EmbeddingsResponse, inference, path=["response"])
 
@@ -482,7 +487,8 @@ class TestAsyncInference:
                     },
                 }
             ],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(InferenceChatCompletionResponse, inference, path=["response"])
 
@@ -589,7 +595,8 @@ class TestAsyncInference:
                     },
                 }
             ],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         await inference_stream.response.aclose()
 
@@ -669,7 +676,8 @@ class TestAsyncInference:
                 "top_p": 0,
             },
             stream=False,
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
 
@@ -739,7 +747,8 @@ class TestAsyncInference:
                 "top_k": 0,
                 "top_p": 0,
             },
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         await inference_stream.response.aclose()
 
@@ -789,7 +798,8 @@ class TestAsyncInference:
         inference = await async_client.inference.embeddings(
             contents=["string"],
             model_id="model_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(EmbeddingsResponse, inference, path=["response"])
 

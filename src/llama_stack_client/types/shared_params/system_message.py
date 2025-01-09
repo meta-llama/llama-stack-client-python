@@ -2,19 +2,14 @@
 
 from __future__ import annotations
 
-from typing import List, Union
-from typing_extensions import Literal, Required, TypeAlias, TypedDict
+from typing_extensions import Literal, Required, TypedDict
 
-from .image_media import ImageMedia
+from .interleaved_content import InterleavedContent
 
-__all__ = ["SystemMessage", "Content", "ContentImageMediaArray"]
-
-ContentImageMediaArray: TypeAlias = Union[str, ImageMedia]
-
-Content: TypeAlias = Union[str, ImageMedia, List[ContentImageMediaArray]]
+__all__ = ["SystemMessage"]
 
 
 class SystemMessage(TypedDict, total=False):
-    content: Required[Content]
+    content: Required[InterleavedContent]
 
     role: Required[Literal["system"]]

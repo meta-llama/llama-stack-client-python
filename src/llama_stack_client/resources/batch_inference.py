@@ -25,6 +25,7 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.shared.batch_completion import BatchCompletion
 from ..types.shared_params.sampling_params import SamplingParams
+from ..types.shared_params.interleaved_content import InterleavedContent
 from ..types.batch_inference_chat_completion_response import BatchInferenceChatCompletionResponse
 
 __all__ = ["BatchInferenceResource", "AsyncBatchInferenceResource"]
@@ -60,6 +61,7 @@ class BatchInferenceResource(SyncAPIResource):
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[batch_inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -89,7 +91,12 @@ class BatchInferenceResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._post(
@@ -115,10 +122,11 @@ class BatchInferenceResource(SyncAPIResource):
     def completion(
         self,
         *,
-        content_batch: List[batch_inference_completion_params.ContentBatch],
+        content_batch: List[InterleavedContent],
         model: str,
         logprobs: batch_inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -138,7 +146,12 @@ class BatchInferenceResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._post(
@@ -189,6 +202,7 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[batch_inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -218,7 +232,12 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._post(
@@ -244,10 +263,11 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
     async def completion(
         self,
         *,
-        content_batch: List[batch_inference_completion_params.ContentBatch],
+        content_batch: List[InterleavedContent],
         model: str,
         logprobs: batch_inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -267,7 +287,12 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._post(

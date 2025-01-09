@@ -31,7 +31,8 @@ class TestMemoryBanks:
     def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
         memory_bank = client.memory_banks.retrieve(
             memory_bank_id="memory_bank_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[MemoryBankRetrieveResponse], memory_bank, path=["response"])
 
@@ -73,7 +74,8 @@ class TestMemoryBanks:
     @parametrize
     def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
         memory_bank = client.memory_banks.list(
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(MemoryBankListResponse, memory_bank, path=["response"])
 
@@ -127,7 +129,8 @@ class TestMemoryBanks:
             },
             provider_id="provider_id",
             provider_memory_bank_id="provider_memory_bank_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert memory_bank is None
 
@@ -176,7 +179,8 @@ class TestMemoryBanks:
     def test_method_unregister_with_all_params(self, client: LlamaStackClient) -> None:
         memory_bank = client.memory_banks.unregister(
             memory_bank_id="memory_bank_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert memory_bank is None
 
@@ -219,7 +223,8 @@ class TestAsyncMemoryBanks:
     async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         memory_bank = await async_client.memory_banks.retrieve(
             memory_bank_id="memory_bank_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[MemoryBankRetrieveResponse], memory_bank, path=["response"])
 
@@ -261,7 +266,8 @@ class TestAsyncMemoryBanks:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         memory_bank = await async_client.memory_banks.list(
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(MemoryBankListResponse, memory_bank, path=["response"])
 
@@ -315,7 +321,8 @@ class TestAsyncMemoryBanks:
             },
             provider_id="provider_id",
             provider_memory_bank_id="provider_memory_bank_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert memory_bank is None
 
@@ -364,7 +371,8 @@ class TestAsyncMemoryBanks:
     async def test_method_unregister_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         memory_bank = await async_client.memory_banks.unregister(
             memory_bank_id="memory_bank_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert memory_bank is None
 

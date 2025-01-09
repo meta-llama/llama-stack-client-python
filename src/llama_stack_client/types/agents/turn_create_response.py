@@ -3,8 +3,6 @@
 from typing import Dict, List, Union, Optional
 from typing_extensions import Literal, TypeAlias
 
-from pydantic import Field as FieldInfo
-
 from .turn import Turn
 from ..._models import BaseModel
 from ..inference_step import InferenceStep
@@ -57,13 +55,11 @@ class AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPaylo
 
     step_type: Literal["inference", "tool_execution", "shield_call", "memory_retrieval"]
 
-    text_delta_model_response: Optional[str] = FieldInfo(alias="model_response_text_delta", default=None)
+    text_delta: Optional[str] = None
 
     tool_call_delta: Optional[
         AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayloadToolCallDelta
     ] = None
-
-    tool_response_text_delta: Optional[str] = None
 
 
 AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePayloadStepDetails: TypeAlias = Union[
@@ -75,6 +71,8 @@ class AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePaylo
     event_type: Literal["step_complete"]
 
     step_details: AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePayloadStepDetails
+
+    step_id: str
 
     step_type: Literal["inference", "tool_execution", "shield_call", "memory_retrieval"]
 
