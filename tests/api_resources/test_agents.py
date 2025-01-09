@@ -68,7 +68,8 @@ class TestAgents:
                 "tool_prompt_format": "json",
                 "toolgroups": ["string"],
             },
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(AgentCreateResponse, agent, path=["response"])
 
@@ -117,7 +118,8 @@ class TestAgents:
     def test_method_delete_with_all_params(self, client: LlamaStackClient) -> None:
         agent = client.agents.delete(
             agent_id="agent_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert agent is None
 
@@ -200,7 +202,8 @@ class TestAsyncAgents:
                 "tool_prompt_format": "json",
                 "toolgroups": ["string"],
             },
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(AgentCreateResponse, agent, path=["response"])
 
@@ -249,7 +252,8 @@ class TestAsyncAgents:
     async def test_method_delete_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         agent = await async_client.agents.delete(
             agent_id="agent_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert agent is None
 

@@ -60,7 +60,8 @@ class TestEval:
                 "num_examples": 0,
             },
             task_id="task_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(EvaluateResponse, eval, path=["response"])
 
@@ -147,7 +148,8 @@ class TestEval:
                 "num_examples": 0,
             },
             task_id="task_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Job, eval, path=["response"])
 
@@ -238,7 +240,8 @@ class TestAsyncEval:
                 "num_examples": 0,
             },
             task_id="task_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(EvaluateResponse, eval, path=["response"])
 
@@ -325,7 +328,8 @@ class TestAsyncEval:
                 "num_examples": 0,
             },
             task_id="task_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Job, eval, path=["response"])
 

@@ -31,7 +31,8 @@ class TestDatasets:
     def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
         dataset = client.datasets.retrieve(
             dataset_id="dataset_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[DatasetRetrieveResponse], dataset, path=["response"])
 
@@ -73,7 +74,8 @@ class TestDatasets:
     @parametrize
     def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
         dataset = client.datasets.list(
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(DatasetListResponse, dataset, path=["response"])
 
@@ -121,7 +123,8 @@ class TestDatasets:
             metadata={"foo": True},
             provider_dataset_id="provider_dataset_id",
             provider_id="provider_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert dataset is None
 
@@ -164,7 +167,8 @@ class TestDatasets:
     def test_method_unregister_with_all_params(self, client: LlamaStackClient) -> None:
         dataset = client.datasets.unregister(
             dataset_id="dataset_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert dataset is None
 
@@ -207,7 +211,8 @@ class TestAsyncDatasets:
     async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         dataset = await async_client.datasets.retrieve(
             dataset_id="dataset_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[DatasetRetrieveResponse], dataset, path=["response"])
 
@@ -249,7 +254,8 @@ class TestAsyncDatasets:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         dataset = await async_client.datasets.list(
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(DatasetListResponse, dataset, path=["response"])
 
@@ -297,7 +303,8 @@ class TestAsyncDatasets:
             metadata={"foo": True},
             provider_dataset_id="provider_dataset_id",
             provider_id="provider_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert dataset is None
 
@@ -340,7 +347,8 @@ class TestAsyncDatasets:
     async def test_method_unregister_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         dataset = await async_client.datasets.unregister(
             dataset_id="dataset_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert dataset is None
 

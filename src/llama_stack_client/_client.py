@@ -1,7 +1,8 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
-from __future__ import annotations
 
+from __future__ import annotations
 import json
+
 import os
 from typing import Any, Union, Mapping
 from typing_extensions import Self, override
@@ -130,7 +131,10 @@ class LlamaStackClient(SyncAPIClient):
         if provider_data is not None:
             if default_headers is None:
                 default_headers = {}
-            default_headers["X-LlamaStack-ProviderData"] = json.dumps(provider_data)
+            default_headers.update({
+                "X-LlamaStack-Provider-Data": json.dumps(provider_data),
+                "X-LlamaStack-Client-Version": __version__
+            })
 
         super().__init__(
             version=__version__,
@@ -327,7 +331,10 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         if provider_data is not None:
             if default_headers is None:
                 default_headers = {}
-            default_headers["X-LlamaStack-ProviderData"] = json.dumps(provider_data)
+            default_headers.update({
+                "X-LlamaStack-Provider-Data": json.dumps(provider_data),
+                "X-LlamaStack-Client-Version": __version__
+            })
 
         super().__init__(
             version=__version__,

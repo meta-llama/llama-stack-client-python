@@ -31,7 +31,9 @@ class InferenceCompletionParamsBase(TypedDict, total=False):
 
     sampling_params: SamplingParams
 
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
+    x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
+
+    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
 
 
 class Logprobs(TypedDict, total=False):

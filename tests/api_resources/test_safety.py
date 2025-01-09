@@ -43,7 +43,8 @@ class TestSafety:
             ],
             params={"foo": True},
             shield_id="shield_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(RunShieldResponse, safety, path=["response"])
 
@@ -115,7 +116,8 @@ class TestAsyncSafety:
             ],
             params={"foo": True},
             shield_id="shield_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(RunShieldResponse, safety, path=["response"])
 
