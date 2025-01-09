@@ -24,7 +24,7 @@ jobs:
       id: date
       run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
     - name: Update version for nightly
-      if: github.event_name == 'schedule'
+      # if: github.event_name == 'schedule'
       run: |
         # Version is in pyproject.toml
         sed -i 's/version = "\([^"]*\)"/version = "\1.dev${{ steps.date.outputs.date }}"/' pyproject.toml
