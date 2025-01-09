@@ -118,7 +118,12 @@ class TestToolgroups:
             provider_id="provider_id",
             toolgroup_id="toolgroup_id",
             args={"foo": True},
-            mcp_endpoint={"uri": "uri"},
+            mcp_config={
+                "command": "command",
+                "type": "inline",
+                "args": ["string"],
+                "env": {"foo": True},
+            },
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
@@ -293,7 +298,12 @@ class TestAsyncToolgroups:
             provider_id="provider_id",
             toolgroup_id="toolgroup_id",
             args={"foo": True},
-            mcp_endpoint={"uri": "uri"},
+            mcp_config={
+                "command": "command",
+                "type": "inline",
+                "args": ["string"],
+                "env": {"foo": True},
+            },
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )

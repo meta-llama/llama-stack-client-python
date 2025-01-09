@@ -6,7 +6,7 @@ from typing import Dict, Union, Iterable
 from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
-from .shared_params.url import URL
+from .mcp_config_param import McpConfigParam
 
 __all__ = ["ToolgroupRegisterParams"]
 
@@ -18,7 +18,7 @@ class ToolgroupRegisterParams(TypedDict, total=False):
 
     args: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
 
-    mcp_endpoint: URL
+    mcp_config: McpConfigParam
 
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
 

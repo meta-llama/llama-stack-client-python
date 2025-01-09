@@ -6,7 +6,11 @@ from typing import Dict, Union, Iterable
 
 import httpx
 
-from ..types import toolgroup_get_params, toolgroup_register_params, toolgroup_unregister_params
+from ..types import (
+    toolgroup_get_params,
+    toolgroup_register_params,
+    toolgroup_unregister_params,
+)
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from .._utils import (
     maybe_transform,
@@ -23,7 +27,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.tool_group import ToolGroup
-from ..types.shared_params.url import URL
+from ..types.mcp_config_param import McpConfigParam
 
 __all__ = ["ToolgroupsResource", "AsyncToolgroupsResource"]
 
@@ -140,7 +144,7 @@ class ToolgroupsResource(SyncAPIResource):
         provider_id: str,
         toolgroup_id: str,
         args: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        mcp_endpoint: URL | NotGiven = NOT_GIVEN,
+        mcp_config: McpConfigParam | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -179,7 +183,7 @@ class ToolgroupsResource(SyncAPIResource):
                     "provider_id": provider_id,
                     "toolgroup_id": toolgroup_id,
                     "args": args,
-                    "mcp_endpoint": mcp_endpoint,
+                    "mcp_config": mcp_config,
                 },
                 toolgroup_register_params.ToolgroupRegisterParams,
             ),
@@ -350,7 +354,7 @@ class AsyncToolgroupsResource(AsyncAPIResource):
         provider_id: str,
         toolgroup_id: str,
         args: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        mcp_endpoint: URL | NotGiven = NOT_GIVEN,
+        mcp_config: McpConfigParam | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -389,7 +393,7 @@ class AsyncToolgroupsResource(AsyncAPIResource):
                     "provider_id": provider_id,
                     "toolgroup_id": toolgroup_id,
                     "args": args,
-                    "mcp_endpoint": mcp_endpoint,
+                    "mcp_config": mcp_config,
                 },
                 toolgroup_register_params.ToolgroupRegisterParams,
             ),

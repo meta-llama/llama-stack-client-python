@@ -26,6 +26,7 @@ from .shared import (
 from .shield import Shield as Shield
 from .tool_def import ToolDef as ToolDef
 from .eval_task import EvalTask as EvalTask
+from .mcp_config import McpConfig as McpConfig
 from .route_info import RouteInfo as RouteInfo
 from .scoring_fn import ScoringFn as ScoringFn
 from .tool_group import ToolGroup as ToolGroup
@@ -37,6 +38,7 @@ from .inference_step import InferenceStep as InferenceStep
 from .tool_def_param import ToolDefParam as ToolDefParam
 from .token_log_probs import TokenLogProbs as TokenLogProbs
 from .tool_get_params import ToolGetParams as ToolGetParams
+from .mcp_config_param import McpConfigParam as McpConfigParam
 from .shield_call_step import ShieldCallStep as ShieldCallStep
 from .span_with_status import SpanWithStatus as SpanWithStatus
 from .tool_list_params import ToolListParams as ToolListParams

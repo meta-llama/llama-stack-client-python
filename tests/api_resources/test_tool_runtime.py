@@ -79,7 +79,12 @@ class TestToolRuntime:
     def test_method_list_tools_with_all_params(self, client: LlamaStackClient) -> None:
         tool_runtime = client.tool_runtime.list_tools(
             tool_group_id="tool_group_id",
-            mcp_endpoint={"uri": "uri"},
+            mcp_config={
+                "command": "command",
+                "type": "inline",
+                "args": ["string"],
+                "env": {"foo": True},
+            },
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
@@ -174,7 +179,12 @@ class TestAsyncToolRuntime:
     async def test_method_list_tools_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         tool_runtime = await async_client.tool_runtime.list_tools(
             tool_group_id="tool_group_id",
-            mcp_endpoint={"uri": "uri"},
+            mcp_config={
+                "command": "command",
+                "type": "inline",
+                "args": ["string"],
+                "env": {"foo": True},
+            },
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
