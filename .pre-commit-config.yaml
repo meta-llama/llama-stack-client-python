@@ -9,7 +9,6 @@ repos:
     hooks:
     -   id: check-ast
     -   id: check-merge-conflict
-    -   id: trailing-whitespace
     -   id: check-added-large-files
         args: ['--maxkb=1000']
     -   id: end-of-file-fixer
