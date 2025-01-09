@@ -30,6 +30,7 @@ from .route_info import RouteInfo as RouteInfo
 from .scoring_fn import ScoringFn as ScoringFn
 from .tool_group import ToolGroup as ToolGroup
 from .health_info import HealthInfo as HealthInfo
+from .version_info import VersionInfo as VersionInfo
 from .provider_info import ProviderInfo as ProviderInfo
 from .tool_response import ToolResponse as ToolResponse
 from .inference_step import InferenceStep as InferenceStep

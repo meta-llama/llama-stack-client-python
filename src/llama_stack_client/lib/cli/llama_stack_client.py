@@ -10,6 +10,7 @@ import click
 import yaml
 
 from llama_stack_client import LlamaStackClient
+from importlib.metadata import version
 
 from .configure import configure
 from .constants import get_config_file_path
@@ -23,9 +24,10 @@ from .post_training import post_training
 from .providers import providers
 from .scoring_functions import scoring_functions
 from .shields import shields
-
+from .inspect import inspect
 
 @click.group()
+@click.version_option(version=version("llama-stack-client"), prog_name="llama-stack-client")
 @click.option("--endpoint", type=str, help="Llama Stack distribution endpoint", default="")
 @click.option("--config", type=str, help="Path to config file", default=None)
 @click.pass_context
@@ -77,6 +79,7 @@ cli.add_command(scoring_functions, "scoring_functions")
 cli.add_command(eval, "eval")
 cli.add_command(inference, "inference")
 cli.add_command(post_training, "post_training")
+cli.add_command(inspect, "inspect")
 
 
 def main():

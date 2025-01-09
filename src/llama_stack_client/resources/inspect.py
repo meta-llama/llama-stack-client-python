@@ -16,6 +16,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.health_info import HealthInfo
+from ..types.version_info import VersionInfo
 
 __all__ = ["InspectResource", "AsyncInspectResource"]
 
@@ -73,6 +74,39 @@ class InspectResource(SyncAPIResource):
             cast_to=HealthInfo,
         )
 
+    def version(
+        self,
+        *,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> VersionInfo:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {
+            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            "/alpha/version",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VersionInfo,
+        )
+
 
 class AsyncInspectResource(AsyncAPIResource):
     @cached_property
@@ -127,6 +161,39 @@ class AsyncInspectResource(AsyncAPIResource):
             cast_to=HealthInfo,
         )
 
+    async def version(
+        self,
+        *,
+        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> VersionInfo:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {
+            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **(extra_headers or {}),
+        }
+        return await self._get(
+            "/alpha/version",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VersionInfo,
+        )
+
 
 class InspectResourceWithRawResponse:
     def __init__(self, inspect: InspectResource) -> None:
@@ -134,6 +201,9 @@ class InspectResourceWithRawResponse:
 
         self.health = to_raw_response_wrapper(
             inspect.health,
+        )
+        self.version = to_raw_response_wrapper(
+            inspect.version,
         )
 
 
@@ -144,6 +214,9 @@ class AsyncInspectResourceWithRawResponse:
         self.health = async_to_raw_response_wrapper(
             inspect.health,
         )
+        self.version = async_to_raw_response_wrapper(
+            inspect.version,
+        )
 
 
 class InspectResourceWithStreamingResponse:
@@ -153,6 +226,9 @@ class InspectResourceWithStreamingResponse:
         self.health = to_streamed_response_wrapper(
             inspect.health,
         )
+        self.version = to_streamed_response_wrapper(
+            inspect.version,
+        )
 
 
 class AsyncInspectResourceWithStreamingResponse:
@@ -161,4 +237,7 @@ class AsyncInspectResourceWithStreamingResponse:
 
         self.health = async_to_streamed_response_wrapper(
             inspect.health,
+        )
+        self.version = async_to_streamed_response_wrapper(
+            inspect.version,
         )
