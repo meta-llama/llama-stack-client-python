@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Iterable, cast
+from typing import Any, List, Iterable, cast
 from typing_extensions import Literal, overload
 
 import httpx
@@ -26,7 +26,6 @@ from ..._streaming import Stream, AsyncStream
 from ..._base_client import make_request_options
 from ...types.agents import turn_create_params, turn_retrieve_params
 from ...types.agents.turn import Turn
-from ...types.shared_params.attachment import Attachment
 from ...types.agents.turn_create_response import TurnCreateResponse
 
 __all__ = ["TurnResource", "AsyncTurnResource"]
@@ -59,8 +58,9 @@ class TurnResource(SyncAPIResource):
         agent_id: str,
         messages: Iterable[turn_create_params.Message],
         session_id: str,
-        attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
+        documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
+        toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -89,7 +89,8 @@ class TurnResource(SyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         session_id: str,
         stream: Literal[True],
-        attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
+        documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
+        toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -118,7 +119,8 @@ class TurnResource(SyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         session_id: str,
         stream: bool,
-        attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
+        documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
+        toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -146,8 +148,9 @@ class TurnResource(SyncAPIResource):
         agent_id: str,
         messages: Iterable[turn_create_params.Message],
         session_id: str,
-        attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
+        documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -170,8 +173,9 @@ class TurnResource(SyncAPIResource):
                         "agent_id": agent_id,
                         "messages": messages,
                         "session_id": session_id,
-                        "attachments": attachments,
+                        "documents": documents,
                         "stream": stream,
+                        "toolgroups": toolgroups,
                     },
                     turn_create_params.TurnCreateParams,
                 ),
@@ -261,8 +265,9 @@ class AsyncTurnResource(AsyncAPIResource):
         agent_id: str,
         messages: Iterable[turn_create_params.Message],
         session_id: str,
-        attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
+        documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
+        toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -291,7 +296,8 @@ class AsyncTurnResource(AsyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         session_id: str,
         stream: Literal[True],
-        attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
+        documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
+        toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -320,7 +326,8 @@ class AsyncTurnResource(AsyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         session_id: str,
         stream: bool,
-        attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
+        documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
+        toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -348,8 +355,9 @@ class AsyncTurnResource(AsyncAPIResource):
         agent_id: str,
         messages: Iterable[turn_create_params.Message],
         session_id: str,
-        attachments: Iterable[Attachment] | NotGiven = NOT_GIVEN,
+        documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -372,8 +380,9 @@ class AsyncTurnResource(AsyncAPIResource):
                         "agent_id": agent_id,
                         "messages": messages,
                         "session_id": session_id,
-                        "attachments": attachments,
+                        "documents": documents,
                         "stream": stream,
+                        "toolgroups": toolgroups,
                     },
                     turn_create_params.TurnCreateParams,
                 ),

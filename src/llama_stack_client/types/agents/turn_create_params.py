@@ -2,15 +2,27 @@
 
 from __future__ import annotations
 
-from typing import Union, Iterable
+from typing import Dict, List, Union, Iterable
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from ..._utils import PropertyInfo
-from ..shared_params.attachment import Attachment
+from ..shared_params.url import URL
 from ..shared_params.user_message import UserMessage
 from ..shared_params.tool_response_message import ToolResponseMessage
+from ..shared_params.interleaved_content_item import InterleavedContentItem
 
-__all__ = ["TurnCreateParamsBase", "Message", "TurnCreateParamsNonStreaming", "TurnCreateParamsStreaming"]
+__all__ = [
+    "TurnCreateParamsBase",
+    "Message",
+    "Document",
+    "DocumentContent",
+    "DocumentContentImageContentItem",
+    "DocumentContentTextContentItem",
+    "Toolgroup",
+    "ToolgroupUnionMember1",
+    "TurnCreateParamsNonStreaming",
+    "TurnCreateParamsStreaming",
+]
 
 
 class TurnCreateParamsBase(TypedDict, total=False):
@@ -20,12 +32,48 @@ class TurnCreateParamsBase(TypedDict, total=False):
 
     session_id: Required[str]
 
-    attachments: Iterable[Attachment]
+    documents: Iterable[Document]
+
+    toolgroups: List[Toolgroup]
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-ProviderData")]
 
 
 Message: TypeAlias = Union[UserMessage, ToolResponseMessage]
+
+
+class DocumentContentImageContentItem(TypedDict, total=False):
+    type: Required[Literal["image"]]
+
+    data: str
+
+    url: URL
+
+
+class DocumentContentTextContentItem(TypedDict, total=False):
+    text: Required[str]
+
+    type: Required[Literal["text"]]
+
+
+DocumentContent: TypeAlias = Union[
+    str, DocumentContentImageContentItem, DocumentContentTextContentItem, Iterable[InterleavedContentItem], URL
+]
+
+
+class Document(TypedDict, total=False):
+    content: Required[DocumentContent]
+
+    mime_type: Required[str]
+
+
+class ToolgroupUnionMember1(TypedDict, total=False):
+    args: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+
+    name: Required[str]
+
+
+Toolgroup: TypeAlias = Union[str, ToolgroupUnionMember1]
 
 
 class TurnCreateParamsNonStreaming(TurnCreateParamsBase, total=False):
