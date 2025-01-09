@@ -9,10 +9,7 @@ from abc import abstractmethod
 from typing import Dict, List, Union
 
 from llama_stack_client.types import ToolResponseMessage, UserMessage
-from llama_stack_client.types.tool_def_param import (
-    Parameter,
-    ToolDefParam,
-)
+from llama_stack_client.types.tool_def_param import Parameter, ToolDefParam
 
 
 class ClientTool:
