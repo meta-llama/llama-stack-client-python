@@ -5,7 +5,7 @@ default_language_version:
 
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 6306a48f7dae5861702d573c9c247e4e9498e867
+    rev: v5.0.0
     hooks:
     -   id: trailing-whitespace
     -   id: check-ast
