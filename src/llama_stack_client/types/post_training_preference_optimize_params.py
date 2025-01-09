@@ -84,6 +84,8 @@ class TrainingConfig(TypedDict, total=False):
 
     max_steps_per_epoch: Required[int]
 
+    max_validation_steps: Required[int]
+
     n_epochs: Required[int]
 
     optimizer_config: Required[TrainingConfigOptimizerConfig]

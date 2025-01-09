@@ -72,6 +72,8 @@ class AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePaylo
 
     step_details: AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePayloadStepDetails
 
+    step_id: str
+
     step_type: Literal["inference", "tool_execution", "shield_call", "memory_retrieval"]
 
 

@@ -8,6 +8,14 @@ from .eval import (
     EvalResourceWithStreamingResponse,
     AsyncEvalResourceWithStreamingResponse,
 )
+from .tools import (
+    ToolsResource,
+    AsyncToolsResource,
+    ToolsResourceWithRawResponse,
+    AsyncToolsResourceWithRawResponse,
+    ToolsResourceWithStreamingResponse,
+    AsyncToolsResourceWithStreamingResponse,
+)
 from .agents import (
     AgentsResource,
     AsyncAgentsResource,
@@ -120,6 +128,14 @@ from .eval_tasks import (
     EvalTasksResourceWithStreamingResponse,
     AsyncEvalTasksResourceWithStreamingResponse,
 )
+from .toolgroups import (
+    ToolgroupsResource,
+    AsyncToolgroupsResource,
+    ToolgroupsResourceWithRawResponse,
+    AsyncToolgroupsResourceWithRawResponse,
+    ToolgroupsResourceWithStreamingResponse,
+    AsyncToolgroupsResourceWithStreamingResponse,
+)
 from .memory_banks import (
     MemoryBanksResource,
     AsyncMemoryBanksResource,
@@ -127,6 +143,14 @@ from .memory_banks import (
     AsyncMemoryBanksResourceWithRawResponse,
     MemoryBanksResourceWithStreamingResponse,
     AsyncMemoryBanksResourceWithStreamingResponse,
+)
+from .tool_runtime import (
+    ToolRuntimeResource,
+    AsyncToolRuntimeResource,
+    ToolRuntimeResourceWithRawResponse,
+    AsyncToolRuntimeResourceWithRawResponse,
+    ToolRuntimeResourceWithStreamingResponse,
+    AsyncToolRuntimeResourceWithStreamingResponse,
 )
 from .post_training import (
     PostTrainingResource,
@@ -162,6 +186,24 @@ from .synthetic_data_generation import (
 )
 
 __all__ = [
+    "ToolgroupsResource",
+    "AsyncToolgroupsResource",
+    "ToolgroupsResourceWithRawResponse",
+    "AsyncToolgroupsResourceWithRawResponse",
+    "ToolgroupsResourceWithStreamingResponse",
+    "AsyncToolgroupsResourceWithStreamingResponse",
+    "ToolsResource",
+    "AsyncToolsResource",
+    "ToolsResourceWithRawResponse",
+    "AsyncToolsResourceWithRawResponse",
+    "ToolsResourceWithStreamingResponse",
+    "AsyncToolsResourceWithStreamingResponse",
+    "ToolRuntimeResource",
+    "AsyncToolRuntimeResource",
+    "ToolRuntimeResourceWithRawResponse",
+    "AsyncToolRuntimeResourceWithRawResponse",
+    "ToolRuntimeResourceWithStreamingResponse",
+    "AsyncToolRuntimeResourceWithStreamingResponse",
     "AgentsResource",
     "AsyncAgentsResource",
     "AgentsResourceWithRawResponse",

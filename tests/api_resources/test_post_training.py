@@ -40,6 +40,7 @@ class TestPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -75,6 +76,7 @@ class TestPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -115,6 +117,7 @@ class TestPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -151,6 +154,7 @@ class TestPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -183,6 +187,7 @@ class TestPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -212,6 +217,7 @@ class TestPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -257,6 +263,7 @@ class TestPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -287,6 +294,7 @@ class TestPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -329,6 +337,7 @@ class TestAsyncPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -364,6 +373,7 @@ class TestAsyncPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -404,6 +414,7 @@ class TestAsyncPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -440,6 +451,7 @@ class TestAsyncPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -472,6 +484,7 @@ class TestAsyncPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -501,6 +514,7 @@ class TestAsyncPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -546,6 +560,7 @@ class TestAsyncPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,
@@ -576,6 +591,7 @@ class TestAsyncPostTraining:
                 },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
                 "optimizer_config": {
                     "lr": 0,

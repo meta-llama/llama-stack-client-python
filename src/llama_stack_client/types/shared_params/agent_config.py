@@ -2,27 +2,22 @@
 
 from __future__ import annotations
 
-from typing import List, Union, Iterable
+from typing import Dict, List, Union, Iterable
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
+from ..tool_def_param import ToolDefParam
 from .sampling_params import SamplingParams
-from .memory_tool_definition import MemoryToolDefinition
-from .search_tool_definition import SearchToolDefinition
-from .photogen_tool_definition import PhotogenToolDefinition
-from .function_call_tool_definition import FunctionCallToolDefinition
-from .wolfram_alpha_tool_definition import WolframAlphaToolDefinition
-from .code_interpreter_tool_definition import CodeInterpreterToolDefinition
 
-__all__ = ["AgentConfig", "Tool"]
+__all__ = ["AgentConfig", "Toolgroup", "ToolgroupUnionMember1"]
 
-Tool: TypeAlias = Union[
-    SearchToolDefinition,
-    WolframAlphaToolDefinition,
-    PhotogenToolDefinition,
-    CodeInterpreterToolDefinition,
-    FunctionCallToolDefinition,
-    MemoryToolDefinition,
-]
+
+class ToolgroupUnionMember1(TypedDict, total=False):
+    args: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+
+    name: Required[str]
+
+
+Toolgroup: TypeAlias = Union[str, ToolgroupUnionMember1]
 
 
 class AgentConfig(TypedDict, total=False):
@@ -33,6 +28,8 @@ class AgentConfig(TypedDict, total=False):
     max_infer_iters: Required[int]
 
     model: Required[str]
+
+    client_tools: Iterable[ToolDefParam]
 
     input_shields: List[str]
 
@@ -55,4 +52,4 @@ class AgentConfig(TypedDict, total=False):
     The detailed prompts for each of these formats are added to llama cli
     """
 
-    tools: Iterable[Tool]
+    toolgroups: List[Toolgroup]

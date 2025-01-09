@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from __future__ import annotations
 import json
+from __future__ import annotations
 
 import os
 from typing import Any, Union, Mapping
@@ -26,6 +26,7 @@ from ._utils import (
 )
 from ._version import __version__
 from .resources import (
+    tools,
     memory,
     models,
     routes,
@@ -39,7 +40,9 @@ from .resources import (
     providers,
     telemetry,
     eval_tasks,
+    toolgroups,
     memory_banks,
+    tool_runtime,
     batch_inference,
     scoring_functions,
     synthetic_data_generation,
@@ -68,6 +71,9 @@ __all__ = [
 
 
 class LlamaStackClient(SyncAPIClient):
+    toolgroups: toolgroups.ToolgroupsResource
+    tools: tools.ToolsResource
+    tool_runtime: tool_runtime.ToolRuntimeResource
     agents: agents.AgentsResource
     batch_inference: batch_inference.BatchInferenceResource
     datasets: datasets.DatasetsResource
@@ -126,6 +132,7 @@ class LlamaStackClient(SyncAPIClient):
             if default_headers is None:
                 default_headers = {}
             default_headers["X-LlamaStack-ProviderData"] = json.dumps(provider_data)
+
         super().__init__(
             version=__version__,
             base_url=base_url,
@@ -137,6 +144,9 @@ class LlamaStackClient(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
+        self.toolgroups = toolgroups.ToolgroupsResource(self)
+        self.tools = tools.ToolsResource(self)
+        self.tool_runtime = tool_runtime.ToolRuntimeResource(self)
         self.agents = agents.AgentsResource(self)
         self.batch_inference = batch_inference.BatchInferenceResource(self)
         self.datasets = datasets.DatasetsResource(self)
@@ -258,6 +268,9 @@ class LlamaStackClient(SyncAPIClient):
 
 
 class AsyncLlamaStackClient(AsyncAPIClient):
+    toolgroups: toolgroups.AsyncToolgroupsResource
+    tools: tools.AsyncToolsResource
+    tool_runtime: tool_runtime.AsyncToolRuntimeResource
     agents: agents.AsyncAgentsResource
     batch_inference: batch_inference.AsyncBatchInferenceResource
     datasets: datasets.AsyncDatasetsResource
@@ -316,6 +329,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
             if default_headers is None:
                 default_headers = {}
             default_headers["X-LlamaStack-ProviderData"] = json.dumps(provider_data)
+
         super().__init__(
             version=__version__,
             base_url=base_url,
@@ -327,6 +341,9 @@ class AsyncLlamaStackClient(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
+        self.toolgroups = toolgroups.AsyncToolgroupsResource(self)
+        self.tools = tools.AsyncToolsResource(self)
+        self.tool_runtime = tool_runtime.AsyncToolRuntimeResource(self)
         self.agents = agents.AsyncAgentsResource(self)
         self.batch_inference = batch_inference.AsyncBatchInferenceResource(self)
         self.datasets = datasets.AsyncDatasetsResource(self)
@@ -449,6 +466,9 @@ class AsyncLlamaStackClient(AsyncAPIClient):
 
 class LlamaStackClientWithRawResponse:
     def __init__(self, client: LlamaStackClient) -> None:
+        self.toolgroups = toolgroups.ToolgroupsResourceWithRawResponse(client.toolgroups)
+        self.tools = tools.ToolsResourceWithRawResponse(client.tools)
+        self.tool_runtime = tool_runtime.ToolRuntimeResourceWithRawResponse(client.tool_runtime)
         self.agents = agents.AgentsResourceWithRawResponse(client.agents)
         self.batch_inference = batch_inference.BatchInferenceResourceWithRawResponse(client.batch_inference)
         self.datasets = datasets.DatasetsResourceWithRawResponse(client.datasets)
@@ -475,6 +495,9 @@ class LlamaStackClientWithRawResponse:
 
 class AsyncLlamaStackClientWithRawResponse:
     def __init__(self, client: AsyncLlamaStackClient) -> None:
+        self.toolgroups = toolgroups.AsyncToolgroupsResourceWithRawResponse(client.toolgroups)
+        self.tools = tools.AsyncToolsResourceWithRawResponse(client.tools)
+        self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithRawResponse(client.tool_runtime)
         self.agents = agents.AsyncAgentsResourceWithRawResponse(client.agents)
         self.batch_inference = batch_inference.AsyncBatchInferenceResourceWithRawResponse(client.batch_inference)
         self.datasets = datasets.AsyncDatasetsResourceWithRawResponse(client.datasets)
@@ -503,6 +526,9 @@ class AsyncLlamaStackClientWithRawResponse:
 
 class LlamaStackClientWithStreamedResponse:
     def __init__(self, client: LlamaStackClient) -> None:
+        self.toolgroups = toolgroups.ToolgroupsResourceWithStreamingResponse(client.toolgroups)
+        self.tools = tools.ToolsResourceWithStreamingResponse(client.tools)
+        self.tool_runtime = tool_runtime.ToolRuntimeResourceWithStreamingResponse(client.tool_runtime)
         self.agents = agents.AgentsResourceWithStreamingResponse(client.agents)
         self.batch_inference = batch_inference.BatchInferenceResourceWithStreamingResponse(client.batch_inference)
         self.datasets = datasets.DatasetsResourceWithStreamingResponse(client.datasets)
@@ -531,6 +557,9 @@ class LlamaStackClientWithStreamedResponse:
 
 class AsyncLlamaStackClientWithStreamedResponse:
     def __init__(self, client: AsyncLlamaStackClient) -> None:
+        self.toolgroups = toolgroups.AsyncToolgroupsResourceWithStreamingResponse(client.toolgroups)
+        self.tools = tools.AsyncToolsResourceWithStreamingResponse(client.tools)
+        self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithStreamingResponse(client.tool_runtime)
         self.agents = agents.AsyncAgentsResourceWithStreamingResponse(client.agents)
         self.batch_inference = batch_inference.AsyncBatchInferenceResourceWithStreamingResponse(client.batch_inference)
         self.datasets = datasets.AsyncDatasetsResourceWithStreamingResponse(client.datasets)
