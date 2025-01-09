@@ -52,6 +52,7 @@ class JobResource(SyncAPIResource):
     def list(
         self,
         *,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -72,7 +73,12 @@ class JobResource(SyncAPIResource):
         """
         extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._get(
@@ -87,6 +93,7 @@ class JobResource(SyncAPIResource):
         self,
         *,
         job_uuid: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -106,7 +113,12 @@ class JobResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._get(
@@ -125,6 +137,7 @@ class JobResource(SyncAPIResource):
         self,
         *,
         job_uuid: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -145,7 +158,12 @@ class JobResource(SyncAPIResource):
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._post(
@@ -161,6 +179,7 @@ class JobResource(SyncAPIResource):
         self,
         *,
         job_uuid: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -180,7 +199,12 @@ class JobResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._get(
@@ -219,6 +243,7 @@ class AsyncJobResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -239,7 +264,12 @@ class AsyncJobResource(AsyncAPIResource):
         """
         extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._get(
@@ -254,6 +284,7 @@ class AsyncJobResource(AsyncAPIResource):
         self,
         *,
         job_uuid: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -273,7 +304,12 @@ class AsyncJobResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._get(
@@ -292,6 +328,7 @@ class AsyncJobResource(AsyncAPIResource):
         self,
         *,
         job_uuid: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -312,7 +349,12 @@ class AsyncJobResource(AsyncAPIResource):
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._post(
@@ -328,6 +370,7 @@ class AsyncJobResource(AsyncAPIResource):
         self,
         *,
         job_uuid: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -347,7 +390,12 @@ class AsyncJobResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._get(

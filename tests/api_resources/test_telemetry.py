@@ -35,7 +35,8 @@ class TestTelemetry:
             span_id="span_id",
             max_depth=0,
             attributes_to_return=["string"],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(TelemetryGetSpanTreeResponse, telemetry, path=["response"])
 
@@ -91,7 +92,8 @@ class TestTelemetry:
                 "attributes": {"foo": True},
             },
             ttl_seconds=0,
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert telemetry is None
 
@@ -167,7 +169,8 @@ class TestTelemetry:
             ],
             attributes_to_return=["string"],
             max_depth=0,
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
@@ -239,7 +242,8 @@ class TestTelemetry:
             limit=0,
             offset=0,
             order_by=["string"],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Trace, telemetry, path=["response"])
 
@@ -297,7 +301,8 @@ class TestTelemetry:
             attributes_to_save=["string"],
             dataset_id="dataset_id",
             max_depth=0,
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert telemetry is None
 
@@ -358,7 +363,8 @@ class TestAsyncTelemetry:
             span_id="span_id",
             max_depth=0,
             attributes_to_return=["string"],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(TelemetryGetSpanTreeResponse, telemetry, path=["response"])
 
@@ -414,7 +420,8 @@ class TestAsyncTelemetry:
                 "attributes": {"foo": True},
             },
             ttl_seconds=0,
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert telemetry is None
 
@@ -490,7 +497,8 @@ class TestAsyncTelemetry:
             ],
             attributes_to_return=["string"],
             max_depth=0,
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
@@ -562,7 +570,8 @@ class TestAsyncTelemetry:
             limit=0,
             offset=0,
             order_by=["string"],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Trace, telemetry, path=["response"])
 
@@ -620,7 +629,8 @@ class TestAsyncTelemetry:
             attributes_to_save=["string"],
             dataset_id="dataset_id",
             max_depth=0,
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert telemetry is None
 

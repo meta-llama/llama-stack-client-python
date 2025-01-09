@@ -31,7 +31,8 @@ class TestJobs:
         job = client.eval.jobs.retrieve(
             job_id="job_id",
             task_id="task_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(EvaluateResponse, job, path=["response"])
 
@@ -74,7 +75,8 @@ class TestJobs:
         job = client.eval.jobs.cancel(
             job_id="job_id",
             task_id="task_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert job is None
 
@@ -117,7 +119,8 @@ class TestJobs:
         job = client.eval.jobs.status(
             job_id="job_id",
             task_id="task_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 
@@ -164,7 +167,8 @@ class TestAsyncJobs:
         job = await async_client.eval.jobs.retrieve(
             job_id="job_id",
             task_id="task_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(EvaluateResponse, job, path=["response"])
 
@@ -207,7 +211,8 @@ class TestAsyncJobs:
         job = await async_client.eval.jobs.cancel(
             job_id="job_id",
             task_id="task_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert job is None
 
@@ -250,7 +255,8 @@ class TestAsyncJobs:
         job = await async_client.eval.jobs.status(
             job_id="job_id",
             task_id="task_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 

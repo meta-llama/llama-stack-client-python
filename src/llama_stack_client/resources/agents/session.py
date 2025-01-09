@@ -53,6 +53,7 @@ class SessionResource(SyncAPIResource):
         *,
         agent_id: str,
         session_name: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -72,7 +73,12 @@ class SessionResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._post(
@@ -96,6 +102,7 @@ class SessionResource(SyncAPIResource):
         agent_id: str,
         session_id: str,
         turn_ids: List[str] | NotGiven = NOT_GIVEN,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -115,7 +122,12 @@ class SessionResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._post(
@@ -142,6 +154,7 @@ class SessionResource(SyncAPIResource):
         *,
         agent_id: str,
         session_id: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -162,7 +175,12 @@ class SessionResource(SyncAPIResource):
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return self._post(
@@ -206,6 +224,7 @@ class AsyncSessionResource(AsyncAPIResource):
         *,
         agent_id: str,
         session_name: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -225,7 +244,12 @@ class AsyncSessionResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._post(
@@ -249,6 +273,7 @@ class AsyncSessionResource(AsyncAPIResource):
         agent_id: str,
         session_id: str,
         turn_ids: List[str] | NotGiven = NOT_GIVEN,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -268,7 +293,12 @@ class AsyncSessionResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._post(
@@ -295,6 +325,7 @@ class AsyncSessionResource(AsyncAPIResource):
         *,
         agent_id: str,
         session_id: str,
+        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -315,7 +346,12 @@ class AsyncSessionResource(AsyncAPIResource):
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
-            **strip_not_given({"X-LlamaStack-ProviderData": x_llama_stack_provider_data}),
+            **strip_not_given(
+                {
+                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
+                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
+                }
+            ),
             **(extra_headers or {}),
         }
         return await self._post(
