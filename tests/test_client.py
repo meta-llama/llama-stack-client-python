@@ -1620,7 +1620,6 @@ class TestAsyncLlamaStackClient:
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
     def test_get_platform(self) -> None:
-        # change this file
         # A previous implementation of asyncify could leave threads unterminated when
         # used with nest_asyncio.
         #
@@ -1633,6 +1632,7 @@ class TestAsyncLlamaStackClient:
 
         from llama_stack_client._utils import asyncify
         from llama_stack_client._base_client import get_platform
+
 
         async def test_main() -> None:
             result = await asyncify(get_platform)()
