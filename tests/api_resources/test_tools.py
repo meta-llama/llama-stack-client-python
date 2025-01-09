@@ -32,7 +32,8 @@ class TestTools:
     def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
         tool = client.tools.list(
             tool_group_id="tool_group_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Tool, tool, path=["response"])
 
@@ -73,7 +74,8 @@ class TestTools:
     def test_method_get_with_all_params(self, client: LlamaStackClient) -> None:
         tool = client.tools.get(
             tool_name="tool_name",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Tool, tool, path=["response"])
 
@@ -120,7 +122,8 @@ class TestAsyncTools:
     async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         tool = await async_client.tools.list(
             tool_group_id="tool_group_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Tool, tool, path=["response"])
 
@@ -161,7 +164,8 @@ class TestAsyncTools:
     async def test_method_get_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         tool = await async_client.tools.get(
             tool_name="tool_name",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Tool, tool, path=["response"])
 

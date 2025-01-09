@@ -28,7 +28,8 @@ class TestShields:
     def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
         shield = client.shields.retrieve(
             identifier="identifier",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[Shield], shield, path=["response"])
 
@@ -70,7 +71,8 @@ class TestShields:
     @parametrize
     def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
         shield = client.shields.list(
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Shield, shield, path=["response"])
 
@@ -114,7 +116,8 @@ class TestShields:
             params={"foo": True},
             provider_id="provider_id",
             provider_shield_id="provider_shield_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Shield, shield, path=["response"])
 
@@ -157,7 +160,8 @@ class TestAsyncShields:
     async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         shield = await async_client.shields.retrieve(
             identifier="identifier",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[Shield], shield, path=["response"])
 
@@ -199,7 +203,8 @@ class TestAsyncShields:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         shield = await async_client.shields.list(
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Shield, shield, path=["response"])
 
@@ -243,7 +248,8 @@ class TestAsyncShields:
             params={"foo": True},
             provider_id="provider_id",
             provider_shield_id="provider_shield_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Shield, shield, path=["response"])
 

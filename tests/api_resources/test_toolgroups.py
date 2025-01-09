@@ -33,7 +33,8 @@ class TestToolgroups:
     @parametrize
     def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
         toolgroup = client.toolgroups.list(
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ToolGroup, toolgroup, path=["response"])
 
@@ -74,7 +75,8 @@ class TestToolgroups:
     def test_method_get_with_all_params(self, client: LlamaStackClient) -> None:
         toolgroup = client.toolgroups.get(
             toolgroup_id="toolgroup_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ToolGroup, toolgroup, path=["response"])
 
@@ -117,7 +119,8 @@ class TestToolgroups:
             toolgroup_id="toolgroup_id",
             args={"foo": True},
             mcp_endpoint={"uri": "uri"},
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert toolgroup is None
 
@@ -158,7 +161,8 @@ class TestToolgroups:
     def test_method_unregister_with_all_params(self, client: LlamaStackClient) -> None:
         toolgroup = client.toolgroups.unregister(
             tool_group_id="tool_group_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert toolgroup is None
 
@@ -204,7 +208,8 @@ class TestAsyncToolgroups:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         toolgroup = await async_client.toolgroups.list(
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ToolGroup, toolgroup, path=["response"])
 
@@ -245,7 +250,8 @@ class TestAsyncToolgroups:
     async def test_method_get_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         toolgroup = await async_client.toolgroups.get(
             toolgroup_id="toolgroup_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ToolGroup, toolgroup, path=["response"])
 
@@ -288,7 +294,8 @@ class TestAsyncToolgroups:
             toolgroup_id="toolgroup_id",
             args={"foo": True},
             mcp_endpoint={"uri": "uri"},
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert toolgroup is None
 
@@ -329,7 +336,8 @@ class TestAsyncToolgroups:
     async def test_method_unregister_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         toolgroup = await async_client.toolgroups.unregister(
             tool_group_id="tool_group_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert toolgroup is None
 

@@ -33,7 +33,8 @@ class TestToolRuntime:
         tool_runtime = client.tool_runtime.invoke_tool(
             args={"foo": True},
             tool_name="tool_name",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
 
@@ -79,7 +80,8 @@ class TestToolRuntime:
         tool_runtime = client.tool_runtime.list_tools(
             tool_group_id="tool_group_id",
             mcp_endpoint={"uri": "uri"},
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ToolDef, tool_runtime, path=["response"])
 
@@ -126,7 +128,8 @@ class TestAsyncToolRuntime:
         tool_runtime = await async_client.tool_runtime.invoke_tool(
             args={"foo": True},
             tool_name="tool_name",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
 
@@ -172,7 +175,8 @@ class TestAsyncToolRuntime:
         tool_runtime = await async_client.tool_runtime.list_tools(
             tool_group_id="tool_group_id",
             mcp_endpoint={"uri": "uri"},
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ToolDef, tool_runtime, path=["response"])
 

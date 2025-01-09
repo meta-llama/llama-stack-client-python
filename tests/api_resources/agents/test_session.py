@@ -33,7 +33,8 @@ class TestSession:
         session = client.agents.session.create(
             agent_id="agent_id",
             session_name="session_name",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(SessionCreateResponse, session, path=["response"])
 
@@ -77,7 +78,8 @@ class TestSession:
             agent_id="agent_id",
             session_id="session_id",
             turn_ids=["string"],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Session, session, path=["response"])
 
@@ -120,7 +122,8 @@ class TestSession:
         session = client.agents.session.delete(
             agent_id="agent_id",
             session_id="session_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert session is None
 
@@ -167,7 +170,8 @@ class TestAsyncSession:
         session = await async_client.agents.session.create(
             agent_id="agent_id",
             session_name="session_name",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(SessionCreateResponse, session, path=["response"])
 
@@ -211,7 +215,8 @@ class TestAsyncSession:
             agent_id="agent_id",
             session_id="session_id",
             turn_ids=["string"],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Session, session, path=["response"])
 
@@ -254,7 +259,8 @@ class TestAsyncSession:
         session = await async_client.agents.session.delete(
             agent_id="agent_id",
             session_id="session_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert session is None
 

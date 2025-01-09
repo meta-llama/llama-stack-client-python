@@ -57,7 +57,8 @@ class TestTurn:
             ],
             stream=False,
             toolgroups=["string"],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(TurnCreateResponse, turn, path=["response"])
 
@@ -146,7 +147,8 @@ class TestTurn:
                 }
             ],
             toolgroups=["string"],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         turn_stream.response.close()
 
@@ -210,7 +212,8 @@ class TestTurn:
             agent_id="agent_id",
             session_id="session_id",
             turn_id="turn_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Turn, turn, path=["response"])
 
@@ -286,7 +289,8 @@ class TestAsyncTurn:
             ],
             stream=False,
             toolgroups=["string"],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(TurnCreateResponse, turn, path=["response"])
 
@@ -375,7 +379,8 @@ class TestAsyncTurn:
                 }
             ],
             toolgroups=["string"],
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         await turn_stream.response.aclose()
 
@@ -439,7 +444,8 @@ class TestAsyncTurn:
             agent_id="agent_id",
             session_id="session_id",
             turn_id="turn_id",
-            x_llama_stack_provider_data="X-LlamaStack-ProviderData",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Turn, turn, path=["response"])
 
