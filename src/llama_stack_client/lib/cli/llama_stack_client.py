@@ -5,12 +5,12 @@
 # the root directory of this source tree.
 
 import os
+from importlib.metadata import version
 
 import click
 import yaml
 
 from llama_stack_client import LlamaStackClient
-from importlib.metadata import version
 
 from .configure import configure
 from .constants import get_config_file_path
@@ -18,13 +18,14 @@ from .datasets import datasets
 from .eval import eval
 from .eval_tasks import eval_tasks
 from .inference import inference
+from .inspect import inspect
 from .memory_banks import memory_banks
 from .models import models
 from .post_training import post_training
 from .providers import providers
 from .scoring_functions import scoring_functions
 from .shields import shields
-from .inspect import inspect
+
 
 @click.group()
 @click.version_option(version=version("llama-stack-client"), prog_name="llama-stack-client")
