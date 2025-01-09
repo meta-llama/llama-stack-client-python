@@ -1,14 +1,15 @@
 name: Publish Python 🐍 distribution 📦 to TestPyPI
 
 on:
-  workflow_dispatch:  # Keep manual trigger
-    inputs:
-      rc_version:
-        description: 'RC version number (e.g., 1, 2, 3)'
-        required: true
-        type: string
-  schedule:
-    - cron: "0 0 * * *"  # Run every day at midnight
+  push
+  # workflow_dispatch:  # Keep manual trigger
+  #   inputs:
+  #     rc_version:
+  #       description: 'RC version number (e.g., 1, 2, 3)'
+  #       required: true
+  #       type: string
+  # schedule:
+  #   - cron: "0 0 * * *"  # Run every day at midnight
 
 jobs:
   build:
@@ -29,7 +30,7 @@ jobs:
         sed -i 's/version = "\([^"]*\)"/version = "\1.dev${{ steps.date.outputs.date }}"/' pyproject.toml
         sed -i 's/__version__ = "\([^"]*\)"/__version__ = "\1.dev${{ steps.date.outputs.date }}"/' src/llama_stack_client/_version.py
     - name: Update version for manual RC
-      if: github.event_name == 'workflow_dispatch'
+      # if: github.event_name == 'workflow_dispatch'
       run: |
         sed -i 's/version = "\([^"]*\)"/version = "\1rc${{ inputs.rc_version }}"/' pyproject.toml
         sed -i 's/__version__ = "\([^"]*\)"/__version__ = "\1rc${{ inputs.rc_version }}"/' src/llama_stack_client/_version.py
