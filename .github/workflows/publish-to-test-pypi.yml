@@ -11,9 +11,6 @@ on:
         required: true
         type: string
 
-  schedule:
-    - cron: "0 0 * * *"  # Run every day at midnight
-
 jobs:
   build:
     name: Build distribution 📦
@@ -26,12 +23,6 @@ jobs:
     - name: Get date
       id: date
       run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
-    - name: Update version for nightly
-      if: github.event_name == 'schedule'
-      run: |
-        # Version is in pyproject.toml
-        sed -i 's/version = "\([^"]*\)"/version = "\1.dev${{ steps.date.outputs.date }}"/' pyproject.toml
-        sed -i 's/__version__ = "\([^"]*\)"/__version__ = "\1.dev${{ steps.date.outputs.date }}"/' src/llama_stack_client/_version.py
     - name: Update version for manual RC
       if: github.event_name == 'workflow_dispatch'
       run: |
