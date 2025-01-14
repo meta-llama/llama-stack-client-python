@@ -6,6 +6,7 @@ from typing_extensions import Literal, TypeAlias
 from .._models import BaseModel
 from .token_log_probs import TokenLogProbs
 from .shared.tool_call import ToolCall
+from .shared.content_delta import ContentDelta
 from .shared.interleaved_content import InterleavedContent
 
 __all__ = [
@@ -14,9 +15,6 @@ __all__ = [
     "ChatCompletionResponseCompletionMessage",
     "ChatCompletionResponseStreamChunk",
     "ChatCompletionResponseStreamChunkEvent",
-    "ChatCompletionResponseStreamChunkEventDelta",
-    "ChatCompletionResponseStreamChunkEventDeltaToolCallDelta",
-    "ChatCompletionResponseStreamChunkEventDeltaToolCallDeltaContent",
 ]
 
 
@@ -36,22 +34,8 @@ class ChatCompletionResponse(BaseModel):
     logprobs: Optional[List[TokenLogProbs]] = None
 
 
-ChatCompletionResponseStreamChunkEventDeltaToolCallDeltaContent: TypeAlias = Union[str, ToolCall]
-
-
-class ChatCompletionResponseStreamChunkEventDeltaToolCallDelta(BaseModel):
-    content: ChatCompletionResponseStreamChunkEventDeltaToolCallDeltaContent
-
-    parse_status: Literal["started", "in_progress", "failure", "success"]
-
-
-ChatCompletionResponseStreamChunkEventDelta: TypeAlias = Union[
-    str, ChatCompletionResponseStreamChunkEventDeltaToolCallDelta
-]
-
-
 class ChatCompletionResponseStreamChunkEvent(BaseModel):
-    delta: ChatCompletionResponseStreamChunkEventDelta
+    delta: ContentDelta
 
     event_type: Literal["start", "complete", "progress"]
 

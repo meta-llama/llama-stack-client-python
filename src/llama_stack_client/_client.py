@@ -105,7 +105,7 @@ class LlamaStackClient(SyncAPIClient):
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
-        default_headers: dict[str, str] | None = None,
+        default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
         # Configure a custom httpx client.
         # We provide a `DefaultHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
@@ -161,9 +161,7 @@ class LlamaStackClient(SyncAPIClient):
         self.routes = routes.RoutesResource(self)
         self.safety = safety.SafetyResource(self)
         self.shields = shields.ShieldsResource(self)
-        self.synthetic_data_generation = (
-            synthetic_data_generation.SyntheticDataGenerationResource(self)
-        )
+        self.synthetic_data_generation = synthetic_data_generation.SyntheticDataGenerationResource(self)
         self.telemetry = telemetry.TelemetryResource(self)
         self.datasetio = datasetio.DatasetioResource(self)
         self.scoring = scoring.ScoringResource(self)
@@ -193,8 +191,8 @@ class LlamaStackClient(SyncAPIClient):
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
         max_retries: int | NotGiven = NOT_GIVEN,
-        default_headers: dict[str, str] | None = None,
-        set_default_headers: dict[str, str] | None = None,
+        default_headers: Mapping[str, str] | None = None,
+        set_default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
         set_default_query: Mapping[str, object] | None = None,
         _extra_kwargs: Mapping[str, Any] = {},
@@ -203,14 +201,10 @@ class LlamaStackClient(SyncAPIClient):
         Create a new client instance re-using the same options given to the current client with optional overriding.
         """
         if default_headers is not None and set_default_headers is not None:
-            raise ValueError(
-                "The `default_headers` and `set_default_headers` arguments are mutually exclusive"
-            )
+            raise ValueError("The `default_headers` and `set_default_headers` arguments are mutually exclusive")
 
         if default_query is not None and set_default_query is not None:
-            raise ValueError(
-                "The `default_query` and `set_default_query` arguments are mutually exclusive"
-            )
+            raise ValueError("The `default_query` and `set_default_query` arguments are mutually exclusive")
 
         headers = self._custom_headers
         if default_headers is not None:
@@ -251,14 +245,10 @@ class LlamaStackClient(SyncAPIClient):
             return _exceptions.BadRequestError(err_msg, response=response, body=body)
 
         if response.status_code == 401:
-            return _exceptions.AuthenticationError(
-                err_msg, response=response, body=body
-            )
+            return _exceptions.AuthenticationError(err_msg, response=response, body=body)
 
         if response.status_code == 403:
-            return _exceptions.PermissionDeniedError(
-                err_msg, response=response, body=body
-            )
+            return _exceptions.PermissionDeniedError(err_msg, response=response, body=body)
 
         if response.status_code == 404:
             return _exceptions.NotFoundError(err_msg, response=response, body=body)
@@ -267,17 +257,13 @@ class LlamaStackClient(SyncAPIClient):
             return _exceptions.ConflictError(err_msg, response=response, body=body)
 
         if response.status_code == 422:
-            return _exceptions.UnprocessableEntityError(
-                err_msg, response=response, body=body
-            )
+            return _exceptions.UnprocessableEntityError(err_msg, response=response, body=body)
 
         if response.status_code == 429:
             return _exceptions.RateLimitError(err_msg, response=response, body=body)
 
         if response.status_code >= 500:
-            return _exceptions.InternalServerError(
-                err_msg, response=response, body=body
-            )
+            return _exceptions.InternalServerError(err_msg, response=response, body=body)
         return APIStatusError(err_msg, response=response, body=body)
 
 
@@ -299,9 +285,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
     routes: routes.AsyncRoutesResource
     safety: safety.AsyncSafetyResource
     shields: shields.AsyncShieldsResource
-    synthetic_data_generation: (
-        synthetic_data_generation.AsyncSyntheticDataGenerationResource
-    )
+    synthetic_data_generation: synthetic_data_generation.AsyncSyntheticDataGenerationResource
     telemetry: telemetry.AsyncTelemetryResource
     datasetio: datasetio.AsyncDatasetioResource
     scoring: scoring.AsyncScoringResource
@@ -318,7 +302,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
-        default_headers: dict[str, str] | None = None,
+        default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
         # Configure a custom httpx client.
         # We provide a `DefaultAsyncHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
@@ -374,9 +358,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         self.routes = routes.AsyncRoutesResource(self)
         self.safety = safety.AsyncSafetyResource(self)
         self.shields = shields.AsyncShieldsResource(self)
-        self.synthetic_data_generation = (
-            synthetic_data_generation.AsyncSyntheticDataGenerationResource(self)
-        )
+        self.synthetic_data_generation = synthetic_data_generation.AsyncSyntheticDataGenerationResource(self)
         self.telemetry = telemetry.AsyncTelemetryResource(self)
         self.datasetio = datasetio.AsyncDatasetioResource(self)
         self.scoring = scoring.AsyncScoringResource(self)
@@ -406,8 +388,8 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
         max_retries: int | NotGiven = NOT_GIVEN,
-        default_headers: dict[str, str] | None = None,
-        set_default_headers: dict[str, str] | None = None,
+        default_headers: Mapping[str, str] | None = None,
+        set_default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
         set_default_query: Mapping[str, object] | None = None,
         _extra_kwargs: Mapping[str, Any] = {},
@@ -416,14 +398,10 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         Create a new client instance re-using the same options given to the current client with optional overriding.
         """
         if default_headers is not None and set_default_headers is not None:
-            raise ValueError(
-                "The `default_headers` and `set_default_headers` arguments are mutually exclusive"
-            )
+            raise ValueError("The `default_headers` and `set_default_headers` arguments are mutually exclusive")
 
         if default_query is not None and set_default_query is not None:
-            raise ValueError(
-                "The `default_query` and `set_default_query` arguments are mutually exclusive"
-            )
+            raise ValueError("The `default_query` and `set_default_query` arguments are mutually exclusive")
 
         headers = self._custom_headers
         if default_headers is not None:
@@ -464,14 +442,10 @@ class AsyncLlamaStackClient(AsyncAPIClient):
             return _exceptions.BadRequestError(err_msg, response=response, body=body)
 
         if response.status_code == 401:
-            return _exceptions.AuthenticationError(
-                err_msg, response=response, body=body
-            )
+            return _exceptions.AuthenticationError(err_msg, response=response, body=body)
 
         if response.status_code == 403:
-            return _exceptions.PermissionDeniedError(
-                err_msg, response=response, body=body
-            )
+            return _exceptions.PermissionDeniedError(err_msg, response=response, body=body)
 
         if response.status_code == 404:
             return _exceptions.NotFoundError(err_msg, response=response, body=body)
@@ -480,232 +454,138 @@ class AsyncLlamaStackClient(AsyncAPIClient):
             return _exceptions.ConflictError(err_msg, response=response, body=body)
 
         if response.status_code == 422:
-            return _exceptions.UnprocessableEntityError(
-                err_msg, response=response, body=body
-            )
+            return _exceptions.UnprocessableEntityError(err_msg, response=response, body=body)
 
         if response.status_code == 429:
             return _exceptions.RateLimitError(err_msg, response=response, body=body)
 
         if response.status_code >= 500:
-            return _exceptions.InternalServerError(
-                err_msg, response=response, body=body
-            )
+            return _exceptions.InternalServerError(err_msg, response=response, body=body)
         return APIStatusError(err_msg, response=response, body=body)
 
 
 class LlamaStackClientWithRawResponse:
     def __init__(self, client: LlamaStackClient) -> None:
-        self.toolgroups = toolgroups.ToolgroupsResourceWithRawResponse(
-            client.toolgroups
-        )
+        self.toolgroups = toolgroups.ToolgroupsResourceWithRawResponse(client.toolgroups)
         self.tools = tools.ToolsResourceWithRawResponse(client.tools)
-        self.tool_runtime = tool_runtime.ToolRuntimeResourceWithRawResponse(
-            client.tool_runtime
-        )
+        self.tool_runtime = tool_runtime.ToolRuntimeResourceWithRawResponse(client.tool_runtime)
         self.agents = agents.AgentsResourceWithRawResponse(client.agents)
-        self.batch_inference = batch_inference.BatchInferenceResourceWithRawResponse(
-            client.batch_inference
-        )
+        self.batch_inference = batch_inference.BatchInferenceResourceWithRawResponse(client.batch_inference)
         self.datasets = datasets.DatasetsResourceWithRawResponse(client.datasets)
         self.eval = eval.EvalResourceWithRawResponse(client.eval)
         self.inspect = inspect.InspectResourceWithRawResponse(client.inspect)
         self.inference = inference.InferenceResourceWithRawResponse(client.inference)
         self.memory = memory.MemoryResourceWithRawResponse(client.memory)
-        self.memory_banks = memory_banks.MemoryBanksResourceWithRawResponse(
-            client.memory_banks
-        )
+        self.memory_banks = memory_banks.MemoryBanksResourceWithRawResponse(client.memory_banks)
         self.models = models.ModelsResourceWithRawResponse(client.models)
-        self.post_training = post_training.PostTrainingResourceWithRawResponse(
-            client.post_training
-        )
+        self.post_training = post_training.PostTrainingResourceWithRawResponse(client.post_training)
         self.providers = providers.ProvidersResourceWithRawResponse(client.providers)
         self.routes = routes.RoutesResourceWithRawResponse(client.routes)
         self.safety = safety.SafetyResourceWithRawResponse(client.safety)
         self.shields = shields.ShieldsResourceWithRawResponse(client.shields)
-        self.synthetic_data_generation = (
-            synthetic_data_generation.SyntheticDataGenerationResourceWithRawResponse(
-                client.synthetic_data_generation
-            )
+        self.synthetic_data_generation = synthetic_data_generation.SyntheticDataGenerationResourceWithRawResponse(
+            client.synthetic_data_generation
         )
         self.telemetry = telemetry.TelemetryResourceWithRawResponse(client.telemetry)
         self.datasetio = datasetio.DatasetioResourceWithRawResponse(client.datasetio)
         self.scoring = scoring.ScoringResourceWithRawResponse(client.scoring)
-        self.scoring_functions = (
-            scoring_functions.ScoringFunctionsResourceWithRawResponse(
-                client.scoring_functions
-            )
-        )
+        self.scoring_functions = scoring_functions.ScoringFunctionsResourceWithRawResponse(client.scoring_functions)
         self.eval_tasks = eval_tasks.EvalTasksResourceWithRawResponse(client.eval_tasks)
 
 
 class AsyncLlamaStackClientWithRawResponse:
     def __init__(self, client: AsyncLlamaStackClient) -> None:
-        self.toolgroups = toolgroups.AsyncToolgroupsResourceWithRawResponse(
-            client.toolgroups
-        )
+        self.toolgroups = toolgroups.AsyncToolgroupsResourceWithRawResponse(client.toolgroups)
         self.tools = tools.AsyncToolsResourceWithRawResponse(client.tools)
-        self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithRawResponse(
-            client.tool_runtime
-        )
+        self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithRawResponse(client.tool_runtime)
         self.agents = agents.AsyncAgentsResourceWithRawResponse(client.agents)
-        self.batch_inference = (
-            batch_inference.AsyncBatchInferenceResourceWithRawResponse(
-                client.batch_inference
-            )
-        )
+        self.batch_inference = batch_inference.AsyncBatchInferenceResourceWithRawResponse(client.batch_inference)
         self.datasets = datasets.AsyncDatasetsResourceWithRawResponse(client.datasets)
         self.eval = eval.AsyncEvalResourceWithRawResponse(client.eval)
         self.inspect = inspect.AsyncInspectResourceWithRawResponse(client.inspect)
-        self.inference = inference.AsyncInferenceResourceWithRawResponse(
-            client.inference
-        )
+        self.inference = inference.AsyncInferenceResourceWithRawResponse(client.inference)
         self.memory = memory.AsyncMemoryResourceWithRawResponse(client.memory)
-        self.memory_banks = memory_banks.AsyncMemoryBanksResourceWithRawResponse(
-            client.memory_banks
-        )
+        self.memory_banks = memory_banks.AsyncMemoryBanksResourceWithRawResponse(client.memory_banks)
         self.models = models.AsyncModelsResourceWithRawResponse(client.models)
-        self.post_training = post_training.AsyncPostTrainingResourceWithRawResponse(
-            client.post_training
-        )
-        self.providers = providers.AsyncProvidersResourceWithRawResponse(
-            client.providers
-        )
+        self.post_training = post_training.AsyncPostTrainingResourceWithRawResponse(client.post_training)
+        self.providers = providers.AsyncProvidersResourceWithRawResponse(client.providers)
         self.routes = routes.AsyncRoutesResourceWithRawResponse(client.routes)
         self.safety = safety.AsyncSafetyResourceWithRawResponse(client.safety)
         self.shields = shields.AsyncShieldsResourceWithRawResponse(client.shields)
         self.synthetic_data_generation = synthetic_data_generation.AsyncSyntheticDataGenerationResourceWithRawResponse(
             client.synthetic_data_generation
         )
-        self.telemetry = telemetry.AsyncTelemetryResourceWithRawResponse(
-            client.telemetry
-        )
-        self.datasetio = datasetio.AsyncDatasetioResourceWithRawResponse(
-            client.datasetio
-        )
+        self.telemetry = telemetry.AsyncTelemetryResourceWithRawResponse(client.telemetry)
+        self.datasetio = datasetio.AsyncDatasetioResourceWithRawResponse(client.datasetio)
         self.scoring = scoring.AsyncScoringResourceWithRawResponse(client.scoring)
-        self.scoring_functions = (
-            scoring_functions.AsyncScoringFunctionsResourceWithRawResponse(
-                client.scoring_functions
-            )
+        self.scoring_functions = scoring_functions.AsyncScoringFunctionsResourceWithRawResponse(
+            client.scoring_functions
         )
-        self.eval_tasks = eval_tasks.AsyncEvalTasksResourceWithRawResponse(
-            client.eval_tasks
-        )
+        self.eval_tasks = eval_tasks.AsyncEvalTasksResourceWithRawResponse(client.eval_tasks)
 
 
 class LlamaStackClientWithStreamedResponse:
     def __init__(self, client: LlamaStackClient) -> None:
-        self.toolgroups = toolgroups.ToolgroupsResourceWithStreamingResponse(
-            client.toolgroups
-        )
+        self.toolgroups = toolgroups.ToolgroupsResourceWithStreamingResponse(client.toolgroups)
         self.tools = tools.ToolsResourceWithStreamingResponse(client.tools)
-        self.tool_runtime = tool_runtime.ToolRuntimeResourceWithStreamingResponse(
-            client.tool_runtime
-        )
+        self.tool_runtime = tool_runtime.ToolRuntimeResourceWithStreamingResponse(client.tool_runtime)
         self.agents = agents.AgentsResourceWithStreamingResponse(client.agents)
-        self.batch_inference = (
-            batch_inference.BatchInferenceResourceWithStreamingResponse(
-                client.batch_inference
-            )
-        )
+        self.batch_inference = batch_inference.BatchInferenceResourceWithStreamingResponse(client.batch_inference)
         self.datasets = datasets.DatasetsResourceWithStreamingResponse(client.datasets)
         self.eval = eval.EvalResourceWithStreamingResponse(client.eval)
         self.inspect = inspect.InspectResourceWithStreamingResponse(client.inspect)
-        self.inference = inference.InferenceResourceWithStreamingResponse(
-            client.inference
-        )
+        self.inference = inference.InferenceResourceWithStreamingResponse(client.inference)
         self.memory = memory.MemoryResourceWithStreamingResponse(client.memory)
-        self.memory_banks = memory_banks.MemoryBanksResourceWithStreamingResponse(
-            client.memory_banks
-        )
+        self.memory_banks = memory_banks.MemoryBanksResourceWithStreamingResponse(client.memory_banks)
         self.models = models.ModelsResourceWithStreamingResponse(client.models)
-        self.post_training = post_training.PostTrainingResourceWithStreamingResponse(
-            client.post_training
-        )
-        self.providers = providers.ProvidersResourceWithStreamingResponse(
-            client.providers
-        )
+        self.post_training = post_training.PostTrainingResourceWithStreamingResponse(client.post_training)
+        self.providers = providers.ProvidersResourceWithStreamingResponse(client.providers)
         self.routes = routes.RoutesResourceWithStreamingResponse(client.routes)
         self.safety = safety.SafetyResourceWithStreamingResponse(client.safety)
         self.shields = shields.ShieldsResourceWithStreamingResponse(client.shields)
         self.synthetic_data_generation = synthetic_data_generation.SyntheticDataGenerationResourceWithStreamingResponse(
             client.synthetic_data_generation
         )
-        self.telemetry = telemetry.TelemetryResourceWithStreamingResponse(
-            client.telemetry
-        )
-        self.datasetio = datasetio.DatasetioResourceWithStreamingResponse(
-            client.datasetio
-        )
+        self.telemetry = telemetry.TelemetryResourceWithStreamingResponse(client.telemetry)
+        self.datasetio = datasetio.DatasetioResourceWithStreamingResponse(client.datasetio)
         self.scoring = scoring.ScoringResourceWithStreamingResponse(client.scoring)
-        self.scoring_functions = (
-            scoring_functions.ScoringFunctionsResourceWithStreamingResponse(
-                client.scoring_functions
-            )
+        self.scoring_functions = scoring_functions.ScoringFunctionsResourceWithStreamingResponse(
+            client.scoring_functions
         )
-        self.eval_tasks = eval_tasks.EvalTasksResourceWithStreamingResponse(
-            client.eval_tasks
-        )
+        self.eval_tasks = eval_tasks.EvalTasksResourceWithStreamingResponse(client.eval_tasks)
 
 
 class AsyncLlamaStackClientWithStreamedResponse:
     def __init__(self, client: AsyncLlamaStackClient) -> None:
-        self.toolgroups = toolgroups.AsyncToolgroupsResourceWithStreamingResponse(
-            client.toolgroups
-        )
+        self.toolgroups = toolgroups.AsyncToolgroupsResourceWithStreamingResponse(client.toolgroups)
         self.tools = tools.AsyncToolsResourceWithStreamingResponse(client.tools)
-        self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithStreamingResponse(
-            client.tool_runtime
-        )
+        self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithStreamingResponse(client.tool_runtime)
         self.agents = agents.AsyncAgentsResourceWithStreamingResponse(client.agents)
-        self.batch_inference = (
-            batch_inference.AsyncBatchInferenceResourceWithStreamingResponse(
-                client.batch_inference
-            )
-        )
-        self.datasets = datasets.AsyncDatasetsResourceWithStreamingResponse(
-            client.datasets
-        )
+        self.batch_inference = batch_inference.AsyncBatchInferenceResourceWithStreamingResponse(client.batch_inference)
+        self.datasets = datasets.AsyncDatasetsResourceWithStreamingResponse(client.datasets)
         self.eval = eval.AsyncEvalResourceWithStreamingResponse(client.eval)
         self.inspect = inspect.AsyncInspectResourceWithStreamingResponse(client.inspect)
-        self.inference = inference.AsyncInferenceResourceWithStreamingResponse(
-            client.inference
-        )
+        self.inference = inference.AsyncInferenceResourceWithStreamingResponse(client.inference)
         self.memory = memory.AsyncMemoryResourceWithStreamingResponse(client.memory)
-        self.memory_banks = memory_banks.AsyncMemoryBanksResourceWithStreamingResponse(
-            client.memory_banks
-        )
+        self.memory_banks = memory_banks.AsyncMemoryBanksResourceWithStreamingResponse(client.memory_banks)
         self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
-        self.post_training = (
-            post_training.AsyncPostTrainingResourceWithStreamingResponse(
-                client.post_training
-            )
-        )
-        self.providers = providers.AsyncProvidersResourceWithStreamingResponse(
-            client.providers
-        )
+        self.post_training = post_training.AsyncPostTrainingResourceWithStreamingResponse(client.post_training)
+        self.providers = providers.AsyncProvidersResourceWithStreamingResponse(client.providers)
         self.routes = routes.AsyncRoutesResourceWithStreamingResponse(client.routes)
         self.safety = safety.AsyncSafetyResourceWithStreamingResponse(client.safety)
         self.shields = shields.AsyncShieldsResourceWithStreamingResponse(client.shields)
-        self.synthetic_data_generation = synthetic_data_generation.AsyncSyntheticDataGenerationResourceWithStreamingResponse(
-            client.synthetic_data_generation
-        )
-        self.telemetry = telemetry.AsyncTelemetryResourceWithStreamingResponse(
-            client.telemetry
-        )
-        self.datasetio = datasetio.AsyncDatasetioResourceWithStreamingResponse(
-            client.datasetio
-        )
-        self.scoring = scoring.AsyncScoringResourceWithStreamingResponse(client.scoring)
-        self.scoring_functions = (
-            scoring_functions.AsyncScoringFunctionsResourceWithStreamingResponse(
-                client.scoring_functions
+        self.synthetic_data_generation = (
+            synthetic_data_generation.AsyncSyntheticDataGenerationResourceWithStreamingResponse(
+                client.synthetic_data_generation
             )
         )
-        self.eval_tasks = eval_tasks.AsyncEvalTasksResourceWithStreamingResponse(
-            client.eval_tasks
+        self.telemetry = telemetry.AsyncTelemetryResourceWithStreamingResponse(client.telemetry)
+        self.datasetio = datasetio.AsyncDatasetioResourceWithStreamingResponse(client.datasetio)
+        self.scoring = scoring.AsyncScoringResourceWithStreamingResponse(client.scoring)
+        self.scoring_functions = scoring_functions.AsyncScoringFunctionsResourceWithStreamingResponse(
+            client.scoring_functions
         )
+        self.eval_tasks = eval_tasks.AsyncEvalTasksResourceWithStreamingResponse(client.eval_tasks)
 
 
 Client = LlamaStackClient

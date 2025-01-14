@@ -6,6 +6,7 @@ from .param_type import ParamType as ParamType
 from .return_type import ReturnType as ReturnType
 from .agent_config import AgentConfig as AgentConfig
 from .user_message import UserMessage as UserMessage
+from .content_delta import ContentDelta as ContentDelta
 from .scoring_result import ScoringResult as ScoringResult
 from .system_message import SystemMessage as SystemMessage
 from .sampling_params import SamplingParams as SamplingParams

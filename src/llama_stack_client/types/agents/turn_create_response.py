@@ -6,9 +6,9 @@ from typing_extensions import Literal, TypeAlias
 from .turn import Turn
 from ..._models import BaseModel
 from ..inference_step import InferenceStep
-from ..shared.tool_call import ToolCall
 from ..shield_call_step import ShieldCallStep
 from ..tool_execution_step import ToolExecutionStep
+from ..shared.content_delta import ContentDelta
 from ..memory_retrieval_step import MemoryRetrievalStep
 
 __all__ = [
@@ -18,8 +18,6 @@ __all__ = [
     "AgentTurnResponseStreamChunkEventPayload",
     "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepStartPayload",
     "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayload",
-    "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayloadToolCallDelta",
-    "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayloadToolCallDeltaContent",
     "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePayload",
     "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePayloadStepDetails",
     "AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseTurnStartPayload",
@@ -37,29 +35,14 @@ class AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepStartPayload(
     metadata: Optional[Dict[str, Union[bool, float, str, List[object], object, None]]] = None
 
 
-AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayloadToolCallDeltaContent: TypeAlias = Union[
-    str, ToolCall
-]
-
-
-class AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayloadToolCallDelta(BaseModel):
-    content: AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayloadToolCallDeltaContent
-
-    parse_status: Literal["started", "in_progress", "failure", "success"]
-
-
 class AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayload(BaseModel):
+    delta: ContentDelta
+
     event_type: Literal["step_progress"]
 
     step_id: str
 
     step_type: Literal["inference", "tool_execution", "shield_call", "memory_retrieval"]
-
-    text_delta: Optional[str] = None
-
-    tool_call_delta: Optional[
-        AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepProgressPayloadToolCallDelta
-    ] = None
 
 
 AgentTurnResponseStreamChunkEventPayloadAgentTurnResponseStepCompletePayloadStepDetails: TypeAlias = Union[

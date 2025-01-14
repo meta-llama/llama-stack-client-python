@@ -51,7 +51,6 @@ class TestAgents:
                                 "default": True,
                             }
                         ],
-                        "tool_prompt_format": "json",
                     }
                 ],
                 "input_shields": ["string"],
@@ -185,7 +184,6 @@ class TestAsyncAgents:
                                 "default": True,
                             }
                         ],
-                        "tool_prompt_format": "json",
                     }
                 ],
                 "input_shields": ["string"],

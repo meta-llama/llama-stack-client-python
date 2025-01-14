@@ -13,6 +13,7 @@ from .shared import (
     ReturnType as ReturnType,
     AgentConfig as AgentConfig,
     UserMessage as UserMessage,
+    ContentDelta as ContentDelta,
     ScoringResult as ScoringResult,
     SystemMessage as SystemMessage,
     SamplingParams as SamplingParams,

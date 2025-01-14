@@ -15,6 +15,6 @@ class ToolResponseMessage(TypedDict, total=False):
 
     content: Required[InterleavedContent]
 
-    role: Required[Literal["ipython"]]
+    role: Required[Literal["tool"]]
 
     tool_name: Required[Union[Literal["brave_search", "wolfram_alpha", "photogen", "code_interpreter"], str]]
