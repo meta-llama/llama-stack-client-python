@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import List
-
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
@@ -82,26 +80,28 @@ class SessionResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/agents/session/create",
-            body=maybe_transform(
-                {
-                    "agent_id": agent_id,
-                    "session_name": session_name,
-                },
-                session_create_params.SessionCreateParams,
-            ),
+            "/alpha/agents/session",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "agent_id": agent_id,
+                        "session_name": session_name,
+                    },
+                    session_create_params.SessionCreateParams,
+                ),
             ),
             cast_to=SessionCreateResponse,
         )
 
     def retrieve(
         self,
+        session_id: str,
         *,
         agent_id: str,
-        session_id: str,
-        turn_ids: List[str] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -121,6 +121,8 @@ class SessionResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -130,30 +132,23 @@ class SessionResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._post(
-            "/alpha/agents/session/get",
-            body=maybe_transform({"turn_ids": turn_ids}, session_retrieve_params.SessionRetrieveParams),
+        return self._get(
+            f"/alpha/agents/session/{session_id}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "agent_id": agent_id,
-                        "session_id": session_id,
-                    },
-                    session_retrieve_params.SessionRetrieveParams,
-                ),
+                query=maybe_transform({"agent_id": agent_id}, session_retrieve_params.SessionRetrieveParams),
             ),
             cast_to=Session,
         )
 
     def delete(
         self,
+        session_id: str,
         *,
         agent_id: str,
-        session_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -173,6 +168,8 @@ class SessionResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
@@ -183,17 +180,14 @@ class SessionResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._post(
-            "/alpha/agents/session/delete",
-            body=maybe_transform(
-                {
-                    "agent_id": agent_id,
-                    "session_id": session_id,
-                },
-                session_delete_params.SessionDeleteParams,
-            ),
+        return self._delete(
+            f"/alpha/agents/session/{session_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"agent_id": agent_id}, session_delete_params.SessionDeleteParams),
             ),
             cast_to=NoneType,
         )
@@ -253,26 +247,28 @@ class AsyncSessionResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/agents/session/create",
-            body=await async_maybe_transform(
-                {
-                    "agent_id": agent_id,
-                    "session_name": session_name,
-                },
-                session_create_params.SessionCreateParams,
-            ),
+            "/alpha/agents/session",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "agent_id": agent_id,
+                        "session_name": session_name,
+                    },
+                    session_create_params.SessionCreateParams,
+                ),
             ),
             cast_to=SessionCreateResponse,
         )
 
     async def retrieve(
         self,
+        session_id: str,
         *,
         agent_id: str,
-        session_id: str,
-        turn_ids: List[str] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -292,6 +288,8 @@ class AsyncSessionResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -301,20 +299,15 @@ class AsyncSessionResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return await self._post(
-            "/alpha/agents/session/get",
-            body=await async_maybe_transform({"turn_ids": turn_ids}, session_retrieve_params.SessionRetrieveParams),
+        return await self._get(
+            f"/alpha/agents/session/{session_id}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {
-                        "agent_id": agent_id,
-                        "session_id": session_id,
-                    },
-                    session_retrieve_params.SessionRetrieveParams,
+                    {"agent_id": agent_id}, session_retrieve_params.SessionRetrieveParams
                 ),
             ),
             cast_to=Session,
@@ -322,9 +315,9 @@ class AsyncSessionResource(AsyncAPIResource):
 
     async def delete(
         self,
+        session_id: str,
         *,
         agent_id: str,
-        session_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -344,6 +337,8 @@ class AsyncSessionResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
@@ -354,17 +349,14 @@ class AsyncSessionResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return await self._post(
-            "/alpha/agents/session/delete",
-            body=await async_maybe_transform(
-                {
-                    "agent_id": agent_id,
-                    "session_id": session_id,
-                },
-                session_delete_params.SessionDeleteParams,
-            ),
+        return await self._delete(
+            f"/alpha/agents/session/{session_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"agent_id": agent_id}, session_delete_params.SessionDeleteParams),
             ),
             cast_to=NoneType,
         )

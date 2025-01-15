@@ -14,8 +14,6 @@ class StepRetrieveParams(TypedDict, total=False):
 
     session_id: Required[str]
 
-    step_id: Required[str]
-
     turn_id: Required[str]
 
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]

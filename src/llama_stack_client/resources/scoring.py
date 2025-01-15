@@ -133,15 +133,20 @@ class ScoringResource(SyncAPIResource):
         return self._post(
             "/alpha/scoring/score-batch",
             body=maybe_transform(
-                {
-                    "dataset_id": dataset_id,
-                    "save_results_dataset": save_results_dataset,
-                    "scoring_functions": scoring_functions,
-                },
-                scoring_score_batch_params.ScoringScoreBatchParams,
+                {"scoring_functions": scoring_functions}, scoring_score_batch_params.ScoringScoreBatchParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "dataset_id": dataset_id,
+                        "save_results_dataset": save_results_dataset,
+                    },
+                    scoring_score_batch_params.ScoringScoreBatchParams,
+                ),
             ),
             cast_to=ScoringScoreBatchResponse,
         )
@@ -252,15 +257,20 @@ class AsyncScoringResource(AsyncAPIResource):
         return await self._post(
             "/alpha/scoring/score-batch",
             body=await async_maybe_transform(
-                {
-                    "dataset_id": dataset_id,
-                    "save_results_dataset": save_results_dataset,
-                    "scoring_functions": scoring_functions,
-                },
-                scoring_score_batch_params.ScoringScoreBatchParams,
+                {"scoring_functions": scoring_functions}, scoring_score_batch_params.ScoringScoreBatchParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "dataset_id": dataset_id,
+                        "save_results_dataset": save_results_dataset,
+                    },
+                    scoring_score_batch_params.ScoringScoreBatchParams,
+                ),
             ),
             cast_to=ScoringScoreBatchResponse,
         )

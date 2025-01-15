@@ -23,7 +23,6 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.tool_def import ToolDef
-from ..types.shared_params.url import URL
 from ..types.tool_invocation_result import ToolInvocationResult
 
 __all__ = ["ToolRuntimeResource", "AsyncToolRuntimeResource"]
@@ -52,8 +51,8 @@ class ToolRuntimeResource(SyncAPIResource):
     def invoke_tool(
         self,
         *,
-        args: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         tool_name: str,
+        args: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -86,15 +85,15 @@ class ToolRuntimeResource(SyncAPIResource):
         }
         return self._post(
             "/alpha/tool-runtime/invoke",
-            body=maybe_transform(
-                {
-                    "args": args,
-                    "tool_name": tool_name,
-                },
-                tool_runtime_invoke_tool_params.ToolRuntimeInvokeToolParams,
-            ),
+            body=maybe_transform({"args": args}, tool_runtime_invoke_tool_params.ToolRuntimeInvokeToolParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {"tool_name": tool_name}, tool_runtime_invoke_tool_params.ToolRuntimeInvokeToolParams
+                ),
             ),
             cast_to=ToolInvocationResult,
         )
@@ -103,7 +102,6 @@ class ToolRuntimeResource(SyncAPIResource):
         self,
         *,
         tool_group_id: str | NotGiven = NOT_GIVEN,
-        mcp_endpoint: URL | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -133,11 +131,8 @@ class ToolRuntimeResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._post(
+        return self._get(
             "/alpha/tool-runtime/list-tools",
-            body=maybe_transform(
-                {"mcp_endpoint": mcp_endpoint}, tool_runtime_list_tools_params.ToolRuntimeListToolsParams
-            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -174,8 +169,8 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
     async def invoke_tool(
         self,
         *,
-        args: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         tool_name: str,
+        args: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -209,14 +204,16 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
         return await self._post(
             "/alpha/tool-runtime/invoke",
             body=await async_maybe_transform(
-                {
-                    "args": args,
-                    "tool_name": tool_name,
-                },
-                tool_runtime_invoke_tool_params.ToolRuntimeInvokeToolParams,
+                {"args": args}, tool_runtime_invoke_tool_params.ToolRuntimeInvokeToolParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"tool_name": tool_name}, tool_runtime_invoke_tool_params.ToolRuntimeInvokeToolParams
+                ),
             ),
             cast_to=ToolInvocationResult,
         )
@@ -225,7 +222,6 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
         self,
         *,
         tool_group_id: str | NotGiven = NOT_GIVEN,
-        mcp_endpoint: URL | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -255,11 +251,8 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return await self._post(
+        return await self._get(
             "/alpha/tool-runtime/list-tools",
-            body=await async_maybe_transform(
-                {"mcp_endpoint": mcp_endpoint}, tool_runtime_list_tools_params.ToolRuntimeListToolsParams
-            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

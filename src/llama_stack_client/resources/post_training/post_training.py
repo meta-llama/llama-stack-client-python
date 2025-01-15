@@ -62,10 +62,10 @@ class PostTrainingResource(SyncAPIResource):
     def preference_optimize(
         self,
         *,
-        algorithm_config: post_training_preference_optimize_params.AlgorithmConfig,
         finetuned_model: str,
-        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
+        algorithm_config: post_training_preference_optimize_params.AlgorithmConfig,
+        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         training_config: post_training_preference_optimize_params.TrainingConfig,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
@@ -101,16 +101,24 @@ class PostTrainingResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "algorithm_config": algorithm_config,
-                    "finetuned_model": finetuned_model,
                     "hyperparam_search_config": hyperparam_search_config,
-                    "job_uuid": job_uuid,
                     "logger_config": logger_config,
                     "training_config": training_config,
                 },
                 post_training_preference_optimize_params.PostTrainingPreferenceOptimizeParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "finetuned_model": finetuned_model,
+                        "job_uuid": job_uuid,
+                    },
+                    post_training_preference_optimize_params.PostTrainingPreferenceOptimizeParams,
+                ),
             ),
             cast_to=PostTrainingJob,
         )
@@ -118,13 +126,13 @@ class PostTrainingResource(SyncAPIResource):
     def supervised_fine_tune(
         self,
         *,
-        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
-        logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         model: str,
+        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
+        logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
-        algorithm_config: post_training_supervised_fine_tune_params.AlgorithmConfig | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
+        algorithm_config: post_training_supervised_fine_tune_params.AlgorithmConfig | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -158,17 +166,25 @@ class PostTrainingResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "hyperparam_search_config": hyperparam_search_config,
-                    "job_uuid": job_uuid,
                     "logger_config": logger_config,
-                    "model": model,
                     "training_config": training_config,
                     "algorithm_config": algorithm_config,
-                    "checkpoint_dir": checkpoint_dir,
                 },
                 post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "job_uuid": job_uuid,
+                        "model": model,
+                        "checkpoint_dir": checkpoint_dir,
+                    },
+                    post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
+                ),
             ),
             cast_to=PostTrainingJob,
         )
@@ -201,10 +217,10 @@ class AsyncPostTrainingResource(AsyncAPIResource):
     async def preference_optimize(
         self,
         *,
-        algorithm_config: post_training_preference_optimize_params.AlgorithmConfig,
         finetuned_model: str,
-        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
+        algorithm_config: post_training_preference_optimize_params.AlgorithmConfig,
+        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         training_config: post_training_preference_optimize_params.TrainingConfig,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
@@ -240,16 +256,24 @@ class AsyncPostTrainingResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "algorithm_config": algorithm_config,
-                    "finetuned_model": finetuned_model,
                     "hyperparam_search_config": hyperparam_search_config,
-                    "job_uuid": job_uuid,
                     "logger_config": logger_config,
                     "training_config": training_config,
                 },
                 post_training_preference_optimize_params.PostTrainingPreferenceOptimizeParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "finetuned_model": finetuned_model,
+                        "job_uuid": job_uuid,
+                    },
+                    post_training_preference_optimize_params.PostTrainingPreferenceOptimizeParams,
+                ),
             ),
             cast_to=PostTrainingJob,
         )
@@ -257,13 +281,13 @@ class AsyncPostTrainingResource(AsyncAPIResource):
     async def supervised_fine_tune(
         self,
         *,
-        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
-        logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         model: str,
+        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
+        logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
-        algorithm_config: post_training_supervised_fine_tune_params.AlgorithmConfig | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
+        algorithm_config: post_training_supervised_fine_tune_params.AlgorithmConfig | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -297,17 +321,25 @@ class AsyncPostTrainingResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "hyperparam_search_config": hyperparam_search_config,
-                    "job_uuid": job_uuid,
                     "logger_config": logger_config,
-                    "model": model,
                     "training_config": training_config,
                     "algorithm_config": algorithm_config,
-                    "checkpoint_dir": checkpoint_dir,
                 },
                 post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "job_uuid": job_uuid,
+                        "model": model,
+                        "checkpoint_dir": checkpoint_dir,
+                    },
+                    post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
+                ),
             ),
             cast_to=PostTrainingJob,
         )

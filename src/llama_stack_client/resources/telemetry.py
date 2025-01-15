@@ -90,7 +90,7 @@ class TelemetryResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/telemetry/get-span-tree",
+            "/alpha/telemetry/query-span-tree",
             body=maybe_transform(
                 {"attributes_to_return": attributes_to_return},
                 telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
@@ -114,8 +114,8 @@ class TelemetryResource(SyncAPIResource):
     def log_event(
         self,
         *,
-        event: telemetry_log_event_params.Event,
         ttl_seconds: int,
+        event: telemetry_log_event_params.Event,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -147,15 +147,13 @@ class TelemetryResource(SyncAPIResource):
         }
         return self._post(
             "/alpha/telemetry/log-event",
-            body=maybe_transform(
-                {
-                    "event": event,
-                    "ttl_seconds": ttl_seconds,
-                },
-                telemetry_log_event_params.TelemetryLogEventParams,
-            ),
+            body=maybe_transform({"event": event}, telemetry_log_event_params.TelemetryLogEventParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"ttl_seconds": ttl_seconds}, telemetry_log_event_params.TelemetryLogEventParams),
             ),
             cast_to=NoneType,
         )
@@ -201,12 +199,15 @@ class TelemetryResource(SyncAPIResource):
                 {
                     "attribute_filters": attribute_filters,
                     "attributes_to_return": attributes_to_return,
-                    "max_depth": max_depth,
                 },
                 telemetry_query_spans_params.TelemetryQuerySpansParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"max_depth": max_depth}, telemetry_query_spans_params.TelemetryQuerySpansParams),
             ),
             cast_to=TelemetryQuerySpansResponse,
         )
@@ -214,9 +215,9 @@ class TelemetryResource(SyncAPIResource):
     def query_traces(
         self,
         *,
-        attribute_filters: Iterable[telemetry_query_traces_params.AttributeFilter] | NotGiven = NOT_GIVEN,
         limit: int | NotGiven = NOT_GIVEN,
         offset: int | NotGiven = NOT_GIVEN,
+        attribute_filters: Iterable[telemetry_query_traces_params.AttributeFilter] | NotGiven = NOT_GIVEN,
         order_by: List[str] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -252,14 +253,22 @@ class TelemetryResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "attribute_filters": attribute_filters,
-                    "limit": limit,
-                    "offset": offset,
                     "order_by": order_by,
                 },
                 telemetry_query_traces_params.TelemetryQueryTracesParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                    },
+                    telemetry_query_traces_params.TelemetryQueryTracesParams,
+                ),
             ),
             cast_to=Trace,
         )
@@ -267,9 +276,9 @@ class TelemetryResource(SyncAPIResource):
     def save_spans_to_dataset(
         self,
         *,
+        dataset_id: str,
         attribute_filters: Iterable[telemetry_save_spans_to_dataset_params.AttributeFilter],
         attributes_to_save: List[str],
-        dataset_id: str,
         max_depth: int | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -306,13 +315,21 @@ class TelemetryResource(SyncAPIResource):
                 {
                     "attribute_filters": attribute_filters,
                     "attributes_to_save": attributes_to_save,
-                    "dataset_id": dataset_id,
-                    "max_depth": max_depth,
                 },
                 telemetry_save_spans_to_dataset_params.TelemetrySaveSpansToDatasetParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "dataset_id": dataset_id,
+                        "max_depth": max_depth,
+                    },
+                    telemetry_save_spans_to_dataset_params.TelemetrySaveSpansToDatasetParams,
+                ),
             ),
             cast_to=NoneType,
         )
@@ -373,7 +390,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/telemetry/get-span-tree",
+            "/alpha/telemetry/query-span-tree",
             body=await async_maybe_transform(
                 {"attributes_to_return": attributes_to_return},
                 telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
@@ -397,8 +414,8 @@ class AsyncTelemetryResource(AsyncAPIResource):
     async def log_event(
         self,
         *,
-        event: telemetry_log_event_params.Event,
         ttl_seconds: int,
+        event: telemetry_log_event_params.Event,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -430,15 +447,15 @@ class AsyncTelemetryResource(AsyncAPIResource):
         }
         return await self._post(
             "/alpha/telemetry/log-event",
-            body=await async_maybe_transform(
-                {
-                    "event": event,
-                    "ttl_seconds": ttl_seconds,
-                },
-                telemetry_log_event_params.TelemetryLogEventParams,
-            ),
+            body=await async_maybe_transform({"event": event}, telemetry_log_event_params.TelemetryLogEventParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"ttl_seconds": ttl_seconds}, telemetry_log_event_params.TelemetryLogEventParams
+                ),
             ),
             cast_to=NoneType,
         )
@@ -484,12 +501,17 @@ class AsyncTelemetryResource(AsyncAPIResource):
                 {
                     "attribute_filters": attribute_filters,
                     "attributes_to_return": attributes_to_return,
-                    "max_depth": max_depth,
                 },
                 telemetry_query_spans_params.TelemetryQuerySpansParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"max_depth": max_depth}, telemetry_query_spans_params.TelemetryQuerySpansParams
+                ),
             ),
             cast_to=TelemetryQuerySpansResponse,
         )
@@ -497,9 +519,9 @@ class AsyncTelemetryResource(AsyncAPIResource):
     async def query_traces(
         self,
         *,
-        attribute_filters: Iterable[telemetry_query_traces_params.AttributeFilter] | NotGiven = NOT_GIVEN,
         limit: int | NotGiven = NOT_GIVEN,
         offset: int | NotGiven = NOT_GIVEN,
+        attribute_filters: Iterable[telemetry_query_traces_params.AttributeFilter] | NotGiven = NOT_GIVEN,
         order_by: List[str] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -535,14 +557,22 @@ class AsyncTelemetryResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "attribute_filters": attribute_filters,
-                    "limit": limit,
-                    "offset": offset,
                     "order_by": order_by,
                 },
                 telemetry_query_traces_params.TelemetryQueryTracesParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                    },
+                    telemetry_query_traces_params.TelemetryQueryTracesParams,
+                ),
             ),
             cast_to=Trace,
         )
@@ -550,9 +580,9 @@ class AsyncTelemetryResource(AsyncAPIResource):
     async def save_spans_to_dataset(
         self,
         *,
+        dataset_id: str,
         attribute_filters: Iterable[telemetry_save_spans_to_dataset_params.AttributeFilter],
         attributes_to_save: List[str],
-        dataset_id: str,
         max_depth: int | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -589,13 +619,21 @@ class AsyncTelemetryResource(AsyncAPIResource):
                 {
                     "attribute_filters": attribute_filters,
                     "attributes_to_save": attributes_to_save,
-                    "dataset_id": dataset_id,
-                    "max_depth": max_depth,
                 },
                 telemetry_save_spans_to_dataset_params.TelemetrySaveSpansToDatasetParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "dataset_id": dataset_id,
+                        "max_depth": max_depth,
+                    },
+                    telemetry_save_spans_to_dataset_params.TelemetrySaveSpansToDatasetParams,
+                ),
             ),
             cast_to=NoneType,
         )

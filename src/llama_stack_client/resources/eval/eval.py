@@ -63,10 +63,10 @@ class EvalResource(SyncAPIResource):
     def evaluate_rows(
         self,
         *,
+        task_id: str,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
         scoring_functions: List[str],
         task_config: eval_evaluate_rows_params.TaskConfig,
-        task_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -102,12 +102,15 @@ class EvalResource(SyncAPIResource):
                     "input_rows": input_rows,
                     "scoring_functions": scoring_functions,
                     "task_config": task_config,
-                    "task_id": task_id,
                 },
                 eval_evaluate_rows_params.EvalEvaluateRowsParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"task_id": task_id}, eval_evaluate_rows_params.EvalEvaluateRowsParams),
             ),
             cast_to=EvaluateResponse,
         )
@@ -115,8 +118,8 @@ class EvalResource(SyncAPIResource):
     def run_eval(
         self,
         *,
-        task_config: eval_run_eval_params.TaskConfig,
         task_id: str,
+        task_config: eval_run_eval_params.TaskConfig,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -146,16 +149,14 @@ class EvalResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/eval/run-eval",
-            body=maybe_transform(
-                {
-                    "task_config": task_config,
-                    "task_id": task_id,
-                },
-                eval_run_eval_params.EvalRunEvalParams,
-            ),
+            "/alpha/eval/run",
+            body=maybe_transform({"task_config": task_config}, eval_run_eval_params.EvalRunEvalParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"task_id": task_id}, eval_run_eval_params.EvalRunEvalParams),
             ),
             cast_to=Job,
         )
@@ -188,10 +189,10 @@ class AsyncEvalResource(AsyncAPIResource):
     async def evaluate_rows(
         self,
         *,
+        task_id: str,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
         scoring_functions: List[str],
         task_config: eval_evaluate_rows_params.TaskConfig,
-        task_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -227,12 +228,17 @@ class AsyncEvalResource(AsyncAPIResource):
                     "input_rows": input_rows,
                     "scoring_functions": scoring_functions,
                     "task_config": task_config,
-                    "task_id": task_id,
                 },
                 eval_evaluate_rows_params.EvalEvaluateRowsParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"task_id": task_id}, eval_evaluate_rows_params.EvalEvaluateRowsParams
+                ),
             ),
             cast_to=EvaluateResponse,
         )
@@ -240,8 +246,8 @@ class AsyncEvalResource(AsyncAPIResource):
     async def run_eval(
         self,
         *,
-        task_config: eval_run_eval_params.TaskConfig,
         task_id: str,
+        task_config: eval_run_eval_params.TaskConfig,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -271,16 +277,14 @@ class AsyncEvalResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/eval/run-eval",
-            body=await async_maybe_transform(
-                {
-                    "task_config": task_config,
-                    "task_id": task_id,
-                },
-                eval_run_eval_params.EvalRunEvalParams,
-            ),
+            "/alpha/eval/run",
+            body=await async_maybe_transform({"task_config": task_config}, eval_run_eval_params.EvalRunEvalParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"task_id": task_id}, eval_run_eval_params.EvalRunEvalParams),
             ),
             cast_to=Job,
         )

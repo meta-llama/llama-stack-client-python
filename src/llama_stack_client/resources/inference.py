@@ -62,14 +62,14 @@ class InferenceResource(SyncAPIResource):
     def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
         model_id: str,
-        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        messages: Iterable[inference_chat_completion_params.Message],
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -106,14 +106,14 @@ class InferenceResource(SyncAPIResource):
     def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
         model_id: str,
         stream: Literal[True],
+        messages: Iterable[inference_chat_completion_params.Message],
+        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
-        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -150,14 +150,14 @@ class InferenceResource(SyncAPIResource):
     def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
         model_id: str,
         stream: bool,
+        messages: Iterable[inference_chat_completion_params.Message],
+        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
-        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -190,18 +190,18 @@ class InferenceResource(SyncAPIResource):
         """
         ...
 
-    @required_args(["messages", "model_id"], ["messages", "model_id", "stream"])
+    @required_args(["model_id", "messages"], ["model_id", "stream", "messages"])
     def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
         model_id: str,
-        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        messages: Iterable[inference_chat_completion_params.Message],
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -229,19 +229,27 @@ class InferenceResource(SyncAPIResource):
                 body=maybe_transform(
                     {
                         "messages": messages,
-                        "model_id": model_id,
                         "logprobs": logprobs,
                         "response_format": response_format,
                         "sampling_params": sampling_params,
-                        "stream": stream,
-                        "tool_choice": tool_choice,
-                        "tool_prompt_format": tool_prompt_format,
                         "tools": tools,
                     },
                     inference_chat_completion_params.InferenceChatCompletionParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    query=maybe_transform(
+                        {
+                            "model_id": model_id,
+                            "stream": stream,
+                            "tool_choice": tool_choice,
+                            "tool_prompt_format": tool_prompt_format,
+                        },
+                        inference_chat_completion_params.InferenceChatCompletionParams,
+                    ),
                 ),
                 cast_to=cast(
                     Any, InferenceChatCompletionResponse
@@ -255,12 +263,12 @@ class InferenceResource(SyncAPIResource):
     def completion(
         self,
         *,
-        content: InterleavedContent,
         model_id: str,
+        content: InterleavedContent,
+        stream: Literal[False] | NotGiven = NOT_GIVEN,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        stream: Literal[False] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -286,9 +294,9 @@ class InferenceResource(SyncAPIResource):
     def completion(
         self,
         *,
-        content: InterleavedContent,
         model_id: str,
         stream: Literal[True],
+        content: InterleavedContent,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
@@ -317,9 +325,9 @@ class InferenceResource(SyncAPIResource):
     def completion(
         self,
         *,
-        content: InterleavedContent,
         model_id: str,
         stream: bool,
+        content: InterleavedContent,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
@@ -344,16 +352,16 @@ class InferenceResource(SyncAPIResource):
         """
         ...
 
-    @required_args(["content", "model_id"], ["content", "model_id", "stream"])
+    @required_args(["model_id", "content"], ["model_id", "stream", "content"])
     def completion(
         self,
         *,
-        content: InterleavedContent,
         model_id: str,
+        content: InterleavedContent,
+        stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -380,16 +388,24 @@ class InferenceResource(SyncAPIResource):
                 body=maybe_transform(
                     {
                         "content": content,
-                        "model_id": model_id,
                         "logprobs": logprobs,
                         "response_format": response_format,
                         "sampling_params": sampling_params,
-                        "stream": stream,
                     },
                     inference_completion_params.InferenceCompletionParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    query=maybe_transform(
+                        {
+                            "model_id": model_id,
+                            "stream": stream,
+                        },
+                        inference_completion_params.InferenceCompletionParams,
+                    ),
                 ),
                 cast_to=cast(
                     Any, InferenceCompletionResponse
@@ -402,8 +418,8 @@ class InferenceResource(SyncAPIResource):
     def embeddings(
         self,
         *,
-        contents: List[InterleavedContent],
         model_id: str,
+        contents: List[InterleavedContent],
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -434,15 +450,13 @@ class InferenceResource(SyncAPIResource):
         }
         return self._post(
             "/alpha/inference/embeddings",
-            body=maybe_transform(
-                {
-                    "contents": contents,
-                    "model_id": model_id,
-                },
-                inference_embeddings_params.InferenceEmbeddingsParams,
-            ),
+            body=maybe_transform({"contents": contents}, inference_embeddings_params.InferenceEmbeddingsParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"model_id": model_id}, inference_embeddings_params.InferenceEmbeddingsParams),
             ),
             cast_to=EmbeddingsResponse,
         )
@@ -472,14 +486,14 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
         model_id: str,
-        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        messages: Iterable[inference_chat_completion_params.Message],
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -516,14 +530,14 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
         model_id: str,
         stream: Literal[True],
+        messages: Iterable[inference_chat_completion_params.Message],
+        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
-        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -560,14 +574,14 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
         model_id: str,
         stream: bool,
+        messages: Iterable[inference_chat_completion_params.Message],
+        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
-        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -600,18 +614,18 @@ class AsyncInferenceResource(AsyncAPIResource):
         """
         ...
 
-    @required_args(["messages", "model_id"], ["messages", "model_id", "stream"])
+    @required_args(["model_id", "messages"], ["model_id", "stream", "messages"])
     async def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
         model_id: str,
-        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        messages: Iterable[inference_chat_completion_params.Message],
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -639,19 +653,27 @@ class AsyncInferenceResource(AsyncAPIResource):
                 body=await async_maybe_transform(
                     {
                         "messages": messages,
-                        "model_id": model_id,
                         "logprobs": logprobs,
                         "response_format": response_format,
                         "sampling_params": sampling_params,
-                        "stream": stream,
-                        "tool_choice": tool_choice,
-                        "tool_prompt_format": tool_prompt_format,
                         "tools": tools,
                     },
                     inference_chat_completion_params.InferenceChatCompletionParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    query=await async_maybe_transform(
+                        {
+                            "model_id": model_id,
+                            "stream": stream,
+                            "tool_choice": tool_choice,
+                            "tool_prompt_format": tool_prompt_format,
+                        },
+                        inference_chat_completion_params.InferenceChatCompletionParams,
+                    ),
                 ),
                 cast_to=cast(
                     Any, InferenceChatCompletionResponse
@@ -665,12 +687,12 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def completion(
         self,
         *,
-        content: InterleavedContent,
         model_id: str,
+        content: InterleavedContent,
+        stream: Literal[False] | NotGiven = NOT_GIVEN,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        stream: Literal[False] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -696,9 +718,9 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def completion(
         self,
         *,
-        content: InterleavedContent,
         model_id: str,
         stream: Literal[True],
+        content: InterleavedContent,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
@@ -727,9 +749,9 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def completion(
         self,
         *,
-        content: InterleavedContent,
         model_id: str,
         stream: bool,
+        content: InterleavedContent,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
@@ -754,16 +776,16 @@ class AsyncInferenceResource(AsyncAPIResource):
         """
         ...
 
-    @required_args(["content", "model_id"], ["content", "model_id", "stream"])
+    @required_args(["model_id", "content"], ["model_id", "stream", "content"])
     async def completion(
         self,
         *,
-        content: InterleavedContent,
         model_id: str,
+        content: InterleavedContent,
+        stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -790,16 +812,24 @@ class AsyncInferenceResource(AsyncAPIResource):
                 body=await async_maybe_transform(
                     {
                         "content": content,
-                        "model_id": model_id,
                         "logprobs": logprobs,
                         "response_format": response_format,
                         "sampling_params": sampling_params,
-                        "stream": stream,
                     },
                     inference_completion_params.InferenceCompletionParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    query=await async_maybe_transform(
+                        {
+                            "model_id": model_id,
+                            "stream": stream,
+                        },
+                        inference_completion_params.InferenceCompletionParams,
+                    ),
                 ),
                 cast_to=cast(
                     Any, InferenceCompletionResponse
@@ -812,8 +842,8 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def embeddings(
         self,
         *,
-        contents: List[InterleavedContent],
         model_id: str,
+        contents: List[InterleavedContent],
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -845,14 +875,16 @@ class AsyncInferenceResource(AsyncAPIResource):
         return await self._post(
             "/alpha/inference/embeddings",
             body=await async_maybe_transform(
-                {
-                    "contents": contents,
-                    "model_id": model_id,
-                },
-                inference_embeddings_params.InferenceEmbeddingsParams,
+                {"contents": contents}, inference_embeddings_params.InferenceEmbeddingsParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"model_id": model_id}, inference_embeddings_params.InferenceEmbeddingsParams
+                ),
             ),
             cast_to=EmbeddingsResponse,
         )

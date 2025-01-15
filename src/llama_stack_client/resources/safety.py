@@ -50,9 +50,9 @@ class SafetyResource(SyncAPIResource):
     def run_shield(
         self,
         *,
+        shield_id: str,
         messages: Iterable[safety_run_shield_params.Message],
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
-        shield_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -87,12 +87,15 @@ class SafetyResource(SyncAPIResource):
                 {
                     "messages": messages,
                     "params": params,
-                    "shield_id": shield_id,
                 },
                 safety_run_shield_params.SafetyRunShieldParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"shield_id": shield_id}, safety_run_shield_params.SafetyRunShieldParams),
             ),
             cast_to=RunShieldResponse,
         )
@@ -121,9 +124,9 @@ class AsyncSafetyResource(AsyncAPIResource):
     async def run_shield(
         self,
         *,
+        shield_id: str,
         messages: Iterable[safety_run_shield_params.Message],
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
-        shield_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -158,12 +161,17 @@ class AsyncSafetyResource(AsyncAPIResource):
                 {
                     "messages": messages,
                     "params": params,
-                    "shield_id": shield_id,
                 },
                 safety_run_shield_params.SafetyRunShieldParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"shield_id": shield_id}, safety_run_shield_params.SafetyRunShieldParams
+                ),
             ),
             cast_to=RunShieldResponse,
         )

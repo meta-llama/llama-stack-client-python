@@ -23,16 +23,16 @@ class TestToolRuntime:
     @parametrize
     def test_method_invoke_tool(self, client: LlamaStackClient) -> None:
         tool_runtime = client.tool_runtime.invoke_tool(
-            args={"foo": True},
             tool_name="tool_name",
+            args={"foo": True},
         )
         assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
 
     @parametrize
     def test_method_invoke_tool_with_all_params(self, client: LlamaStackClient) -> None:
         tool_runtime = client.tool_runtime.invoke_tool(
-            args={"foo": True},
             tool_name="tool_name",
+            args={"foo": True},
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
@@ -41,8 +41,8 @@ class TestToolRuntime:
     @parametrize
     def test_raw_response_invoke_tool(self, client: LlamaStackClient) -> None:
         response = client.tool_runtime.with_raw_response.invoke_tool(
-            args={"foo": True},
             tool_name="tool_name",
+            args={"foo": True},
         )
 
         assert response.is_closed is True
@@ -53,8 +53,8 @@ class TestToolRuntime:
     @parametrize
     def test_streaming_response_invoke_tool(self, client: LlamaStackClient) -> None:
         with client.tool_runtime.with_streaming_response.invoke_tool(
-            args={"foo": True},
             tool_name="tool_name",
+            args={"foo": True},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -79,7 +79,6 @@ class TestToolRuntime:
     def test_method_list_tools_with_all_params(self, client: LlamaStackClient) -> None:
         tool_runtime = client.tool_runtime.list_tools(
             tool_group_id="tool_group_id",
-            mcp_endpoint={"uri": "uri"},
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
@@ -118,16 +117,16 @@ class TestAsyncToolRuntime:
     @parametrize
     async def test_method_invoke_tool(self, async_client: AsyncLlamaStackClient) -> None:
         tool_runtime = await async_client.tool_runtime.invoke_tool(
-            args={"foo": True},
             tool_name="tool_name",
+            args={"foo": True},
         )
         assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
 
     @parametrize
     async def test_method_invoke_tool_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         tool_runtime = await async_client.tool_runtime.invoke_tool(
-            args={"foo": True},
             tool_name="tool_name",
+            args={"foo": True},
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
@@ -136,8 +135,8 @@ class TestAsyncToolRuntime:
     @parametrize
     async def test_raw_response_invoke_tool(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.tool_runtime.with_raw_response.invoke_tool(
-            args={"foo": True},
             tool_name="tool_name",
+            args={"foo": True},
         )
 
         assert response.is_closed is True
@@ -148,8 +147,8 @@ class TestAsyncToolRuntime:
     @parametrize
     async def test_streaming_response_invoke_tool(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.tool_runtime.with_streaming_response.invoke_tool(
-            args={"foo": True},
             tool_name="tool_name",
+            args={"foo": True},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -174,7 +173,6 @@ class TestAsyncToolRuntime:
     async def test_method_list_tools_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         tool_runtime = await async_client.tool_runtime.list_tools(
             tool_group_id="tool_group_id",
-            mcp_endpoint={"uri": "uri"},
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )

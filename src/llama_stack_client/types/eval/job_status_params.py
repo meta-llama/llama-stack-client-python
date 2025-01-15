@@ -10,8 +10,6 @@ __all__ = ["JobStatusParams"]
 
 
 class JobStatusParams(TypedDict, total=False):
-    job_id: Required[str]
-
     task_id: Required[str]
 
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]

@@ -2,11 +2,11 @@
 
 from typing import List
 
-from .model import Model
+from .tool import Tool
 from .._models import BaseModel
 
-__all__ = ["ModelListResponse"]
+__all__ = ["ToolListResponse"]
 
 
-class ModelListResponse(BaseModel):
-    data: List[Model]
+class ToolListResponse(BaseModel):
+    data: List[Tool]

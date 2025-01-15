@@ -82,16 +82,16 @@ class DatasetioResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/datasetio/append-rows",
-            body=maybe_transform(
-                {
-                    "dataset_id": dataset_id,
-                    "rows": rows,
-                },
-                datasetio_append_rows_params.DatasetioAppendRowsParams,
-            ),
+            "/alpha/datasetio/rows",
+            body=maybe_transform({"rows": rows}, datasetio_append_rows_params.DatasetioAppendRowsParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {"dataset_id": dataset_id}, datasetio_append_rows_params.DatasetioAppendRowsParams
+                ),
             ),
             cast_to=NoneType,
         )
@@ -132,7 +132,7 @@ class DatasetioResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/datasetio/get-rows-paginated",
+            "/alpha/datasetio/rows",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -207,16 +207,16 @@ class AsyncDatasetioResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/datasetio/append-rows",
-            body=await async_maybe_transform(
-                {
-                    "dataset_id": dataset_id,
-                    "rows": rows,
-                },
-                datasetio_append_rows_params.DatasetioAppendRowsParams,
-            ),
+            "/alpha/datasetio/rows",
+            body=await async_maybe_transform({"rows": rows}, datasetio_append_rows_params.DatasetioAppendRowsParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"dataset_id": dataset_id}, datasetio_append_rows_params.DatasetioAppendRowsParams
+                ),
             ),
             cast_to=NoneType,
         )
@@ -257,7 +257,7 @@ class AsyncDatasetioResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/datasetio/get-rows-paginated",
+            "/alpha/datasetio/rows",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

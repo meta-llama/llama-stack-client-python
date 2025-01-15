@@ -51,8 +51,8 @@ class SyntheticDataGenerationResource(SyncAPIResource):
     def generate(
         self,
         *,
-        dialogs: Iterable[synthetic_data_generation_generate_params.Dialog],
         filtering_function: Literal["none", "random", "top_k", "top_p", "top_k_top_p", "sigmoid"],
+        dialogs: Iterable[synthetic_data_generation_generate_params.Dialog],
         model: str | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -85,15 +85,20 @@ class SyntheticDataGenerationResource(SyncAPIResource):
         return self._post(
             "/alpha/synthetic-data-generation/generate",
             body=maybe_transform(
-                {
-                    "dialogs": dialogs,
-                    "filtering_function": filtering_function,
-                    "model": model,
-                },
-                synthetic_data_generation_generate_params.SyntheticDataGenerationGenerateParams,
+                {"dialogs": dialogs}, synthetic_data_generation_generate_params.SyntheticDataGenerationGenerateParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "filtering_function": filtering_function,
+                        "model": model,
+                    },
+                    synthetic_data_generation_generate_params.SyntheticDataGenerationGenerateParams,
+                ),
             ),
             cast_to=SyntheticDataGenerationResponse,
         )
@@ -122,8 +127,8 @@ class AsyncSyntheticDataGenerationResource(AsyncAPIResource):
     async def generate(
         self,
         *,
-        dialogs: Iterable[synthetic_data_generation_generate_params.Dialog],
         filtering_function: Literal["none", "random", "top_k", "top_p", "top_k_top_p", "sigmoid"],
+        dialogs: Iterable[synthetic_data_generation_generate_params.Dialog],
         model: str | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -156,15 +161,20 @@ class AsyncSyntheticDataGenerationResource(AsyncAPIResource):
         return await self._post(
             "/alpha/synthetic-data-generation/generate",
             body=await async_maybe_transform(
-                {
-                    "dialogs": dialogs,
-                    "filtering_function": filtering_function,
-                    "model": model,
-                },
-                synthetic_data_generation_generate_params.SyntheticDataGenerationGenerateParams,
+                {"dialogs": dialogs}, synthetic_data_generation_generate_params.SyntheticDataGenerationGenerateParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "filtering_function": filtering_function,
+                        "model": model,
+                    },
+                    synthetic_data_generation_generate_params.SyntheticDataGenerationGenerateParams,
+                ),
             ),
             cast_to=SyntheticDataGenerationResponse,
         )

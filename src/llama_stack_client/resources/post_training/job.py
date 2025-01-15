@@ -22,7 +22,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.post_training import job_cancel_params, job_status_params, job_artifacts_params
-from ...types.post_training_job import PostTrainingJob
+from ...types.post_training.job_list_response import JobListResponse
 from ...types.post_training.job_status_response import JobStatusResponse
 from ...types.post_training.job_artifacts_response import JobArtifactsResponse
 
@@ -60,7 +60,7 @@ class JobResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PostTrainingJob:
+    ) -> JobListResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -71,7 +71,6 @@ class JobResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -86,7 +85,7 @@ class JobResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PostTrainingJob,
+            cast_to=JobListResponse,
         )
 
     def artifacts(
@@ -168,9 +167,12 @@ class JobResource(SyncAPIResource):
         }
         return self._post(
             "/alpha/post-training/job/cancel",
-            body=maybe_transform({"job_uuid": job_uuid}, job_cancel_params.JobCancelParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"job_uuid": job_uuid}, job_cancel_params.JobCancelParams),
             ),
             cast_to=NoneType,
         )
@@ -251,7 +253,7 @@ class AsyncJobResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PostTrainingJob:
+    ) -> JobListResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -262,7 +264,6 @@ class AsyncJobResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -277,7 +278,7 @@ class AsyncJobResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PostTrainingJob,
+            cast_to=JobListResponse,
         )
 
     async def artifacts(
@@ -359,9 +360,12 @@ class AsyncJobResource(AsyncAPIResource):
         }
         return await self._post(
             "/alpha/post-training/job/cancel",
-            body=await async_maybe_transform({"job_uuid": job_uuid}, job_cancel_params.JobCancelParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"job_uuid": job_uuid}, job_cancel_params.JobCancelParams),
             ),
             cast_to=NoneType,
         )

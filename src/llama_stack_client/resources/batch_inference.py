@@ -54,12 +54,12 @@ class BatchInferenceResource(SyncAPIResource):
     def chat_completion(
         self,
         *,
-        messages_batch: Iterable[Iterable[batch_inference_chat_completion_params.MessagesBatch]],
         model: str,
-        logprobs: batch_inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        messages_batch: Iterable[Iterable[batch_inference_chat_completion_params.MessagesBatch]],
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        logprobs: batch_inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         tools: Iterable[batch_inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -104,17 +104,25 @@ class BatchInferenceResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "messages_batch": messages_batch,
-                    "model": model,
                     "logprobs": logprobs,
                     "sampling_params": sampling_params,
-                    "tool_choice": tool_choice,
-                    "tool_prompt_format": tool_prompt_format,
                     "tools": tools,
                 },
                 batch_inference_chat_completion_params.BatchInferenceChatCompletionParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "model": model,
+                        "tool_choice": tool_choice,
+                        "tool_prompt_format": tool_prompt_format,
+                    },
+                    batch_inference_chat_completion_params.BatchInferenceChatCompletionParams,
+                ),
             ),
             cast_to=BatchInferenceChatCompletionResponse,
         )
@@ -122,8 +130,8 @@ class BatchInferenceResource(SyncAPIResource):
     def completion(
         self,
         *,
-        content_batch: List[InterleavedContent],
         model: str,
+        content_batch: List[InterleavedContent],
         logprobs: batch_inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
@@ -159,14 +167,19 @@ class BatchInferenceResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "content_batch": content_batch,
-                    "model": model,
                     "logprobs": logprobs,
                     "sampling_params": sampling_params,
                 },
                 batch_inference_completion_params.BatchInferenceCompletionParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {"model": model}, batch_inference_completion_params.BatchInferenceCompletionParams
+                ),
             ),
             cast_to=BatchCompletion,
         )
@@ -195,12 +208,12 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
     async def chat_completion(
         self,
         *,
-        messages_batch: Iterable[Iterable[batch_inference_chat_completion_params.MessagesBatch]],
         model: str,
-        logprobs: batch_inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        messages_batch: Iterable[Iterable[batch_inference_chat_completion_params.MessagesBatch]],
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        logprobs: batch_inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         tools: Iterable[batch_inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -245,17 +258,25 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "messages_batch": messages_batch,
-                    "model": model,
                     "logprobs": logprobs,
                     "sampling_params": sampling_params,
-                    "tool_choice": tool_choice,
-                    "tool_prompt_format": tool_prompt_format,
                     "tools": tools,
                 },
                 batch_inference_chat_completion_params.BatchInferenceChatCompletionParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "model": model,
+                        "tool_choice": tool_choice,
+                        "tool_prompt_format": tool_prompt_format,
+                    },
+                    batch_inference_chat_completion_params.BatchInferenceChatCompletionParams,
+                ),
             ),
             cast_to=BatchInferenceChatCompletionResponse,
         )
@@ -263,8 +284,8 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
     async def completion(
         self,
         *,
-        content_batch: List[InterleavedContent],
         model: str,
+        content_batch: List[InterleavedContent],
         logprobs: batch_inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
@@ -300,14 +321,19 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "content_batch": content_batch,
-                    "model": model,
                     "logprobs": logprobs,
                     "sampling_params": sampling_params,
                 },
                 batch_inference_completion_params.BatchInferenceCompletionParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"model": model}, batch_inference_completion_params.BatchInferenceCompletionParams
+                ),
             ),
             cast_to=BatchCompletion,
         )

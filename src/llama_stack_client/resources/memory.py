@@ -85,16 +85,19 @@ class MemoryResource(SyncAPIResource):
         }
         return self._post(
             "/alpha/memory/insert",
-            body=maybe_transform(
-                {
-                    "bank_id": bank_id,
-                    "documents": documents,
-                    "ttl_seconds": ttl_seconds,
-                },
-                memory_insert_params.MemoryInsertParams,
-            ),
+            body=maybe_transform({"documents": documents}, memory_insert_params.MemoryInsertParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "bank_id": bank_id,
+                        "ttl_seconds": ttl_seconds,
+                    },
+                    memory_insert_params.MemoryInsertParams,
+                ),
             ),
             cast_to=NoneType,
         )
@@ -137,14 +140,17 @@ class MemoryResource(SyncAPIResource):
             "/alpha/memory/query",
             body=maybe_transform(
                 {
-                    "bank_id": bank_id,
                     "query": query,
                     "params": params,
                 },
                 memory_query_params.MemoryQueryParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"bank_id": bank_id}, memory_query_params.MemoryQueryParams),
             ),
             cast_to=QueryDocumentsResponse,
         )
@@ -207,16 +213,19 @@ class AsyncMemoryResource(AsyncAPIResource):
         }
         return await self._post(
             "/alpha/memory/insert",
-            body=await async_maybe_transform(
-                {
-                    "bank_id": bank_id,
-                    "documents": documents,
-                    "ttl_seconds": ttl_seconds,
-                },
-                memory_insert_params.MemoryInsertParams,
-            ),
+            body=await async_maybe_transform({"documents": documents}, memory_insert_params.MemoryInsertParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "bank_id": bank_id,
+                        "ttl_seconds": ttl_seconds,
+                    },
+                    memory_insert_params.MemoryInsertParams,
+                ),
             ),
             cast_to=NoneType,
         )
@@ -259,14 +268,17 @@ class AsyncMemoryResource(AsyncAPIResource):
             "/alpha/memory/query",
             body=await async_maybe_transform(
                 {
-                    "bank_id": bank_id,
                     "query": query,
                     "params": params,
                 },
                 memory_query_params.MemoryQueryParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"bank_id": bank_id}, memory_query_params.MemoryQueryParams),
             ),
             cast_to=QueryDocumentsResponse,
         )

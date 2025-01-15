@@ -47,10 +47,10 @@ class StepsResource(SyncAPIResource):
 
     def retrieve(
         self,
+        step_id: str,
         *,
         agent_id: str,
         session_id: str,
-        step_id: str,
         turn_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -71,6 +71,8 @@ class StepsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not step_id:
+            raise ValueError(f"Expected a non-empty value for `step_id` but received {step_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -81,7 +83,7 @@ class StepsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/agents/step/get",
+            f"/alpha/agents/step/{step_id}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -91,7 +93,6 @@ class StepsResource(SyncAPIResource):
                     {
                         "agent_id": agent_id,
                         "session_id": session_id,
-                        "step_id": step_id,
                         "turn_id": turn_id,
                     },
                     step_retrieve_params.StepRetrieveParams,
@@ -123,10 +124,10 @@ class AsyncStepsResource(AsyncAPIResource):
 
     async def retrieve(
         self,
+        step_id: str,
         *,
         agent_id: str,
         session_id: str,
-        step_id: str,
         turn_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -147,6 +148,8 @@ class AsyncStepsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not step_id:
+            raise ValueError(f"Expected a non-empty value for `step_id` but received {step_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -157,7 +160,7 @@ class AsyncStepsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/agents/step/get",
+            f"/alpha/agents/step/{step_id}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -167,7 +170,6 @@ class AsyncStepsResource(AsyncAPIResource):
                     {
                         "agent_id": agent_id,
                         "session_id": session_id,
-                        "step_id": step_id,
                         "turn_id": turn_id,
                     },
                     step_retrieve_params.StepRetrieveParams,

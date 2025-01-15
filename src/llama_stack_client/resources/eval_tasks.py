@@ -6,7 +6,7 @@ from typing import Dict, List, Union, Iterable, Optional
 
 import httpx
 
-from ..types import eval_task_register_params, eval_task_retrieve_params
+from ..types import eval_task_register_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from .._utils import (
     maybe_transform,
@@ -23,6 +23,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.eval_task import EvalTask
+from ..types.eval_task_list_response import EvalTaskListResponse
 
 __all__ = ["EvalTasksResource", "AsyncEvalTasksResource"]
 
@@ -49,8 +50,8 @@ class EvalTasksResource(SyncAPIResource):
 
     def retrieve(
         self,
+        eval_task_id: str,
         *,
-        name: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -70,6 +71,8 @@ class EvalTasksResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not eval_task_id:
+            raise ValueError(f"Expected a non-empty value for `eval_task_id` but received {eval_task_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -80,13 +83,9 @@ class EvalTasksResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/eval-tasks/get",
+            f"/alpha/eval-tasks/{eval_task_id}",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"name": name}, eval_task_retrieve_params.EvalTaskRetrieveParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=EvalTask,
         )
@@ -102,7 +101,7 @@ class EvalTasksResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> EvalTask:
+    ) -> EvalTaskListResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -113,7 +112,6 @@ class EvalTasksResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -124,11 +122,11 @@ class EvalTasksResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/eval-tasks/list",
+            "/alpha/eval-tasks",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=EvalTask,
+            cast_to=EvalTaskListResponse,
         )
 
     def register(
@@ -137,9 +135,9 @@ class EvalTasksResource(SyncAPIResource):
         dataset_id: str,
         eval_task_id: str,
         scoring_functions: List[str],
-        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         provider_eval_task_id: str | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
+        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -170,20 +168,28 @@ class EvalTasksResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/eval-tasks/register",
+            "/alpha/eval-tasks",
             body=maybe_transform(
                 {
-                    "dataset_id": dataset_id,
-                    "eval_task_id": eval_task_id,
                     "scoring_functions": scoring_functions,
                     "metadata": metadata,
-                    "provider_eval_task_id": provider_eval_task_id,
-                    "provider_id": provider_id,
                 },
                 eval_task_register_params.EvalTaskRegisterParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "dataset_id": dataset_id,
+                        "eval_task_id": eval_task_id,
+                        "provider_eval_task_id": provider_eval_task_id,
+                        "provider_id": provider_id,
+                    },
+                    eval_task_register_params.EvalTaskRegisterParams,
+                ),
             ),
             cast_to=NoneType,
         )
@@ -211,8 +217,8 @@ class AsyncEvalTasksResource(AsyncAPIResource):
 
     async def retrieve(
         self,
+        eval_task_id: str,
         *,
-        name: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -232,6 +238,8 @@ class AsyncEvalTasksResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not eval_task_id:
+            raise ValueError(f"Expected a non-empty value for `eval_task_id` but received {eval_task_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -242,13 +250,9 @@ class AsyncEvalTasksResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/eval-tasks/get",
+            f"/alpha/eval-tasks/{eval_task_id}",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"name": name}, eval_task_retrieve_params.EvalTaskRetrieveParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=EvalTask,
         )
@@ -264,7 +268,7 @@ class AsyncEvalTasksResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> EvalTask:
+    ) -> EvalTaskListResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -275,7 +279,6 @@ class AsyncEvalTasksResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -286,11 +289,11 @@ class AsyncEvalTasksResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/eval-tasks/list",
+            "/alpha/eval-tasks",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=EvalTask,
+            cast_to=EvalTaskListResponse,
         )
 
     async def register(
@@ -299,9 +302,9 @@ class AsyncEvalTasksResource(AsyncAPIResource):
         dataset_id: str,
         eval_task_id: str,
         scoring_functions: List[str],
-        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         provider_eval_task_id: str | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
+        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -332,20 +335,28 @@ class AsyncEvalTasksResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/eval-tasks/register",
+            "/alpha/eval-tasks",
             body=await async_maybe_transform(
                 {
-                    "dataset_id": dataset_id,
-                    "eval_task_id": eval_task_id,
                     "scoring_functions": scoring_functions,
                     "metadata": metadata,
-                    "provider_eval_task_id": provider_eval_task_id,
-                    "provider_id": provider_id,
                 },
                 eval_task_register_params.EvalTaskRegisterParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "dataset_id": dataset_id,
+                        "eval_task_id": eval_task_id,
+                        "provider_eval_task_id": provider_eval_task_id,
+                        "provider_id": provider_id,
+                    },
+                    eval_task_register_params.EvalTaskRegisterParams,
+                ),
             ),
             cast_to=NoneType,
         )
