@@ -28,6 +28,6 @@ class EventLogger:
             if event.event_type == "start":
                 yield LogEvent("Assistant> ", color="cyan", end="")
             elif event.event_type == "progress":
-                yield LogEvent(event.delta, color="yellow", end="")
+                yield LogEvent(event.delta.text, color="yellow", end="")
             elif event.event_type == "complete":
                 yield LogEvent("")
