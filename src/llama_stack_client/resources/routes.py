@@ -72,7 +72,7 @@ class RoutesResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/routes/list",
+            "/v1/routes/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -132,7 +132,7 @@ class AsyncRoutesResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/routes/list",
+            "/v1/routes/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

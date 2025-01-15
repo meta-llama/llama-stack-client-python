@@ -82,7 +82,7 @@ class SafetyResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/safety/run-shield",
+            "/v1/safety/run-shield",
             body=maybe_transform(
                 {
                     "messages": messages,
@@ -153,7 +153,7 @@ class AsyncSafetyResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/safety/run-shield",
+            "/v1/safety/run-shield",
             body=await async_maybe_transform(
                 {
                     "messages": messages,

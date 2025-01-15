@@ -83,7 +83,7 @@ class DatasetsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/datasets/get",
+            "/v1/datasets/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -127,7 +127,7 @@ class DatasetsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/datasets/list",
+            "/v1/datasets/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -173,7 +173,7 @@ class DatasetsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/datasets/register",
+            "/v1/datasets/register",
             body=maybe_transform(
                 {
                     "dataset_id": dataset_id,
@@ -225,7 +225,7 @@ class DatasetsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/datasets/unregister",
+            "/v1/datasets/unregister",
             body=maybe_transform({"dataset_id": dataset_id}, dataset_unregister_params.DatasetUnregisterParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -287,7 +287,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/datasets/get",
+            "/v1/datasets/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -333,7 +333,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/datasets/list",
+            "/v1/datasets/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -379,7 +379,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/datasets/register",
+            "/v1/datasets/register",
             body=await async_maybe_transform(
                 {
                     "dataset_id": dataset_id,
@@ -431,7 +431,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/datasets/unregister",
+            "/v1/datasets/unregister",
             body=await async_maybe_transform(
                 {"dataset_id": dataset_id}, dataset_unregister_params.DatasetUnregisterParams
             ),

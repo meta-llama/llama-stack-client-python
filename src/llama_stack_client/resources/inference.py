@@ -225,7 +225,7 @@ class InferenceResource(SyncAPIResource):
         return cast(
             InferenceChatCompletionResponse,
             self._post(
-                "/alpha/inference/chat-completion",
+                "/v1/inference/chat-completion",
                 body=maybe_transform(
                     {
                         "messages": messages,
@@ -376,7 +376,7 @@ class InferenceResource(SyncAPIResource):
         return cast(
             InferenceCompletionResponse,
             self._post(
-                "/alpha/inference/completion",
+                "/v1/inference/completion",
                 body=maybe_transform(
                     {
                         "content": content,
@@ -433,7 +433,7 @@ class InferenceResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/inference/embeddings",
+            "/v1/inference/embeddings",
             body=maybe_transform(
                 {
                     "contents": contents,
@@ -635,7 +635,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         return cast(
             InferenceChatCompletionResponse,
             await self._post(
-                "/alpha/inference/chat-completion",
+                "/v1/inference/chat-completion",
                 body=await async_maybe_transform(
                     {
                         "messages": messages,
@@ -786,7 +786,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         return cast(
             InferenceCompletionResponse,
             await self._post(
-                "/alpha/inference/completion",
+                "/v1/inference/completion",
                 body=await async_maybe_transform(
                     {
                         "content": content,
@@ -843,7 +843,7 @@ class AsyncInferenceResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/inference/embeddings",
+            "/v1/inference/embeddings",
             body=await async_maybe_transform(
                 {
                     "contents": contents,

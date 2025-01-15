@@ -81,7 +81,7 @@ class StepsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/agents/step/get",
+            "/v1/agents/step/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -157,7 +157,7 @@ class AsyncStepsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/agents/step/get",
+            "/v1/agents/step/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

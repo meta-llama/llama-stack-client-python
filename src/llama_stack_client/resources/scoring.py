@@ -82,7 +82,7 @@ class ScoringResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/scoring/score",
+            "/v1/scoring/score",
             body=maybe_transform(
                 {
                     "input_rows": input_rows,
@@ -131,7 +131,7 @@ class ScoringResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/scoring/score-batch",
+            "/v1/scoring/score-batch",
             body=maybe_transform(
                 {
                     "dataset_id": dataset_id,
@@ -201,7 +201,7 @@ class AsyncScoringResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/scoring/score",
+            "/v1/scoring/score",
             body=await async_maybe_transform(
                 {
                     "input_rows": input_rows,
@@ -250,7 +250,7 @@ class AsyncScoringResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/scoring/score-batch",
+            "/v1/scoring/score-batch",
             body=await async_maybe_transform(
                 {
                     "dataset_id": dataset_id,

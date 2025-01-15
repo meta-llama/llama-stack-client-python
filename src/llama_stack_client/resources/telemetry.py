@@ -90,7 +90,7 @@ class TelemetryResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/telemetry/get-span-tree",
+            "/v1/telemetry/get-span-tree",
             body=maybe_transform(
                 {"attributes_to_return": attributes_to_return},
                 telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
@@ -146,7 +146,7 @@ class TelemetryResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/telemetry/log-event",
+            "/v1/telemetry/log-event",
             body=maybe_transform(
                 {
                     "event": event,
@@ -196,7 +196,7 @@ class TelemetryResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/telemetry/query-spans",
+            "/v1/telemetry/query-spans",
             body=maybe_transform(
                 {
                     "attribute_filters": attribute_filters,
@@ -248,7 +248,7 @@ class TelemetryResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/telemetry/query-traces",
+            "/v1/telemetry/query-traces",
             body=maybe_transform(
                 {
                     "attribute_filters": attribute_filters,
@@ -301,7 +301,7 @@ class TelemetryResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/telemetry/save-spans-to-dataset",
+            "/v1/telemetry/save-spans-to-dataset",
             body=maybe_transform(
                 {
                     "attribute_filters": attribute_filters,
@@ -373,7 +373,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/telemetry/get-span-tree",
+            "/v1/telemetry/get-span-tree",
             body=await async_maybe_transform(
                 {"attributes_to_return": attributes_to_return},
                 telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
@@ -429,7 +429,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/telemetry/log-event",
+            "/v1/telemetry/log-event",
             body=await async_maybe_transform(
                 {
                     "event": event,
@@ -479,7 +479,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/telemetry/query-spans",
+            "/v1/telemetry/query-spans",
             body=await async_maybe_transform(
                 {
                     "attribute_filters": attribute_filters,
@@ -531,7 +531,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/telemetry/query-traces",
+            "/v1/telemetry/query-traces",
             body=await async_maybe_transform(
                 {
                     "attribute_filters": attribute_filters,
@@ -584,7 +584,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/telemetry/save-spans-to-dataset",
+            "/v1/telemetry/save-spans-to-dataset",
             body=await async_maybe_transform(
                 {
                     "attribute_filters": attribute_filters,

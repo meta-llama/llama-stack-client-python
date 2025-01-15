@@ -83,7 +83,7 @@ class SyntheticDataGenerationResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/synthetic-data-generation/generate",
+            "/v1/synthetic-data-generation/generate",
             body=maybe_transform(
                 {
                     "dialogs": dialogs,
@@ -154,7 +154,7 @@ class AsyncSyntheticDataGenerationResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/synthetic-data-generation/generate",
+            "/v1/synthetic-data-generation/generate",
             body=await async_maybe_transform(
                 {
                     "dialogs": dialogs,

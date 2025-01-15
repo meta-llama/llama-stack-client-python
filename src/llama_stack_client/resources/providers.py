@@ -72,7 +72,7 @@ class ProvidersResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/providers/list",
+            "/v1/providers/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -132,7 +132,7 @@ class AsyncProvidersResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/providers/list",
+            "/v1/providers/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

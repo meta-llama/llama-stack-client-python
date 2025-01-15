@@ -81,7 +81,7 @@ class ToolsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/tools/list",
+            "/v1/tools/list",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -125,7 +125,7 @@ class ToolsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/tools/get",
+            "/v1/tools/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -193,7 +193,7 @@ class AsyncToolsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/tools/list",
+            "/v1/tools/list",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -237,7 +237,7 @@ class AsyncToolsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/tools/get",
+            "/v1/tools/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

@@ -97,7 +97,7 @@ class PostTrainingResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/post-training/preference-optimize",
+            "/v1/post-training/preference-optimize",
             body=maybe_transform(
                 {
                     "algorithm_config": algorithm_config,
@@ -154,7 +154,7 @@ class PostTrainingResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/post-training/supervised-fine-tune",
+            "/v1/post-training/supervised-fine-tune",
             body=maybe_transform(
                 {
                     "hyperparam_search_config": hyperparam_search_config,
@@ -236,7 +236,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/post-training/preference-optimize",
+            "/v1/post-training/preference-optimize",
             body=await async_maybe_transform(
                 {
                     "algorithm_config": algorithm_config,
@@ -293,7 +293,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/post-training/supervised-fine-tune",
+            "/v1/post-training/supervised-fine-tune",
             body=await async_maybe_transform(
                 {
                     "hyperparam_search_config": hyperparam_search_config,

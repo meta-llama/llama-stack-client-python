@@ -82,7 +82,7 @@ class DatasetioResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/datasetio/append-rows",
+            "/v1/datasetio/append-rows",
             body=maybe_transform(
                 {
                     "dataset_id": dataset_id,
@@ -132,7 +132,7 @@ class DatasetioResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/datasetio/get-rows-paginated",
+            "/v1/datasetio/get-rows-paginated",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -207,7 +207,7 @@ class AsyncDatasetioResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/datasetio/append-rows",
+            "/v1/datasetio/append-rows",
             body=await async_maybe_transform(
                 {
                     "dataset_id": dataset_id,
@@ -257,7 +257,7 @@ class AsyncDatasetioResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/datasetio/get-rows-paginated",
+            "/v1/datasetio/get-rows-paginated",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

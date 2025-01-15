@@ -80,7 +80,7 @@ class ShieldsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/shields/get",
+            "/v1/shields/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -124,7 +124,7 @@ class ShieldsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/shields/list",
+            "/v1/shields/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -167,7 +167,7 @@ class ShieldsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/shields/register",
+            "/v1/shields/register",
             body=maybe_transform(
                 {
                     "shield_id": shield_id,
@@ -237,7 +237,7 @@ class AsyncShieldsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/shields/get",
+            "/v1/shields/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -283,7 +283,7 @@ class AsyncShieldsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/shields/list",
+            "/v1/shields/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -326,7 +326,7 @@ class AsyncShieldsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/shields/register",
+            "/v1/shields/register",
             body=await async_maybe_transform(
                 {
                     "shield_id": shield_id,

@@ -100,7 +100,7 @@ class BatchInferenceResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/batch-inference/chat-completion",
+            "/v1/batch-inference/chat-completion",
             body=maybe_transform(
                 {
                     "messages_batch": messages_batch,
@@ -155,7 +155,7 @@ class BatchInferenceResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/batch-inference/completion",
+            "/v1/batch-inference/completion",
             body=maybe_transform(
                 {
                     "content_batch": content_batch,
@@ -241,7 +241,7 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/batch-inference/chat-completion",
+            "/v1/batch-inference/chat-completion",
             body=await async_maybe_transform(
                 {
                     "messages_batch": messages_batch,
@@ -296,7 +296,7 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/batch-inference/completion",
+            "/v1/batch-inference/completion",
             body=await async_maybe_transform(
                 {
                     "content_batch": content_batch,

@@ -83,7 +83,7 @@ class ToolgroupsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/toolgroups/list",
+            "/v1/toolgroups/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -123,7 +123,7 @@ class ToolgroupsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/toolgroups/get",
+            "/v1/toolgroups/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -173,7 +173,7 @@ class ToolgroupsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/toolgroups/register",
+            "/v1/toolgroups/register",
             body=maybe_transform(
                 {
                     "provider_id": provider_id,
@@ -225,7 +225,7 @@ class ToolgroupsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/toolgroups/unregister",
+            "/v1/toolgroups/unregister",
             body=maybe_transform(
                 {"tool_group_id": tool_group_id}, toolgroup_unregister_params.ToolgroupUnregisterParams
             ),
@@ -291,7 +291,7 @@ class AsyncToolgroupsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/toolgroups/list",
+            "/v1/toolgroups/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -331,7 +331,7 @@ class AsyncToolgroupsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/toolgroups/get",
+            "/v1/toolgroups/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -383,7 +383,7 @@ class AsyncToolgroupsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/toolgroups/register",
+            "/v1/toolgroups/register",
             body=await async_maybe_transform(
                 {
                     "provider_id": provider_id,
@@ -435,7 +435,7 @@ class AsyncToolgroupsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/toolgroups/unregister",
+            "/v1/toolgroups/unregister",
             body=await async_maybe_transform(
                 {"tool_group_id": tool_group_id}, toolgroup_unregister_params.ToolgroupUnregisterParams
             ),

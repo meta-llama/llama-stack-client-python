@@ -176,7 +176,7 @@ class TurnResource(SyncAPIResource):
         return cast(
             TurnCreateResponse,
             self._post(
-                "/alpha/agents/turn/create",
+                "/v1/agents/turn/create",
                 body=maybe_transform(
                     {
                         "agent_id": agent_id,
@@ -234,7 +234,7 @@ class TurnResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/agents/turn/get",
+            "/v1/agents/turn/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -398,7 +398,7 @@ class AsyncTurnResource(AsyncAPIResource):
         return cast(
             TurnCreateResponse,
             await self._post(
-                "/alpha/agents/turn/create",
+                "/v1/agents/turn/create",
                 body=await async_maybe_transform(
                     {
                         "agent_id": agent_id,
@@ -456,7 +456,7 @@ class AsyncTurnResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/agents/turn/get",
+            "/v1/agents/turn/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

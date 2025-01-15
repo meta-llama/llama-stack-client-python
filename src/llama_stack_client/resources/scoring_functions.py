@@ -81,7 +81,7 @@ class ScoringFunctionsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/scoring-functions/get",
+            "/v1/scoring-functions/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -127,7 +127,7 @@ class ScoringFunctionsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/scoring-functions/list",
+            "/v1/scoring-functions/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -173,7 +173,7 @@ class ScoringFunctionsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/scoring-functions/register",
+            "/v1/scoring-functions/register",
             body=maybe_transform(
                 {
                     "description": description,
@@ -245,7 +245,7 @@ class AsyncScoringFunctionsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/scoring-functions/get",
+            "/v1/scoring-functions/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -291,7 +291,7 @@ class AsyncScoringFunctionsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/scoring-functions/list",
+            "/v1/scoring-functions/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -337,7 +337,7 @@ class AsyncScoringFunctionsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/scoring-functions/register",
+            "/v1/scoring-functions/register",
             body=await async_maybe_transform(
                 {
                     "description": description,

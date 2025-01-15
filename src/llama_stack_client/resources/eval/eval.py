@@ -96,7 +96,7 @@ class EvalResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/eval/evaluate-rows",
+            "/v1/eval/evaluate-rows",
             body=maybe_transform(
                 {
                     "input_rows": input_rows,
@@ -146,7 +146,7 @@ class EvalResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/eval/run-eval",
+            "/v1/eval/run-eval",
             body=maybe_transform(
                 {
                     "task_config": task_config,
@@ -221,7 +221,7 @@ class AsyncEvalResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/eval/evaluate-rows",
+            "/v1/eval/evaluate-rows",
             body=await async_maybe_transform(
                 {
                     "input_rows": input_rows,
@@ -271,7 +271,7 @@ class AsyncEvalResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/eval/run-eval",
+            "/v1/eval/run-eval",
             body=await async_maybe_transform(
                 {
                     "task_config": task_config,
