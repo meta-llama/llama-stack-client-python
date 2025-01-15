@@ -50,8 +50,8 @@ class JobsResource(SyncAPIResource):
 
     def retrieve(
         self,
-        *,
         job_id: str,
+        *,
         task_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -72,6 +72,8 @@ class JobsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -82,19 +84,13 @@ class JobsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/v1/eval/job/result",
+            f"/v1/eval/jobs/{job_id}/result",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "job_id": job_id,
-                        "task_id": task_id,
-                    },
-                    job_retrieve_params.JobRetrieveParams,
-                ),
+                query=maybe_transform({"task_id": task_id}, job_retrieve_params.JobRetrieveParams),
             ),
             cast_to=EvaluateResponse,
         )
@@ -134,7 +130,7 @@ class JobsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/v1/eval/job/cancel",
+            "/v1/eval/jobs/cancel",
             body=maybe_transform(
                 {
                     "job_id": job_id,
@@ -150,8 +146,8 @@ class JobsResource(SyncAPIResource):
 
     def status(
         self,
-        *,
         job_id: str,
+        *,
         task_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -172,6 +168,8 @@ class JobsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -182,19 +180,13 @@ class JobsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/v1/eval/job/status",
+            f"/v1/eval/jobs/{job_id}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "job_id": job_id,
-                        "task_id": task_id,
-                    },
-                    job_status_params.JobStatusParams,
-                ),
+                query=maybe_transform({"task_id": task_id}, job_status_params.JobStatusParams),
             ),
             cast_to=JobStatusResponse,
         )
@@ -222,8 +214,8 @@ class AsyncJobsResource(AsyncAPIResource):
 
     async def retrieve(
         self,
-        *,
         job_id: str,
+        *,
         task_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -244,6 +236,8 @@ class AsyncJobsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -254,19 +248,13 @@ class AsyncJobsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/v1/eval/job/result",
+            f"/v1/eval/jobs/{job_id}/result",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "job_id": job_id,
-                        "task_id": task_id,
-                    },
-                    job_retrieve_params.JobRetrieveParams,
-                ),
+                query=await async_maybe_transform({"task_id": task_id}, job_retrieve_params.JobRetrieveParams),
             ),
             cast_to=EvaluateResponse,
         )
@@ -306,7 +294,7 @@ class AsyncJobsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/v1/eval/job/cancel",
+            "/v1/eval/jobs/cancel",
             body=await async_maybe_transform(
                 {
                     "job_id": job_id,
@@ -322,8 +310,8 @@ class AsyncJobsResource(AsyncAPIResource):
 
     async def status(
         self,
-        *,
         job_id: str,
+        *,
         task_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -344,6 +332,8 @@ class AsyncJobsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_id:
+            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -354,19 +344,13 @@ class AsyncJobsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/v1/eval/job/status",
+            f"/v1/eval/jobs/{job_id}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "job_id": job_id,
-                        "task_id": task_id,
-                    },
-                    job_status_params.JobStatusParams,
-                ),
+                query=await async_maybe_transform({"task_id": task_id}, job_status_params.JobStatusParams),
             ),
             cast_to=JobStatusResponse,
         )

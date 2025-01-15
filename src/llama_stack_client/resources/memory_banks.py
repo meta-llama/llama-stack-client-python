@@ -6,11 +6,7 @@ from typing import Any, Optional, cast
 
 import httpx
 
-from ..types import (
-    memory_bank_register_params,
-    memory_bank_retrieve_params,
-    memory_bank_unregister_params,
-)
+from ..types import memory_bank_register_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from .._utils import (
     maybe_transform,
@@ -55,8 +51,8 @@ class MemoryBanksResource(SyncAPIResource):
 
     def retrieve(
         self,
-        *,
         memory_bank_id: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -76,6 +72,8 @@ class MemoryBanksResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not memory_bank_id:
+            raise ValueError(f"Expected a non-empty value for `memory_bank_id` but received {memory_bank_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -88,15 +86,9 @@ class MemoryBanksResource(SyncAPIResource):
         return cast(
             Optional[MemoryBankRetrieveResponse],
             self._get(
-                "/v1/memory-banks/get",
+                f"/v1/memory-banks/{memory_bank_id}",
                 options=make_request_options(
-                    extra_headers=extra_headers,
-                    extra_query=extra_query,
-                    extra_body=extra_body,
-                    timeout=timeout,
-                    query=maybe_transform(
-                        {"memory_bank_id": memory_bank_id}, memory_bank_retrieve_params.MemoryBankRetrieveParams
-                    ),
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
                 cast_to=cast(
                     Any, MemoryBankRetrieveResponse
@@ -126,7 +118,6 @@ class MemoryBanksResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -136,17 +127,12 @@ class MemoryBanksResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return cast(
-            MemoryBankListResponse,
-            self._get(
-                "/v1/memory-banks/list",
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, MemoryBankListResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+        return self._get(
+            "/v1/memory-banks",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
+            cast_to=MemoryBankListResponse,
         )
 
     def register(
@@ -187,7 +173,7 @@ class MemoryBanksResource(SyncAPIResource):
         return cast(
             MemoryBankRegisterResponse,
             self._post(
-                "/v1/memory-banks/register",
+                "/v1/memory-banks",
                 body=maybe_transform(
                     {
                         "memory_bank_id": memory_bank_id,
@@ -208,8 +194,8 @@ class MemoryBanksResource(SyncAPIResource):
 
     def unregister(
         self,
-        *,
         memory_bank_id: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -229,6 +215,8 @@ class MemoryBanksResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not memory_bank_id:
+            raise ValueError(f"Expected a non-empty value for `memory_bank_id` but received {memory_bank_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
@@ -239,11 +227,8 @@ class MemoryBanksResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._post(
-            "/v1/memory-banks/unregister",
-            body=maybe_transform(
-                {"memory_bank_id": memory_bank_id}, memory_bank_unregister_params.MemoryBankUnregisterParams
-            ),
+        return self._delete(
+            f"/v1/memory-banks/{memory_bank_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -273,8 +258,8 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
 
     async def retrieve(
         self,
-        *,
         memory_bank_id: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -294,6 +279,8 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not memory_bank_id:
+            raise ValueError(f"Expected a non-empty value for `memory_bank_id` but received {memory_bank_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -306,15 +293,9 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
         return cast(
             Optional[MemoryBankRetrieveResponse],
             await self._get(
-                "/v1/memory-banks/get",
+                f"/v1/memory-banks/{memory_bank_id}",
                 options=make_request_options(
-                    extra_headers=extra_headers,
-                    extra_query=extra_query,
-                    extra_body=extra_body,
-                    timeout=timeout,
-                    query=await async_maybe_transform(
-                        {"memory_bank_id": memory_bank_id}, memory_bank_retrieve_params.MemoryBankRetrieveParams
-                    ),
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
                 cast_to=cast(
                     Any, MemoryBankRetrieveResponse
@@ -344,7 +325,6 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -354,17 +334,12 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return cast(
-            MemoryBankListResponse,
-            await self._get(
-                "/v1/memory-banks/list",
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, MemoryBankListResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+        return await self._get(
+            "/v1/memory-banks",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
+            cast_to=MemoryBankListResponse,
         )
 
     async def register(
@@ -405,7 +380,7 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
         return cast(
             MemoryBankRegisterResponse,
             await self._post(
-                "/v1/memory-banks/register",
+                "/v1/memory-banks",
                 body=await async_maybe_transform(
                     {
                         "memory_bank_id": memory_bank_id,
@@ -426,8 +401,8 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
 
     async def unregister(
         self,
-        *,
         memory_bank_id: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -447,6 +422,8 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not memory_bank_id:
+            raise ValueError(f"Expected a non-empty value for `memory_bank_id` but received {memory_bank_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
@@ -457,11 +434,8 @@ class AsyncMemoryBanksResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return await self._post(
-            "/v1/memory-banks/unregister",
-            body=await async_maybe_transform(
-                {"memory_bank_id": memory_bank_id}, memory_bank_unregister_params.MemoryBankUnregisterParams
-            ),
+        return await self._delete(
+            f"/v1/memory-banks/{memory_bank_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

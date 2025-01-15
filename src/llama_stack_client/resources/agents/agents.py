@@ -20,7 +20,7 @@ from .steps import (
     StepsResourceWithStreamingResponse,
     AsyncStepsResourceWithStreamingResponse,
 )
-from ...types import agent_create_params, agent_delete_params
+from ...types import agent_create_params
 from .session import (
     SessionResource,
     AsyncSessionResource,
@@ -115,7 +115,7 @@ class AgentsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/v1/agents/create",
+            "/v1/agents",
             body=maybe_transform({"agent_config": agent_config}, agent_create_params.AgentCreateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -125,8 +125,8 @@ class AgentsResource(SyncAPIResource):
 
     def delete(
         self,
-        *,
         agent_id: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -146,6 +146,8 @@ class AgentsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
@@ -156,9 +158,8 @@ class AgentsResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._post(
-            "/v1/agents/delete",
-            body=maybe_transform({"agent_id": agent_id}, agent_delete_params.AgentDeleteParams),
+        return self._delete(
+            f"/v1/agents/{agent_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -231,7 +232,7 @@ class AsyncAgentsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/v1/agents/create",
+            "/v1/agents",
             body=await async_maybe_transform({"agent_config": agent_config}, agent_create_params.AgentCreateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -241,8 +242,8 @@ class AsyncAgentsResource(AsyncAPIResource):
 
     async def delete(
         self,
-        *,
         agent_id: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -262,6 +263,8 @@ class AsyncAgentsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
@@ -272,9 +275,8 @@ class AsyncAgentsResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return await self._post(
-            "/v1/agents/delete",
-            body=await async_maybe_transform({"agent_id": agent_id}, agent_delete_params.AgentDeleteParams),
+        return await self._delete(
+            f"/v1/agents/{agent_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

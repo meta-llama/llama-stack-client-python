@@ -13,9 +13,9 @@ __all__ = ["TelemetryGetSpanTreeParams"]
 class TelemetryGetSpanTreeParams(TypedDict, total=False):
     span_id: Required[str]
 
-    max_depth: int
-
     attributes_to_return: List[str]
+
+    max_depth: int
 
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
 

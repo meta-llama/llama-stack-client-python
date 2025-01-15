@@ -1,14 +1,21 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Union, Optional
+from typing import List, Union, Optional
 from typing_extensions import Literal, TypeAlias
 
 from .._models import BaseModel
 
-__all__ = ["MemoryBankListResponse", "VectorMemoryBank", "KeyValueMemoryBank", "KeywordMemoryBank", "GraphMemoryBank"]
+__all__ = [
+    "MemoryBankListResponse",
+    "Data",
+    "DataVectorMemoryBank",
+    "DataKeyValueMemoryBank",
+    "DataKeywordMemoryBank",
+    "DataGraphMemoryBank",
+]
 
 
-class VectorMemoryBank(BaseModel):
+class DataVectorMemoryBank(BaseModel):
     chunk_size_in_tokens: int
 
     embedding_model: str
@@ -28,7 +35,7 @@ class VectorMemoryBank(BaseModel):
     overlap_size_in_tokens: Optional[int] = None
 
 
-class KeyValueMemoryBank(BaseModel):
+class DataKeyValueMemoryBank(BaseModel):
     identifier: str
 
     memory_bank_type: Literal["keyvalue"]
@@ -40,7 +47,7 @@ class KeyValueMemoryBank(BaseModel):
     type: Literal["memory_bank"]
 
 
-class KeywordMemoryBank(BaseModel):
+class DataKeywordMemoryBank(BaseModel):
     identifier: str
 
     memory_bank_type: Literal["keyword"]
@@ -52,7 +59,7 @@ class KeywordMemoryBank(BaseModel):
     type: Literal["memory_bank"]
 
 
-class GraphMemoryBank(BaseModel):
+class DataGraphMemoryBank(BaseModel):
     identifier: str
 
     memory_bank_type: Literal["graph"]
@@ -64,4 +71,8 @@ class GraphMemoryBank(BaseModel):
     type: Literal["memory_bank"]
 
 
-MemoryBankListResponse: TypeAlias = Union[VectorMemoryBank, KeyValueMemoryBank, KeywordMemoryBank, GraphMemoryBank]
+Data: TypeAlias = Union[DataVectorMemoryBank, DataKeyValueMemoryBank, DataKeywordMemoryBank, DataGraphMemoryBank]
+
+
+class MemoryBankListResponse(BaseModel):
+    data: List[Data]

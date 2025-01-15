@@ -25,7 +25,7 @@ class TestEval:
             task_config={
                 "eval_candidate": {
                     "model": "model",
-                    "sampling_params": {"strategy": "greedy"},
+                    "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
                 },
                 "type": "benchmark",
@@ -43,12 +43,9 @@ class TestEval:
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {
-                        "strategy": "greedy",
+                        "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
-                        "temperature": 0,
-                        "top_k": 0,
-                        "top_p": 0,
                     },
                     "type": "model",
                     "system_message": {
@@ -73,7 +70,7 @@ class TestEval:
             task_config={
                 "eval_candidate": {
                     "model": "model",
-                    "sampling_params": {"strategy": "greedy"},
+                    "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
                 },
                 "type": "benchmark",
@@ -94,7 +91,7 @@ class TestEval:
             task_config={
                 "eval_candidate": {
                     "model": "model",
-                    "sampling_params": {"strategy": "greedy"},
+                    "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
                 },
                 "type": "benchmark",
@@ -115,7 +112,7 @@ class TestEval:
             task_config={
                 "eval_candidate": {
                     "model": "model",
-                    "sampling_params": {"strategy": "greedy"},
+                    "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
                 },
                 "type": "benchmark",
@@ -131,12 +128,9 @@ class TestEval:
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {
-                        "strategy": "greedy",
+                        "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
-                        "temperature": 0,
-                        "top_k": 0,
-                        "top_p": 0,
                     },
                     "type": "model",
                     "system_message": {
@@ -159,7 +153,7 @@ class TestEval:
             task_config={
                 "eval_candidate": {
                     "model": "model",
-                    "sampling_params": {"strategy": "greedy"},
+                    "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
                 },
                 "type": "benchmark",
@@ -178,7 +172,7 @@ class TestEval:
             task_config={
                 "eval_candidate": {
                     "model": "model",
-                    "sampling_params": {"strategy": "greedy"},
+                    "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
                 },
                 "type": "benchmark",
@@ -205,7 +199,7 @@ class TestAsyncEval:
             task_config={
                 "eval_candidate": {
                     "model": "model",
-                    "sampling_params": {"strategy": "greedy"},
+                    "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
                 },
                 "type": "benchmark",
@@ -223,12 +217,9 @@ class TestAsyncEval:
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {
-                        "strategy": "greedy",
+                        "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
-                        "temperature": 0,
-                        "top_k": 0,
-                        "top_p": 0,
                     },
                     "type": "model",
                     "system_message": {
@@ -253,7 +244,7 @@ class TestAsyncEval:
             task_config={
                 "eval_candidate": {
                     "model": "model",
-                    "sampling_params": {"strategy": "greedy"},
+                    "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
                 },
                 "type": "benchmark",
@@ -274,7 +265,7 @@ class TestAsyncEval:
             task_config={
                 "eval_candidate": {
                     "model": "model",
-                    "sampling_params": {"strategy": "greedy"},
+                    "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
                 },
                 "type": "benchmark",
@@ -295,7 +286,7 @@ class TestAsyncEval:
             task_config={
                 "eval_candidate": {
                     "model": "model",
-                    "sampling_params": {"strategy": "greedy"},
+                    "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
                 },
                 "type": "benchmark",
@@ -311,12 +302,9 @@ class TestAsyncEval:
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {
-                        "strategy": "greedy",
+                        "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
-                        "temperature": 0,
-                        "top_k": 0,
-                        "top_p": 0,
                     },
                     "type": "model",
                     "system_message": {
@@ -339,7 +327,7 @@ class TestAsyncEval:
             task_config={
                 "eval_candidate": {
                     "model": "model",
-                    "sampling_params": {"strategy": "greedy"},
+                    "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
                 },
                 "type": "benchmark",
@@ -358,7 +346,7 @@ class TestAsyncEval:
             task_config={
                 "eval_candidate": {
                     "model": "model",
-                    "sampling_params": {"strategy": "greedy"},
+                    "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
                 },
                 "type": "benchmark",

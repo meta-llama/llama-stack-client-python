@@ -10,8 +10,6 @@ __all__ = ["SessionCreateParams"]
 
 
 class SessionCreateParams(TypedDict, total=False):
-    agent_id: Required[str]
-
     session_name: Required[str]
 
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]

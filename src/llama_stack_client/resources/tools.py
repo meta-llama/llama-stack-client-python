@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..types import tool_get_params, tool_list_params
+from ..types import tool_list_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
@@ -21,6 +21,7 @@ from .._response import (
 )
 from ..types.tool import Tool
 from .._base_client import make_request_options
+from ..types.tool_list_response import ToolListResponse
 
 __all__ = ["ToolsResource", "AsyncToolsResource"]
 
@@ -48,7 +49,7 @@ class ToolsResource(SyncAPIResource):
     def list(
         self,
         *,
-        tool_group_id: str | NotGiven = NOT_GIVEN,
+        toolgroup_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -57,7 +58,7 @@ class ToolsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Tool:
+    ) -> ToolListResponse:
         """
         List tools with optional tool group
 
@@ -70,7 +71,6 @@ class ToolsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -81,21 +81,21 @@ class ToolsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/v1/tools/list",
+            "/v1/tools",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"tool_group_id": tool_group_id}, tool_list_params.ToolListParams),
+                query=maybe_transform({"toolgroup_id": toolgroup_id}, tool_list_params.ToolListParams),
             ),
-            cast_to=Tool,
+            cast_to=ToolListResponse,
         )
 
     def get(
         self,
-        *,
         tool_name: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -115,6 +115,8 @@ class ToolsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not tool_name:
+            raise ValueError(f"Expected a non-empty value for `tool_name` but received {tool_name!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -125,13 +127,9 @@ class ToolsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/v1/tools/get",
+            f"/v1/tools/{tool_name}",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"tool_name": tool_name}, tool_get_params.ToolGetParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=Tool,
         )
@@ -160,7 +158,7 @@ class AsyncToolsResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        tool_group_id: str | NotGiven = NOT_GIVEN,
+        toolgroup_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -169,7 +167,7 @@ class AsyncToolsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Tool:
+    ) -> ToolListResponse:
         """
         List tools with optional tool group
 
@@ -182,7 +180,6 @@ class AsyncToolsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -193,21 +190,21 @@ class AsyncToolsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/v1/tools/list",
+            "/v1/tools",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"tool_group_id": tool_group_id}, tool_list_params.ToolListParams),
+                query=await async_maybe_transform({"toolgroup_id": toolgroup_id}, tool_list_params.ToolListParams),
             ),
-            cast_to=Tool,
+            cast_to=ToolListResponse,
         )
 
     async def get(
         self,
-        *,
         tool_name: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -227,6 +224,8 @@ class AsyncToolsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not tool_name:
+            raise ValueError(f"Expected a non-empty value for `tool_name` but received {tool_name!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -237,13 +236,9 @@ class AsyncToolsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/v1/tools/get",
+            f"/v1/tools/{tool_name}",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"tool_name": tool_name}, tool_get_params.ToolGetParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=Tool,
         )
