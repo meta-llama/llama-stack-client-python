@@ -82,7 +82,7 @@ class JobsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/eval/job/result",
+            "/v1/eval/job/result",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -134,7 +134,7 @@ class JobsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/eval/job/cancel",
+            "/v1/eval/job/cancel",
             body=maybe_transform(
                 {
                     "job_id": job_id,
@@ -182,7 +182,7 @@ class JobsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/eval/job/status",
+            "/v1/eval/job/status",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -254,7 +254,7 @@ class AsyncJobsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/eval/job/result",
+            "/v1/eval/job/result",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -306,7 +306,7 @@ class AsyncJobsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/eval/job/cancel",
+            "/v1/eval/job/cancel",
             body=await async_maybe_transform(
                 {
                     "job_id": job_id,
@@ -354,7 +354,7 @@ class AsyncJobsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/eval/job/status",
+            "/v1/eval/job/status",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

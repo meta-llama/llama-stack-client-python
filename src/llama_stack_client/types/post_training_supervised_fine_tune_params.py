@@ -42,6 +42,8 @@ class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
 class TrainingConfigDataConfig(TypedDict, total=False):
     batch_size: Required[int]
 
+    data_format: Required[Literal["instruct", "dialog"]]
+
     dataset_id: Required[str]
 
     shuffle: Required[bool]

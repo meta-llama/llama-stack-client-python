@@ -6,16 +6,16 @@ from typing_extensions import Literal, TypeAlias
 from ..._models import BaseModel
 from .tool_call import ToolCall
 
-__all__ = ["ContentDelta", "UnionMember0", "UnionMember1", "ToolCallDelta", "ToolCallDeltaContent"]
+__all__ = ["ContentDelta", "TextDelta", "ImageDelta", "ToolCallDelta", "ToolCallDeltaContent"]
 
 
-class UnionMember0(BaseModel):
+class TextDelta(BaseModel):
     text: str
 
     type: Literal["text"]
 
 
-class UnionMember1(BaseModel):
+class ImageDelta(BaseModel):
     data: str
 
     type: Literal["image"]
@@ -32,4 +32,4 @@ class ToolCallDelta(BaseModel):
     type: Literal["tool_call"]
 
 
-ContentDelta: TypeAlias = Union[UnionMember0, UnionMember1, ToolCallDelta]
+ContentDelta: TypeAlias = Union[TextDelta, ImageDelta, ToolCallDelta]

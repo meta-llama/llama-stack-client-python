@@ -73,7 +73,7 @@ class InspectResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/health",
+            "/v1/health",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -112,7 +112,7 @@ class InspectResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/version",
+            "/v1/version",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -172,7 +172,7 @@ class AsyncInspectResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/health",
+            "/v1/health",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -211,7 +211,7 @@ class AsyncInspectResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/version",
+            "/v1/version",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

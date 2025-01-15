@@ -115,7 +115,7 @@ class AgentsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/agents/create",
+            "/v1/agents/create",
             body=maybe_transform({"agent_config": agent_config}, agent_create_params.AgentCreateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -157,7 +157,7 @@ class AgentsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/agents/delete",
+            "/v1/agents/delete",
             body=maybe_transform({"agent_id": agent_id}, agent_delete_params.AgentDeleteParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -231,7 +231,7 @@ class AsyncAgentsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/agents/create",
+            "/v1/agents/create",
             body=await async_maybe_transform({"agent_config": agent_config}, agent_create_params.AgentCreateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -273,7 +273,7 @@ class AsyncAgentsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/agents/delete",
+            "/v1/agents/delete",
             body=await async_maybe_transform({"agent_id": agent_id}, agent_delete_params.AgentDeleteParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout

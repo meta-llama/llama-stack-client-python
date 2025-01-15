@@ -1,8 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
-
 from __future__ import annotations
-import json
 
+import json
 import os
 from typing import Any, Union, Mapping
 from typing_extensions import Self, override
@@ -128,10 +127,10 @@ class LlamaStackClient(SyncAPIClient):
         if base_url is None:
             base_url = f"http://any-hosted-llama-stack.com"
 
-        custom_headers = default_headers or {}
-        custom_headers["X-LlamaStack-Client-Version"] = __version__
         if provider_data is not None:
-            custom_headers["X-LlamaStack-Provider-Data"] = json.dumps(provider_data)
+            if default_headers is None:
+                default_headers = {}
+            default_headers["X-LlamaStack-ProviderData"] = json.dumps(provider_data)
 
         super().__init__(
             version=__version__,
@@ -139,7 +138,7 @@ class LlamaStackClient(SyncAPIClient):
             max_retries=max_retries,
             timeout=timeout,
             http_client=http_client,
-            custom_headers=custom_headers,
+            custom_headers=default_headers,
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )
@@ -325,10 +324,10 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         if base_url is None:
             base_url = f"http://any-hosted-llama-stack.com"
 
-        custom_headers = default_headers or {}
-        custom_headers["X-LlamaStack-Client-Version"] = __version__
         if provider_data is not None:
-            custom_headers["X-LlamaStack-Provider-Data"] = json.dumps(provider_data)
+            if default_headers is None:
+                default_headers = {}
+            default_headers["X-LlamaStack-ProviderData"] = json.dumps(provider_data)
 
         super().__init__(
             version=__version__,
@@ -336,7 +335,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
             max_retries=max_retries,
             timeout=timeout,
             http_client=http_client,
-            custom_headers=custom_headers,
+            custom_headers=default_headers,
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )

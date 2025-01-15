@@ -82,7 +82,7 @@ class SessionResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/agents/session/create",
+            "/v1/agents/session/create",
             body=maybe_transform(
                 {
                     "agent_id": agent_id,
@@ -131,7 +131,7 @@ class SessionResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/agents/session/get",
+            "/v1/agents/session/get",
             body=maybe_transform({"turn_ids": turn_ids}, session_retrieve_params.SessionRetrieveParams),
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -184,7 +184,7 @@ class SessionResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/agents/session/delete",
+            "/v1/agents/session/delete",
             body=maybe_transform(
                 {
                     "agent_id": agent_id,
@@ -253,7 +253,7 @@ class AsyncSessionResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/agents/session/create",
+            "/v1/agents/session/create",
             body=await async_maybe_transform(
                 {
                     "agent_id": agent_id,
@@ -302,7 +302,7 @@ class AsyncSessionResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/agents/session/get",
+            "/v1/agents/session/get",
             body=await async_maybe_transform({"turn_ids": turn_ids}, session_retrieve_params.SessionRetrieveParams),
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -355,7 +355,7 @@ class AsyncSessionResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/agents/session/delete",
+            "/v1/agents/session/delete",
             body=await async_maybe_transform(
                 {
                     "agent_id": agent_id,

@@ -85,7 +85,7 @@ class ToolRuntimeResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/tool-runtime/invoke",
+            "/v1/tool-runtime/invoke",
             body=maybe_transform(
                 {
                     "args": args,
@@ -134,7 +134,7 @@ class ToolRuntimeResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/tool-runtime/list-tools",
+            "/v1/tool-runtime/list-tools",
             body=maybe_transform(
                 {"mcp_endpoint": mcp_endpoint}, tool_runtime_list_tools_params.ToolRuntimeListToolsParams
             ),
@@ -207,7 +207,7 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/tool-runtime/invoke",
+            "/v1/tool-runtime/invoke",
             body=await async_maybe_transform(
                 {
                     "args": args,
@@ -256,7 +256,7 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/tool-runtime/list-tools",
+            "/v1/tool-runtime/list-tools",
             body=await async_maybe_transform(
                 {"mcp_endpoint": mcp_endpoint}, tool_runtime_list_tools_params.ToolRuntimeListToolsParams
             ),

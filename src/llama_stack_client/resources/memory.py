@@ -84,7 +84,7 @@ class MemoryResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/memory/insert",
+            "/v1/memory/insert",
             body=maybe_transform(
                 {
                     "bank_id": bank_id,
@@ -134,7 +134,7 @@ class MemoryResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/memory/query",
+            "/v1/memory/query",
             body=maybe_transform(
                 {
                     "bank_id": bank_id,
@@ -206,7 +206,7 @@ class AsyncMemoryResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/memory/insert",
+            "/v1/memory/insert",
             body=await async_maybe_transform(
                 {
                     "bank_id": bank_id,
@@ -256,7 +256,7 @@ class AsyncMemoryResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/memory/query",
+            "/v1/memory/query",
             body=await async_maybe_transform(
                 {
                     "bank_id": bank_id,

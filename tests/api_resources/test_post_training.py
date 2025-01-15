@@ -35,6 +35,7 @@ class TestPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                 },
@@ -68,6 +69,7 @@ class TestPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                     "packed": True,
@@ -113,6 +115,7 @@ class TestPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                 },
@@ -150,6 +153,7 @@ class TestPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                 },
@@ -183,6 +187,7 @@ class TestPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                 },
@@ -210,6 +215,7 @@ class TestPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                     "packed": True,
@@ -260,6 +266,7 @@ class TestPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                 },
@@ -291,6 +298,7 @@ class TestPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                 },
@@ -334,6 +342,7 @@ class TestAsyncPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                 },
@@ -367,6 +376,7 @@ class TestAsyncPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                     "packed": True,
@@ -412,6 +422,7 @@ class TestAsyncPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                 },
@@ -449,6 +460,7 @@ class TestAsyncPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                 },
@@ -482,6 +494,7 @@ class TestAsyncPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                 },
@@ -509,6 +522,7 @@ class TestAsyncPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                     "packed": True,
@@ -559,6 +573,7 @@ class TestAsyncPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                 },
@@ -590,6 +605,7 @@ class TestAsyncPostTraining:
             training_config={
                 "data_config": {
                     "batch_size": 0,
+                    "data_format": "instruct",
                     "dataset_id": "dataset_id",
                     "shuffle": True,
                 },

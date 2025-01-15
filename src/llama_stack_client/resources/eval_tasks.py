@@ -80,7 +80,7 @@ class EvalTasksResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/eval-tasks/get",
+            "/v1/eval-tasks/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -124,7 +124,7 @@ class EvalTasksResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/alpha/eval-tasks/list",
+            "/v1/eval-tasks/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -170,7 +170,7 @@ class EvalTasksResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/alpha/eval-tasks/register",
+            "/v1/eval-tasks/register",
             body=maybe_transform(
                 {
                     "dataset_id": dataset_id,
@@ -242,7 +242,7 @@ class AsyncEvalTasksResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/eval-tasks/get",
+            "/v1/eval-tasks/get",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -286,7 +286,7 @@ class AsyncEvalTasksResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/alpha/eval-tasks/list",
+            "/v1/eval-tasks/list",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -332,7 +332,7 @@ class AsyncEvalTasksResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/alpha/eval-tasks/register",
+            "/v1/eval-tasks/register",
             body=await async_maybe_transform(
                 {
                     "dataset_id": dataset_id,
