@@ -7,10 +7,10 @@ from .._models import BaseModel
 from .shared.url import URL
 from .shared.param_type import ParamType
 
-__all__ = ["DatasetListResponse"]
+__all__ = ["DatasetListResponse", "Data"]
 
 
-class DatasetListResponse(BaseModel):
+class Data(BaseModel):
     dataset_schema: Dict[str, ParamType]
 
     identifier: str
@@ -24,3 +24,7 @@ class DatasetListResponse(BaseModel):
     type: Literal["dataset"]
 
     url: URL
+
+
+class DatasetListResponse(BaseModel):
+    data: List[Data]

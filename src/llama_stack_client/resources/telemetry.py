@@ -59,8 +59,8 @@ class TelemetryResource(SyncAPIResource):
         self,
         *,
         span_id: str,
-        max_depth: int | NotGiven = NOT_GIVEN,
         attributes_to_return: List[str] | NotGiven = NOT_GIVEN,
+        max_depth: int | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -90,23 +90,17 @@ class TelemetryResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/v1/telemetry/get-span-tree",
+            "/v1/telemetry/query-span-tree",
             body=maybe_transform(
-                {"attributes_to_return": attributes_to_return},
+                {
+                    "span_id": span_id,
+                    "attributes_to_return": attributes_to_return,
+                    "max_depth": max_depth,
+                },
                 telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "span_id": span_id,
-                        "max_depth": max_depth,
-                    },
-                    telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=TelemetryGetSpanTreeResponse,
         )
@@ -342,8 +336,8 @@ class AsyncTelemetryResource(AsyncAPIResource):
         self,
         *,
         span_id: str,
-        max_depth: int | NotGiven = NOT_GIVEN,
         attributes_to_return: List[str] | NotGiven = NOT_GIVEN,
+        max_depth: int | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -373,23 +367,17 @@ class AsyncTelemetryResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/v1/telemetry/get-span-tree",
+            "/v1/telemetry/query-span-tree",
             body=await async_maybe_transform(
-                {"attributes_to_return": attributes_to_return},
+                {
+                    "span_id": span_id,
+                    "attributes_to_return": attributes_to_return,
+                    "max_depth": max_depth,
+                },
                 telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "span_id": span_id,
-                        "max_depth": max_depth,
-                    },
-                    telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=TelemetryGetSpanTreeResponse,
         )

@@ -2,11 +2,11 @@
 
 from typing import List
 
-from .model import Model
 from .._models import BaseModel
+from .eval_task import EvalTask
 
-__all__ = ["ModelListResponse"]
+__all__ = ["EvalTaskListResponse"]
 
 
-class ModelListResponse(BaseModel):
-    data: List[Model]
+class EvalTaskListResponse(BaseModel):
+    data: List[EvalTask]

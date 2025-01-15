@@ -6,7 +6,7 @@ from typing import Dict, Union, Iterable, Optional
 
 import httpx
 
-from ..types import dataset_register_params, dataset_retrieve_params, dataset_unregister_params
+from ..types import dataset_register_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from .._utils import (
     maybe_transform,
@@ -52,8 +52,8 @@ class DatasetsResource(SyncAPIResource):
 
     def retrieve(
         self,
-        *,
         dataset_id: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -73,6 +73,8 @@ class DatasetsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not dataset_id:
+            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -83,13 +85,9 @@ class DatasetsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/v1/datasets/get",
+            f"/v1/datasets/{dataset_id}",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"dataset_id": dataset_id}, dataset_retrieve_params.DatasetRetrieveParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=DatasetRetrieveResponse,
         )
@@ -116,7 +114,6 @@ class DatasetsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -127,7 +124,7 @@ class DatasetsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/v1/datasets/list",
+            "/v1/datasets",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -173,7 +170,7 @@ class DatasetsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/v1/datasets/register",
+            "/v1/datasets",
             body=maybe_transform(
                 {
                     "dataset_id": dataset_id,
@@ -193,8 +190,8 @@ class DatasetsResource(SyncAPIResource):
 
     def unregister(
         self,
-        *,
         dataset_id: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -214,6 +211,8 @@ class DatasetsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not dataset_id:
+            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
@@ -224,9 +223,8 @@ class DatasetsResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._post(
-            "/v1/datasets/unregister",
-            body=maybe_transform({"dataset_id": dataset_id}, dataset_unregister_params.DatasetUnregisterParams),
+        return self._delete(
+            f"/v1/datasets/{dataset_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -256,8 +254,8 @@ class AsyncDatasetsResource(AsyncAPIResource):
 
     async def retrieve(
         self,
-        *,
         dataset_id: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -277,6 +275,8 @@ class AsyncDatasetsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not dataset_id:
+            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -287,15 +287,9 @@ class AsyncDatasetsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/v1/datasets/get",
+            f"/v1/datasets/{dataset_id}",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {"dataset_id": dataset_id}, dataset_retrieve_params.DatasetRetrieveParams
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=DatasetRetrieveResponse,
         )
@@ -322,7 +316,6 @@ class AsyncDatasetsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -333,7 +326,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/v1/datasets/list",
+            "/v1/datasets",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -379,7 +372,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/v1/datasets/register",
+            "/v1/datasets",
             body=await async_maybe_transform(
                 {
                     "dataset_id": dataset_id,
@@ -399,8 +392,8 @@ class AsyncDatasetsResource(AsyncAPIResource):
 
     async def unregister(
         self,
-        *,
         dataset_id: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -420,6 +413,8 @@ class AsyncDatasetsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not dataset_id:
+            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
@@ -430,11 +425,8 @@ class AsyncDatasetsResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return await self._post(
-            "/v1/datasets/unregister",
-            body=await async_maybe_transform(
-                {"dataset_id": dataset_id}, dataset_unregister_params.DatasetUnregisterParams
-            ),
+        return await self._delete(
+            f"/v1/datasets/{dataset_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

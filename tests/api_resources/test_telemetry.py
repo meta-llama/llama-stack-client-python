@@ -33,8 +33,8 @@ class TestTelemetry:
     def test_method_get_span_tree_with_all_params(self, client: LlamaStackClient) -> None:
         telemetry = client.telemetry.get_span_tree(
             span_id="span_id",
-            max_depth=0,
             attributes_to_return=["string"],
+            max_depth=0,
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
@@ -361,8 +361,8 @@ class TestAsyncTelemetry:
     async def test_method_get_span_tree_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         telemetry = await async_client.telemetry.get_span_tree(
             span_id="span_id",
-            max_depth=0,
             attributes_to_return=["string"],
+            max_depth=0,
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )

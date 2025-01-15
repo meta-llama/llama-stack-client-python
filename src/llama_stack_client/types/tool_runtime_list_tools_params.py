@@ -11,9 +11,9 @@ __all__ = ["ToolRuntimeListToolsParams"]
 
 
 class ToolRuntimeListToolsParams(TypedDict, total=False):
-    tool_group_id: str
-
     mcp_endpoint: URL
+
+    tool_group_id: str
 
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
 

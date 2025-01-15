@@ -30,8 +30,6 @@ class TurnCreateParamsBase(TypedDict, total=False):
 
     messages: Required[Iterable[Message]]
 
-    session_id: Required[str]
-
     documents: Iterable[Document]
 
     toolgroups: List[Toolgroup]

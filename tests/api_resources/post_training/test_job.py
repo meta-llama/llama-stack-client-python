@@ -9,8 +9,8 @@ import pytest
 
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
-from llama_stack_client.types import PostTrainingJob
 from llama_stack_client.types.post_training import (
+    JobListResponse,
     JobStatusResponse,
     JobArtifactsResponse,
 )
@@ -21,28 +21,19 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestJob:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     def test_method_list(self, client: LlamaStackClient) -> None:
         job = client.post_training.job.list()
-        assert_matches_type(PostTrainingJob, job, path=["response"])
+        assert_matches_type(JobListResponse, job, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
         job = client.post_training.job.list(
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
-        assert_matches_type(PostTrainingJob, job, path=["response"])
+        assert_matches_type(JobListResponse, job, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     def test_raw_response_list(self, client: LlamaStackClient) -> None:
         response = client.post_training.job.with_raw_response.list()
@@ -50,11 +41,8 @@ class TestJob:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         job = response.parse()
-        assert_matches_type(PostTrainingJob, job, path=["response"])
+        assert_matches_type(JobListResponse, job, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     def test_streaming_response_list(self, client: LlamaStackClient) -> None:
         with client.post_training.job.with_streaming_response.list() as response:
@@ -62,7 +50,7 @@ class TestJob:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             job = response.parse()
-            assert_matches_type(PostTrainingJob, job, path=["response"])
+            assert_matches_type(JobListResponse, job, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -190,28 +178,19 @@ class TestJob:
 class TestAsyncJob:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     async def test_method_list(self, async_client: AsyncLlamaStackClient) -> None:
         job = await async_client.post_training.job.list()
-        assert_matches_type(PostTrainingJob, job, path=["response"])
+        assert_matches_type(JobListResponse, job, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         job = await async_client.post_training.job.list(
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
-        assert_matches_type(PostTrainingJob, job, path=["response"])
+        assert_matches_type(JobListResponse, job, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.post_training.job.with_raw_response.list()
@@ -219,11 +198,8 @@ class TestAsyncJob:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         job = await response.parse()
-        assert_matches_type(PostTrainingJob, job, path=["response"])
+        assert_matches_type(JobListResponse, job, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.post_training.job.with_streaming_response.list() as response:
@@ -231,7 +207,7 @@ class TestAsyncJob:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             job = await response.parse()
-            assert_matches_type(PostTrainingJob, job, path=["response"])
+            assert_matches_type(JobListResponse, job, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

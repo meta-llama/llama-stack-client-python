@@ -13,8 +13,6 @@ __all__ = ["SessionRetrieveParams"]
 class SessionRetrieveParams(TypedDict, total=False):
     agent_id: Required[str]
 
-    session_id: Required[str]
-
     turn_ids: List[str]
 
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]

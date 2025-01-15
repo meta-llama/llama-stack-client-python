@@ -102,8 +102,8 @@ class ToolRuntimeResource(SyncAPIResource):
     def list_tools(
         self,
         *,
-        tool_group_id: str | NotGiven = NOT_GIVEN,
         mcp_endpoint: URL | NotGiven = NOT_GIVEN,
+        tool_group_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -133,18 +133,19 @@ class ToolRuntimeResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._post(
+        return self._get(
             "/v1/tool-runtime/list-tools",
-            body=maybe_transform(
-                {"mcp_endpoint": mcp_endpoint}, tool_runtime_list_tools_params.ToolRuntimeListToolsParams
-            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"tool_group_id": tool_group_id}, tool_runtime_list_tools_params.ToolRuntimeListToolsParams
+                    {
+                        "mcp_endpoint": mcp_endpoint,
+                        "tool_group_id": tool_group_id,
+                    },
+                    tool_runtime_list_tools_params.ToolRuntimeListToolsParams,
                 ),
             ),
             cast_to=ToolDef,
@@ -224,8 +225,8 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
     async def list_tools(
         self,
         *,
-        tool_group_id: str | NotGiven = NOT_GIVEN,
         mcp_endpoint: URL | NotGiven = NOT_GIVEN,
+        tool_group_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -255,18 +256,19 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return await self._post(
+        return await self._get(
             "/v1/tool-runtime/list-tools",
-            body=await async_maybe_transform(
-                {"mcp_endpoint": mcp_endpoint}, tool_runtime_list_tools_params.ToolRuntimeListToolsParams
-            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"tool_group_id": tool_group_id}, tool_runtime_list_tools_params.ToolRuntimeListToolsParams
+                    {
+                        "mcp_endpoint": mcp_endpoint,
+                        "tool_group_id": tool_group_id,
+                    },
+                    tool_runtime_list_tools_params.ToolRuntimeListToolsParams,
                 ),
             ),
             cast_to=ToolDef,

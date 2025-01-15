@@ -146,7 +146,7 @@ class EvalResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/v1/eval/run-eval",
+            "/v1/eval/run",
             body=maybe_transform(
                 {
                     "task_config": task_config,
@@ -271,7 +271,7 @@ class AsyncEvalResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/v1/eval/run-eval",
+            "/v1/eval/run",
             body=await async_maybe_transform(
                 {
                     "task_config": task_config,

@@ -21,7 +21,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.agents import session_create_params, session_delete_params, session_retrieve_params
+from ...types.agents import session_create_params, session_retrieve_params
 from ...types.agents.session import Session
 from ...types.agents.session_create_response import SessionCreateResponse
 
@@ -50,8 +50,8 @@ class SessionResource(SyncAPIResource):
 
     def create(
         self,
-        *,
         agent_id: str,
+        *,
         session_name: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -72,6 +72,8 @@ class SessionResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -82,14 +84,8 @@ class SessionResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/v1/agents/session/create",
-            body=maybe_transform(
-                {
-                    "agent_id": agent_id,
-                    "session_name": session_name,
-                },
-                session_create_params.SessionCreateParams,
-            ),
+            f"/v1/agents/{agent_id}/session",
+            body=maybe_transform({"session_name": session_name}, session_create_params.SessionCreateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -98,9 +94,9 @@ class SessionResource(SyncAPIResource):
 
     def retrieve(
         self,
+        session_id: str,
         *,
         agent_id: str,
-        session_id: str,
         turn_ids: List[str] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -121,6 +117,10 @@ class SessionResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -130,30 +130,23 @@ class SessionResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._post(
-            "/v1/agents/session/get",
-            body=maybe_transform({"turn_ids": turn_ids}, session_retrieve_params.SessionRetrieveParams),
+        return self._get(
+            f"/v1/agents/{agent_id}/session/{session_id}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "agent_id": agent_id,
-                        "session_id": session_id,
-                    },
-                    session_retrieve_params.SessionRetrieveParams,
-                ),
+                query=maybe_transform({"turn_ids": turn_ids}, session_retrieve_params.SessionRetrieveParams),
             ),
             cast_to=Session,
         )
 
     def delete(
         self,
+        session_id: str,
         *,
         agent_id: str,
-        session_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -173,6 +166,10 @@ class SessionResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
@@ -183,15 +180,8 @@ class SessionResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._post(
-            "/v1/agents/session/delete",
-            body=maybe_transform(
-                {
-                    "agent_id": agent_id,
-                    "session_id": session_id,
-                },
-                session_delete_params.SessionDeleteParams,
-            ),
+        return self._delete(
+            f"/v1/agents/{agent_id}/session/{session_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -221,8 +211,8 @@ class AsyncSessionResource(AsyncAPIResource):
 
     async def create(
         self,
-        *,
         agent_id: str,
+        *,
         session_name: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -243,6 +233,8 @@ class AsyncSessionResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -253,14 +245,8 @@ class AsyncSessionResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/v1/agents/session/create",
-            body=await async_maybe_transform(
-                {
-                    "agent_id": agent_id,
-                    "session_name": session_name,
-                },
-                session_create_params.SessionCreateParams,
-            ),
+            f"/v1/agents/{agent_id}/session",
+            body=await async_maybe_transform({"session_name": session_name}, session_create_params.SessionCreateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -269,9 +255,9 @@ class AsyncSessionResource(AsyncAPIResource):
 
     async def retrieve(
         self,
+        session_id: str,
         *,
         agent_id: str,
-        session_id: str,
         turn_ids: List[str] | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -292,6 +278,10 @@ class AsyncSessionResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -301,20 +291,15 @@ class AsyncSessionResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return await self._post(
-            "/v1/agents/session/get",
-            body=await async_maybe_transform({"turn_ids": turn_ids}, session_retrieve_params.SessionRetrieveParams),
+        return await self._get(
+            f"/v1/agents/{agent_id}/session/{session_id}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {
-                        "agent_id": agent_id,
-                        "session_id": session_id,
-                    },
-                    session_retrieve_params.SessionRetrieveParams,
+                    {"turn_ids": turn_ids}, session_retrieve_params.SessionRetrieveParams
                 ),
             ),
             cast_to=Session,
@@ -322,9 +307,9 @@ class AsyncSessionResource(AsyncAPIResource):
 
     async def delete(
         self,
+        session_id: str,
         *,
         agent_id: str,
-        session_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -344,6 +329,10 @@ class AsyncSessionResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
@@ -354,15 +343,8 @@ class AsyncSessionResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return await self._post(
-            "/v1/agents/session/delete",
-            body=await async_maybe_transform(
-                {
-                    "agent_id": agent_id,
-                    "session_id": session_id,
-                },
-                session_delete_params.SessionDeleteParams,
-            ),
+        return await self._delete(
+            f"/v1/agents/{agent_id}/session/{session_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

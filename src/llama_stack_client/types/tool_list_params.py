@@ -10,7 +10,7 @@ __all__ = ["ToolListParams"]
 
 
 class ToolListParams(TypedDict, total=False):
-    tool_group_id: str
+    toolgroup_id: str
 
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
 

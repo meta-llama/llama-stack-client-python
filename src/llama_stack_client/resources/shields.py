@@ -6,7 +6,7 @@ from typing import Dict, Union, Iterable, Optional
 
 import httpx
 
-from ..types import shield_register_params, shield_retrieve_params
+from ..types import shield_register_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
@@ -23,6 +23,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.shield import Shield
+from ..types.shield_list_response import ShieldListResponse
 
 __all__ = ["ShieldsResource", "AsyncShieldsResource"]
 
@@ -49,8 +50,8 @@ class ShieldsResource(SyncAPIResource):
 
     def retrieve(
         self,
-        *,
         identifier: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -70,6 +71,8 @@ class ShieldsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not identifier:
+            raise ValueError(f"Expected a non-empty value for `identifier` but received {identifier!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -80,13 +83,9 @@ class ShieldsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/v1/shields/get",
+            f"/v1/shields/{identifier}",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"identifier": identifier}, shield_retrieve_params.ShieldRetrieveParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=Shield,
         )
@@ -102,7 +101,7 @@ class ShieldsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Shield:
+    ) -> ShieldListResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -113,7 +112,6 @@ class ShieldsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -124,11 +122,11 @@ class ShieldsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/v1/shields/list",
+            "/v1/shields",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Shield,
+            cast_to=ShieldListResponse,
         )
 
     def register(
@@ -167,7 +165,7 @@ class ShieldsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/v1/shields/register",
+            "/v1/shields",
             body=maybe_transform(
                 {
                     "shield_id": shield_id,
@@ -206,8 +204,8 @@ class AsyncShieldsResource(AsyncAPIResource):
 
     async def retrieve(
         self,
-        *,
         identifier: str,
+        *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -227,6 +225,8 @@ class AsyncShieldsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not identifier:
+            raise ValueError(f"Expected a non-empty value for `identifier` but received {identifier!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -237,15 +237,9 @@ class AsyncShieldsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/v1/shields/get",
+            f"/v1/shields/{identifier}",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {"identifier": identifier}, shield_retrieve_params.ShieldRetrieveParams
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=Shield,
         )
@@ -261,7 +255,7 @@ class AsyncShieldsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Shield:
+    ) -> ShieldListResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -272,7 +266,6 @@ class AsyncShieldsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -283,11 +276,11 @@ class AsyncShieldsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/v1/shields/list",
+            "/v1/shields",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Shield,
+            cast_to=ShieldListResponse,
         )
 
     async def register(
@@ -326,7 +319,7 @@ class AsyncShieldsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/v1/shields/register",
+            "/v1/shields",
             body=await async_maybe_transform(
                 {
                     "shield_id": shield_id,
