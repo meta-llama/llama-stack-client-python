@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Type, Optional, cast
 
 import httpx
 
@@ -20,6 +20,7 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ..._wrappers import DataWrapper
 from ..._base_client import make_request_options
 from ...types.post_training import job_cancel_params, job_status_params, job_artifacts_params
 from ...types.post_training.job_list_response import JobListResponse
@@ -83,9 +84,13 @@ class JobResource(SyncAPIResource):
         return self._get(
             "/v1/post-training/jobs",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[JobListResponse]._unwrapper,
             ),
-            cast_to=JobListResponse,
+            cast_to=cast(Type[JobListResponse], DataWrapper[JobListResponse]),
         )
 
     def artifacts(
@@ -273,9 +278,13 @@ class AsyncJobResource(AsyncAPIResource):
         return await self._get(
             "/v1/post-training/jobs",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[JobListResponse]._unwrapper,
             ),
-            cast_to=JobListResponse,
+            cast_to=cast(Type[JobListResponse], DataWrapper[JobListResponse]),
         )
 
     async def artifacts(

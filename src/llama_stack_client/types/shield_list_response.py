@@ -1,12 +1,10 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List
+from typing_extensions import TypeAlias
 
 from .shield import Shield
-from .._models import BaseModel
 
 __all__ = ["ShieldListResponse"]
 
-
-class ShieldListResponse(BaseModel):
-    data: List[Shield]
+ShieldListResponse: TypeAlias = List[Shield]

@@ -7,15 +7,15 @@ from .._models import BaseModel
 
 __all__ = [
     "MemoryBankListResponse",
-    "Data",
-    "DataVectorMemoryBank",
-    "DataKeyValueMemoryBank",
-    "DataKeywordMemoryBank",
-    "DataGraphMemoryBank",
+    "MemoryBankListResponseItem",
+    "MemoryBankListResponseItemVectorMemoryBank",
+    "MemoryBankListResponseItemKeyValueMemoryBank",
+    "MemoryBankListResponseItemKeywordMemoryBank",
+    "MemoryBankListResponseItemGraphMemoryBank",
 ]
 
 
-class DataVectorMemoryBank(BaseModel):
+class MemoryBankListResponseItemVectorMemoryBank(BaseModel):
     chunk_size_in_tokens: int
 
     embedding_model: str
@@ -35,7 +35,7 @@ class DataVectorMemoryBank(BaseModel):
     overlap_size_in_tokens: Optional[int] = None
 
 
-class DataKeyValueMemoryBank(BaseModel):
+class MemoryBankListResponseItemKeyValueMemoryBank(BaseModel):
     identifier: str
 
     memory_bank_type: Literal["keyvalue"]
@@ -47,7 +47,7 @@ class DataKeyValueMemoryBank(BaseModel):
     type: Literal["memory_bank"]
 
 
-class DataKeywordMemoryBank(BaseModel):
+class MemoryBankListResponseItemKeywordMemoryBank(BaseModel):
     identifier: str
 
     memory_bank_type: Literal["keyword"]
@@ -59,7 +59,7 @@ class DataKeywordMemoryBank(BaseModel):
     type: Literal["memory_bank"]
 
 
-class DataGraphMemoryBank(BaseModel):
+class MemoryBankListResponseItemGraphMemoryBank(BaseModel):
     identifier: str
 
     memory_bank_type: Literal["graph"]
@@ -71,8 +71,11 @@ class DataGraphMemoryBank(BaseModel):
     type: Literal["memory_bank"]
 
 
-Data: TypeAlias = Union[DataVectorMemoryBank, DataKeyValueMemoryBank, DataKeywordMemoryBank, DataGraphMemoryBank]
+MemoryBankListResponseItem: TypeAlias = Union[
+    MemoryBankListResponseItemVectorMemoryBank,
+    MemoryBankListResponseItemKeyValueMemoryBank,
+    MemoryBankListResponseItemKeywordMemoryBank,
+    MemoryBankListResponseItemGraphMemoryBank,
+]
 
-
-class MemoryBankListResponse(BaseModel):
-    data: List[Data]
+MemoryBankListResponse: TypeAlias = List[MemoryBankListResponseItem]

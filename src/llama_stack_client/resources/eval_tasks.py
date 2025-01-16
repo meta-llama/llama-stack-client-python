@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable, Optional
+from typing import Dict, List, Type, Union, Iterable, Optional, cast
 
 import httpx
 
@@ -21,6 +21,7 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .._wrappers import DataWrapper
 from .._base_client import make_request_options
 from ..types.eval_task import EvalTask
 from ..types.eval_task_list_response import EvalTaskListResponse
@@ -124,9 +125,13 @@ class EvalTasksResource(SyncAPIResource):
         return self._get(
             "/v1/eval-tasks",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[EvalTaskListResponse]._unwrapper,
             ),
-            cast_to=EvalTaskListResponse,
+            cast_to=cast(Type[EvalTaskListResponse], DataWrapper[EvalTaskListResponse]),
         )
 
     def register(
@@ -283,9 +288,13 @@ class AsyncEvalTasksResource(AsyncAPIResource):
         return await self._get(
             "/v1/eval-tasks",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[EvalTaskListResponse]._unwrapper,
             ),
-            cast_to=EvalTaskListResponse,
+            cast_to=cast(Type[EvalTaskListResponse], DataWrapper[EvalTaskListResponse]),
         )
 
     async def register(

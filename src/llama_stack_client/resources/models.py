@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable, Optional
+from typing import Dict, Type, Union, Iterable, Optional, cast
 from typing_extensions import Literal
 
 import httpx
@@ -22,6 +22,7 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .._wrappers import DataWrapper
 from ..types.model import Model
 from .._base_client import make_request_options
 from ..types.model_list_response import ModelListResponse
@@ -125,9 +126,13 @@ class ModelsResource(SyncAPIResource):
         return self._get(
             "/v1/models",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[ModelListResponse]._unwrapper,
             ),
-            cast_to=ModelListResponse,
+            cast_to=cast(Type[ModelListResponse], DataWrapper[ModelListResponse]),
         )
 
     def register(
@@ -324,9 +329,13 @@ class AsyncModelsResource(AsyncAPIResource):
         return await self._get(
             "/v1/models",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[ModelListResponse]._unwrapper,
             ),
-            cast_to=ModelListResponse,
+            cast_to=cast(Type[ModelListResponse], DataWrapper[ModelListResponse]),
         )
 
     async def register(
