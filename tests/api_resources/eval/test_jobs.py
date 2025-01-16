@@ -64,6 +64,12 @@ class TestJobs:
 
     @parametrize
     def test_path_params_retrieve(self, client: LlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+            client.eval.jobs.with_raw_response.retrieve(
+                job_id="job_id",
+                task_id="",
+            )
+
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             client.eval.jobs.with_raw_response.retrieve(
                 job_id="",
@@ -115,6 +121,20 @@ class TestJobs:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
+    def test_path_params_cancel(self, client: LlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+            client.eval.jobs.with_raw_response.cancel(
+                job_id="job_id",
+                task_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            client.eval.jobs.with_raw_response.cancel(
+                job_id="",
+                task_id="task_id",
+            )
+
+    @parametrize
     def test_method_status(self, client: LlamaStackClient) -> None:
         job = client.eval.jobs.status(
             job_id="job_id",
@@ -160,6 +180,12 @@ class TestJobs:
 
     @parametrize
     def test_path_params_status(self, client: LlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+            client.eval.jobs.with_raw_response.status(
+                job_id="job_id",
+                task_id="",
+            )
+
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             client.eval.jobs.with_raw_response.status(
                 job_id="",
@@ -216,6 +242,12 @@ class TestAsyncJobs:
 
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+            await async_client.eval.jobs.with_raw_response.retrieve(
+                job_id="job_id",
+                task_id="",
+            )
+
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             await async_client.eval.jobs.with_raw_response.retrieve(
                 job_id="",
@@ -267,6 +299,20 @@ class TestAsyncJobs:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
+    async def test_path_params_cancel(self, async_client: AsyncLlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+            await async_client.eval.jobs.with_raw_response.cancel(
+                job_id="job_id",
+                task_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            await async_client.eval.jobs.with_raw_response.cancel(
+                job_id="",
+                task_id="task_id",
+            )
+
+    @parametrize
     async def test_method_status(self, async_client: AsyncLlamaStackClient) -> None:
         job = await async_client.eval.jobs.status(
             job_id="job_id",
@@ -312,6 +358,12 @@ class TestAsyncJobs:
 
     @parametrize
     async def test_path_params_status(self, async_client: AsyncLlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+            await async_client.eval.jobs.with_raw_response.status(
+                job_id="job_id",
+                task_id="",
+            )
+
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             await async_client.eval.jobs.with_raw_response.status(
                 job_id="",

@@ -11,8 +11,10 @@ from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
 from llama_stack_client.types import (
     Trace,
+    TelemetryGetSpanResponse,
     TelemetryQuerySpansResponse,
     TelemetryGetSpanTreeResponse,
+    TelemetryQueryTracesResponse,
 )
 from llama_stack_client._utils import parse_datetime
 
@@ -21,6 +23,64 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 class TestTelemetry:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @parametrize
+    def test_method_get_span(self, client: LlamaStackClient) -> None:
+        telemetry = client.telemetry.get_span(
+            span_id="span_id",
+            trace_id="trace_id",
+        )
+        assert_matches_type(TelemetryGetSpanResponse, telemetry, path=["response"])
+
+    @parametrize
+    def test_method_get_span_with_all_params(self, client: LlamaStackClient) -> None:
+        telemetry = client.telemetry.get_span(
+            span_id="span_id",
+            trace_id="trace_id",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+        )
+        assert_matches_type(TelemetryGetSpanResponse, telemetry, path=["response"])
+
+    @parametrize
+    def test_raw_response_get_span(self, client: LlamaStackClient) -> None:
+        response = client.telemetry.with_raw_response.get_span(
+            span_id="span_id",
+            trace_id="trace_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        telemetry = response.parse()
+        assert_matches_type(TelemetryGetSpanResponse, telemetry, path=["response"])
+
+    @parametrize
+    def test_streaming_response_get_span(self, client: LlamaStackClient) -> None:
+        with client.telemetry.with_streaming_response.get_span(
+            span_id="span_id",
+            trace_id="trace_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            telemetry = response.parse()
+            assert_matches_type(TelemetryGetSpanResponse, telemetry, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_get_span(self, client: LlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `trace_id` but received ''"):
+            client.telemetry.with_raw_response.get_span(
+                span_id="span_id",
+                trace_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `span_id` but received ''"):
+            client.telemetry.with_raw_response.get_span(
+                span_id="",
+                trace_id="trace_id",
+            )
 
     @parametrize
     def test_method_get_span_tree(self, client: LlamaStackClient) -> None:
@@ -63,6 +123,60 @@ class TestTelemetry:
             assert_matches_type(TelemetryGetSpanTreeResponse, telemetry, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_get_span_tree(self, client: LlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `span_id` but received ''"):
+            client.telemetry.with_raw_response.get_span_tree(
+                span_id="",
+            )
+
+    @parametrize
+    def test_method_get_trace(self, client: LlamaStackClient) -> None:
+        telemetry = client.telemetry.get_trace(
+            trace_id="trace_id",
+        )
+        assert_matches_type(Trace, telemetry, path=["response"])
+
+    @parametrize
+    def test_method_get_trace_with_all_params(self, client: LlamaStackClient) -> None:
+        telemetry = client.telemetry.get_trace(
+            trace_id="trace_id",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+        )
+        assert_matches_type(Trace, telemetry, path=["response"])
+
+    @parametrize
+    def test_raw_response_get_trace(self, client: LlamaStackClient) -> None:
+        response = client.telemetry.with_raw_response.get_trace(
+            trace_id="trace_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        telemetry = response.parse()
+        assert_matches_type(Trace, telemetry, path=["response"])
+
+    @parametrize
+    def test_streaming_response_get_trace(self, client: LlamaStackClient) -> None:
+        with client.telemetry.with_streaming_response.get_trace(
+            trace_id="trace_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            telemetry = response.parse()
+            assert_matches_type(Trace, telemetry, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_get_trace(self, client: LlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `trace_id` but received ''"):
+            client.telemetry.with_raw_response.get_trace(
+                trace_id="",
+            )
 
     @parametrize
     def test_method_log_event(self, client: LlamaStackClient) -> None:
@@ -137,9 +251,6 @@ class TestTelemetry:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     def test_method_query_spans(self, client: LlamaStackClient) -> None:
         telemetry = client.telemetry.query_spans(
@@ -154,9 +265,6 @@ class TestTelemetry:
         )
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     def test_method_query_spans_with_all_params(self, client: LlamaStackClient) -> None:
         telemetry = client.telemetry.query_spans(
@@ -174,9 +282,6 @@ class TestTelemetry:
         )
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     def test_raw_response_query_spans(self, client: LlamaStackClient) -> None:
         response = client.telemetry.with_raw_response.query_spans(
@@ -195,9 +300,6 @@ class TestTelemetry:
         telemetry = response.parse()
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     def test_streaming_response_query_spans(self, client: LlamaStackClient) -> None:
         with client.telemetry.with_streaming_response.query_spans(
@@ -218,17 +320,11 @@ class TestTelemetry:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     def test_method_query_traces(self, client: LlamaStackClient) -> None:
         telemetry = client.telemetry.query_traces()
-        assert_matches_type(Trace, telemetry, path=["response"])
+        assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     def test_method_query_traces_with_all_params(self, client: LlamaStackClient) -> None:
         telemetry = client.telemetry.query_traces(
@@ -245,11 +341,8 @@ class TestTelemetry:
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
-        assert_matches_type(Trace, telemetry, path=["response"])
+        assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     def test_raw_response_query_traces(self, client: LlamaStackClient) -> None:
         response = client.telemetry.with_raw_response.query_traces()
@@ -257,11 +350,8 @@ class TestTelemetry:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         telemetry = response.parse()
-        assert_matches_type(Trace, telemetry, path=["response"])
+        assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     def test_streaming_response_query_traces(self, client: LlamaStackClient) -> None:
         with client.telemetry.with_streaming_response.query_traces() as response:
@@ -269,7 +359,7 @@ class TestTelemetry:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             telemetry = response.parse()
-            assert_matches_type(Trace, telemetry, path=["response"])
+            assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -351,6 +441,64 @@ class TestAsyncTelemetry:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
+    async def test_method_get_span(self, async_client: AsyncLlamaStackClient) -> None:
+        telemetry = await async_client.telemetry.get_span(
+            span_id="span_id",
+            trace_id="trace_id",
+        )
+        assert_matches_type(TelemetryGetSpanResponse, telemetry, path=["response"])
+
+    @parametrize
+    async def test_method_get_span_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        telemetry = await async_client.telemetry.get_span(
+            span_id="span_id",
+            trace_id="trace_id",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+        )
+        assert_matches_type(TelemetryGetSpanResponse, telemetry, path=["response"])
+
+    @parametrize
+    async def test_raw_response_get_span(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.telemetry.with_raw_response.get_span(
+            span_id="span_id",
+            trace_id="trace_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        telemetry = await response.parse()
+        assert_matches_type(TelemetryGetSpanResponse, telemetry, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_get_span(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.telemetry.with_streaming_response.get_span(
+            span_id="span_id",
+            trace_id="trace_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            telemetry = await response.parse()
+            assert_matches_type(TelemetryGetSpanResponse, telemetry, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get_span(self, async_client: AsyncLlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `trace_id` but received ''"):
+            await async_client.telemetry.with_raw_response.get_span(
+                span_id="span_id",
+                trace_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `span_id` but received ''"):
+            await async_client.telemetry.with_raw_response.get_span(
+                span_id="",
+                trace_id="trace_id",
+            )
+
+    @parametrize
     async def test_method_get_span_tree(self, async_client: AsyncLlamaStackClient) -> None:
         telemetry = await async_client.telemetry.get_span_tree(
             span_id="span_id",
@@ -391,6 +539,60 @@ class TestAsyncTelemetry:
             assert_matches_type(TelemetryGetSpanTreeResponse, telemetry, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get_span_tree(self, async_client: AsyncLlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `span_id` but received ''"):
+            await async_client.telemetry.with_raw_response.get_span_tree(
+                span_id="",
+            )
+
+    @parametrize
+    async def test_method_get_trace(self, async_client: AsyncLlamaStackClient) -> None:
+        telemetry = await async_client.telemetry.get_trace(
+            trace_id="trace_id",
+        )
+        assert_matches_type(Trace, telemetry, path=["response"])
+
+    @parametrize
+    async def test_method_get_trace_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        telemetry = await async_client.telemetry.get_trace(
+            trace_id="trace_id",
+            x_llama_stack_client_version="X-LlamaStack-Client-Version",
+            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+        )
+        assert_matches_type(Trace, telemetry, path=["response"])
+
+    @parametrize
+    async def test_raw_response_get_trace(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.telemetry.with_raw_response.get_trace(
+            trace_id="trace_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        telemetry = await response.parse()
+        assert_matches_type(Trace, telemetry, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_get_trace(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.telemetry.with_streaming_response.get_trace(
+            trace_id="trace_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            telemetry = await response.parse()
+            assert_matches_type(Trace, telemetry, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get_trace(self, async_client: AsyncLlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `trace_id` but received ''"):
+            await async_client.telemetry.with_raw_response.get_trace(
+                trace_id="",
+            )
 
     @parametrize
     async def test_method_log_event(self, async_client: AsyncLlamaStackClient) -> None:
@@ -465,9 +667,6 @@ class TestAsyncTelemetry:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     async def test_method_query_spans(self, async_client: AsyncLlamaStackClient) -> None:
         telemetry = await async_client.telemetry.query_spans(
@@ -482,9 +681,6 @@ class TestAsyncTelemetry:
         )
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     async def test_method_query_spans_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         telemetry = await async_client.telemetry.query_spans(
@@ -502,9 +698,6 @@ class TestAsyncTelemetry:
         )
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     async def test_raw_response_query_spans(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.telemetry.with_raw_response.query_spans(
@@ -523,9 +716,6 @@ class TestAsyncTelemetry:
         telemetry = await response.parse()
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     async def test_streaming_response_query_spans(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.telemetry.with_streaming_response.query_spans(
@@ -546,17 +736,11 @@ class TestAsyncTelemetry:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     async def test_method_query_traces(self, async_client: AsyncLlamaStackClient) -> None:
         telemetry = await async_client.telemetry.query_traces()
-        assert_matches_type(Trace, telemetry, path=["response"])
+        assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     async def test_method_query_traces_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         telemetry = await async_client.telemetry.query_traces(
@@ -573,11 +757,8 @@ class TestAsyncTelemetry:
             x_llama_stack_client_version="X-LlamaStack-Client-Version",
             x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
-        assert_matches_type(Trace, telemetry, path=["response"])
+        assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     async def test_raw_response_query_traces(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.telemetry.with_raw_response.query_traces()
@@ -585,11 +766,8 @@ class TestAsyncTelemetry:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         telemetry = await response.parse()
-        assert_matches_type(Trace, telemetry, path=["response"])
+        assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type application/jsonl, Prism mock server will fail"
-    )
     @parametrize
     async def test_streaming_response_query_traces(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.telemetry.with_streaming_response.query_traces() as response:
@@ -597,7 +775,7 @@ class TestAsyncTelemetry:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             telemetry = await response.parse()
-            assert_matches_type(Trace, telemetry, path=["response"])
+            assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

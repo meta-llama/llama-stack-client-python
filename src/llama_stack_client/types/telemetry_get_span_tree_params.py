@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import List
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
@@ -11,8 +11,6 @@ __all__ = ["TelemetryGetSpanTreeParams"]
 
 
 class TelemetryGetSpanTreeParams(TypedDict, total=False):
-    span_id: Required[str]
-
     attributes_to_return: List[str]
 
     max_depth: int

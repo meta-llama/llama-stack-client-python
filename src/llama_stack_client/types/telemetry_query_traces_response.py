@@ -3,8 +3,8 @@
 from typing import List
 from typing_extensions import TypeAlias
 
-from .route_info import RouteInfo
+from .trace import Trace
 
-__all__ = ["RouteListResponse"]
+__all__ = ["TelemetryQueryTracesResponse"]
 
-RouteListResponse: TypeAlias = List[RouteInfo]
+TelemetryQueryTracesResponse: TypeAlias = List[Trace]
