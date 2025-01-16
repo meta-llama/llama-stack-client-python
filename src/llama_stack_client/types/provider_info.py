@@ -7,6 +7,8 @@ __all__ = ["ProviderInfo"]
 
 
 class ProviderInfo(BaseModel):
+    api: str
+
     provider_id: str
 
     provider_type: str
