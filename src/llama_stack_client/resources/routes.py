@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Type, cast
+
 import httpx
 
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
@@ -14,6 +16,7 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .._wrappers import DataWrapper
 from .._base_client import make_request_options
 from ..types.route_list_response import RouteListResponse
 
@@ -72,11 +75,15 @@ class RoutesResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/v1/routes/list",
+            "/v1/inspect/routes",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[RouteListResponse]._unwrapper,
             ),
-            cast_to=RouteListResponse,
+            cast_to=cast(Type[RouteListResponse], DataWrapper[RouteListResponse]),
         )
 
 
@@ -132,11 +139,15 @@ class AsyncRoutesResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/v1/routes/list",
+            "/v1/inspect/routes",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[RouteListResponse]._unwrapper,
             ),
-            cast_to=RouteListResponse,
+            cast_to=cast(Type[RouteListResponse], DataWrapper[RouteListResponse]),
         )
 
 
