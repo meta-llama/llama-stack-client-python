@@ -1,16 +1,16 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Union
-from typing_extensions import Literal
+from typing_extensions import Literal, TypeAlias
 
 from .._models import BaseModel
 from .shared.url import URL
 from .shared.param_type import ParamType
 
-__all__ = ["DatasetListResponse", "Data"]
+__all__ = ["DatasetListResponse", "DatasetListResponseItem"]
 
 
-class Data(BaseModel):
+class DatasetListResponseItem(BaseModel):
     dataset_schema: Dict[str, ParamType]
 
     identifier: str
@@ -26,5 +26,4 @@ class Data(BaseModel):
     url: URL
 
 
-class DatasetListResponse(BaseModel):
-    data: List[Data]
+DatasetListResponse: TypeAlias = List[DatasetListResponseItem]
