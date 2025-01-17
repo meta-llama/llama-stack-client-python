@@ -5,11 +5,70 @@ from typing_extensions import Literal, TypeAlias
 
 from ..._models import BaseModel
 
-__all__ = ["ParamType", "Type"]
+__all__ = [
+    "ParamType",
+    "StringType",
+    "NumberType",
+    "BooleanType",
+    "ArrayType",
+    "ObjectType",
+    "JsonType",
+    "UnionType",
+    "ChatCompletionInputType",
+    "CompletionInputType",
+    "AgentTurnInputType",
+]
 
 
-class Type(BaseModel):
+class StringType(BaseModel):
     type: Literal["string"]
 
 
-ParamType: TypeAlias = Union[Type, Type, Type, Type, Type, Type, Type, Type, Type, Type]
+class NumberType(BaseModel):
+    type: Literal["number"]
+
+
+class BooleanType(BaseModel):
+    type: Literal["boolean"]
+
+
+class ArrayType(BaseModel):
+    type: Literal["array"]
+
+
+class ObjectType(BaseModel):
+    type: Literal["object"]
+
+
+class JsonType(BaseModel):
+    type: Literal["json"]
+
+
+class UnionType(BaseModel):
+    type: Literal["union"]
+
+
+class ChatCompletionInputType(BaseModel):
+    type: Literal["chat_completion_input"]
+
+
+class CompletionInputType(BaseModel):
+    type: Literal["completion_input"]
+
+
+class AgentTurnInputType(BaseModel):
+    type: Literal["agent_turn_input"]
+
+
+ParamType: TypeAlias = Union[
+    StringType,
+    NumberType,
+    BooleanType,
+    ArrayType,
+    ObjectType,
+    JsonType,
+    UnionType,
+    ChatCompletionInputType,
+    CompletionInputType,
+    AgentTurnInputType,
+]
