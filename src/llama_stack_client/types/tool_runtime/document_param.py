@@ -8,15 +8,25 @@ from typing_extensions import Literal, Required, TypeAlias, TypedDict
 from ..shared_params.url import URL
 from ..shared_params.interleaved_content_item import InterleavedContentItem
 
-__all__ = ["DocumentParam", "Content", "ContentImageContentItem", "ContentTextContentItem"]
+__all__ = [
+    "DocumentParam",
+    "Content",
+    "ContentImageContentItem",
+    "ContentImageContentItemImage",
+    "ContentTextContentItem",
+]
 
 
-class ContentImageContentItem(TypedDict, total=False):
-    type: Required[Literal["image"]]
-
+class ContentImageContentItemImage(TypedDict, total=False):
     data: str
 
     url: URL
+
+
+class ContentImageContentItem(TypedDict, total=False):
+    image: Required[ContentImageContentItemImage]
+
+    type: Required[Literal["image"]]
 
 
 class ContentTextContentItem(TypedDict, total=False):

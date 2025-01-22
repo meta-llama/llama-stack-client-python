@@ -22,6 +22,7 @@ __all__ = [
     "OutputAttachment",
     "OutputAttachmentContent",
     "OutputAttachmentContentImageContentItem",
+    "OutputAttachmentContentImageContentItemImage",
     "OutputAttachmentContentTextContentItem",
     "OutputMessage",
     "Step",
@@ -30,12 +31,16 @@ __all__ = [
 InputMessage: TypeAlias = Union[UserMessage, ToolResponseMessage]
 
 
-class OutputAttachmentContentImageContentItem(BaseModel):
-    type: Literal["image"]
-
+class OutputAttachmentContentImageContentItemImage(BaseModel):
     data: Optional[str] = None
 
     url: Optional[URL] = None
+
+
+class OutputAttachmentContentImageContentItem(BaseModel):
+    image: OutputAttachmentContentImageContentItemImage
+
+    type: Literal["image"]
 
 
 class OutputAttachmentContentTextContentItem(BaseModel):

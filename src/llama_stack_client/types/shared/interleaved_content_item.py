@@ -6,15 +6,19 @@ from typing_extensions import Literal, TypeAlias
 from .url import URL
 from ..._models import BaseModel
 
-__all__ = ["InterleavedContentItem", "ImageContentItem", "TextContentItem"]
+__all__ = ["InterleavedContentItem", "ImageContentItem", "ImageContentItemImage", "TextContentItem"]
 
 
-class ImageContentItem(BaseModel):
-    type: Literal["image"]
-
+class ImageContentItemImage(BaseModel):
     data: Optional[str] = None
 
     url: Optional[URL] = None
+
+
+class ImageContentItem(BaseModel):
+    image: ImageContentItemImage
+
+    type: Literal["image"]
 
 
 class TextContentItem(BaseModel):
