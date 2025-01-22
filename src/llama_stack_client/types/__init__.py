@@ -8,6 +8,7 @@ from .model import Model as Model
 from .trace import Trace as Trace
 from .shared import (
     URL as URL,
+    Message as Message,
     ToolCall as ToolCall,
     ParamType as ParamType,
     ReturnType as ReturnType,
@@ -19,6 +20,7 @@ from .shared import (
     SamplingParams as SamplingParams,
     BatchCompletion as BatchCompletion,
     SafetyViolation as SafetyViolation,
+    CompletionMessage as CompletionMessage,
     InterleavedContent as InterleavedContent,
     ToolParamDefinition as ToolParamDefinition,
     ToolResponseMessage as ToolResponseMessage,

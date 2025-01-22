@@ -30,6 +30,7 @@ from .._response import (
 from .._streaming import Stream, AsyncStream
 from .._base_client import make_request_options
 from ..types.embeddings_response import EmbeddingsResponse
+from ..types.shared_params.message import Message
 from ..types.inference_completion_response import InferenceCompletionResponse
 from ..types.shared_params.sampling_params import SamplingParams
 from ..types.shared_params.interleaved_content import InterleavedContent
@@ -62,7 +63,7 @@ class InferenceResource(SyncAPIResource):
     def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
+        messages: Iterable[Message],
         model_id: str,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
@@ -106,7 +107,7 @@ class InferenceResource(SyncAPIResource):
     def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
+        messages: Iterable[Message],
         model_id: str,
         stream: Literal[True],
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
@@ -150,7 +151,7 @@ class InferenceResource(SyncAPIResource):
     def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
+        messages: Iterable[Message],
         model_id: str,
         stream: bool,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
@@ -194,7 +195,7 @@ class InferenceResource(SyncAPIResource):
     def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
+        messages: Iterable[Message],
         model_id: str,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
@@ -472,7 +473,7 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
+        messages: Iterable[Message],
         model_id: str,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,
@@ -516,7 +517,7 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
+        messages: Iterable[Message],
         model_id: str,
         stream: Literal[True],
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
@@ -560,7 +561,7 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
+        messages: Iterable[Message],
         model_id: str,
         stream: bool,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
@@ -604,7 +605,7 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def chat_completion(
         self,
         *,
-        messages: Iterable[inference_chat_completion_params.Message],
+        messages: Iterable[Message],
         model_id: str,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: inference_chat_completion_params.ResponseFormat | NotGiven = NOT_GIVEN,

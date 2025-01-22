@@ -23,6 +23,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.shared_params.message import Message
 from ..types.synthetic_data_generation_response import SyntheticDataGenerationResponse
 
 __all__ = ["SyntheticDataGenerationResource", "AsyncSyntheticDataGenerationResource"]
@@ -51,7 +52,7 @@ class SyntheticDataGenerationResource(SyncAPIResource):
     def generate(
         self,
         *,
-        dialogs: Iterable[synthetic_data_generation_generate_params.Dialog],
+        dialogs: Iterable[Message],
         filtering_function: Literal["none", "random", "top_k", "top_p", "top_k_top_p", "sigmoid"],
         model: str | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
@@ -122,7 +123,7 @@ class AsyncSyntheticDataGenerationResource(AsyncAPIResource):
     async def generate(
         self,
         *,
-        dialogs: Iterable[synthetic_data_generation_generate_params.Dialog],
+        dialogs: Iterable[Message],
         filtering_function: Literal["none", "random", "top_k", "top_p", "top_k_top_p", "sigmoid"],
         model: str | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,

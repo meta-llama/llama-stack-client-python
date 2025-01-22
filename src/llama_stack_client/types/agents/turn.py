@@ -7,12 +7,11 @@ from typing_extensions import Literal, TypeAlias
 from ..._models import BaseModel
 from ..shared.url import URL
 from ..inference_step import InferenceStep
-from ..shared.tool_call import ToolCall
 from ..shield_call_step import ShieldCallStep
 from ..shared.user_message import UserMessage
 from ..tool_execution_step import ToolExecutionStep
 from ..memory_retrieval_step import MemoryRetrievalStep
-from ..shared.interleaved_content import InterleavedContent
+from ..shared.completion_message import CompletionMessage
 from ..shared.tool_response_message import ToolResponseMessage
 from ..shared.interleaved_content_item import InterleavedContentItem
 
@@ -24,7 +23,6 @@ __all__ = [
     "OutputAttachmentContentImageContentItem",
     "OutputAttachmentContentImageContentItemImage",
     "OutputAttachmentContentTextContentItem",
-    "OutputMessage",
     "Step",
 ]
 
@@ -64,16 +62,6 @@ class OutputAttachment(BaseModel):
     mime_type: str
 
 
-class OutputMessage(BaseModel):
-    content: InterleavedContent
-
-    role: Literal["assistant"]
-
-    stop_reason: Literal["end_of_turn", "end_of_message", "out_of_tokens"]
-
-    tool_calls: List[ToolCall]
-
-
 Step: TypeAlias = Union[InferenceStep, ToolExecutionStep, ShieldCallStep, MemoryRetrievalStep]
 
 
@@ -82,7 +70,7 @@ class Turn(BaseModel):
 
     output_attachments: List[OutputAttachment]
 
-    output_message: OutputMessage
+    output_message: CompletionMessage
 
     session_id: str
 

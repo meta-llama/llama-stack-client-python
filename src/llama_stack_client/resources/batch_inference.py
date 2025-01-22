@@ -23,6 +23,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.shared_params.message import Message
 from ..types.shared.batch_completion import BatchCompletion
 from ..types.shared_params.sampling_params import SamplingParams
 from ..types.shared_params.interleaved_content import InterleavedContent
@@ -54,7 +55,7 @@ class BatchInferenceResource(SyncAPIResource):
     def chat_completion(
         self,
         *,
-        messages_batch: Iterable[Iterable[batch_inference_chat_completion_params.MessagesBatch]],
+        messages_batch: Iterable[Iterable[Message]],
         model: str,
         logprobs: batch_inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
@@ -195,7 +196,7 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
     async def chat_completion(
         self,
         *,
-        messages_batch: Iterable[Iterable[batch_inference_chat_completion_params.MessagesBatch]],
+        messages_batch: Iterable[Iterable[Message]],
         model: str,
         logprobs: batch_inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
