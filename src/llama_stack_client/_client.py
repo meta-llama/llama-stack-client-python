@@ -27,7 +27,6 @@ from ._utils import (
 from ._version import __version__
 from .resources import (
     tools,
-    memory,
     models,
     routes,
     safety,
@@ -39,10 +38,10 @@ from .resources import (
     inference,
     providers,
     telemetry,
+    vector_io,
     eval_tasks,
     toolgroups,
-    memory_banks,
-    tool_runtime,
+    vector_dbs,
     batch_inference,
     scoring_functions,
     synthetic_data_generation,
@@ -56,6 +55,7 @@ from ._base_client import (
 )
 from .resources.eval import eval
 from .resources.agents import agents
+from .resources.tool_runtime import tool_runtime
 from .resources.post_training import post_training
 
 __all__ = [
@@ -80,8 +80,8 @@ class LlamaStackClient(SyncAPIClient):
     eval: eval.EvalResource
     inspect: inspect.InspectResource
     inference: inference.InferenceResource
-    memory: memory.MemoryResource
-    memory_banks: memory_banks.MemoryBanksResource
+    vector_io: vector_io.VectorIoResource
+    vector_dbs: vector_dbs.VectorDBsResource
     models: models.ModelsResource
     post_training: post_training.PostTrainingResource
     providers: providers.ProvidersResource
@@ -153,8 +153,8 @@ class LlamaStackClient(SyncAPIClient):
         self.eval = eval.EvalResource(self)
         self.inspect = inspect.InspectResource(self)
         self.inference = inference.InferenceResource(self)
-        self.memory = memory.MemoryResource(self)
-        self.memory_banks = memory_banks.MemoryBanksResource(self)
+        self.vector_io = vector_io.VectorIoResource(self)
+        self.vector_dbs = vector_dbs.VectorDBsResource(self)
         self.models = models.ModelsResource(self)
         self.post_training = post_training.PostTrainingResource(self)
         self.providers = providers.ProvidersResource(self)
@@ -277,8 +277,8 @@ class AsyncLlamaStackClient(AsyncAPIClient):
     eval: eval.AsyncEvalResource
     inspect: inspect.AsyncInspectResource
     inference: inference.AsyncInferenceResource
-    memory: memory.AsyncMemoryResource
-    memory_banks: memory_banks.AsyncMemoryBanksResource
+    vector_io: vector_io.AsyncVectorIoResource
+    vector_dbs: vector_dbs.AsyncVectorDBsResource
     models: models.AsyncModelsResource
     post_training: post_training.AsyncPostTrainingResource
     providers: providers.AsyncProvidersResource
@@ -350,8 +350,8 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         self.eval = eval.AsyncEvalResource(self)
         self.inspect = inspect.AsyncInspectResource(self)
         self.inference = inference.AsyncInferenceResource(self)
-        self.memory = memory.AsyncMemoryResource(self)
-        self.memory_banks = memory_banks.AsyncMemoryBanksResource(self)
+        self.vector_io = vector_io.AsyncVectorIoResource(self)
+        self.vector_dbs = vector_dbs.AsyncVectorDBsResource(self)
         self.models = models.AsyncModelsResource(self)
         self.post_training = post_training.AsyncPostTrainingResource(self)
         self.providers = providers.AsyncProvidersResource(self)
@@ -475,8 +475,8 @@ class LlamaStackClientWithRawResponse:
         self.eval = eval.EvalResourceWithRawResponse(client.eval)
         self.inspect = inspect.InspectResourceWithRawResponse(client.inspect)
         self.inference = inference.InferenceResourceWithRawResponse(client.inference)
-        self.memory = memory.MemoryResourceWithRawResponse(client.memory)
-        self.memory_banks = memory_banks.MemoryBanksResourceWithRawResponse(client.memory_banks)
+        self.vector_io = vector_io.VectorIoResourceWithRawResponse(client.vector_io)
+        self.vector_dbs = vector_dbs.VectorDBsResourceWithRawResponse(client.vector_dbs)
         self.models = models.ModelsResourceWithRawResponse(client.models)
         self.post_training = post_training.PostTrainingResourceWithRawResponse(client.post_training)
         self.providers = providers.ProvidersResourceWithRawResponse(client.providers)
@@ -504,8 +504,8 @@ class AsyncLlamaStackClientWithRawResponse:
         self.eval = eval.AsyncEvalResourceWithRawResponse(client.eval)
         self.inspect = inspect.AsyncInspectResourceWithRawResponse(client.inspect)
         self.inference = inference.AsyncInferenceResourceWithRawResponse(client.inference)
-        self.memory = memory.AsyncMemoryResourceWithRawResponse(client.memory)
-        self.memory_banks = memory_banks.AsyncMemoryBanksResourceWithRawResponse(client.memory_banks)
+        self.vector_io = vector_io.AsyncVectorIoResourceWithRawResponse(client.vector_io)
+        self.vector_dbs = vector_dbs.AsyncVectorDBsResourceWithRawResponse(client.vector_dbs)
         self.models = models.AsyncModelsResourceWithRawResponse(client.models)
         self.post_training = post_training.AsyncPostTrainingResourceWithRawResponse(client.post_training)
         self.providers = providers.AsyncProvidersResourceWithRawResponse(client.providers)
@@ -535,8 +535,8 @@ class LlamaStackClientWithStreamedResponse:
         self.eval = eval.EvalResourceWithStreamingResponse(client.eval)
         self.inspect = inspect.InspectResourceWithStreamingResponse(client.inspect)
         self.inference = inference.InferenceResourceWithStreamingResponse(client.inference)
-        self.memory = memory.MemoryResourceWithStreamingResponse(client.memory)
-        self.memory_banks = memory_banks.MemoryBanksResourceWithStreamingResponse(client.memory_banks)
+        self.vector_io = vector_io.VectorIoResourceWithStreamingResponse(client.vector_io)
+        self.vector_dbs = vector_dbs.VectorDBsResourceWithStreamingResponse(client.vector_dbs)
         self.models = models.ModelsResourceWithStreamingResponse(client.models)
         self.post_training = post_training.PostTrainingResourceWithStreamingResponse(client.post_training)
         self.providers = providers.ProvidersResourceWithStreamingResponse(client.providers)
@@ -566,8 +566,8 @@ class AsyncLlamaStackClientWithStreamedResponse:
         self.eval = eval.AsyncEvalResourceWithStreamingResponse(client.eval)
         self.inspect = inspect.AsyncInspectResourceWithStreamingResponse(client.inspect)
         self.inference = inference.AsyncInferenceResourceWithStreamingResponse(client.inference)
-        self.memory = memory.AsyncMemoryResourceWithStreamingResponse(client.memory)
-        self.memory_banks = memory_banks.AsyncMemoryBanksResourceWithStreamingResponse(client.memory_banks)
+        self.vector_io = vector_io.AsyncVectorIoResourceWithStreamingResponse(client.vector_io)
+        self.vector_dbs = vector_dbs.AsyncVectorDBsResourceWithStreamingResponse(client.vector_dbs)
         self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
         self.post_training = post_training.AsyncPostTrainingResourceWithStreamingResponse(client.post_training)
         self.providers = providers.AsyncProvidersResourceWithStreamingResponse(client.providers)

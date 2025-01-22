@@ -6,15 +6,24 @@ from typing import Dict, Union, Iterable
 from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
+from .shared_params.interleaved_content import InterleavedContent
 
-__all__ = ["ToolRuntimeInvokeToolParams"]
+__all__ = ["VectorIoInsertParams", "Chunk"]
 
 
-class ToolRuntimeInvokeToolParams(TypedDict, total=False):
-    kwargs: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+class VectorIoInsertParams(TypedDict, total=False):
+    chunks: Required[Iterable[Chunk]]
 
-    tool_name: Required[str]
+    vector_db_id: Required[str]
+
+    ttl_seconds: int
 
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
+
+
+class Chunk(TypedDict, total=False):
+    content: Required[InterleavedContent]
+
+    metadata: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]

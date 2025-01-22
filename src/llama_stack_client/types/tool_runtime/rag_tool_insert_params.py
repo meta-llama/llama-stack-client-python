@@ -2,18 +2,21 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable
+from typing import Iterable
 from typing_extensions import Required, Annotated, TypedDict
 
-from .._utils import PropertyInfo
+from ..._utils import PropertyInfo
+from .document_param import DocumentParam
 
-__all__ = ["ToolRuntimeInvokeToolParams"]
+__all__ = ["RagToolInsertParams"]
 
 
-class ToolRuntimeInvokeToolParams(TypedDict, total=False):
-    kwargs: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+class RagToolInsertParams(TypedDict, total=False):
+    chunk_size_in_tokens: Required[int]
 
-    tool_name: Required[str]
+    documents: Required[Iterable[DocumentParam]]
+
+    vector_db_id: Required[str]
 
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
 

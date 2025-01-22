@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Dict, Type, Union, Iterable, Optional, cast
-from typing_extensions import Literal
+from typing import Type, Optional, cast
 
 import httpx
 
-from ..types import model_register_params
+from ..types import vector_db_register_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from .._utils import (
     maybe_transform,
@@ -23,36 +22,37 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._wrappers import DataWrapper
-from ..types.model import Model
 from .._base_client import make_request_options
-from ..types.model_list_response import ModelListResponse
+from ..types.vector_db_list_response import VectorDBListResponse
+from ..types.vector_db_register_response import VectorDBRegisterResponse
+from ..types.vector_db_retrieve_response import VectorDBRetrieveResponse
 
-__all__ = ["ModelsResource", "AsyncModelsResource"]
+__all__ = ["VectorDBsResource", "AsyncVectorDBsResource"]
 
 
-class ModelsResource(SyncAPIResource):
+class VectorDBsResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> ModelsResourceWithRawResponse:
+    def with_raw_response(self) -> VectorDBsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#accessing-raw-response-data-eg-headers
         """
-        return ModelsResourceWithRawResponse(self)
+        return VectorDBsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> ModelsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> VectorDBsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#with_streaming_response
         """
-        return ModelsResourceWithStreamingResponse(self)
+        return VectorDBsResourceWithStreamingResponse(self)
 
     def retrieve(
         self,
-        model_id: str,
+        vector_db_id: str,
         *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -62,7 +62,7 @@ class ModelsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[Model]:
+    ) -> Optional[VectorDBRetrieveResponse]:
         """
         Args:
           extra_headers: Send extra headers
@@ -73,8 +73,8 @@ class ModelsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not model_id:
-            raise ValueError(f"Expected a non-empty value for `model_id` but received {model_id!r}")
+        if not vector_db_id:
+            raise ValueError(f"Expected a non-empty value for `vector_db_id` but received {vector_db_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -85,11 +85,11 @@ class ModelsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            f"/v1/models/{model_id}",
+            f"/v1/vector-dbs/{vector_db_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Model,
+            cast_to=VectorDBRetrieveResponse,
         )
 
     def list(
@@ -103,7 +103,7 @@ class ModelsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelListResponse:
+    ) -> VectorDBListResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -124,25 +124,25 @@ class ModelsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            "/v1/models",
+            "/v1/vector-dbs",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                post_parser=DataWrapper[ModelListResponse]._unwrapper,
+                post_parser=DataWrapper[VectorDBListResponse]._unwrapper,
             ),
-            cast_to=cast(Type[ModelListResponse], DataWrapper[ModelListResponse]),
+            cast_to=cast(Type[VectorDBListResponse], DataWrapper[VectorDBListResponse]),
         )
 
     def register(
         self,
         *,
-        model_id: str,
-        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        model_type: Literal["llm", "embedding"] | NotGiven = NOT_GIVEN,
+        embedding_model: str,
+        vector_db_id: str,
+        embedding_dimension: int | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
-        provider_model_id: str | NotGiven = NOT_GIVEN,
+        provider_vector_db_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -151,7 +151,7 @@ class ModelsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Model:
+    ) -> VectorDBRegisterResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -172,26 +172,26 @@ class ModelsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/v1/models",
+            "/v1/vector-dbs",
             body=maybe_transform(
                 {
-                    "model_id": model_id,
-                    "metadata": metadata,
-                    "model_type": model_type,
+                    "embedding_model": embedding_model,
+                    "vector_db_id": vector_db_id,
+                    "embedding_dimension": embedding_dimension,
                     "provider_id": provider_id,
-                    "provider_model_id": provider_model_id,
+                    "provider_vector_db_id": provider_vector_db_id,
                 },
-                model_register_params.ModelRegisterParams,
+                vector_db_register_params.VectorDBRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Model,
+            cast_to=VectorDBRegisterResponse,
         )
 
     def unregister(
         self,
-        model_id: str,
+        vector_db_id: str,
         *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -212,8 +212,8 @@ class ModelsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not model_id:
-            raise ValueError(f"Expected a non-empty value for `model_id` but received {model_id!r}")
+        if not vector_db_id:
+            raise ValueError(f"Expected a non-empty value for `vector_db_id` but received {vector_db_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
@@ -225,7 +225,7 @@ class ModelsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._delete(
-            f"/v1/models/{model_id}",
+            f"/v1/vector-dbs/{vector_db_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -233,29 +233,29 @@ class ModelsResource(SyncAPIResource):
         )
 
 
-class AsyncModelsResource(AsyncAPIResource):
+class AsyncVectorDBsResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncModelsResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncVectorDBsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncModelsResourceWithRawResponse(self)
+        return AsyncVectorDBsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncModelsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncVectorDBsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#with_streaming_response
         """
-        return AsyncModelsResourceWithStreamingResponse(self)
+        return AsyncVectorDBsResourceWithStreamingResponse(self)
 
     async def retrieve(
         self,
-        model_id: str,
+        vector_db_id: str,
         *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -265,7 +265,7 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[Model]:
+    ) -> Optional[VectorDBRetrieveResponse]:
         """
         Args:
           extra_headers: Send extra headers
@@ -276,8 +276,8 @@ class AsyncModelsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not model_id:
-            raise ValueError(f"Expected a non-empty value for `model_id` but received {model_id!r}")
+        if not vector_db_id:
+            raise ValueError(f"Expected a non-empty value for `vector_db_id` but received {vector_db_id!r}")
         extra_headers = {
             **strip_not_given(
                 {
@@ -288,11 +288,11 @@ class AsyncModelsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            f"/v1/models/{model_id}",
+            f"/v1/vector-dbs/{vector_db_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Model,
+            cast_to=VectorDBRetrieveResponse,
         )
 
     async def list(
@@ -306,7 +306,7 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelListResponse:
+    ) -> VectorDBListResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -327,25 +327,25 @@ class AsyncModelsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            "/v1/models",
+            "/v1/vector-dbs",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                post_parser=DataWrapper[ModelListResponse]._unwrapper,
+                post_parser=DataWrapper[VectorDBListResponse]._unwrapper,
             ),
-            cast_to=cast(Type[ModelListResponse], DataWrapper[ModelListResponse]),
+            cast_to=cast(Type[VectorDBListResponse], DataWrapper[VectorDBListResponse]),
         )
 
     async def register(
         self,
         *,
-        model_id: str,
-        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        model_type: Literal["llm", "embedding"] | NotGiven = NOT_GIVEN,
+        embedding_model: str,
+        vector_db_id: str,
+        embedding_dimension: int | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
-        provider_model_id: str | NotGiven = NOT_GIVEN,
+        provider_vector_db_id: str | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -354,7 +354,7 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Model:
+    ) -> VectorDBRegisterResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -375,26 +375,26 @@ class AsyncModelsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/v1/models",
+            "/v1/vector-dbs",
             body=await async_maybe_transform(
                 {
-                    "model_id": model_id,
-                    "metadata": metadata,
-                    "model_type": model_type,
+                    "embedding_model": embedding_model,
+                    "vector_db_id": vector_db_id,
+                    "embedding_dimension": embedding_dimension,
                     "provider_id": provider_id,
-                    "provider_model_id": provider_model_id,
+                    "provider_vector_db_id": provider_vector_db_id,
                 },
-                model_register_params.ModelRegisterParams,
+                vector_db_register_params.VectorDBRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Model,
+            cast_to=VectorDBRegisterResponse,
         )
 
     async def unregister(
         self,
-        model_id: str,
+        vector_db_id: str,
         *,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -415,8 +415,8 @@ class AsyncModelsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not model_id:
-            raise ValueError(f"Expected a non-empty value for `model_id` but received {model_id!r}")
+        if not vector_db_id:
+            raise ValueError(f"Expected a non-empty value for `vector_db_id` but received {vector_db_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
@@ -428,7 +428,7 @@ class AsyncModelsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._delete(
-            f"/v1/models/{model_id}",
+            f"/v1/vector-dbs/{vector_db_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -436,73 +436,73 @@ class AsyncModelsResource(AsyncAPIResource):
         )
 
 
-class ModelsResourceWithRawResponse:
-    def __init__(self, models: ModelsResource) -> None:
-        self._models = models
+class VectorDBsResourceWithRawResponse:
+    def __init__(self, vector_dbs: VectorDBsResource) -> None:
+        self._vector_dbs = vector_dbs
 
         self.retrieve = to_raw_response_wrapper(
-            models.retrieve,
+            vector_dbs.retrieve,
         )
         self.list = to_raw_response_wrapper(
-            models.list,
+            vector_dbs.list,
         )
         self.register = to_raw_response_wrapper(
-            models.register,
+            vector_dbs.register,
         )
         self.unregister = to_raw_response_wrapper(
-            models.unregister,
+            vector_dbs.unregister,
         )
 
 
-class AsyncModelsResourceWithRawResponse:
-    def __init__(self, models: AsyncModelsResource) -> None:
-        self._models = models
+class AsyncVectorDBsResourceWithRawResponse:
+    def __init__(self, vector_dbs: AsyncVectorDBsResource) -> None:
+        self._vector_dbs = vector_dbs
 
         self.retrieve = async_to_raw_response_wrapper(
-            models.retrieve,
+            vector_dbs.retrieve,
         )
         self.list = async_to_raw_response_wrapper(
-            models.list,
+            vector_dbs.list,
         )
         self.register = async_to_raw_response_wrapper(
-            models.register,
+            vector_dbs.register,
         )
         self.unregister = async_to_raw_response_wrapper(
-            models.unregister,
+            vector_dbs.unregister,
         )
 
 
-class ModelsResourceWithStreamingResponse:
-    def __init__(self, models: ModelsResource) -> None:
-        self._models = models
+class VectorDBsResourceWithStreamingResponse:
+    def __init__(self, vector_dbs: VectorDBsResource) -> None:
+        self._vector_dbs = vector_dbs
 
         self.retrieve = to_streamed_response_wrapper(
-            models.retrieve,
+            vector_dbs.retrieve,
         )
         self.list = to_streamed_response_wrapper(
-            models.list,
+            vector_dbs.list,
         )
         self.register = to_streamed_response_wrapper(
-            models.register,
+            vector_dbs.register,
         )
         self.unregister = to_streamed_response_wrapper(
-            models.unregister,
+            vector_dbs.unregister,
         )
 
 
-class AsyncModelsResourceWithStreamingResponse:
-    def __init__(self, models: AsyncModelsResource) -> None:
-        self._models = models
+class AsyncVectorDBsResourceWithStreamingResponse:
+    def __init__(self, vector_dbs: AsyncVectorDBsResource) -> None:
+        self._vector_dbs = vector_dbs
 
         self.retrieve = async_to_streamed_response_wrapper(
-            models.retrieve,
+            vector_dbs.retrieve,
         )
         self.list = async_to_streamed_response_wrapper(
-            models.list,
+            vector_dbs.list,
         )
         self.register = async_to_streamed_response_wrapper(
-            models.register,
+            vector_dbs.register,
         )
         self.unregister = async_to_streamed_response_wrapper(
-            models.unregister,
+            vector_dbs.unregister,
         )
