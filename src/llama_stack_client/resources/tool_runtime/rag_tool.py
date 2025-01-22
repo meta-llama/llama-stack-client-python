@@ -2,56 +2,60 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable
+from typing import List, Iterable
 
 import httpx
 
-from ..types import datasetio_append_rows_params, datasetio_get_rows_paginated_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from .._utils import (
+from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
+from ..._utils import (
     maybe_transform,
     strip_not_given,
     async_maybe_transform,
 )
-from .._compat import cached_property
-from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import (
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from .._base_client import make_request_options
-from ..types.paginated_rows_result import PaginatedRowsResult
+from ..._base_client import make_request_options
+from ...types.tool_runtime import rag_tool_query_params, rag_tool_insert_params
+from ...types.tool_runtime.query_result import QueryResult
+from ...types.tool_runtime.document_param import DocumentParam
+from ...types.tool_runtime.query_config_param import QueryConfigParam
+from ...types.shared_params.interleaved_content import InterleavedContent
 
-__all__ = ["DatasetioResource", "AsyncDatasetioResource"]
+__all__ = ["RagToolResource", "AsyncRagToolResource"]
 
 
-class DatasetioResource(SyncAPIResource):
+class RagToolResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> DatasetioResourceWithRawResponse:
+    def with_raw_response(self) -> RagToolResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#accessing-raw-response-data-eg-headers
         """
-        return DatasetioResourceWithRawResponse(self)
+        return RagToolResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> DatasetioResourceWithStreamingResponse:
+    def with_streaming_response(self) -> RagToolResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#with_streaming_response
         """
-        return DatasetioResourceWithStreamingResponse(self)
+        return RagToolResourceWithStreamingResponse(self)
 
-    def append_rows(
+    def insert(
         self,
         *,
-        dataset_id: str,
-        rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
+        chunk_size_in_tokens: int,
+        documents: Iterable[DocumentParam],
+        vector_db_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -62,6 +66,8 @@ class DatasetioResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Index documents so they can be used by the RAG system
+
         Args:
           extra_headers: Send extra headers
 
@@ -82,13 +88,14 @@ class DatasetioResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            "/v1/datasetio/rows",
+            "/v1/tool-runtime/rag-tool/insert",
             body=maybe_transform(
                 {
-                    "dataset_id": dataset_id,
-                    "rows": rows,
+                    "chunk_size_in_tokens": chunk_size_in_tokens,
+                    "documents": documents,
+                    "vector_db_id": vector_db_id,
                 },
-                datasetio_append_rows_params.DatasetioAppendRowsParams,
+                rag_tool_insert_params.RagToolInsertParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -96,13 +103,12 @@ class DatasetioResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
-    def get_rows_paginated(
+    def query(
         self,
         *,
-        dataset_id: str,
-        rows_in_page: int,
-        filter_condition: str | NotGiven = NOT_GIVEN,
-        page_token: str | NotGiven = NOT_GIVEN,
+        content: InterleavedContent,
+        vector_db_ids: List[str],
+        query_config: QueryConfigParam | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -111,8 +117,10 @@ class DatasetioResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PaginatedRowsResult:
+    ) -> QueryResult:
         """
+        Query the RAG system for context; typically invoked by the agent
+
         Args:
           extra_headers: Send extra headers
 
@@ -131,52 +139,49 @@ class DatasetioResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._get(
-            "/v1/datasetio/rows",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "dataset_id": dataset_id,
-                        "rows_in_page": rows_in_page,
-                        "filter_condition": filter_condition,
-                        "page_token": page_token,
-                    },
-                    datasetio_get_rows_paginated_params.DatasetioGetRowsPaginatedParams,
-                ),
+        return self._post(
+            "/v1/tool-runtime/rag-tool/query",
+            body=maybe_transform(
+                {
+                    "content": content,
+                    "vector_db_ids": vector_db_ids,
+                    "query_config": query_config,
+                },
+                rag_tool_query_params.RagToolQueryParams,
             ),
-            cast_to=PaginatedRowsResult,
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=QueryResult,
         )
 
 
-class AsyncDatasetioResource(AsyncAPIResource):
+class AsyncRagToolResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncDatasetioResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncRagToolResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncDatasetioResourceWithRawResponse(self)
+        return AsyncRagToolResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncDatasetioResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncRagToolResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#with_streaming_response
         """
-        return AsyncDatasetioResourceWithStreamingResponse(self)
+        return AsyncRagToolResourceWithStreamingResponse(self)
 
-    async def append_rows(
+    async def insert(
         self,
         *,
-        dataset_id: str,
-        rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
+        chunk_size_in_tokens: int,
+        documents: Iterable[DocumentParam],
+        vector_db_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -187,6 +192,8 @@ class AsyncDatasetioResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Index documents so they can be used by the RAG system
+
         Args:
           extra_headers: Send extra headers
 
@@ -207,13 +214,14 @@ class AsyncDatasetioResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            "/v1/datasetio/rows",
+            "/v1/tool-runtime/rag-tool/insert",
             body=await async_maybe_transform(
                 {
-                    "dataset_id": dataset_id,
-                    "rows": rows,
+                    "chunk_size_in_tokens": chunk_size_in_tokens,
+                    "documents": documents,
+                    "vector_db_id": vector_db_id,
                 },
-                datasetio_append_rows_params.DatasetioAppendRowsParams,
+                rag_tool_insert_params.RagToolInsertParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -221,13 +229,12 @@ class AsyncDatasetioResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
-    async def get_rows_paginated(
+    async def query(
         self,
         *,
-        dataset_id: str,
-        rows_in_page: int,
-        filter_condition: str | NotGiven = NOT_GIVEN,
-        page_token: str | NotGiven = NOT_GIVEN,
+        content: InterleavedContent,
+        vector_db_ids: List[str],
+        query_config: QueryConfigParam | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -236,8 +243,10 @@ class AsyncDatasetioResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PaginatedRowsResult:
+    ) -> QueryResult:
         """
+        Query the RAG system for context; typically invoked by the agent
+
         Args:
           extra_headers: Send extra headers
 
@@ -256,70 +265,66 @@ class AsyncDatasetioResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return await self._get(
-            "/v1/datasetio/rows",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "dataset_id": dataset_id,
-                        "rows_in_page": rows_in_page,
-                        "filter_condition": filter_condition,
-                        "page_token": page_token,
-                    },
-                    datasetio_get_rows_paginated_params.DatasetioGetRowsPaginatedParams,
-                ),
+        return await self._post(
+            "/v1/tool-runtime/rag-tool/query",
+            body=await async_maybe_transform(
+                {
+                    "content": content,
+                    "vector_db_ids": vector_db_ids,
+                    "query_config": query_config,
+                },
+                rag_tool_query_params.RagToolQueryParams,
             ),
-            cast_to=PaginatedRowsResult,
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=QueryResult,
         )
 
 
-class DatasetioResourceWithRawResponse:
-    def __init__(self, datasetio: DatasetioResource) -> None:
-        self._datasetio = datasetio
+class RagToolResourceWithRawResponse:
+    def __init__(self, rag_tool: RagToolResource) -> None:
+        self._rag_tool = rag_tool
 
-        self.append_rows = to_raw_response_wrapper(
-            datasetio.append_rows,
+        self.insert = to_raw_response_wrapper(
+            rag_tool.insert,
         )
-        self.get_rows_paginated = to_raw_response_wrapper(
-            datasetio.get_rows_paginated,
-        )
-
-
-class AsyncDatasetioResourceWithRawResponse:
-    def __init__(self, datasetio: AsyncDatasetioResource) -> None:
-        self._datasetio = datasetio
-
-        self.append_rows = async_to_raw_response_wrapper(
-            datasetio.append_rows,
-        )
-        self.get_rows_paginated = async_to_raw_response_wrapper(
-            datasetio.get_rows_paginated,
+        self.query = to_raw_response_wrapper(
+            rag_tool.query,
         )
 
 
-class DatasetioResourceWithStreamingResponse:
-    def __init__(self, datasetio: DatasetioResource) -> None:
-        self._datasetio = datasetio
+class AsyncRagToolResourceWithRawResponse:
+    def __init__(self, rag_tool: AsyncRagToolResource) -> None:
+        self._rag_tool = rag_tool
 
-        self.append_rows = to_streamed_response_wrapper(
-            datasetio.append_rows,
+        self.insert = async_to_raw_response_wrapper(
+            rag_tool.insert,
         )
-        self.get_rows_paginated = to_streamed_response_wrapper(
-            datasetio.get_rows_paginated,
+        self.query = async_to_raw_response_wrapper(
+            rag_tool.query,
         )
 
 
-class AsyncDatasetioResourceWithStreamingResponse:
-    def __init__(self, datasetio: AsyncDatasetioResource) -> None:
-        self._datasetio = datasetio
+class RagToolResourceWithStreamingResponse:
+    def __init__(self, rag_tool: RagToolResource) -> None:
+        self._rag_tool = rag_tool
 
-        self.append_rows = async_to_streamed_response_wrapper(
-            datasetio.append_rows,
+        self.insert = to_streamed_response_wrapper(
+            rag_tool.insert,
         )
-        self.get_rows_paginated = async_to_streamed_response_wrapper(
-            datasetio.get_rows_paginated,
+        self.query = to_streamed_response_wrapper(
+            rag_tool.query,
+        )
+
+
+class AsyncRagToolResourceWithStreamingResponse:
+    def __init__(self, rag_tool: AsyncRagToolResource) -> None:
+        self._rag_tool = rag_tool
+
+        self.insert = async_to_streamed_response_wrapper(
+            rag_tool.insert,
+        )
+        self.query = async_to_streamed_response_wrapper(
+            rag_tool.query,
         )

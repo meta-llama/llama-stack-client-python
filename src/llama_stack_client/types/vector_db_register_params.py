@@ -2,18 +2,23 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable
 from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["ToolRuntimeInvokeToolParams"]
+__all__ = ["VectorDBRegisterParams"]
 
 
-class ToolRuntimeInvokeToolParams(TypedDict, total=False):
-    kwargs: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+class VectorDBRegisterParams(TypedDict, total=False):
+    embedding_model: Required[str]
 
-    tool_name: Required[str]
+    vector_db_id: Required[str]
+
+    embedding_dimension: int
+
+    provider_id: str
+
+    provider_vector_db_id: str
 
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
 

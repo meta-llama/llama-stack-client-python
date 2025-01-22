@@ -24,14 +24,6 @@ from .agents import (
     AgentsResourceWithStreamingResponse,
     AsyncAgentsResourceWithStreamingResponse,
 )
-from .memory import (
-    MemoryResource,
-    AsyncMemoryResource,
-    MemoryResourceWithRawResponse,
-    AsyncMemoryResourceWithRawResponse,
-    MemoryResourceWithStreamingResponse,
-    AsyncMemoryResourceWithStreamingResponse,
-)
 from .models import (
     ModelsResource,
     AsyncModelsResource,
@@ -120,6 +112,14 @@ from .telemetry import (
     TelemetryResourceWithStreamingResponse,
     AsyncTelemetryResourceWithStreamingResponse,
 )
+from .vector_io import (
+    VectorIoResource,
+    AsyncVectorIoResource,
+    VectorIoResourceWithRawResponse,
+    AsyncVectorIoResourceWithRawResponse,
+    VectorIoResourceWithStreamingResponse,
+    AsyncVectorIoResourceWithStreamingResponse,
+)
 from .eval_tasks import (
     EvalTasksResource,
     AsyncEvalTasksResource,
@@ -136,13 +136,13 @@ from .toolgroups import (
     ToolgroupsResourceWithStreamingResponse,
     AsyncToolgroupsResourceWithStreamingResponse,
 )
-from .memory_banks import (
-    MemoryBanksResource,
-    AsyncMemoryBanksResource,
-    MemoryBanksResourceWithRawResponse,
-    AsyncMemoryBanksResourceWithRawResponse,
-    MemoryBanksResourceWithStreamingResponse,
-    AsyncMemoryBanksResourceWithStreamingResponse,
+from .vector_dbs import (
+    VectorDBsResource,
+    AsyncVectorDBsResource,
+    VectorDBsResourceWithRawResponse,
+    AsyncVectorDBsResourceWithRawResponse,
+    VectorDBsResourceWithStreamingResponse,
+    AsyncVectorDBsResourceWithStreamingResponse,
 )
 from .tool_runtime import (
     ToolRuntimeResource,
@@ -240,18 +240,18 @@ __all__ = [
     "AsyncInferenceResourceWithRawResponse",
     "InferenceResourceWithStreamingResponse",
     "AsyncInferenceResourceWithStreamingResponse",
-    "MemoryResource",
-    "AsyncMemoryResource",
-    "MemoryResourceWithRawResponse",
-    "AsyncMemoryResourceWithRawResponse",
-    "MemoryResourceWithStreamingResponse",
-    "AsyncMemoryResourceWithStreamingResponse",
-    "MemoryBanksResource",
-    "AsyncMemoryBanksResource",
-    "MemoryBanksResourceWithRawResponse",
-    "AsyncMemoryBanksResourceWithRawResponse",
-    "MemoryBanksResourceWithStreamingResponse",
-    "AsyncMemoryBanksResourceWithStreamingResponse",
+    "VectorIoResource",
+    "AsyncVectorIoResource",
+    "VectorIoResourceWithRawResponse",
+    "AsyncVectorIoResourceWithRawResponse",
+    "VectorIoResourceWithStreamingResponse",
+    "AsyncVectorIoResourceWithStreamingResponse",
+    "VectorDBsResource",
+    "AsyncVectorDBsResource",
+    "VectorDBsResourceWithRawResponse",
+    "AsyncVectorDBsResourceWithRawResponse",
+    "VectorDBsResourceWithStreamingResponse",
+    "AsyncVectorDBsResourceWithStreamingResponse",
     "ModelsResource",
     "AsyncModelsResource",
     "ModelsResourceWithRawResponse",

@@ -6,14 +6,17 @@ from typing import Dict, Union, Iterable
 from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
+from .shared_params.interleaved_content import InterleavedContent
 
-__all__ = ["ToolRuntimeInvokeToolParams"]
+__all__ = ["VectorIoQueryParams"]
 
 
-class ToolRuntimeInvokeToolParams(TypedDict, total=False):
-    kwargs: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+class VectorIoQueryParams(TypedDict, total=False):
+    query: Required[InterleavedContent]
 
-    tool_name: Required[str]
+    vector_db_id: Required[str]
+
+    params: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
 
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
 
