@@ -95,10 +95,10 @@ class EventLogger:
                 yield LogEvent(role=step_type, content="", end="", color="yellow")
             elif event_type == "step_progress":
                 if event.payload.delta.type == "tool_call":
-                    if isinstance(event.payload.delta.content, str):
+                    if isinstance(event.payload.delta.tool_call, str):
                         yield LogEvent(
                             role=None,
-                            content=event.payload.delta.content,
+                            content=event.payload.delta.tool_call,
                             end="",
                             color="cyan",
                         )
@@ -125,7 +125,7 @@ class EventLogger:
                 )
 
             for r in details.tool_responses:
-                if r.tool_name == "query_memory":
+                if r.tool_name == "query_from_memory":
                     inserted_context = interleaved_content_as_str(r.content)
                     content = f"fetched {len(inserted_context)} bytes from memory"
 
