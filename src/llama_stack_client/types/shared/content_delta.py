@@ -1,35 +1,36 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Union
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import Literal, Annotated, TypeAlias
 
+from . import tool_call
+from ..._utils import PropertyInfo
 from ..._models import BaseModel
-from .tool_call import ToolCall
 
-__all__ = ["ContentDelta", "TextDelta", "ImageDelta", "ToolCallDelta", "ToolCallDeltaToolCall"]
+__all__ = ["ContentDelta", "Text", "Image", "ToolCall", "ToolCallToolCall"]
 
 
-class TextDelta(BaseModel):
+class Text(BaseModel):
     text: str
 
     type: Literal["text"]
 
 
-class ImageDelta(BaseModel):
+class Image(BaseModel):
     image: str
 
     type: Literal["image"]
 
 
-ToolCallDeltaToolCall: TypeAlias = Union[str, ToolCall]
+ToolCallToolCall: TypeAlias = Union[str, tool_call.ToolCall]
 
 
-class ToolCallDelta(BaseModel):
+class ToolCall(BaseModel):
     parse_status: Literal["started", "in_progress", "failed", "succeeded"]
 
-    tool_call: ToolCallDeltaToolCall
+    tool_call: ToolCallToolCall
 
     type: Literal["tool_call"]
 
 
-ContentDelta: TypeAlias = Union[TextDelta, ImageDelta, ToolCallDelta]
+ContentDelta: TypeAlias = Annotated[Union[Text, Image, ToolCall], PropertyInfo(discriminator="type")]

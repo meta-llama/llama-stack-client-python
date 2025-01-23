@@ -1,74 +1,69 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Union
-from typing_extensions import Literal, TypeAlias
+import typing
+from typing_extensions import Literal, Annotated, TypeAlias
 
+from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
 __all__ = [
     "ParamType",
-    "StringType",
-    "NumberType",
-    "BooleanType",
-    "ArrayType",
-    "ObjectType",
-    "JsonType",
-    "UnionType",
-    "ChatCompletionInputType",
-    "CompletionInputType",
-    "AgentTurnInputType",
+    "String",
+    "Number",
+    "Boolean",
+    "Array",
+    "Object",
+    "Json",
+    "Union",
+    "ChatCompletionInput",
+    "CompletionInput",
+    "AgentTurnInput",
 ]
 
 
-class StringType(BaseModel):
+class String(BaseModel):
     type: Literal["string"]
 
 
-class NumberType(BaseModel):
+class Number(BaseModel):
     type: Literal["number"]
 
 
-class BooleanType(BaseModel):
+class Boolean(BaseModel):
     type: Literal["boolean"]
 
 
-class ArrayType(BaseModel):
+class Array(BaseModel):
     type: Literal["array"]
 
 
-class ObjectType(BaseModel):
+class Object(BaseModel):
     type: Literal["object"]
 
 
-class JsonType(BaseModel):
+class Json(BaseModel):
     type: Literal["json"]
 
 
-class UnionType(BaseModel):
+class Union(BaseModel):
     type: Literal["union"]
 
 
-class ChatCompletionInputType(BaseModel):
+class ChatCompletionInput(BaseModel):
     type: Literal["chat_completion_input"]
 
 
-class CompletionInputType(BaseModel):
+class CompletionInput(BaseModel):
     type: Literal["completion_input"]
 
 
-class AgentTurnInputType(BaseModel):
+class AgentTurnInput(BaseModel):
     type: Literal["agent_turn_input"]
 
 
-ParamType: TypeAlias = Union[
-    StringType,
-    NumberType,
-    BooleanType,
-    ArrayType,
-    ObjectType,
-    JsonType,
-    UnionType,
-    ChatCompletionInputType,
-    CompletionInputType,
-    AgentTurnInputType,
+ParamType: TypeAlias = Annotated[
+    typing.Union[
+        String, Number, Boolean, Array, Object, Json, Union, ChatCompletionInput, CompletionInput, AgentTurnInput
+    ],
+    PropertyInfo(discriminator="type"),
 ]

@@ -6,7 +6,7 @@ from typing import List
 from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
-from .query_config_param import QueryConfigParam
+from ..shared_params.query_config import QueryConfig
 from ..shared_params.interleaved_content import InterleavedContent
 
 __all__ = ["RagToolQueryParams"]
@@ -17,7 +17,7 @@ class RagToolQueryParams(TypedDict, total=False):
 
     vector_db_ids: Required[List[str]]
 
-    query_config: QueryConfigParam
+    query_config: QueryConfig
 
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
 

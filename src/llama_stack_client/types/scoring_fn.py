@@ -1,21 +1,16 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Union, Optional
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import Literal, Annotated, TypeAlias
 
+from .._utils import PropertyInfo
 from .._models import BaseModel
 from .shared.return_type import ReturnType
 
-__all__ = [
-    "ScoringFn",
-    "Params",
-    "ParamsLlmAsJudgeScoringFnParams",
-    "ParamsRegexParserScoringFnParams",
-    "ParamsBasicScoringFnParams",
-]
+__all__ = ["ScoringFn", "Params", "ParamsLlmAsJudge", "ParamsRegexParser", "ParamsBasic"]
 
 
-class ParamsLlmAsJudgeScoringFnParams(BaseModel):
+class ParamsLlmAsJudge(BaseModel):
     judge_model: str
 
     type: Literal["llm_as_judge"]
@@ -27,7 +22,7 @@ class ParamsLlmAsJudgeScoringFnParams(BaseModel):
     prompt_template: Optional[str] = None
 
 
-class ParamsRegexParserScoringFnParams(BaseModel):
+class ParamsRegexParser(BaseModel):
     type: Literal["regex_parser"]
 
     aggregation_functions: Optional[List[Literal["average", "median", "categorical_count", "accuracy"]]] = None
@@ -35,13 +30,15 @@ class ParamsRegexParserScoringFnParams(BaseModel):
     parsing_regexes: Optional[List[str]] = None
 
 
-class ParamsBasicScoringFnParams(BaseModel):
+class ParamsBasic(BaseModel):
     type: Literal["basic"]
 
     aggregation_functions: Optional[List[Literal["average", "median", "categorical_count", "accuracy"]]] = None
 
 
-Params: TypeAlias = Union[ParamsLlmAsJudgeScoringFnParams, ParamsRegexParserScoringFnParams, ParamsBasicScoringFnParams]
+Params: TypeAlias = Annotated[
+    Union[ParamsLlmAsJudge, ParamsRegexParser, ParamsBasic], PropertyInfo(discriminator="type")
+]
 
 
 class ScoringFn(BaseModel):
