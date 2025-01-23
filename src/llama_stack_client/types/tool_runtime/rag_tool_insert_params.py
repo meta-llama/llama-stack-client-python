@@ -6,7 +6,7 @@ from typing import Iterable
 from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
-from .document_param import DocumentParam
+from ..shared_params.document import Document
 
 __all__ = ["RagToolInsertParams"]
 
@@ -14,7 +14,7 @@ __all__ = ["RagToolInsertParams"]
 class RagToolInsertParams(TypedDict, total=False):
     chunk_size_in_tokens: Required[int]
 
-    documents: Required[Iterable[DocumentParam]]
+    documents: Required[Iterable[Document]]
 
     vector_db_id: Required[str]
 

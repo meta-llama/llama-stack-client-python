@@ -2,8 +2,9 @@
 
 from typing import List, Union, Optional
 from datetime import datetime
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import Literal, Annotated, TypeAlias
 
+from ..._utils import PropertyInfo
 from ..._models import BaseModel
 from ..shared.url import URL
 from ..inference_step import InferenceStep
@@ -62,7 +63,10 @@ class OutputAttachment(BaseModel):
     mime_type: str
 
 
-Step: TypeAlias = Union[InferenceStep, ToolExecutionStep, ShieldCallStep, MemoryRetrievalStep]
+Step: TypeAlias = Annotated[
+    Union[InferenceStep, ToolExecutionStep, ShieldCallStep, MemoryRetrievalStep],
+    PropertyInfo(discriminator="step_type"),
+]
 
 
 class Turn(BaseModel):

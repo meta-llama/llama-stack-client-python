@@ -8,13 +8,7 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 from .._utils import PropertyInfo
 from .shared_params.return_type import ReturnType
 
-__all__ = [
-    "ScoringFunctionRegisterParams",
-    "Params",
-    "ParamsLlmAsJudgeScoringFnParams",
-    "ParamsRegexParserScoringFnParams",
-    "ParamsBasicScoringFnParams",
-]
+__all__ = ["ScoringFunctionRegisterParams", "Params", "ParamsLlmAsJudge", "ParamsRegexParser", "ParamsBasic"]
 
 
 class ScoringFunctionRegisterParams(TypedDict, total=False):
@@ -35,7 +29,7 @@ class ScoringFunctionRegisterParams(TypedDict, total=False):
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
 
 
-class ParamsLlmAsJudgeScoringFnParams(TypedDict, total=False):
+class ParamsLlmAsJudge(TypedDict, total=False):
     judge_model: Required[str]
 
     type: Required[Literal["llm_as_judge"]]
@@ -47,7 +41,7 @@ class ParamsLlmAsJudgeScoringFnParams(TypedDict, total=False):
     prompt_template: str
 
 
-class ParamsRegexParserScoringFnParams(TypedDict, total=False):
+class ParamsRegexParser(TypedDict, total=False):
     type: Required[Literal["regex_parser"]]
 
     aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
@@ -55,10 +49,10 @@ class ParamsRegexParserScoringFnParams(TypedDict, total=False):
     parsing_regexes: List[str]
 
 
-class ParamsBasicScoringFnParams(TypedDict, total=False):
+class ParamsBasic(TypedDict, total=False):
     type: Required[Literal["basic"]]
 
     aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
 
 
-Params: TypeAlias = Union[ParamsLlmAsJudgeScoringFnParams, ParamsRegexParserScoringFnParams, ParamsBasicScoringFnParams]
+Params: TypeAlias = Union[ParamsLlmAsJudge, ParamsRegexParser, ParamsBasic]

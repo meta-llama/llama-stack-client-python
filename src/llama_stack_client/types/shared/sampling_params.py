@@ -1,24 +1,19 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Union, Optional
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import Literal, Annotated, TypeAlias
 
+from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
-__all__ = [
-    "SamplingParams",
-    "Strategy",
-    "StrategyGreedySamplingStrategy",
-    "StrategyTopPSamplingStrategy",
-    "StrategyTopKSamplingStrategy",
-]
+__all__ = ["SamplingParams", "Strategy", "StrategyGreedy", "StrategyTopP", "StrategyTopK"]
 
 
-class StrategyGreedySamplingStrategy(BaseModel):
+class StrategyGreedy(BaseModel):
     type: Literal["greedy"]
 
 
-class StrategyTopPSamplingStrategy(BaseModel):
+class StrategyTopP(BaseModel):
     type: Literal["top_p"]
 
     temperature: Optional[float] = None
@@ -26,13 +21,13 @@ class StrategyTopPSamplingStrategy(BaseModel):
     top_p: Optional[float] = None
 
 
-class StrategyTopKSamplingStrategy(BaseModel):
+class StrategyTopK(BaseModel):
     top_k: int
 
     type: Literal["top_k"]
 
 
-Strategy: TypeAlias = Union[StrategyGreedySamplingStrategy, StrategyTopPSamplingStrategy, StrategyTopKSamplingStrategy]
+Strategy: TypeAlias = Annotated[Union[StrategyGreedy, StrategyTopP, StrategyTopK], PropertyInfo(discriminator="type")]
 
 
 class SamplingParams(BaseModel):

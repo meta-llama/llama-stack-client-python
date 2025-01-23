@@ -14,8 +14,8 @@ __all__ = [
     "InferenceChatCompletionParamsBase",
     "Logprobs",
     "ResponseFormat",
-    "ResponseFormatUnionMember0",
-    "ResponseFormatUnionMember1",
+    "ResponseFormatJsonSchema",
+    "ResponseFormatGrammar",
     "Tool",
     "InferenceChatCompletionParamsNonStreaming",
     "InferenceChatCompletionParamsStreaming",
@@ -59,19 +59,19 @@ class Logprobs(TypedDict, total=False):
     top_k: int
 
 
-class ResponseFormatUnionMember0(TypedDict, total=False):
+class ResponseFormatJsonSchema(TypedDict, total=False):
     json_schema: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
     type: Required[Literal["json_schema"]]
 
 
-class ResponseFormatUnionMember1(TypedDict, total=False):
+class ResponseFormatGrammar(TypedDict, total=False):
     bnf: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
     type: Required[Literal["grammar"]]
 
 
-ResponseFormat: TypeAlias = Union[ResponseFormatUnionMember0, ResponseFormatUnionMember1]
+ResponseFormat: TypeAlias = Union[ResponseFormatJsonSchema, ResponseFormatGrammar]
 
 
 class Tool(TypedDict, total=False):

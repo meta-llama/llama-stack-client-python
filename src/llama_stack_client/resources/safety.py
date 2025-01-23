@@ -23,6 +23,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.run_shield_response import RunShieldResponse
+from ..types.shared_params.message import Message
 
 __all__ = ["SafetyResource", "AsyncSafetyResource"]
 
@@ -50,7 +51,7 @@ class SafetyResource(SyncAPIResource):
     def run_shield(
         self,
         *,
-        messages: Iterable[safety_run_shield_params.Message],
+        messages: Iterable[Message],
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         shield_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
@@ -121,7 +122,7 @@ class AsyncSafetyResource(AsyncAPIResource):
     async def run_shield(
         self,
         *,
-        messages: Iterable[safety_run_shield_params.Message],
+        messages: Iterable[Message],
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         shield_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,

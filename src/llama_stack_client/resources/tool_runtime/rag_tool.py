@@ -22,9 +22,9 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.tool_runtime import rag_tool_query_params, rag_tool_insert_params
-from ...types.tool_runtime.query_result import QueryResult
-from ...types.tool_runtime.document_param import DocumentParam
-from ...types.tool_runtime.query_config_param import QueryConfigParam
+from ...types.shared.query_result import QueryResult
+from ...types.shared_params.document import Document
+from ...types.shared_params.query_config import QueryConfig
 from ...types.shared_params.interleaved_content import InterleavedContent
 
 __all__ = ["RagToolResource", "AsyncRagToolResource"]
@@ -54,7 +54,7 @@ class RagToolResource(SyncAPIResource):
         self,
         *,
         chunk_size_in_tokens: int,
-        documents: Iterable[DocumentParam],
+        documents: Iterable[Document],
         vector_db_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -108,7 +108,7 @@ class RagToolResource(SyncAPIResource):
         *,
         content: InterleavedContent,
         vector_db_ids: List[str],
-        query_config: QueryConfigParam | NotGiven = NOT_GIVEN,
+        query_config: QueryConfig | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -180,7 +180,7 @@ class AsyncRagToolResource(AsyncAPIResource):
         self,
         *,
         chunk_size_in_tokens: int,
-        documents: Iterable[DocumentParam],
+        documents: Iterable[Document],
         vector_db_id: str,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -234,7 +234,7 @@ class AsyncRagToolResource(AsyncAPIResource):
         *,
         content: InterleavedContent,
         vector_db_ids: List[str],
-        query_config: QueryConfigParam | NotGiven = NOT_GIVEN,
+        query_config: QueryConfig | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.

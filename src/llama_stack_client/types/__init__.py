@@ -9,10 +9,13 @@ from .trace import Trace as Trace
 from .shared import (
     URL as URL,
     Message as Message,
+    Document as Document,
     ToolCall as ToolCall,
     ParamType as ParamType,
     ReturnType as ReturnType,
     AgentConfig as AgentConfig,
+    QueryConfig as QueryConfig,
+    QueryResult as QueryResult,
     UserMessage as UserMessage,
     ContentDelta as ContentDelta,
     ScoringResult as ScoringResult,

@@ -1,30 +1,31 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Union, Optional
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import Literal, Annotated, TypeAlias
 
 from .url import URL
+from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
-__all__ = ["InterleavedContentItem", "ImageContentItem", "ImageContentItemImage", "TextContentItem"]
+__all__ = ["InterleavedContentItem", "Image", "ImageImage", "Text"]
 
 
-class ImageContentItemImage(BaseModel):
+class ImageImage(BaseModel):
     data: Optional[str] = None
 
     url: Optional[URL] = None
 
 
-class ImageContentItem(BaseModel):
-    image: ImageContentItemImage
+class Image(BaseModel):
+    image: ImageImage
 
     type: Literal["image"]
 
 
-class TextContentItem(BaseModel):
+class Text(BaseModel):
     text: str
 
     type: Literal["text"]
 
 
-InterleavedContentItem: TypeAlias = Union[ImageContentItem, TextContentItem]
+InterleavedContentItem: TypeAlias = Annotated[Union[Image, Text], PropertyInfo(discriminator="type")]

@@ -7,25 +7,25 @@ from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .url import URL
 
-__all__ = ["InterleavedContentItem", "ImageContentItem", "ImageContentItemImage", "TextContentItem"]
+__all__ = ["InterleavedContentItem", "Image", "ImageImage", "Text"]
 
 
-class ImageContentItemImage(TypedDict, total=False):
+class ImageImage(TypedDict, total=False):
     data: str
 
     url: URL
 
 
-class ImageContentItem(TypedDict, total=False):
-    image: Required[ImageContentItemImage]
+class Image(TypedDict, total=False):
+    image: Required[ImageImage]
 
     type: Required[Literal["image"]]
 
 
-class TextContentItem(TypedDict, total=False):
+class Text(TypedDict, total=False):
     text: Required[str]
 
     type: Required[Literal["text"]]
 
 
-InterleavedContentItem: TypeAlias = Union[ImageContentItem, TextContentItem]
+InterleavedContentItem: TypeAlias = Union[Image, Text]

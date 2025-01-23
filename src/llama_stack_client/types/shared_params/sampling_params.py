@@ -5,20 +5,14 @@ from __future__ import annotations
 from typing import Union
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
-__all__ = [
-    "SamplingParams",
-    "Strategy",
-    "StrategyGreedySamplingStrategy",
-    "StrategyTopPSamplingStrategy",
-    "StrategyTopKSamplingStrategy",
-]
+__all__ = ["SamplingParams", "Strategy", "StrategyGreedy", "StrategyTopP", "StrategyTopK"]
 
 
-class StrategyGreedySamplingStrategy(TypedDict, total=False):
+class StrategyGreedy(TypedDict, total=False):
     type: Required[Literal["greedy"]]
 
 
-class StrategyTopPSamplingStrategy(TypedDict, total=False):
+class StrategyTopP(TypedDict, total=False):
     type: Required[Literal["top_p"]]
 
     temperature: float
@@ -26,13 +20,13 @@ class StrategyTopPSamplingStrategy(TypedDict, total=False):
     top_p: float
 
 
-class StrategyTopKSamplingStrategy(TypedDict, total=False):
+class StrategyTopK(TypedDict, total=False):
     top_k: Required[int]
 
     type: Required[Literal["top_k"]]
 
 
-Strategy: TypeAlias = Union[StrategyGreedySamplingStrategy, StrategyTopPSamplingStrategy, StrategyTopKSamplingStrategy]
+Strategy: TypeAlias = Union[StrategyGreedy, StrategyTopP, StrategyTopK]
 
 
 class SamplingParams(TypedDict, total=False):

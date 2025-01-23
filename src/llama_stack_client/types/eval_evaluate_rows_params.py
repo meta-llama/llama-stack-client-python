@@ -13,18 +13,18 @@ from .shared_params.sampling_params import SamplingParams
 __all__ = [
     "EvalEvaluateRowsParams",
     "TaskConfig",
-    "TaskConfigBenchmarkEvalTaskConfig",
-    "TaskConfigBenchmarkEvalTaskConfigEvalCandidate",
-    "TaskConfigBenchmarkEvalTaskConfigEvalCandidateModelCandidate",
-    "TaskConfigBenchmarkEvalTaskConfigEvalCandidateAgentCandidate",
-    "TaskConfigAppEvalTaskConfig",
-    "TaskConfigAppEvalTaskConfigEvalCandidate",
-    "TaskConfigAppEvalTaskConfigEvalCandidateModelCandidate",
-    "TaskConfigAppEvalTaskConfigEvalCandidateAgentCandidate",
-    "TaskConfigAppEvalTaskConfigScoringParams",
-    "TaskConfigAppEvalTaskConfigScoringParamsLlmAsJudgeScoringFnParams",
-    "TaskConfigAppEvalTaskConfigScoringParamsRegexParserScoringFnParams",
-    "TaskConfigAppEvalTaskConfigScoringParamsBasicScoringFnParams",
+    "TaskConfigBenchmark",
+    "TaskConfigBenchmarkEvalCandidate",
+    "TaskConfigBenchmarkEvalCandidateModel",
+    "TaskConfigBenchmarkEvalCandidateAgent",
+    "TaskConfigApp",
+    "TaskConfigAppEvalCandidate",
+    "TaskConfigAppEvalCandidateModel",
+    "TaskConfigAppEvalCandidateAgent",
+    "TaskConfigAppScoringParams",
+    "TaskConfigAppScoringParamsLlmAsJudge",
+    "TaskConfigAppScoringParamsRegexParser",
+    "TaskConfigAppScoringParamsBasic",
 ]
 
 
@@ -40,7 +40,7 @@ class EvalEvaluateRowsParams(TypedDict, total=False):
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
 
 
-class TaskConfigBenchmarkEvalTaskConfigEvalCandidateModelCandidate(TypedDict, total=False):
+class TaskConfigBenchmarkEvalCandidateModel(TypedDict, total=False):
     model: Required[str]
 
     sampling_params: Required[SamplingParams]
@@ -50,27 +50,26 @@ class TaskConfigBenchmarkEvalTaskConfigEvalCandidateModelCandidate(TypedDict, to
     system_message: SystemMessage
 
 
-class TaskConfigBenchmarkEvalTaskConfigEvalCandidateAgentCandidate(TypedDict, total=False):
+class TaskConfigBenchmarkEvalCandidateAgent(TypedDict, total=False):
     config: Required[AgentConfig]
 
     type: Required[Literal["agent"]]
 
 
-TaskConfigBenchmarkEvalTaskConfigEvalCandidate: TypeAlias = Union[
-    TaskConfigBenchmarkEvalTaskConfigEvalCandidateModelCandidate,
-    TaskConfigBenchmarkEvalTaskConfigEvalCandidateAgentCandidate,
+TaskConfigBenchmarkEvalCandidate: TypeAlias = Union[
+    TaskConfigBenchmarkEvalCandidateModel, TaskConfigBenchmarkEvalCandidateAgent
 ]
 
 
-class TaskConfigBenchmarkEvalTaskConfig(TypedDict, total=False):
-    eval_candidate: Required[TaskConfigBenchmarkEvalTaskConfigEvalCandidate]
+class TaskConfigBenchmark(TypedDict, total=False):
+    eval_candidate: Required[TaskConfigBenchmarkEvalCandidate]
 
     type: Required[Literal["benchmark"]]
 
     num_examples: int
 
 
-class TaskConfigAppEvalTaskConfigEvalCandidateModelCandidate(TypedDict, total=False):
+class TaskConfigAppEvalCandidateModel(TypedDict, total=False):
     model: Required[str]
 
     sampling_params: Required[SamplingParams]
@@ -80,18 +79,16 @@ class TaskConfigAppEvalTaskConfigEvalCandidateModelCandidate(TypedDict, total=Fa
     system_message: SystemMessage
 
 
-class TaskConfigAppEvalTaskConfigEvalCandidateAgentCandidate(TypedDict, total=False):
+class TaskConfigAppEvalCandidateAgent(TypedDict, total=False):
     config: Required[AgentConfig]
 
     type: Required[Literal["agent"]]
 
 
-TaskConfigAppEvalTaskConfigEvalCandidate: TypeAlias = Union[
-    TaskConfigAppEvalTaskConfigEvalCandidateModelCandidate, TaskConfigAppEvalTaskConfigEvalCandidateAgentCandidate
-]
+TaskConfigAppEvalCandidate: TypeAlias = Union[TaskConfigAppEvalCandidateModel, TaskConfigAppEvalCandidateAgent]
 
 
-class TaskConfigAppEvalTaskConfigScoringParamsLlmAsJudgeScoringFnParams(TypedDict, total=False):
+class TaskConfigAppScoringParamsLlmAsJudge(TypedDict, total=False):
     judge_model: Required[str]
 
     type: Required[Literal["llm_as_judge"]]
@@ -103,7 +100,7 @@ class TaskConfigAppEvalTaskConfigScoringParamsLlmAsJudgeScoringFnParams(TypedDic
     prompt_template: str
 
 
-class TaskConfigAppEvalTaskConfigScoringParamsRegexParserScoringFnParams(TypedDict, total=False):
+class TaskConfigAppScoringParamsRegexParser(TypedDict, total=False):
     type: Required[Literal["regex_parser"]]
 
     aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
@@ -111,27 +108,25 @@ class TaskConfigAppEvalTaskConfigScoringParamsRegexParserScoringFnParams(TypedDi
     parsing_regexes: List[str]
 
 
-class TaskConfigAppEvalTaskConfigScoringParamsBasicScoringFnParams(TypedDict, total=False):
+class TaskConfigAppScoringParamsBasic(TypedDict, total=False):
     type: Required[Literal["basic"]]
 
     aggregation_functions: List[Literal["average", "median", "categorical_count", "accuracy"]]
 
 
-TaskConfigAppEvalTaskConfigScoringParams: TypeAlias = Union[
-    TaskConfigAppEvalTaskConfigScoringParamsLlmAsJudgeScoringFnParams,
-    TaskConfigAppEvalTaskConfigScoringParamsRegexParserScoringFnParams,
-    TaskConfigAppEvalTaskConfigScoringParamsBasicScoringFnParams,
+TaskConfigAppScoringParams: TypeAlias = Union[
+    TaskConfigAppScoringParamsLlmAsJudge, TaskConfigAppScoringParamsRegexParser, TaskConfigAppScoringParamsBasic
 ]
 
 
-class TaskConfigAppEvalTaskConfig(TypedDict, total=False):
-    eval_candidate: Required[TaskConfigAppEvalTaskConfigEvalCandidate]
+class TaskConfigApp(TypedDict, total=False):
+    eval_candidate: Required[TaskConfigAppEvalCandidate]
 
-    scoring_params: Required[Dict[str, TaskConfigAppEvalTaskConfigScoringParams]]
+    scoring_params: Required[Dict[str, TaskConfigAppScoringParams]]
 
     type: Required[Literal["app"]]
 
     num_examples: int
 
 
-TaskConfig: TypeAlias = Union[TaskConfigBenchmarkEvalTaskConfig, TaskConfigAppEvalTaskConfig]
+TaskConfig: TypeAlias = Union[TaskConfigBenchmark, TaskConfigApp]
