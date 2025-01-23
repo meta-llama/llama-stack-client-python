@@ -19,13 +19,13 @@ from .eval import eval
 from .eval_tasks import eval_tasks
 from .inference import inference
 from .inspect import inspect
-from .memory_banks import memory_banks
 from .models import models
 from .post_training import post_training
 from .providers import providers
 from .scoring_functions import scoring_functions
 from .shields import shields
 from .toolgroups import toolgroups
+from .vector_dbs import vector_dbs
 
 
 @click.group()
@@ -60,7 +60,7 @@ def cli(ctx, endpoint: str, config: str | None):
             click.echo("Falling back to HTTP client with endpoint", err=True)
 
     if endpoint == "":
-        endpoint = "http://localhost:5000"
+        endpoint = "http://localhost:8321"
 
     client = LlamaStackClient(
         base_url=endpoint,
@@ -75,7 +75,7 @@ def cli(ctx, endpoint: str, config: str | None):
 
 # Register all subcommands
 cli.add_command(models, "models")
-cli.add_command(memory_banks, "memory_banks")
+cli.add_command(vector_dbs, "vector_dbs")
 cli.add_command(shields, "shields")
 cli.add_command(eval_tasks, "eval_tasks")
 cli.add_command(providers, "providers")

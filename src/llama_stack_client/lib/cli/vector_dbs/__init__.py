@@ -4,6 +4,6 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-from .memory_banks import memory_banks
+from .vector_dbs import vector_dbs
 
-__all__ = ["memory_banks"]
+__all__ = ["vector_dbs"]
