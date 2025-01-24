@@ -1,6 +1,6 @@
 [project]
 name = "llama_stack_client"
-version = "0.0.63"
+version = "0.1.0"
 description = "The official Python library for the llama-stack-client API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -134,7 +134,7 @@ replacement = '[\1](https://github.com/stainless-sdks/llama-stack-python/tree/ma
 
 [tool.black]
 line-length = 120
-target-version = "0.0.63"
+target-version = "0.1.0"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -167,7 +167,7 @@ reportPrivateUsage = false
 [tool.ruff]
 line-length = 120
 output-format = "grouped"
-target-version = "0.0.63"
+target-version = "0.1.0"
 
 [tool.ruff.format]
 docstring-code-format = true
