@@ -35,9 +35,12 @@ from .vector_dbs import vector_dbs
 @click.option(
     "--endpoint", type=str, help="Llama Stack distribution endpoint", default=""
 )
+@click.option(
+    "--api-key", type=str, help="Llama Stack distribution API key", default=""
+)
 @click.option("--config", type=str, help="Path to config file", default=None)
 @click.pass_context
-def cli(ctx, endpoint: str, config: str | None):
+def cli(ctx, endpoint: str, api_key: str, config: str | None):
     """Welcome to the LlamaStackClient CLI"""
     ctx.ensure_object(dict)
 
@@ -55,12 +58,19 @@ def cli(ctx, endpoint: str, config: str | None):
             with open(config, "r") as f:
                 config_dict = yaml.safe_load(f)
                 endpoint = config_dict.get("endpoint", endpoint)
+                api_key = config_dict.get("api_key", "")
         except Exception as e:
             click.echo(f"Error loading config from {config}: {str(e)}", err=True)
             click.echo("Falling back to HTTP client with endpoint", err=True)
 
     if endpoint == "":
         endpoint = "http://localhost:8321"
+
+    default_headers = {}
+    if api_key != "":
+        default_headers = {
+            "Authorization": f"Bearer {api_key}",
+        }
 
     client = LlamaStackClient(
         base_url=endpoint,
@@ -69,6 +79,7 @@ def cli(ctx, endpoint: str, config: str | None):
             "together_api_key": os.environ.get("TOGETHER_API_KEY", ""),
             "openai_api_key": os.environ.get("OPENAI_API_KEY", ""),
         },
+        default_headers=default_headers,
     )
     ctx.obj = {"client": client}
 
