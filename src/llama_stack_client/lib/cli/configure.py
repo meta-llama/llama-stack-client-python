@@ -24,42 +24,42 @@ def get_config():
 
 
 @click.command()
-@click.option("--host", type=str, help="Llama Stack distribution host")
-@click.option("--port", type=str, help="Llama Stack distribution port number")
-@click.option("--endpoint", type=str, help="Llama Stack distribution endpoint")
-def configure(host: str | None, port: str | None, endpoint: str | None):
+@click.option("--endpoint", type=str, help="Llama Stack distribution endpoint", default="")
+@click.option("--api-key", type=str, help="Llama Stack distribution API key", default="")
+def configure(endpoint: str | None, api_key: str | None):
     """Configure Llama Stack Client CLI"""
     os.makedirs(LLAMA_STACK_CLIENT_CONFIG_DIR, exist_ok=True)
     config_path = get_config_file_path()
 
-    if endpoint:
+    if endpoint != "":
         final_endpoint = endpoint
     else:
-        if host and port:
-            final_endpoint = f"http://{host}:{port}"
-        else:
-            host = prompt(
-                "> Enter the host name of the Llama Stack distribution server: ",
-                validator=Validator.from_callable(
-                    lambda x: len(x) > 0,
-                    error_message="Host cannot be empty, please enter a valid host",
-                ),
-            )
-            port = prompt(
-                "> Enter the port number of the Llama Stack distribution server: ",
-                validator=Validator.from_callable(
-                    lambda x: x.isdigit(),
-                    error_message="Please enter a valid port number",
-                ),
-            )
-            final_endpoint = f"http://{host}:{port}"
+        final_endpoint = prompt(
+            "> Enter the endpoint of the Llama Stack distribution server: ",
+            validator=Validator.from_callable(
+                lambda x: len(x) > 0,
+                error_message="Endpoint cannot be empty, please enter a valid endpoint",
+            ),
+        )
+
+    if api_key != "":
+        final_api_key = api_key
+    else:
+        final_api_key = prompt(
+            "> Enter the API key (leave empty if no key is needed): ",
+        )
+
+    # Prepare config dict before writing it
+    config_dict = {
+        "endpoint": final_endpoint,
+    }
+    if final_api_key != "":
+        config_dict["api_key"] = final_api_key
 
     with open(config_path, "w") as f:
         f.write(
             yaml.dump(
-                {
-                    "endpoint": final_endpoint,
-                },
+                config_dict,
                 sort_keys=True,
             )
         )
