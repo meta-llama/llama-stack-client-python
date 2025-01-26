@@ -213,7 +213,8 @@ class InferenceResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceChatCompletionResponse | Stream[InferenceChatCompletionResponse]:
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        if stream is True:
+            extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -364,7 +365,8 @@ class InferenceResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceCompletionResponse | Stream[InferenceCompletionResponse]:
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        if stream is True:
+            extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -623,7 +625,8 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceChatCompletionResponse | AsyncStream[InferenceChatCompletionResponse]:
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        if stream is True:
+            extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -774,7 +777,8 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceCompletionResponse | AsyncStream[InferenceCompletionResponse]:
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        if stream is True:
+            extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
