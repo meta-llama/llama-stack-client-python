@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable
-from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
+from .response_format_param import ResponseFormatParam
 from .shared_params.message import Message
 from .shared_params.sampling_params import SamplingParams
 from .shared_params.tool_param_definition import ToolParamDefinition
@@ -13,9 +14,6 @@ from .shared_params.tool_param_definition import ToolParamDefinition
 __all__ = [
     "InferenceChatCompletionParamsBase",
     "Logprobs",
-    "ResponseFormat",
-    "ResponseFormatJsonSchema",
-    "ResponseFormatGrammar",
     "Tool",
     "InferenceChatCompletionParamsNonStreaming",
     "InferenceChatCompletionParamsStreaming",
@@ -29,7 +27,7 @@ class InferenceChatCompletionParamsBase(TypedDict, total=False):
 
     logprobs: Logprobs
 
-    response_format: ResponseFormat
+    response_format: ResponseFormatParam
 
     sampling_params: SamplingParams
 
@@ -57,21 +55,6 @@ class InferenceChatCompletionParamsBase(TypedDict, total=False):
 
 class Logprobs(TypedDict, total=False):
     top_k: int
-
-
-class ResponseFormatJsonSchema(TypedDict, total=False):
-    json_schema: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
-
-    type: Required[Literal["json_schema"]]
-
-
-class ResponseFormatGrammar(TypedDict, total=False):
-    bnf: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
-
-    type: Required[Literal["grammar"]]
-
-
-ResponseFormat: TypeAlias = Union[ResponseFormatJsonSchema, ResponseFormatGrammar]
 
 
 class Tool(TypedDict, total=False):

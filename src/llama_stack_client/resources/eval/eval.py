@@ -32,6 +32,7 @@ from ..._response import (
 from ...types.job import Job
 from ..._base_client import make_request_options
 from ...types.evaluate_response import EvaluateResponse
+from ...types.eval_task_config_param import EvalTaskConfigParam
 
 __all__ = ["EvalResource", "AsyncEvalResource"]
 
@@ -66,7 +67,7 @@ class EvalResource(SyncAPIResource):
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
         scoring_functions: List[str],
-        task_config: eval_evaluate_rows_params.TaskConfig,
+        task_config: EvalTaskConfigParam,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -117,7 +118,7 @@ class EvalResource(SyncAPIResource):
         self,
         task_id: str,
         *,
-        task_config: eval_run_eval_params.TaskConfig,
+        task_config: EvalTaskConfigParam,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -188,7 +189,7 @@ class AsyncEvalResource(AsyncAPIResource):
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
         scoring_functions: List[str],
-        task_config: eval_evaluate_rows_params.TaskConfig,
+        task_config: EvalTaskConfigParam,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -239,7 +240,7 @@ class AsyncEvalResource(AsyncAPIResource):
         self,
         task_id: str,
         *,
-        task_config: eval_run_eval_params.TaskConfig,
+        task_config: EvalTaskConfigParam,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.

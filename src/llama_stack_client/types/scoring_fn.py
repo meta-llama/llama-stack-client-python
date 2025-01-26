@@ -1,44 +1,13 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Union, Optional
-from typing_extensions import Literal, Annotated, TypeAlias
+from typing_extensions import Literal
 
-from .._utils import PropertyInfo
 from .._models import BaseModel
+from .scoring_fn_params import ScoringFnParams
 from .shared.return_type import ReturnType
 
-__all__ = ["ScoringFn", "Params", "ParamsLlmAsJudge", "ParamsRegexParser", "ParamsBasic"]
-
-
-class ParamsLlmAsJudge(BaseModel):
-    judge_model: str
-
-    type: Literal["llm_as_judge"]
-
-    aggregation_functions: Optional[List[Literal["average", "median", "categorical_count", "accuracy"]]] = None
-
-    judge_score_regexes: Optional[List[str]] = None
-
-    prompt_template: Optional[str] = None
-
-
-class ParamsRegexParser(BaseModel):
-    type: Literal["regex_parser"]
-
-    aggregation_functions: Optional[List[Literal["average", "median", "categorical_count", "accuracy"]]] = None
-
-    parsing_regexes: Optional[List[str]] = None
-
-
-class ParamsBasic(BaseModel):
-    type: Literal["basic"]
-
-    aggregation_functions: Optional[List[Literal["average", "median", "categorical_count", "accuracy"]]] = None
-
-
-Params: TypeAlias = Annotated[
-    Union[ParamsLlmAsJudge, ParamsRegexParser, ParamsBasic], PropertyInfo(discriminator="type")
-]
+__all__ = ["ScoringFn"]
 
 
 class ScoringFn(BaseModel):
@@ -56,4 +25,4 @@ class ScoringFn(BaseModel):
 
     description: Optional[str] = None
 
-    params: Optional[Params] = None
+    params: Optional[ScoringFnParams] = None

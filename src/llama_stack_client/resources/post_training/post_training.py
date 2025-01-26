@@ -14,7 +14,10 @@ from .job import (
     JobResourceWithStreamingResponse,
     AsyncJobResourceWithStreamingResponse,
 )
-from ...types import post_training_preference_optimize_params, post_training_supervised_fine_tune_params
+from ...types import (
+    post_training_preference_optimize_params,
+    post_training_supervised_fine_tune_params,
+)
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
@@ -31,6 +34,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.post_training_job import PostTrainingJob
+from ...types.algorithm_config_param import AlgorithmConfigParam
 
 __all__ = ["PostTrainingResource", "AsyncPostTrainingResource"]
 
@@ -123,7 +127,7 @@ class PostTrainingResource(SyncAPIResource):
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         model: str,
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
-        algorithm_config: post_training_supervised_fine_tune_params.AlgorithmConfig | NotGiven = NOT_GIVEN,
+        algorithm_config: AlgorithmConfigParam | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -262,7 +266,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         model: str,
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
-        algorithm_config: post_training_supervised_fine_tune_params.AlgorithmConfig | NotGiven = NOT_GIVEN,
+        algorithm_config: AlgorithmConfigParam | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
