@@ -2,8 +2,7 @@
 name = "llama_stack_client"
 version = "0.1.0"
 description = "The official Python library for the llama-stack-client API"
-dynamic = ["readme"]
-license = "Apache-2.0"
+license = { text = "Apache License 2.0" }
 authors = [
 { name = "Llama Stack Client", email = "dev-feedback@llama-stack-client.com" },
 ]
@@ -94,9 +93,6 @@ typecheck = { chain = [
 "typecheck:verify-types" = "pyright --verifytypes llama_stack_client --ignoreexternal"
 "typecheck:mypy" = "mypy ."
 
-[build-system]
-requires = ["hatchling", "hatch-fancy-pypi-readme"]
-build-backend = "hatchling.build"
 
 [tool.hatch.build]
 include = [
