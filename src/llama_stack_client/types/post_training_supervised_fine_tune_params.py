@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable
-from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
+from typing import Dict, Union, Iterable
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
+from .algorithm_config_param import AlgorithmConfigParam
 
 __all__ = [
     "PostTrainingSupervisedFineTuneParams",
@@ -13,9 +14,6 @@ __all__ = [
     "TrainingConfigDataConfig",
     "TrainingConfigOptimizerConfig",
     "TrainingConfigEfficiencyConfig",
-    "AlgorithmConfig",
-    "AlgorithmConfigLoRa",
-    "AlgorithmConfigQat",
 ]
 
 
@@ -30,7 +28,7 @@ class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
 
     training_config: Required[TrainingConfig]
 
-    algorithm_config: AlgorithmConfig
+    algorithm_config: AlgorithmConfigParam
 
     checkpoint_dir: str
 
@@ -91,32 +89,3 @@ class TrainingConfig(TypedDict, total=False):
     dtype: str
 
     efficiency_config: TrainingConfigEfficiencyConfig
-
-
-class AlgorithmConfigLoRa(TypedDict, total=False):
-    alpha: Required[int]
-
-    apply_lora_to_mlp: Required[bool]
-
-    apply_lora_to_output: Required[bool]
-
-    lora_attn_modules: Required[List[str]]
-
-    rank: Required[int]
-
-    type: Required[Literal["LoRA"]]
-
-    quantize_base: bool
-
-    use_dora: bool
-
-
-class AlgorithmConfigQat(TypedDict, total=False):
-    group_size: Required[int]
-
-    quantizer_name: Required[str]
-
-    type: Required[Literal["QAT"]]
-
-
-AlgorithmConfig: TypeAlias = Union[AlgorithmConfigLoRa, AlgorithmConfigQat]

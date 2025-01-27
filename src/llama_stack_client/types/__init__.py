@@ -35,6 +35,7 @@ from .eval_task import EvalTask as EvalTask
 from .route_info import RouteInfo as RouteInfo
 from .scoring_fn import ScoringFn as ScoringFn
 from .tool_group import ToolGroup as ToolGroup
+from .event_param import EventParam as EventParam
 from .health_info import HealthInfo as HealthInfo
 from .version_info import VersionInfo as VersionInfo
 from .provider_info import ProviderInfo as ProviderInfo
@@ -47,6 +48,7 @@ from .span_with_status import SpanWithStatus as SpanWithStatus
 from .tool_list_params import ToolListParams as ToolListParams
 from .evaluate_response import EvaluateResponse as EvaluateResponse
 from .post_training_job import PostTrainingJob as PostTrainingJob
+from .scoring_fn_params import ScoringFnParams as ScoringFnParams
 from .tool_list_response import ToolListResponse as ToolListResponse
 from .agent_create_params import AgentCreateParams as AgentCreateParams
 from .completion_response import CompletionResponse as CompletionResponse
@@ -56,6 +58,7 @@ from .model_list_response import ModelListResponse as ModelListResponse
 from .route_list_response import RouteListResponse as RouteListResponse
 from .run_shield_response import RunShieldResponse as RunShieldResponse
 from .tool_execution_step import ToolExecutionStep as ToolExecutionStep
+from .eval_candidate_param import EvalCandidateParam as EvalCandidateParam
 from .eval_run_eval_params import EvalRunEvalParams as EvalRunEvalParams
 from .list_models_response import ListModelsResponse as ListModelsResponse
 from .list_routes_response import ListRoutesResponse as ListRoutesResponse
@@ -69,6 +72,10 @@ from .memory_retrieval_step import MemoryRetrievalStep as MemoryRetrievalStep
 from .model_register_params import ModelRegisterParams as ModelRegisterParams
 from .paginated_rows_result import PaginatedRowsResult as PaginatedRowsResult
 from .query_chunks_response import QueryChunksResponse as QueryChunksResponse
+from .query_condition_param import QueryConditionParam as QueryConditionParam
+from .response_format_param import ResponseFormatParam as ResponseFormatParam
+from .algorithm_config_param import AlgorithmConfigParam as AlgorithmConfigParam
+from .eval_task_config_param import EvalTaskConfigParam as EvalTaskConfigParam
 from .list_datasets_response import ListDatasetsResponse as ListDatasetsResponse
 from .provider_list_response import ProviderListResponse as ProviderListResponse
 from .scoring_score_response import ScoringScoreResponse as ScoringScoreResponse
@@ -78,6 +85,7 @@ from .vector_io_query_params import VectorIoQueryParams as VectorIoQueryParams
 from .dataset_register_params import DatasetRegisterParams as DatasetRegisterParams
 from .eval_task_list_response import EvalTaskListResponse as EvalTaskListResponse
 from .list_providers_response import ListProvidersResponse as ListProvidersResponse
+from .scoring_fn_params_param import ScoringFnParamsParam as ScoringFnParamsParam
 from .toolgroup_list_response import ToolgroupListResponse as ToolgroupListResponse
 from .vector_db_list_response import VectorDBListResponse as VectorDBListResponse
 from .vector_io_insert_params import VectorIoInsertParams as VectorIoInsertParams

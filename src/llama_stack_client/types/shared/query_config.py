@@ -6,16 +6,21 @@ from typing_extensions import Literal, Annotated, TypeAlias
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
-__all__ = ["QueryConfig", "QueryGeneratorConfig", "QueryGeneratorConfigDefault", "QueryGeneratorConfigLlm"]
+__all__ = [
+    "QueryConfig",
+    "QueryGeneratorConfig",
+    "QueryGeneratorConfigDefaultRagQueryGeneratorConfig",
+    "QueryGeneratorConfigLlmragQueryGeneratorConfig",
+]
 
 
-class QueryGeneratorConfigDefault(BaseModel):
+class QueryGeneratorConfigDefaultRagQueryGeneratorConfig(BaseModel):
     separator: str
 
     type: Literal["default"]
 
 
-class QueryGeneratorConfigLlm(BaseModel):
+class QueryGeneratorConfigLlmragQueryGeneratorConfig(BaseModel):
     model: str
 
     template: str
@@ -24,7 +29,8 @@ class QueryGeneratorConfigLlm(BaseModel):
 
 
 QueryGeneratorConfig: TypeAlias = Annotated[
-    Union[QueryGeneratorConfigDefault, QueryGeneratorConfigLlm], PropertyInfo(discriminator="type")
+    Union[QueryGeneratorConfigDefaultRagQueryGeneratorConfig, QueryGeneratorConfigLlmragQueryGeneratorConfig],
+    PropertyInfo(discriminator="type"),
 ]
 
 

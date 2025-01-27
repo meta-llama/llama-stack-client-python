@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import typing
+from typing import Union
 from typing_extensions import Literal, Annotated, TypeAlias
 
 from ..._utils import PropertyInfo
@@ -8,62 +8,71 @@ from ..._models import BaseModel
 
 __all__ = [
     "ParamType",
-    "String",
-    "Number",
-    "Boolean",
-    "Array",
-    "Object",
-    "Json",
-    "Union",
-    "ChatCompletionInput",
-    "CompletionInput",
-    "AgentTurnInput",
+    "StringType",
+    "NumberType",
+    "BooleanType",
+    "ArrayType",
+    "ObjectType",
+    "JsonType",
+    "UnionType",
+    "ChatCompletionInputType",
+    "CompletionInputType",
+    "AgentTurnInputType",
 ]
 
 
-class String(BaseModel):
+class StringType(BaseModel):
     type: Literal["string"]
 
 
-class Number(BaseModel):
+class NumberType(BaseModel):
     type: Literal["number"]
 
 
-class Boolean(BaseModel):
+class BooleanType(BaseModel):
     type: Literal["boolean"]
 
 
-class Array(BaseModel):
+class ArrayType(BaseModel):
     type: Literal["array"]
 
 
-class Object(BaseModel):
+class ObjectType(BaseModel):
     type: Literal["object"]
 
 
-class Json(BaseModel):
+class JsonType(BaseModel):
     type: Literal["json"]
 
 
-class Union(BaseModel):
+class UnionType(BaseModel):
     type: Literal["union"]
 
 
-class ChatCompletionInput(BaseModel):
+class ChatCompletionInputType(BaseModel):
     type: Literal["chat_completion_input"]
 
 
-class CompletionInput(BaseModel):
+class CompletionInputType(BaseModel):
     type: Literal["completion_input"]
 
 
-class AgentTurnInput(BaseModel):
+class AgentTurnInputType(BaseModel):
     type: Literal["agent_turn_input"]
 
 
 ParamType: TypeAlias = Annotated[
-    typing.Union[
-        String, Number, Boolean, Array, Object, Json, Union, ChatCompletionInput, CompletionInput, AgentTurnInput
+    Union[
+        StringType,
+        NumberType,
+        BooleanType,
+        ArrayType,
+        ObjectType,
+        JsonType,
+        UnionType,
+        ChatCompletionInputType,
+        CompletionInputType,
+        AgentTurnInputType,
     ],
     PropertyInfo(discriminator="type"),
 ]

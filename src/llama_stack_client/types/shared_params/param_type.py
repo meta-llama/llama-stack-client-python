@@ -2,64 +2,73 @@
 
 from __future__ import annotations
 
-import typing
+from typing import Union
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 __all__ = [
     "ParamType",
-    "String",
-    "Number",
-    "Boolean",
-    "Array",
-    "Object",
-    "Json",
-    "Union",
-    "ChatCompletionInput",
-    "CompletionInput",
-    "AgentTurnInput",
+    "StringType",
+    "NumberType",
+    "BooleanType",
+    "ArrayType",
+    "ObjectType",
+    "JsonType",
+    "UnionType",
+    "ChatCompletionInputType",
+    "CompletionInputType",
+    "AgentTurnInputType",
 ]
 
 
-class String(TypedDict, total=False):
+class StringType(TypedDict, total=False):
     type: Required[Literal["string"]]
 
 
-class Number(TypedDict, total=False):
+class NumberType(TypedDict, total=False):
     type: Required[Literal["number"]]
 
 
-class Boolean(TypedDict, total=False):
+class BooleanType(TypedDict, total=False):
     type: Required[Literal["boolean"]]
 
 
-class Array(TypedDict, total=False):
+class ArrayType(TypedDict, total=False):
     type: Required[Literal["array"]]
 
 
-class Object(TypedDict, total=False):
+class ObjectType(TypedDict, total=False):
     type: Required[Literal["object"]]
 
 
-class Json(TypedDict, total=False):
+class JsonType(TypedDict, total=False):
     type: Required[Literal["json"]]
 
 
-class Union(TypedDict, total=False):
+class UnionType(TypedDict, total=False):
     type: Required[Literal["union"]]
 
 
-class ChatCompletionInput(TypedDict, total=False):
+class ChatCompletionInputType(TypedDict, total=False):
     type: Required[Literal["chat_completion_input"]]
 
 
-class CompletionInput(TypedDict, total=False):
+class CompletionInputType(TypedDict, total=False):
     type: Required[Literal["completion_input"]]
 
 
-class AgentTurnInput(TypedDict, total=False):
+class AgentTurnInputType(TypedDict, total=False):
     type: Required[Literal["agent_turn_input"]]
 
 
-ParamType: TypeAlias = typing.Union[
-    String, Number, Boolean, Array, Object, Json, Union, ChatCompletionInput, CompletionInput, AgentTurnInput
+ParamType: TypeAlias = Union[
+    StringType,
+    NumberType,
+    BooleanType,
+    ArrayType,
+    ObjectType,
+    JsonType,
+    UnionType,
+    ChatCompletionInputType,
+    CompletionInputType,
+    AgentTurnInputType,
 ]

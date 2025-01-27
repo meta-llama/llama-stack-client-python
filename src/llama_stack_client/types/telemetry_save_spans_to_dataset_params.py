@@ -2,16 +2,17 @@
 
 from __future__ import annotations
 
-from typing import List, Union, Iterable
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing import List, Iterable
+from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
+from .query_condition_param import QueryConditionParam
 
-__all__ = ["TelemetrySaveSpansToDatasetParams", "AttributeFilter"]
+__all__ = ["TelemetrySaveSpansToDatasetParams"]
 
 
 class TelemetrySaveSpansToDatasetParams(TypedDict, total=False):
-    attribute_filters: Required[Iterable[AttributeFilter]]
+    attribute_filters: Required[Iterable[QueryConditionParam]]
 
     attributes_to_save: Required[List[str]]
 
@@ -22,11 +23,3 @@ class TelemetrySaveSpansToDatasetParams(TypedDict, total=False):
     x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
 
     x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
-
-
-class AttributeFilter(TypedDict, total=False):
-    key: Required[str]
-
-    op: Required[Literal["eq", "ne", "gt", "lt"]]
-
-    value: Required[Union[bool, float, str, Iterable[object], object, None]]

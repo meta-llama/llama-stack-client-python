@@ -30,6 +30,8 @@ from .._response import (
 from .._wrappers import DataWrapper
 from ..types.trace import Trace
 from .._base_client import make_request_options
+from ..types.event_param import EventParam
+from ..types.query_condition_param import QueryConditionParam
 from ..types.telemetry_get_span_response import TelemetryGetSpanResponse
 from ..types.telemetry_query_spans_response import TelemetryQuerySpansResponse
 from ..types.telemetry_query_traces_response import TelemetryQueryTracesResponse
@@ -203,7 +205,7 @@ class TelemetryResource(SyncAPIResource):
     def log_event(
         self,
         *,
-        event: telemetry_log_event_params.Event,
+        event: EventParam,
         ttl_seconds: int,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -252,7 +254,7 @@ class TelemetryResource(SyncAPIResource):
     def query_spans(
         self,
         *,
-        attribute_filters: Iterable[telemetry_query_spans_params.AttributeFilter],
+        attribute_filters: Iterable[QueryConditionParam],
         attributes_to_return: List[str],
         max_depth: int | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
@@ -306,7 +308,7 @@ class TelemetryResource(SyncAPIResource):
     def query_traces(
         self,
         *,
-        attribute_filters: Iterable[telemetry_query_traces_params.AttributeFilter] | NotGiven = NOT_GIVEN,
+        attribute_filters: Iterable[QueryConditionParam] | NotGiven = NOT_GIVEN,
         limit: int | NotGiven = NOT_GIVEN,
         offset: int | NotGiven = NOT_GIVEN,
         order_by: List[str] | NotGiven = NOT_GIVEN,
@@ -362,7 +364,7 @@ class TelemetryResource(SyncAPIResource):
     def save_spans_to_dataset(
         self,
         *,
-        attribute_filters: Iterable[telemetry_save_spans_to_dataset_params.AttributeFilter],
+        attribute_filters: Iterable[QueryConditionParam],
         attributes_to_save: List[str],
         dataset_id: str,
         max_depth: int | NotGiven = NOT_GIVEN,
@@ -578,7 +580,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
     async def log_event(
         self,
         *,
-        event: telemetry_log_event_params.Event,
+        event: EventParam,
         ttl_seconds: int,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
@@ -627,7 +629,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
     async def query_spans(
         self,
         *,
-        attribute_filters: Iterable[telemetry_query_spans_params.AttributeFilter],
+        attribute_filters: Iterable[QueryConditionParam],
         attributes_to_return: List[str],
         max_depth: int | NotGiven = NOT_GIVEN,
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
@@ -681,7 +683,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
     async def query_traces(
         self,
         *,
-        attribute_filters: Iterable[telemetry_query_traces_params.AttributeFilter] | NotGiven = NOT_GIVEN,
+        attribute_filters: Iterable[QueryConditionParam] | NotGiven = NOT_GIVEN,
         limit: int | NotGiven = NOT_GIVEN,
         offset: int | NotGiven = NOT_GIVEN,
         order_by: List[str] | NotGiven = NOT_GIVEN,
@@ -737,7 +739,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
     async def save_spans_to_dataset(
         self,
         *,
-        attribute_filters: Iterable[telemetry_save_spans_to_dataset_params.AttributeFilter],
+        attribute_filters: Iterable[QueryConditionParam],
         attributes_to_save: List[str],
         dataset_id: str,
         max_depth: int | NotGiven = NOT_GIVEN,

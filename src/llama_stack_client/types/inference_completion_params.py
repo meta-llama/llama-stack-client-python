@@ -2,19 +2,17 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable
-from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
+from typing import Union
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
+from .response_format_param import ResponseFormatParam
 from .shared_params.sampling_params import SamplingParams
 from .shared_params.interleaved_content import InterleavedContent
 
 __all__ = [
     "InferenceCompletionParamsBase",
     "Logprobs",
-    "ResponseFormat",
-    "ResponseFormatJsonSchema",
-    "ResponseFormatGrammar",
     "InferenceCompletionParamsNonStreaming",
     "InferenceCompletionParamsStreaming",
 ]
@@ -27,7 +25,7 @@ class InferenceCompletionParamsBase(TypedDict, total=False):
 
     logprobs: Logprobs
 
-    response_format: ResponseFormat
+    response_format: ResponseFormatParam
 
     sampling_params: SamplingParams
 
@@ -38,21 +36,6 @@ class InferenceCompletionParamsBase(TypedDict, total=False):
 
 class Logprobs(TypedDict, total=False):
     top_k: int
-
-
-class ResponseFormatJsonSchema(TypedDict, total=False):
-    json_schema: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
-
-    type: Required[Literal["json_schema"]]
-
-
-class ResponseFormatGrammar(TypedDict, total=False):
-    bnf: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
-
-    type: Required[Literal["grammar"]]
-
-
-ResponseFormat: TypeAlias = Union[ResponseFormatJsonSchema, ResponseFormatGrammar]
 
 
 class InferenceCompletionParamsNonStreaming(InferenceCompletionParamsBase, total=False):

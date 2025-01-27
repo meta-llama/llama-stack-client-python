@@ -6,14 +6,20 @@ from typing_extensions import Literal, Annotated, TypeAlias
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
-__all__ = ["SamplingParams", "Strategy", "StrategyGreedy", "StrategyTopP", "StrategyTopK"]
+__all__ = [
+    "SamplingParams",
+    "Strategy",
+    "StrategyGreedySamplingStrategy",
+    "StrategyTopPSamplingStrategy",
+    "StrategyTopKSamplingStrategy",
+]
 
 
-class StrategyGreedy(BaseModel):
+class StrategyGreedySamplingStrategy(BaseModel):
     type: Literal["greedy"]
 
 
-class StrategyTopP(BaseModel):
+class StrategyTopPSamplingStrategy(BaseModel):
     type: Literal["top_p"]
 
     temperature: Optional[float] = None
@@ -21,13 +27,16 @@ class StrategyTopP(BaseModel):
     top_p: Optional[float] = None
 
 
-class StrategyTopK(BaseModel):
+class StrategyTopKSamplingStrategy(BaseModel):
     top_k: int
 
     type: Literal["top_k"]
 
 
-Strategy: TypeAlias = Annotated[Union[StrategyGreedy, StrategyTopP, StrategyTopK], PropertyInfo(discriminator="type")]
+Strategy: TypeAlias = Annotated[
+    Union[StrategyGreedySamplingStrategy, StrategyTopPSamplingStrategy, StrategyTopKSamplingStrategy],
+    PropertyInfo(discriminator="type"),
+]
 
 
 class SamplingParams(BaseModel):

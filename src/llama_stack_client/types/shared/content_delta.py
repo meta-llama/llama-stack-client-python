@@ -3,34 +3,34 @@
 from typing import Union
 from typing_extensions import Literal, Annotated, TypeAlias
 
-from . import tool_call
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
+from .tool_call import ToolCall
 
-__all__ = ["ContentDelta", "Text", "Image", "ToolCall", "ToolCallToolCall"]
+__all__ = ["ContentDelta", "TextDelta", "ImageDelta", "ToolCallDelta", "ToolCallDeltaToolCall"]
 
 
-class Text(BaseModel):
+class TextDelta(BaseModel):
     text: str
 
     type: Literal["text"]
 
 
-class Image(BaseModel):
+class ImageDelta(BaseModel):
     image: str
 
     type: Literal["image"]
 
 
-ToolCallToolCall: TypeAlias = Union[str, tool_call.ToolCall]
+ToolCallDeltaToolCall: TypeAlias = Union[str, ToolCall]
 
 
-class ToolCall(BaseModel):
+class ToolCallDelta(BaseModel):
     parse_status: Literal["started", "in_progress", "failed", "succeeded"]
 
-    tool_call: ToolCallToolCall
+    tool_call: ToolCallDeltaToolCall
 
     type: Literal["tool_call"]
 
 
-ContentDelta: TypeAlias = Annotated[Union[Text, Image, ToolCall], PropertyInfo(discriminator="type")]
+ContentDelta: TypeAlias = Annotated[Union[TextDelta, ImageDelta, ToolCallDelta], PropertyInfo(discriminator="type")]

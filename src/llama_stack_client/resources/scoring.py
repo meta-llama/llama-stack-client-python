@@ -23,6 +23,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.scoring_score_response import ScoringScoreResponse
+from ..types.scoring_fn_params_param import ScoringFnParamsParam
 from ..types.scoring_score_batch_response import ScoringScoreBatchResponse
 
 __all__ = ["ScoringResource", "AsyncScoringResource"]
@@ -52,7 +53,7 @@ class ScoringResource(SyncAPIResource):
         self,
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
-        scoring_functions: Dict[str, Optional[scoring_score_params.ScoringFunctions]],
+        scoring_functions: Dict[str, Optional[ScoringFnParamsParam]],
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -101,7 +102,7 @@ class ScoringResource(SyncAPIResource):
         *,
         dataset_id: str,
         save_results_dataset: bool,
-        scoring_functions: Dict[str, Optional[scoring_score_batch_params.ScoringFunctions]],
+        scoring_functions: Dict[str, Optional[ScoringFnParamsParam]],
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -171,7 +172,7 @@ class AsyncScoringResource(AsyncAPIResource):
         self,
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
-        scoring_functions: Dict[str, Optional[scoring_score_params.ScoringFunctions]],
+        scoring_functions: Dict[str, Optional[ScoringFnParamsParam]],
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -220,7 +221,7 @@ class AsyncScoringResource(AsyncAPIResource):
         *,
         dataset_id: str,
         save_results_dataset: bool,
-        scoring_functions: Dict[str, Optional[scoring_score_batch_params.ScoringFunctions]],
+        scoring_functions: Dict[str, Optional[ScoringFnParamsParam]],
         x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
         x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.

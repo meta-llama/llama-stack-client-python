@@ -7,25 +7,27 @@ from .url import URL
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
-__all__ = ["InterleavedContentItem", "Image", "ImageImage", "Text"]
+__all__ = ["InterleavedContentItem", "ImageContentItem", "ImageContentItemImage", "TextContentItem"]
 
 
-class ImageImage(BaseModel):
+class ImageContentItemImage(BaseModel):
     data: Optional[str] = None
 
     url: Optional[URL] = None
 
 
-class Image(BaseModel):
-    image: ImageImage
+class ImageContentItem(BaseModel):
+    image: ImageContentItemImage
 
     type: Literal["image"]
 
 
-class Text(BaseModel):
+class TextContentItem(BaseModel):
     text: str
 
     type: Literal["text"]
 
 
-InterleavedContentItem: TypeAlias = Annotated[Union[Image, Text], PropertyInfo(discriminator="type")]
+InterleavedContentItem: TypeAlias = Annotated[
+    Union[ImageContentItem, TextContentItem], PropertyInfo(discriminator="type")
+]
