@@ -75,21 +75,29 @@ class Agent:
         toolgroups: Optional[List[Toolgroup]] = None,
         documents: Optional[List[Document]] = None,
     ):
-        response = self.client.agents.turn.create(
-            agent_id=self.agent_id,
-            # use specified session_id or last session created
-            session_id=session_id or self.session_id[-1],
-            messages=messages,
-            stream=True,
-            documents=documents,
-            toolgroups=toolgroups,
-        )
-        for chunk in response:
-            if hasattr(chunk, "error"):
-                yield chunk
-                return
-            elif not self._has_tool_call(chunk):
-                yield chunk
-            else:
-                next_message = self._run_tool(chunk)
-                yield next_message
+        stop = False
+        while not stop:
+            response = self.client.agents.turn.create(
+                agent_id=self.agent_id,
+                # use specified session_id or last session created
+                session_id=session_id or self.session_id[-1],
+                messages=messages,
+                stream=True,
+                documents=documents,
+                toolgroups=toolgroups,
+            )
+            # by default, we stop after the first turn
+            stop = True
+            for chunk in response:
+                if hasattr(chunk, "error"):
+                    yield chunk
+                    return
+                elif not self._has_tool_call(chunk):
+                    yield chunk
+                else:
+                    next_message = self._run_tool(chunk)
+                    yield next_message
+
+                    # continue the turn when there's a tool call
+                    stop = False
+                    messages = [next_message]
