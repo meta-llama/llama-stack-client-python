@@ -251,6 +251,7 @@ class TestTelemetry:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     def test_method_query_spans(self, client: LlamaStackClient) -> None:
         telemetry = client.telemetry.query_spans(
@@ -265,6 +266,7 @@ class TestTelemetry:
         )
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     def test_method_query_spans_with_all_params(self, client: LlamaStackClient) -> None:
         telemetry = client.telemetry.query_spans(
@@ -282,6 +284,7 @@ class TestTelemetry:
         )
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     def test_raw_response_query_spans(self, client: LlamaStackClient) -> None:
         response = client.telemetry.with_raw_response.query_spans(
@@ -300,6 +303,7 @@ class TestTelemetry:
         telemetry = response.parse()
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     def test_streaming_response_query_spans(self, client: LlamaStackClient) -> None:
         with client.telemetry.with_streaming_response.query_spans(
@@ -320,11 +324,13 @@ class TestTelemetry:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     def test_method_query_traces(self, client: LlamaStackClient) -> None:
         telemetry = client.telemetry.query_traces()
         assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     def test_method_query_traces_with_all_params(self, client: LlamaStackClient) -> None:
         telemetry = client.telemetry.query_traces(
@@ -343,6 +349,7 @@ class TestTelemetry:
         )
         assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     def test_raw_response_query_traces(self, client: LlamaStackClient) -> None:
         response = client.telemetry.with_raw_response.query_traces()
@@ -352,6 +359,7 @@ class TestTelemetry:
         telemetry = response.parse()
         assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     def test_streaming_response_query_traces(self, client: LlamaStackClient) -> None:
         with client.telemetry.with_streaming_response.query_traces() as response:
@@ -667,6 +675,7 @@ class TestAsyncTelemetry:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     async def test_method_query_spans(self, async_client: AsyncLlamaStackClient) -> None:
         telemetry = await async_client.telemetry.query_spans(
@@ -681,6 +690,7 @@ class TestAsyncTelemetry:
         )
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     async def test_method_query_spans_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         telemetry = await async_client.telemetry.query_spans(
@@ -698,6 +708,7 @@ class TestAsyncTelemetry:
         )
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     async def test_raw_response_query_spans(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.telemetry.with_raw_response.query_spans(
@@ -716,6 +727,7 @@ class TestAsyncTelemetry:
         telemetry = await response.parse()
         assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     async def test_streaming_response_query_spans(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.telemetry.with_streaming_response.query_spans(
@@ -736,11 +748,13 @@ class TestAsyncTelemetry:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     async def test_method_query_traces(self, async_client: AsyncLlamaStackClient) -> None:
         telemetry = await async_client.telemetry.query_traces()
         assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     async def test_method_query_traces_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         telemetry = await async_client.telemetry.query_traces(
@@ -759,6 +773,7 @@ class TestAsyncTelemetry:
         )
         assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     async def test_raw_response_query_traces(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.telemetry.with_raw_response.query_traces()
@@ -768,6 +783,7 @@ class TestAsyncTelemetry:
         telemetry = await response.parse()
         assert_matches_type(TelemetryQueryTracesResponse, telemetry, path=["response"])
 
+    @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
     async def test_streaming_response_query_traces(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.telemetry.with_streaming_response.query_traces() as response:

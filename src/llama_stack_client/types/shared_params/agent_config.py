@@ -7,6 +7,7 @@ from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from ..tool_def_param import ToolDefParam
 from .sampling_params import SamplingParams
+from ..response_format_param import ResponseFormatParam
 
 __all__ = ["AgentConfig", "Toolgroup", "ToolgroupUnionMember1"]
 
@@ -34,6 +35,8 @@ class AgentConfig(TypedDict, total=False):
     input_shields: List[str]
 
     output_shields: List[str]
+
+    response_format: ResponseFormatParam
 
     sampling_params: SamplingParams
 

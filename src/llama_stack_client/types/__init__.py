@@ -27,6 +27,7 @@ from .shared import (
     InterleavedContent as InterleavedContent,
     ToolParamDefinition as ToolParamDefinition,
     ToolResponseMessage as ToolResponseMessage,
+    QueryGeneratorConfig as QueryGeneratorConfig,
     InterleavedContentItem as InterleavedContentItem,
 )
 from .shield import Shield as Shield

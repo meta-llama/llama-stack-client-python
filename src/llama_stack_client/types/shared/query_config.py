@@ -1,37 +1,10 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Union
-from typing_extensions import Literal, Annotated, TypeAlias
 
-from ..._utils import PropertyInfo
 from ..._models import BaseModel
+from .query_generator_config import QueryGeneratorConfig
 
-__all__ = [
-    "QueryConfig",
-    "QueryGeneratorConfig",
-    "QueryGeneratorConfigDefaultRagQueryGeneratorConfig",
-    "QueryGeneratorConfigLlmragQueryGeneratorConfig",
-]
-
-
-class QueryGeneratorConfigDefaultRagQueryGeneratorConfig(BaseModel):
-    separator: str
-
-    type: Literal["default"]
-
-
-class QueryGeneratorConfigLlmragQueryGeneratorConfig(BaseModel):
-    model: str
-
-    template: str
-
-    type: Literal["llm"]
-
-
-QueryGeneratorConfig: TypeAlias = Annotated[
-    Union[QueryGeneratorConfigDefaultRagQueryGeneratorConfig, QueryGeneratorConfigLlmragQueryGeneratorConfig],
-    PropertyInfo(discriminator="type"),
-]
+__all__ = ["QueryConfig"]
 
 
 class QueryConfig(BaseModel):
