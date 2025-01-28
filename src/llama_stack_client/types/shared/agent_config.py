@@ -5,8 +5,8 @@ from typing_extensions import Literal, TypeAlias
 
 from ..._models import BaseModel
 from ..tool_def import ToolDef
+from .response_format import ResponseFormat
 from .sampling_params import SamplingParams
-from ..response_format import ResponseFormat
 
 __all__ = ["AgentConfig", "Toolgroup", "ToolgroupUnionMember1"]
 

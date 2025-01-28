@@ -6,7 +6,7 @@ from typing import Union
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
-from .response_format_param import ResponseFormatParam
+from .shared_params.response_format import ResponseFormat
 from .shared_params.sampling_params import SamplingParams
 from .shared_params.interleaved_content import InterleavedContent
 
@@ -25,7 +25,7 @@ class InferenceCompletionParamsBase(TypedDict, total=False):
 
     logprobs: Logprobs
 
-    response_format: ResponseFormatParam
+    response_format: ResponseFormat
 
     sampling_params: SamplingParams
 

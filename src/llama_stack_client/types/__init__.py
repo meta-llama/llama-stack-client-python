@@ -20,6 +20,7 @@ from .shared import (
     ContentDelta as ContentDelta,
     ScoringResult as ScoringResult,
     SystemMessage as SystemMessage,
+    ResponseFormat as ResponseFormat,
     SamplingParams as SamplingParams,
     BatchCompletion as BatchCompletion,
     SafetyViolation as SafetyViolation,
@@ -74,7 +75,6 @@ from .model_register_params import ModelRegisterParams as ModelRegisterParams
 from .paginated_rows_result import PaginatedRowsResult as PaginatedRowsResult
 from .query_chunks_response import QueryChunksResponse as QueryChunksResponse
 from .query_condition_param import QueryConditionParam as QueryConditionParam
-from .response_format_param import ResponseFormatParam as ResponseFormatParam
 from .algorithm_config_param import AlgorithmConfigParam as AlgorithmConfigParam
 from .eval_task_config_param import EvalTaskConfigParam as EvalTaskConfigParam
 from .list_datasets_response import ListDatasetsResponse as ListDatasetsResponse
