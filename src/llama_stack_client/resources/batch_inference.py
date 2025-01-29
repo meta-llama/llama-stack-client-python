@@ -11,7 +11,6 @@ from ..types import batch_inference_completion_params, batch_inference_chat_comp
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
-    strip_not_given,
     async_maybe_transform,
 )
 from .._compat import cached_property
@@ -25,6 +24,7 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.shared_params.message import Message
 from ..types.shared.batch_completion import BatchCompletion
+from ..types.shared_params.response_format import ResponseFormat
 from ..types.shared_params.sampling_params import SamplingParams
 from ..types.shared_params.interleaved_content import InterleavedContent
 from ..types.batch_inference_chat_completion_response import BatchInferenceChatCompletionResponse
@@ -58,12 +58,11 @@ class BatchInferenceResource(SyncAPIResource):
         messages_batch: Iterable[Iterable[Message]],
         model: str,
         logprobs: batch_inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[batch_inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -73,16 +72,6 @@ class BatchInferenceResource(SyncAPIResource):
     ) -> BatchInferenceChatCompletionResponse:
         """
         Args:
-          tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
-              form like { "type": "function", "function" : { "name": "function_name",
-              "description": "function_description", "parameters": {...} } }
-
-              `function_tag` -- This is an example of how you could define your own user
-              defined format for making tool calls. The function_tag format looks like this,
-              <function=function_name>(parameters)</function>
-
-              The detailed prompts for each of these formats are added to llama cli
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -91,15 +80,6 @@ class BatchInferenceResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return self._post(
             "/v1/batch-inference/chat-completion",
             body=maybe_transform(
@@ -107,6 +87,7 @@ class BatchInferenceResource(SyncAPIResource):
                     "messages_batch": messages_batch,
                     "model": model,
                     "logprobs": logprobs,
+                    "response_format": response_format,
                     "sampling_params": sampling_params,
                     "tool_choice": tool_choice,
                     "tool_prompt_format": tool_prompt_format,
@@ -126,9 +107,8 @@ class BatchInferenceResource(SyncAPIResource):
         content_batch: List[InterleavedContent],
         model: str,
         logprobs: batch_inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -146,15 +126,6 @@ class BatchInferenceResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return self._post(
             "/v1/batch-inference/completion",
             body=maybe_transform(
@@ -162,6 +133,7 @@ class BatchInferenceResource(SyncAPIResource):
                     "content_batch": content_batch,
                     "model": model,
                     "logprobs": logprobs,
+                    "response_format": response_format,
                     "sampling_params": sampling_params,
                 },
                 batch_inference_completion_params.BatchInferenceCompletionParams,
@@ -199,12 +171,11 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
         messages_batch: Iterable[Iterable[Message]],
         model: str,
         logprobs: batch_inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[batch_inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -214,16 +185,6 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
     ) -> BatchInferenceChatCompletionResponse:
         """
         Args:
-          tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
-              form like { "type": "function", "function" : { "name": "function_name",
-              "description": "function_description", "parameters": {...} } }
-
-              `function_tag` -- This is an example of how you could define your own user
-              defined format for making tool calls. The function_tag format looks like this,
-              <function=function_name>(parameters)</function>
-
-              The detailed prompts for each of these formats are added to llama cli
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -232,15 +193,6 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return await self._post(
             "/v1/batch-inference/chat-completion",
             body=await async_maybe_transform(
@@ -248,6 +200,7 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
                     "messages_batch": messages_batch,
                     "model": model,
                     "logprobs": logprobs,
+                    "response_format": response_format,
                     "sampling_params": sampling_params,
                     "tool_choice": tool_choice,
                     "tool_prompt_format": tool_prompt_format,
@@ -267,9 +220,8 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
         content_batch: List[InterleavedContent],
         model: str,
         logprobs: batch_inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -287,15 +239,6 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return await self._post(
             "/v1/batch-inference/completion",
             body=await async_maybe_transform(
@@ -303,6 +246,7 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
                     "content_batch": content_batch,
                     "model": model,
                     "logprobs": logprobs,
+                    "response_format": response_format,
                     "sampling_params": sampling_params,
                 },
                 batch_inference_completion_params.BatchInferenceCompletionParams,

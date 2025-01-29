@@ -28,16 +28,6 @@ class TestDatasetio:
         assert datasetio is None
 
     @parametrize
-    def test_method_append_rows_with_all_params(self, client: LlamaStackClient) -> None:
-        datasetio = client.datasetio.append_rows(
-            dataset_id="dataset_id",
-            rows=[{"foo": True}],
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert datasetio is None
-
-    @parametrize
     def test_raw_response_append_rows(self, client: LlamaStackClient) -> None:
         response = client.datasetio.with_raw_response.append_rows(
             dataset_id="dataset_id",
@@ -78,8 +68,6 @@ class TestDatasetio:
             rows_in_page=0,
             filter_condition="filter_condition",
             page_token="page_token",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(PaginatedRowsResult, datasetio, path=["response"])
 
@@ -118,16 +106,6 @@ class TestAsyncDatasetio:
         datasetio = await async_client.datasetio.append_rows(
             dataset_id="dataset_id",
             rows=[{"foo": True}],
-        )
-        assert datasetio is None
-
-    @parametrize
-    async def test_method_append_rows_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        datasetio = await async_client.datasetio.append_rows(
-            dataset_id="dataset_id",
-            rows=[{"foo": True}],
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert datasetio is None
 
@@ -172,8 +150,6 @@ class TestAsyncDatasetio:
             rows_in_page=0,
             filter_condition="filter_condition",
             page_token="page_token",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(PaginatedRowsResult, datasetio, path=["response"])
 

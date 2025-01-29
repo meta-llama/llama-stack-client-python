@@ -11,9 +11,13 @@ __all__ = ["ToolResponseMessage"]
 
 class ToolResponseMessage(BaseModel):
     call_id: str
+    """Unique identifier for the tool call this response is for"""
 
     content: InterleavedContent
+    """The response content from the tool"""
 
     role: Literal["tool"]
+    """Must be "tool" to identify this as a tool response"""
 
     tool_name: Union[Literal["brave_search", "wolfram_alpha", "photogen", "code_interpreter"], str]
+    """Name of the tool that was called"""

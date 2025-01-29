@@ -34,24 +34,6 @@ class TestScoring:
         assert_matches_type(ScoringScoreResponse, scoring, path=["response"])
 
     @parametrize
-    def test_method_score_with_all_params(self, client: LlamaStackClient) -> None:
-        scoring = client.scoring.score(
-            input_rows=[{"foo": True}],
-            scoring_functions={
-                "foo": {
-                    "judge_model": "judge_model",
-                    "type": "llm_as_judge",
-                    "aggregation_functions": ["average"],
-                    "judge_score_regexes": ["string"],
-                    "prompt_template": "prompt_template",
-                }
-            },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert_matches_type(ScoringScoreResponse, scoring, path=["response"])
-
-    @parametrize
     def test_raw_response_score(self, client: LlamaStackClient) -> None:
         response = client.scoring.with_raw_response.score(
             input_rows=[{"foo": True}],
@@ -98,25 +80,6 @@ class TestScoring:
                     "type": "llm_as_judge",
                 }
             },
-        )
-        assert_matches_type(ScoringScoreBatchResponse, scoring, path=["response"])
-
-    @parametrize
-    def test_method_score_batch_with_all_params(self, client: LlamaStackClient) -> None:
-        scoring = client.scoring.score_batch(
-            dataset_id="dataset_id",
-            save_results_dataset=True,
-            scoring_functions={
-                "foo": {
-                    "judge_model": "judge_model",
-                    "type": "llm_as_judge",
-                    "aggregation_functions": ["average"],
-                    "judge_score_regexes": ["string"],
-                    "prompt_template": "prompt_template",
-                }
-            },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ScoringScoreBatchResponse, scoring, path=["response"])
 
@@ -176,24 +139,6 @@ class TestAsyncScoring:
         assert_matches_type(ScoringScoreResponse, scoring, path=["response"])
 
     @parametrize
-    async def test_method_score_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        scoring = await async_client.scoring.score(
-            input_rows=[{"foo": True}],
-            scoring_functions={
-                "foo": {
-                    "judge_model": "judge_model",
-                    "type": "llm_as_judge",
-                    "aggregation_functions": ["average"],
-                    "judge_score_regexes": ["string"],
-                    "prompt_template": "prompt_template",
-                }
-            },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert_matches_type(ScoringScoreResponse, scoring, path=["response"])
-
-    @parametrize
     async def test_raw_response_score(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.scoring.with_raw_response.score(
             input_rows=[{"foo": True}],
@@ -240,25 +185,6 @@ class TestAsyncScoring:
                     "type": "llm_as_judge",
                 }
             },
-        )
-        assert_matches_type(ScoringScoreBatchResponse, scoring, path=["response"])
-
-    @parametrize
-    async def test_method_score_batch_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        scoring = await async_client.scoring.score_batch(
-            dataset_id="dataset_id",
-            save_results_dataset=True,
-            scoring_functions={
-                "foo": {
-                    "judge_model": "judge_model",
-                    "type": "llm_as_judge",
-                    "aggregation_functions": ["average"],
-                    "judge_score_regexes": ["string"],
-                    "prompt_template": "prompt_template",
-                }
-            },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ScoringScoreBatchResponse, scoring, path=["response"])
 

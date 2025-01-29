@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Required, TypedDict
 
-from .._utils import PropertyInfo
 from .shared_params.url import URL
 
 __all__ = ["ToolgroupRegisterParams"]
@@ -19,7 +18,3 @@ class ToolgroupRegisterParams(TypedDict, total=False):
     args: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
 
     mcp_endpoint: URL
-
-    x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
-
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]

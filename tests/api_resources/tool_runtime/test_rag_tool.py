@@ -33,24 +33,6 @@ class TestRagTool:
         assert rag_tool is None
 
     @parametrize
-    def test_method_insert_with_all_params(self, client: LlamaStackClient) -> None:
-        rag_tool = client.tool_runtime.rag_tool.insert(
-            chunk_size_in_tokens=0,
-            documents=[
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                    "mime_type": "mime_type",
-                }
-            ],
-            vector_db_id="vector_db_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert rag_tool is None
-
-    @parametrize
     def test_raw_response_insert(self, client: LlamaStackClient) -> None:
         response = client.tool_runtime.rag_tool.with_raw_response.insert(
             chunk_size_in_tokens=0,
@@ -111,8 +93,6 @@ class TestRagTool:
                     "type": "default",
                 },
             },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(QueryResult, rag_tool, path=["response"])
 
@@ -158,24 +138,6 @@ class TestAsyncRagTool:
                 }
             ],
             vector_db_id="vector_db_id",
-        )
-        assert rag_tool is None
-
-    @parametrize
-    async def test_method_insert_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        rag_tool = await async_client.tool_runtime.rag_tool.insert(
-            chunk_size_in_tokens=0,
-            documents=[
-                {
-                    "content": "string",
-                    "document_id": "document_id",
-                    "metadata": {"foo": True},
-                    "mime_type": "mime_type",
-                }
-            ],
-            vector_db_id="vector_db_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert rag_tool is None
 
@@ -240,8 +202,6 @@ class TestAsyncRagTool:
                     "type": "default",
                 },
             },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(QueryResult, rag_tool, path=["response"])
 

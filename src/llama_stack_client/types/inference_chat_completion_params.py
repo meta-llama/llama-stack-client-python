@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing_extensions import Literal, Required, TypedDict
 
-from .._utils import PropertyInfo
 from .shared_params.message import Message
 from .shared_params.response_format import ResponseFormat
 from .shared_params.sampling_params import SamplingParams
@@ -22,39 +21,56 @@ __all__ = [
 
 class InferenceChatCompletionParamsBase(TypedDict, total=False):
     messages: Required[Iterable[Message]]
+    """List of messages in the conversation"""
 
     model_id: Required[str]
+    """The identifier of the model to use.
+
+    The model must be registered with Llama Stack and available via the /models
+    endpoint.
+    """
 
     logprobs: Logprobs
+    """
+    (Optional) If specified, log probabilities for each token position will be
+    returned.
+    """
 
     response_format: ResponseFormat
+    """(Optional) Grammar specification for guided (structured) decoding.
+
+    There are two options: - `ResponseFormat.json_schema`: The grammar is a JSON
+    schema. Most providers support this format. - `ResponseFormat.grammar`: The
+    grammar is a BNF grammar. This format is more flexible, but not all providers
+    support it.
+    """
 
     sampling_params: SamplingParams
+    """Parameters to control the sampling strategy"""
 
     tool_choice: Literal["auto", "required"]
+    """(Optional) Whether tool use is required or automatic.
+
+    Defaults to ToolChoice.auto.
+    """
 
     tool_prompt_format: Literal["json", "function_tag", "python_list"]
-    """
-    `json` -- Refers to the json format for calling tools. The json format takes the
-    form like { "type": "function", "function" : { "name": "function_name",
-    "description": "function_description", "parameters": {...} } }
+    """(Optional) Instructs the model how to format tool calls.
 
-    `function_tag` -- This is an example of how you could define your own user
-    defined format for making tool calls. The function_tag format looks like this,
-    <function=function_name>(parameters)</function>
-
-    The detailed prompts for each of these formats are added to llama cli
+    By default, Llama Stack will attempt to use a format that is best adapted to the
+    model. - `ToolPromptFormat.json`: The tool calls are formatted as a JSON
+    object. - `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+    <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+    are output as Python syntax -- a list of function calls.
     """
 
     tools: Iterable[Tool]
-
-    x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
-
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
+    """(Optional) List of tool definitions available to the model"""
 
 
 class Logprobs(TypedDict, total=False):
     top_k: int
+    """How many tokens (for each position) to return log probabilities for."""
 
 
 class Tool(TypedDict, total=False):
@@ -67,10 +83,18 @@ class Tool(TypedDict, total=False):
 
 class InferenceChatCompletionParamsNonStreaming(InferenceChatCompletionParamsBase, total=False):
     stream: Literal[False]
+    """(Optional) If True, generate an SSE event stream of the response.
+
+    Defaults to False.
+    """
 
 
 class InferenceChatCompletionParamsStreaming(InferenceChatCompletionParamsBase):
     stream: Required[Literal[True]]
+    """(Optional) If True, generate an SSE event stream of the response.
+
+    Defaults to False.
+    """
 
 
 InferenceChatCompletionParams = Union[InferenceChatCompletionParamsNonStreaming, InferenceChatCompletionParamsStreaming]

@@ -27,16 +27,6 @@ class TestJobs:
         assert_matches_type(EvaluateResponse, job, path=["response"])
 
     @parametrize
-    def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
-        job = client.eval.jobs.retrieve(
-            job_id="job_id",
-            task_id="task_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert_matches_type(EvaluateResponse, job, path=["response"])
-
-    @parametrize
     def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
         response = client.eval.jobs.with_raw_response.retrieve(
             job_id="job_id",
@@ -85,16 +75,6 @@ class TestJobs:
         assert job is None
 
     @parametrize
-    def test_method_cancel_with_all_params(self, client: LlamaStackClient) -> None:
-        job = client.eval.jobs.cancel(
-            job_id="job_id",
-            task_id="task_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert job is None
-
-    @parametrize
     def test_raw_response_cancel(self, client: LlamaStackClient) -> None:
         response = client.eval.jobs.with_raw_response.cancel(
             job_id="job_id",
@@ -139,16 +119,6 @@ class TestJobs:
         job = client.eval.jobs.status(
             job_id="job_id",
             task_id="task_id",
-        )
-        assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
-
-    @parametrize
-    def test_method_status_with_all_params(self, client: LlamaStackClient) -> None:
-        job = client.eval.jobs.status(
-            job_id="job_id",
-            task_id="task_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 
@@ -205,16 +175,6 @@ class TestAsyncJobs:
         assert_matches_type(EvaluateResponse, job, path=["response"])
 
     @parametrize
-    async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        job = await async_client.eval.jobs.retrieve(
-            job_id="job_id",
-            task_id="task_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert_matches_type(EvaluateResponse, job, path=["response"])
-
-    @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.eval.jobs.with_raw_response.retrieve(
             job_id="job_id",
@@ -263,16 +223,6 @@ class TestAsyncJobs:
         assert job is None
 
     @parametrize
-    async def test_method_cancel_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        job = await async_client.eval.jobs.cancel(
-            job_id="job_id",
-            task_id="task_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert job is None
-
-    @parametrize
     async def test_raw_response_cancel(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.eval.jobs.with_raw_response.cancel(
             job_id="job_id",
@@ -317,16 +267,6 @@ class TestAsyncJobs:
         job = await async_client.eval.jobs.status(
             job_id="job_id",
             task_id="task_id",
-        )
-        assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
-
-    @parametrize
-    async def test_method_status_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        job = await async_client.eval.jobs.status(
-            job_id="job_id",
-            task_id="task_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 

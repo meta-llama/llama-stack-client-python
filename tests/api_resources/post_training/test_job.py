@@ -27,14 +27,6 @@ class TestJob:
         assert_matches_type(JobListResponse, job, path=["response"])
 
     @parametrize
-    def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
-        job = client.post_training.job.list(
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert_matches_type(JobListResponse, job, path=["response"])
-
-    @parametrize
     def test_raw_response_list(self, client: LlamaStackClient) -> None:
         response = client.post_training.job.with_raw_response.list()
 
@@ -58,15 +50,6 @@ class TestJob:
     def test_method_artifacts(self, client: LlamaStackClient) -> None:
         job = client.post_training.job.artifacts(
             job_uuid="job_uuid",
-        )
-        assert_matches_type(Optional[JobArtifactsResponse], job, path=["response"])
-
-    @parametrize
-    def test_method_artifacts_with_all_params(self, client: LlamaStackClient) -> None:
-        job = client.post_training.job.artifacts(
-            job_uuid="job_uuid",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[JobArtifactsResponse], job, path=["response"])
 
@@ -102,15 +85,6 @@ class TestJob:
         assert job is None
 
     @parametrize
-    def test_method_cancel_with_all_params(self, client: LlamaStackClient) -> None:
-        job = client.post_training.job.cancel(
-            job_uuid="job_uuid",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert job is None
-
-    @parametrize
     def test_raw_response_cancel(self, client: LlamaStackClient) -> None:
         response = client.post_training.job.with_raw_response.cancel(
             job_uuid="job_uuid",
@@ -138,15 +112,6 @@ class TestJob:
     def test_method_status(self, client: LlamaStackClient) -> None:
         job = client.post_training.job.status(
             job_uuid="job_uuid",
-        )
-        assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
-
-    @parametrize
-    def test_method_status_with_all_params(self, client: LlamaStackClient) -> None:
-        job = client.post_training.job.status(
-            job_uuid="job_uuid",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 
@@ -184,14 +149,6 @@ class TestAsyncJob:
         assert_matches_type(JobListResponse, job, path=["response"])
 
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        job = await async_client.post_training.job.list(
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert_matches_type(JobListResponse, job, path=["response"])
-
-    @parametrize
     async def test_raw_response_list(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.post_training.job.with_raw_response.list()
 
@@ -215,15 +172,6 @@ class TestAsyncJob:
     async def test_method_artifacts(self, async_client: AsyncLlamaStackClient) -> None:
         job = await async_client.post_training.job.artifacts(
             job_uuid="job_uuid",
-        )
-        assert_matches_type(Optional[JobArtifactsResponse], job, path=["response"])
-
-    @parametrize
-    async def test_method_artifacts_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        job = await async_client.post_training.job.artifacts(
-            job_uuid="job_uuid",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[JobArtifactsResponse], job, path=["response"])
 
@@ -259,15 +207,6 @@ class TestAsyncJob:
         assert job is None
 
     @parametrize
-    async def test_method_cancel_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        job = await async_client.post_training.job.cancel(
-            job_uuid="job_uuid",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert job is None
-
-    @parametrize
     async def test_raw_response_cancel(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.post_training.job.with_raw_response.cancel(
             job_uuid="job_uuid",
@@ -295,15 +234,6 @@ class TestAsyncJob:
     async def test_method_status(self, async_client: AsyncLlamaStackClient) -> None:
         job = await async_client.post_training.job.status(
             job_uuid="job_uuid",
-        )
-        assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
-
-    @parametrize
-    async def test_method_status_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        job = await async_client.post_training.job.status(
-            job_uuid="job_uuid",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 

@@ -5,7 +5,6 @@ from __future__ import annotations
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import strip_not_given
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -47,8 +46,6 @@ class StepsResource(SyncAPIResource):
         agent_id: str,
         session_id: str,
         turn_id: str,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -74,15 +71,6 @@ class StepsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `turn_id` but received {turn_id!r}")
         if not step_id:
             raise ValueError(f"Expected a non-empty value for `step_id` but received {step_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return self._get(
             f"/v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/step/{step_id}",
             options=make_request_options(
@@ -119,8 +107,6 @@ class AsyncStepsResource(AsyncAPIResource):
         agent_id: str,
         session_id: str,
         turn_id: str,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -146,15 +132,6 @@ class AsyncStepsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `turn_id` but received {turn_id!r}")
         if not step_id:
             raise ValueError(f"Expected a non-empty value for `step_id` but received {step_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return await self._get(
             f"/v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/step/{step_id}",
             options=make_request_options(

@@ -41,8 +41,6 @@ class TestVectorIo:
             ],
             vector_db_id="vector_db_id",
             ttl_seconds=0,
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert vector_io is None
 
@@ -96,8 +94,6 @@ class TestVectorIo:
             query="string",
             vector_db_id="vector_db_id",
             params={"foo": True},
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(QueryChunksResponse, vector_io, path=["response"])
 
@@ -155,8 +151,6 @@ class TestAsyncVectorIo:
             ],
             vector_db_id="vector_db_id",
             ttl_seconds=0,
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert vector_io is None
 
@@ -210,8 +204,6 @@ class TestAsyncVectorIo:
             query="string",
             vector_db_id="vector_db_id",
             params={"foo": True},
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(QueryChunksResponse, vector_io, path=["response"])
 

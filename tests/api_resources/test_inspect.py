@@ -23,14 +23,6 @@ class TestInspect:
         assert_matches_type(HealthInfo, inspect, path=["response"])
 
     @parametrize
-    def test_method_health_with_all_params(self, client: LlamaStackClient) -> None:
-        inspect = client.inspect.health(
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert_matches_type(HealthInfo, inspect, path=["response"])
-
-    @parametrize
     def test_raw_response_health(self, client: LlamaStackClient) -> None:
         response = client.inspect.with_raw_response.health()
 
@@ -53,14 +45,6 @@ class TestInspect:
     @parametrize
     def test_method_version(self, client: LlamaStackClient) -> None:
         inspect = client.inspect.version()
-        assert_matches_type(VersionInfo, inspect, path=["response"])
-
-    @parametrize
-    def test_method_version_with_all_params(self, client: LlamaStackClient) -> None:
-        inspect = client.inspect.version(
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
         assert_matches_type(VersionInfo, inspect, path=["response"])
 
     @parametrize
@@ -93,14 +77,6 @@ class TestAsyncInspect:
         assert_matches_type(HealthInfo, inspect, path=["response"])
 
     @parametrize
-    async def test_method_health_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        inspect = await async_client.inspect.health(
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert_matches_type(HealthInfo, inspect, path=["response"])
-
-    @parametrize
     async def test_raw_response_health(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.inspect.with_raw_response.health()
 
@@ -123,14 +99,6 @@ class TestAsyncInspect:
     @parametrize
     async def test_method_version(self, async_client: AsyncLlamaStackClient) -> None:
         inspect = await async_client.inspect.version()
-        assert_matches_type(VersionInfo, inspect, path=["response"])
-
-    @parametrize
-    async def test_method_version_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        inspect = await async_client.inspect.version(
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
         assert_matches_type(VersionInfo, inspect, path=["response"])
 
     @parametrize

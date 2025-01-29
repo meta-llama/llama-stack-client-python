@@ -16,7 +16,6 @@ from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     required_args,
     maybe_transform,
-    strip_not_given,
     async_maybe_transform,
 )
 from .._compat import cached_property
@@ -73,8 +72,6 @@ class InferenceResource(SyncAPIResource):
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -83,16 +80,38 @@ class InferenceResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceChatCompletionResponse:
         """
+        Generate a chat completion for the given messages using the specified model.
+
         Args:
-          tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
-              form like { "type": "function", "function" : { "name": "function_name",
-              "description": "function_description", "parameters": {...} } }
+          messages: List of messages in the conversation
 
-              `function_tag` -- This is an example of how you could define your own user
-              defined format for making tool calls. The function_tag format looks like this,
-              <function=function_name>(parameters)</function>
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
 
-              The detailed prompts for each of these formats are added to llama cli
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding. There are two
+              options: - `ResponseFormat.json_schema`: The grammar is a JSON schema. Most
+              providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
+              grammar. This format is more flexible, but not all providers support it.
+
+          sampling_params: Parameters to control the sampling strategy
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
+              ToolChoice.auto.
+
+          tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
+              will attempt to use a format that is best adapted to the model. -
+              `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
+              `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+              <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+              are output as Python syntax -- a list of function calls.
+
+          tools: (Optional) List of tool definitions available to the model
 
           extra_headers: Send extra headers
 
@@ -117,8 +136,6 @@ class InferenceResource(SyncAPIResource):
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -127,16 +144,38 @@ class InferenceResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Stream[InferenceChatCompletionResponse]:
         """
+        Generate a chat completion for the given messages using the specified model.
+
         Args:
-          tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
-              form like { "type": "function", "function" : { "name": "function_name",
-              "description": "function_description", "parameters": {...} } }
+          messages: List of messages in the conversation
 
-              `function_tag` -- This is an example of how you could define your own user
-              defined format for making tool calls. The function_tag format looks like this,
-              <function=function_name>(parameters)</function>
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
 
-              The detailed prompts for each of these formats are added to llama cli
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding. There are two
+              options: - `ResponseFormat.json_schema`: The grammar is a JSON schema. Most
+              providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
+              grammar. This format is more flexible, but not all providers support it.
+
+          sampling_params: Parameters to control the sampling strategy
+
+          tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
+              ToolChoice.auto.
+
+          tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
+              will attempt to use a format that is best adapted to the model. -
+              `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
+              `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+              <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+              are output as Python syntax -- a list of function calls.
+
+          tools: (Optional) List of tool definitions available to the model
 
           extra_headers: Send extra headers
 
@@ -161,8 +200,6 @@ class InferenceResource(SyncAPIResource):
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -171,16 +208,38 @@ class InferenceResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceChatCompletionResponse | Stream[InferenceChatCompletionResponse]:
         """
+        Generate a chat completion for the given messages using the specified model.
+
         Args:
-          tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
-              form like { "type": "function", "function" : { "name": "function_name",
-              "description": "function_description", "parameters": {...} } }
+          messages: List of messages in the conversation
 
-              `function_tag` -- This is an example of how you could define your own user
-              defined format for making tool calls. The function_tag format looks like this,
-              <function=function_name>(parameters)</function>
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
 
-              The detailed prompts for each of these formats are added to llama cli
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding. There are two
+              options: - `ResponseFormat.json_schema`: The grammar is a JSON schema. Most
+              providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
+              grammar. This format is more flexible, but not all providers support it.
+
+          sampling_params: Parameters to control the sampling strategy
+
+          tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
+              ToolChoice.auto.
+
+          tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
+              will attempt to use a format that is best adapted to the model. -
+              `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
+              `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+              <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+              are output as Python syntax -- a list of function calls.
+
+          tools: (Optional) List of tool definitions available to the model
 
           extra_headers: Send extra headers
 
@@ -205,8 +264,6 @@ class InferenceResource(SyncAPIResource):
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -215,15 +272,6 @@ class InferenceResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceChatCompletionResponse | Stream[InferenceChatCompletionResponse]:
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return cast(
             InferenceChatCompletionResponse,
             self._post(
@@ -263,8 +311,6 @@ class InferenceResource(SyncAPIResource):
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -273,7 +319,24 @@ class InferenceResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceCompletionResponse:
         """
+        Generate a completion for the given content using the specified model.
+
         Args:
+          content: The content to generate a completion for
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding
+
+          sampling_params: (Optional) Parameters to control the sampling strategy
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -294,8 +357,6 @@ class InferenceResource(SyncAPIResource):
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -304,7 +365,24 @@ class InferenceResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Stream[InferenceCompletionResponse]:
         """
+        Generate a completion for the given content using the specified model.
+
         Args:
+          content: The content to generate a completion for
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding
+
+          sampling_params: (Optional) Parameters to control the sampling strategy
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -325,8 +403,6 @@ class InferenceResource(SyncAPIResource):
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -335,7 +411,24 @@ class InferenceResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceCompletionResponse | Stream[InferenceCompletionResponse]:
         """
+        Generate a completion for the given content using the specified model.
+
         Args:
+          content: The content to generate a completion for
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding
+
+          sampling_params: (Optional) Parameters to control the sampling strategy
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -356,8 +449,6 @@ class InferenceResource(SyncAPIResource):
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -366,15 +457,6 @@ class InferenceResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceCompletionResponse | Stream[InferenceCompletionResponse]:
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return cast(
             InferenceCompletionResponse,
             self._post(
@@ -406,8 +488,6 @@ class InferenceResource(SyncAPIResource):
         *,
         contents: List[InterleavedContent],
         model_id: str,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -416,7 +496,16 @@ class InferenceResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EmbeddingsResponse:
         """
+        Generate embeddings for content pieces using the specified model.
+
         Args:
+          contents: List of contents to generate embeddings for. Note that content can be
+              multimodal. The behavior depends on the model and provider. Some models may only
+              support text.
+
+          model_id: The identifier of the model to use. The model must be an embedding model
+              registered with Llama Stack and available via the /models endpoint.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -425,15 +514,6 @@ class InferenceResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return self._post(
             "/v1/inference/embeddings",
             body=maybe_transform(
@@ -483,8 +563,6 @@ class AsyncInferenceResource(AsyncAPIResource):
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -493,16 +571,38 @@ class AsyncInferenceResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceChatCompletionResponse:
         """
+        Generate a chat completion for the given messages using the specified model.
+
         Args:
-          tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
-              form like { "type": "function", "function" : { "name": "function_name",
-              "description": "function_description", "parameters": {...} } }
+          messages: List of messages in the conversation
 
-              `function_tag` -- This is an example of how you could define your own user
-              defined format for making tool calls. The function_tag format looks like this,
-              <function=function_name>(parameters)</function>
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
 
-              The detailed prompts for each of these formats are added to llama cli
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding. There are two
+              options: - `ResponseFormat.json_schema`: The grammar is a JSON schema. Most
+              providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
+              grammar. This format is more flexible, but not all providers support it.
+
+          sampling_params: Parameters to control the sampling strategy
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
+              ToolChoice.auto.
+
+          tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
+              will attempt to use a format that is best adapted to the model. -
+              `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
+              `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+              <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+              are output as Python syntax -- a list of function calls.
+
+          tools: (Optional) List of tool definitions available to the model
 
           extra_headers: Send extra headers
 
@@ -527,8 +627,6 @@ class AsyncInferenceResource(AsyncAPIResource):
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -537,16 +635,38 @@ class AsyncInferenceResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AsyncStream[InferenceChatCompletionResponse]:
         """
+        Generate a chat completion for the given messages using the specified model.
+
         Args:
-          tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
-              form like { "type": "function", "function" : { "name": "function_name",
-              "description": "function_description", "parameters": {...} } }
+          messages: List of messages in the conversation
 
-              `function_tag` -- This is an example of how you could define your own user
-              defined format for making tool calls. The function_tag format looks like this,
-              <function=function_name>(parameters)</function>
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
 
-              The detailed prompts for each of these formats are added to llama cli
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding. There are two
+              options: - `ResponseFormat.json_schema`: The grammar is a JSON schema. Most
+              providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
+              grammar. This format is more flexible, but not all providers support it.
+
+          sampling_params: Parameters to control the sampling strategy
+
+          tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
+              ToolChoice.auto.
+
+          tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
+              will attempt to use a format that is best adapted to the model. -
+              `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
+              `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+              <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+              are output as Python syntax -- a list of function calls.
+
+          tools: (Optional) List of tool definitions available to the model
 
           extra_headers: Send extra headers
 
@@ -571,8 +691,6 @@ class AsyncInferenceResource(AsyncAPIResource):
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -581,16 +699,38 @@ class AsyncInferenceResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceChatCompletionResponse | AsyncStream[InferenceChatCompletionResponse]:
         """
+        Generate a chat completion for the given messages using the specified model.
+
         Args:
-          tool_prompt_format: `json` -- Refers to the json format for calling tools. The json format takes the
-              form like { "type": "function", "function" : { "name": "function_name",
-              "description": "function_description", "parameters": {...} } }
+          messages: List of messages in the conversation
 
-              `function_tag` -- This is an example of how you could define your own user
-              defined format for making tool calls. The function_tag format looks like this,
-              <function=function_name>(parameters)</function>
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
 
-              The detailed prompts for each of these formats are added to llama cli
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding. There are two
+              options: - `ResponseFormat.json_schema`: The grammar is a JSON schema. Most
+              providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
+              grammar. This format is more flexible, but not all providers support it.
+
+          sampling_params: Parameters to control the sampling strategy
+
+          tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
+              ToolChoice.auto.
+
+          tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
+              will attempt to use a format that is best adapted to the model. -
+              `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
+              `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+              <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+              are output as Python syntax -- a list of function calls.
+
+          tools: (Optional) List of tool definitions available to the model
 
           extra_headers: Send extra headers
 
@@ -615,8 +755,6 @@ class AsyncInferenceResource(AsyncAPIResource):
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -625,15 +763,6 @@ class AsyncInferenceResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceChatCompletionResponse | AsyncStream[InferenceChatCompletionResponse]:
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return cast(
             InferenceChatCompletionResponse,
             await self._post(
@@ -673,8 +802,6 @@ class AsyncInferenceResource(AsyncAPIResource):
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -683,7 +810,24 @@ class AsyncInferenceResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceCompletionResponse:
         """
+        Generate a completion for the given content using the specified model.
+
         Args:
+          content: The content to generate a completion for
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding
+
+          sampling_params: (Optional) Parameters to control the sampling strategy
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -704,8 +848,6 @@ class AsyncInferenceResource(AsyncAPIResource):
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -714,7 +856,24 @@ class AsyncInferenceResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AsyncStream[InferenceCompletionResponse]:
         """
+        Generate a completion for the given content using the specified model.
+
         Args:
+          content: The content to generate a completion for
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding
+
+          sampling_params: (Optional) Parameters to control the sampling strategy
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -735,8 +894,6 @@ class AsyncInferenceResource(AsyncAPIResource):
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -745,7 +902,24 @@ class AsyncInferenceResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceCompletionResponse | AsyncStream[InferenceCompletionResponse]:
         """
+        Generate a completion for the given content using the specified model.
+
         Args:
+          content: The content to generate a completion for
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding
+
+          sampling_params: (Optional) Parameters to control the sampling strategy
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -766,8 +940,6 @@ class AsyncInferenceResource(AsyncAPIResource):
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -776,15 +948,6 @@ class AsyncInferenceResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceCompletionResponse | AsyncStream[InferenceCompletionResponse]:
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return cast(
             InferenceCompletionResponse,
             await self._post(
@@ -816,8 +979,6 @@ class AsyncInferenceResource(AsyncAPIResource):
         *,
         contents: List[InterleavedContent],
         model_id: str,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -826,7 +987,16 @@ class AsyncInferenceResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EmbeddingsResponse:
         """
+        Generate embeddings for content pieces using the specified model.
+
         Args:
+          contents: List of contents to generate embeddings for. Note that content can be
+              multimodal. The behavior depends on the model and provider. Some models may only
+              support text.
+
+          model_id: The identifier of the model to use. The model must be an embedding model
+              registered with Llama Stack and available via the /models endpoint.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -835,15 +1005,6 @@ class AsyncInferenceResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return await self._post(
             "/v1/inference/embeddings",
             body=await async_maybe_transform(

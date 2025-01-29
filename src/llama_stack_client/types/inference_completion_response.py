@@ -12,10 +12,13 @@ __all__ = ["InferenceCompletionResponse", "CompletionResponseStreamChunk"]
 
 class CompletionResponseStreamChunk(BaseModel):
     delta: str
+    """New content generated since last chunk. This can be one or more tokens."""
 
     logprobs: Optional[List[TokenLogProbs]] = None
+    """Optional log probabilities for generated tokens"""
 
     stop_reason: Optional[Literal["end_of_turn", "end_of_message", "out_of_tokens"]] = None
+    """Optional reason why generation stopped, if complete"""
 
 
 InferenceCompletionResponse: TypeAlias = Union[CompletionResponse, CompletionResponseStreamChunk]

@@ -28,18 +28,6 @@ class TestSteps:
         assert_matches_type(StepRetrieveResponse, step, path=["response"])
 
     @parametrize
-    def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
-        step = client.agents.steps.retrieve(
-            step_id="step_id",
-            agent_id="agent_id",
-            session_id="session_id",
-            turn_id="turn_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert_matches_type(StepRetrieveResponse, step, path=["response"])
-
-    @parametrize
     def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
         response = client.agents.steps.with_raw_response.retrieve(
             step_id="step_id",
@@ -114,18 +102,6 @@ class TestAsyncSteps:
             agent_id="agent_id",
             session_id="session_id",
             turn_id="turn_id",
-        )
-        assert_matches_type(StepRetrieveResponse, step, path=["response"])
-
-    @parametrize
-    async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        step = await async_client.agents.steps.retrieve(
-            step_id="step_id",
-            agent_id="agent_id",
-            session_id="session_id",
-            turn_id="turn_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(StepRetrieveResponse, step, path=["response"])
 

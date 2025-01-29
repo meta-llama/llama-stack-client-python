@@ -11,7 +11,10 @@ __all__ = ["CompletionResponse"]
 
 class CompletionResponse(BaseModel):
     content: str
+    """The generated completion text"""
 
     stop_reason: Literal["end_of_turn", "end_of_message", "out_of_tokens"]
+    """Reason why generation stopped"""
 
     logprobs: Optional[List[TokenLogProbs]] = None
+    """Optional log probabilities for generated tokens"""

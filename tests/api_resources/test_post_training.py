@@ -94,8 +94,6 @@ class TestPostTraining:
                     "memory_efficient_fsdp_wrap": True,
                 },
             },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
 
@@ -251,8 +249,6 @@ class TestPostTraining:
                 "use_dora": True,
             },
             checkpoint_dir="checkpoint_dir",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
 
@@ -401,8 +397,6 @@ class TestAsyncPostTraining:
                     "memory_efficient_fsdp_wrap": True,
                 },
             },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
 
@@ -558,8 +552,6 @@ class TestAsyncPostTraining:
                 "use_dora": True,
             },
             checkpoint_dir="checkpoint_dir",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
 

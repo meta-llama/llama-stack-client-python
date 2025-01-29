@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 from typing import Dict, List, Union, Iterable
-from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
+from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
-from ..._utils import PropertyInfo
 from ..shared_params.url import URL
 from ..shared_params.user_message import UserMessage
 from ..shared_params.tool_response_message import ToolResponseMessage
@@ -34,10 +33,6 @@ class TurnCreateParamsBase(TypedDict, total=False):
     documents: Iterable[Document]
 
     toolgroups: List[Toolgroup]
-
-    x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
-
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
 
 
 Message: TypeAlias = Union[UserMessage, ToolResponseMessage]

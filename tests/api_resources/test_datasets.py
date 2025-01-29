@@ -20,23 +20,14 @@ class TestDatasets:
     @parametrize
     def test_method_retrieve(self, client: LlamaStackClient) -> None:
         dataset = client.datasets.retrieve(
-            dataset_id="dataset_id",
-        )
-        assert_matches_type(Optional[DatasetRetrieveResponse], dataset, path=["response"])
-
-    @parametrize
-    def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
-        dataset = client.datasets.retrieve(
-            dataset_id="dataset_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "dataset_id",
         )
         assert_matches_type(Optional[DatasetRetrieveResponse], dataset, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
         response = client.datasets.with_raw_response.retrieve(
-            dataset_id="dataset_id",
+            "dataset_id",
         )
 
         assert response.is_closed is True
@@ -47,7 +38,7 @@ class TestDatasets:
     @parametrize
     def test_streaming_response_retrieve(self, client: LlamaStackClient) -> None:
         with client.datasets.with_streaming_response.retrieve(
-            dataset_id="dataset_id",
+            "dataset_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -61,20 +52,12 @@ class TestDatasets:
     def test_path_params_retrieve(self, client: LlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `dataset_id` but received ''"):
             client.datasets.with_raw_response.retrieve(
-                dataset_id="",
+                "",
             )
 
     @parametrize
     def test_method_list(self, client: LlamaStackClient) -> None:
         dataset = client.datasets.list()
-        assert_matches_type(DatasetListResponse, dataset, path=["response"])
-
-    @parametrize
-    def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
-        dataset = client.datasets.list(
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
         assert_matches_type(DatasetListResponse, dataset, path=["response"])
 
     @parametrize
@@ -115,8 +98,6 @@ class TestDatasets:
             metadata={"foo": True},
             provider_dataset_id="provider_dataset_id",
             provider_id="provider_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert dataset is None
 
@@ -151,23 +132,14 @@ class TestDatasets:
     @parametrize
     def test_method_unregister(self, client: LlamaStackClient) -> None:
         dataset = client.datasets.unregister(
-            dataset_id="dataset_id",
-        )
-        assert dataset is None
-
-    @parametrize
-    def test_method_unregister_with_all_params(self, client: LlamaStackClient) -> None:
-        dataset = client.datasets.unregister(
-            dataset_id="dataset_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "dataset_id",
         )
         assert dataset is None
 
     @parametrize
     def test_raw_response_unregister(self, client: LlamaStackClient) -> None:
         response = client.datasets.with_raw_response.unregister(
-            dataset_id="dataset_id",
+            "dataset_id",
         )
 
         assert response.is_closed is True
@@ -178,7 +150,7 @@ class TestDatasets:
     @parametrize
     def test_streaming_response_unregister(self, client: LlamaStackClient) -> None:
         with client.datasets.with_streaming_response.unregister(
-            dataset_id="dataset_id",
+            "dataset_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -192,7 +164,7 @@ class TestDatasets:
     def test_path_params_unregister(self, client: LlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `dataset_id` but received ''"):
             client.datasets.with_raw_response.unregister(
-                dataset_id="",
+                "",
             )
 
 
@@ -202,23 +174,14 @@ class TestAsyncDatasets:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         dataset = await async_client.datasets.retrieve(
-            dataset_id="dataset_id",
-        )
-        assert_matches_type(Optional[DatasetRetrieveResponse], dataset, path=["response"])
-
-    @parametrize
-    async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        dataset = await async_client.datasets.retrieve(
-            dataset_id="dataset_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "dataset_id",
         )
         assert_matches_type(Optional[DatasetRetrieveResponse], dataset, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.datasets.with_raw_response.retrieve(
-            dataset_id="dataset_id",
+            "dataset_id",
         )
 
         assert response.is_closed is True
@@ -229,7 +192,7 @@ class TestAsyncDatasets:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.datasets.with_streaming_response.retrieve(
-            dataset_id="dataset_id",
+            "dataset_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -243,20 +206,12 @@ class TestAsyncDatasets:
     async def test_path_params_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `dataset_id` but received ''"):
             await async_client.datasets.with_raw_response.retrieve(
-                dataset_id="",
+                "",
             )
 
     @parametrize
     async def test_method_list(self, async_client: AsyncLlamaStackClient) -> None:
         dataset = await async_client.datasets.list()
-        assert_matches_type(DatasetListResponse, dataset, path=["response"])
-
-    @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        dataset = await async_client.datasets.list(
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
         assert_matches_type(DatasetListResponse, dataset, path=["response"])
 
     @parametrize
@@ -297,8 +252,6 @@ class TestAsyncDatasets:
             metadata={"foo": True},
             provider_dataset_id="provider_dataset_id",
             provider_id="provider_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert dataset is None
 
@@ -333,23 +286,14 @@ class TestAsyncDatasets:
     @parametrize
     async def test_method_unregister(self, async_client: AsyncLlamaStackClient) -> None:
         dataset = await async_client.datasets.unregister(
-            dataset_id="dataset_id",
-        )
-        assert dataset is None
-
-    @parametrize
-    async def test_method_unregister_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        dataset = await async_client.datasets.unregister(
-            dataset_id="dataset_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "dataset_id",
         )
         assert dataset is None
 
     @parametrize
     async def test_raw_response_unregister(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.datasets.with_raw_response.unregister(
-            dataset_id="dataset_id",
+            "dataset_id",
         )
 
         assert response.is_closed is True
@@ -360,7 +304,7 @@ class TestAsyncDatasets:
     @parametrize
     async def test_streaming_response_unregister(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.datasets.with_streaming_response.unregister(
-            dataset_id="dataset_id",
+            "dataset_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -374,5 +318,5 @@ class TestAsyncDatasets:
     async def test_path_params_unregister(self, async_client: AsyncLlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `dataset_id` but received ''"):
             await async_client.datasets.with_raw_response.unregister(
-                dataset_id="",
+                "",
             )
