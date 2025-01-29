@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 from typing import List
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Required, TypedDict
 
-from .._utils import PropertyInfo
+from .shared_params.response_format import ResponseFormat
 from .shared_params.sampling_params import SamplingParams
 from .shared_params.interleaved_content import InterleavedContent
 
@@ -19,12 +19,11 @@ class BatchInferenceCompletionParams(TypedDict, total=False):
 
     logprobs: Logprobs
 
+    response_format: ResponseFormat
+
     sampling_params: SamplingParams
-
-    x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
-
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
 
 
 class Logprobs(TypedDict, total=False):
     top_k: int
+    """How many tokens (for each position) to return log probabilities for."""

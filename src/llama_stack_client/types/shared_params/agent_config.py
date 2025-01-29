@@ -43,16 +43,5 @@ class AgentConfig(TypedDict, total=False):
     tool_choice: Literal["auto", "required"]
 
     tool_prompt_format: Literal["json", "function_tag", "python_list"]
-    """
-    `json` -- Refers to the json format for calling tools. The json format takes the
-    form like { "type": "function", "function" : { "name": "function_name",
-    "description": "function_description", "parameters": {...} } }
-
-    `function_tag` -- This is an example of how you could define your own user
-    defined format for making tool calls. The function_tag format looks like this,
-    <function=function_name>(parameters)</function>
-
-    The detailed prompts for each of these formats are added to llama cli
-    """
 
     toolgroups: List[Toolgroup]

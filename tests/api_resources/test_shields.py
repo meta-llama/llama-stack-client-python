@@ -20,23 +20,14 @@ class TestShields:
     @parametrize
     def test_method_retrieve(self, client: LlamaStackClient) -> None:
         shield = client.shields.retrieve(
-            identifier="identifier",
-        )
-        assert_matches_type(Optional[Shield], shield, path=["response"])
-
-    @parametrize
-    def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
-        shield = client.shields.retrieve(
-            identifier="identifier",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "identifier",
         )
         assert_matches_type(Optional[Shield], shield, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
         response = client.shields.with_raw_response.retrieve(
-            identifier="identifier",
+            "identifier",
         )
 
         assert response.is_closed is True
@@ -47,7 +38,7 @@ class TestShields:
     @parametrize
     def test_streaming_response_retrieve(self, client: LlamaStackClient) -> None:
         with client.shields.with_streaming_response.retrieve(
-            identifier="identifier",
+            "identifier",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -61,20 +52,12 @@ class TestShields:
     def test_path_params_retrieve(self, client: LlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `identifier` but received ''"):
             client.shields.with_raw_response.retrieve(
-                identifier="",
+                "",
             )
 
     @parametrize
     def test_method_list(self, client: LlamaStackClient) -> None:
         shield = client.shields.list()
-        assert_matches_type(ShieldListResponse, shield, path=["response"])
-
-    @parametrize
-    def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
-        shield = client.shields.list(
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
         assert_matches_type(ShieldListResponse, shield, path=["response"])
 
     @parametrize
@@ -111,8 +94,6 @@ class TestShields:
             params={"foo": True},
             provider_id="provider_id",
             provider_shield_id="provider_shield_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Shield, shield, path=["response"])
 
@@ -147,23 +128,14 @@ class TestAsyncShields:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         shield = await async_client.shields.retrieve(
-            identifier="identifier",
-        )
-        assert_matches_type(Optional[Shield], shield, path=["response"])
-
-    @parametrize
-    async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        shield = await async_client.shields.retrieve(
-            identifier="identifier",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "identifier",
         )
         assert_matches_type(Optional[Shield], shield, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.shields.with_raw_response.retrieve(
-            identifier="identifier",
+            "identifier",
         )
 
         assert response.is_closed is True
@@ -174,7 +146,7 @@ class TestAsyncShields:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.shields.with_streaming_response.retrieve(
-            identifier="identifier",
+            "identifier",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -188,20 +160,12 @@ class TestAsyncShields:
     async def test_path_params_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `identifier` but received ''"):
             await async_client.shields.with_raw_response.retrieve(
-                identifier="",
+                "",
             )
 
     @parametrize
     async def test_method_list(self, async_client: AsyncLlamaStackClient) -> None:
         shield = await async_client.shields.list()
-        assert_matches_type(ShieldListResponse, shield, path=["response"])
-
-    @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        shield = await async_client.shields.list(
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
         assert_matches_type(ShieldListResponse, shield, path=["response"])
 
     @parametrize
@@ -238,8 +202,6 @@ class TestAsyncShields:
             params={"foo": True},
             provider_id="provider_id",
             provider_shield_id="provider_shield_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(Shield, shield, path=["response"])
 

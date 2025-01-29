@@ -32,23 +32,6 @@ class TestSafety:
         assert_matches_type(RunShieldResponse, safety, path=["response"])
 
     @parametrize
-    def test_method_run_shield_with_all_params(self, client: LlamaStackClient) -> None:
-        safety = client.safety.run_shield(
-            messages=[
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                }
-            ],
-            params={"foo": True},
-            shield_id="shield_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert_matches_type(RunShieldResponse, safety, path=["response"])
-
-    @parametrize
     def test_raw_response_run_shield(self, client: LlamaStackClient) -> None:
         response = client.safety.with_raw_response.run_shield(
             messages=[
@@ -101,23 +84,6 @@ class TestAsyncSafety:
             ],
             params={"foo": True},
             shield_id="shield_id",
-        )
-        assert_matches_type(RunShieldResponse, safety, path=["response"])
-
-    @parametrize
-    async def test_method_run_shield_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        safety = await async_client.safety.run_shield(
-            messages=[
-                {
-                    "content": "string",
-                    "role": "user",
-                    "context": "string",
-                }
-            ],
-            params={"foo": True},
-            shield_id="shield_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(RunShieldResponse, safety, path=["response"])
 

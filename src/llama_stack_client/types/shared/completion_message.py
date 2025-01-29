@@ -12,9 +12,20 @@ __all__ = ["CompletionMessage"]
 
 class CompletionMessage(BaseModel):
     content: InterleavedContent
+    """The content of the model's response"""
 
     role: Literal["assistant"]
+    """Must be "assistant" to identify this as the model's response"""
 
     stop_reason: Literal["end_of_turn", "end_of_message", "out_of_tokens"]
+    """Reason why the model stopped generating.
+
+    Options are: - `StopReason.end_of_turn`: The model finished generating the
+    entire response. - `StopReason.end_of_message`: The model finished generating
+    but generated a partial response -- usually, a tool call. The user may call the
+    tool and continue the conversation with the tool's response. -
+    `StopReason.out_of_tokens`: The model ran out of token budget.
+    """
 
     tool_calls: List[ToolCall]
+    """List of tool calls. Each tool call is a ToolCall object."""

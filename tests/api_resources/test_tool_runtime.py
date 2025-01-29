@@ -30,16 +30,6 @@ class TestToolRuntime:
         assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
 
     @parametrize
-    def test_method_invoke_tool_with_all_params(self, client: LlamaStackClient) -> None:
-        tool_runtime = client.tool_runtime.invoke_tool(
-            kwargs={"foo": True},
-            tool_name="tool_name",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
-
-    @parametrize
     def test_raw_response_invoke_tool(self, client: LlamaStackClient) -> None:
         response = client.tool_runtime.with_raw_response.invoke_tool(
             kwargs={"foo": True},
@@ -77,8 +67,6 @@ class TestToolRuntime:
         tool_runtime = client.tool_runtime.list_tools(
             mcp_endpoint={"uri": "uri"},
             tool_group_id="tool_group_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(JSONLDecoder[ToolDef], tool_runtime, path=["response"])
 
@@ -113,16 +101,6 @@ class TestAsyncToolRuntime:
         tool_runtime = await async_client.tool_runtime.invoke_tool(
             kwargs={"foo": True},
             tool_name="tool_name",
-        )
-        assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
-
-    @parametrize
-    async def test_method_invoke_tool_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        tool_runtime = await async_client.tool_runtime.invoke_tool(
-            kwargs={"foo": True},
-            tool_name="tool_name",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
 
@@ -164,8 +142,6 @@ class TestAsyncToolRuntime:
         tool_runtime = await async_client.tool_runtime.list_tools(
             mcp_endpoint={"uri": "uri"},
             tool_group_id="tool_group_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(AsyncJSONLDecoder[ToolDef], tool_runtime, path=["response"])
 

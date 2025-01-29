@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable
-from typing_extensions import Literal, Required, Annotated, TypedDict
-
-from .._utils import PropertyInfo
+from typing_extensions import Literal, Required, TypedDict
 
 __all__ = [
     "PostTrainingPreferenceOptimizeParams",
@@ -29,10 +27,6 @@ class PostTrainingPreferenceOptimizeParams(TypedDict, total=False):
     logger_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
     training_config: Required[TrainingConfig]
-
-    x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
-
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
 
 
 class AlgorithmConfig(TypedDict, total=False):

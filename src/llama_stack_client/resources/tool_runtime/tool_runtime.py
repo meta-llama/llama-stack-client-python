@@ -10,7 +10,6 @@ from ...types import tool_runtime_list_tools_params, tool_runtime_invoke_tool_pa
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
-    strip_not_given,
     async_maybe_transform,
 )
 from .rag_tool import (
@@ -67,8 +66,6 @@ class ToolRuntimeResource(SyncAPIResource):
         *,
         kwargs: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         tool_name: str,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -88,15 +85,6 @@ class ToolRuntimeResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return self._post(
             "/v1/tool-runtime/invoke",
             body=maybe_transform(
@@ -117,8 +105,6 @@ class ToolRuntimeResource(SyncAPIResource):
         *,
         mcp_endpoint: URL | NotGiven = NOT_GIVEN,
         tool_group_id: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -137,15 +123,6 @@ class ToolRuntimeResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return self._get(
             "/v1/tool-runtime/list-tools",
             options=make_request_options(
@@ -195,8 +172,6 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
         *,
         kwargs: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         tool_name: str,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -216,15 +191,6 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return await self._post(
             "/v1/tool-runtime/invoke",
             body=await async_maybe_transform(
@@ -245,8 +211,6 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
         *,
         mcp_endpoint: URL | NotGiven = NOT_GIVEN,
         tool_group_id: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -265,15 +229,6 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return await self._get(
             "/v1/tool-runtime/list-tools",
             options=make_request_options(

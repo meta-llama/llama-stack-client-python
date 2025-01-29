@@ -26,8 +26,6 @@ class TestTools:
     def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
         tool = client.tools.list(
             toolgroup_id="toolgroup_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ToolListResponse, tool, path=["response"])
 
@@ -54,23 +52,14 @@ class TestTools:
     @parametrize
     def test_method_get(self, client: LlamaStackClient) -> None:
         tool = client.tools.get(
-            tool_name="tool_name",
-        )
-        assert_matches_type(Tool, tool, path=["response"])
-
-    @parametrize
-    def test_method_get_with_all_params(self, client: LlamaStackClient) -> None:
-        tool = client.tools.get(
-            tool_name="tool_name",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "tool_name",
         )
         assert_matches_type(Tool, tool, path=["response"])
 
     @parametrize
     def test_raw_response_get(self, client: LlamaStackClient) -> None:
         response = client.tools.with_raw_response.get(
-            tool_name="tool_name",
+            "tool_name",
         )
 
         assert response.is_closed is True
@@ -81,7 +70,7 @@ class TestTools:
     @parametrize
     def test_streaming_response_get(self, client: LlamaStackClient) -> None:
         with client.tools.with_streaming_response.get(
-            tool_name="tool_name",
+            "tool_name",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -95,7 +84,7 @@ class TestTools:
     def test_path_params_get(self, client: LlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `tool_name` but received ''"):
             client.tools.with_raw_response.get(
-                tool_name="",
+                "",
             )
 
 
@@ -111,8 +100,6 @@ class TestAsyncTools:
     async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         tool = await async_client.tools.list(
             toolgroup_id="toolgroup_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(ToolListResponse, tool, path=["response"])
 
@@ -139,23 +126,14 @@ class TestAsyncTools:
     @parametrize
     async def test_method_get(self, async_client: AsyncLlamaStackClient) -> None:
         tool = await async_client.tools.get(
-            tool_name="tool_name",
-        )
-        assert_matches_type(Tool, tool, path=["response"])
-
-    @parametrize
-    async def test_method_get_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        tool = await async_client.tools.get(
-            tool_name="tool_name",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "tool_name",
         )
         assert_matches_type(Tool, tool, path=["response"])
 
     @parametrize
     async def test_raw_response_get(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.tools.with_raw_response.get(
-            tool_name="tool_name",
+            "tool_name",
         )
 
         assert response.is_closed is True
@@ -166,7 +144,7 @@ class TestAsyncTools:
     @parametrize
     async def test_streaming_response_get(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.tools.with_streaming_response.get(
-            tool_name="tool_name",
+            "tool_name",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -180,5 +158,5 @@ class TestAsyncTools:
     async def test_path_params_get(self, async_client: AsyncLlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `tool_name` but received ''"):
             await async_client.tools.with_raw_response.get(
-                tool_name="",
+                "",
             )

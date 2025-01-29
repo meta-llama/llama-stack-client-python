@@ -11,7 +11,6 @@ from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     required_args,
     maybe_transform,
-    strip_not_given,
     async_maybe_transform,
 )
 from ..._compat import cached_property
@@ -61,8 +60,6 @@ class TurnResource(SyncAPIResource):
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -92,8 +89,6 @@ class TurnResource(SyncAPIResource):
         stream: Literal[True],
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -123,8 +118,6 @@ class TurnResource(SyncAPIResource):
         stream: bool,
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -154,8 +147,6 @@ class TurnResource(SyncAPIResource):
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -168,15 +159,6 @@ class TurnResource(SyncAPIResource):
         if not session_id:
             raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return cast(
             TurnCreateResponse,
             self._post(
@@ -207,8 +189,6 @@ class TurnResource(SyncAPIResource):
         *,
         agent_id: str,
         session_id: str,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -232,15 +212,6 @@ class TurnResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
         if not turn_id:
             raise ValueError(f"Expected a non-empty value for `turn_id` but received {turn_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return self._get(
             f"/v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}",
             options=make_request_options(
@@ -280,8 +251,6 @@ class AsyncTurnResource(AsyncAPIResource):
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -311,8 +280,6 @@ class AsyncTurnResource(AsyncAPIResource):
         stream: Literal[True],
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -342,8 +309,6 @@ class AsyncTurnResource(AsyncAPIResource):
         stream: bool,
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -373,8 +338,6 @@ class AsyncTurnResource(AsyncAPIResource):
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -387,15 +350,6 @@ class AsyncTurnResource(AsyncAPIResource):
         if not session_id:
             raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return cast(
             TurnCreateResponse,
             await self._post(
@@ -426,8 +380,6 @@ class AsyncTurnResource(AsyncAPIResource):
         *,
         agent_id: str,
         session_id: str,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -451,15 +403,6 @@ class AsyncTurnResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
         if not turn_id:
             raise ValueError(f"Expected a non-empty value for `turn_id` but received {turn_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return await self._get(
             f"/v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}",
             options=make_request_options(

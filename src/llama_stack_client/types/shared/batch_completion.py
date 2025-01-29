@@ -3,10 +3,10 @@
 from typing import List
 
 from ..._models import BaseModel
-from .completion_message import CompletionMessage
+from ..completion_response import CompletionResponse
 
 __all__ = ["BatchCompletion"]
 
 
 class BatchCompletion(BaseModel):
-    completion_message_batch: List[CompletionMessage]
+    batch: List[CompletionResponse]

@@ -68,8 +68,6 @@ class TestAgents:
                 "tool_prompt_format": "json",
                 "toolgroups": ["string"],
             },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(AgentCreateResponse, agent, path=["response"])
 
@@ -110,23 +108,14 @@ class TestAgents:
     @parametrize
     def test_method_delete(self, client: LlamaStackClient) -> None:
         agent = client.agents.delete(
-            agent_id="agent_id",
-        )
-        assert agent is None
-
-    @parametrize
-    def test_method_delete_with_all_params(self, client: LlamaStackClient) -> None:
-        agent = client.agents.delete(
-            agent_id="agent_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "agent_id",
         )
         assert agent is None
 
     @parametrize
     def test_raw_response_delete(self, client: LlamaStackClient) -> None:
         response = client.agents.with_raw_response.delete(
-            agent_id="agent_id",
+            "agent_id",
         )
 
         assert response.is_closed is True
@@ -137,7 +126,7 @@ class TestAgents:
     @parametrize
     def test_streaming_response_delete(self, client: LlamaStackClient) -> None:
         with client.agents.with_streaming_response.delete(
-            agent_id="agent_id",
+            "agent_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -151,7 +140,7 @@ class TestAgents:
     def test_path_params_delete(self, client: LlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
             client.agents.with_raw_response.delete(
-                agent_id="",
+                "",
             )
 
 
@@ -209,8 +198,6 @@ class TestAsyncAgents:
                 "tool_prompt_format": "json",
                 "toolgroups": ["string"],
             },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(AgentCreateResponse, agent, path=["response"])
 
@@ -251,23 +238,14 @@ class TestAsyncAgents:
     @parametrize
     async def test_method_delete(self, async_client: AsyncLlamaStackClient) -> None:
         agent = await async_client.agents.delete(
-            agent_id="agent_id",
-        )
-        assert agent is None
-
-    @parametrize
-    async def test_method_delete_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        agent = await async_client.agents.delete(
-            agent_id="agent_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "agent_id",
         )
         assert agent is None
 
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.agents.with_raw_response.delete(
-            agent_id="agent_id",
+            "agent_id",
         )
 
         assert response.is_closed is True
@@ -278,7 +256,7 @@ class TestAsyncAgents:
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.agents.with_streaming_response.delete(
-            agent_id="agent_id",
+            "agent_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -292,5 +270,5 @@ class TestAsyncAgents:
     async def test_path_params_delete(self, async_client: AsyncLlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
             await async_client.agents.with_raw_response.delete(
-                agent_id="",
+                "",
             )

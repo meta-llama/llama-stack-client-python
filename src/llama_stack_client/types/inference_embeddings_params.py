@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 from typing import List
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Required, TypedDict
 
-from .._utils import PropertyInfo
 from .shared_params.interleaved_content import InterleavedContent
 
 __all__ = ["InferenceEmbeddingsParams"]
@@ -13,9 +12,15 @@ __all__ = ["InferenceEmbeddingsParams"]
 
 class InferenceEmbeddingsParams(TypedDict, total=False):
     contents: Required[List[InterleavedContent]]
+    """List of contents to generate embeddings for.
+
+    Note that content can be multimodal. The behavior depends on the model and
+    provider. Some models may only support text.
+    """
 
     model_id: Required[str]
+    """The identifier of the model to use.
 
-    x_llama_stack_client_version: Annotated[str, PropertyInfo(alias="X-LlamaStack-Client-Version")]
-
-    x_llama_stack_provider_data: Annotated[str, PropertyInfo(alias="X-LlamaStack-Provider-Data")]
+    The model must be an embedding model registered with Llama Stack and available
+    via the /models endpoint.
+    """

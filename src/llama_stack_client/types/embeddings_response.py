@@ -9,3 +9,8 @@ __all__ = ["EmbeddingsResponse"]
 
 class EmbeddingsResponse(BaseModel):
     embeddings: List[List[float]]
+    """List of embedding vectors, one per input content.
+
+    Each embedding is a list of floats. The dimensionality of the embedding is
+    model-specific; you can check model metadata using /models/{model_id}
+    """

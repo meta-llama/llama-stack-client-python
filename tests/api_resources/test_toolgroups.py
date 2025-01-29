@@ -23,14 +23,6 @@ class TestToolgroups:
         assert_matches_type(ToolgroupListResponse, toolgroup, path=["response"])
 
     @parametrize
-    def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
-        toolgroup = client.toolgroups.list(
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
-        assert_matches_type(ToolgroupListResponse, toolgroup, path=["response"])
-
-    @parametrize
     def test_raw_response_list(self, client: LlamaStackClient) -> None:
         response = client.toolgroups.with_raw_response.list()
 
@@ -53,23 +45,14 @@ class TestToolgroups:
     @parametrize
     def test_method_get(self, client: LlamaStackClient) -> None:
         toolgroup = client.toolgroups.get(
-            toolgroup_id="toolgroup_id",
-        )
-        assert_matches_type(ToolGroup, toolgroup, path=["response"])
-
-    @parametrize
-    def test_method_get_with_all_params(self, client: LlamaStackClient) -> None:
-        toolgroup = client.toolgroups.get(
-            toolgroup_id="toolgroup_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "toolgroup_id",
         )
         assert_matches_type(ToolGroup, toolgroup, path=["response"])
 
     @parametrize
     def test_raw_response_get(self, client: LlamaStackClient) -> None:
         response = client.toolgroups.with_raw_response.get(
-            toolgroup_id="toolgroup_id",
+            "toolgroup_id",
         )
 
         assert response.is_closed is True
@@ -80,7 +63,7 @@ class TestToolgroups:
     @parametrize
     def test_streaming_response_get(self, client: LlamaStackClient) -> None:
         with client.toolgroups.with_streaming_response.get(
-            toolgroup_id="toolgroup_id",
+            "toolgroup_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -94,7 +77,7 @@ class TestToolgroups:
     def test_path_params_get(self, client: LlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `toolgroup_id` but received ''"):
             client.toolgroups.with_raw_response.get(
-                toolgroup_id="",
+                "",
             )
 
     @parametrize
@@ -112,8 +95,6 @@ class TestToolgroups:
             toolgroup_id="toolgroup_id",
             args={"foo": True},
             mcp_endpoint={"uri": "uri"},
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert toolgroup is None
 
@@ -146,23 +127,14 @@ class TestToolgroups:
     @parametrize
     def test_method_unregister(self, client: LlamaStackClient) -> None:
         toolgroup = client.toolgroups.unregister(
-            toolgroup_id="toolgroup_id",
-        )
-        assert toolgroup is None
-
-    @parametrize
-    def test_method_unregister_with_all_params(self, client: LlamaStackClient) -> None:
-        toolgroup = client.toolgroups.unregister(
-            toolgroup_id="toolgroup_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "toolgroup_id",
         )
         assert toolgroup is None
 
     @parametrize
     def test_raw_response_unregister(self, client: LlamaStackClient) -> None:
         response = client.toolgroups.with_raw_response.unregister(
-            toolgroup_id="toolgroup_id",
+            "toolgroup_id",
         )
 
         assert response.is_closed is True
@@ -173,7 +145,7 @@ class TestToolgroups:
     @parametrize
     def test_streaming_response_unregister(self, client: LlamaStackClient) -> None:
         with client.toolgroups.with_streaming_response.unregister(
-            toolgroup_id="toolgroup_id",
+            "toolgroup_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -187,7 +159,7 @@ class TestToolgroups:
     def test_path_params_unregister(self, client: LlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `toolgroup_id` but received ''"):
             client.toolgroups.with_raw_response.unregister(
-                toolgroup_id="",
+                "",
             )
 
 
@@ -197,14 +169,6 @@ class TestAsyncToolgroups:
     @parametrize
     async def test_method_list(self, async_client: AsyncLlamaStackClient) -> None:
         toolgroup = await async_client.toolgroups.list()
-        assert_matches_type(ToolgroupListResponse, toolgroup, path=["response"])
-
-    @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        toolgroup = await async_client.toolgroups.list(
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
-        )
         assert_matches_type(ToolgroupListResponse, toolgroup, path=["response"])
 
     @parametrize
@@ -230,23 +194,14 @@ class TestAsyncToolgroups:
     @parametrize
     async def test_method_get(self, async_client: AsyncLlamaStackClient) -> None:
         toolgroup = await async_client.toolgroups.get(
-            toolgroup_id="toolgroup_id",
-        )
-        assert_matches_type(ToolGroup, toolgroup, path=["response"])
-
-    @parametrize
-    async def test_method_get_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        toolgroup = await async_client.toolgroups.get(
-            toolgroup_id="toolgroup_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "toolgroup_id",
         )
         assert_matches_type(ToolGroup, toolgroup, path=["response"])
 
     @parametrize
     async def test_raw_response_get(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.toolgroups.with_raw_response.get(
-            toolgroup_id="toolgroup_id",
+            "toolgroup_id",
         )
 
         assert response.is_closed is True
@@ -257,7 +212,7 @@ class TestAsyncToolgroups:
     @parametrize
     async def test_streaming_response_get(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.toolgroups.with_streaming_response.get(
-            toolgroup_id="toolgroup_id",
+            "toolgroup_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -271,7 +226,7 @@ class TestAsyncToolgroups:
     async def test_path_params_get(self, async_client: AsyncLlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `toolgroup_id` but received ''"):
             await async_client.toolgroups.with_raw_response.get(
-                toolgroup_id="",
+                "",
             )
 
     @parametrize
@@ -289,8 +244,6 @@ class TestAsyncToolgroups:
             toolgroup_id="toolgroup_id",
             args={"foo": True},
             mcp_endpoint={"uri": "uri"},
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert toolgroup is None
 
@@ -323,23 +276,14 @@ class TestAsyncToolgroups:
     @parametrize
     async def test_method_unregister(self, async_client: AsyncLlamaStackClient) -> None:
         toolgroup = await async_client.toolgroups.unregister(
-            toolgroup_id="toolgroup_id",
-        )
-        assert toolgroup is None
-
-    @parametrize
-    async def test_method_unregister_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        toolgroup = await async_client.toolgroups.unregister(
-            toolgroup_id="toolgroup_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
+            "toolgroup_id",
         )
         assert toolgroup is None
 
     @parametrize
     async def test_raw_response_unregister(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.toolgroups.with_raw_response.unregister(
-            toolgroup_id="toolgroup_id",
+            "toolgroup_id",
         )
 
         assert response.is_closed is True
@@ -350,7 +294,7 @@ class TestAsyncToolgroups:
     @parametrize
     async def test_streaming_response_unregister(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.toolgroups.with_streaming_response.unregister(
-            toolgroup_id="toolgroup_id",
+            "toolgroup_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -364,5 +308,5 @@ class TestAsyncToolgroups:
     async def test_path_params_unregister(self, async_client: AsyncLlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `toolgroup_id` but received ''"):
             await async_client.toolgroups.with_raw_response.unregister(
-                toolgroup_id="",
+                "",
             )

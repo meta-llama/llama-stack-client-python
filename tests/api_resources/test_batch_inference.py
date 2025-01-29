@@ -49,6 +49,10 @@ class TestBatchInference:
             ],
             model="model",
             logprobs={"top_k": 0},
+            response_format={
+                "json_schema": {"foo": True},
+                "type": "json_schema",
+            },
             sampling_params={
                 "strategy": {"type": "greedy"},
                 "max_tokens": 0,
@@ -70,8 +74,6 @@ class TestBatchInference:
                     },
                 }
             ],
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(BatchInferenceChatCompletionResponse, batch_inference, path=["response"])
 
@@ -129,13 +131,15 @@ class TestBatchInference:
             content_batch=["string"],
             model="model",
             logprobs={"top_k": 0},
+            response_format={
+                "json_schema": {"foo": True},
+                "type": "json_schema",
+            },
             sampling_params={
                 "strategy": {"type": "greedy"},
                 "max_tokens": 0,
                 "repetition_penalty": 0,
             },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(BatchCompletion, batch_inference, path=["response"])
 
@@ -198,6 +202,10 @@ class TestAsyncBatchInference:
             ],
             model="model",
             logprobs={"top_k": 0},
+            response_format={
+                "json_schema": {"foo": True},
+                "type": "json_schema",
+            },
             sampling_params={
                 "strategy": {"type": "greedy"},
                 "max_tokens": 0,
@@ -219,8 +227,6 @@ class TestAsyncBatchInference:
                     },
                 }
             ],
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(BatchInferenceChatCompletionResponse, batch_inference, path=["response"])
 
@@ -278,13 +284,15 @@ class TestAsyncBatchInference:
             content_batch=["string"],
             model="model",
             logprobs={"top_k": 0},
+            response_format={
+                "json_schema": {"foo": True},
+                "type": "json_schema",
+            },
             sampling_params={
                 "strategy": {"type": "greedy"},
                 "max_tokens": 0,
                 "repetition_penalty": 0,
             },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(BatchCompletion, batch_inference, path=["response"])
 

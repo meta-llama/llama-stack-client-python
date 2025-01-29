@@ -11,7 +11,6 @@ from ..types import synthetic_data_generation_generate_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
-    strip_not_given,
     async_maybe_transform,
 )
 from .._compat import cached_property
@@ -55,8 +54,6 @@ class SyntheticDataGenerationResource(SyncAPIResource):
         dialogs: Iterable[Message],
         filtering_function: Literal["none", "random", "top_k", "top_p", "top_k_top_p", "sigmoid"],
         model: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -74,15 +71,6 @@ class SyntheticDataGenerationResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return self._post(
             "/v1/synthetic-data-generation/generate",
             body=maybe_transform(
@@ -126,8 +114,6 @@ class AsyncSyntheticDataGenerationResource(AsyncAPIResource):
         dialogs: Iterable[Message],
         filtering_function: Literal["none", "random", "top_k", "top_p", "top_k_top_p", "sigmoid"],
         model: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -145,15 +131,6 @@ class AsyncSyntheticDataGenerationResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return await self._post(
             "/v1/synthetic-data-generation/generate",
             body=await async_maybe_transform(

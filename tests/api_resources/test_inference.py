@@ -78,8 +78,6 @@ class TestInference:
                     },
                 }
             ],
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(InferenceChatCompletionResponse, inference, path=["response"])
 
@@ -183,8 +181,6 @@ class TestInference:
                     },
                 }
             ],
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         inference_stream.response.close()
 
@@ -261,8 +257,6 @@ class TestInference:
                 "repetition_penalty": 0,
             },
             stream=False,
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
 
@@ -329,8 +323,6 @@ class TestInference:
                 "max_tokens": 0,
                 "repetition_penalty": 0,
             },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         inference_stream.response.close()
 
@@ -372,16 +364,6 @@ class TestInference:
         inference = client.inference.embeddings(
             contents=["string"],
             model_id="model_id",
-        )
-        assert_matches_type(EmbeddingsResponse, inference, path=["response"])
-
-    @parametrize
-    def test_method_embeddings_with_all_params(self, client: LlamaStackClient) -> None:
-        inference = client.inference.embeddings(
-            contents=["string"],
-            model_id="model_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(EmbeddingsResponse, inference, path=["response"])
 
@@ -472,8 +454,6 @@ class TestAsyncInference:
                     },
                 }
             ],
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(InferenceChatCompletionResponse, inference, path=["response"])
 
@@ -577,8 +557,6 @@ class TestAsyncInference:
                     },
                 }
             ],
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         await inference_stream.response.aclose()
 
@@ -655,8 +633,6 @@ class TestAsyncInference:
                 "repetition_penalty": 0,
             },
             stream=False,
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
 
@@ -723,8 +699,6 @@ class TestAsyncInference:
                 "max_tokens": 0,
                 "repetition_penalty": 0,
             },
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         await inference_stream.response.aclose()
 
@@ -766,16 +740,6 @@ class TestAsyncInference:
         inference = await async_client.inference.embeddings(
             contents=["string"],
             model_id="model_id",
-        )
-        assert_matches_type(EmbeddingsResponse, inference, path=["response"])
-
-    @parametrize
-    async def test_method_embeddings_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        inference = await async_client.inference.embeddings(
-            contents=["string"],
-            model_id="model_id",
-            x_llama_stack_client_version="X-LlamaStack-Client-Version",
-            x_llama_stack_provider_data="X-LlamaStack-Provider-Data",
         )
         assert_matches_type(EmbeddingsResponse, inference, path=["response"])
 

@@ -21,7 +21,6 @@ from ...types import (
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
-    strip_not_given,
     async_maybe_transform,
 )
 from ..._compat import cached_property
@@ -72,8 +71,6 @@ class PostTrainingResource(SyncAPIResource):
         job_uuid: str,
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         training_config: post_training_preference_optimize_params.TrainingConfig,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -91,15 +88,6 @@ class PostTrainingResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return self._post(
             "/v1/post-training/preference-optimize",
             body=maybe_transform(
@@ -129,8 +117,6 @@ class PostTrainingResource(SyncAPIResource):
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
         algorithm_config: AlgorithmConfigParam | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -148,15 +134,6 @@ class PostTrainingResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return self._post(
             "/v1/post-training/supervised-fine-tune",
             body=maybe_transform(
@@ -211,8 +188,6 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         job_uuid: str,
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         training_config: post_training_preference_optimize_params.TrainingConfig,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -230,15 +205,6 @@ class AsyncPostTrainingResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return await self._post(
             "/v1/post-training/preference-optimize",
             body=await async_maybe_transform(
@@ -268,8 +234,6 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
         algorithm_config: AlgorithmConfigParam | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_client_version: str | NotGiven = NOT_GIVEN,
-        x_llama_stack_provider_data: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -287,15 +251,6 @@ class AsyncPostTrainingResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "X-LlamaStack-Client-Version": x_llama_stack_client_version,
-                    "X-LlamaStack-Provider-Data": x_llama_stack_provider_data,
-                }
-            ),
-            **(extra_headers or {}),
-        }
         return await self._post(
             "/v1/post-training/supervised-fine-tune",
             body=await async_maybe_transform(
