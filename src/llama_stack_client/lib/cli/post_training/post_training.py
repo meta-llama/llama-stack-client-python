@@ -10,7 +10,7 @@ import click
 from rich.console import Console
 
 from llama_stack_client.types.post_training_supervised_fine_tune_params import (
-    AlgorithmConfig, TrainingConfig)
+    AlgorithmConfigParam, TrainingConfig)
 
 from ..common.utils import handle_client_errors
 
@@ -35,7 +35,7 @@ def supervised_fine_tune(
     ctx,
     job_uuid: str,
     model: str,
-    algorithm_config: AlgorithmConfig,
+    algorithm_config: AlgorithmConfigParam,
     training_config: TrainingConfig,
     checkpoint_dir: Optional[str],
 ):
