@@ -31,7 +31,7 @@ def interleaved_content_as_str(content: InterleavedContent, sep: str = " ") -> s
         return _process(content)
 
 
-class TurnStreamLogEvent:
+class TurnStreamPrintableEvent:
     def __init__(
         self,
         role: Optional[str] = None,
@@ -54,7 +54,7 @@ class TurnStreamLogEvent:
         cprint(f"{str(self)}", color=self.color, end=self.end, flush=flush)
 
 
-class TurnStreamEventLogger:
+class TurnStreamEventPrinter:
     def __init__(self):
         self.previous_event_type = None
         self.previous_step_type = None
@@ -70,7 +70,7 @@ class TurnStreamEventLogger:
 
     def _get_log_event(self, chunk, previous_event_type=None, previous_step_type=None):
         if hasattr(chunk, "error"):
-            yield TurnStreamLogEvent(
+            yield TurnStreamPrintableEvent(
                 role=None, content=chunk.error["message"], color="red"
             )
             return
@@ -80,7 +80,7 @@ class TurnStreamEventLogger:
             # since it does not produce event but instead
             # a Message
             if isinstance(chunk, ToolResponseMessage):
-                yield TurnStreamLogEvent(
+                yield TurnStreamPrintableEvent(
                     role="CustomTool", content=chunk.content, color="green"
                 )
                 return
@@ -90,7 +90,7 @@ class TurnStreamEventLogger:
 
         if event_type in {"turn_start", "turn_complete"}:
             # Currently not logging any turn realted info
-            yield TurnStreamLogEvent(role=None, content="", end="", color="grey")
+            yield TurnStreamPrintableEvent(role=None, content="", end="", color="grey")
             return
 
         step_type = event.payload.step_type
@@ -98,11 +98,11 @@ class TurnStreamEventLogger:
         if step_type == "shield_call" and event_type == "step_complete":
             violation = event.payload.step_details.violation
             if not violation:
-                yield TurnStreamLogEvent(
+                yield TurnStreamPrintableEvent(
                     role=step_type, content="No Violation", color="magenta"
                 )
             else:
-                yield TurnStreamLogEvent(
+                yield TurnStreamPrintableEvent(
                     role=step_type,
                     content=f"{violation.metadata} {violation.user_message}",
                     color="red",
@@ -111,20 +111,20 @@ class TurnStreamEventLogger:
         # handle inference
         if step_type == "inference":
             if event_type == "step_start":
-                yield TurnStreamLogEvent(
+                yield TurnStreamPrintableEvent(
                     role=step_type, content="", end="", color="yellow"
                 )
             elif event_type == "step_progress":
                 if event.payload.delta.type == "tool_call":
                     if isinstance(event.payload.delta.tool_call, str):
-                        yield TurnStreamLogEvent(
+                        yield TurnStreamPrintableEvent(
                             role=None,
                             content=event.payload.delta.tool_call,
                             end="",
                             color="cyan",
                         )
                 elif event.payload.delta.type == "text":
-                    yield TurnStreamLogEvent(
+                    yield TurnStreamPrintableEvent(
                         role=None,
                         content=event.payload.delta.text,
                         end="",
@@ -132,14 +132,14 @@ class TurnStreamEventLogger:
                     )
             else:
                 # step complete
-                yield TurnStreamLogEvent(role=None, content="")
+                yield TurnStreamPrintableEvent(role=None, content="")
 
         # handle tool_execution
         if step_type == "tool_execution" and event_type == "step_complete":
             # Only print tool calls and responses at the step_complete event
             details = event.payload.step_details
             for t in details.tool_calls:
-                yield TurnStreamLogEvent(
+                yield TurnStreamPrintableEvent(
                     role=step_type,
                     content=f"Tool:{t.tool_name} Args:{t.arguments}",
                     color="green",
@@ -150,13 +150,13 @@ class TurnStreamEventLogger:
                     inserted_context = interleaved_content_as_str(r.content)
                     content = f"fetched {len(inserted_context)} bytes from memory"
 
-                    yield TurnStreamLogEvent(
+                    yield TurnStreamPrintableEvent(
                         role=step_type,
                         content=content,
                         color="cyan",
                     )
                 else:
-                    yield TurnStreamLogEvent(
+                    yield TurnStreamPrintableEvent(
                         role=step_type,
                         content=f"Tool:{r.tool_name} Response:{r.content}",
                         color="green",
@@ -178,8 +178,8 @@ class TurnStreamEventLogger:
 
 class EventLogger:
     def log(self, event_generator):
-        logger = TurnStreamEventLogger()
+        printer = TurnStreamEventPrinter()
         for chunk in event_generator:
-            log_event = logger.process_chunk(chunk)
-            if log_event:
-                yield log_event
+            printable_event = printer.process_chunk(chunk)
+            if printable_event:
+                yield printable_event
