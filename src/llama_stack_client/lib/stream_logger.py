@@ -2,8 +2,9 @@ from .agents.event_logger import TurnStreamEventLogger
 from .inference.event_logger import InferenceStreamLogEventLogger
 
 
-class EventLogger:
-    def log(self, event_generator):
+class EventStreamLogger:
+    @classmethod
+    def gen(cls, event_generator):
         inference_logger = None
         turn_logger = None
         for chunk in event_generator:
