@@ -39,7 +39,6 @@ def list_models(ctx):
             show_lines=True,  # Add lines between rows for better readability
             padding=(0, 1),  # Add horizontal padding
             expand=True,  # Allow table to use full width
-            row_styles=["none", "dim"],  # Alternate row colors
         )
 
         # Configure columns with specific styling
