@@ -31,7 +31,7 @@ def interleaved_content_as_str(content: InterleavedContent, sep: str = " ") -> s
         return _process(content)
 
 
-class LogEvent:
+class TurnStreamPrintableEvent:
     def __init__(
         self,
         role: Optional[str] = None,
@@ -54,10 +54,25 @@ class LogEvent:
         cprint(f"{str(self)}", color=self.color, end=self.end, flush=flush)
 
 
-class EventLogger:
+class TurnStreamEventPrinter:
+    def __init__(self):
+        self.previous_event_type = None
+        self.previous_step_type = None
+
+    def process_chunk(self, chunk):
+        log_event = self._get_log_event(
+            chunk, self.previous_event_type, self.previous_step_type
+        )
+        self.previous_event_type, self.previous_step_type = (
+            self._get_event_type_step_type(chunk)
+        )
+        return log_event
+
     def _get_log_event(self, chunk, previous_event_type=None, previous_step_type=None):
         if hasattr(chunk, "error"):
-            yield LogEvent(role=None, content=chunk.error["message"], color="red")
+            yield TurnStreamPrintableEvent(
+                role=None, content=chunk.error["message"], color="red"
+            )
             return
 
         if not hasattr(chunk, "event"):
@@ -65,7 +80,9 @@ class EventLogger:
             # since it does not produce event but instead
             # a Message
             if isinstance(chunk, ToolResponseMessage):
-                yield LogEvent(role="CustomTool", content=chunk.content, color="green")
+                yield TurnStreamPrintableEvent(
+                    role="CustomTool", content=chunk.content, color="green"
+                )
                 return
 
         event = chunk.event
@@ -73,7 +90,7 @@ class EventLogger:
 
         if event_type in {"turn_start", "turn_complete"}:
             # Currently not logging any turn realted info
-            yield LogEvent(role=None, content="", end="", color="grey")
+            yield TurnStreamPrintableEvent(role=None, content="", end="", color="grey")
             return
 
         step_type = event.payload.step_type
@@ -81,9 +98,11 @@ class EventLogger:
         if step_type == "shield_call" and event_type == "step_complete":
             violation = event.payload.step_details.violation
             if not violation:
-                yield LogEvent(role=step_type, content="No Violation", color="magenta")
+                yield TurnStreamPrintableEvent(
+                    role=step_type, content="No Violation", color="magenta"
+                )
             else:
-                yield LogEvent(
+                yield TurnStreamPrintableEvent(
                     role=step_type,
                     content=f"{violation.metadata} {violation.user_message}",
                     color="red",
@@ -92,18 +111,20 @@ class EventLogger:
         # handle inference
         if step_type == "inference":
             if event_type == "step_start":
-                yield LogEvent(role=step_type, content="", end="", color="yellow")
+                yield TurnStreamPrintableEvent(
+                    role=step_type, content="", end="", color="yellow"
+                )
             elif event_type == "step_progress":
                 if event.payload.delta.type == "tool_call":
                     if isinstance(event.payload.delta.tool_call, str):
-                        yield LogEvent(
+                        yield TurnStreamPrintableEvent(
                             role=None,
                             content=event.payload.delta.tool_call,
                             end="",
                             color="cyan",
                         )
                 elif event.payload.delta.type == "text":
-                    yield LogEvent(
+                    yield TurnStreamPrintableEvent(
                         role=None,
                         content=event.payload.delta.text,
                         end="",
@@ -111,14 +132,14 @@ class EventLogger:
                     )
             else:
                 # step complete
-                yield LogEvent(role=None, content="")
+                yield TurnStreamPrintableEvent(role=None, content="")
 
         # handle tool_execution
         if step_type == "tool_execution" and event_type == "step_complete":
             # Only print tool calls and responses at the step_complete event
             details = event.payload.step_details
             for t in details.tool_calls:
-                yield LogEvent(
+                yield TurnStreamPrintableEvent(
                     role=step_type,
                     content=f"Tool:{t.tool_name} Args:{t.arguments}",
                     color="green",
@@ -129,13 +150,13 @@ class EventLogger:
                     inserted_context = interleaved_content_as_str(r.content)
                     content = f"fetched {len(inserted_context)} bytes from memory"
 
-                    yield LogEvent(
+                    yield TurnStreamPrintableEvent(
                         role=step_type,
                         content=content,
                         color="cyan",
                     )
                 else:
-                    yield LogEvent(
+                    yield TurnStreamPrintableEvent(
                         role=step_type,
                         content=f"Tool:{r.tool_name} Response:{r.content}",
                         color="green",
@@ -154,15 +175,11 @@ class EventLogger:
             return previous_event_type, previous_step_type
         return None, None
 
-    def log(self, event_generator):
-        previous_event_type = None
-        previous_step_type = None
 
+class EventLogger:
+    def log(self, event_generator):
+        printer = TurnStreamEventPrinter()
         for chunk in event_generator:
-            for log_event in self._get_log_event(
-                chunk, previous_event_type, previous_step_type
-            ):
-                yield log_event
-            previous_event_type, previous_step_type = self._get_event_type_step_type(
-                chunk
-            )
+            printable_event = printer.process_chunk(chunk)
+            if printable_event:
+                yield printable_event

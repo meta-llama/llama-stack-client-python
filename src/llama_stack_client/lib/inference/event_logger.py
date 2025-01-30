@@ -6,7 +6,7 @@
 from termcolor import cprint
 
 
-class LogEvent:
+class InferenceStreamPrintableEvent:
     def __init__(
         self,
         content: str = "",
@@ -21,13 +21,24 @@ class LogEvent:
         cprint(f"{self.content}", color=self.color, end=self.end, flush=flush)
 
 
+class InferenceStreamLogEventPrinter:
+    def process_chunk(self, chunk):
+        event = chunk.event
+        if event.event_type == "start":
+            return InferenceStreamPrintableEvent("Assistant> ", color="cyan", end="")
+        elif event.event_type == "progress":
+            return InferenceStreamPrintableEvent(
+                event.delta.text, color="yellow", end=""
+            )
+        elif event.event_type == "complete":
+            return InferenceStreamPrintableEvent("")
+        return None
+
+
 class EventLogger:
     def log(self, event_generator):
+        printer = InferenceStreamLogEventPrinter()
         for chunk in event_generator:
-            event = chunk.event
-            if event.event_type == "start":
-                yield LogEvent("Assistant> ", color="cyan", end="")
-            elif event.event_type == "progress":
-                yield LogEvent(event.delta.text, color="yellow", end="")
-            elif event.event_type == "complete":
-                yield LogEvent("")
+            printable_event = printer.process_chunk(chunk)
+            if printable_event:
+                yield printable_event
