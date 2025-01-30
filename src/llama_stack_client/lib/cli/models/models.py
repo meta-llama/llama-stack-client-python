@@ -27,22 +27,42 @@ def list_models(ctx):
     console = Console()
 
     headers = [
-        "identifier",
-        "provider_id",
-        "provider_resource_id",
-        "metadata",
         "model_type",
+        "identifier",
+        "provider_alias",
+        "metadata",
+        "provider_id",
     ]
     response = client.models.list()
     if response:
-        table = Table()
-        for header in headers:
-            table.add_column(header)
+        table = Table(
+            show_lines=True,  # Add lines between rows for better readability
+            padding=(0, 1),  # Add horizontal padding
+            expand=True,  # Allow table to use full width
+        )
+
+        # Configure columns with specific styling
+        table.add_column("model_type", style="blue")
+        table.add_column("identifier", style="bold cyan", no_wrap=True, overflow="fold")
+        table.add_column(
+            "provider_resource_id", style="yellow", no_wrap=True, overflow="fold"
+        )
+        table.add_column("metadata", style="magenta", max_width=30, overflow="fold")
+        table.add_column("provider_id", style="green", max_width=20)
 
         for item in response:
-            row = [str(getattr(item, header)) for header in headers]
-            table.add_row(*row)
+            table.add_row(
+                item.model_type,
+                item.identifier,
+                item.provider_resource_id,
+                str(item.metadata or ""),
+                item.provider_id,
+            )
+
+        # Create a title for the table
+        console.print("\n[bold]Available Models[/bold]\n")
         console.print(table)
+        console.print(f"\nTotal models: {len(response)}\n")
 
 
 @click.command(name="get")
