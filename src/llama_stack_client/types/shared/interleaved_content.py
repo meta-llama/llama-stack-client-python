@@ -12,20 +12,29 @@ __all__ = ["InterleavedContent", "ImageContentItem", "ImageContentItemImage", "T
 
 class ImageContentItemImage(BaseModel):
     data: Optional[str] = None
+    """base64 encoded image data as string"""
 
     url: Optional[URL] = None
+    """A URL of the image or data URL in the format of data:image/{type};base64,{data}.
+
+    Note that URL could have length limits.
+    """
 
 
 class ImageContentItem(BaseModel):
     image: ImageContentItemImage
+    """Image as a base64 encoded string or an URL"""
 
     type: Literal["image"]
+    """Discriminator type of the content item. Always "image" """
 
 
 class TextContentItem(BaseModel):
     text: str
+    """Text content"""
 
     type: Literal["text"]
+    """Discriminator type of the content item. Always "text" """
 
 
 InterleavedContent: TypeAlias = Union[str, ImageContentItem, TextContentItem, List[InterleavedContentItem]]
