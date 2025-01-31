@@ -15,14 +15,10 @@ class EventStreamPrinter:
             if hasattr(event, "event_type"):
                 if not inference_printer:
                     inference_printer = InferenceStreamLogEventPrinter()
-                printable_event = inference_printer.process_chunk(chunk)
-                if printable_event:
-                    yield printable_event
+                yield from inference_printer.yield_printable_events(chunk)
             elif hasattr(event, "payload") and hasattr(event.payload, "event_type"):
                 if not turn_printer:
                     turn_printer = TurnStreamEventPrinter()
-                printable_event = turn_printer.process_chunk(chunk)
-                if printable_event:
-                    yield printable_event
+                yield from turn_printer.yield_printable_events(chunk)
             else:
                 raise ValueError(f"Unsupported event: {event}")

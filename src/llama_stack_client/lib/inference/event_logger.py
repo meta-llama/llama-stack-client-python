@@ -22,23 +22,20 @@ class InferenceStreamPrintableEvent:
 
 
 class InferenceStreamLogEventPrinter:
-    def process_chunk(self, chunk):
+    def yield_printable_events(self, chunk):
         event = chunk.event
         if event.event_type == "start":
-            return InferenceStreamPrintableEvent("Assistant> ", color="cyan", end="")
+            yield InferenceStreamPrintableEvent("Assistant> ", color="cyan", end="")
         elif event.event_type == "progress":
-            return InferenceStreamPrintableEvent(
+            yield InferenceStreamPrintableEvent(
                 event.delta.text, color="yellow", end=""
             )
         elif event.event_type == "complete":
-            return InferenceStreamPrintableEvent("")
-        return None
+            yield InferenceStreamPrintableEvent("")
 
 
 class EventLogger:
     def log(self, event_generator):
         printer = InferenceStreamLogEventPrinter()
         for chunk in event_generator:
-            printable_event = printer.process_chunk(chunk)
-            if printable_event:
-                yield printable_event
+            yield from printer.yield_printable_events(chunk)
