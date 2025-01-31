@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, List, Iterable, cast
+from typing import List, Iterable
 from typing_extensions import Literal, overload
 
 import httpx
@@ -25,7 +25,6 @@ from ..._streaming import Stream, AsyncStream
 from ..._base_client import make_request_options
 from ...types.agents import turn_create_params
 from ...types.agents.turn import Turn
-from ...types.agents.turn_create_response import TurnCreateResponse
 
 __all__ = ["TurnResource", "AsyncTurnResource"]
 
@@ -66,7 +65,7 @@ class TurnResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TurnCreateResponse:
+    ) -> Turn:
         """
         Args:
           extra_headers: Send extra headers
@@ -95,7 +94,7 @@ class TurnResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Stream[TurnCreateResponse]:
+    ) -> Stream[Turn]:
         """
         Args:
           extra_headers: Send extra headers
@@ -124,7 +123,7 @@ class TurnResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TurnCreateResponse | Stream[TurnCreateResponse]:
+    ) -> Turn | Stream[Turn]:
         """
         Args:
           extra_headers: Send extra headers
@@ -153,34 +152,28 @@ class TurnResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TurnCreateResponse | Stream[TurnCreateResponse]:
+    ) -> Turn | Stream[Turn]:
         if not agent_id:
             raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
         if not session_id:
             raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        return cast(
-            TurnCreateResponse,
-            self._post(
-                f"/v1/agents/{agent_id}/session/{session_id}/turn",
-                body=maybe_transform(
-                    {
-                        "messages": messages,
-                        "documents": documents,
-                        "stream": stream,
-                        "toolgroups": toolgroups,
-                    },
-                    turn_create_params.TurnCreateParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, TurnCreateResponse
-                ),  # Union types cannot be passed in as arguments in the type system
-                stream=stream or False,
-                stream_cls=Stream[TurnCreateResponse],
+        return self._post(
+            f"/v1/agents/{agent_id}/session/{session_id}/turn",
+            body=maybe_transform(
+                {
+                    "messages": messages,
+                    "documents": documents,
+                    "stream": stream,
+                    "toolgroups": toolgroups,
+                },
+                turn_create_params.TurnCreateParams,
             ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Turn,
+            stream=stream or False,
+            stream_cls=Stream[Turn],
         )
 
     def retrieve(
@@ -257,7 +250,7 @@ class AsyncTurnResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TurnCreateResponse:
+    ) -> Turn:
         """
         Args:
           extra_headers: Send extra headers
@@ -286,7 +279,7 @@ class AsyncTurnResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncStream[TurnCreateResponse]:
+    ) -> AsyncStream[Turn]:
         """
         Args:
           extra_headers: Send extra headers
@@ -315,7 +308,7 @@ class AsyncTurnResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TurnCreateResponse | AsyncStream[TurnCreateResponse]:
+    ) -> Turn | AsyncStream[Turn]:
         """
         Args:
           extra_headers: Send extra headers
@@ -344,34 +337,28 @@ class AsyncTurnResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TurnCreateResponse | AsyncStream[TurnCreateResponse]:
+    ) -> Turn | AsyncStream[Turn]:
         if not agent_id:
             raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
         if not session_id:
             raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        return cast(
-            TurnCreateResponse,
-            await self._post(
-                f"/v1/agents/{agent_id}/session/{session_id}/turn",
-                body=await async_maybe_transform(
-                    {
-                        "messages": messages,
-                        "documents": documents,
-                        "stream": stream,
-                        "toolgroups": toolgroups,
-                    },
-                    turn_create_params.TurnCreateParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, TurnCreateResponse
-                ),  # Union types cannot be passed in as arguments in the type system
-                stream=stream or False,
-                stream_cls=AsyncStream[TurnCreateResponse],
+        return await self._post(
+            f"/v1/agents/{agent_id}/session/{session_id}/turn",
+            body=await async_maybe_transform(
+                {
+                    "messages": messages,
+                    "documents": documents,
+                    "stream": stream,
+                    "toolgroups": toolgroups,
+                },
+                turn_create_params.TurnCreateParams,
             ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Turn,
+            stream=stream or False,
+            stream_cls=AsyncStream[Turn],
         )
 
     async def retrieve(

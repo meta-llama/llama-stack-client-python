@@ -32,20 +32,29 @@ InputMessage: TypeAlias = Union[UserMessage, ToolResponseMessage]
 
 class OutputAttachmentContentImageContentItemImage(BaseModel):
     data: Optional[str] = None
+    """base64 encoded image data as string"""
 
     url: Optional[URL] = None
+    """A URL of the image or data URL in the format of data:image/{type};base64,{data}.
+
+    Note that URL could have length limits.
+    """
 
 
 class OutputAttachmentContentImageContentItem(BaseModel):
     image: OutputAttachmentContentImageContentItemImage
+    """Image as a base64 encoded string or an URL"""
 
     type: Literal["image"]
+    """Discriminator type of the content item. Always "image" """
 
 
 class OutputAttachmentContentTextContentItem(BaseModel):
     text: str
+    """Text content"""
 
     type: Literal["text"]
+    """Discriminator type of the content item. Always "text" """
 
 
 OutputAttachmentContent: TypeAlias = Union[

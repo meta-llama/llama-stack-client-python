@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, List, Iterable, cast
+from typing import List, Iterable
 from typing_extensions import Literal, overload
 
 import httpx
@@ -28,11 +28,12 @@ from .._response import (
 )
 from .._streaming import Stream, AsyncStream
 from .._base_client import make_request_options
+from ..types.completion_response import CompletionResponse
 from ..types.embeddings_response import EmbeddingsResponse
 from ..types.shared_params.message import Message
-from ..types.inference_completion_response import InferenceCompletionResponse
 from ..types.shared_params.response_format import ResponseFormat
 from ..types.shared_params.sampling_params import SamplingParams
+from ..types.shared.chat_completion_response import ChatCompletionResponse
 from ..types.shared_params.interleaved_content import InterleavedContent
 from ..types.chat_completion_response_stream_chunk import ChatCompletionResponseStreamChunk
 
@@ -78,7 +79,7 @@ class InferenceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> ChatCompletionResponse:
         """
         Generate a chat completion for the given messages using the specified model.
 
@@ -206,7 +207,7 @@ class InferenceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object | Stream[ChatCompletionResponseStreamChunk]:
+    ) -> ChatCompletionResponse | Stream[ChatCompletionResponseStreamChunk]:
         """
         Generate a chat completion for the given messages using the specified model.
 
@@ -270,7 +271,7 @@ class InferenceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object | Stream[ChatCompletionResponseStreamChunk]:
+    ) -> ChatCompletionResponse | Stream[ChatCompletionResponseStreamChunk]:
         return self._post(
             "/v1/inference/chat-completion",
             body=maybe_transform(
@@ -290,7 +291,7 @@ class InferenceResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=ChatCompletionResponse,
             stream=stream or False,
             stream_cls=Stream[ChatCompletionResponseStreamChunk],
         )
@@ -311,7 +312,7 @@ class InferenceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceCompletionResponse:
+    ) -> CompletionResponse:
         """
         Generate a completion for the given content using the specified model.
 
@@ -357,7 +358,7 @@ class InferenceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Stream[InferenceCompletionResponse]:
+    ) -> Stream[CompletionResponse]:
         """
         Generate a completion for the given content using the specified model.
 
@@ -403,7 +404,7 @@ class InferenceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceCompletionResponse | Stream[InferenceCompletionResponse]:
+    ) -> CompletionResponse | Stream[CompletionResponse]:
         """
         Generate a completion for the given content using the specified model.
 
@@ -449,32 +450,26 @@ class InferenceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceCompletionResponse | Stream[InferenceCompletionResponse]:
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        return cast(
-            InferenceCompletionResponse,
-            self._post(
-                "/v1/inference/completion",
-                body=maybe_transform(
-                    {
-                        "content": content,
-                        "model_id": model_id,
-                        "logprobs": logprobs,
-                        "response_format": response_format,
-                        "sampling_params": sampling_params,
-                        "stream": stream,
-                    },
-                    inference_completion_params.InferenceCompletionParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, InferenceCompletionResponse
-                ),  # Union types cannot be passed in as arguments in the type system
-                stream=stream or False,
-                stream_cls=Stream[InferenceCompletionResponse],
+    ) -> CompletionResponse | Stream[CompletionResponse]:
+        return self._post(
+            "/v1/inference/completion",
+            body=maybe_transform(
+                {
+                    "content": content,
+                    "model_id": model_id,
+                    "logprobs": logprobs,
+                    "response_format": response_format,
+                    "sampling_params": sampling_params,
+                    "stream": stream,
+                },
+                inference_completion_params.InferenceCompletionParams,
             ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CompletionResponse,
+            stream=stream or False,
+            stream_cls=Stream[CompletionResponse],
         )
 
     def embeddings(
@@ -563,7 +558,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> ChatCompletionResponse:
         """
         Generate a chat completion for the given messages using the specified model.
 
@@ -691,7 +686,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object | AsyncStream[ChatCompletionResponseStreamChunk]:
+    ) -> ChatCompletionResponse | AsyncStream[ChatCompletionResponseStreamChunk]:
         """
         Generate a chat completion for the given messages using the specified model.
 
@@ -755,7 +750,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object | AsyncStream[ChatCompletionResponseStreamChunk]:
+    ) -> ChatCompletionResponse | AsyncStream[ChatCompletionResponseStreamChunk]:
         return await self._post(
             "/v1/inference/chat-completion",
             body=await async_maybe_transform(
@@ -775,7 +770,7 @@ class AsyncInferenceResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=ChatCompletionResponse,
             stream=stream or False,
             stream_cls=AsyncStream[ChatCompletionResponseStreamChunk],
         )
@@ -796,7 +791,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceCompletionResponse:
+    ) -> CompletionResponse:
         """
         Generate a completion for the given content using the specified model.
 
@@ -842,7 +837,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncStream[InferenceCompletionResponse]:
+    ) -> AsyncStream[CompletionResponse]:
         """
         Generate a completion for the given content using the specified model.
 
@@ -888,7 +883,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceCompletionResponse | AsyncStream[InferenceCompletionResponse]:
+    ) -> CompletionResponse | AsyncStream[CompletionResponse]:
         """
         Generate a completion for the given content using the specified model.
 
@@ -934,32 +929,26 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceCompletionResponse | AsyncStream[InferenceCompletionResponse]:
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        return cast(
-            InferenceCompletionResponse,
-            await self._post(
-                "/v1/inference/completion",
-                body=await async_maybe_transform(
-                    {
-                        "content": content,
-                        "model_id": model_id,
-                        "logprobs": logprobs,
-                        "response_format": response_format,
-                        "sampling_params": sampling_params,
-                        "stream": stream,
-                    },
-                    inference_completion_params.InferenceCompletionParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, InferenceCompletionResponse
-                ),  # Union types cannot be passed in as arguments in the type system
-                stream=stream or False,
-                stream_cls=AsyncStream[InferenceCompletionResponse],
+    ) -> CompletionResponse | AsyncStream[CompletionResponse]:
+        return await self._post(
+            "/v1/inference/completion",
+            body=await async_maybe_transform(
+                {
+                    "content": content,
+                    "model_id": model_id,
+                    "logprobs": logprobs,
+                    "response_format": response_format,
+                    "sampling_params": sampling_params,
+                    "stream": stream,
+                },
+                inference_completion_params.InferenceCompletionParams,
             ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CompletionResponse,
+            stream=stream or False,
+            stream_cls=AsyncStream[CompletionResponse],
         )
 
     async def embeddings(

@@ -10,9 +10,10 @@ import pytest
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
 from llama_stack_client.types import (
+    CompletionResponse,
     EmbeddingsResponse,
-    InferenceCompletionResponse,
 )
+from llama_stack_client.types.shared import ChatCompletionResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -31,7 +32,7 @@ class TestInference:
             ],
             model_id="model_id",
         )
-        assert_matches_type(object, inference, path=["response"])
+        assert_matches_type(ChatCompletionResponse, inference, path=["response"])
 
     @parametrize
     def test_method_chat_completion_with_all_params_overload_1(self, client: LlamaStackClient) -> None:
@@ -72,7 +73,7 @@ class TestInference:
                 }
             ],
         )
-        assert_matches_type(object, inference, path=["response"])
+        assert_matches_type(ChatCompletionResponse, inference, path=["response"])
 
     @parametrize
     def test_raw_response_chat_completion_overload_1(self, client: LlamaStackClient) -> None:
@@ -89,7 +90,7 @@ class TestInference:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         inference = response.parse()
-        assert_matches_type(object, inference, path=["response"])
+        assert_matches_type(ChatCompletionResponse, inference, path=["response"])
 
     @parametrize
     def test_streaming_response_chat_completion_overload_1(self, client: LlamaStackClient) -> None:
@@ -106,7 +107,7 @@ class TestInference:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             inference = response.parse()
-            assert_matches_type(object, inference, path=["response"])
+            assert_matches_type(ChatCompletionResponse, inference, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -202,20 +203,14 @@ class TestInference:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     def test_method_completion_overload_1(self, client: LlamaStackClient) -> None:
         inference = client.inference.completion(
             content="string",
             model_id="model_id",
         )
-        assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
+        assert_matches_type(CompletionResponse, inference, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     def test_method_completion_with_all_params_overload_1(self, client: LlamaStackClient) -> None:
         inference = client.inference.completion(
@@ -233,11 +228,8 @@ class TestInference:
             },
             stream=False,
         )
-        assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
+        assert_matches_type(CompletionResponse, inference, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     def test_raw_response_completion_overload_1(self, client: LlamaStackClient) -> None:
         response = client.inference.with_raw_response.completion(
@@ -248,11 +240,8 @@ class TestInference:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         inference = response.parse()
-        assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
+        assert_matches_type(CompletionResponse, inference, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     def test_streaming_response_completion_overload_1(self, client: LlamaStackClient) -> None:
         with client.inference.with_streaming_response.completion(
@@ -263,13 +252,10 @@ class TestInference:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             inference = response.parse()
-            assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
+            assert_matches_type(CompletionResponse, inference, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     def test_method_completion_overload_2(self, client: LlamaStackClient) -> None:
         inference_stream = client.inference.completion(
@@ -279,9 +265,6 @@ class TestInference:
         )
         inference_stream.response.close()
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     def test_method_completion_with_all_params_overload_2(self, client: LlamaStackClient) -> None:
         inference_stream = client.inference.completion(
@@ -301,9 +284,6 @@ class TestInference:
         )
         inference_stream.response.close()
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     def test_raw_response_completion_overload_2(self, client: LlamaStackClient) -> None:
         response = client.inference.with_raw_response.completion(
@@ -316,9 +296,6 @@ class TestInference:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     def test_streaming_response_completion_overload_2(self, client: LlamaStackClient) -> None:
         with client.inference.with_streaming_response.completion(
@@ -383,7 +360,7 @@ class TestAsyncInference:
             ],
             model_id="model_id",
         )
-        assert_matches_type(object, inference, path=["response"])
+        assert_matches_type(ChatCompletionResponse, inference, path=["response"])
 
     @parametrize
     async def test_method_chat_completion_with_all_params_overload_1(self, async_client: AsyncLlamaStackClient) -> None:
@@ -424,7 +401,7 @@ class TestAsyncInference:
                 }
             ],
         )
-        assert_matches_type(object, inference, path=["response"])
+        assert_matches_type(ChatCompletionResponse, inference, path=["response"])
 
     @parametrize
     async def test_raw_response_chat_completion_overload_1(self, async_client: AsyncLlamaStackClient) -> None:
@@ -441,7 +418,7 @@ class TestAsyncInference:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         inference = await response.parse()
-        assert_matches_type(object, inference, path=["response"])
+        assert_matches_type(ChatCompletionResponse, inference, path=["response"])
 
     @parametrize
     async def test_streaming_response_chat_completion_overload_1(self, async_client: AsyncLlamaStackClient) -> None:
@@ -458,7 +435,7 @@ class TestAsyncInference:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             inference = await response.parse()
-            assert_matches_type(object, inference, path=["response"])
+            assert_matches_type(ChatCompletionResponse, inference, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -554,20 +531,14 @@ class TestAsyncInference:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     async def test_method_completion_overload_1(self, async_client: AsyncLlamaStackClient) -> None:
         inference = await async_client.inference.completion(
             content="string",
             model_id="model_id",
         )
-        assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
+        assert_matches_type(CompletionResponse, inference, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     async def test_method_completion_with_all_params_overload_1(self, async_client: AsyncLlamaStackClient) -> None:
         inference = await async_client.inference.completion(
@@ -585,11 +556,8 @@ class TestAsyncInference:
             },
             stream=False,
         )
-        assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
+        assert_matches_type(CompletionResponse, inference, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     async def test_raw_response_completion_overload_1(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.inference.with_raw_response.completion(
@@ -600,11 +568,8 @@ class TestAsyncInference:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         inference = await response.parse()
-        assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
+        assert_matches_type(CompletionResponse, inference, path=["response"])
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     async def test_streaming_response_completion_overload_1(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.inference.with_streaming_response.completion(
@@ -615,13 +580,10 @@ class TestAsyncInference:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             inference = await response.parse()
-            assert_matches_type(InferenceCompletionResponse, inference, path=["response"])
+            assert_matches_type(CompletionResponse, inference, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     async def test_method_completion_overload_2(self, async_client: AsyncLlamaStackClient) -> None:
         inference_stream = await async_client.inference.completion(
@@ -631,9 +593,6 @@ class TestAsyncInference:
         )
         await inference_stream.response.aclose()
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     async def test_method_completion_with_all_params_overload_2(self, async_client: AsyncLlamaStackClient) -> None:
         inference_stream = await async_client.inference.completion(
@@ -653,9 +612,6 @@ class TestAsyncInference:
         )
         await inference_stream.response.aclose()
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     async def test_raw_response_completion_overload_2(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.inference.with_raw_response.completion(
@@ -668,9 +624,6 @@ class TestAsyncInference:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(
-        reason="currently no good way to test endpoints with content type text/event-stream, Prism mock server will fail"
-    )
     @parametrize
     async def test_streaming_response_completion_overload_2(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.inference.with_streaming_response.completion(
