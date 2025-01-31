@@ -64,13 +64,11 @@ class TurnStreamEventPrinter:
             chunk, self.previous_event_type, self.previous_step_type
         )
         for x in log_event:
-            return x
+            yield x
 
-        # self.previous_event_type, self.previous_step_type = (
-        #     self._get_event_type_step_type(chunk)
-        # )
-        # print("hellow", log_event)
-        # return log_event
+        self.previous_event_type, self.previous_step_type = (
+            self._get_event_type_step_type(chunk)
+        )
 
     def _get_log_event(self, chunk, previous_event_type=None, previous_step_type=None):
         if hasattr(chunk, "error"):
@@ -185,5 +183,5 @@ class EventLogger:
         printer = TurnStreamEventPrinter()
         for chunk in event_generator:
             printable_event = printer.process_chunk(chunk)
-            if printable_event:
-                yield printable_event
+            for x in printable_event:
+                yield x
