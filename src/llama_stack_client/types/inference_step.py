@@ -13,7 +13,7 @@ __all__ = ["InferenceStep"]
 
 
 class InferenceStep(BaseModel):
-    inference_model_response: CompletionMessage = FieldInfo(alias="model_response")
+    api_model_response: CompletionMessage = FieldInfo(alias="model_response")
 
     step_id: str
 
