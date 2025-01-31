@@ -29,6 +29,7 @@ from .shared import (
     ToolParamDefinition as ToolParamDefinition,
     ToolResponseMessage as ToolResponseMessage,
     QueryGeneratorConfig as QueryGeneratorConfig,
+    ChatCompletionResponse as ChatCompletionResponse,
     InterleavedContentItem as InterleavedContentItem,
 )
 from .shield import Shield as Shield
@@ -123,9 +124,11 @@ from .list_post_training_jobs_response import ListPostTrainingJobsResponse as Li
 from .scoring_function_register_params import ScoringFunctionRegisterParams as ScoringFunctionRegisterParams
 from .telemetry_get_span_tree_response import TelemetryGetSpanTreeResponse as TelemetryGetSpanTreeResponse
 from .batch_inference_completion_params import BatchInferenceCompletionParams as BatchInferenceCompletionParams
-from .inference_chat_completion_response import InferenceChatCompletionResponse as InferenceChatCompletionResponse
 from .synthetic_data_generation_response import SyntheticDataGenerationResponse as SyntheticDataGenerationResponse
 from .datasetio_get_rows_paginated_params import DatasetioGetRowsPaginatedParams as DatasetioGetRowsPaginatedParams
+from .chat_completion_response_stream_chunk import (
+    ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
+)
 from .batch_inference_chat_completion_params import (
     BatchInferenceChatCompletionParams as BatchInferenceChatCompletionParams,
 )

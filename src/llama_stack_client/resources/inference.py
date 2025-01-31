@@ -34,7 +34,7 @@ from ..types.inference_completion_response import InferenceCompletionResponse
 from ..types.shared_params.response_format import ResponseFormat
 from ..types.shared_params.sampling_params import SamplingParams
 from ..types.shared_params.interleaved_content import InterleavedContent
-from ..types.inference_chat_completion_response import InferenceChatCompletionResponse
+from ..types.chat_completion_response_stream_chunk import ChatCompletionResponseStreamChunk
 
 __all__ = ["InferenceResource", "AsyncInferenceResource"]
 
@@ -78,7 +78,7 @@ class InferenceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceChatCompletionResponse:
+    ) -> object:
         """
         Generate a chat completion for the given messages using the specified model.
 
@@ -142,7 +142,7 @@ class InferenceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Stream[InferenceChatCompletionResponse]:
+    ) -> Stream[ChatCompletionResponseStreamChunk]:
         """
         Generate a chat completion for the given messages using the specified model.
 
@@ -206,7 +206,7 @@ class InferenceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceChatCompletionResponse | Stream[InferenceChatCompletionResponse]:
+    ) -> object | Stream[ChatCompletionResponseStreamChunk]:
         """
         Generate a chat completion for the given messages using the specified model.
 
@@ -270,35 +270,29 @@ class InferenceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceChatCompletionResponse | Stream[InferenceChatCompletionResponse]:
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        return cast(
-            InferenceChatCompletionResponse,
-            self._post(
-                "/v1/inference/chat-completion",
-                body=maybe_transform(
-                    {
-                        "messages": messages,
-                        "model_id": model_id,
-                        "logprobs": logprobs,
-                        "response_format": response_format,
-                        "sampling_params": sampling_params,
-                        "stream": stream,
-                        "tool_choice": tool_choice,
-                        "tool_prompt_format": tool_prompt_format,
-                        "tools": tools,
-                    },
-                    inference_chat_completion_params.InferenceChatCompletionParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, InferenceChatCompletionResponse
-                ),  # Union types cannot be passed in as arguments in the type system
-                stream=stream or False,
-                stream_cls=Stream[InferenceChatCompletionResponse],
+    ) -> object | Stream[ChatCompletionResponseStreamChunk]:
+        return self._post(
+            "/v1/inference/chat-completion",
+            body=maybe_transform(
+                {
+                    "messages": messages,
+                    "model_id": model_id,
+                    "logprobs": logprobs,
+                    "response_format": response_format,
+                    "sampling_params": sampling_params,
+                    "stream": stream,
+                    "tool_choice": tool_choice,
+                    "tool_prompt_format": tool_prompt_format,
+                    "tools": tools,
+                },
+                inference_chat_completion_params.InferenceChatCompletionParams,
             ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+            stream=stream or False,
+            stream_cls=Stream[ChatCompletionResponseStreamChunk],
         )
 
     @overload
@@ -569,7 +563,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceChatCompletionResponse:
+    ) -> object:
         """
         Generate a chat completion for the given messages using the specified model.
 
@@ -633,7 +627,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncStream[InferenceChatCompletionResponse]:
+    ) -> AsyncStream[ChatCompletionResponseStreamChunk]:
         """
         Generate a chat completion for the given messages using the specified model.
 
@@ -697,7 +691,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceChatCompletionResponse | AsyncStream[InferenceChatCompletionResponse]:
+    ) -> object | AsyncStream[ChatCompletionResponseStreamChunk]:
         """
         Generate a chat completion for the given messages using the specified model.
 
@@ -761,35 +755,29 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceChatCompletionResponse | AsyncStream[InferenceChatCompletionResponse]:
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        return cast(
-            InferenceChatCompletionResponse,
-            await self._post(
-                "/v1/inference/chat-completion",
-                body=await async_maybe_transform(
-                    {
-                        "messages": messages,
-                        "model_id": model_id,
-                        "logprobs": logprobs,
-                        "response_format": response_format,
-                        "sampling_params": sampling_params,
-                        "stream": stream,
-                        "tool_choice": tool_choice,
-                        "tool_prompt_format": tool_prompt_format,
-                        "tools": tools,
-                    },
-                    inference_chat_completion_params.InferenceChatCompletionParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, InferenceChatCompletionResponse
-                ),  # Union types cannot be passed in as arguments in the type system
-                stream=stream or False,
-                stream_cls=AsyncStream[InferenceChatCompletionResponse],
+    ) -> object | AsyncStream[ChatCompletionResponseStreamChunk]:
+        return await self._post(
+            "/v1/inference/chat-completion",
+            body=await async_maybe_transform(
+                {
+                    "messages": messages,
+                    "model_id": model_id,
+                    "logprobs": logprobs,
+                    "response_format": response_format,
+                    "sampling_params": sampling_params,
+                    "stream": stream,
+                    "tool_choice": tool_choice,
+                    "tool_prompt_format": tool_prompt_format,
+                    "tools": tools,
+                },
+                inference_chat_completion_params.InferenceChatCompletionParams,
             ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+            stream=stream or False,
+            stream_cls=AsyncStream[ChatCompletionResponseStreamChunk],
         )
 
     @overload

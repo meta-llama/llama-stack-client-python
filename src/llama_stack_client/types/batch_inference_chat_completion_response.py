@@ -1,21 +1,12 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import List
 
 from .._models import BaseModel
-from .token_log_probs import TokenLogProbs
-from .shared.completion_message import CompletionMessage
+from .shared.chat_completion_response import ChatCompletionResponse
 
-__all__ = ["BatchInferenceChatCompletionResponse", "Batch"]
-
-
-class Batch(BaseModel):
-    completion_message: CompletionMessage
-    """The complete response message"""
-
-    logprobs: Optional[List[TokenLogProbs]] = None
-    """Optional log probabilities for generated tokens"""
+__all__ = ["BatchInferenceChatCompletionResponse"]
 
 
 class BatchInferenceChatCompletionResponse(BaseModel):
-    batch: List[Batch]
+    batch: List[ChatCompletionResponse]
