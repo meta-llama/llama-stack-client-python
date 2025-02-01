@@ -272,6 +272,8 @@ class InferenceResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ChatCompletionResponse | Stream[ChatCompletionResponseStreamChunk]:
+        if stream:
+            extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return self._post(
             "/v1/inference/chat-completion",
             body=maybe_transform(
@@ -451,6 +453,8 @@ class InferenceResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> CompletionResponse | Stream[CompletionResponse]:
+        if stream:
+            extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return self._post(
             "/v1/inference/completion",
             body=maybe_transform(
@@ -751,6 +755,8 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ChatCompletionResponse | AsyncStream[ChatCompletionResponseStreamChunk]:
+        if stream:
+            extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return await self._post(
             "/v1/inference/chat-completion",
             body=await async_maybe_transform(
@@ -930,6 +936,8 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> CompletionResponse | AsyncStream[CompletionResponse]:
+        if stream:
+            extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return await self._post(
             "/v1/inference/completion",
             body=await async_maybe_transform(
