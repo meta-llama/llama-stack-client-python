@@ -29,15 +29,9 @@ from .vector_dbs import vector_dbs
 
 
 @click.group()
-@click.version_option(
-    version=version("llama-stack-client"), prog_name="llama-stack-client"
-)
-@click.option(
-    "--endpoint", type=str, help="Llama Stack distribution endpoint", default=""
-)
-@click.option(
-    "--api-key", type=str, help="Llama Stack distribution API key", default=""
-)
+@click.version_option(version=version("llama-stack-client"), prog_name="llama-stack-client")
+@click.option("--endpoint", type=str, help="Llama Stack distribution endpoint", default="")
+@click.option("--api-key", type=str, help="Llama Stack distribution API key", default="")
 @click.option("--config", type=str, help="Path to config file", default=None)
 @click.pass_context
 def cli(ctx, endpoint: str, api_key: str, config: str | None):

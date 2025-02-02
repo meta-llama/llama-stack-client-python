@@ -60,22 +60,14 @@ class TurnStreamEventPrinter:
         self.previous_step_type = None
 
     def yield_printable_events(self, chunk):
-        for printable_event in self._yield_printable_events(
-            chunk, self.previous_event_type, self.previous_step_type
-        ):
+        for printable_event in self._yield_printable_events(chunk, self.previous_event_type, self.previous_step_type):
             yield printable_event
 
-        self.previous_event_type, self.previous_step_type = (
-            self._get_event_type_step_type(chunk)
-        )
+        self.previous_event_type, self.previous_step_type = self._get_event_type_step_type(chunk)
 
-    def _yield_printable_events(
-        self, chunk, previous_event_type=None, previous_step_type=None
-    ):
+    def _yield_printable_events(self, chunk, previous_event_type=None, previous_step_type=None):
         if hasattr(chunk, "error"):
-            yield TurnStreamPrintableEvent(
-                role=None, content=chunk.error["message"], color="red"
-            )
+            yield TurnStreamPrintableEvent(role=None, content=chunk.error["message"], color="red")
             return
 
         if not hasattr(chunk, "event"):
@@ -83,9 +75,7 @@ class TurnStreamEventPrinter:
             # since it does not produce event but instead
             # a Message
             if isinstance(chunk, ToolResponseMessage):
-                yield TurnStreamPrintableEvent(
-                    role="CustomTool", content=chunk.content, color="green"
-                )
+                yield TurnStreamPrintableEvent(role="CustomTool", content=chunk.content, color="green")
                 return
 
         event = chunk.event
@@ -101,9 +91,7 @@ class TurnStreamEventPrinter:
         if step_type == "shield_call" and event_type == "step_complete":
             violation = event.payload.step_details.violation
             if not violation:
-                yield TurnStreamPrintableEvent(
-                    role=step_type, content="No Violation", color="magenta"
-                )
+                yield TurnStreamPrintableEvent(role=step_type, content="No Violation", color="magenta")
             else:
                 yield TurnStreamPrintableEvent(
                     role=step_type,
@@ -114,9 +102,7 @@ class TurnStreamEventPrinter:
         # handle inference
         if step_type == "inference":
             if event_type == "step_start":
-                yield TurnStreamPrintableEvent(
-                    role=step_type, content="", end="", color="yellow"
-                )
+                yield TurnStreamPrintableEvent(role=step_type, content="", end="", color="yellow")
             elif event_type == "step_progress":
                 if event.payload.delta.type == "tool_call":
                     if isinstance(event.payload.delta.tool_call, str):
@@ -167,13 +153,9 @@ class TurnStreamEventPrinter:
 
     def _get_event_type_step_type(self, chunk):
         if hasattr(chunk, "event"):
-            previous_event_type = (
-                chunk.event.payload.event_type if hasattr(chunk, "event") else None
-            )
+            previous_event_type = chunk.event.payload.event_type if hasattr(chunk, "event") else None
             previous_step_type = (
-                chunk.event.payload.step_type
-                if previous_event_type not in {"turn_start", "turn_complete"}
-                else None
+                chunk.event.payload.step_type if previous_event_type not in {"turn_start", "turn_complete"} else None
             )
             return previous_event_type, previous_step_type
         return None, None

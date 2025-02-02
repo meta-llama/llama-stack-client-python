@@ -9,8 +9,7 @@ from typing import Optional
 import click
 from rich.console import Console
 
-from llama_stack_client.types.post_training_supervised_fine_tune_params import (
-    AlgorithmConfigParam, TrainingConfig)
+from llama_stack_client.types.post_training_supervised_fine_tune_params import AlgorithmConfigParam, TrainingConfig
 
 from ..common.utils import handle_client_errors
 
@@ -26,9 +25,7 @@ def post_training():
 @click.option("--model", required=True, help="Model ID")
 @click.option("--algorithm-config", required=True, help="Algorithm Config")
 @click.option("--training-config", required=True, help="Training Config")
-@click.option(
-    "--checkpoint-dir", required=False, help="Checkpoint Config", default=None
-)
+@click.option("--checkpoint-dir", required=False, help="Checkpoint Config", default=None)
 @click.pass_context
 @handle_client_errors("post_training supervised_fine_tune")
 def supervised_fine_tune(
@@ -65,9 +62,7 @@ def get_training_jobs(ctx):
     console = Console()
 
     post_training_jobs = client.post_training.job.list()
-    console.print(
-        [post_training_job.job_uuid for post_training_job in post_training_jobs]
-    )
+    console.print([post_training_job.job_uuid for post_training_job in post_training_jobs])
 
 
 @click.command("status")

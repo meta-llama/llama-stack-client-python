@@ -44,9 +44,7 @@ def list_models(ctx):
         # Configure columns with specific styling
         table.add_column("model_type", style="blue")
         table.add_column("identifier", style="bold cyan", no_wrap=True, overflow="fold")
-        table.add_column(
-            "provider_resource_id", style="yellow", no_wrap=True, overflow="fold"
-        )
+        table.add_column("provider_resource_id", style="yellow", no_wrap=True, overflow="fold")
         table.add_column("metadata", style="magenta", max_width=30, overflow="fold")
         table.add_column("provider_id", style="green", max_width=20)
 

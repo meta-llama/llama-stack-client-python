@@ -30,7 +30,6 @@ async def run_main(
     checkpoint_dir: Optional[str] = None,
     cert_path: Optional[str] = None,
 ):
-
     # Construct the base URL with the appropriate protocol
     protocol = "https" if use_https else "http"
     base_url = f"{protocol}://{host}:{port}"
@@ -102,9 +101,7 @@ def main(
     cert_path: Optional[str] = None,
 ):
     job_uuid = str(job_uuid)
-    asyncio.run(
-        run_main(host, port, job_uuid, model, use_https, checkpoint_dir, cert_path)
-    )
+    asyncio.run(run_main(host, port, job_uuid, model, use_https, checkpoint_dir, cert_path))
 
 
 if __name__ == "__main__":

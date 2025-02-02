@@ -45,5 +45,6 @@ def chat_completion(ctx, message: str, stream: bool, model_id: Optional[str]):
         for event in EventLogger().log(response):
             event.print()
 
+
 # Register subcommands
 inference.add_command(chat_completion)

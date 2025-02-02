@@ -46,10 +46,7 @@ class ClientTool:
             {
                 "name": self.get_name(),
                 "description": self.get_description(),
-                "parameters": {
-                    name: definition.__dict__
-                    for name, definition in self.get_params_definition().items()
-                },
+                "parameters": {name: definition.__dict__ for name, definition in self.get_params_definition().items()},
             }
         )
 

@@ -9,14 +9,13 @@ from llama_stack_client import LlamaStackClient
 from llama_stack_client.types import ToolResponseMessage, UserMessage
 from llama_stack_client.types.agent_create_params import AgentConfig
 from llama_stack_client.types.agents.turn import Turn
-from llama_stack_client.types.agents.turn_create_params import (Document,
-                                                                Toolgroup)
-from llama_stack_client.types.agents.turn_create_response import \
-    AgentTurnResponseStreamChunk
+from llama_stack_client.types.agents.turn_create_params import Document, Toolgroup
+from llama_stack_client.types.agents.turn_create_response import AgentTurnResponseStreamChunk
 
 from .client_tool import ClientTool
 
 DEFAULT_MAX_ITER = 10
+
 
 class Agent:
     def __init__(
@@ -88,7 +87,7 @@ class Agent:
                 pass
             if not chunk:
                 raise Exception("No chunk returned")
-            if chunk.event.payload.event_type != 'turn_complete':
+            if chunk.event.payload.event_type != "turn_complete":
                 raise Exception("Turn did not complete")
             return chunk.event.payload.turn
 
@@ -102,7 +101,7 @@ class Agent:
     ) -> Iterator[AgentTurnResponseStreamChunk]:
         stop = False
         n_iter = 0
-        max_iter = self.agent_config.get('max_infer_iters', DEFAULT_MAX_ITER)
+        max_iter = self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER)
         while not stop and n_iter < max_iter:
             response = self.client.agents.turn.create(
                 agent_id=self.agent_id,

@@ -44,9 +44,7 @@ def list(ctx):
         )
 
         table.add_column("identifier", style="bold cyan", no_wrap=True, overflow="fold")
-        table.add_column(
-            "provider_alias", style="yellow", no_wrap=True, overflow="fold"
-        )
+        table.add_column("provider_alias", style="yellow", no_wrap=True, overflow="fold")
         table.add_column("params", style="magenta", max_width=30, overflow="fold")
         table.add_column("provider_id", style="green", max_width=20)
 

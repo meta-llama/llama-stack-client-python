@@ -27,9 +27,7 @@ class InferenceStreamLogEventPrinter:
         if event.event_type == "start":
             yield InferenceStreamPrintableEvent("Assistant> ", color="cyan", end="")
         elif event.event_type == "progress":
-            yield InferenceStreamPrintableEvent(
-                event.delta.text, color="yellow", end=""
-            )
+            yield InferenceStreamPrintableEvent(event.delta.text, color="yellow", end="")
         elif event.event_type == "complete":
             yield InferenceStreamPrintableEvent("")
 

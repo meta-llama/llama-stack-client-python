@@ -51,9 +51,7 @@ def list(ctx):
             # Convert remaining attributes to YAML string for params column
             params = yaml.dump(item_dict, default_flow_style=False)
 
-            table.add_row(
-                identifier, provider_id, provider_resource_id, vector_db_type, params
-            )
+            table.add_row(identifier, provider_id, provider_resource_id, vector_db_type, params)
 
         console.print(table)
 

@@ -19,9 +19,7 @@ def toolgroups():
     pass
 
 
-@click.command(
-    name="list", help="Show available llama toolgroups at distribution endpoint"
-)
+@click.command(name="list", help="Show available llama toolgroups at distribution endpoint")
 @click.pass_context
 @handle_client_errors("list toolgroups")
 def list_toolgroups(ctx):
@@ -53,9 +51,7 @@ def get_toolgroup(ctx, toolgroup_id: str):
     toolgroups_get_response = client.tools.list()
     # filter response to only include provided toolgroup_id
     toolgroups_get_response = [
-        toolgroup
-        for toolgroup in toolgroups_get_response
-        if toolgroup.toolgroup_id == toolgroup_id
+        toolgroup for toolgroup in toolgroups_get_response if toolgroup.toolgroup_id == toolgroup_id
     ]
     if len(toolgroups_get_response) == 0:
         console.print(
@@ -76,9 +72,7 @@ def get_toolgroup(ctx, toolgroup_id: str):
     console.print(table)
 
 
-@click.command(
-    name="register", help="Register a new toolgroup at distribution endpoint"
-)
+@click.command(name="register", help="Register a new toolgroup at distribution endpoint")
 @click.argument("toolgroup_id")
 @click.option("--provider-id", help="Provider ID for the toolgroup", default=None)
 @click.option("--provider-toolgroup-id", help="Provider's toolgroup ID", default=None)
@@ -105,14 +99,10 @@ def register_toolgroup(
         mcp_config=mcp_config,
     )
     if response:
-        console.print(
-            f"[green]Successfully registered toolgroup {toolgroup_id}[/green]"
-        )
+        console.print(f"[green]Successfully registered toolgroup {toolgroup_id}[/green]")
 
 
-@click.command(
-    name="unregister", help="Unregister a toolgroup from distribution endpoint"
-)
+@click.command(name="unregister", help="Unregister a toolgroup from distribution endpoint")
 @click.argument("toolgroup_id")
 @click.pass_context
 @handle_client_errors("unregister toolgroup")
