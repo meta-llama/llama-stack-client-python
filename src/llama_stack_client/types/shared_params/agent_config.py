@@ -20,6 +20,11 @@ class ToolgroupUnionMember1(TypedDict, total=False):
 
 Toolgroup: TypeAlias = Union[str, ToolgroupUnionMember1]
 
+class ToolConfig(TypedDict, total=False):
+    tool_choice: Literal["auto", "required"]
+    tool_prompt_format: Literal["json", "function_tag", "python_list"]
+    system_message_behavior: Literal["append", "replace"]
+
 
 class AgentConfig(TypedDict, total=False):
     enable_session_persistence: Required[bool]
@@ -40,8 +45,12 @@ class AgentConfig(TypedDict, total=False):
 
     sampling_params: SamplingParams
 
+    # DEPRECATED: use tool_config instead
     tool_choice: Literal["auto", "required"]
 
+    # DEPRECATED: use tool_config instead
     tool_prompt_format: Literal["json", "function_tag", "python_list"]
 
     toolgroups: List[Toolgroup]
+
+    tool_config: ToolConfig
