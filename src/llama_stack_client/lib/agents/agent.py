@@ -12,9 +12,53 @@ from llama_stack_client.types.agents.turn import Turn
 from llama_stack_client.types.agents.turn_create_params import Document, Toolgroup
 from llama_stack_client.types.agents.turn_create_response import AgentTurnResponseStreamChunk
 
+import re
+import json
+from typing import Dict, Any
+
+from llama_stack_client.types.shared.tool_call import ToolCall
+
 from .client_tool import ClientTool
 
 DEFAULT_MAX_ITER = 10
+
+
+def maybe_extract_action(text: str) -> Optional[Tuple[str, Dict[str, Any]]]:
+    """
+    Extract action name and parameters from the text format:
+
+    Thought: <some_text>
+
+    Action:
+    {
+      "action": <action_name>,
+      "action_input": <action_params>
+    }<end_action>
+
+    Args:
+        text (str): Input text containing the action block
+
+    Returns:
+        Tuple[str, Dict[str, Any]]: Tuple of (action_name, action_parameters)
+
+    Raises:
+        ValueError: If the action block cannot be parsed or is missing required fields
+    """
+    try:
+        # Find the action block using regex
+        action_pattern = r'Action:\s*{\s*"action":\s*"([^"]+)",\s*"action_input":\s*({[^}]+})\s*}<end_action>'
+        match = re.search(action_pattern, text, re.DOTALL)
+
+        if not match:
+            raise ValueError("Could not find valid action block in text")
+
+        action_name = match.group(1)
+        action_params = json.loads(match.group(2))
+
+        return action_name, action_params
+    except (ValueError, json.JSONDecodeError) as e:
+        print(f"Error parsing action: {e}")
+        return None
 
 
 class Agent:
@@ -54,6 +98,19 @@ class Agent:
         message = chunk.event.payload.turn.output_message
         if message.stop_reason == "out_of_tokens":
             return False
+
+        # Has tool call if it is using the ReAct pattern
+        action = maybe_extract_action(message.content)
+        if action and action[0] in self.client_tools:
+            message.tool_calls = [
+                ToolCall(
+                    call_id="random-id",
+                    tool_name=action[0],
+                    arguments=action[1],
+                )
+            ]
+            print(f"!!Action: {action}")
+
         return len(message.tool_calls) > 0
 
     def _run_tool(self, chunk: AgentTurnResponseStreamChunk) -> ToolResponseMessage:
@@ -121,6 +178,10 @@ class Agent:
                 elif not self._has_tool_call(chunk):
                     yield chunk
                 else:
+                    from rich.pretty import pprint
+
+                    print("Running Tools...")
+                    pprint(chunk)
                     next_message = self._run_tool(chunk)
                     yield next_message
 
