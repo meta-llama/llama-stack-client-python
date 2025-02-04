@@ -12,53 +12,11 @@ from llama_stack_client.types.agents.turn import Turn
 from llama_stack_client.types.agents.turn_create_params import Document, Toolgroup
 from llama_stack_client.types.agents.turn_create_response import AgentTurnResponseStreamChunk
 
-import re
-import json
-from typing import Dict, Any
-
-from llama_stack_client.types.shared.tool_call import ToolCall
 
 from .client_tool import ClientTool
+from .output_parser import OutputParser
 
 DEFAULT_MAX_ITER = 10
-
-
-def maybe_extract_action(text: str) -> Optional[Tuple[str, Dict[str, Any]]]:
-    """
-    Extract action name and parameters from the text format:
-
-    Thought: <some_text>
-
-    Action:
-    {
-      "action": <action_name>,
-      "action_input": <action_params>
-    }<end_action>
-
-    Args:
-        text (str): Input text containing the action block
-
-    Returns:
-        Tuple[str, Dict[str, Any]]: Tuple of (action_name, action_parameters)
-
-    Raises:
-        ValueError: If the action block cannot be parsed or is missing required fields
-    """
-    try:
-        # Find the action block using regex
-        action_pattern = r'Action:\s*{\s*"action":\s*"([^"]+)",\s*"action_input":\s*({[^}]+})\s*}<end_action>'
-        match = re.search(action_pattern, text, re.DOTALL)
-
-        if not match:
-            raise ValueError("Could not find valid action block in text")
-
-        action_name = match.group(1)
-        action_params = json.loads(match.group(2))
-
-        return action_name, action_params
-    except (ValueError, json.JSONDecodeError) as e:
-        print(f"Error parsing action: {e}")
-        return None
 
 
 class Agent:
@@ -68,6 +26,7 @@ class Agent:
         agent_config: AgentConfig,
         client_tools: Tuple[ClientTool] = (),
         memory_bank_id: Optional[str] = None,
+        output_parser: Optional[OutputParser] = None,
     ):
         self.client = client
         self.agent_config = agent_config
@@ -75,6 +34,7 @@ class Agent:
         self.client_tools = {t.get_name(): t for t in client_tools}
         self.sessions = []
         self.memory_bank_id = memory_bank_id
+        self.output_parser = output_parser
 
     def _create_agent(self, agent_config: AgentConfig) -> int:
         agentic_system_create_response = self.client.agents.create(
@@ -99,17 +59,9 @@ class Agent:
         if message.stop_reason == "out_of_tokens":
             return False
 
-        # Has tool call if it is using the ReAct pattern
-        action = maybe_extract_action(message.content)
-        if action and action[0] in self.client_tools:
-            message.tool_calls = [
-                ToolCall(
-                    call_id="random-id",
-                    tool_name=action[0],
-                    arguments=action[1],
-                )
-            ]
-            print(f"!!Action: {action}")
+        if self.output_parser:
+            parsed_message = self.output_parser.parse(message)
+            message = parsed_message
 
         return len(message.tool_calls) > 0
 
@@ -121,7 +73,7 @@ class Agent:
                 call_id=tool_call.call_id,
                 tool_name=tool_call.tool_name,
                 content=f"Unknown tool `{tool_call.tool_name}` was called.",
-                role="ipython",
+                role="tool",
             )
         tool = self.client_tools[tool_call.tool_name]
         result_messages = tool.run([message])
@@ -178,10 +130,6 @@ class Agent:
                 elif not self._has_tool_call(chunk):
                     yield chunk
                 else:
-                    from rich.pretty import pprint
-
-                    print("Running Tools...")
-                    pprint(chunk)
                     next_message = self._run_tool(chunk)
                     yield next_message
 
