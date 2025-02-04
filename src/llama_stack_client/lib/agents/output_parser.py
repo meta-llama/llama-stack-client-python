@@ -11,10 +11,36 @@ from llama_stack_client.types.agents.turn import CompletionMessage
 
 class OutputParser:
     """
-    Developers can define their own response output parser to parse the response from the agent turn.
+    Abstract base class for parsing agent responses. Implement this class to customize how
+    agent outputs are processed and transformed.
 
-    Developers need to implement the `parse` method to parse the response from the agent turn.
-    The return value should be a CompletionMessage object with parsed result popoulated in content and tool_calls.
+    This class allows developers to define custom parsing logic for agent responses,
+    which can be useful for:
+    - Extracting specific information from the response
+    - Formatting or structuring the output in a specific way
+    - Validating or sanitizing the agent's response
+
+    To use this class:
+    1. Create a subclass of OutputParser
+    2. Implement the `parse` method
+    3. Pass your parser instance to the Agent's constructor
+
+    Example:
+        class MyCustomParser(OutputParser):
+            def parse(self, output_message: CompletionMessage) -> CompletionMessage:
+                # Add your custom parsing logic here
+                return processed_message
+
+    Methods:
+        parse(output_message: CompletionMessage) -> CompletionMessage:
+            Abstract method that must be implemented by subclasses to process
+            the agent's response.
+
+            Args:
+                output_message (CompletionMessage): The response message from agent turn
+
+            Returns:
+                CompletionMessage: The processed/transformed response message
     """
 
     @abstractmethod
