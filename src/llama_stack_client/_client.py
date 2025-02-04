@@ -103,6 +103,7 @@ class LlamaStackClient(SyncAPIClient):
         self,
         *,
         base_url: str | httpx.URL | None = None,
+        api_key: str | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
@@ -128,7 +129,13 @@ class LlamaStackClient(SyncAPIClient):
         if base_url is None:
             base_url = f"http://any-hosted-llama-stack.com"
 
+        if api_key is None:
+            api_key = os.environ.get("LLAMA_STACK_CLIENT_API_KEY")
+        self.api_key = api_key
+
         custom_headers = default_headers or {}
+        if api_key is not None:
+            custom_headers["Authorization"] = f"Bearer {api_key}"
         custom_headers["X-LlamaStack-Client-Version"] = __version__
         if provider_data is not None:
             custom_headers["X-LlamaStack-Provider-Data"] = json.dumps(provider_data)
@@ -188,6 +195,7 @@ class LlamaStackClient(SyncAPIClient):
         self,
         *,
         base_url: str | httpx.URL | None = None,
+        api_key: str | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
         max_retries: int | NotGiven = NOT_GIVEN,
@@ -221,6 +229,7 @@ class LlamaStackClient(SyncAPIClient):
         http_client = http_client or self._client
         return self.__class__(
             base_url=base_url or self.base_url,
+            api_key=api_key or self.api_key,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
@@ -300,6 +309,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         self,
         *,
         base_url: str | httpx.URL | None = None,
+        api_key: str | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
@@ -325,7 +335,13 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         if base_url is None:
             base_url = f"http://any-hosted-llama-stack.com"
 
+        if api_key is None:
+            api_key = os.environ.get("LLAMA_STACK_CLIENT_API_KEY")
+        self.api_key = api_key
+
         custom_headers = default_headers or {}
+        if api_key is not None:
+            custom_headers["Authorization"] = f"Bearer {api_key}"
         custom_headers["X-LlamaStack-Client-Version"] = __version__
         if provider_data is not None:
             custom_headers["X-LlamaStack-Provider-Data"] = json.dumps(provider_data)
@@ -385,6 +401,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         self,
         *,
         base_url: str | httpx.URL | None = None,
+        api_key: str | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
         max_retries: int | NotGiven = NOT_GIVEN,
@@ -418,6 +435,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         http_client = http_client or self._client
         return self.__class__(
             base_url=base_url or self.base_url,
+            api_key=api_key or self.api_key,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
