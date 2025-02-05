@@ -52,16 +52,21 @@ class Agent:
         self.sessions.append(self.session_id)
         return self.session_id
 
+    def _process_chunk(self, chunk: AgentTurnResponseStreamChunk) -> None:
+        if chunk.event.payload.event_type != "turn_complete":
+            return
+        message = chunk.event.payload.turn.output_message
+
+        if self.output_parser:
+            parsed_message = self.output_parser.parse(message)
+            message = parsed_message
+
     def _has_tool_call(self, chunk: AgentTurnResponseStreamChunk) -> bool:
         if chunk.event.payload.event_type != "turn_complete":
             return False
         message = chunk.event.payload.turn.output_message
         if message.stop_reason == "out_of_tokens":
             return False
-
-        if self.output_parser:
-            parsed_message = self.output_parser.parse(message)
-            message = parsed_message
 
         return len(message.tool_calls) > 0
 
@@ -124,6 +129,7 @@ class Agent:
             # by default, we stop after the first turn
             stop = True
             for chunk in response:
+                self._process_chunk(chunk)
                 if hasattr(chunk, "error"):
                     yield chunk
                     return
