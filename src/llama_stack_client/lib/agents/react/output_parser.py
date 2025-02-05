@@ -11,15 +11,12 @@ from llama_stack_client.types.shared.tool_call import ToolCall
 import json
 import uuid
 
-from rich.pretty import pprint
-
 
 class ReActOutputParser(OutputParser):
     def parse(self, output_message: CompletionMessage) -> CompletionMessage:
         response_text = str(output_message.content)
         try:
             response_json = json.loads(response_text)
-            pprint(response_json)
         except json.JSONDecodeError as e:
             print(f"Error parsing action: {e}")
             return output_message
