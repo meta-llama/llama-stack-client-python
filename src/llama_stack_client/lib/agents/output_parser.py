@@ -39,10 +39,10 @@ class OutputParser:
             Args:
                 output_message (CompletionMessage): The response message from agent turn
 
-            Returns:
-                CompletionMessage: The processed/transformed response message
+            Returns: None
+                Modifies the output_message in place
     """
 
     @abstractmethod
-    def parse(self, output_message: CompletionMessage) -> CompletionMessage:
+    def parse(self, output_message: CompletionMessage) -> None:
         raise NotImplementedError
