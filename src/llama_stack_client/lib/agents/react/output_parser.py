@@ -31,10 +31,10 @@ class ReActOutputParser(OutputParser):
             react_output = ReActOutput.model_validate_json(response_text)
         except ValidationError as e:
             print(f"Error parsing action: {e}")
-            return 
+            return
 
         if react_output.answer:
-            return 
+            return
 
         if react_output.action:
             tool_name = react_output.action.tool_name
@@ -43,4 +43,4 @@ class ReActOutputParser(OutputParser):
                 call_id = str(uuid.uuid4())
                 output_message.tool_calls = [ToolCall(call_id=call_id, tool_name=tool_name, arguments=tool_params)]
 
-        return 
+        return
