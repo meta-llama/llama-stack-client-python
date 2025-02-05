@@ -4,13 +4,12 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from typing import Dict, Any, Optional
 from ..output_parser import OutputParser
 from llama_stack_client.types.shared.completion_message import CompletionMessage
 from llama_stack_client.types.shared.tool_call import ToolCall
 
-import json
 import uuid
 
 
@@ -29,17 +28,17 @@ class ReActOutputParser(OutputParser):
     def parse(self, output_message: CompletionMessage) -> CompletionMessage:
         response_text = str(output_message.content)
         try:
-            response_json = json.loads(response_text)
-        except json.JSONDecodeError as e:
+            react_output = ReActOutput.model_validate_json(response_text)
+        except ValidationError as e:
             print(f"Error parsing action: {e}")
             return output_message
 
-        if response_json.get("answer", None):
+        if react_output.answer:
             return output_message
 
-        if response_json.get("action", None):
-            tool_name = response_json["action"].get("tool_name", None)
-            tool_params = response_json["action"].get("tool_params", None)
+        if react_output.action:
+            tool_name = react_output.action.tool_name
+            tool_params = react_output.action.tool_params
             if tool_name and tool_params:
                 call_id = str(uuid.uuid4())
                 output_message.tool_calls = [ToolCall(call_id=call_id, tool_name=tool_name, arguments=tool_params)]

@@ -43,29 +43,36 @@ class ReActAgent(Agent):
         json_response_format: bool = False,
         custom_agent_config: Optional[AgentConfig] = None,
     ):
-        def get_tool_definition(tool):
-            return {
-                "name": tool.identifier,
-                "description": tool.description,
-                "parameters": tool.parameters,
-            }
+        def get_tool_defs():
+            tool_defs = []
+            for x in builtin_toolgroups:
+                tool_defs.extend(
+                    [
+                        {
+                            "name": tool.identifier,
+                            "description": tool.description,
+                            "parameters": tool.parameters,
+                        }
+                        for tool in client.tools.list(toolgroup_id=x)
+                    ]
+                )
+            tool_defs.extend(
+                [
+                    {
+                        "name": tool.get_name(),
+                        "description": tool.get_description(),
+                        "parameters": tool.get_params_definition(),
+                    }
+                    for tool in client_tools
+                ]
+            )
+            return tool_defs
 
         if custom_agent_config is None:
-            tool_names = ""
-            tool_descriptions = ""
-            for x in builtin_toolgroups:
-                tool_names += ", ".join([tool.identifier for tool in client.tools.list(toolgroup_id=x)])
-                tool_descriptions += "\n".join(
-                    [f"- {tool.identifier}: {get_tool_definition(tool)}" for tool in client.tools.list(toolgroup_id=x)]
-                )
-
-            tool_names += ", "
-            tool_descriptions += "\n"
-            tool_names += ", ".join([tool.get_name() for tool in client_tools])
-            tool_descriptions += "\n".join(
-                [f"- {tool.get_name()}: {tool.get_tool_definition()}" for tool in client_tools]
-            )
-
+            tool_names, tool_descriptions = "", ""
+            tool_defs = get_tool_defs()
+            tool_names = ", ".join([x["name"] for x in tool_defs])
+            tool_descriptions = "\n".join([f"- {x['name']}: {x}" for x in tool_defs])
             instruction = DEFAULT_REACT_AGENT_SYSTEM_PROMPT_TEMPLATE.replace("<<tool_names>>", tool_names).replace(
                 "<<tool_descriptions>>", tool_descriptions
             )
