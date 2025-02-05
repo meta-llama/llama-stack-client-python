@@ -60,8 +60,7 @@ class Agent:
         message = chunk.event.payload.turn.output_message
 
         if self.output_parser:
-            parsed_message = self.output_parser.parse(message)
-            message = parsed_message
+            self.output_parser.parse(message)
 
     def _has_tool_call(self, chunk: AgentTurnResponseStreamChunk) -> bool:
         if chunk.event.payload.event_type != "turn_complete":

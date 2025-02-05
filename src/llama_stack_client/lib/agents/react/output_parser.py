@@ -25,16 +25,16 @@ class ReActOutput(BaseModel):
 
 
 class ReActOutputParser(OutputParser):
-    def parse(self, output_message: CompletionMessage) -> CompletionMessage:
+    def parse(self, output_message: CompletionMessage) -> None:
         response_text = str(output_message.content)
         try:
             react_output = ReActOutput.model_validate_json(response_text)
         except ValidationError as e:
             print(f"Error parsing action: {e}")
-            return output_message
+            return
 
         if react_output.answer:
-            return output_message
+            return
 
         if react_output.action:
             tool_name = react_output.action.tool_name
@@ -42,5 +42,3 @@ class ReActOutputParser(OutputParser):
             if tool_name and tool_params:
                 call_id = str(uuid.uuid4())
                 output_message.tool_calls = [ToolCall(call_id=call_id, tool_name=tool_name, arguments=tool_params)]
-
-        return output_message
