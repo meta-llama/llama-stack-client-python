@@ -36,6 +36,11 @@ class Agent:
         self.memory_bank_id = memory_bank_id
         self.output_parser = output_parser
 
+        self.builtin_tools = {}
+        for tg in agent_config["toolgroups"]:
+            for tool in self.client.tools.list(toolgroup_id=tg):
+                self.builtin_tools[tool.identifier] = tool
+
     def _create_agent(self, agent_config: AgentConfig) -> int:
         agentic_system_create_response = self.client.agents.create(
             agent_config=agent_config,
@@ -73,17 +78,35 @@ class Agent:
     def _run_tool(self, chunk: AgentTurnResponseStreamChunk) -> ToolResponseMessage:
         message = chunk.event.payload.turn.output_message
         tool_call = message.tool_calls[0]
-        if tool_call.tool_name not in self.client_tools:
-            return ToolResponseMessage(
+
+        # custom client tools
+        if tool_call.tool_name in self.client_tools:
+            tool = self.client_tools[tool_call.tool_name]
+            result_messages = tool.run([message])
+            next_message = result_messages[0]
+            return next_message
+
+        # builtin tools executed by tool_runtime
+        if tool_call.tool_name in self.builtin_tools:
+            tool_result = self.client.tool_runtime.invoke_tool(
+                tool_name=tool_call.tool_name,
+                kwargs=tool_call.arguments,
+            )
+            tool_response_message = ToolResponseMessage(
                 call_id=tool_call.call_id,
                 tool_name=tool_call.tool_name,
-                content=f"Unknown tool `{tool_call.tool_name}` was called.",
+                content=tool_result.content,
                 role="tool",
             )
-        tool = self.client_tools[tool_call.tool_name]
-        result_messages = tool.run([message])
-        next_message = result_messages[0]
-        return next_message
+            return tool_response_message
+
+        # cannot find tools
+        return ToolResponseMessage(
+            call_id=tool_call.call_id,
+            tool_name=tool_call.tool_name,
+            content=f"Unknown tool `{tool_call.tool_name}` was called.",
+            role="tool",
+        )
 
     def create_turn(
         self,
