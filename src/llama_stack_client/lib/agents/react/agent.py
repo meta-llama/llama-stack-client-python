@@ -77,6 +77,7 @@ class ReActAgent(Agent):
                 toolgroups=builtin_toolgroups,
                 client_tools=[client_tool.get_tool_definition() for client_tool in client_tools],
                 tool_choice="auto",
+                # TODO: refactor this to use SystemMessageBehaviour.replace
                 tool_prompt_format="json",
                 input_shields=[],
                 output_shields=[],
