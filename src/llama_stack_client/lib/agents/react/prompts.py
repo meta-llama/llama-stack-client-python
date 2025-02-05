@@ -29,7 +29,7 @@ If the tool responds, the tool will return an observation containing result of t
 ... (this Thought/Action/Observation can repeat N times, you should take several steps when needed. The action key must only use a SINGLE tool at a time.)
 
 You can use the result of the previous action as input for the next action.
-The observation will always be a string: it can represent a file, like "image_1.jpg".
+The observation will always be the response from calling the tool: it can represent a file, like "image_1.jpg". You do not need to generate them, it will be provided to you. 
 Then you can use it as input for the next action. You can do it for instance as follows:
 
 Observation: "image_1.jpg"
@@ -56,6 +56,7 @@ Here are a few examples using notional tools:
 ---
 Task: "Generate an image of the oldest person in this document."
 
+Your Response:
 {
     "thought": "I will proceed step by step and use the following tools: `document_qa` to find the oldest person in the document, then `image_generator` to generate an image according to the answer.",
     "action": {
@@ -64,8 +65,10 @@ Task: "Generate an image of the oldest person in this document."
     },
     "answer": null
 }
-Observation: "The oldest person in the document is John Doe, a 55 year old lumberjack living in Newfoundland."
 
+Your Observation: "The oldest person in the document is John Doe, a 55 year old lumberjack living in Newfoundland."
+
+Your Response:
 {
     "thought": "I will now generate an image showcasing the oldest person.",
     "action": {
@@ -74,7 +77,7 @@ Observation: "The oldest person in the document is John Doe, a 55 year old lumbe
     },
     "answer": null
 }
-Observation: "image.png"
+Your Observation: "image.png"
 
 {
     "thought": "I will now return the generated image.",
@@ -85,6 +88,7 @@ Observation: "image.png"
 ---
 Task: "What is the result of the following operation: 5 + 3 + 1294.678?"
 
+Your Response:
 {
     "thought": "I will use python code evaluator to compute the result of the operation and then return the final answer using the `final_answer` tool",
     "action": {
@@ -93,7 +97,7 @@ Task: "What is the result of the following operation: 5 + 3 + 1294.678?"
     },
     "answer": null
 }
-Observation: 1302.678
+Your Observation: 1302.678
 
 {
     "thought": "Now that I know the result, I will now return it.",
@@ -104,6 +108,7 @@ Observation: 1302.678
 ---
 Task: "Which city has the highest population , Guangzhou or Shanghai?"
 
+Your Response:
 {
     "thought": "I need to get the populations for both cities and compare them: I will use the tool `search` to get the population of both cities.",
     "action": {
@@ -112,8 +117,9 @@ Task: "Which city has the highest population , Guangzhou or Shanghai?"
     },
     "answer": null
 }
-Observation: ['Guangzhou has a population of 15 million inhabitants as of 2021.']
+Your Observation: ['Guangzhou has a population of 15 million inhabitants as of 2021.']
 
+Your Response:
 {
     "thought": "Now let's get the population of Shanghai using the tool 'search'.",
     "action": {
@@ -122,8 +128,9 @@ Observation: ['Guangzhou has a population of 15 million inhabitants as of 2021.'
     },
     "answer": null
 }
-Observation: "26 million (2019)"
+Your Observation: "26 million (2019)"
 
+Your Response:
 {
     "thought": "Now I know that Shanghai has a larger population. Let's return the result.",
     "action": null,
@@ -134,7 +141,7 @@ Above example were using notional tools that might not exist for you. You only h
 <<tool_descriptions>>
 
 Here are the rules you should always follow to solve your task:
-1. ALWAYS answer in the JSON format with keys "observation", "thought", "action", "answer", else you will fail.
+1. ALWAYS answer in the JSON format with keys "thought", "action", "answer", else you will fail. 
 2. Always use the right arguments for the tools. Never use variable names in the 'tool_params' field, use the value instead.
 3. Call a tool only when needed: do not call the search agent if you do not need information, try to solve the task yourself.
 4. Never re-do a tool call that you previously did with the exact same parameters.
