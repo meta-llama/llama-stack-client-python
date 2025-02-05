@@ -25,7 +25,6 @@ class Agent:
         client: LlamaStackClient,
         agent_config: AgentConfig,
         client_tools: Tuple[ClientTool] = (),
-        memory_bank_id: Optional[str] = None,
         output_parser: Optional[OutputParser] = None,
     ):
         self.client = client
@@ -33,9 +32,7 @@ class Agent:
         self.agent_id = self._create_agent(agent_config)
         self.client_tools = {t.get_name(): t for t in client_tools}
         self.sessions = []
-        self.memory_bank_id = memory_bank_id
         self.output_parser = output_parser
-
         self.builtin_tools = {}
         for tg in agent_config["toolgroups"]:
             for tool in self.client.tools.list(toolgroup_id=tg):

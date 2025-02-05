@@ -149,11 +149,3 @@ Here are the rules you should always follow to solve your task:
 
 Now Begin! If you solve the task correctly, you will receive a reward of $1,000,000.
 """
-
-from pydantic import BaseModel
-
-
-class PromptTemplate(BaseModel):
-    system_prompt_template: str = DEFAULT_REACT_AGENT_SYSTEM_PROMPT_TEMPLATE
-    tool_names: str
-    tool_descriptions: str
