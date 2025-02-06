@@ -122,7 +122,7 @@ def tool(func: T) -> ClientTool:
     """
 
 
-    class WrappedTool(SingleMessageClientTool):
+    class _WrappedTool(SingleMessageClientTool):
         __name__ = func.__name__
         __doc__ = func.__doc__
         __module__ = func.__module__
@@ -173,4 +173,4 @@ def tool(func: T) -> ClientTool:
         def run_impl(self, **kwargs):
             return func(**kwargs)
 
-    return WrappedTool()
+    return _WrappedTool()
