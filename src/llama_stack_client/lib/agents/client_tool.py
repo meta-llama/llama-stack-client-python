@@ -6,7 +6,7 @@
 
 import json
 from abc import abstractmethod
-from typing import Callable, Dict, TypeVar, get_type_hints, List, Union, get_origin, get_args
+from typing import Callable, Dict, TypeVar, get_type_hints, Union, get_origin, get_args
 import inspect
 
 from llama_stack_client.types import CompletionMessage, ToolResponseMessage
@@ -61,7 +61,8 @@ class ClientTool:
         )
 
     def run(
-        self, message: CompletionMessage,
+        self,
+        message: CompletionMessage,
     ) -> ToolResponseMessage:
         assert len(message.tool_calls) == 1, "Expected single tool call"
         tool_call = message.tool_calls[0]
@@ -100,11 +101,10 @@ def client_tool(func: T) -> ClientTool:
             :returns: sum of x + y
             '''
             return x + y
-    
-    Note that you must use RST-style docstrings with :param tags for each parameter. These will be used for prompting model to use tools correctly.  
+
+    Note that you must use RST-style docstrings with :param tags for each parameter. These will be used for prompting model to use tools correctly.
     :returns: tags in the docstring is optional as it would not be used for the tool's description.
     """
-
 
     class _WrappedTool(ClientTool):
         __name__ = func.__name__
@@ -138,7 +138,7 @@ def client_tool(func: T) -> ClientTool:
                     if line.strip().startswith(f":param {name}:"):
                         param_doc = line.split(":", 2)[2].strip()
                         break
-                
+
                 if param_doc == "":
                     raise ValueError(f"No parameter description found for parameter {name}")
 
