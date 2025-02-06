@@ -13,6 +13,7 @@ from .shared_params.tool_param_definition import ToolParamDefinition
 __all__ = [
     "InferenceChatCompletionParamsBase",
     "Logprobs",
+    "ToolConfig",
     "Tool",
     "InferenceChatCompletionParamsNonStreaming",
     "InferenceChatCompletionParamsStreaming",
@@ -51,6 +52,46 @@ class InferenceChatCompletionParamsBase(TypedDict, total=False):
     tool_choice: Literal["auto", "required"]
     """(Optional) Whether tool use is required or automatic.
 
+    Defaults to ToolChoice.auto. .. deprecated:: Use tool_config instead.
+    """
+
+    tool_config: ToolConfig
+    """(Optional) Configuration for tool use."""
+
+    tool_prompt_format: Literal["json", "function_tag", "python_list"]
+    """(Optional) Instructs the model how to format tool calls.
+
+    By default, Llama Stack will attempt to use a format that is best adapted to the
+    model. - `ToolPromptFormat.json`: The tool calls are formatted as a JSON
+    object. - `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+    <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+    are output as Python syntax -- a list of function calls. .. deprecated:: Use
+    tool_config instead.
+    """
+
+    tools: Iterable[Tool]
+    """(Optional) List of tool definitions available to the model"""
+
+
+class Logprobs(TypedDict, total=False):
+    top_k: int
+    """How many tokens (for each position) to return log probabilities for."""
+
+
+class ToolConfig(TypedDict, total=False):
+    system_message_behavior: Required[Literal["append", "replace"]]
+    """(Optional) Config for how to override the default system prompt.
+
+    - `SystemMessageBehavior.append`: Appends the provided system message to the
+      default system prompt. - `SystemMessageBehavior.replace`: Replaces the default
+      system prompt with the provided system message. The system message can include
+      the string '{{function_definitions}}' to indicate where the function
+      definitions should be inserted.
+    """
+
+    tool_choice: Literal["auto", "required"]
+    """(Optional) Whether tool use is required or automatic.
+
     Defaults to ToolChoice.auto.
     """
 
@@ -63,14 +104,6 @@ class InferenceChatCompletionParamsBase(TypedDict, total=False):
     <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
     are output as Python syntax -- a list of function calls.
     """
-
-    tools: Iterable[Tool]
-    """(Optional) List of tool definitions available to the model"""
-
-
-class Logprobs(TypedDict, total=False):
-    top_k: int
-    """How many tokens (for each position) to return log probabilities for."""
 
 
 class Tool(TypedDict, total=False):

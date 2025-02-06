@@ -43,6 +43,7 @@ Content: TypeAlias = Union[str, ContentImageContentItem, ContentTextContentItem,
 
 class Document(TypedDict, total=False):
     content: Required[Content]
+    """A image content item"""
 
     document_id: Required[str]
 

@@ -21,12 +21,19 @@ class BatchInferenceChatCompletionParams(TypedDict, total=False):
     logprobs: Logprobs
 
     response_format: ResponseFormat
+    """Configuration for JSON schema-guided response generation."""
 
     sampling_params: SamplingParams
 
     tool_choice: Literal["auto", "required"]
+    """Whether tool use is required or automatic.
+
+    This is a hint to the model which may not be followed. It depends on the
+    Instruction Following capabilities of the model.
+    """
 
     tool_prompt_format: Literal["json", "function_tag", "python_list"]
+    """Prompt format for calling custom / zero shot tools."""
 
     tools: Iterable[Tool]
 

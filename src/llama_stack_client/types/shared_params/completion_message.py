@@ -28,5 +28,5 @@ class CompletionMessage(TypedDict, total=False):
     `StopReason.out_of_tokens`: The model ran out of token budget.
     """
 
-    tool_calls: Required[Iterable[ToolCall]]
+    tool_calls: Iterable[ToolCall]
     """List of tool calls. Each tool call is a ToolCall object."""

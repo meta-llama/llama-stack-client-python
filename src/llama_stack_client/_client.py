@@ -98,10 +98,12 @@ class LlamaStackClient(SyncAPIClient):
     with_streaming_response: LlamaStackClientWithStreamedResponse
 
     # client options
+    api_key: str | None
 
     def __init__(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         api_key: str | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
@@ -123,7 +125,14 @@ class LlamaStackClient(SyncAPIClient):
         _strict_response_validation: bool = False,
         provider_data: Mapping[str, Any] | None = None,
     ) -> None:
-        """Construct a new synchronous llama-stack-client client instance."""
+        """Construct a new synchronous llama-stack-client client instance.
+
+        This automatically infers the `api_key` argument from the `LLAMA_STACK_API_KEY` environment variable if it is not provided.
+        """
+        if api_key is None:
+            api_key = os.environ.get("LLAMA_STACK_API_KEY")
+        self.api_key = api_key
+
         if base_url is None:
             base_url = os.environ.get("LLAMA_STACK_CLIENT_BASE_URL")
         if base_url is None:
@@ -184,6 +193,14 @@ class LlamaStackClient(SyncAPIClient):
 
     @property
     @override
+    def auth_headers(self) -> dict[str, str]:
+        api_key = self.api_key
+        if api_key is None:
+            return {}
+        return {"Authorization": f"Bearer {api_key}"}
+
+    @property
+    @override
     def default_headers(self) -> dict[str, str | Omit]:
         return {
             **super().default_headers,
@@ -194,6 +211,7 @@ class LlamaStackClient(SyncAPIClient):
     def copy(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         api_key: str | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
@@ -228,6 +246,7 @@ class LlamaStackClient(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
+            api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
             api_key=api_key or self.api_key,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
@@ -304,10 +323,12 @@ class AsyncLlamaStackClient(AsyncAPIClient):
     with_streaming_response: AsyncLlamaStackClientWithStreamedResponse
 
     # client options
+    api_key: str | None
 
     def __init__(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         api_key: str | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
@@ -329,7 +350,14 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         _strict_response_validation: bool = False,
         provider_data: Mapping[str, Any] | None = None,
     ) -> None:
-        """Construct a new async llama-stack-client client instance."""
+        """Construct a new async llama-stack-client client instance.
+
+        This automatically infers the `api_key` argument from the `LLAMA_STACK_API_KEY` environment variable if it is not provided.
+        """
+        if api_key is None:
+            api_key = os.environ.get("LLAMA_STACK_API_KEY")
+        self.api_key = api_key
+
         if base_url is None:
             base_url = os.environ.get("LLAMA_STACK_CLIENT_BASE_URL")
         if base_url is None:
@@ -390,6 +418,14 @@ class AsyncLlamaStackClient(AsyncAPIClient):
 
     @property
     @override
+    def auth_headers(self) -> dict[str, str]:
+        api_key = self.api_key
+        if api_key is None:
+            return {}
+        return {"Authorization": f"Bearer {api_key}"}
+
+    @property
+    @override
     def default_headers(self) -> dict[str, str | Omit]:
         return {
             **super().default_headers,
@@ -400,6 +436,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
     def copy(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         api_key: str | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
@@ -434,6 +471,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
+            api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
             api_key=api_key or self.api_key,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,

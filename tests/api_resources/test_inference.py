@@ -57,6 +57,11 @@ class TestInference:
             },
             stream=False,
             tool_choice="auto",
+            tool_config={
+                "system_message_behavior": "append",
+                "tool_choice": "auto",
+                "tool_prompt_format": "json",
+            },
             tool_prompt_format="json",
             tools=[
                 {
@@ -148,6 +153,11 @@ class TestInference:
                 "repetition_penalty": 0,
             },
             tool_choice="auto",
+            tool_config={
+                "system_message_behavior": "append",
+                "tool_choice": "auto",
+                "tool_prompt_format": "json",
+            },
             tool_prompt_format="json",
             tools=[
                 {
@@ -385,6 +395,11 @@ class TestAsyncInference:
             },
             stream=False,
             tool_choice="auto",
+            tool_config={
+                "system_message_behavior": "append",
+                "tool_choice": "auto",
+                "tool_prompt_format": "json",
+            },
             tool_prompt_format="json",
             tools=[
                 {
@@ -476,6 +491,11 @@ class TestAsyncInference:
                 "repetition_penalty": 0,
             },
             tool_choice="auto",
+            tool_config={
+                "system_message_behavior": "append",
+                "tool_choice": "auto",
+                "tool_prompt_format": "json",
+            },
             tool_prompt_format="json",
             tools=[
                 {

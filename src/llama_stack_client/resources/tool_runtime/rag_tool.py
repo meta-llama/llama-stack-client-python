@@ -108,6 +108,8 @@ class RagToolResource(SyncAPIResource):
         Query the RAG system for context; typically invoked by the agent
 
         Args:
+          content: A image content item
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -212,6 +214,8 @@ class AsyncRagToolResource(AsyncAPIResource):
         Query the RAG system for context; typically invoked by the agent
 
         Args:
+          content: A image content item
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

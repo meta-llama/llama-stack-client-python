@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List
+from typing import List, Optional
 from typing_extensions import Literal
 
 from ..._models import BaseModel
@@ -27,5 +27,5 @@ class CompletionMessage(BaseModel):
     `StopReason.out_of_tokens`: The model ran out of token budget.
     """
 
-    tool_calls: List[ToolCall]
+    tool_calls: Optional[List[ToolCall]] = None
     """List of tool calls. Each tool call is a ToolCall object."""

@@ -14,6 +14,7 @@ __all__ = ["InferenceStep"]
 
 class InferenceStep(BaseModel):
     api_model_response: CompletionMessage = FieldInfo(alias="model_response")
+    """A message containing the model's (assistant) response in a chat conversation."""
 
     step_id: str
 

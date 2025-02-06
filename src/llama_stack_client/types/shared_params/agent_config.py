@@ -9,7 +9,35 @@ from ..tool_def_param import ToolDefParam
 from .response_format import ResponseFormat
 from .sampling_params import SamplingParams
 
-__all__ = ["AgentConfig", "Toolgroup", "ToolgroupUnionMember1"]
+__all__ = ["AgentConfig", "ToolConfig", "Toolgroup", "ToolgroupUnionMember1"]
+
+
+class ToolConfig(TypedDict, total=False):
+    system_message_behavior: Required[Literal["append", "replace"]]
+    """(Optional) Config for how to override the default system prompt.
+
+    - `SystemMessageBehavior.append`: Appends the provided system message to the
+      default system prompt. - `SystemMessageBehavior.replace`: Replaces the default
+      system prompt with the provided system message. The system message can include
+      the string '{{function_definitions}}' to indicate where the function
+      definitions should be inserted.
+    """
+
+    tool_choice: Literal["auto", "required"]
+    """(Optional) Whether tool use is required or automatic.
+
+    Defaults to ToolChoice.auto.
+    """
+
+    tool_prompt_format: Literal["json", "function_tag", "python_list"]
+    """(Optional) Instructs the model how to format tool calls.
+
+    By default, Llama Stack will attempt to use a format that is best adapted to the
+    model. - `ToolPromptFormat.json`: The tool calls are formatted as a JSON
+    object. - `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+    <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+    are output as Python syntax -- a list of function calls.
+    """
 
 
 class ToolgroupUnionMember1(TypedDict, total=False):
@@ -26,22 +54,32 @@ class AgentConfig(TypedDict, total=False):
 
     instructions: Required[str]
 
-    max_infer_iters: Required[int]
-
     model: Required[str]
 
     client_tools: Iterable[ToolDefParam]
 
     input_shields: List[str]
 
+    max_infer_iters: int
+
     output_shields: List[str]
 
     response_format: ResponseFormat
+    """Configuration for JSON schema-guided response generation."""
 
     sampling_params: SamplingParams
 
     tool_choice: Literal["auto", "required"]
+    """Whether tool use is required or automatic.
+
+    This is a hint to the model which may not be followed. It depends on the
+    Instruction Following capabilities of the model.
+    """
+
+    tool_config: ToolConfig
+    """Configuration for tool use."""
 
     tool_prompt_format: Literal["json", "function_tag", "python_list"]
+    """Prompt format for calling custom / zero shot tools."""
 
     toolgroups: List[Toolgroup]

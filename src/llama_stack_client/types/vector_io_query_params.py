@@ -12,6 +12,7 @@ __all__ = ["VectorIoQueryParams"]
 
 class VectorIoQueryParams(TypedDict, total=False):
     query: Required[InterleavedContent]
+    """A image content item"""
 
     vector_db_id: Required[str]
 
