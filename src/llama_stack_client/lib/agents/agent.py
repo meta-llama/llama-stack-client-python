@@ -78,9 +78,10 @@ class Agent:
         # custom client tools
         if tool_call.tool_name in self.client_tools:
             tool = self.client_tools[tool_call.tool_name]
-            result_messages = tool.run([message])
-            next_message = result_messages[0]
-            return next_message
+            # NOTE: tool.run() expects a list of messages, we only pass in last message here
+            # but we could pass in the entire message history
+            result_message = tool.run([message])
+            return result_message
 
         # builtin tools executed by tool_runtime
         if tool_call.tool_name in self.builtin_tools:
