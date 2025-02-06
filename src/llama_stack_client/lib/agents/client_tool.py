@@ -64,6 +64,7 @@ class ClientTool:
         self,
         message_history: List[CompletionMessage],
     ) -> ToolResponseMessage:
+        # NOTE: we could override this method to use the entire message history for advanced tools
         last_message = message_history[-1]
     
         assert len(last_message.tool_calls) == 1, "Expected single tool call"
