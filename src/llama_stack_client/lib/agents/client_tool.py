@@ -117,7 +117,7 @@ def tool(func: T) -> ClientTool:
             '''
             return x + y
     
-    Note that you must use RST-style docstrings with :param, tags.
+    Note that you must use RST-style docstrings with :param tags for each parameter. These will be used for prompting model to use tools correctly.  
     :returns: tags in the docstring is optional as it would not be used for the tool's description.
     """
 
