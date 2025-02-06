@@ -6,8 +6,7 @@
 
 import json
 from abc import abstractmethod
-from functools import wraps
-from typing import Callable, Dict, Type, TypeVar, get_type_hints, List, Union, get_origin, get_args
+from typing import Callable, Dict, TypeVar, get_type_hints, List, Union, get_origin, get_args
 import inspect
 
 from llama_stack_client.types import ToolResponseMessage, UserMessage
@@ -101,7 +100,8 @@ class SingleMessageClientTool(ClientTool):
         raise NotImplementedError()
 
 
-T = TypeVar('T', bound=Callable)
+T = TypeVar("T", bound=Callable)
+
 
 def tool(func: T) -> ClientTool:
     """
@@ -110,13 +110,14 @@ def tool(func: T) -> ClientTool:
         @tool
         def add(x: int, y: int) -> int:
             '''Add 2 integer numbers
-    
+
             :param x: integer 1
             :param y: integer 2
             :returns: sum of x + y
             '''
             return x + y
     """
+
     class WrappedTool(SingleMessageClientTool):
         __name__ = func.__name__
         __doc__ = func.__doc__
@@ -129,14 +130,14 @@ def tool(func: T) -> ClientTool:
             doc = inspect.getdoc(func)
             if doc:
                 # Get everything before the first :param
-                return doc.split(':param')[0].strip()
+                return doc.split(":param")[0].strip()
             return ""
 
         def get_params_definition(self) -> Dict[str, Parameter]:
             hints = get_type_hints(func)
             # Remove return annotation if present
-            hints.pop('return', None)
-            
+            hints.pop("return", None)
+
             # Get parameter descriptions from docstring
             params = {}
             sig = inspect.signature(func)
@@ -145,11 +146,11 @@ def tool(func: T) -> ClientTool:
             for name, type_hint in hints.items():
                 # Look for :param name: in docstring
                 param_doc = ""
-                for line in doc.split('\n'):
-                    if line.strip().startswith(f':param {name}:'):
-                        param_doc = line.split(':', 2)[2].strip()
+                for line in doc.split("\n"):
+                    if line.strip().startswith(f":param {name}:"):
+                        param_doc = line.split(":", 2)[2].strip()
                         break
-                
+
                 param = sig.parameters[name]
                 is_optional_type = get_origin(type_hint) is Union and type(None) in get_args(type_hint)
                 is_required = param.default == inspect.Parameter.empty and not is_optional_type
@@ -158,10 +159,9 @@ def tool(func: T) -> ClientTool:
                     description=param_doc or f"Parameter {name}",
                     parameter_type=type_hint.__name__,
                     default=param.default,
-                    required=is_required
+                    required=is_required,
                 )
             return params
-
 
         def run_impl(self, **kwargs):
             return func(**kwargs)

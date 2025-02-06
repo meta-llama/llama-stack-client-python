@@ -67,7 +67,7 @@ class ReActAgent(Agent):
                 ]
             )
             return tool_defs
-    
+
         if custom_agent_config is None:
             tool_names, tool_descriptions = "", ""
             tool_defs = get_tool_defs()
