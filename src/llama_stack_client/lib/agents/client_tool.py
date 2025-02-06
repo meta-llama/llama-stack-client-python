@@ -9,7 +9,7 @@ from abc import abstractmethod
 from typing import Callable, Dict, TypeVar, get_type_hints, Union, get_origin, get_args, List
 import inspect
 
-from llama_stack_client.types import CompletionMessage, ToolResponseMessage
+from llama_stack_client.types import Message, ToolResponseMessage
 from llama_stack_client.types.tool_def_param import Parameter, ToolDefParam
 
 
@@ -62,7 +62,7 @@ class ClientTool:
 
     def run(
         self,
-        message_history: List[CompletionMessage],
+        message_history: List[Message],
     ) -> ToolResponseMessage:
         # NOTE: we could override this method to use the entire message history for advanced tools
         last_message = message_history[-1]
