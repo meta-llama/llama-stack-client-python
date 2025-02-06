@@ -123,7 +123,9 @@ def client_tool(func: T) -> ClientTool:
                 # Get everything before the first :param
                 return doc.split(":param")[0].strip()
             else:
-                raise ValueError(f"No description found for client tool {__name__}. Please provide a RST-style docstring with description and :param tags for each parameter.")
+                raise ValueError(
+                    f"No description found for client tool {__name__}. Please provide a RST-style docstring with description and :param tags for each parameter."
+                )
 
         def get_params_definition(self) -> Dict[str, Parameter]:
             hints = get_type_hints(func)
