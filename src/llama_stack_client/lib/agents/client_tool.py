@@ -9,7 +9,7 @@ from abc import abstractmethod
 from typing import Callable, Dict, TypeVar, get_type_hints, List, Union, get_origin, get_args
 import inspect
 
-from llama_stack_client.types import ToolResponseMessage, UserMessage
+from llama_stack_client.types import CompletionMessage, ToolResponseMessage
 from llama_stack_client.types.tool_def_param import Parameter, ToolDefParam
 
 
@@ -60,25 +60,10 @@ class ClientTool:
             tool_prompt_format="python_list",
         )
 
-    @abstractmethod
     def run(
-        self, messages: List[Union[UserMessage, ToolResponseMessage]]
-    ) -> List[Union[UserMessage, ToolResponseMessage]]:
-        raise NotImplementedError
-
-
-class SingleMessageClientTool(ClientTool):
-    """
-    Helper class to handle custom tools that take a single message
-    Extending this class and implementing the `run_impl` method will
-    allow for the tool be called by the model and the necessary plumbing.
-    """
-
-    def run(self, messages: List[Union[UserMessage, ToolResponseMessage]]) -> List[ToolResponseMessage]:
-        assert len(messages) == 1, "Expected single message"
-
-        message = messages[0]
-
+        self, message: CompletionMessage,
+    ) -> ToolResponseMessage:
+        assert len(message.tool_calls) == 1, "Expected single tool call"
         tool_call = message.tool_calls[0]
 
         try:
@@ -87,27 +72,26 @@ class SingleMessageClientTool(ClientTool):
         except Exception as e:
             response_str = f"Error when running tool: {e}"
 
-        message = ToolResponseMessage(
+        return ToolResponseMessage(
             call_id=tool_call.call_id,
             tool_name=tool_call.tool_name,
             content=response_str,
             role="tool",
         )
-        return [message]
 
     @abstractmethod
-    def run_impl(self, *args, **kwargs):
-        raise NotImplementedError()
+    def run_impl(self, **kwargs):
+        raise NotImplementedError
 
 
 T = TypeVar("T", bound=Callable)
 
 
-def tool(func: T) -> ClientTool:
+def client_tool(func: T) -> ClientTool:
     """
     Decorator to convert a function into a ClientTool.
     Usage:
-        @tool
+        @client_tool
         def add(x: int, y: int) -> int:
             '''Add 2 integer numbers
 
@@ -122,7 +106,7 @@ def tool(func: T) -> ClientTool:
     """
 
 
-    class _WrappedTool(SingleMessageClientTool):
+    class _WrappedTool(ClientTool):
         __name__ = func.__name__
         __doc__ = func.__doc__
         __module__ = func.__module__
