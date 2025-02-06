@@ -43,8 +43,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/llama-stack/llama-stack-client-python"
-Repository = "https://github.com/llama-stack/llama-stack-client-python"
+Homepage = "https://github.com/meta-llama/llama-stack-client-python"
+Repository = "https://github.com/meta-llama/llama-stack-client-python"
 
 
 
