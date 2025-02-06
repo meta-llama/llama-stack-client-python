@@ -67,7 +67,7 @@ class ReActAgent(Agent):
                 ]
             )
             return tool_defs
-
+    
         if custom_agent_config is None:
             tool_names, tool_descriptions = "", ""
             tool_defs = get_tool_defs()
@@ -82,7 +82,8 @@ class ReActAgent(Agent):
                 model=model,
                 instructions=instruction,
                 toolgroups=builtin_toolgroups,
-                client_tools=[client_tool.get_tool_definition() for client_tool in client_tools],
+                client_tools=[],
+                # client_tools=[client_tool.get_tool_definition() for client_tool in client_tools],
                 tool_choice="auto",
                 # TODO: refactor this to use SystemMessageBehaviour.replace
                 tool_prompt_format="json",
