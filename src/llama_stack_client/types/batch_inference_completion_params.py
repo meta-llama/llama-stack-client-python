@@ -20,6 +20,7 @@ class BatchInferenceCompletionParams(TypedDict, total=False):
     logprobs: Logprobs
 
     response_format: ResponseFormat
+    """Configuration for JSON schema-guided response generation."""
 
     sampling_params: SamplingParams
 

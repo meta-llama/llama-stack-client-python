@@ -63,6 +63,8 @@ class SyntheticDataGenerationResource(SyncAPIResource):
     ) -> SyntheticDataGenerationResponse:
         """
         Args:
+          filtering_function: The type of filtering function.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -123,6 +125,8 @@ class AsyncSyntheticDataGenerationResource(AsyncAPIResource):
     ) -> SyntheticDataGenerationResponse:
         """
         Args:
+          filtering_function: The type of filtering function.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

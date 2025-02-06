@@ -72,6 +72,14 @@ class BatchInferenceResource(SyncAPIResource):
     ) -> BatchInferenceChatCompletionResponse:
         """
         Args:
+          response_format: Configuration for JSON schema-guided response generation.
+
+          tool_choice: Whether tool use is required or automatic. This is a hint to the model which may
+              not be followed. It depends on the Instruction Following capabilities of the
+              model.
+
+          tool_prompt_format: Prompt format for calling custom / zero shot tools.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -118,6 +126,8 @@ class BatchInferenceResource(SyncAPIResource):
     ) -> BatchCompletion:
         """
         Args:
+          response_format: Configuration for JSON schema-guided response generation.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -185,6 +195,14 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
     ) -> BatchInferenceChatCompletionResponse:
         """
         Args:
+          response_format: Configuration for JSON schema-guided response generation.
+
+          tool_choice: Whether tool use is required or automatic. This is a hint to the model which may
+              not be followed. It depends on the Instruction Following capabilities of the
+              model.
+
+          tool_prompt_format: Prompt format for calling custom / zero shot tools.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -231,6 +249,8 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
     ) -> BatchCompletion:
         """
         Args:
+          response_format: Configuration for JSON schema-guided response generation.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

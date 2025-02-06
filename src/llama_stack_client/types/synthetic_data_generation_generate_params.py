@@ -14,5 +14,6 @@ class SyntheticDataGenerationGenerateParams(TypedDict, total=False):
     dialogs: Required[Iterable[Message]]
 
     filtering_function: Required[Literal["none", "random", "top_k", "top_p", "top_k_top_p", "sigmoid"]]
+    """The type of filtering function."""
 
     model: str

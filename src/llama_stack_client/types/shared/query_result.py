@@ -10,3 +10,4 @@ __all__ = ["QueryResult"]
 
 class QueryResult(BaseModel):
     content: Optional[InterleavedContent] = None
+    """A image content item"""
