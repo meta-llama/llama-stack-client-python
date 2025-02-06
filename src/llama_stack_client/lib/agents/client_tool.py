@@ -116,7 +116,11 @@ def tool(func: T) -> ClientTool:
             :returns: sum of x + y
             '''
             return x + y
+    
+    Note that you must use RST-style docstrings with :param, tags.
+    :returns: tags in the docstring is optional as it would not be used for the tool's description.
     """
+
 
     class WrappedTool(SingleMessageClientTool):
         __name__ = func.__name__
@@ -150,6 +154,9 @@ def tool(func: T) -> ClientTool:
                     if line.strip().startswith(f":param {name}:"):
                         param_doc = line.split(":", 2)[2].strip()
                         break
+                
+                if param_doc == "":
+                    raise ValueError(f"No parameter description found for parameter {name}")
 
                 param = sig.parameters[name]
                 is_optional_type = get_origin(type_hint) is Union and type(None) in get_args(type_hint)
