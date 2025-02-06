@@ -6,7 +6,7 @@
 
 import json
 from abc import abstractmethod
-from typing import Callable, Dict, TypeVar, get_type_hints, Union, get_origin, get_args
+from typing import Callable, Dict, TypeVar, get_type_hints, Union, get_origin, get_args, List
 import inspect
 
 from llama_stack_client.types import CompletionMessage, ToolResponseMessage
@@ -62,10 +62,12 @@ class ClientTool:
 
     def run(
         self,
-        message: CompletionMessage,
+        message_history: List[CompletionMessage],
     ) -> ToolResponseMessage:
-        assert len(message.tool_calls) == 1, "Expected single tool call"
-        tool_call = message.tool_calls[0]
+        last_message = message_history[-1]
+    
+        assert len(last_message.tool_calls) == 1, "Expected single tool call"
+        tool_call = last_message.tool_calls[0]
 
         try:
             response = self.run_impl(**tool_call.arguments)
