@@ -16,12 +16,6 @@ class ToolParser:
     Abstract base class for parsing agent responses into tool calls. Implement this class to customize how
     agent outputs are processed and transformed into executable tool calls.
 
-    This class allows developers to define custom parsing logic for agent responses,
-    which can be useful for:
-    - Extracting tool calls from the response
-    - Validating tool parameters and arguments
-    - Transforming raw output into structured tool calls
-
     To use this class:
     1. Create a subclass of ToolParser
     2. Implement the `get_tool_calls` method
