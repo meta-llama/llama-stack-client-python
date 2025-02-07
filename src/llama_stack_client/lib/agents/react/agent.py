@@ -6,8 +6,8 @@
 from pydantic import BaseModel
 from typing import Dict, Any
 from ..agent import Agent
-from .output_parser import ReActOutputParser
-from ..output_parser import OutputParser
+from .tool_parser import ReActToolParser
+from ..tool_parser import ToolParser
 from .prompts import DEFAULT_REACT_AGENT_SYSTEM_PROMPT_TEMPLATE
 
 from typing import Tuple, Optional
@@ -39,7 +39,7 @@ class ReActAgent(Agent):
         model: str,
         builtin_toolgroups: Tuple[str] = (),
         client_tools: Tuple[ClientTool] = (),
-        output_parser: OutputParser = ReActOutputParser(),
+        tool_parser: ToolParser = ReActToolParser(),
         json_response_format: bool = False,
         custom_agent_config: Optional[AgentConfig] = None,
     ):
@@ -101,5 +101,5 @@ class ReActAgent(Agent):
             client=client,
             agent_config=agent_config,
             client_tools=client_tools,
-            output_parser=output_parser,
+            tool_parser=tool_parser,
         )
