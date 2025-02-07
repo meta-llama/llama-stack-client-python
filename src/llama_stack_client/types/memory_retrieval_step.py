@@ -12,6 +12,7 @@ __all__ = ["MemoryRetrievalStep"]
 
 class MemoryRetrievalStep(BaseModel):
     inserted_context: InterleavedContent
+    """A image content item"""
 
     step_id: str
 

@@ -10,6 +10,7 @@ __all__ = ["QueryChunksResponse", "Chunk"]
 
 class Chunk(BaseModel):
     content: InterleavedContent
+    """A image content item"""
 
     metadata: Dict[str, Union[bool, float, str, List[object], object, None]]
 

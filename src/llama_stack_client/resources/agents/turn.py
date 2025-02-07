@@ -59,6 +59,7 @@ class TurnResource(SyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
+        tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -69,6 +70,8 @@ class TurnResource(SyncAPIResource):
     ) -> Turn:
         """
         Args:
+          tool_config: Configuration for tool use.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -88,6 +91,7 @@ class TurnResource(SyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         stream: Literal[True],
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
+        tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -98,6 +102,8 @@ class TurnResource(SyncAPIResource):
     ) -> Stream[AgentTurnResponseStreamChunk]:
         """
         Args:
+          tool_config: Configuration for tool use.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -117,6 +123,7 @@ class TurnResource(SyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         stream: bool,
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
+        tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -127,6 +134,8 @@ class TurnResource(SyncAPIResource):
     ) -> Turn | Stream[AgentTurnResponseStreamChunk]:
         """
         Args:
+          tool_config: Configuration for tool use.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -146,6 +155,7 @@ class TurnResource(SyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -165,6 +175,7 @@ class TurnResource(SyncAPIResource):
                     "messages": messages,
                     "documents": documents,
                     "stream": stream,
+                    "tool_config": tool_config,
                     "toolgroups": toolgroups,
                 },
                 turn_create_params.TurnCreateParams,
@@ -244,6 +255,7 @@ class AsyncTurnResource(AsyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
+        tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -254,6 +266,8 @@ class AsyncTurnResource(AsyncAPIResource):
     ) -> Turn:
         """
         Args:
+          tool_config: Configuration for tool use.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -273,6 +287,7 @@ class AsyncTurnResource(AsyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         stream: Literal[True],
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
+        tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -283,6 +298,8 @@ class AsyncTurnResource(AsyncAPIResource):
     ) -> AsyncStream[AgentTurnResponseStreamChunk]:
         """
         Args:
+          tool_config: Configuration for tool use.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -302,6 +319,7 @@ class AsyncTurnResource(AsyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         stream: bool,
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
+        tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -312,6 +330,8 @@ class AsyncTurnResource(AsyncAPIResource):
     ) -> Turn | AsyncStream[AgentTurnResponseStreamChunk]:
         """
         Args:
+          tool_config: Configuration for tool use.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -331,6 +351,7 @@ class AsyncTurnResource(AsyncAPIResource):
         messages: Iterable[turn_create_params.Message],
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -350,6 +371,7 @@ class AsyncTurnResource(AsyncAPIResource):
                     "messages": messages,
                     "documents": documents,
                     "stream": stream,
+                    "tool_config": tool_config,
                     "toolgroups": toolgroups,
                 },
                 turn_create_params.TurnCreateParams,

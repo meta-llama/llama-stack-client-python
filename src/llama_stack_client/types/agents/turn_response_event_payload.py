@@ -69,6 +69,7 @@ class AgentTurnResponseTurnCompletePayload(BaseModel):
     event_type: Literal["turn_complete"]
 
     turn: Turn
+    """A single turn in an interaction with an Agentic System."""
 
 
 TurnResponseEventPayload: TypeAlias = Annotated[

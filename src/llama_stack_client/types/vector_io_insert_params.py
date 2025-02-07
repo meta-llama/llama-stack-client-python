@@ -20,5 +20,6 @@ class VectorIoInsertParams(TypedDict, total=False):
 
 class Chunk(TypedDict, total=False):
     content: Required[InterleavedContent]
+    """A image content item"""
 
     metadata: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
