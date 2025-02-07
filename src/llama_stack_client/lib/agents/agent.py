@@ -76,12 +76,16 @@ class Agent:
             tool = self.client_tools[tool_call.tool_name]
             # NOTE: tool.run() expects a list of messages, we only pass in last message here
             # but we could pass in the entire message history
-            result_message = tool.run([CompletionMessage(
-                role="assistant",
-                content=tool_call.tool_name,
-                tool_calls=[tool_call],
-                stop_reason="end_of_turn",
-            )])
+            result_message = tool.run(
+                [
+                    CompletionMessage(
+                        role="assistant",
+                        content=tool_call.tool_name,
+                        tool_calls=[tool_call],
+                        stop_reason="end_of_turn",
+                    )
+                ]
+            )
             return result_message
 
         # builtin tools executed by tool_runtime
