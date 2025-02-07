@@ -12,7 +12,7 @@ from llama_stack_client.types.agents.turn import Turn
 from llama_stack_client.types.agents.turn_create_params import Document, Toolgroup
 from llama_stack_client.types.agents.turn_create_response import AgentTurnResponseStreamChunk
 from llama_stack_client.types.shared.tool_call import ToolCall
-
+from llama_stack_client.types.agents.turn import CompletionMessage
 from .client_tool import ClientTool
 from .tool_parser import ToolParser
 
@@ -67,17 +67,21 @@ class Agent:
 
         return message.tool_calls
 
-    def _run_tool(self, chunk: AgentTurnResponseStreamChunk, tool_calls: List[ToolCall]) -> ToolResponseMessage:
-        message = chunk.event.payload.turn.output_message
-        message.tool_calls = tool_calls
-        tool_call = message.tool_calls[0]
+    def _run_tool(self, tool_calls: List[ToolCall]) -> ToolResponseMessage:
+        assert len(tool_calls) == 1, "Only one tool call is supported"
+        tool_call = tool_calls[0]
 
         # custom client tools
         if tool_call.tool_name in self.client_tools:
             tool = self.client_tools[tool_call.tool_name]
             # NOTE: tool.run() expects a list of messages, we only pass in last message here
             # but we could pass in the entire message history
-            result_message = tool.run([message])
+            result_message = tool.run([CompletionMessage(
+                role="assistant",
+                content=tool_call.tool_name,
+                tool_calls=[tool_call],
+                stop_reason="end_of_turn",
+            )])
             return result_message
 
         # builtin tools executed by tool_runtime
@@ -153,7 +157,7 @@ class Agent:
                 elif not tool_calls:
                     yield chunk
                 else:
-                    next_message = self._run_tool(chunk, tool_calls)
+                    next_message = self._run_tool(tool_calls)
                     yield next_message
 
                     # continue the turn when there's a tool call
