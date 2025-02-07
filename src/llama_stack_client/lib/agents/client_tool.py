@@ -155,7 +155,7 @@ def client_tool(func: T) -> ClientTool:
                     name=name,
                     description=param_doc or f"Parameter {name}",
                     parameter_type=type_hint.__name__,
-                    default=param.default,
+                    default=param.default if param.default != inspect.Parameter.empty else None,
                     required=is_required,
                 )
             return params
