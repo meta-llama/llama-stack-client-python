@@ -5,7 +5,7 @@
 # the root directory of this source tree.
 
 from abc import abstractmethod
-from typing import List, Optional
+from typing import List
 
 from llama_stack_client.types.agents.turn import CompletionMessage
 from llama_stack_client.types.shared.tool_call import ToolCall

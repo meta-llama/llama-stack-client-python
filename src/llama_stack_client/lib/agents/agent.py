@@ -57,16 +57,15 @@ class Agent:
     def _get_tool_calls(self, chunk: AgentTurnResponseStreamChunk) -> List[ToolCall]:
         if chunk.event.payload.event_type != "turn_complete":
             return None
-    
+
         message = chunk.event.payload.turn.output_message
         if message.stop_reason == "out_of_tokens":
             return None
-        
+
         if self.tool_parser:
             return self.tool_parser.get_tool_calls(message)
-        
-        return message.tool_calls
 
+        return message.tool_calls
 
     def _run_tool(self, chunk: AgentTurnResponseStreamChunk, tool_calls: List[ToolCall]) -> ToolResponseMessage:
         message = chunk.event.payload.turn.output_message
