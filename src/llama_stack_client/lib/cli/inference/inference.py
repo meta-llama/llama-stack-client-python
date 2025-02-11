@@ -15,8 +15,7 @@ from ..common.utils import handle_client_errors
 
 @click.group()
 def inference():
-    """Query details about available inference endpoints on distribution."""
-    pass
+    """Inference (chat)."""
 
 
 @click.command("chat-completion")

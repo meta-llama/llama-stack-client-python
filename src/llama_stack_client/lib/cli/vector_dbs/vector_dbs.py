@@ -16,8 +16,7 @@ from ..common.utils import handle_client_errors
 
 @click.group()
 def vector_dbs():
-    """Query details about available vector dbs on distribution."""
-    pass
+    """Manage vector databases."""
 
 
 @click.command("list")
