@@ -11,8 +11,8 @@ from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
 from llama_stack_client.types import (
     Trace,
+    QuerySpansResponse,
     TelemetryGetSpanResponse,
-    TelemetryQuerySpansResponse,
     TelemetryGetSpanTreeResponse,
     TelemetryQueryTracesResponse,
 )
@@ -241,7 +241,7 @@ class TestTelemetry:
             ],
             attributes_to_return=["string"],
         )
-        assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
+        assert_matches_type(QuerySpansResponse, telemetry, path=["response"])
 
     @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
@@ -257,7 +257,7 @@ class TestTelemetry:
             attributes_to_return=["string"],
             max_depth=0,
         )
-        assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
+        assert_matches_type(QuerySpansResponse, telemetry, path=["response"])
 
     @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
@@ -276,7 +276,7 @@ class TestTelemetry:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         telemetry = response.parse()
-        assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
+        assert_matches_type(QuerySpansResponse, telemetry, path=["response"])
 
     @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
@@ -295,7 +295,7 @@ class TestTelemetry:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             telemetry = response.parse()
-            assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
+            assert_matches_type(QuerySpansResponse, telemetry, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -636,7 +636,7 @@ class TestAsyncTelemetry:
             ],
             attributes_to_return=["string"],
         )
-        assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
+        assert_matches_type(QuerySpansResponse, telemetry, path=["response"])
 
     @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
@@ -652,7 +652,7 @@ class TestAsyncTelemetry:
             attributes_to_return=["string"],
             max_depth=0,
         )
-        assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
+        assert_matches_type(QuerySpansResponse, telemetry, path=["response"])
 
     @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
@@ -671,7 +671,7 @@ class TestAsyncTelemetry:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         telemetry = await response.parse()
-        assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
+        assert_matches_type(QuerySpansResponse, telemetry, path=["response"])
 
     @pytest.mark.skip(reason="unsupported query params in java / kotlin")
     @parametrize
@@ -690,7 +690,7 @@ class TestAsyncTelemetry:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             telemetry = await response.parse()
-            assert_matches_type(TelemetryQuerySpansResponse, telemetry, path=["response"])
+            assert_matches_type(QuerySpansResponse, telemetry, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
