@@ -72,7 +72,7 @@ def get_model(ctx, model_id: str):
     client = ctx.obj["client"]
     console = Console()
 
-    models_get_response = client.models.retrieve(identifier=model_id)
+    models_get_response = client.models.retrieve(model_id=model_id)
 
     if not models_get_response:
         console.print(
