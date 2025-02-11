@@ -15,8 +15,7 @@ from .list import list_scoring_functions
 
 @click.group()
 def scoring_functions():
-    """Manage scoring functions"""
-    pass
+    """Manage scoring functions."""
 
 
 @scoring_functions.command()

@@ -15,8 +15,7 @@ from ..common.utils import handle_client_errors
 
 @click.group()
 def models():
-    """Query details about available models on Llama Stack distribution."""
-    pass
+    """Manage GenAI models."""
 
 
 @click.command(name="list", help="Show available llama models at distribution endpoint")
