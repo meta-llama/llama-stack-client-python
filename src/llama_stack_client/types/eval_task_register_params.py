@@ -11,9 +11,9 @@ __all__ = ["EvalTaskRegisterParams"]
 class EvalTaskRegisterParams(TypedDict, total=False):
     dataset_id: Required[str]
 
-    eval_task_id: Required[str]
-
     scoring_functions: Required[List[str]]
+
+    task_id: Required[str]
 
     metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
 

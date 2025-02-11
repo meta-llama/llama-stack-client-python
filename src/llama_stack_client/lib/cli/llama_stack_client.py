@@ -80,16 +80,16 @@ def cli(ctx, endpoint: str, api_key: str, config: str | None):
 
 # Register all subcommands
 cli.add_command(models, "models")
-cli.add_command(vector_dbs, "vector_dbs")
+cli.add_command(vector_dbs, "vector-dbs")
 cli.add_command(shields, "shields")
-cli.add_command(eval_tasks, "eval_tasks")
+cli.add_command(eval_tasks, "eval-tasks")
 cli.add_command(providers, "providers")
 cli.add_command(datasets, "datasets")
 cli.add_command(configure, "configure")
-cli.add_command(scoring_functions, "scoring_functions")
+cli.add_command(scoring_functions, "scoring-functions")
 cli.add_command(eval, "eval")
 cli.add_command(inference, "inference")
-cli.add_command(post_training, "post_training")
+cli.add_command(post_training, "post-training")
 cli.add_command(inspect, "inspect")
 cli.add_command(toolgroups, "toolgroups")
 
