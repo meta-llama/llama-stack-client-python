@@ -83,9 +83,11 @@ class ReActAgent(Agent):
                 instructions=instruction,
                 toolgroups=builtin_toolgroups,
                 client_tools=[client_tool.get_tool_definition() for client_tool in client_tools],
-                tool_choice="auto",
-                # TODO: refactor this to use SystemMessageBehaviour.replace
-                tool_prompt_format="json",
+                tool_config={
+                    "tool_choice": "auto",
+                    "tool_prompt_format": "json" if "3.1" in model else "python_list",
+                    "system_message_behavior": "replace",
+                },
                 input_shields=[],
                 output_shields=[],
                 enable_session_persistence=False,
