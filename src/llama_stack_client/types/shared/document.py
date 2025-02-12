@@ -3,18 +3,29 @@
 from typing import Dict, List, Union, Optional
 from typing_extensions import Literal, TypeAlias
 
-from .url import URL
 from ..._models import BaseModel
 from .interleaved_content_item import InterleavedContentItem
 
-__all__ = ["Document", "Content", "ContentImageContentItem", "ContentImageContentItemImage", "ContentTextContentItem"]
+__all__ = [
+    "Document",
+    "Content",
+    "ContentImageContentItem",
+    "ContentImageContentItemImage",
+    "ContentImageContentItemImageURL",
+    "ContentTextContentItem",
+    "ContentURL",
+]
+
+
+class ContentImageContentItemImageURL(BaseModel):
+    uri: str
 
 
 class ContentImageContentItemImage(BaseModel):
     data: Optional[str] = None
     """base64 encoded image data as string"""
 
-    url: Optional[URL] = None
+    url: Optional[ContentImageContentItemImageURL] = None
     """A URL of the image or data URL in the format of data:image/{type};base64,{data}.
 
     Note that URL could have length limits.
@@ -37,7 +48,13 @@ class ContentTextContentItem(BaseModel):
     """Discriminator type of the content item. Always "text" """
 
 
-Content: TypeAlias = Union[str, ContentImageContentItem, ContentTextContentItem, List[InterleavedContentItem], URL]
+class ContentURL(BaseModel):
+    uri: str
+
+
+Content: TypeAlias = Union[
+    str, ContentImageContentItem, ContentTextContentItem, List[InterleavedContentItem], ContentURL
+]
 
 
 class Document(BaseModel):

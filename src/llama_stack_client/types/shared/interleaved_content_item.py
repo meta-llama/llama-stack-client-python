@@ -3,18 +3,27 @@
 from typing import Union, Optional
 from typing_extensions import Literal, Annotated, TypeAlias
 
-from .url import URL
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
-__all__ = ["InterleavedContentItem", "ImageContentItem", "ImageContentItemImage", "TextContentItem"]
+__all__ = [
+    "InterleavedContentItem",
+    "ImageContentItem",
+    "ImageContentItemImage",
+    "ImageContentItemImageURL",
+    "TextContentItem",
+]
+
+
+class ImageContentItemImageURL(BaseModel):
+    uri: str
 
 
 class ImageContentItemImage(BaseModel):
     data: Optional[str] = None
     """base64 encoded image data as string"""
 
-    url: Optional[URL] = None
+    url: Optional[ImageContentItemImageURL] = None
     """A URL of the image or data URL in the format of data:image/{type};base64,{data}.
 
     Note that URL could have length limits.

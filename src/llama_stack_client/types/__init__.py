@@ -7,7 +7,6 @@ from .tool import Tool as Tool
 from .model import Model as Model
 from .trace import Trace as Trace
 from .shared import (
-    URL as URL,
     Message as Message,
     Document as Document,
     ToolCall as ToolCall,
@@ -24,6 +23,7 @@ from .shared import (
     SamplingParams as SamplingParams,
     BatchCompletion as BatchCompletion,
     SafetyViolation as SafetyViolation,
+    ToolCallOrString as ToolCallOrString,
     CompletionMessage as CompletionMessage,
     InterleavedContent as InterleavedContent,
     ToolParamDefinition as ToolParamDefinition,

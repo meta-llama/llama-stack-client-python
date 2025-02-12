@@ -5,17 +5,28 @@ from __future__ import annotations
 from typing import Dict, Union, Iterable
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
-from .url import URL
 from .interleaved_content_item import InterleavedContentItem
 
-__all__ = ["Document", "Content", "ContentImageContentItem", "ContentImageContentItemImage", "ContentTextContentItem"]
+__all__ = [
+    "Document",
+    "Content",
+    "ContentImageContentItem",
+    "ContentImageContentItemImage",
+    "ContentImageContentItemImageURL",
+    "ContentTextContentItem",
+    "ContentURL",
+]
+
+
+class ContentImageContentItemImageURL(TypedDict, total=False):
+    uri: Required[str]
 
 
 class ContentImageContentItemImage(TypedDict, total=False):
     data: str
     """base64 encoded image data as string"""
 
-    url: URL
+    url: ContentImageContentItemImageURL
     """A URL of the image or data URL in the format of data:image/{type};base64,{data}.
 
     Note that URL could have length limits.
@@ -38,7 +49,13 @@ class ContentTextContentItem(TypedDict, total=False):
     """Discriminator type of the content item. Always "text" """
 
 
-Content: TypeAlias = Union[str, ContentImageContentItem, ContentTextContentItem, Iterable[InterleavedContentItem], URL]
+class ContentURL(TypedDict, total=False):
+    uri: Required[str]
+
+
+Content: TypeAlias = Union[
+    str, ContentImageContentItem, ContentTextContentItem, Iterable[InterleavedContentItem], ContentURL
+]
 
 
 class Document(TypedDict, total=False):

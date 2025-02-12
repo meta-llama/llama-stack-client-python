@@ -4,10 +4,13 @@ from typing import Dict, List, Union
 from typing_extensions import Literal
 
 from .._models import BaseModel
-from .shared.url import URL
 from .shared.param_type import ParamType
 
-__all__ = ["DatasetRetrieveResponse"]
+__all__ = ["DatasetRetrieveResponse", "URL"]
+
+
+class URL(BaseModel):
+    uri: str
 
 
 class DatasetRetrieveResponse(BaseModel):

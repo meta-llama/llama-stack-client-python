@@ -5,9 +5,7 @@ from __future__ import annotations
 from typing import Dict, Union, Iterable
 from typing_extensions import Required, TypedDict
 
-from .shared_params.url import URL
-
-__all__ = ["ToolgroupRegisterParams"]
+__all__ = ["ToolgroupRegisterParams", "McpEndpoint"]
 
 
 class ToolgroupRegisterParams(TypedDict, total=False):
@@ -17,4 +15,8 @@ class ToolgroupRegisterParams(TypedDict, total=False):
 
     args: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
 
-    mcp_endpoint: URL
+    mcp_endpoint: McpEndpoint
+
+
+class McpEndpoint(TypedDict, total=False):
+    uri: Required[str]

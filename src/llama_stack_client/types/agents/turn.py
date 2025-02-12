@@ -6,7 +6,6 @@ from typing_extensions import Literal, Annotated, TypeAlias
 
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
-from ..shared.url import URL
 from ..inference_step import InferenceStep
 from ..shield_call_step import ShieldCallStep
 from ..shared.user_message import UserMessage
@@ -24,7 +23,9 @@ __all__ = [
     "OutputAttachmentContent",
     "OutputAttachmentContentImageContentItem",
     "OutputAttachmentContentImageContentItemImage",
+    "OutputAttachmentContentImageContentItemImageURL",
     "OutputAttachmentContentTextContentItem",
+    "OutputAttachmentContentURL",
 ]
 
 InputMessage: TypeAlias = Union[UserMessage, ToolResponseMessage]
@@ -35,11 +36,15 @@ Step: TypeAlias = Annotated[
 ]
 
 
+class OutputAttachmentContentImageContentItemImageURL(BaseModel):
+    uri: str
+
+
 class OutputAttachmentContentImageContentItemImage(BaseModel):
     data: Optional[str] = None
     """base64 encoded image data as string"""
 
-    url: Optional[URL] = None
+    url: Optional[OutputAttachmentContentImageContentItemImageURL] = None
     """A URL of the image or data URL in the format of data:image/{type};base64,{data}.
 
     Note that URL could have length limits.
@@ -62,12 +67,16 @@ class OutputAttachmentContentTextContentItem(BaseModel):
     """Discriminator type of the content item. Always "text" """
 
 
+class OutputAttachmentContentURL(BaseModel):
+    uri: str
+
+
 OutputAttachmentContent: TypeAlias = Union[
     str,
     OutputAttachmentContentImageContentItem,
     OutputAttachmentContentTextContentItem,
     List[InterleavedContentItem],
-    URL,
+    OutputAttachmentContentURL,
 ]
 
 

@@ -4,10 +4,13 @@ from typing import Dict, List, Union
 from typing_extensions import Literal, TypeAlias
 
 from .._models import BaseModel
-from .shared.url import URL
 from .shared.param_type import ParamType
 
-__all__ = ["DatasetListResponse", "DatasetListResponseItem"]
+__all__ = ["DatasetListResponse", "DatasetListResponseItem", "DatasetListResponseItemURL"]
+
+
+class DatasetListResponseItemURL(BaseModel):
+    uri: str
 
 
 class DatasetListResponseItem(BaseModel):
@@ -23,7 +26,7 @@ class DatasetListResponseItem(BaseModel):
 
     type: Literal["dataset"]
 
-    url: URL
+    url: DatasetListResponseItemURL
 
 
 DatasetListResponse: TypeAlias = List[DatasetListResponseItem]

@@ -22,7 +22,6 @@ from .._response import (
 )
 from .._wrappers import DataWrapper
 from .._base_client import make_request_options
-from ..types.shared_params.url import URL
 from ..types.dataset_list_response import DatasetListResponse
 from ..types.shared_params.param_type import ParamType
 from ..types.dataset_retrieve_response import DatasetRetrieveResponse
@@ -108,7 +107,7 @@ class DatasetsResource(SyncAPIResource):
         *,
         dataset_id: str,
         dataset_schema: Dict[str, ParamType],
-        url: URL,
+        url: dataset_register_params.URL,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         provider_dataset_id: str | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
@@ -260,7 +259,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
         *,
         dataset_id: str,
         dataset_schema: Dict[str, ParamType],
-        url: URL,
+        url: dataset_register_params.URL,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         provider_dataset_id: str | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,

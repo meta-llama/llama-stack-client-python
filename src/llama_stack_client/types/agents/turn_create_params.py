@@ -5,7 +5,6 @@ from __future__ import annotations
 from typing import Dict, List, Union, Iterable
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
-from ..shared_params.url import URL
 from ..shared_params.user_message import UserMessage
 from ..shared_params.tool_response_message import ToolResponseMessage
 from ..shared_params.interleaved_content_item import InterleavedContentItem
@@ -17,7 +16,9 @@ __all__ = [
     "DocumentContent",
     "DocumentContentImageContentItem",
     "DocumentContentImageContentItemImage",
+    "DocumentContentImageContentItemImageURL",
     "DocumentContentTextContentItem",
+    "DocumentContentURL",
     "ToolConfig",
     "Toolgroup",
     "ToolgroupUnionMember1",
@@ -42,11 +43,15 @@ class TurnCreateParamsBase(TypedDict, total=False):
 Message: TypeAlias = Union[UserMessage, ToolResponseMessage]
 
 
+class DocumentContentImageContentItemImageURL(TypedDict, total=False):
+    uri: Required[str]
+
+
 class DocumentContentImageContentItemImage(TypedDict, total=False):
     data: str
     """base64 encoded image data as string"""
 
-    url: URL
+    url: DocumentContentImageContentItemImageURL
     """A URL of the image or data URL in the format of data:image/{type};base64,{data}.
 
     Note that URL could have length limits.
@@ -69,8 +74,16 @@ class DocumentContentTextContentItem(TypedDict, total=False):
     """Discriminator type of the content item. Always "text" """
 
 
+class DocumentContentURL(TypedDict, total=False):
+    uri: Required[str]
+
+
 DocumentContent: TypeAlias = Union[
-    str, DocumentContentImageContentItem, DocumentContentTextContentItem, Iterable[InterleavedContentItem], URL
+    str,
+    DocumentContentImageContentItem,
+    DocumentContentTextContentItem,
+    Iterable[InterleavedContentItem],
+    DocumentContentURL,
 ]
 
 

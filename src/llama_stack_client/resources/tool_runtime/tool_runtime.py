@@ -31,7 +31,6 @@ from ..._response import (
 from ..._base_client import make_request_options
 from ...types.tool_def import ToolDef
 from ..._decoders.jsonl import JSONLDecoder, AsyncJSONLDecoder
-from ...types.shared_params.url import URL
 from ...types.tool_invocation_result import ToolInvocationResult
 
 __all__ = ["ToolRuntimeResource", "AsyncToolRuntimeResource"]
@@ -103,7 +102,7 @@ class ToolRuntimeResource(SyncAPIResource):
     def list_tools(
         self,
         *,
-        mcp_endpoint: URL | NotGiven = NOT_GIVEN,
+        mcp_endpoint: tool_runtime_list_tools_params.McpEndpoint | NotGiven = NOT_GIVEN,
         tool_group_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -209,7 +208,7 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
     async def list_tools(
         self,
         *,
-        mcp_endpoint: URL | NotGiven = NOT_GIVEN,
+        mcp_endpoint: tool_runtime_list_tools_params.McpEndpoint | NotGiven = NOT_GIVEN,
         tool_group_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.

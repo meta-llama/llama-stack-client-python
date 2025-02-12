@@ -1,13 +1,14 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Dict, List, Union, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 from .._models import BaseModel
 from .token_log_probs import TokenLogProbs
 from .shared.content_delta import ContentDelta
 
-__all__ = ["ChatCompletionResponseStreamChunk", "Event"]
+__all__ = ["ChatCompletionResponseStreamChunk", "Event", "Metric"]
 
 
 class Event(BaseModel):
@@ -27,6 +28,26 @@ class Event(BaseModel):
     """Optional reason why generation stopped, if complete"""
 
 
+class Metric(BaseModel):
+    metric: str
+
+    span_id: str
+
+    timestamp: datetime
+
+    trace_id: str
+
+    type: Literal["metric"]
+
+    unit: str
+
+    value: float
+
+    attributes: Optional[Dict[str, Union[str, float, bool, None]]] = None
+
+
 class ChatCompletionResponseStreamChunk(BaseModel):
     event: Event
     """The event containing the new content"""
+
+    metrics: Optional[List[Metric]] = None

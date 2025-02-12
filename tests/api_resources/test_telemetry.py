@@ -182,7 +182,7 @@ class TestTelemetry:
                 "timestamp": parse_datetime("2019-12-27T18:11:19.117Z"),
                 "trace_id": "trace_id",
                 "type": "unstructured_log",
-                "attributes": {"foo": True},
+                "attributes": {"foo": "string"},
             },
             ttl_seconds=0,
         )
@@ -577,7 +577,7 @@ class TestAsyncTelemetry:
                 "timestamp": parse_datetime("2019-12-27T18:11:19.117Z"),
                 "trace_id": "trace_id",
                 "type": "unstructured_log",
-                "attributes": {"foo": True},
+                "attributes": {"foo": "string"},
             },
             ttl_seconds=0,
         )

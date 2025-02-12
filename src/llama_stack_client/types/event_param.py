@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable
+from typing import Dict, Union
 from datetime import datetime
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
@@ -32,7 +32,7 @@ class UnstructuredLogEvent(TypedDict, total=False):
 
     type: Required[Literal["unstructured_log"]]
 
-    attributes: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    attributes: Dict[str, Union[str, float, bool, None]]
 
 
 class MetricEvent(TypedDict, total=False):
@@ -50,7 +50,7 @@ class MetricEvent(TypedDict, total=False):
 
     value: Required[float]
 
-    attributes: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    attributes: Dict[str, Union[str, float, bool, None]]
 
 
 class StructuredLogEventPayloadSpanStartPayload(TypedDict, total=False):
@@ -83,7 +83,7 @@ class StructuredLogEvent(TypedDict, total=False):
 
     type: Required[Literal["structured_log"]]
 
-    attributes: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    attributes: Dict[str, Union[str, float, bool, None]]
 
 
 EventParam: TypeAlias = Union[UnstructuredLogEvent, MetricEvent, StructuredLogEvent]
