@@ -69,7 +69,7 @@ termcolor==2.5.0
     # via llama-stack-client
 tqdm==4.67.1
     # via llama-stack-client
-typing-extensions==4.8.0
+typing-extensions==4.12.2
     # via anyio
     # via llama-stack-client
     # via pydantic
