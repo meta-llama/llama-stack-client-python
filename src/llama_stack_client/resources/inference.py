@@ -71,6 +71,7 @@ class InferenceResource(SyncAPIResource):
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -103,14 +104,17 @@ class InferenceResource(SyncAPIResource):
               False.
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
-              ToolChoice.auto.
+              ToolChoice.auto. .. deprecated:: Use tool_config instead.
+
+          tool_config: (Optional) Configuration for tool use.
 
           tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
               will attempt to use a format that is best adapted to the model. -
               `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
               `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
               <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
-              are output as Python syntax -- a list of function calls.
+              are output as Python syntax -- a list of function calls. .. deprecated:: Use
+              tool_config instead.
 
           tools: (Optional) List of tool definitions available to the model
 
@@ -135,6 +139,7 @@ class InferenceResource(SyncAPIResource):
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -167,14 +172,17 @@ class InferenceResource(SyncAPIResource):
           sampling_params: Parameters to control the sampling strategy
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
-              ToolChoice.auto.
+              ToolChoice.auto. .. deprecated:: Use tool_config instead.
+
+          tool_config: (Optional) Configuration for tool use.
 
           tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
               will attempt to use a format that is best adapted to the model. -
               `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
               `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
               <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
-              are output as Python syntax -- a list of function calls.
+              are output as Python syntax -- a list of function calls. .. deprecated:: Use
+              tool_config instead.
 
           tools: (Optional) List of tool definitions available to the model
 
@@ -199,6 +207,7 @@ class InferenceResource(SyncAPIResource):
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -231,14 +240,17 @@ class InferenceResource(SyncAPIResource):
           sampling_params: Parameters to control the sampling strategy
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
-              ToolChoice.auto.
+              ToolChoice.auto. .. deprecated:: Use tool_config instead.
+
+          tool_config: (Optional) Configuration for tool use.
 
           tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
               will attempt to use a format that is best adapted to the model. -
               `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
               `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
               <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
-              are output as Python syntax -- a list of function calls.
+              are output as Python syntax -- a list of function calls. .. deprecated:: Use
+              tool_config instead.
 
           tools: (Optional) List of tool definitions available to the model
 
@@ -263,6 +275,7 @@ class InferenceResource(SyncAPIResource):
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -285,6 +298,7 @@ class InferenceResource(SyncAPIResource):
                     "sampling_params": sampling_params,
                     "stream": stream,
                     "tool_choice": tool_choice,
+                    "tool_config": tool_config,
                     "tool_prompt_format": tool_prompt_format,
                     "tools": tools,
                 },
@@ -554,6 +568,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -586,14 +601,17 @@ class AsyncInferenceResource(AsyncAPIResource):
               False.
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
-              ToolChoice.auto.
+              ToolChoice.auto. .. deprecated:: Use tool_config instead.
+
+          tool_config: (Optional) Configuration for tool use.
 
           tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
               will attempt to use a format that is best adapted to the model. -
               `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
               `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
               <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
-              are output as Python syntax -- a list of function calls.
+              are output as Python syntax -- a list of function calls. .. deprecated:: Use
+              tool_config instead.
 
           tools: (Optional) List of tool definitions available to the model
 
@@ -618,6 +636,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -650,14 +669,17 @@ class AsyncInferenceResource(AsyncAPIResource):
           sampling_params: Parameters to control the sampling strategy
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
-              ToolChoice.auto.
+              ToolChoice.auto. .. deprecated:: Use tool_config instead.
+
+          tool_config: (Optional) Configuration for tool use.
 
           tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
               will attempt to use a format that is best adapted to the model. -
               `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
               `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
               <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
-              are output as Python syntax -- a list of function calls.
+              are output as Python syntax -- a list of function calls. .. deprecated:: Use
+              tool_config instead.
 
           tools: (Optional) List of tool definitions available to the model
 
@@ -682,6 +704,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -714,14 +737,17 @@ class AsyncInferenceResource(AsyncAPIResource):
           sampling_params: Parameters to control the sampling strategy
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
-              ToolChoice.auto.
+              ToolChoice.auto. .. deprecated:: Use tool_config instead.
+
+          tool_config: (Optional) Configuration for tool use.
 
           tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
               will attempt to use a format that is best adapted to the model. -
               `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
               `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
               <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
-              are output as Python syntax -- a list of function calls.
+              are output as Python syntax -- a list of function calls. .. deprecated:: Use
+              tool_config instead.
 
           tools: (Optional) List of tool definitions available to the model
 
@@ -746,6 +772,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -768,6 +795,7 @@ class AsyncInferenceResource(AsyncAPIResource):
                     "sampling_params": sampling_params,
                     "stream": stream,
                     "tool_choice": tool_choice,
+                    "tool_config": tool_config,
                     "tool_prompt_format": tool_prompt_format,
                     "tools": tools,
                 },

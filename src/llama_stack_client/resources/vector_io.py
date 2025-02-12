@@ -102,6 +102,8 @@ class VectorIoResource(SyncAPIResource):
     ) -> QueryChunksResponse:
         """
         Args:
+          query: A image content item
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -202,6 +204,8 @@ class AsyncVectorIoResource(AsyncAPIResource):
     ) -> QueryChunksResponse:
         """
         Args:
+          query: A image content item
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

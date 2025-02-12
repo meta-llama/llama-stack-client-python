@@ -19,15 +19,20 @@ from ..shared.interleaved_content_item import InterleavedContentItem
 __all__ = [
     "Turn",
     "InputMessage",
+    "Step",
     "OutputAttachment",
     "OutputAttachmentContent",
     "OutputAttachmentContentImageContentItem",
     "OutputAttachmentContentImageContentItemImage",
     "OutputAttachmentContentTextContentItem",
-    "Step",
 ]
 
 InputMessage: TypeAlias = Union[UserMessage, ToolResponseMessage]
+
+Step: TypeAlias = Annotated[
+    Union[InferenceStep, ToolExecutionStep, ShieldCallStep, MemoryRetrievalStep],
+    PropertyInfo(discriminator="step_type"),
+]
 
 
 class OutputAttachmentContentImageContentItemImage(BaseModel):
@@ -68,22 +73,16 @@ OutputAttachmentContent: TypeAlias = Union[
 
 class OutputAttachment(BaseModel):
     content: OutputAttachmentContent
+    """A image content item"""
 
     mime_type: str
-
-
-Step: TypeAlias = Annotated[
-    Union[InferenceStep, ToolExecutionStep, ShieldCallStep, MemoryRetrievalStep],
-    PropertyInfo(discriminator="step_type"),
-]
 
 
 class Turn(BaseModel):
     input_messages: List[InputMessage]
 
-    output_attachments: List[OutputAttachment]
-
     output_message: CompletionMessage
+    """A message containing the model's (assistant) response in a chat conversation."""
 
     session_id: str
 
@@ -94,3 +93,5 @@ class Turn(BaseModel):
     turn_id: str
 
     completed_at: Optional[datetime] = None
+
+    output_attachments: Optional[List[OutputAttachment]] = None

@@ -42,6 +42,7 @@ Content: TypeAlias = Union[str, ContentImageContentItem, ContentTextContentItem,
 
 class Document(BaseModel):
     content: Content
+    """A image content item"""
 
     document_id: str
 

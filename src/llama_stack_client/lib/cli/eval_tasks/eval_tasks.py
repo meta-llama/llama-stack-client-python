@@ -17,8 +17,7 @@ from .list import list_eval_tasks
 
 @click.group()
 def eval_tasks():
-    """Query details about available eval tasks type on distribution."""
-    pass
+    """Manage evaluation tasks."""
 
 
 @eval_tasks.command()

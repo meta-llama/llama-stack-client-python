@@ -19,8 +19,7 @@ def list_providers(ctx):
     for header in headers:
         table.add_column(header)
 
-    for k, v in providers_response.items():
-        for provider_info in v:
-            table.add_row(k, provider_info.provider_id, provider_info.provider_type)
+    for response in providers_response:
+        table.add_row(response.api, response.provider_id, response.provider_type)
 
     console.print(table)

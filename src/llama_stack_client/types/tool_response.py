@@ -13,5 +13,6 @@ class ToolResponse(BaseModel):
     call_id: str
 
     content: InterleavedContent
+    """A image content item"""
 
     tool_name: Union[Literal["brave_search", "wolfram_alpha", "photogen", "code_interpreter"], str]

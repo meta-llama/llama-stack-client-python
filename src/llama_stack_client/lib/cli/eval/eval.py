@@ -13,8 +13,7 @@ from .run_scoring import run_scoring
 
 @click.group()
 def eval():
-    """Run evaluation tasks"""
-    pass
+    """Run evaluation tasks."""
 
 
 # Register subcommands

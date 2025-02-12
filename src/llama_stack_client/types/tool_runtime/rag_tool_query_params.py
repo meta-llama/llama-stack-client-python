@@ -13,6 +13,7 @@ __all__ = ["RagToolQueryParams"]
 
 class RagToolQueryParams(TypedDict, total=False):
     content: Required[InterleavedContent]
+    """A image content item"""
 
     vector_db_ids: Required[List[str]]
 

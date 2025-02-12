@@ -15,8 +15,7 @@ from ..common.utils import handle_client_errors
 
 @click.group()
 def models():
-    """Query details about available models on Llama Stack distribution."""
-    pass
+    """Manage GenAI models."""
 
 
 @click.command(name="list", help="Show available llama models at distribution endpoint")
@@ -72,7 +71,7 @@ def get_model(ctx, model_id: str):
     client = ctx.obj["client"]
     console = Console()
 
-    models_get_response = client.models.retrieve(identifier=model_id)
+    models_get_response = client.models.retrieve(model_id=model_id)
 
     if not models_get_response:
         console.print(

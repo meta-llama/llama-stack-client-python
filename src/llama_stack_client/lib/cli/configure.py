@@ -26,7 +26,7 @@ def get_config():
 @click.option("--endpoint", type=str, help="Llama Stack distribution endpoint", default="")
 @click.option("--api-key", type=str, help="Llama Stack distribution API key", default="")
 def configure(endpoint: str | None, api_key: str | None):
-    """Configure Llama Stack Client CLI"""
+    """Configure Llama Stack Client CLI."""
     os.makedirs(LLAMA_STACK_CLIENT_CONFIG_DIR, exist_ok=True)
     config_path = get_config_file_path()
 

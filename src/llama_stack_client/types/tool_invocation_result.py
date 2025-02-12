@@ -10,6 +10,7 @@ __all__ = ["ToolInvocationResult"]
 
 class ToolInvocationResult(BaseModel):
     content: InterleavedContent
+    """A image content item"""
 
     error_code: Optional[int] = None
 

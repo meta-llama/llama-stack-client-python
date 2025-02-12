@@ -15,8 +15,7 @@ from ..common.utils import handle_client_errors
 
 @click.group()
 def toolgroups():
-    """Query details about available toolgroups on Llama Stack distribution."""
-    pass
+    """Manage available tool groups."""
 
 
 @click.command(name="list", help="Show available llama toolgroups at distribution endpoint")

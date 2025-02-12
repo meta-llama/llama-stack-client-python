@@ -20,6 +20,7 @@ class ModelCandidate(TypedDict, total=False):
     type: Required[Literal["model"]]
 
     system_message: SystemMessage
+    """A system message providing instructions or context to the model."""
 
 
 class AgentCandidate(TypedDict, total=False):

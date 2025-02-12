@@ -16,8 +16,7 @@ from ..common.utils import handle_client_errors
 
 @click.group()
 def post_training():
-    """Query details about available post_training endpoints on distribution."""
-    pass
+    """Post-training."""
 
 
 @click.command("supervised_fine_tune")

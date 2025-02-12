@@ -11,8 +11,10 @@ from llama_stack_client.types.agent_create_params import AgentConfig
 from llama_stack_client.types.agents.turn import Turn
 from llama_stack_client.types.agents.turn_create_params import Document, Toolgroup
 from llama_stack_client.types.agents.turn_create_response import AgentTurnResponseStreamChunk
-
+from llama_stack_client.types.shared.tool_call import ToolCall
+from llama_stack_client.types.agents.turn import CompletionMessage
 from .client_tool import ClientTool
+from .tool_parser import ToolParser
 
 DEFAULT_MAX_ITER = 10
 
@@ -23,14 +25,18 @@ class Agent:
         client: LlamaStackClient,
         agent_config: AgentConfig,
         client_tools: Tuple[ClientTool] = (),
-        memory_bank_id: Optional[str] = None,
+        tool_parser: Optional[ToolParser] = None,
     ):
         self.client = client
         self.agent_config = agent_config
         self.agent_id = self._create_agent(agent_config)
         self.client_tools = {t.get_name(): t for t in client_tools}
         self.sessions = []
-        self.memory_bank_id = memory_bank_id
+        self.tool_parser = tool_parser
+        self.builtin_tools = {}
+        for tg in agent_config["toolgroups"]:
+            for tool in self.client.tools.list(toolgroup_id=tg):
+                self.builtin_tools[tool.identifier] = tool
 
     def _create_agent(self, agent_config: AgentConfig) -> int:
         agentic_system_create_response = self.client.agents.create(
@@ -48,28 +54,61 @@ class Agent:
         self.sessions.append(self.session_id)
         return self.session_id
 
-    def _has_tool_call(self, chunk: AgentTurnResponseStreamChunk) -> bool:
+    def _get_tool_calls(self, chunk: AgentTurnResponseStreamChunk) -> List[ToolCall]:
         if chunk.event.payload.event_type != "turn_complete":
-            return False
+            return []
+
         message = chunk.event.payload.turn.output_message
         if message.stop_reason == "out_of_tokens":
-            return False
-        return len(message.tool_calls) > 0
+            return []
 
-    def _run_tool(self, chunk: AgentTurnResponseStreamChunk) -> ToolResponseMessage:
-        message = chunk.event.payload.turn.output_message
-        tool_call = message.tool_calls[0]
-        if tool_call.tool_name not in self.client_tools:
-            return ToolResponseMessage(
+        if self.tool_parser:
+            return self.tool_parser.get_tool_calls(message)
+
+        return message.tool_calls
+
+    def _run_tool(self, tool_calls: List[ToolCall]) -> ToolResponseMessage:
+        assert len(tool_calls) == 1, "Only one tool call is supported"
+        tool_call = tool_calls[0]
+
+        # custom client tools
+        if tool_call.tool_name in self.client_tools:
+            tool = self.client_tools[tool_call.tool_name]
+            # NOTE: tool.run() expects a list of messages, we only pass in last message here
+            # but we could pass in the entire message history
+            result_message = tool.run(
+                [
+                    CompletionMessage(
+                        role="assistant",
+                        content=tool_call.tool_name,
+                        tool_calls=[tool_call],
+                        stop_reason="end_of_turn",
+                    )
+                ]
+            )
+            return result_message
+
+        # builtin tools executed by tool_runtime
+        if tool_call.tool_name in self.builtin_tools:
+            tool_result = self.client.tool_runtime.invoke_tool(
+                tool_name=tool_call.tool_name,
+                kwargs=tool_call.arguments,
+            )
+            tool_response_message = ToolResponseMessage(
                 call_id=tool_call.call_id,
                 tool_name=tool_call.tool_name,
-                content=f"Unknown tool `{tool_call.tool_name}` was called.",
-                role="ipython",
+                content=tool_result.content,
+                role="tool",
             )
-        tool = self.client_tools[tool_call.tool_name]
-        result_messages = tool.run([message])
-        next_message = result_messages[0]
-        return next_message
+            return tool_response_message
+
+        # cannot find tools
+        return ToolResponseMessage(
+            call_id=tool_call.call_id,
+            tool_name=tool_call.tool_name,
+            content=f"Unknown tool `{tool_call.tool_name}` was called.",
+            role="tool",
+        )
 
     def create_turn(
         self,
@@ -115,13 +154,14 @@ class Agent:
             # by default, we stop after the first turn
             stop = True
             for chunk in response:
+                tool_calls = self._get_tool_calls(chunk)
                 if hasattr(chunk, "error"):
                     yield chunk
                     return
-                elif not self._has_tool_call(chunk):
+                elif not tool_calls:
                     yield chunk
                 else:
-                    next_message = self._run_tool(chunk)
+                    next_message = self._run_tool(tool_calls)
                     yield next_message
 
                     # continue the turn when there's a tool call

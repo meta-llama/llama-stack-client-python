@@ -23,7 +23,6 @@ class TestAgents:
             agent_config={
                 "enable_session_persistence": True,
                 "instructions": "instructions",
-                "max_infer_iters": 0,
                 "model": "model",
             },
         )
@@ -35,7 +34,6 @@ class TestAgents:
             agent_config={
                 "enable_session_persistence": True,
                 "instructions": "instructions",
-                "max_infer_iters": 0,
                 "model": "model",
                 "client_tools": [
                     {
@@ -54,6 +52,7 @@ class TestAgents:
                     }
                 ],
                 "input_shields": ["string"],
+                "max_infer_iters": 0,
                 "output_shields": ["string"],
                 "response_format": {
                     "json_schema": {"foo": True},
@@ -65,6 +64,11 @@ class TestAgents:
                     "repetition_penalty": 0,
                 },
                 "tool_choice": "auto",
+                "tool_config": {
+                    "system_message_behavior": "append",
+                    "tool_choice": "auto",
+                    "tool_prompt_format": "json",
+                },
                 "tool_prompt_format": "json",
                 "toolgroups": ["string"],
             },
@@ -77,7 +81,6 @@ class TestAgents:
             agent_config={
                 "enable_session_persistence": True,
                 "instructions": "instructions",
-                "max_infer_iters": 0,
                 "model": "model",
             },
         )
@@ -93,7 +96,6 @@ class TestAgents:
             agent_config={
                 "enable_session_persistence": True,
                 "instructions": "instructions",
-                "max_infer_iters": 0,
                 "model": "model",
             },
         ) as response:
@@ -153,7 +155,6 @@ class TestAsyncAgents:
             agent_config={
                 "enable_session_persistence": True,
                 "instructions": "instructions",
-                "max_infer_iters": 0,
                 "model": "model",
             },
         )
@@ -165,7 +166,6 @@ class TestAsyncAgents:
             agent_config={
                 "enable_session_persistence": True,
                 "instructions": "instructions",
-                "max_infer_iters": 0,
                 "model": "model",
                 "client_tools": [
                     {
@@ -184,6 +184,7 @@ class TestAsyncAgents:
                     }
                 ],
                 "input_shields": ["string"],
+                "max_infer_iters": 0,
                 "output_shields": ["string"],
                 "response_format": {
                     "json_schema": {"foo": True},
@@ -195,6 +196,11 @@ class TestAsyncAgents:
                     "repetition_penalty": 0,
                 },
                 "tool_choice": "auto",
+                "tool_config": {
+                    "system_message_behavior": "append",
+                    "tool_choice": "auto",
+                    "tool_prompt_format": "json",
+                },
                 "tool_prompt_format": "json",
                 "toolgroups": ["string"],
             },
@@ -207,7 +213,6 @@ class TestAsyncAgents:
             agent_config={
                 "enable_session_persistence": True,
                 "instructions": "instructions",
-                "max_infer_iters": 0,
                 "model": "model",
             },
         )
@@ -223,7 +228,6 @@ class TestAsyncAgents:
             agent_config={
                 "enable_session_persistence": True,
                 "instructions": "instructions",
-                "max_infer_iters": 0,
                 "model": "model",
             },
         ) as response:

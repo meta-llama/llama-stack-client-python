@@ -11,8 +11,7 @@ from .register import register
 
 @click.group()
 def datasets():
-    """Query details about available datasets on Llama Stack distribution."""
-    pass
+    """Manage datasets."""
 
 
 # Register subcommands

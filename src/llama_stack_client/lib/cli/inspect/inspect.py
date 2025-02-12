@@ -5,8 +5,7 @@ from .version import inspect_version
 
 @click.group()
 def inspect():
-    """Query details about available versions on Llama Stack distribution."""
-    pass
+    """Inspect server configuration."""
 
 
 # Register subcommands

@@ -18,6 +18,7 @@ __all__ = [
     "DocumentContentImageContentItem",
     "DocumentContentImageContentItemImage",
     "DocumentContentTextContentItem",
+    "ToolConfig",
     "Toolgroup",
     "ToolgroupUnionMember1",
     "TurnCreateParamsNonStreaming",
@@ -31,6 +32,9 @@ class TurnCreateParamsBase(TypedDict, total=False):
     messages: Required[Iterable[Message]]
 
     documents: Iterable[Document]
+
+    tool_config: ToolConfig
+    """Configuration for tool use."""
 
     toolgroups: List[Toolgroup]
 
@@ -72,8 +76,37 @@ DocumentContent: TypeAlias = Union[
 
 class Document(TypedDict, total=False):
     content: Required[DocumentContent]
+    """A image content item"""
 
     mime_type: Required[str]
+
+
+class ToolConfig(TypedDict, total=False):
+    system_message_behavior: Required[Literal["append", "replace"]]
+    """(Optional) Config for how to override the default system prompt.
+
+    - `SystemMessageBehavior.append`: Appends the provided system message to the
+      default system prompt. - `SystemMessageBehavior.replace`: Replaces the default
+      system prompt with the provided system message. The system message can include
+      the string '{{function_definitions}}' to indicate where the function
+      definitions should be inserted.
+    """
+
+    tool_choice: Literal["auto", "required"]
+    """(Optional) Whether tool use is required or automatic.
+
+    Defaults to ToolChoice.auto.
+    """
+
+    tool_prompt_format: Literal["json", "function_tag", "python_list"]
+    """(Optional) Instructs the model how to format tool calls.
+
+    By default, Llama Stack will attempt to use a format that is best adapted to the
+    model. - `ToolPromptFormat.json`: The tool calls are formatted as a JSON
+    object. - `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+    <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+    are output as Python syntax -- a list of function calls.
+    """
 
 
 class ToolgroupUnionMember1(TypedDict, total=False):

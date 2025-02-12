@@ -357,4 +357,4 @@ print(llama_stack_client.__version__)
 
 ## Requirements
 
-Python 3.7 or higher.
+Python 3.10 or higher.

@@ -16,8 +16,7 @@ from ..common.utils import handle_client_errors
 
 @click.group()
 def shields():
-    """Query details about available safety shields on distribution."""
-    pass
+    """Manage safety shield services."""
 
 
 @click.command("list")

@@ -50,6 +50,11 @@ class TestTurn:
                 }
             ],
             stream=False,
+            tool_config={
+                "system_message_behavior": "append",
+                "tool_choice": "auto",
+                "tool_prompt_format": "json",
+            },
             toolgroups=["string"],
         )
         assert_matches_type(Turn, turn, path=["response"])
@@ -152,6 +157,11 @@ class TestTurn:
                     "mime_type": "mime_type",
                 }
             ],
+            tool_config={
+                "system_message_behavior": "append",
+                "tool_choice": "auto",
+                "tool_prompt_format": "json",
+            },
             toolgroups=["string"],
         )
         turn_stream.response.close()
@@ -320,6 +330,11 @@ class TestAsyncTurn:
                 }
             ],
             stream=False,
+            tool_config={
+                "system_message_behavior": "append",
+                "tool_choice": "auto",
+                "tool_prompt_format": "json",
+            },
             toolgroups=["string"],
         )
         assert_matches_type(Turn, turn, path=["response"])
@@ -422,6 +437,11 @@ class TestAsyncTurn:
                     "mime_type": "mime_type",
                 }
             ],
+            tool_config={
+                "system_message_behavior": "append",
+                "tool_choice": "auto",
+                "tool_prompt_format": "json",
+            },
             toolgroups=["string"],
         )
         await turn_stream.response.aclose()
