@@ -8,7 +8,7 @@ from typing import Optional
 
 from termcolor import cprint
 
-from llama_stack_client.types import InterleavedContent, ToolResponseMessage
+from llama_stack_client.types import InterleavedContent
 
 
 def interleaved_content_as_str(content: InterleavedContent, sep: str = " ") -> str:
