@@ -70,14 +70,6 @@ class TurnStreamEventPrinter:
             yield TurnStreamPrintableEvent(role=None, content=chunk.error["message"], color="red")
             return
 
-        if not hasattr(chunk, "event"):
-            # Need to check for custom tool first
-            # since it does not produce event but instead
-            # a Message
-            if isinstance(chunk, ToolResponseMessage):
-                yield TurnStreamPrintableEvent(role="CustomTool", content=chunk.content, color="green")
-                return
-
         event = chunk.event
         event_type = event.payload.event_type
 
