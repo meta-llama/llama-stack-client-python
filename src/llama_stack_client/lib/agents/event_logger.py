@@ -8,7 +8,7 @@ from typing import Optional
 
 from termcolor import cprint
 
-from llama_stack_client.types import InterleavedContent, ToolResponseMessage
+from llama_stack_client.types import InterleavedContent
 
 
 def interleaved_content_as_str(content: InterleavedContent, sep: str = " ") -> str:
@@ -69,14 +69,6 @@ class TurnStreamEventPrinter:
         if hasattr(chunk, "error"):
             yield TurnStreamPrintableEvent(role=None, content=chunk.error["message"], color="red")
             return
-
-        if not hasattr(chunk, "event"):
-            # Need to check for custom tool first
-            # since it does not produce event but instead
-            # a Message
-            if isinstance(chunk, ToolResponseMessage):
-                yield TurnStreamPrintableEvent(role="CustomTool", content=chunk.content, color="green")
-                return
 
         event = chunk.event
         event_type = event.payload.event_type
