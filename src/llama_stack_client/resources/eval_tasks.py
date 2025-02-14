@@ -22,8 +22,8 @@ from .._response import (
 )
 from .._wrappers import DataWrapper
 from .._base_client import make_request_options
-from ..types.eval_task import EvalTask
-from ..types.eval_task_list_response import EvalTaskListResponse
+from ..types.benchmark import Benchmark
+from ..types.benchmark_list_response import BenchmarkListResponse
 
 __all__ = ["EvalTasksResource", "AsyncEvalTasksResource"]
 
@@ -58,7 +58,7 @@ class EvalTasksResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[EvalTask]:
+    ) -> Optional[Benchmark]:
         """
         Args:
           extra_headers: Send extra headers
@@ -76,7 +76,7 @@ class EvalTasksResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=EvalTask,
+            cast_to=Benchmark,
         )
 
     def list(
@@ -88,7 +88,7 @@ class EvalTasksResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> EvalTaskListResponse:
+    ) -> BenchmarkListResponse:
         return self._get(
             "/v1/eval-tasks",
             options=make_request_options(
@@ -96,9 +96,9 @@ class EvalTasksResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                post_parser=DataWrapper[EvalTaskListResponse]._unwrapper,
+                post_parser=DataWrapper[BenchmarkListResponse]._unwrapper,
             ),
-            cast_to=cast(Type[EvalTaskListResponse], DataWrapper[EvalTaskListResponse]),
+            cast_to=cast(Type[BenchmarkListResponse], DataWrapper[BenchmarkListResponse]),
         )
 
     def register(
@@ -108,7 +108,7 @@ class EvalTasksResource(SyncAPIResource):
         eval_task_id: str,
         scoring_functions: List[str],
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        provider_eval_task_id: str | NotGiven = NOT_GIVEN,
+        provider_benchmark_id: str | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -136,7 +136,7 @@ class EvalTasksResource(SyncAPIResource):
                     "eval_task_id": eval_task_id,
                     "scoring_functions": scoring_functions,
                     "metadata": metadata,
-                    "provider_eval_task_id": provider_eval_task_id,
+                    "provider_benchmark_id": provider_benchmark_id,
                     "provider_id": provider_id,
                 },
                 eval_task_register_params.EvalTaskRegisterParams,
@@ -178,7 +178,7 @@ class AsyncEvalTasksResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[EvalTask]:
+    ) -> Optional[Benchmark]:
         """
         Args:
           extra_headers: Send extra headers
@@ -196,7 +196,7 @@ class AsyncEvalTasksResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=EvalTask,
+            cast_to=Benchmark,
         )
 
     async def list(
@@ -208,7 +208,7 @@ class AsyncEvalTasksResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> EvalTaskListResponse:
+    ) -> BenchmarkListResponse:
         return await self._get(
             "/v1/eval-tasks",
             options=make_request_options(
@@ -216,9 +216,9 @@ class AsyncEvalTasksResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                post_parser=DataWrapper[EvalTaskListResponse]._unwrapper,
+                post_parser=DataWrapper[BenchmarkListResponse]._unwrapper,
             ),
-            cast_to=cast(Type[EvalTaskListResponse], DataWrapper[EvalTaskListResponse]),
+            cast_to=cast(Type[BenchmarkListResponse], DataWrapper[BenchmarkListResponse]),
         )
 
     async def register(
@@ -228,7 +228,7 @@ class AsyncEvalTasksResource(AsyncAPIResource):
         eval_task_id: str,
         scoring_functions: List[str],
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        provider_eval_task_id: str | NotGiven = NOT_GIVEN,
+        provider_benchmark_id: str | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -256,7 +256,7 @@ class AsyncEvalTasksResource(AsyncAPIResource):
                     "eval_task_id": eval_task_id,
                     "scoring_functions": scoring_functions,
                     "metadata": metadata,
-                    "provider_eval_task_id": provider_eval_task_id,
+                    "provider_benchmark_id": provider_benchmark_id,
                     "provider_id": provider_id,
                 },
                 eval_task_register_params.EvalTaskRegisterParams,

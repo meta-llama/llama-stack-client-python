@@ -22,7 +22,7 @@ class TestJobs:
     def test_method_retrieve(self, client: LlamaStackClient) -> None:
         job = client.eval.jobs.retrieve(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         )
         assert_matches_type(EvaluateResponse, job, path=["response"])
 
@@ -30,7 +30,7 @@ class TestJobs:
     def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
         response = client.eval.jobs.with_raw_response.retrieve(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         )
 
         assert response.is_closed is True
@@ -42,7 +42,7 @@ class TestJobs:
     def test_streaming_response_retrieve(self, client: LlamaStackClient) -> None:
         with client.eval.jobs.with_streaming_response.retrieve(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -54,23 +54,23 @@ class TestJobs:
 
     @parametrize
     def test_path_params_retrieve(self, client: LlamaStackClient) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             client.eval.jobs.with_raw_response.retrieve(
                 job_id="job_id",
-                task_id="",
+                benchmark_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             client.eval.jobs.with_raw_response.retrieve(
                 job_id="",
-                task_id="task_id",
+                benchmark_id="benchmark_id",
             )
 
     @parametrize
     def test_method_cancel(self, client: LlamaStackClient) -> None:
         job = client.eval.jobs.cancel(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         )
         assert job is None
 
@@ -78,7 +78,7 @@ class TestJobs:
     def test_raw_response_cancel(self, client: LlamaStackClient) -> None:
         response = client.eval.jobs.with_raw_response.cancel(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         )
 
         assert response.is_closed is True
@@ -90,7 +90,7 @@ class TestJobs:
     def test_streaming_response_cancel(self, client: LlamaStackClient) -> None:
         with client.eval.jobs.with_streaming_response.cancel(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -102,23 +102,23 @@ class TestJobs:
 
     @parametrize
     def test_path_params_cancel(self, client: LlamaStackClient) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             client.eval.jobs.with_raw_response.cancel(
                 job_id="job_id",
-                task_id="",
+                benchmark_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             client.eval.jobs.with_raw_response.cancel(
                 job_id="",
-                task_id="task_id",
+                benchmark_id="benchmark_id",
             )
 
     @parametrize
     def test_method_status(self, client: LlamaStackClient) -> None:
         job = client.eval.jobs.status(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         )
         assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 
@@ -126,7 +126,7 @@ class TestJobs:
     def test_raw_response_status(self, client: LlamaStackClient) -> None:
         response = client.eval.jobs.with_raw_response.status(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         )
 
         assert response.is_closed is True
@@ -138,7 +138,7 @@ class TestJobs:
     def test_streaming_response_status(self, client: LlamaStackClient) -> None:
         with client.eval.jobs.with_streaming_response.status(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -150,16 +150,16 @@ class TestJobs:
 
     @parametrize
     def test_path_params_status(self, client: LlamaStackClient) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             client.eval.jobs.with_raw_response.status(
                 job_id="job_id",
-                task_id="",
+                benchmark_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             client.eval.jobs.with_raw_response.status(
                 job_id="",
-                task_id="task_id",
+                benchmark_id="benchmark_id",
             )
 
 
@@ -170,7 +170,7 @@ class TestAsyncJobs:
     async def test_method_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         job = await async_client.eval.jobs.retrieve(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         )
         assert_matches_type(EvaluateResponse, job, path=["response"])
 
@@ -178,7 +178,7 @@ class TestAsyncJobs:
     async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.eval.jobs.with_raw_response.retrieve(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         )
 
         assert response.is_closed is True
@@ -190,7 +190,7 @@ class TestAsyncJobs:
     async def test_streaming_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.eval.jobs.with_streaming_response.retrieve(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -202,23 +202,23 @@ class TestAsyncJobs:
 
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             await async_client.eval.jobs.with_raw_response.retrieve(
                 job_id="job_id",
-                task_id="",
+                benchmark_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             await async_client.eval.jobs.with_raw_response.retrieve(
                 job_id="",
-                task_id="task_id",
+                benchmark_id="benchmark_id",
             )
 
     @parametrize
     async def test_method_cancel(self, async_client: AsyncLlamaStackClient) -> None:
         job = await async_client.eval.jobs.cancel(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         )
         assert job is None
 
@@ -226,7 +226,7 @@ class TestAsyncJobs:
     async def test_raw_response_cancel(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.eval.jobs.with_raw_response.cancel(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         )
 
         assert response.is_closed is True
@@ -238,7 +238,7 @@ class TestAsyncJobs:
     async def test_streaming_response_cancel(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.eval.jobs.with_streaming_response.cancel(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -250,23 +250,23 @@ class TestAsyncJobs:
 
     @parametrize
     async def test_path_params_cancel(self, async_client: AsyncLlamaStackClient) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             await async_client.eval.jobs.with_raw_response.cancel(
                 job_id="job_id",
-                task_id="",
+                benchmark_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             await async_client.eval.jobs.with_raw_response.cancel(
                 job_id="",
-                task_id="task_id",
+                benchmark_id="benchmark_id",
             )
 
     @parametrize
     async def test_method_status(self, async_client: AsyncLlamaStackClient) -> None:
         job = await async_client.eval.jobs.status(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         )
         assert_matches_type(Optional[JobStatusResponse], job, path=["response"])
 
@@ -274,7 +274,7 @@ class TestAsyncJobs:
     async def test_raw_response_status(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.eval.jobs.with_raw_response.status(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         )
 
         assert response.is_closed is True
@@ -286,7 +286,7 @@ class TestAsyncJobs:
     async def test_streaming_response_status(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.eval.jobs.with_streaming_response.status(
             job_id="job_id",
-            task_id="task_id",
+            benchmark_id="benchmark_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -298,14 +298,14 @@ class TestAsyncJobs:
 
     @parametrize
     async def test_path_params_status(self, async_client: AsyncLlamaStackClient) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             await async_client.eval.jobs.with_raw_response.status(
                 job_id="job_id",
-                task_id="",
+                benchmark_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
             await async_client.eval.jobs.with_raw_response.status(
                 job_id="",
-                task_id="task_id",
+                benchmark_id="benchmark_id",
             )

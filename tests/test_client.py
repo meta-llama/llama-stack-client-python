@@ -23,6 +23,7 @@ from pydantic import ValidationError
 
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient, APIResponseValidationError
 from llama_stack_client._types import Omit
+from llama_stack_client._utils import maybe_transform
 from llama_stack_client._models import BaseModel, FinalRequestOptions
 from llama_stack_client._constants import RAW_RESPONSE_HEADER
 from llama_stack_client._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
@@ -32,6 +33,7 @@ from llama_stack_client._base_client import (
     BaseClient,
     make_request_options,
 )
+from llama_stack_client.types.inference_chat_completion_params import InferenceChatCompletionParamsNonStreaming
 
 from .utils import update_env
 
@@ -686,14 +688,17 @@ class TestLlamaStackClient:
                 "/v1/inference/chat-completion",
                 body=cast(
                     object,
-                    dict(
-                        messages=[
-                            {
-                                "content": "string",
-                                "role": "user",
-                            }
-                        ],
-                        model_id="model_id",
+                    maybe_transform(
+                        dict(
+                            messages=[
+                                {
+                                    "content": "string",
+                                    "role": "user",
+                                }
+                            ],
+                            model_id="model_id",
+                        ),
+                        InferenceChatCompletionParamsNonStreaming,
                     ),
                 ),
                 cast_to=httpx.Response,
@@ -712,14 +717,17 @@ class TestLlamaStackClient:
                 "/v1/inference/chat-completion",
                 body=cast(
                     object,
-                    dict(
-                        messages=[
-                            {
-                                "content": "string",
-                                "role": "user",
-                            }
-                        ],
-                        model_id="model_id",
+                    maybe_transform(
+                        dict(
+                            messages=[
+                                {
+                                    "content": "string",
+                                    "role": "user",
+                                }
+                            ],
+                            model_id="model_id",
+                        ),
+                        InferenceChatCompletionParamsNonStreaming,
                     ),
                 ),
                 cast_to=httpx.Response,
@@ -1474,14 +1482,17 @@ class TestAsyncLlamaStackClient:
                 "/v1/inference/chat-completion",
                 body=cast(
                     object,
-                    dict(
-                        messages=[
-                            {
-                                "content": "string",
-                                "role": "user",
-                            }
-                        ],
-                        model_id="model_id",
+                    maybe_transform(
+                        dict(
+                            messages=[
+                                {
+                                    "content": "string",
+                                    "role": "user",
+                                }
+                            ],
+                            model_id="model_id",
+                        ),
+                        InferenceChatCompletionParamsNonStreaming,
                     ),
                 ),
                 cast_to=httpx.Response,
@@ -1500,14 +1511,17 @@ class TestAsyncLlamaStackClient:
                 "/v1/inference/chat-completion",
                 body=cast(
                     object,
-                    dict(
-                        messages=[
-                            {
-                                "content": "string",
-                                "role": "user",
-                            }
-                        ],
-                        model_id="model_id",
+                    maybe_transform(
+                        dict(
+                            messages=[
+                                {
+                                    "content": "string",
+                                    "role": "user",
+                                }
+                            ],
+                            model_id="model_id",
+                        ),
+                        InferenceChatCompletionParamsNonStreaming,
                     ),
                 ),
                 cast_to=httpx.Response,

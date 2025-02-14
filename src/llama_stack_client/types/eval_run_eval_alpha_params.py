@@ -6,8 +6,8 @@ from typing_extensions import Required, TypedDict
 
 from .benchmark_config_param import BenchmarkConfigParam
 
-__all__ = ["EvalRunEvalParams"]
+__all__ = ["EvalRunEvalAlphaParams"]
 
 
-class EvalRunEvalParams(TypedDict, total=False):
+class EvalRunEvalAlphaParams(TypedDict, total=False):
     task_config: Required[BenchmarkConfigParam]

@@ -23,7 +23,6 @@ from .._response import (
 from .._wrappers import DataWrapper
 from .._base_client import make_request_options
 from ..types.tool_group import ToolGroup
-from ..types.shared_params.url import URL
 from ..types.toolgroup_list_response import ToolgroupListResponse
 
 __all__ = ["ToolgroupsResource", "AsyncToolgroupsResource"]
@@ -109,7 +108,7 @@ class ToolgroupsResource(SyncAPIResource):
         provider_id: str,
         toolgroup_id: str,
         args: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        mcp_endpoint: URL | NotGiven = NOT_GIVEN,
+        mcp_endpoint: toolgroup_register_params.McpEndpoint | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -262,7 +261,7 @@ class AsyncToolgroupsResource(AsyncAPIResource):
         provider_id: str,
         toolgroup_id: str,
         args: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        mcp_endpoint: URL | NotGiven = NOT_GIVEN,
+        mcp_endpoint: toolgroup_register_params.McpEndpoint | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,

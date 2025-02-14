@@ -4,17 +4,12 @@ from typing import Dict, List, Union
 from typing_extensions import Literal
 
 from .._models import BaseModel
-from .shared.param_type import ParamType
 
-__all__ = ["DatasetRetrieveResponse", "URL"]
-
-
-class URL(BaseModel):
-    uri: str
+__all__ = ["Benchmark"]
 
 
-class DatasetRetrieveResponse(BaseModel):
-    dataset_schema: Dict[str, ParamType]
+class Benchmark(BaseModel):
+    dataset_id: str
 
     identifier: str
 
@@ -24,6 +19,6 @@ class DatasetRetrieveResponse(BaseModel):
 
     provider_resource_id: str
 
-    type: Literal["dataset"]
+    scoring_functions: List[str]
 
-    url: URL
+    type: Literal["benchmark"]

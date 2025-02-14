@@ -14,7 +14,12 @@ from .jobs import (
     JobsResourceWithStreamingResponse,
     AsyncJobsResourceWithStreamingResponse,
 )
-from ...types import eval_run_eval_params, eval_evaluate_rows_params
+from ...types import (
+    eval_run_eval_params,
+    eval_evaluate_rows_params,
+    eval_run_eval_alpha_params,
+    eval_evaluate_rows_alpha_params,
+)
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
@@ -31,7 +36,7 @@ from ..._response import (
 from ...types.job import Job
 from ..._base_client import make_request_options
 from ...types.evaluate_response import EvaluateResponse
-from ...types.eval_task_config_param import EvalTaskConfigParam
+from ...types.benchmark_config_param import BenchmarkConfigParam
 
 __all__ = ["EvalResource", "AsyncEvalResource"]
 
@@ -66,7 +71,7 @@ class EvalResource(SyncAPIResource):
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
         scoring_functions: List[str],
-        task_config: EvalTaskConfigParam,
+        task_config: BenchmarkConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -102,11 +107,53 @@ class EvalResource(SyncAPIResource):
             cast_to=EvaluateResponse,
         )
 
+    def evaluate_rows_alpha(
+        self,
+        benchmark_id: str,
+        *,
+        input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
+        scoring_functions: List[str],
+        task_config: BenchmarkConfigParam,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> EvaluateResponse:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not benchmark_id:
+            raise ValueError(f"Expected a non-empty value for `benchmark_id` but received {benchmark_id!r}")
+        return self._post(
+            f"/v1/eval/benchmarks/{benchmark_id}/evaluations",
+            body=maybe_transform(
+                {
+                    "input_rows": input_rows,
+                    "scoring_functions": scoring_functions,
+                    "task_config": task_config,
+                },
+                eval_evaluate_rows_alpha_params.EvalEvaluateRowsAlphaParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EvaluateResponse,
+        )
+
     def run_eval(
         self,
         task_id: str,
         *,
-        task_config: EvalTaskConfigParam,
+        task_config: BenchmarkConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -129,6 +176,39 @@ class EvalResource(SyncAPIResource):
         return self._post(
             f"/v1/eval/tasks/{task_id}/jobs",
             body=maybe_transform({"task_config": task_config}, eval_run_eval_params.EvalRunEvalParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Job,
+        )
+
+    def run_eval_alpha(
+        self,
+        benchmark_id: str,
+        *,
+        task_config: BenchmarkConfigParam,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Job:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not benchmark_id:
+            raise ValueError(f"Expected a non-empty value for `benchmark_id` but received {benchmark_id!r}")
+        return self._post(
+            f"/v1/eval/benchmarks/{benchmark_id}/jobs",
+            body=maybe_transform({"task_config": task_config}, eval_run_eval_alpha_params.EvalRunEvalAlphaParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -166,7 +246,7 @@ class AsyncEvalResource(AsyncAPIResource):
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
         scoring_functions: List[str],
-        task_config: EvalTaskConfigParam,
+        task_config: BenchmarkConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -202,11 +282,53 @@ class AsyncEvalResource(AsyncAPIResource):
             cast_to=EvaluateResponse,
         )
 
+    async def evaluate_rows_alpha(
+        self,
+        benchmark_id: str,
+        *,
+        input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
+        scoring_functions: List[str],
+        task_config: BenchmarkConfigParam,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> EvaluateResponse:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not benchmark_id:
+            raise ValueError(f"Expected a non-empty value for `benchmark_id` but received {benchmark_id!r}")
+        return await self._post(
+            f"/v1/eval/benchmarks/{benchmark_id}/evaluations",
+            body=await async_maybe_transform(
+                {
+                    "input_rows": input_rows,
+                    "scoring_functions": scoring_functions,
+                    "task_config": task_config,
+                },
+                eval_evaluate_rows_alpha_params.EvalEvaluateRowsAlphaParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EvaluateResponse,
+        )
+
     async def run_eval(
         self,
         task_id: str,
         *,
-        task_config: EvalTaskConfigParam,
+        task_config: BenchmarkConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -235,6 +357,41 @@ class AsyncEvalResource(AsyncAPIResource):
             cast_to=Job,
         )
 
+    async def run_eval_alpha(
+        self,
+        benchmark_id: str,
+        *,
+        task_config: BenchmarkConfigParam,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Job:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not benchmark_id:
+            raise ValueError(f"Expected a non-empty value for `benchmark_id` but received {benchmark_id!r}")
+        return await self._post(
+            f"/v1/eval/benchmarks/{benchmark_id}/jobs",
+            body=await async_maybe_transform(
+                {"task_config": task_config}, eval_run_eval_alpha_params.EvalRunEvalAlphaParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Job,
+        )
+
 
 class EvalResourceWithRawResponse:
     def __init__(self, eval: EvalResource) -> None:
@@ -243,8 +400,14 @@ class EvalResourceWithRawResponse:
         self.evaluate_rows = to_raw_response_wrapper(
             eval.evaluate_rows,
         )
+        self.evaluate_rows_alpha = to_raw_response_wrapper(
+            eval.evaluate_rows_alpha,
+        )
         self.run_eval = to_raw_response_wrapper(
             eval.run_eval,
+        )
+        self.run_eval_alpha = to_raw_response_wrapper(
+            eval.run_eval_alpha,
         )
 
     @cached_property
@@ -259,8 +422,14 @@ class AsyncEvalResourceWithRawResponse:
         self.evaluate_rows = async_to_raw_response_wrapper(
             eval.evaluate_rows,
         )
+        self.evaluate_rows_alpha = async_to_raw_response_wrapper(
+            eval.evaluate_rows_alpha,
+        )
         self.run_eval = async_to_raw_response_wrapper(
             eval.run_eval,
+        )
+        self.run_eval_alpha = async_to_raw_response_wrapper(
+            eval.run_eval_alpha,
         )
 
     @cached_property
@@ -275,8 +444,14 @@ class EvalResourceWithStreamingResponse:
         self.evaluate_rows = to_streamed_response_wrapper(
             eval.evaluate_rows,
         )
+        self.evaluate_rows_alpha = to_streamed_response_wrapper(
+            eval.evaluate_rows_alpha,
+        )
         self.run_eval = to_streamed_response_wrapper(
             eval.run_eval,
+        )
+        self.run_eval_alpha = to_streamed_response_wrapper(
+            eval.run_eval_alpha,
         )
 
     @cached_property
@@ -291,8 +466,14 @@ class AsyncEvalResourceWithStreamingResponse:
         self.evaluate_rows = async_to_streamed_response_wrapper(
             eval.evaluate_rows,
         )
+        self.evaluate_rows_alpha = async_to_streamed_response_wrapper(
+            eval.evaluate_rows_alpha,
+        )
         self.run_eval = async_to_streamed_response_wrapper(
             eval.run_eval,
+        )
+        self.run_eval_alpha = async_to_streamed_response_wrapper(
+            eval.run_eval_alpha,
         )
 
     @cached_property
