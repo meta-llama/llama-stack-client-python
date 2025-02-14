@@ -42,7 +42,7 @@ response = client.inference.chat_completion(
             role="user",
         ),
     ],
-    model="meta-llama/Llama-3.2-3B-Instruct",
+    model_id="meta-llama/Llama-3.2-3B-Instruct",
     stream=False,
 )
 print(response)
