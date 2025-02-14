@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Dict, List, Union, Iterable
 from typing_extensions import Required, TypedDict
 
-from .eval_task_config_param import EvalTaskConfigParam
+from .benchmark_config_param import BenchmarkConfigParam
 
 __all__ = ["EvalEvaluateRowsParams"]
 
@@ -15,4 +15,4 @@ class EvalEvaluateRowsParams(TypedDict, total=False):
 
     scoring_functions: Required[List[str]]
 
-    task_config: Required[EvalTaskConfigParam]
+    task_config: Required[BenchmarkConfigParam]

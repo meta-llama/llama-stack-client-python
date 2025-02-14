@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing_extensions import Required, TypedDict
 
-from .eval_task_config_param import EvalTaskConfigParam
+from .benchmark_config_param import BenchmarkConfigParam
 
 __all__ = ["EvalRunEvalParams"]
 
 
 class EvalRunEvalParams(TypedDict, total=False):
-    task_config: Required[EvalTaskConfigParam]
+    task_config: Required[BenchmarkConfigParam]

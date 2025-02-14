@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Dict, Type, Union, Iterable, Optional, cast
+from typing import Dict, List, Type, Union, Iterable, Optional, cast
 
 import httpx
 
-from ..types import dataset_register_params
+from ..types import benchmark_register_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from .._utils import (
     maybe_transform,
@@ -22,36 +22,35 @@ from .._response import (
 )
 from .._wrappers import DataWrapper
 from .._base_client import make_request_options
-from ..types.dataset_list_response import DatasetListResponse
-from ..types.shared_params.param_type import ParamType
-from ..types.dataset_retrieve_response import DatasetRetrieveResponse
+from ..types.benchmark import Benchmark
+from ..types.benchmark_list_response import BenchmarkListResponse
 
-__all__ = ["DatasetsResource", "AsyncDatasetsResource"]
+__all__ = ["BenchmarksResource", "AsyncBenchmarksResource"]
 
 
-class DatasetsResource(SyncAPIResource):
+class BenchmarksResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> DatasetsResourceWithRawResponse:
+    def with_raw_response(self) -> BenchmarksResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#accessing-raw-response-data-eg-headers
         """
-        return DatasetsResourceWithRawResponse(self)
+        return BenchmarksResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> DatasetsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> BenchmarksResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#with_streaming_response
         """
-        return DatasetsResourceWithStreamingResponse(self)
+        return BenchmarksResourceWithStreamingResponse(self)
 
     def retrieve(
         self,
-        dataset_id: str,
+        benchmark_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -59,7 +58,7 @@ class DatasetsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[DatasetRetrieveResponse]:
+    ) -> Optional[Benchmark]:
         """
         Args:
           extra_headers: Send extra headers
@@ -70,14 +69,14 @@ class DatasetsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not dataset_id:
-            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
+        if not benchmark_id:
+            raise ValueError(f"Expected a non-empty value for `benchmark_id` but received {benchmark_id!r}")
         return self._get(
-            f"/v1/datasets/{dataset_id}",
+            f"/v1/eval/benchmarks/{benchmark_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=DatasetRetrieveResponse,
+            cast_to=Benchmark,
         )
 
     def list(
@@ -89,27 +88,27 @@ class DatasetsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DatasetListResponse:
+    ) -> BenchmarkListResponse:
         return self._get(
-            "/v1/datasets",
+            "/v1/eval/benchmarks",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                post_parser=DataWrapper[DatasetListResponse]._unwrapper,
+                post_parser=DataWrapper[BenchmarkListResponse]._unwrapper,
             ),
-            cast_to=cast(Type[DatasetListResponse], DataWrapper[DatasetListResponse]),
+            cast_to=cast(Type[BenchmarkListResponse], DataWrapper[BenchmarkListResponse]),
         )
 
     def register(
         self,
         *,
+        benchmark_id: str,
         dataset_id: str,
-        dataset_schema: Dict[str, ParamType],
-        url: dataset_register_params.URL,
+        scoring_functions: List[str],
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        provider_dataset_id: str | NotGiven = NOT_GIVEN,
+        provider_benchmark_id: str | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -130,17 +129,17 @@ class DatasetsResource(SyncAPIResource):
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            "/v1/datasets",
+            "/v1/eval/benchmarks",
             body=maybe_transform(
                 {
+                    "benchmark_id": benchmark_id,
                     "dataset_id": dataset_id,
-                    "dataset_schema": dataset_schema,
-                    "url": url,
+                    "scoring_functions": scoring_functions,
                     "metadata": metadata,
-                    "provider_dataset_id": provider_dataset_id,
+                    "provider_benchmark_id": provider_benchmark_id,
                     "provider_id": provider_id,
                 },
-                dataset_register_params.DatasetRegisterParams,
+                benchmark_register_params.BenchmarkRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -148,62 +147,30 @@ class DatasetsResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
-    def unregister(
-        self,
-        dataset_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> None:
-        """
-        Args:
-          extra_headers: Send extra headers
 
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not dataset_id:
-            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return self._delete(
-            f"/v1/datasets/{dataset_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
-
-class AsyncDatasetsResource(AsyncAPIResource):
+class AsyncBenchmarksResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncDatasetsResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncBenchmarksResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncDatasetsResourceWithRawResponse(self)
+        return AsyncBenchmarksResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncDatasetsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncBenchmarksResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#with_streaming_response
         """
-        return AsyncDatasetsResourceWithStreamingResponse(self)
+        return AsyncBenchmarksResourceWithStreamingResponse(self)
 
     async def retrieve(
         self,
-        dataset_id: str,
+        benchmark_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -211,7 +178,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[DatasetRetrieveResponse]:
+    ) -> Optional[Benchmark]:
         """
         Args:
           extra_headers: Send extra headers
@@ -222,14 +189,14 @@ class AsyncDatasetsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not dataset_id:
-            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
+        if not benchmark_id:
+            raise ValueError(f"Expected a non-empty value for `benchmark_id` but received {benchmark_id!r}")
         return await self._get(
-            f"/v1/datasets/{dataset_id}",
+            f"/v1/eval/benchmarks/{benchmark_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=DatasetRetrieveResponse,
+            cast_to=Benchmark,
         )
 
     async def list(
@@ -241,27 +208,27 @@ class AsyncDatasetsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DatasetListResponse:
+    ) -> BenchmarkListResponse:
         return await self._get(
-            "/v1/datasets",
+            "/v1/eval/benchmarks",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                post_parser=DataWrapper[DatasetListResponse]._unwrapper,
+                post_parser=DataWrapper[BenchmarkListResponse]._unwrapper,
             ),
-            cast_to=cast(Type[DatasetListResponse], DataWrapper[DatasetListResponse]),
+            cast_to=cast(Type[BenchmarkListResponse], DataWrapper[BenchmarkListResponse]),
         )
 
     async def register(
         self,
         *,
+        benchmark_id: str,
         dataset_id: str,
-        dataset_schema: Dict[str, ParamType],
-        url: dataset_register_params.URL,
+        scoring_functions: List[str],
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        provider_dataset_id: str | NotGiven = NOT_GIVEN,
+        provider_benchmark_id: str | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -282,17 +249,17 @@ class AsyncDatasetsResource(AsyncAPIResource):
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            "/v1/datasets",
+            "/v1/eval/benchmarks",
             body=await async_maybe_transform(
                 {
+                    "benchmark_id": benchmark_id,
                     "dataset_id": dataset_id,
-                    "dataset_schema": dataset_schema,
-                    "url": url,
+                    "scoring_functions": scoring_functions,
                     "metadata": metadata,
-                    "provider_dataset_id": provider_dataset_id,
+                    "provider_benchmark_id": provider_benchmark_id,
                     "provider_id": provider_id,
                 },
-                dataset_register_params.DatasetRegisterParams,
+                benchmark_register_params.BenchmarkRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -300,106 +267,62 @@ class AsyncDatasetsResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
-    async def unregister(
-        self,
-        dataset_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> None:
-        """
-        Args:
-          extra_headers: Send extra headers
 
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not dataset_id:
-            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return await self._delete(
-            f"/v1/datasets/{dataset_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
-
-class DatasetsResourceWithRawResponse:
-    def __init__(self, datasets: DatasetsResource) -> None:
-        self._datasets = datasets
+class BenchmarksResourceWithRawResponse:
+    def __init__(self, benchmarks: BenchmarksResource) -> None:
+        self._benchmarks = benchmarks
 
         self.retrieve = to_raw_response_wrapper(
-            datasets.retrieve,
+            benchmarks.retrieve,
         )
         self.list = to_raw_response_wrapper(
-            datasets.list,
+            benchmarks.list,
         )
         self.register = to_raw_response_wrapper(
-            datasets.register,
-        )
-        self.unregister = to_raw_response_wrapper(
-            datasets.unregister,
+            benchmarks.register,
         )
 
 
-class AsyncDatasetsResourceWithRawResponse:
-    def __init__(self, datasets: AsyncDatasetsResource) -> None:
-        self._datasets = datasets
+class AsyncBenchmarksResourceWithRawResponse:
+    def __init__(self, benchmarks: AsyncBenchmarksResource) -> None:
+        self._benchmarks = benchmarks
 
         self.retrieve = async_to_raw_response_wrapper(
-            datasets.retrieve,
+            benchmarks.retrieve,
         )
         self.list = async_to_raw_response_wrapper(
-            datasets.list,
+            benchmarks.list,
         )
         self.register = async_to_raw_response_wrapper(
-            datasets.register,
-        )
-        self.unregister = async_to_raw_response_wrapper(
-            datasets.unregister,
+            benchmarks.register,
         )
 
 
-class DatasetsResourceWithStreamingResponse:
-    def __init__(self, datasets: DatasetsResource) -> None:
-        self._datasets = datasets
+class BenchmarksResourceWithStreamingResponse:
+    def __init__(self, benchmarks: BenchmarksResource) -> None:
+        self._benchmarks = benchmarks
 
         self.retrieve = to_streamed_response_wrapper(
-            datasets.retrieve,
+            benchmarks.retrieve,
         )
         self.list = to_streamed_response_wrapper(
-            datasets.list,
+            benchmarks.list,
         )
         self.register = to_streamed_response_wrapper(
-            datasets.register,
-        )
-        self.unregister = to_streamed_response_wrapper(
-            datasets.unregister,
+            benchmarks.register,
         )
 
 
-class AsyncDatasetsResourceWithStreamingResponse:
-    def __init__(self, datasets: AsyncDatasetsResource) -> None:
-        self._datasets = datasets
+class AsyncBenchmarksResourceWithStreamingResponse:
+    def __init__(self, benchmarks: AsyncBenchmarksResource) -> None:
+        self._benchmarks = benchmarks
 
         self.retrieve = async_to_streamed_response_wrapper(
-            datasets.retrieve,
+            benchmarks.retrieve,
         )
         self.list = async_to_streamed_response_wrapper(
-            datasets.list,
+            benchmarks.list,
         )
         self.register = async_to_streamed_response_wrapper(
-            datasets.register,
-        )
-        self.unregister = async_to_streamed_response_wrapper(
-            datasets.unregister,
+            benchmarks.register,
         )

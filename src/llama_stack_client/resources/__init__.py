@@ -120,6 +120,14 @@ from .vector_io import (
     VectorIoResourceWithStreamingResponse,
     AsyncVectorIoResourceWithStreamingResponse,
 )
+from .benchmarks import (
+    BenchmarksResource,
+    AsyncBenchmarksResource,
+    BenchmarksResourceWithRawResponse,
+    AsyncBenchmarksResourceWithRawResponse,
+    BenchmarksResourceWithStreamingResponse,
+    AsyncBenchmarksResourceWithStreamingResponse,
+)
 from .eval_tasks import (
     EvalTasksResource,
     AsyncEvalTasksResource,
@@ -324,4 +332,10 @@ __all__ = [
     "AsyncEvalTasksResourceWithRawResponse",
     "EvalTasksResourceWithStreamingResponse",
     "AsyncEvalTasksResourceWithStreamingResponse",
+    "BenchmarksResource",
+    "AsyncBenchmarksResource",
+    "BenchmarksResourceWithRawResponse",
+    "AsyncBenchmarksResourceWithRawResponse",
+    "BenchmarksResourceWithStreamingResponse",
+    "AsyncBenchmarksResourceWithStreamingResponse",
 ]

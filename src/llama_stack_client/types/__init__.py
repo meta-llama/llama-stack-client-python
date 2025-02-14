@@ -7,7 +7,6 @@ from .tool import Tool as Tool
 from .model import Model as Model
 from .trace import Trace as Trace
 from .shared import (
-    URL as URL,
     Message as Message,
     Document as Document,
     ToolCall as ToolCall,
@@ -24,6 +23,7 @@ from .shared import (
     SamplingParams as SamplingParams,
     BatchCompletion as BatchCompletion,
     SafetyViolation as SafetyViolation,
+    ToolCallOrString as ToolCallOrString,
     CompletionMessage as CompletionMessage,
     InterleavedContent as InterleavedContent,
     ToolParamDefinition as ToolParamDefinition,
@@ -34,7 +34,7 @@ from .shared import (
 )
 from .shield import Shield as Shield
 from .tool_def import ToolDef as ToolDef
-from .eval_task import EvalTask as EvalTask
+from .benchmark import Benchmark as Benchmark
 from .route_info import RouteInfo as RouteInfo
 from .scoring_fn import ScoringFn as ScoringFn
 from .tool_group import ToolGroup as ToolGroup
@@ -77,13 +77,14 @@ from .paginated_rows_result import PaginatedRowsResult as PaginatedRowsResult
 from .query_chunks_response import QueryChunksResponse as QueryChunksResponse
 from .query_condition_param import QueryConditionParam as QueryConditionParam
 from .algorithm_config_param import AlgorithmConfigParam as AlgorithmConfigParam
-from .eval_task_config_param import EvalTaskConfigParam as EvalTaskConfigParam
+from .benchmark_config_param import BenchmarkConfigParam as BenchmarkConfigParam
 from .list_datasets_response import ListDatasetsResponse as ListDatasetsResponse
 from .provider_list_response import ProviderListResponse as ProviderListResponse
 from .scoring_score_response import ScoringScoreResponse as ScoringScoreResponse
 from .shield_register_params import ShieldRegisterParams as ShieldRegisterParams
 from .tool_invocation_result import ToolInvocationResult as ToolInvocationResult
 from .vector_io_query_params import VectorIoQueryParams as VectorIoQueryParams
+from .benchmark_list_response import BenchmarkListResponse as BenchmarkListResponse
 from .dataset_register_params import DatasetRegisterParams as DatasetRegisterParams
 from .eval_task_list_response import EvalTaskListResponse as EvalTaskListResponse
 from .list_providers_response import ListProvidersResponse as ListProvidersResponse
@@ -91,9 +92,10 @@ from .scoring_fn_params_param import ScoringFnParamsParam as ScoringFnParamsPara
 from .toolgroup_list_response import ToolgroupListResponse as ToolgroupListResponse
 from .vector_db_list_response import VectorDBListResponse as VectorDBListResponse
 from .vector_io_insert_params import VectorIoInsertParams as VectorIoInsertParams
-from .list_eval_tasks_response import ListEvalTasksResponse as ListEvalTasksResponse
+from .list_benchmarks_response import ListBenchmarksResponse as ListBenchmarksResponse
 from .list_vector_dbs_response import ListVectorDBsResponse as ListVectorDBsResponse
 from .safety_run_shield_params import SafetyRunShieldParams as SafetyRunShieldParams
+from .benchmark_register_params import BenchmarkRegisterParams as BenchmarkRegisterParams
 from .dataset_retrieve_response import DatasetRetrieveResponse as DatasetRetrieveResponse
 from .eval_evaluate_rows_params import EvalEvaluateRowsParams as EvalEvaluateRowsParams
 from .eval_task_register_params import EvalTaskRegisterParams as EvalTaskRegisterParams

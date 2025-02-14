@@ -23,7 +23,7 @@ class TestEval:
     @parametrize
     def test_method_evaluate_rows(self, client: LlamaStackClient) -> None:
         eval = client.eval.evaluate_rows(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             input_rows=[{"foo": True}],
             scoring_functions=["string"],
             task_config={
@@ -31,6 +31,12 @@ class TestEval:
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
+                },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                    }
                 },
                 "type": "benchmark",
             },
@@ -40,7 +46,7 @@ class TestEval:
     @parametrize
     def test_method_evaluate_rows_with_all_params(self, client: LlamaStackClient) -> None:
         eval = client.eval.evaluate_rows(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             input_rows=[{"foo": True}],
             scoring_functions=["string"],
             task_config={
@@ -57,6 +63,15 @@ class TestEval:
                         "role": "system",
                     },
                 },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                        "aggregation_functions": ["average"],
+                        "judge_score_regexes": ["string"],
+                        "prompt_template": "prompt_template",
+                    }
+                },
                 "type": "benchmark",
                 "num_examples": 0,
             },
@@ -66,7 +81,7 @@ class TestEval:
     @parametrize
     def test_raw_response_evaluate_rows(self, client: LlamaStackClient) -> None:
         response = client.eval.with_raw_response.evaluate_rows(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             input_rows=[{"foo": True}],
             scoring_functions=["string"],
             task_config={
@@ -74,6 +89,12 @@ class TestEval:
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
+                },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                    }
                 },
                 "type": "benchmark",
             },
@@ -87,7 +108,7 @@ class TestEval:
     @parametrize
     def test_streaming_response_evaluate_rows(self, client: LlamaStackClient) -> None:
         with client.eval.with_streaming_response.evaluate_rows(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             input_rows=[{"foo": True}],
             scoring_functions=["string"],
             task_config={
@@ -95,6 +116,12 @@ class TestEval:
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
+                },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                    }
                 },
                 "type": "benchmark",
             },
@@ -109,9 +136,9 @@ class TestEval:
 
     @parametrize
     def test_path_params_evaluate_rows(self, client: LlamaStackClient) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             client.eval.with_raw_response.evaluate_rows(
-                task_id="",
+                benchmark_id="",
                 input_rows=[{"foo": True}],
                 scoring_functions=["string"],
                 task_config={
@@ -120,6 +147,12 @@ class TestEval:
                         "sampling_params": {"strategy": {"type": "greedy"}},
                         "type": "model",
                     },
+                    "scoring_params": {
+                        "foo": {
+                            "judge_model": "judge_model",
+                            "type": "llm_as_judge",
+                        }
+                    },
                     "type": "benchmark",
                 },
             )
@@ -127,12 +160,18 @@ class TestEval:
     @parametrize
     def test_method_run_eval(self, client: LlamaStackClient) -> None:
         eval = client.eval.run_eval(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             task_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
+                },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                    }
                 },
                 "type": "benchmark",
             },
@@ -142,7 +181,7 @@ class TestEval:
     @parametrize
     def test_method_run_eval_with_all_params(self, client: LlamaStackClient) -> None:
         eval = client.eval.run_eval(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             task_config={
                 "eval_candidate": {
                     "model": "model",
@@ -157,6 +196,15 @@ class TestEval:
                         "role": "system",
                     },
                 },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                        "aggregation_functions": ["average"],
+                        "judge_score_regexes": ["string"],
+                        "prompt_template": "prompt_template",
+                    }
+                },
                 "type": "benchmark",
                 "num_examples": 0,
             },
@@ -166,12 +214,18 @@ class TestEval:
     @parametrize
     def test_raw_response_run_eval(self, client: LlamaStackClient) -> None:
         response = client.eval.with_raw_response.run_eval(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             task_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
+                },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                    }
                 },
                 "type": "benchmark",
             },
@@ -185,12 +239,18 @@ class TestEval:
     @parametrize
     def test_streaming_response_run_eval(self, client: LlamaStackClient) -> None:
         with client.eval.with_streaming_response.run_eval(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             task_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
+                },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                    }
                 },
                 "type": "benchmark",
             },
@@ -205,14 +265,20 @@ class TestEval:
 
     @parametrize
     def test_path_params_run_eval(self, client: LlamaStackClient) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             client.eval.with_raw_response.run_eval(
-                task_id="",
+                benchmark_id="",
                 task_config={
                     "eval_candidate": {
                         "model": "model",
                         "sampling_params": {"strategy": {"type": "greedy"}},
                         "type": "model",
+                    },
+                    "scoring_params": {
+                        "foo": {
+                            "judge_model": "judge_model",
+                            "type": "llm_as_judge",
+                        }
                     },
                     "type": "benchmark",
                 },
@@ -225,7 +291,7 @@ class TestAsyncEval:
     @parametrize
     async def test_method_evaluate_rows(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.evaluate_rows(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             input_rows=[{"foo": True}],
             scoring_functions=["string"],
             task_config={
@@ -233,6 +299,12 @@ class TestAsyncEval:
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
+                },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                    }
                 },
                 "type": "benchmark",
             },
@@ -242,7 +314,7 @@ class TestAsyncEval:
     @parametrize
     async def test_method_evaluate_rows_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.evaluate_rows(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             input_rows=[{"foo": True}],
             scoring_functions=["string"],
             task_config={
@@ -259,6 +331,15 @@ class TestAsyncEval:
                         "role": "system",
                     },
                 },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                        "aggregation_functions": ["average"],
+                        "judge_score_regexes": ["string"],
+                        "prompt_template": "prompt_template",
+                    }
+                },
                 "type": "benchmark",
                 "num_examples": 0,
             },
@@ -268,7 +349,7 @@ class TestAsyncEval:
     @parametrize
     async def test_raw_response_evaluate_rows(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.eval.with_raw_response.evaluate_rows(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             input_rows=[{"foo": True}],
             scoring_functions=["string"],
             task_config={
@@ -276,6 +357,12 @@ class TestAsyncEval:
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
+                },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                    }
                 },
                 "type": "benchmark",
             },
@@ -289,7 +376,7 @@ class TestAsyncEval:
     @parametrize
     async def test_streaming_response_evaluate_rows(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.eval.with_streaming_response.evaluate_rows(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             input_rows=[{"foo": True}],
             scoring_functions=["string"],
             task_config={
@@ -297,6 +384,12 @@ class TestAsyncEval:
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
+                },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                    }
                 },
                 "type": "benchmark",
             },
@@ -311,9 +404,9 @@ class TestAsyncEval:
 
     @parametrize
     async def test_path_params_evaluate_rows(self, async_client: AsyncLlamaStackClient) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             await async_client.eval.with_raw_response.evaluate_rows(
-                task_id="",
+                benchmark_id="",
                 input_rows=[{"foo": True}],
                 scoring_functions=["string"],
                 task_config={
@@ -322,6 +415,12 @@ class TestAsyncEval:
                         "sampling_params": {"strategy": {"type": "greedy"}},
                         "type": "model",
                     },
+                    "scoring_params": {
+                        "foo": {
+                            "judge_model": "judge_model",
+                            "type": "llm_as_judge",
+                        }
+                    },
                     "type": "benchmark",
                 },
             )
@@ -329,12 +428,18 @@ class TestAsyncEval:
     @parametrize
     async def test_method_run_eval(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.run_eval(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             task_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
+                },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                    }
                 },
                 "type": "benchmark",
             },
@@ -344,7 +449,7 @@ class TestAsyncEval:
     @parametrize
     async def test_method_run_eval_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.run_eval(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             task_config={
                 "eval_candidate": {
                     "model": "model",
@@ -359,6 +464,15 @@ class TestAsyncEval:
                         "role": "system",
                     },
                 },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                        "aggregation_functions": ["average"],
+                        "judge_score_regexes": ["string"],
+                        "prompt_template": "prompt_template",
+                    }
+                },
                 "type": "benchmark",
                 "num_examples": 0,
             },
@@ -368,12 +482,18 @@ class TestAsyncEval:
     @parametrize
     async def test_raw_response_run_eval(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.eval.with_raw_response.run_eval(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             task_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
+                },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                    }
                 },
                 "type": "benchmark",
             },
@@ -387,12 +507,18 @@ class TestAsyncEval:
     @parametrize
     async def test_streaming_response_run_eval(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.eval.with_streaming_response.run_eval(
-            task_id="task_id",
+            benchmark_id="benchmark_id",
             task_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
                     "type": "model",
+                },
+                "scoring_params": {
+                    "foo": {
+                        "judge_model": "judge_model",
+                        "type": "llm_as_judge",
+                    }
                 },
                 "type": "benchmark",
             },
@@ -407,14 +533,20 @@ class TestAsyncEval:
 
     @parametrize
     async def test_path_params_run_eval(self, async_client: AsyncLlamaStackClient) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             await async_client.eval.with_raw_response.run_eval(
-                task_id="",
+                benchmark_id="",
                 task_config={
                     "eval_candidate": {
                         "model": "model",
                         "sampling_params": {"strategy": {"type": "greedy"}},
                         "type": "model",
+                    },
+                    "scoring_params": {
+                        "foo": {
+                            "judge_model": "judge_model",
+                            "type": "llm_as_judge",
+                        }
                     },
                     "type": "benchmark",
                 },

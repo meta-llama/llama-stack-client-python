@@ -5,16 +5,24 @@ from __future__ import annotations
 from typing import Union
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
-from .url import URL
+__all__ = [
+    "InterleavedContentItem",
+    "ImageContentItem",
+    "ImageContentItemImage",
+    "ImageContentItemImageURL",
+    "TextContentItem",
+]
 
-__all__ = ["InterleavedContentItem", "ImageContentItem", "ImageContentItemImage", "TextContentItem"]
+
+class ImageContentItemImageURL(TypedDict, total=False):
+    uri: Required[str]
 
 
 class ImageContentItemImage(TypedDict, total=False):
     data: str
     """base64 encoded image data as string"""
 
-    url: URL
+    url: ImageContentItemImageURL
     """A URL of the image or data URL in the format of data:image/{type};base64,{data}.
 
     Note that URL could have length limits.

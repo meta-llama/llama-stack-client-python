@@ -5,13 +5,13 @@ from __future__ import annotations
 from typing import Dict, List, Union, Iterable
 from typing_extensions import Required, TypedDict
 
-__all__ = ["EvalTaskRegisterParams"]
+__all__ = ["BenchmarkRegisterParams"]
 
 
-class EvalTaskRegisterParams(TypedDict, total=False):
+class BenchmarkRegisterParams(TypedDict, total=False):
+    benchmark_id: Required[str]
+
     dataset_id: Required[str]
-
-    eval_task_id: Required[str]
 
     scoring_functions: Required[List[str]]
 
