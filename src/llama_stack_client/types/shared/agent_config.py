@@ -49,13 +49,13 @@ Toolgroup: TypeAlias = Union[str, ToolgroupUnionMember1]
 
 
 class AgentConfig(BaseModel):
-    enable_session_persistence: bool
-
     instructions: str
 
     model: str
 
     client_tools: Optional[List[ToolDef]] = None
+
+    enable_session_persistence: Optional[bool] = None
 
     input_shields: Optional[List[str]] = None
 

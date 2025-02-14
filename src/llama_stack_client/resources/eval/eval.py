@@ -36,7 +36,7 @@ from ..._response import (
 from ...types.job import Job
 from ..._base_client import make_request_options
 from ...types.evaluate_response import EvaluateResponse
-from ...types.benchmark_config_param import BenchmarkConfigParam
+from ...types.eval_task_config_param import EvalTaskConfigParam
 
 __all__ = ["EvalResource", "AsyncEvalResource"]
 
@@ -71,7 +71,7 @@ class EvalResource(SyncAPIResource):
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
         scoring_functions: List[str],
-        task_config: BenchmarkConfigParam,
+        task_config: EvalTaskConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -113,7 +113,7 @@ class EvalResource(SyncAPIResource):
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
         scoring_functions: List[str],
-        task_config: BenchmarkConfigParam,
+        task_config: EvalTaskConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -153,7 +153,7 @@ class EvalResource(SyncAPIResource):
         self,
         task_id: str,
         *,
-        task_config: BenchmarkConfigParam,
+        task_config: EvalTaskConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -186,7 +186,7 @@ class EvalResource(SyncAPIResource):
         self,
         benchmark_id: str,
         *,
-        task_config: BenchmarkConfigParam,
+        task_config: EvalTaskConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -246,7 +246,7 @@ class AsyncEvalResource(AsyncAPIResource):
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
         scoring_functions: List[str],
-        task_config: BenchmarkConfigParam,
+        task_config: EvalTaskConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -288,7 +288,7 @@ class AsyncEvalResource(AsyncAPIResource):
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
         scoring_functions: List[str],
-        task_config: BenchmarkConfigParam,
+        task_config: EvalTaskConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -328,7 +328,7 @@ class AsyncEvalResource(AsyncAPIResource):
         self,
         task_id: str,
         *,
-        task_config: BenchmarkConfigParam,
+        task_config: EvalTaskConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -361,7 +361,7 @@ class AsyncEvalResource(AsyncAPIResource):
         self,
         benchmark_id: str,
         *,
-        task_config: BenchmarkConfigParam,
+        task_config: EvalTaskConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,

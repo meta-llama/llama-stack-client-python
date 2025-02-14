@@ -77,7 +77,7 @@ from .paginated_rows_result import PaginatedRowsResult as PaginatedRowsResult
 from .query_chunks_response import QueryChunksResponse as QueryChunksResponse
 from .query_condition_param import QueryConditionParam as QueryConditionParam
 from .algorithm_config_param import AlgorithmConfigParam as AlgorithmConfigParam
-from .benchmark_config_param import BenchmarkConfigParam as BenchmarkConfigParam
+from .eval_task_config_param import EvalTaskConfigParam as EvalTaskConfigParam
 from .list_datasets_response import ListDatasetsResponse as ListDatasetsResponse
 from .provider_list_response import ProviderListResponse as ProviderListResponse
 from .scoring_score_response import ScoringScoreResponse as ScoringScoreResponse

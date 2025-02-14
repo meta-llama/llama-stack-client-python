@@ -21,7 +21,6 @@ class TestAgents:
     def test_method_create(self, client: LlamaStackClient) -> None:
         agent = client.agents.create(
             agent_config={
-                "enable_session_persistence": True,
                 "instructions": "instructions",
                 "model": "model",
             },
@@ -32,7 +31,6 @@ class TestAgents:
     def test_method_create_with_all_params(self, client: LlamaStackClient) -> None:
         agent = client.agents.create(
             agent_config={
-                "enable_session_persistence": True,
                 "instructions": "instructions",
                 "model": "model",
                 "client_tools": [
@@ -51,6 +49,7 @@ class TestAgents:
                         ],
                     }
                 ],
+                "enable_session_persistence": True,
                 "input_shields": ["string"],
                 "max_infer_iters": 0,
                 "output_shields": ["string"],
@@ -79,7 +78,6 @@ class TestAgents:
     def test_raw_response_create(self, client: LlamaStackClient) -> None:
         response = client.agents.with_raw_response.create(
             agent_config={
-                "enable_session_persistence": True,
                 "instructions": "instructions",
                 "model": "model",
             },
@@ -94,7 +92,6 @@ class TestAgents:
     def test_streaming_response_create(self, client: LlamaStackClient) -> None:
         with client.agents.with_streaming_response.create(
             agent_config={
-                "enable_session_persistence": True,
                 "instructions": "instructions",
                 "model": "model",
             },
@@ -153,7 +150,6 @@ class TestAsyncAgents:
     async def test_method_create(self, async_client: AsyncLlamaStackClient) -> None:
         agent = await async_client.agents.create(
             agent_config={
-                "enable_session_persistence": True,
                 "instructions": "instructions",
                 "model": "model",
             },
@@ -164,7 +160,6 @@ class TestAsyncAgents:
     async def test_method_create_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         agent = await async_client.agents.create(
             agent_config={
-                "enable_session_persistence": True,
                 "instructions": "instructions",
                 "model": "model",
                 "client_tools": [
@@ -183,6 +178,7 @@ class TestAsyncAgents:
                         ],
                     }
                 ],
+                "enable_session_persistence": True,
                 "input_shields": ["string"],
                 "max_infer_iters": 0,
                 "output_shields": ["string"],
@@ -211,7 +207,6 @@ class TestAsyncAgents:
     async def test_raw_response_create(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.agents.with_raw_response.create(
             agent_config={
-                "enable_session_persistence": True,
                 "instructions": "instructions",
                 "model": "model",
             },
@@ -226,7 +221,6 @@ class TestAsyncAgents:
     async def test_streaming_response_create(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.agents.with_streaming_response.create(
             agent_config={
-                "enable_session_persistence": True,
                 "instructions": "instructions",
                 "model": "model",
             },

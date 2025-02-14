@@ -50,13 +50,13 @@ Toolgroup: TypeAlias = Union[str, ToolgroupUnionMember1]
 
 
 class AgentConfig(TypedDict, total=False):
-    enable_session_persistence: Required[bool]
-
     instructions: Required[str]
 
     model: Required[str]
 
     client_tools: Iterable[ToolDefParam]
+
+    enable_session_persistence: bool
 
     input_shields: List[str]
 
