@@ -5,6 +5,6 @@ from typing_extensions import TypeAlias
 
 from .benchmark import Benchmark
 
-__all__ = ["EvalTaskListResponse"]
+__all__ = ["BenchmarkListResponse"]
 
-EvalTaskListResponse: TypeAlias = List[Benchmark]
+BenchmarkListResponse: TypeAlias = List[Benchmark]

@@ -39,6 +39,7 @@ from .resources import (
     providers,
     telemetry,
     vector_io,
+    benchmarks,
     eval_tasks,
     toolgroups,
     vector_dbs,
@@ -94,6 +95,7 @@ class LlamaStackClient(SyncAPIClient):
     scoring: scoring.ScoringResource
     scoring_functions: scoring_functions.ScoringFunctionsResource
     eval_tasks: eval_tasks.EvalTasksResource
+    benchmarks: benchmarks.BenchmarksResource
     with_raw_response: LlamaStackClientWithRawResponse
     with_streaming_response: LlamaStackClientWithStreamedResponse
 
@@ -176,6 +178,7 @@ class LlamaStackClient(SyncAPIClient):
         self.scoring = scoring.ScoringResource(self)
         self.scoring_functions = scoring_functions.ScoringFunctionsResource(self)
         self.eval_tasks = eval_tasks.EvalTasksResource(self)
+        self.benchmarks = benchmarks.BenchmarksResource(self)
         self.with_raw_response = LlamaStackClientWithRawResponse(self)
         self.with_streaming_response = LlamaStackClientWithStreamedResponse(self)
 
@@ -310,6 +313,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
     scoring: scoring.AsyncScoringResource
     scoring_functions: scoring_functions.AsyncScoringFunctionsResource
     eval_tasks: eval_tasks.AsyncEvalTasksResource
+    benchmarks: benchmarks.AsyncBenchmarksResource
     with_raw_response: AsyncLlamaStackClientWithRawResponse
     with_streaming_response: AsyncLlamaStackClientWithStreamedResponse
 
@@ -392,6 +396,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         self.scoring = scoring.AsyncScoringResource(self)
         self.scoring_functions = scoring_functions.AsyncScoringFunctionsResource(self)
         self.eval_tasks = eval_tasks.AsyncEvalTasksResource(self)
+        self.benchmarks = benchmarks.AsyncBenchmarksResource(self)
         self.with_raw_response = AsyncLlamaStackClientWithRawResponse(self)
         self.with_streaming_response = AsyncLlamaStackClientWithStreamedResponse(self)
 
@@ -529,6 +534,7 @@ class LlamaStackClientWithRawResponse:
         self.scoring = scoring.ScoringResourceWithRawResponse(client.scoring)
         self.scoring_functions = scoring_functions.ScoringFunctionsResourceWithRawResponse(client.scoring_functions)
         self.eval_tasks = eval_tasks.EvalTasksResourceWithRawResponse(client.eval_tasks)
+        self.benchmarks = benchmarks.BenchmarksResourceWithRawResponse(client.benchmarks)
 
 
 class AsyncLlamaStackClientWithRawResponse:
@@ -560,6 +566,7 @@ class AsyncLlamaStackClientWithRawResponse:
             client.scoring_functions
         )
         self.eval_tasks = eval_tasks.AsyncEvalTasksResourceWithRawResponse(client.eval_tasks)
+        self.benchmarks = benchmarks.AsyncBenchmarksResourceWithRawResponse(client.benchmarks)
 
 
 class LlamaStackClientWithStreamedResponse:
@@ -591,6 +598,7 @@ class LlamaStackClientWithStreamedResponse:
             client.scoring_functions
         )
         self.eval_tasks = eval_tasks.EvalTasksResourceWithStreamingResponse(client.eval_tasks)
+        self.benchmarks = benchmarks.BenchmarksResourceWithStreamingResponse(client.benchmarks)
 
 
 class AsyncLlamaStackClientWithStreamedResponse:
@@ -624,6 +632,7 @@ class AsyncLlamaStackClientWithStreamedResponse:
             client.scoring_functions
         )
         self.eval_tasks = eval_tasks.AsyncEvalTasksResourceWithStreamingResponse(client.eval_tasks)
+        self.benchmarks = benchmarks.AsyncBenchmarksResourceWithStreamingResponse(client.benchmarks)
 
 
 Client = LlamaStackClient

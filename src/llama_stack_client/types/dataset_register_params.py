@@ -5,10 +5,9 @@ from __future__ import annotations
 from typing import Dict, Union, Iterable
 from typing_extensions import Required, TypedDict
 
-from .shared_params.url import URL
 from .shared_params.param_type import ParamType
 
-__all__ = ["DatasetRegisterParams"]
+__all__ = ["DatasetRegisterParams", "URL"]
 
 
 class DatasetRegisterParams(TypedDict, total=False):
@@ -23,3 +22,7 @@ class DatasetRegisterParams(TypedDict, total=False):
     provider_dataset_id: str
 
     provider_id: str
+
+
+class URL(TypedDict, total=False):
+    uri: Required[str]

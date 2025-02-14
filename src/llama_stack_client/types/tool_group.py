@@ -4,9 +4,12 @@ from typing import Dict, List, Union, Optional
 from typing_extensions import Literal
 
 from .._models import BaseModel
-from .shared.url import URL
 
-__all__ = ["ToolGroup"]
+__all__ = ["ToolGroup", "McpEndpoint"]
+
+
+class McpEndpoint(BaseModel):
+    uri: str
 
 
 class ToolGroup(BaseModel):
@@ -20,4 +23,4 @@ class ToolGroup(BaseModel):
 
     args: Optional[Dict[str, Union[bool, float, str, List[object], object, None]]] = None
 
-    mcp_endpoint: Optional[URL] = None
+    mcp_endpoint: Optional[McpEndpoint] = None

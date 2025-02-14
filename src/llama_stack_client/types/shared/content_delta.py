@@ -5,9 +5,9 @@ from typing_extensions import Literal, Annotated, TypeAlias
 
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
-from .tool_call import ToolCall
+from .tool_call_or_string import ToolCallOrString
 
-__all__ = ["ContentDelta", "TextDelta", "ImageDelta", "ToolCallDelta", "ToolCallDeltaToolCall"]
+__all__ = ["ContentDelta", "TextDelta", "ImageDelta", "ToolCallDelta"]
 
 
 class TextDelta(BaseModel):
@@ -22,13 +22,10 @@ class ImageDelta(BaseModel):
     type: Literal["image"]
 
 
-ToolCallDeltaToolCall: TypeAlias = Union[str, ToolCall]
-
-
 class ToolCallDelta(BaseModel):
     parse_status: Literal["started", "in_progress", "failed", "succeeded"]
 
-    tool_call: ToolCallDeltaToolCall
+    tool_call: ToolCallOrString
 
     type: Literal["tool_call"]
 
