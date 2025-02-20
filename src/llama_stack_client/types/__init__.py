@@ -86,7 +86,6 @@ from .tool_invocation_result import ToolInvocationResult as ToolInvocationResult
 from .vector_io_query_params import VectorIoQueryParams as VectorIoQueryParams
 from .benchmark_list_response import BenchmarkListResponse as BenchmarkListResponse
 from .dataset_register_params import DatasetRegisterParams as DatasetRegisterParams
-from .eval_task_list_response import EvalTaskListResponse as EvalTaskListResponse
 from .list_providers_response import ListProvidersResponse as ListProvidersResponse
 from .scoring_fn_params_param import ScoringFnParamsParam as ScoringFnParamsParam
 from .toolgroup_list_response import ToolgroupListResponse as ToolgroupListResponse
@@ -98,7 +97,6 @@ from .safety_run_shield_params import SafetyRunShieldParams as SafetyRunShieldPa
 from .benchmark_register_params import BenchmarkRegisterParams as BenchmarkRegisterParams
 from .dataset_retrieve_response import DatasetRetrieveResponse as DatasetRetrieveResponse
 from .eval_evaluate_rows_params import EvalEvaluateRowsParams as EvalEvaluateRowsParams
-from .eval_task_register_params import EvalTaskRegisterParams as EvalTaskRegisterParams
 from .list_tool_groups_response import ListToolGroupsResponse as ListToolGroupsResponse
 from .toolgroup_register_params import ToolgroupRegisterParams as ToolgroupRegisterParams
 from .vector_db_register_params import VectorDBRegisterParams as VectorDBRegisterParams

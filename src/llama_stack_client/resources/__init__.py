@@ -128,14 +128,6 @@ from .benchmarks import (
     BenchmarksResourceWithStreamingResponse,
     AsyncBenchmarksResourceWithStreamingResponse,
 )
-from .eval_tasks import (
-    EvalTasksResource,
-    AsyncEvalTasksResource,
-    EvalTasksResourceWithRawResponse,
-    AsyncEvalTasksResourceWithRawResponse,
-    EvalTasksResourceWithStreamingResponse,
-    AsyncEvalTasksResourceWithStreamingResponse,
-)
 from .toolgroups import (
     ToolgroupsResource,
     AsyncToolgroupsResource,
@@ -326,12 +318,6 @@ __all__ = [
     "AsyncScoringFunctionsResourceWithRawResponse",
     "ScoringFunctionsResourceWithStreamingResponse",
     "AsyncScoringFunctionsResourceWithStreamingResponse",
-    "EvalTasksResource",
-    "AsyncEvalTasksResource",
-    "EvalTasksResourceWithRawResponse",
-    "AsyncEvalTasksResourceWithRawResponse",
-    "EvalTasksResourceWithStreamingResponse",
-    "AsyncEvalTasksResourceWithStreamingResponse",
     "BenchmarksResource",
     "AsyncBenchmarksResource",
     "BenchmarksResourceWithRawResponse",
