@@ -23,7 +23,7 @@ from ..._response import (
 )
 from ..._streaming import Stream, AsyncStream
 from ..._base_client import make_request_options
-from ...types.agents import turn_create_params
+from ...types.agents import turn_create_params, turn_continue_params
 from ...types.agents.turn import Turn
 from ...types.agents.agent_turn_response_stream_chunk import AgentTurnResponseStreamChunk
 
@@ -219,6 +219,45 @@ class TurnResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `turn_id` but received {turn_id!r}")
         return self._get(
             f"/v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Turn,
+        )
+
+    def continue_(
+        self,
+        turn_id: str,
+        *,
+        agent_id: str,
+        session_id: str,
+        new_messages: Iterable[turn_continue_params.NewMessage],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Turn:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+        if not turn_id:
+            raise ValueError(f"Expected a non-empty value for `turn_id` but received {turn_id!r}")
+        return self._post(
+            f"/v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/continue",
+            body=maybe_transform({"new_messages": new_messages}, turn_continue_params.TurnContinueParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -421,6 +460,45 @@ class AsyncTurnResource(AsyncAPIResource):
             cast_to=Turn,
         )
 
+    async def continue_(
+        self,
+        turn_id: str,
+        *,
+        agent_id: str,
+        session_id: str,
+        new_messages: Iterable[turn_continue_params.NewMessage],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Turn:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not agent_id:
+            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
+        if not session_id:
+            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+        if not turn_id:
+            raise ValueError(f"Expected a non-empty value for `turn_id` but received {turn_id!r}")
+        return await self._post(
+            f"/v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/continue",
+            body=await async_maybe_transform({"new_messages": new_messages}, turn_continue_params.TurnContinueParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Turn,
+        )
+
 
 class TurnResourceWithRawResponse:
     def __init__(self, turn: TurnResource) -> None:
@@ -431,6 +509,9 @@ class TurnResourceWithRawResponse:
         )
         self.retrieve = to_raw_response_wrapper(
             turn.retrieve,
+        )
+        self.continue_ = to_raw_response_wrapper(
+            turn.continue_,
         )
 
 
@@ -444,6 +525,9 @@ class AsyncTurnResourceWithRawResponse:
         self.retrieve = async_to_raw_response_wrapper(
             turn.retrieve,
         )
+        self.continue_ = async_to_raw_response_wrapper(
+            turn.continue_,
+        )
 
 
 class TurnResourceWithStreamingResponse:
@@ -456,6 +540,9 @@ class TurnResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             turn.retrieve,
         )
+        self.continue_ = to_streamed_response_wrapper(
+            turn.continue_,
+        )
 
 
 class AsyncTurnResourceWithStreamingResponse:
@@ -467,4 +554,7 @@ class AsyncTurnResourceWithStreamingResponse:
         )
         self.retrieve = async_to_streamed_response_wrapper(
             turn.retrieve,
+        )
+        self.continue_ = async_to_streamed_response_wrapper(
+            turn.continue_,
         )

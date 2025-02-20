@@ -293,6 +293,102 @@ class TestTurn:
                 session_id="session_id",
             )
 
+    @parametrize
+    def test_method_continue(self, client: LlamaStackClient) -> None:
+        turn = client.agents.turn.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            new_messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                }
+            ],
+        )
+        assert_matches_type(Turn, turn, path=["response"])
+
+    @parametrize
+    def test_raw_response_continue(self, client: LlamaStackClient) -> None:
+        response = client.agents.turn.with_raw_response.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            new_messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                }
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        turn = response.parse()
+        assert_matches_type(Turn, turn, path=["response"])
+
+    @parametrize
+    def test_streaming_response_continue(self, client: LlamaStackClient) -> None:
+        with client.agents.turn.with_streaming_response.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            new_messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            turn = response.parse()
+            assert_matches_type(Turn, turn, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_continue(self, client: LlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            client.agents.turn.with_raw_response.continue_(
+                turn_id="turn_id",
+                agent_id="",
+                session_id="session_id",
+                new_messages=[
+                    {
+                        "content": "string",
+                        "role": "user",
+                    }
+                ],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
+            client.agents.turn.with_raw_response.continue_(
+                turn_id="turn_id",
+                agent_id="agent_id",
+                session_id="",
+                new_messages=[
+                    {
+                        "content": "string",
+                        "role": "user",
+                    }
+                ],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `turn_id` but received ''"):
+            client.agents.turn.with_raw_response.continue_(
+                turn_id="",
+                agent_id="agent_id",
+                session_id="session_id",
+                new_messages=[
+                    {
+                        "content": "string",
+                        "role": "user",
+                    }
+                ],
+            )
+
 
 class TestAsyncTurn:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
@@ -571,4 +667,100 @@ class TestAsyncTurn:
                 turn_id="",
                 agent_id="agent_id",
                 session_id="session_id",
+            )
+
+    @parametrize
+    async def test_method_continue(self, async_client: AsyncLlamaStackClient) -> None:
+        turn = await async_client.agents.turn.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            new_messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                }
+            ],
+        )
+        assert_matches_type(Turn, turn, path=["response"])
+
+    @parametrize
+    async def test_raw_response_continue(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.agents.turn.with_raw_response.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            new_messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                }
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        turn = await response.parse()
+        assert_matches_type(Turn, turn, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_continue(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.agents.turn.with_streaming_response.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            new_messages=[
+                {
+                    "content": "string",
+                    "role": "user",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            turn = await response.parse()
+            assert_matches_type(Turn, turn, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_continue(self, async_client: AsyncLlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            await async_client.agents.turn.with_raw_response.continue_(
+                turn_id="turn_id",
+                agent_id="",
+                session_id="session_id",
+                new_messages=[
+                    {
+                        "content": "string",
+                        "role": "user",
+                    }
+                ],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
+            await async_client.agents.turn.with_raw_response.continue_(
+                turn_id="turn_id",
+                agent_id="agent_id",
+                session_id="",
+                new_messages=[
+                    {
+                        "content": "string",
+                        "role": "user",
+                    }
+                ],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `turn_id` but received ''"):
+            await async_client.agents.turn.with_raw_response.continue_(
+                turn_id="",
+                agent_id="agent_id",
+                session_id="session_id",
+                new_messages=[
+                    {
+                        "content": "string",
+                        "role": "user",
+                    }
+                ],
             )
