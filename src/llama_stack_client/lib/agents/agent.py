@@ -8,6 +8,7 @@ from datetime import datetime
 from typing import Iterator, List, Optional, Tuple, Union
 
 from llama_stack_client import LlamaStackClient
+
 from llama_stack_client.types import ToolResponseMessage, UserMessage
 from llama_stack_client.types.agent_create_params import AgentConfig
 from llama_stack_client.types.agents.turn import CompletionMessage, Turn
@@ -129,14 +130,10 @@ class Agent:
         stream: bool = True,
     ) -> Iterator[AgentTurnResponseStreamChunk] | Turn:
         if stream:
-            return self._create_turn_streaming(
-                messages, session_id, toolgroups, documents
-            )
+            return self._create_turn_streaming(messages, session_id, toolgroups, documents)
         else:
             chunks = []
-            for chunk in self._create_turn_streaming(
-                messages, session_id, toolgroups, documents
-            ):
+            for chunk in self._create_turn_streaming(messages, session_id, toolgroups, documents):
                 if chunk.event.payload.event_type == "turn_complete":
                     chunks.append(chunk)
                 pass
@@ -148,16 +145,12 @@ class Agent:
                 input_messages=chunks[0].event.payload.turn.input_messages,
                 output_message=chunks[-1].event.payload.turn.output_message,
                 session_id=chunks[0].event.payload.turn.session_id,
-                steps=[
-                    step for chunk in chunks for step in chunk.event.payload.turn.steps
-                ],
+                steps=[step for chunk in chunks for step in chunk.event.payload.turn.steps],
                 turn_id=chunks[0].event.payload.turn.turn_id,
                 started_at=chunks[0].event.payload.turn.started_at,
                 completed_at=chunks[-1].event.payload.turn.completed_at,
                 output_attachments=[
-                    attachment
-                    for chunk in chunks
-                    for attachment in chunk.event.payload.turn.output_attachments
+                    attachment for chunk in chunks for attachment in chunk.event.payload.turn.output_attachments
                 ],
             )
 

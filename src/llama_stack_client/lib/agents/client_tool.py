@@ -56,10 +56,7 @@ class ClientTool:
             {
                 "name": self.get_name(),
                 "description": self.get_description(),
-                "parameters": {
-                    name: definition
-                    for name, definition in self.get_params_definition().items()
-                },
+                "parameters": {name: definition for name, definition in self.get_params_definition().items()},
             }
         )
 
@@ -158,28 +155,19 @@ def client_tool(func: T) -> ClientTool:
                         break
 
                 if param_doc == "":
-                    raise ValueError(
-                        f"No parameter description found for parameter {name}"
-                    )
+                    raise ValueError(f"No parameter description found for parameter {name}")
 
                 param = sig.parameters[name]
-                is_optional_type = get_origin(type_hint) is Union and type(
-                    None
-                ) in get_args(type_hint)
-                is_required = (
-                    param.default == inspect.Parameter.empty and not is_optional_type
-                )
+                is_optional_type = get_origin(type_hint) is Union and type(None) in get_args(type_hint)
+                is_required = param.default == inspect.Parameter.empty and not is_optional_type
                 params[name] = Parameter(
                     name=name,
                     description=param_doc or f"Parameter {name}",
                     parameter_type=type_hint.__name__,
-                    default=(
-                        param.default
-                        if param.default != inspect.Parameter.empty
-                        else None
-                    ),
+                    default=(param.default if param.default != inspect.Parameter.empty else None),
                     required=is_required,
                 )
+
             return params
 
         def run_impl(self, **kwargs):

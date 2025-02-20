@@ -13,6 +13,7 @@ from ..agent import Agent
 from ..client_tool import ClientTool
 from ..tool_parser import ToolParser
 from .prompts import DEFAULT_REACT_AGENT_SYSTEM_PROMPT_TEMPLATE
+
 from .tool_parser import ReActToolParser
 
 
@@ -73,18 +74,16 @@ class ReActAgent(Agent):
             tool_defs = get_tool_defs()
             tool_names = ", ".join([x["name"] for x in tool_defs])
             tool_descriptions = "\n".join([f"- {x['name']}: {x}" for x in tool_defs])
-            instruction = DEFAULT_REACT_AGENT_SYSTEM_PROMPT_TEMPLATE.replace(
-                "<<tool_names>>", tool_names
-            ).replace("<<tool_descriptions>>", tool_descriptions)
+            instruction = DEFAULT_REACT_AGENT_SYSTEM_PROMPT_TEMPLATE.replace("<<tool_names>>", tool_names).replace(
+                "<<tool_descriptions>>", tool_descriptions
+            )
 
             # user default toolgroups
             agent_config = AgentConfig(
                 model=model,
                 instructions=instruction,
                 toolgroups=builtin_toolgroups,
-                client_tools=[
-                    client_tool.get_tool_definition() for client_tool in client_tools
-                ],
+                client_tools=[client_tool.get_tool_definition() for client_tool in client_tools],
                 tool_config={
                     "tool_choice": "auto",
                     "tool_prompt_format": "json" if "3.1" in model else "python_list",
