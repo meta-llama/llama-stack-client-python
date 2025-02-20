@@ -10,7 +10,7 @@ from ..types import (
     telemetry_log_event_params,
     telemetry_query_spans_params,
     telemetry_query_traces_params,
-    telemetry_get_span_tree_params,
+    telemetry_query_span_tree_params,
     telemetry_save_spans_to_dataset_params,
 )
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
@@ -34,7 +34,7 @@ from ..types.query_condition_param import QueryConditionParam
 from ..types.telemetry_get_span_response import TelemetryGetSpanResponse
 from ..types.telemetry_query_spans_response import TelemetryQuerySpansResponse
 from ..types.telemetry_query_traces_response import TelemetryQueryTracesResponse
-from ..types.telemetry_get_span_tree_response import TelemetryGetSpanTreeResponse
+from ..types.telemetry_query_span_tree_response import TelemetryQuerySpanTreeResponse
 
 __all__ = ["TelemetryResource", "AsyncTelemetryResource"]
 
@@ -91,50 +91,6 @@ class TelemetryResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=TelemetryGetSpanResponse,
-        )
-
-    def get_span_tree(
-        self,
-        span_id: str,
-        *,
-        attributes_to_return: List[str] | NotGiven = NOT_GIVEN,
-        max_depth: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TelemetryGetSpanTreeResponse:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not span_id:
-            raise ValueError(f"Expected a non-empty value for `span_id` but received {span_id!r}")
-        return self._post(
-            f"/v1/telemetry/spans/{span_id}/tree",
-            body=maybe_transform(
-                {
-                    "attributes_to_return": attributes_to_return,
-                    "max_depth": max_depth,
-                },
-                telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                post_parser=DataWrapper[TelemetryGetSpanTreeResponse]._unwrapper,
-            ),
-            cast_to=cast(Type[TelemetryGetSpanTreeResponse], DataWrapper[TelemetryGetSpanTreeResponse]),
         )
 
     def get_trace(
@@ -204,6 +160,50 @@ class TelemetryResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
+        )
+
+    def query_span_tree(
+        self,
+        span_id: str,
+        *,
+        attributes_to_return: List[str] | NotGiven = NOT_GIVEN,
+        max_depth: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TelemetryQuerySpanTreeResponse:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not span_id:
+            raise ValueError(f"Expected a non-empty value for `span_id` but received {span_id!r}")
+        return self._post(
+            f"/v1/telemetry/spans/{span_id}/tree",
+            body=maybe_transform(
+                {
+                    "attributes_to_return": attributes_to_return,
+                    "max_depth": max_depth,
+                },
+                telemetry_query_span_tree_params.TelemetryQuerySpanTreeParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[TelemetryQuerySpanTreeResponse]._unwrapper,
+            ),
+            cast_to=cast(Type[TelemetryQuerySpanTreeResponse], DataWrapper[TelemetryQuerySpanTreeResponse]),
         )
 
     def query_spans(
@@ -391,50 +391,6 @@ class AsyncTelemetryResource(AsyncAPIResource):
             cast_to=TelemetryGetSpanResponse,
         )
 
-    async def get_span_tree(
-        self,
-        span_id: str,
-        *,
-        attributes_to_return: List[str] | NotGiven = NOT_GIVEN,
-        max_depth: int | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TelemetryGetSpanTreeResponse:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not span_id:
-            raise ValueError(f"Expected a non-empty value for `span_id` but received {span_id!r}")
-        return await self._post(
-            f"/v1/telemetry/spans/{span_id}/tree",
-            body=await async_maybe_transform(
-                {
-                    "attributes_to_return": attributes_to_return,
-                    "max_depth": max_depth,
-                },
-                telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                post_parser=DataWrapper[TelemetryGetSpanTreeResponse]._unwrapper,
-            ),
-            cast_to=cast(Type[TelemetryGetSpanTreeResponse], DataWrapper[TelemetryGetSpanTreeResponse]),
-        )
-
     async def get_trace(
         self,
         trace_id: str,
@@ -502,6 +458,50 @@ class AsyncTelemetryResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
+        )
+
+    async def query_span_tree(
+        self,
+        span_id: str,
+        *,
+        attributes_to_return: List[str] | NotGiven = NOT_GIVEN,
+        max_depth: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TelemetryQuerySpanTreeResponse:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not span_id:
+            raise ValueError(f"Expected a non-empty value for `span_id` but received {span_id!r}")
+        return await self._post(
+            f"/v1/telemetry/spans/{span_id}/tree",
+            body=await async_maybe_transform(
+                {
+                    "attributes_to_return": attributes_to_return,
+                    "max_depth": max_depth,
+                },
+                telemetry_query_span_tree_params.TelemetryQuerySpanTreeParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[TelemetryQuerySpanTreeResponse]._unwrapper,
+            ),
+            cast_to=cast(Type[TelemetryQuerySpanTreeResponse], DataWrapper[TelemetryQuerySpanTreeResponse]),
         )
 
     async def query_spans(
@@ -642,14 +642,14 @@ class TelemetryResourceWithRawResponse:
         self.get_span = to_raw_response_wrapper(
             telemetry.get_span,
         )
-        self.get_span_tree = to_raw_response_wrapper(
-            telemetry.get_span_tree,
-        )
         self.get_trace = to_raw_response_wrapper(
             telemetry.get_trace,
         )
         self.log_event = to_raw_response_wrapper(
             telemetry.log_event,
+        )
+        self.query_span_tree = to_raw_response_wrapper(
+            telemetry.query_span_tree,
         )
         self.query_spans = to_raw_response_wrapper(
             telemetry.query_spans,
@@ -669,14 +669,14 @@ class AsyncTelemetryResourceWithRawResponse:
         self.get_span = async_to_raw_response_wrapper(
             telemetry.get_span,
         )
-        self.get_span_tree = async_to_raw_response_wrapper(
-            telemetry.get_span_tree,
-        )
         self.get_trace = async_to_raw_response_wrapper(
             telemetry.get_trace,
         )
         self.log_event = async_to_raw_response_wrapper(
             telemetry.log_event,
+        )
+        self.query_span_tree = async_to_raw_response_wrapper(
+            telemetry.query_span_tree,
         )
         self.query_spans = async_to_raw_response_wrapper(
             telemetry.query_spans,
@@ -696,14 +696,14 @@ class TelemetryResourceWithStreamingResponse:
         self.get_span = to_streamed_response_wrapper(
             telemetry.get_span,
         )
-        self.get_span_tree = to_streamed_response_wrapper(
-            telemetry.get_span_tree,
-        )
         self.get_trace = to_streamed_response_wrapper(
             telemetry.get_trace,
         )
         self.log_event = to_streamed_response_wrapper(
             telemetry.log_event,
+        )
+        self.query_span_tree = to_streamed_response_wrapper(
+            telemetry.query_span_tree,
         )
         self.query_spans = to_streamed_response_wrapper(
             telemetry.query_spans,
@@ -723,14 +723,14 @@ class AsyncTelemetryResourceWithStreamingResponse:
         self.get_span = async_to_streamed_response_wrapper(
             telemetry.get_span,
         )
-        self.get_span_tree = async_to_streamed_response_wrapper(
-            telemetry.get_span_tree,
-        )
         self.get_trace = async_to_streamed_response_wrapper(
             telemetry.get_trace,
         )
         self.log_event = async_to_streamed_response_wrapper(
             telemetry.log_event,
+        )
+        self.query_span_tree = async_to_streamed_response_wrapper(
+            telemetry.query_span_tree,
         )
         self.query_spans = async_to_streamed_response_wrapper(
             telemetry.query_spans,
