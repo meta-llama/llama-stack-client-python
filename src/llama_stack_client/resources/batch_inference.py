@@ -60,7 +60,7 @@ class BatchInferenceResource(SyncAPIResource):
         logprobs: batch_inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required", "none"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[batch_inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -183,7 +183,7 @@ class AsyncBatchInferenceResource(AsyncAPIResource):
         logprobs: batch_inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        tool_choice: Literal["auto", "required"] | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required", "none"] | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
         tools: Iterable[batch_inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.

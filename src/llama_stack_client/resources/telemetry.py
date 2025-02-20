@@ -118,20 +118,20 @@ class TelemetryResource(SyncAPIResource):
         """
         if not span_id:
             raise ValueError(f"Expected a non-empty value for `span_id` but received {span_id!r}")
-        return self._get(
+        return self._post(
             f"/v1/telemetry/spans/{span_id}/tree",
+            body=maybe_transform(
+                {
+                    "attributes_to_return": attributes_to_return,
+                    "max_depth": max_depth,
+                },
+                telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "attributes_to_return": attributes_to_return,
-                        "max_depth": max_depth,
-                    },
-                    telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
-                ),
                 post_parser=DataWrapper[TelemetryGetSpanTreeResponse]._unwrapper,
             ),
             cast_to=cast(Type[TelemetryGetSpanTreeResponse], DataWrapper[TelemetryGetSpanTreeResponse]),
@@ -229,21 +229,21 @@ class TelemetryResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get(
+        return self._post(
             "/v1/telemetry/spans",
+            body=maybe_transform(
+                {
+                    "attribute_filters": attribute_filters,
+                    "attributes_to_return": attributes_to_return,
+                    "max_depth": max_depth,
+                },
+                telemetry_query_spans_params.TelemetryQuerySpansParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "attribute_filters": attribute_filters,
-                        "attributes_to_return": attributes_to_return,
-                        "max_depth": max_depth,
-                    },
-                    telemetry_query_spans_params.TelemetryQuerySpansParams,
-                ),
                 post_parser=DataWrapper[TelemetryQuerySpansResponse]._unwrapper,
             ),
             cast_to=cast(Type[TelemetryQuerySpansResponse], DataWrapper[TelemetryQuerySpansResponse]),
@@ -273,22 +273,22 @@ class TelemetryResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get(
+        return self._post(
             "/v1/telemetry/traces",
+            body=maybe_transform(
+                {
+                    "attribute_filters": attribute_filters,
+                    "limit": limit,
+                    "offset": offset,
+                    "order_by": order_by,
+                },
+                telemetry_query_traces_params.TelemetryQueryTracesParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "attribute_filters": attribute_filters,
-                        "limit": limit,
-                        "offset": offset,
-                        "order_by": order_by,
-                    },
-                    telemetry_query_traces_params.TelemetryQueryTracesParams,
-                ),
                 post_parser=DataWrapper[TelemetryQueryTracesResponse]._unwrapper,
             ),
             cast_to=cast(Type[TelemetryQueryTracesResponse], DataWrapper[TelemetryQueryTracesResponse]),
@@ -416,20 +416,20 @@ class AsyncTelemetryResource(AsyncAPIResource):
         """
         if not span_id:
             raise ValueError(f"Expected a non-empty value for `span_id` but received {span_id!r}")
-        return await self._get(
+        return await self._post(
             f"/v1/telemetry/spans/{span_id}/tree",
+            body=await async_maybe_transform(
+                {
+                    "attributes_to_return": attributes_to_return,
+                    "max_depth": max_depth,
+                },
+                telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "attributes_to_return": attributes_to_return,
-                        "max_depth": max_depth,
-                    },
-                    telemetry_get_span_tree_params.TelemetryGetSpanTreeParams,
-                ),
                 post_parser=DataWrapper[TelemetryGetSpanTreeResponse]._unwrapper,
             ),
             cast_to=cast(Type[TelemetryGetSpanTreeResponse], DataWrapper[TelemetryGetSpanTreeResponse]),
@@ -527,21 +527,21 @@ class AsyncTelemetryResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._get(
+        return await self._post(
             "/v1/telemetry/spans",
+            body=await async_maybe_transform(
+                {
+                    "attribute_filters": attribute_filters,
+                    "attributes_to_return": attributes_to_return,
+                    "max_depth": max_depth,
+                },
+                telemetry_query_spans_params.TelemetryQuerySpansParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "attribute_filters": attribute_filters,
-                        "attributes_to_return": attributes_to_return,
-                        "max_depth": max_depth,
-                    },
-                    telemetry_query_spans_params.TelemetryQuerySpansParams,
-                ),
                 post_parser=DataWrapper[TelemetryQuerySpansResponse]._unwrapper,
             ),
             cast_to=cast(Type[TelemetryQuerySpansResponse], DataWrapper[TelemetryQuerySpansResponse]),
@@ -571,22 +571,22 @@ class AsyncTelemetryResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._get(
+        return await self._post(
             "/v1/telemetry/traces",
+            body=await async_maybe_transform(
+                {
+                    "attribute_filters": attribute_filters,
+                    "limit": limit,
+                    "offset": offset,
+                    "order_by": order_by,
+                },
+                telemetry_query_traces_params.TelemetryQueryTracesParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "attribute_filters": attribute_filters,
-                        "limit": limit,
-                        "offset": offset,
-                        "order_by": order_by,
-                    },
-                    telemetry_query_traces_params.TelemetryQueryTracesParams,
-                ),
                 post_parser=DataWrapper[TelemetryQueryTracesResponse]._unwrapper,
             ),
             cast_to=cast(Type[TelemetryQueryTracesResponse], DataWrapper[TelemetryQueryTracesResponse]),
