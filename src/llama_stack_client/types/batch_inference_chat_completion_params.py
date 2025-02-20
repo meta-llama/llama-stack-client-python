@@ -25,7 +25,7 @@ class BatchInferenceChatCompletionParams(TypedDict, total=False):
 
     sampling_params: SamplingParams
 
-    tool_choice: Literal["auto", "required"]
+    tool_choice: Literal["auto", "required", "none"]
     """Whether tool use is required or automatic.
 
     This is a hint to the model which may not be followed. It depends on the

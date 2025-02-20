@@ -9,11 +9,11 @@ from ..tool_def_param import ToolDefParam
 from .response_format import ResponseFormat
 from .sampling_params import SamplingParams
 
-__all__ = ["AgentConfig", "ToolConfig", "Toolgroup", "ToolgroupUnionMember1"]
+__all__ = ["AgentConfig", "ToolConfig", "Toolgroup", "ToolgroupAgentToolGroupWithArgs"]
 
 
 class ToolConfig(TypedDict, total=False):
-    system_message_behavior: Required[Literal["append", "replace"]]
+    system_message_behavior: Literal["append", "replace"]
     """(Optional) Config for how to override the default system prompt.
 
     - `SystemMessageBehavior.append`: Appends the provided system message to the
@@ -23,10 +23,11 @@ class ToolConfig(TypedDict, total=False):
       definitions should be inserted.
     """
 
-    tool_choice: Literal["auto", "required"]
-    """(Optional) Whether tool use is required or automatic.
+    tool_choice: Union[Literal["auto", "required", "none"], str]
+    """(Optional) Whether tool use is automatic, required, or none.
 
-    Defaults to ToolChoice.auto.
+    Can also specify a tool name to use a specific tool. Defaults to
+    ToolChoice.auto.
     """
 
     tool_prompt_format: Literal["json", "function_tag", "python_list"]
@@ -40,13 +41,13 @@ class ToolConfig(TypedDict, total=False):
     """
 
 
-class ToolgroupUnionMember1(TypedDict, total=False):
+class ToolgroupAgentToolGroupWithArgs(TypedDict, total=False):
     args: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
     name: Required[str]
 
 
-Toolgroup: TypeAlias = Union[str, ToolgroupUnionMember1]
+Toolgroup: TypeAlias = Union[str, ToolgroupAgentToolGroupWithArgs]
 
 
 class AgentConfig(TypedDict, total=False):
@@ -69,7 +70,7 @@ class AgentConfig(TypedDict, total=False):
 
     sampling_params: SamplingParams
 
-    tool_choice: Literal["auto", "required"]
+    tool_choice: Literal["auto", "required", "none"]
     """Whether tool use is required or automatic.
 
     This is a hint to the model which may not be followed. It depends on the

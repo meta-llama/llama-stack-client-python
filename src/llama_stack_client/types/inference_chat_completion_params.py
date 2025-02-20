@@ -49,7 +49,7 @@ class InferenceChatCompletionParamsBase(TypedDict, total=False):
     sampling_params: SamplingParams
     """Parameters to control the sampling strategy"""
 
-    tool_choice: Literal["auto", "required"]
+    tool_choice: Literal["auto", "required", "none"]
     """(Optional) Whether tool use is required or automatic.
 
     Defaults to ToolChoice.auto. .. deprecated:: Use tool_config instead.
@@ -79,7 +79,7 @@ class Logprobs(TypedDict, total=False):
 
 
 class ToolConfig(TypedDict, total=False):
-    system_message_behavior: Required[Literal["append", "replace"]]
+    system_message_behavior: Literal["append", "replace"]
     """(Optional) Config for how to override the default system prompt.
 
     - `SystemMessageBehavior.append`: Appends the provided system message to the
@@ -89,10 +89,11 @@ class ToolConfig(TypedDict, total=False):
       definitions should be inserted.
     """
 
-    tool_choice: Literal["auto", "required"]
-    """(Optional) Whether tool use is required or automatic.
+    tool_choice: Union[Literal["auto", "required", "none"], str]
+    """(Optional) Whether tool use is automatic, required, or none.
 
-    Defaults to ToolChoice.auto.
+    Can also specify a tool name to use a specific tool. Defaults to
+    ToolChoice.auto.
     """
 
     tool_prompt_format: Literal["json", "function_tag", "python_list"]
