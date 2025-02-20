@@ -67,7 +67,7 @@ class EvalResource(SyncAPIResource):
 
     def evaluate_rows(
         self,
-        task_id: str,
+        benchmark_id: str,
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
         scoring_functions: List[str],
@@ -89,10 +89,10 @@ class EvalResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+        if not benchmark_id:
+            raise ValueError(f"Expected a non-empty value for `benchmark_id` but received {benchmark_id!r}")
         return self._post(
-            f"/v1/eval/tasks/{task_id}/evaluations",
+            f"/v1/eval/benchmarks/{benchmark_id}/evaluations",
             body=maybe_transform(
                 {
                     "input_rows": input_rows,
@@ -151,7 +151,7 @@ class EvalResource(SyncAPIResource):
 
     def run_eval(
         self,
-        task_id: str,
+        benchmark_id: str,
         *,
         task_config: BenchmarkConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -171,10 +171,10 @@ class EvalResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+        if not benchmark_id:
+            raise ValueError(f"Expected a non-empty value for `benchmark_id` but received {benchmark_id!r}")
         return self._post(
-            f"/v1/eval/tasks/{task_id}/jobs",
+            f"/v1/eval/benchmarks/{benchmark_id}/jobs",
             body=maybe_transform({"task_config": task_config}, eval_run_eval_params.EvalRunEvalParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -242,7 +242,7 @@ class AsyncEvalResource(AsyncAPIResource):
 
     async def evaluate_rows(
         self,
-        task_id: str,
+        benchmark_id: str,
         *,
         input_rows: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]],
         scoring_functions: List[str],
@@ -264,10 +264,10 @@ class AsyncEvalResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+        if not benchmark_id:
+            raise ValueError(f"Expected a non-empty value for `benchmark_id` but received {benchmark_id!r}")
         return await self._post(
-            f"/v1/eval/tasks/{task_id}/evaluations",
+            f"/v1/eval/benchmarks/{benchmark_id}/evaluations",
             body=await async_maybe_transform(
                 {
                     "input_rows": input_rows,
@@ -326,7 +326,7 @@ class AsyncEvalResource(AsyncAPIResource):
 
     async def run_eval(
         self,
-        task_id: str,
+        benchmark_id: str,
         *,
         task_config: BenchmarkConfigParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -346,10 +346,10 @@ class AsyncEvalResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+        if not benchmark_id:
+            raise ValueError(f"Expected a non-empty value for `benchmark_id` but received {benchmark_id!r}")
         return await self._post(
-            f"/v1/eval/tasks/{task_id}/jobs",
+            f"/v1/eval/benchmarks/{benchmark_id}/jobs",
             body=await async_maybe_transform({"task_config": task_config}, eval_run_eval_params.EvalRunEvalParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
