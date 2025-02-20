@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Union
+from typing import Union, Optional, Dict, List
 from typing_extensions import Literal
 
 from .._models import BaseModel
@@ -16,3 +16,5 @@ class ToolResponse(BaseModel):
     """A image content item"""
 
     tool_name: Union[Literal["brave_search", "wolfram_alpha", "photogen", "code_interpreter"], str]
+
+    metadata: Optional[Dict[str, Union[bool, float, str, List[object], object, None]]] = None

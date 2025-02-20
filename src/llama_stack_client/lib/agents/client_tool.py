@@ -6,11 +6,12 @@
 
 import json
 from abc import abstractmethod
-from typing import Callable, Dict, TypeVar, get_type_hints, Union, get_origin, get_args, List
+from typing import Callable, Dict, TypeVar, get_type_hints, Union, get_origin, get_args, List, Any
 import inspect
 
-from llama_stack_client.types import Message, ToolResponseMessage
+from llama_stack_client.types import Message, CompletionMessage, ToolCall
 from llama_stack_client.types.tool_def_param import Parameter, ToolDefParam
+from llama_stack_client.types.tool_invocation_result import ToolInvocationResult
 
 
 class ClientTool:
@@ -63,28 +64,17 @@ class ClientTool:
     def run(
         self,
         message_history: List[Message],
-    ) -> ToolResponseMessage:
+    ) -> ToolInvocationResult:
         # NOTE: we could override this method to use the entire message history for advanced tools
-        last_message = message_history[-1]
+        last_message: CompletionMessage = message_history[-1]
 
         assert len(last_message.tool_calls) == 1, "Expected single tool call"
-        tool_call = last_message.tool_calls[0]
+        tool_call: ToolCall = last_message.tool_calls[0]
 
-        try:
-            response = self.run_impl(**tool_call.arguments)
-            response_str = json.dumps(response, ensure_ascii=False)
-        except Exception as e:
-            response_str = f"Error when running tool: {e}"
-
-        return ToolResponseMessage(
-            call_id=tool_call.call_id,
-            tool_name=tool_call.tool_name,
-            content=response_str,
-            role="tool",
-        )
+        return self.run_impl(**tool_call.arguments)
 
     @abstractmethod
-    def run_impl(self, **kwargs):
+    def run_impl(self, **kwargs: Any) -> ToolInvocationResult:
         raise NotImplementedError
 
 
@@ -107,6 +97,8 @@ def client_tool(func: T) -> ClientTool:
 
     Note that you must use RST-style docstrings with :param tags for each parameter. These will be used for prompting model to use tools correctly.
     :returns: tags in the docstring is optional as it would not be used for the tool's description.
+
+    You can return any value, which will be serialized to json and fed into the model, or a ToolInvocationResult object/dict where you can include metadata about the output.
     """
 
     class _WrappedTool(ClientTool):
@@ -160,7 +152,13 @@ def client_tool(func: T) -> ClientTool:
                 )
             return params
 
-        def run_impl(self, **kwargs):
-            return func(**kwargs)
+        def run_impl(self, **kwargs: Any) -> ToolInvocationResult:
+            result = func(**kwargs)
+            try:
+                return ToolInvocationResult(**result)
+            except Exception:
+                return ToolInvocationResult(
+                    content=json.dumps(result, ensure_ascii=False),
+                )
 
     return _WrappedTool()

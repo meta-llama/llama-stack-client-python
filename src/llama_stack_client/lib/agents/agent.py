@@ -25,6 +25,7 @@ from datetime import datetime
 import uuid
 from llama_stack_client.types.tool_execution_step import ToolExecutionStep
 from llama_stack_client.types.tool_response import ToolResponse
+from llama_stack_client.types.tool_invocation_result import ToolInvocationResult
 
 DEFAULT_MAX_ITER = 10
 
@@ -77,16 +78,14 @@ class Agent:
 
         return message.tool_calls
 
-    def _run_tool(self, tool_calls: List[ToolCall]) -> ToolResponseMessage:
-        assert len(tool_calls) == 1, "Only one tool call is supported"
-        tool_call = tool_calls[0]
-
+    def _run_tool(self, tool_call: ToolCall) -> ToolInvocationResult:
+        tool_result = None
         # custom client tools
         if tool_call.tool_name in self.client_tools:
             tool = self.client_tools[tool_call.tool_name]
             # NOTE: tool.run() expects a list of messages, we only pass in last message here
             # but we could pass in the entire message history
-            result_message = tool.run(
+            tool_result = tool.run(
                 [
                     CompletionMessage(
                         role="assistant",
@@ -96,7 +95,6 @@ class Agent:
                     )
                 ]
             )
-            return result_message
 
         # builtin tools executed by tool_runtime
         if tool_call.tool_name in self.builtin_tools:
@@ -104,21 +102,7 @@ class Agent:
                 tool_name=tool_call.tool_name,
                 kwargs=tool_call.arguments,
             )
-            tool_response_message = ToolResponseMessage(
-                call_id=tool_call.call_id,
-                tool_name=tool_call.tool_name,
-                content=tool_result.content,
-                role="tool",
-            )
-            return tool_response_message
-
-        # cannot find tools
-        return ToolResponseMessage(
-            call_id=tool_call.call_id,
-            tool_name=tool_call.tool_name,
-            content=f"Unknown tool `{tool_call.tool_name}` was called.",
-            role="tool",
-        )
+        return tool_result
 
     def create_turn(
         self,
@@ -184,7 +168,30 @@ class Agent:
                     yield chunk
                 else:
                     tool_execution_start_time = datetime.now()
-                    tool_response_message = self._run_tool(tool_calls)
+
+                    assert len(tool_calls) == 1, "Only one tool call is supported"
+                    tool_call = tool_calls[0]
+                    try:
+                        tool_result = self._run_tool(tool_call)
+                    except Exception as e:
+                        tool_result = ToolInvocationResult(
+                            content=f"Error when running tool: {e}",
+                        )
+                    if tool_result:
+                        tool_response_message = ToolResponseMessage(
+                            call_id=tool_call.call_id,
+                            tool_name=tool_call.tool_name,
+                            content=tool_result.content,
+                            role="tool",
+                        )
+                    else:
+                        # cannot find tools
+                        tool_response_message = ToolResponseMessage(
+                            call_id=tool_call.call_id,
+                            tool_name=tool_call.tool_name,
+                            content=f"Unknown tool `{tool_call.tool_name}` was called.",
+                            role="tool",
+                        )
                     tool_execution_step = ToolExecutionStep(
                         step_type="tool_execution",
                         step_id=str(uuid.uuid4()),
@@ -194,6 +201,7 @@ class Agent:
                                 tool_name=tool_response_message.tool_name,
                                 content=tool_response_message.content,
                                 call_id=tool_response_message.call_id,
+                                metadata=tool_result.metadata,
                             )
                         ],
                         turn_id=chunk.event.payload.turn.turn_id,
