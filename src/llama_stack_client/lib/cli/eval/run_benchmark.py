@@ -24,19 +24,19 @@ from .utils import (
 @click.command("run-benchmark")
 @click.argument("benchmark_ids", nargs=-1, required=True)
 @click.option(
-    "--model_id",
+    "--model-id",
     required=True,
     help="model id to run the benchmark eval on",
     default=None,
     type=str,
 )
 @click.option(
-    "--output_dir",
+    "--output-dir",
     required=True,
     help="Path to the dump eval results output directory",
 )
 @click.option(
-    "--num_examples",
+    "--num-examples",
     required=False,
     help="Number of examples to evaluate on, useful for debugging",
     default=None,
@@ -50,23 +50,23 @@ from .utils import (
     type=float,
 )
 @click.option(
-    "--max_tokens",
+    "--max-tokens",
     required=False,
-    help="max_tokens in the sampling params to run generation",
+    help="max-tokens in the sampling params to run generation",
     default=4096,
     type=int,
 )
 @click.option(
-    "--top_p",
+    "--top-p",
     required=False,
-    help="top_p in the sampling params to run generation",
+    help="top-p in the sampling params to run generation",
     default=0.9,
     type=float,
 )
 @click.option(
-    "--repeat_penalty",
+    "--repeat-penalty",
     required=False,
-    help="repeat_penalty in the sampling params to run generation",
+    help="repeat-penalty in the sampling params to run generation",
     default=1.0,
     type=float,
 )
