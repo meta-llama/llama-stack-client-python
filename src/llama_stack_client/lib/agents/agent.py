@@ -65,7 +65,7 @@ class Agent:
         return self.session_id
 
     def _get_tool_calls(self, chunk: AgentTurnResponseStreamChunk) -> List[ToolCall]:
-        if chunk.event.payload.event_type != "turn_complete":
+        if chunk.event.payload.event_type not in {"turn_complete", "turn_awaiting_input"}:
             return []
 
         message = chunk.event.payload.turn.output_message
@@ -76,6 +76,12 @@ class Agent:
             return self.tool_parser.get_tool_calls(message)
 
         return message.tool_calls
+    
+    def _get_turn_id(self, chunk: AgentTurnResponseStreamChunk) -> Optional[str]:
+        if chunk.event.payload.event_type not in ["turn_complete", "turn_awaiting_input"]:
+            return None
+
+        return chunk.event.payload.turn.turn_id
 
     def _run_tool(self, tool_calls: List[ToolCall]) -> ToolResponseMessage:
         assert len(tool_calls) == 1, "Only one tool call is supported"
@@ -128,11 +134,21 @@ class Agent:
         documents: Optional[List[Document]] = None,
         stream: bool = True,
     ) -> Iterator[AgentTurnResponseStreamChunk] | Turn:
+        pass
+
+    def create_turn_DEPRECATED(
+        self,
+        messages: List[Union[UserMessage, ToolResponseMessage]],
+        session_id: Optional[str] = None,
+        toolgroups: Optional[List[Toolgroup]] = None,
+        documents: Optional[List[Document]] = None,
+        stream: bool = True,
+    ) -> Iterator[AgentTurnResponseStreamChunk] | Turn:
         if stream:
-            return self._create_turn_streaming(messages, session_id, toolgroups, documents)
+            return self._create_turn_streaming_DEPRECATED(messages, session_id, toolgroups, documents)
         else:
             chunks = []
-            for chunk in self._create_turn_streaming(messages, session_id, toolgroups, documents):
+            for chunk in self._create_turn_streaming_DEPRECATED(messages, session_id, toolgroups, documents):
                 if chunk.event.payload.event_type == "turn_complete":
                     chunks.append(chunk)
                 pass
@@ -153,7 +169,7 @@ class Agent:
                 ],
             )
 
-    def _create_turn_streaming(
+    def _create_turn_streaming_DEPRECATED(
         self,
         messages: List[Union[UserMessage, ToolResponseMessage]],
         session_id: Optional[str] = None,
