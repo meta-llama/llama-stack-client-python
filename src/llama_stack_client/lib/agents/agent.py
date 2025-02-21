@@ -163,37 +163,12 @@ class Agent:
             toolgroups=toolgroups,
             allow_turn_resume=True,
         )
-        is_turn_complete = True
-        turn_id = None
-        for chunk in turn_response:
-            tool_calls = self._get_tool_calls(chunk)
-            if hasattr(chunk, "error"):
-                yield chunk
-                return
-            elif not tool_calls:
-                yield chunk
-            else:
-                is_turn_complete = False
-                turn_id = self._get_turn_id(chunk)
-                yield chunk
-                break
 
-        # 2. while the turn is not complete, continue the turn
+        # 2. process turn and resume if there's a tool call
+        is_turn_complete = False
         while not is_turn_complete and n_iter < max_iter:
             is_turn_complete = True
-            assert turn_id is not None, "turn_id is None"
-
-            # run the tools
-            tool_response_message = self._run_tool(tool_calls)
-
-            continue_response = self.client.agents.turn.resume(
-                agent_id=self.agent_id,
-                session_id=session_id or self.session_id[-1],
-                turn_id=turn_id,
-                tool_responses=[tool_response_message],
-                stream=True,
-            )
-            for chunk in continue_response:
+            for chunk in turn_response:
                 tool_calls = self._get_tool_calls(chunk)
                 if hasattr(chunk, "error"):
                     yield chunk
@@ -203,7 +178,22 @@ class Agent:
                 else:
                     is_turn_complete = False
                     turn_id = self._get_turn_id(chunk)
+                    if n_iter == 0:
+                        yield chunk
+                    
+                    # run the tools
+                    tool_response_message = self._run_tool(tool_calls)
+                    # pass it to next iteration
+                    turn_response = self.client.agents.turn.resume(
+                        agent_id=self.agent_id,
+                        session_id=session_id or self.session_id[-1],
+                        turn_id=turn_id,
+                        tool_responses=[tool_response_message],
+                        stream=True,
+                    )
+
                     n_iter += 1
+                
 
     def create_turn_DEPRECATED(
         self,
