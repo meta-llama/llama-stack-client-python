@@ -3,12 +3,15 @@
 #
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
+import uuid
+from datetime import datetime
 from typing import Iterator, List, Optional, Tuple, Union
 
 from llama_stack_client import LlamaStackClient
+
 from llama_stack_client.types import ToolResponseMessage, UserMessage
 from llama_stack_client.types.agent_create_params import AgentConfig
-from llama_stack_client.types.agents.turn import Turn
+from llama_stack_client.types.agents.turn import CompletionMessage, Turn
 from llama_stack_client.types.agents.turn_create_params import Document, Toolgroup
 from llama_stack_client.types.agents.turn_create_response import (
     AgentTurnResponseStreamChunk,
@@ -18,13 +21,11 @@ from llama_stack_client.types.agents.turn_response_event_payload import (
     AgentTurnResponseStepCompletePayload,
 )
 from llama_stack_client.types.shared.tool_call import ToolCall
-from llama_stack_client.types.agents.turn import CompletionMessage
-from .client_tool import ClientTool
-from .tool_parser import ToolParser
-from datetime import datetime
-import uuid
 from llama_stack_client.types.tool_execution_step import ToolExecutionStep
 from llama_stack_client.types.tool_response import ToolResponse
+
+from .client_tool import ClientTool
+from .tool_parser import ToolParser
 
 DEFAULT_MAX_ITER = 10
 
@@ -55,7 +56,7 @@ class Agent:
         self.agent_id = agentic_system_create_response.agent_id
         return self.agent_id
 
-    def create_session(self, session_name: str) -> int:
+    def create_session(self, session_name: str) -> str:
         agentic_system_create_session_response = self.client.agents.session.create(
             agent_id=self.agent_id,
             session_name=session_name,
