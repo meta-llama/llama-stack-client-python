@@ -191,8 +191,8 @@ class Agent:
                         tool_responses=[tool_response_message],
                         stream=True,
                     )
-
                     n_iter += 1
+                    break
 
             if n_iter >= max_iter:
                 raise Exception(f"Turn did not complete in {max_iter} iterations")
