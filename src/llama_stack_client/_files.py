@@ -71,7 +71,7 @@ def _transform_file(file: FileTypes) -> HttpxFileTypes:
     if is_tuple_t(file):
         return (file[0], _read_file_content(file[1]), *file[2:])
 
-    raise TypeError("Expected file types input to be a FileContent type or to be a tuple")
+    raise TypeError(f"Expected file types input to be a FileContent type or to be a tuple")
 
 
 def _read_file_content(file: FileContent) -> HttpxFileContent:
@@ -113,7 +113,7 @@ async def _async_transform_file(file: FileTypes) -> HttpxFileTypes:
     if is_tuple_t(file):
         return (file[0], await _async_read_file_content(file[1]), *file[2:])
 
-    raise TypeError("Expected file types input to be a FileContent type or to be a tuple")
+    raise TypeError(f"Expected file types input to be a FileContent type or to be a tuple")
 
 
 async def _async_read_file_content(file: FileContent) -> HttpxFileContent:

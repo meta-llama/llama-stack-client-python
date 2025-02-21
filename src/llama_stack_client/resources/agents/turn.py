@@ -247,8 +247,18 @@ class TurnResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Turn:
-        """
+        """Resume an agent turn with executed tool call responses.
+
+        When a Turn has the
+        status `awaiting_input` due to pending input from client side tool calls, this
+        endpoint can be used to submit the outputs from the tool calls once they are
+        ready.
+
         Args:
+          tool_responses: The tool call responses to resume the turn with.
+
+          stream: Whether to stream the response.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -275,8 +285,18 @@ class TurnResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Stream[AgentTurnResponseStreamChunk]:
-        """
+        """Resume an agent turn with executed tool call responses.
+
+        When a Turn has the
+        status `awaiting_input` due to pending input from client side tool calls, this
+        endpoint can be used to submit the outputs from the tool calls once they are
+        ready.
+
         Args:
+          stream: Whether to stream the response.
+
+          tool_responses: The tool call responses to resume the turn with.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -303,8 +323,18 @@ class TurnResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Turn | Stream[AgentTurnResponseStreamChunk]:
-        """
+        """Resume an agent turn with executed tool call responses.
+
+        When a Turn has the
+        status `awaiting_input` due to pending input from client side tool calls, this
+        endpoint can be used to submit the outputs from the tool calls once they are
+        ready.
+
         Args:
+          stream: Whether to stream the response.
+
+          tool_responses: The tool call responses to resume the turn with.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -571,8 +601,18 @@ class AsyncTurnResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Turn:
-        """
+        """Resume an agent turn with executed tool call responses.
+
+        When a Turn has the
+        status `awaiting_input` due to pending input from client side tool calls, this
+        endpoint can be used to submit the outputs from the tool calls once they are
+        ready.
+
         Args:
+          tool_responses: The tool call responses to resume the turn with.
+
+          stream: Whether to stream the response.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -599,8 +639,18 @@ class AsyncTurnResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AsyncStream[AgentTurnResponseStreamChunk]:
-        """
+        """Resume an agent turn with executed tool call responses.
+
+        When a Turn has the
+        status `awaiting_input` due to pending input from client side tool calls, this
+        endpoint can be used to submit the outputs from the tool calls once they are
+        ready.
+
         Args:
+          stream: Whether to stream the response.
+
+          tool_responses: The tool call responses to resume the turn with.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -627,8 +677,18 @@ class AsyncTurnResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Turn | AsyncStream[AgentTurnResponseStreamChunk]:
-        """
+        """Resume an agent turn with executed tool call responses.
+
+        When a Turn has the
+        status `awaiting_input` due to pending input from client side tool calls, this
+        endpoint can be used to submit the outputs from the tool calls once they are
+        ready.
+
         Args:
+          stream: Whether to stream the response.
+
+          tool_responses: The tool call responses to resume the turn with.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
