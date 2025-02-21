@@ -131,7 +131,7 @@ class Agent:
         else:
             chunks = []
             for chunk in self._create_turn_streaming(messages, session_id, toolgroups, documents):
-                if chunk.event.payload.event_type in ["turn_complete", "turn_awaiting_input"]:
+                if chunk.event.payload.event_type == "turn_complete":
                     chunks.append(chunk)
                 pass
             if not chunks:
