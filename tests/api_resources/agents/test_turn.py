@@ -293,6 +293,245 @@ class TestTurn:
                 session_id="session_id",
             )
 
+    @parametrize
+    def test_method_continue_overload_1(self, client: LlamaStackClient) -> None:
+        turn = client.agents.turn.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+        )
+        assert_matches_type(Turn, turn, path=["response"])
+
+    @parametrize
+    def test_method_continue_with_all_params_overload_1(self, client: LlamaStackClient) -> None:
+        turn = client.agents.turn.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+            stream=False,
+        )
+        assert_matches_type(Turn, turn, path=["response"])
+
+    @parametrize
+    def test_raw_response_continue_overload_1(self, client: LlamaStackClient) -> None:
+        response = client.agents.turn.with_raw_response.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        turn = response.parse()
+        assert_matches_type(Turn, turn, path=["response"])
+
+    @parametrize
+    def test_streaming_response_continue_overload_1(self, client: LlamaStackClient) -> None:
+        with client.agents.turn.with_streaming_response.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            turn = response.parse()
+            assert_matches_type(Turn, turn, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_continue_overload_1(self, client: LlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            client.agents.turn.with_raw_response.continue_(
+                turn_id="turn_id",
+                agent_id="",
+                session_id="session_id",
+                tool_responses=[
+                    {
+                        "call_id": "call_id",
+                        "content": "string",
+                        "role": "tool",
+                        "tool_name": "brave_search",
+                    }
+                ],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
+            client.agents.turn.with_raw_response.continue_(
+                turn_id="turn_id",
+                agent_id="agent_id",
+                session_id="",
+                tool_responses=[
+                    {
+                        "call_id": "call_id",
+                        "content": "string",
+                        "role": "tool",
+                        "tool_name": "brave_search",
+                    }
+                ],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `turn_id` but received ''"):
+            client.agents.turn.with_raw_response.continue_(
+                turn_id="",
+                agent_id="agent_id",
+                session_id="session_id",
+                tool_responses=[
+                    {
+                        "call_id": "call_id",
+                        "content": "string",
+                        "role": "tool",
+                        "tool_name": "brave_search",
+                    }
+                ],
+            )
+
+    @parametrize
+    def test_method_continue_overload_2(self, client: LlamaStackClient) -> None:
+        turn_stream = client.agents.turn.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            stream=True,
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+        )
+        turn_stream.response.close()
+
+    @parametrize
+    def test_raw_response_continue_overload_2(self, client: LlamaStackClient) -> None:
+        response = client.agents.turn.with_raw_response.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            stream=True,
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+        )
+
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        stream = response.parse()
+        stream.close()
+
+    @parametrize
+    def test_streaming_response_continue_overload_2(self, client: LlamaStackClient) -> None:
+        with client.agents.turn.with_streaming_response.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            stream=True,
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            stream = response.parse()
+            stream.close()
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_continue_overload_2(self, client: LlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            client.agents.turn.with_raw_response.continue_(
+                turn_id="turn_id",
+                agent_id="",
+                session_id="session_id",
+                stream=True,
+                tool_responses=[
+                    {
+                        "call_id": "call_id",
+                        "content": "string",
+                        "role": "tool",
+                        "tool_name": "brave_search",
+                    }
+                ],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
+            client.agents.turn.with_raw_response.continue_(
+                turn_id="turn_id",
+                agent_id="agent_id",
+                session_id="",
+                stream=True,
+                tool_responses=[
+                    {
+                        "call_id": "call_id",
+                        "content": "string",
+                        "role": "tool",
+                        "tool_name": "brave_search",
+                    }
+                ],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `turn_id` but received ''"):
+            client.agents.turn.with_raw_response.continue_(
+                turn_id="",
+                agent_id="agent_id",
+                session_id="session_id",
+                stream=True,
+                tool_responses=[
+                    {
+                        "call_id": "call_id",
+                        "content": "string",
+                        "role": "tool",
+                        "tool_name": "brave_search",
+                    }
+                ],
+            )
+
 
 class TestAsyncTurn:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
@@ -571,4 +810,243 @@ class TestAsyncTurn:
                 turn_id="",
                 agent_id="agent_id",
                 session_id="session_id",
+            )
+
+    @parametrize
+    async def test_method_continue_overload_1(self, async_client: AsyncLlamaStackClient) -> None:
+        turn = await async_client.agents.turn.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+        )
+        assert_matches_type(Turn, turn, path=["response"])
+
+    @parametrize
+    async def test_method_continue_with_all_params_overload_1(self, async_client: AsyncLlamaStackClient) -> None:
+        turn = await async_client.agents.turn.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+            stream=False,
+        )
+        assert_matches_type(Turn, turn, path=["response"])
+
+    @parametrize
+    async def test_raw_response_continue_overload_1(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.agents.turn.with_raw_response.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        turn = await response.parse()
+        assert_matches_type(Turn, turn, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_continue_overload_1(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.agents.turn.with_streaming_response.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            turn = await response.parse()
+            assert_matches_type(Turn, turn, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_continue_overload_1(self, async_client: AsyncLlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            await async_client.agents.turn.with_raw_response.continue_(
+                turn_id="turn_id",
+                agent_id="",
+                session_id="session_id",
+                tool_responses=[
+                    {
+                        "call_id": "call_id",
+                        "content": "string",
+                        "role": "tool",
+                        "tool_name": "brave_search",
+                    }
+                ],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
+            await async_client.agents.turn.with_raw_response.continue_(
+                turn_id="turn_id",
+                agent_id="agent_id",
+                session_id="",
+                tool_responses=[
+                    {
+                        "call_id": "call_id",
+                        "content": "string",
+                        "role": "tool",
+                        "tool_name": "brave_search",
+                    }
+                ],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `turn_id` but received ''"):
+            await async_client.agents.turn.with_raw_response.continue_(
+                turn_id="",
+                agent_id="agent_id",
+                session_id="session_id",
+                tool_responses=[
+                    {
+                        "call_id": "call_id",
+                        "content": "string",
+                        "role": "tool",
+                        "tool_name": "brave_search",
+                    }
+                ],
+            )
+
+    @parametrize
+    async def test_method_continue_overload_2(self, async_client: AsyncLlamaStackClient) -> None:
+        turn_stream = await async_client.agents.turn.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            stream=True,
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+        )
+        await turn_stream.response.aclose()
+
+    @parametrize
+    async def test_raw_response_continue_overload_2(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.agents.turn.with_raw_response.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            stream=True,
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+        )
+
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        stream = await response.parse()
+        await stream.close()
+
+    @parametrize
+    async def test_streaming_response_continue_overload_2(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.agents.turn.with_streaming_response.continue_(
+            turn_id="turn_id",
+            agent_id="agent_id",
+            session_id="session_id",
+            stream=True,
+            tool_responses=[
+                {
+                    "call_id": "call_id",
+                    "content": "string",
+                    "role": "tool",
+                    "tool_name": "brave_search",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            stream = await response.parse()
+            await stream.close()
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_continue_overload_2(self, async_client: AsyncLlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
+            await async_client.agents.turn.with_raw_response.continue_(
+                turn_id="turn_id",
+                agent_id="",
+                session_id="session_id",
+                stream=True,
+                tool_responses=[
+                    {
+                        "call_id": "call_id",
+                        "content": "string",
+                        "role": "tool",
+                        "tool_name": "brave_search",
+                    }
+                ],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
+            await async_client.agents.turn.with_raw_response.continue_(
+                turn_id="turn_id",
+                agent_id="agent_id",
+                session_id="",
+                stream=True,
+                tool_responses=[
+                    {
+                        "call_id": "call_id",
+                        "content": "string",
+                        "role": "tool",
+                        "tool_name": "brave_search",
+                    }
+                ],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `turn_id` but received ''"):
+            await async_client.agents.turn.with_raw_response.continue_(
+                turn_id="",
+                agent_id="agent_id",
+                session_id="session_id",
+                stream=True,
+                tool_responses=[
+                    {
+                        "call_id": "call_id",
+                        "content": "string",
+                        "role": "tool",
+                        "tool_name": "brave_search",
+                    }
+                ],
             )
