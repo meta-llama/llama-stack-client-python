@@ -98,14 +98,6 @@ def run_benchmark(
         scoring_functions = benchmark.scoring_functions
         dataset_id = benchmark.dataset_id
 
-        print("scoring_functions", scoring_functions)
-        print("dataset_id", dataset_id)
-        print("model_id", model_id)
-        print("temperature", temperature)
-        print("max_tokens", max_tokens)
-        print("top_p", top_p)
-        print("repeat_penalty", repeat_penalty)
-
         rows = client.datasetio.get_rows_paginated(
             dataset_id=dataset_id,
             rows_in_page=-1 if num_examples is None else num_examples,
