@@ -13,18 +13,10 @@ from llama_stack_client.types.agents.turn_create_params import Document, Toolgro
 from llama_stack_client.types.agents.turn_create_response import (
     AgentTurnResponseStreamChunk,
 )
-from llama_stack_client.types.agents.turn_response_event import TurnResponseEvent
-from llama_stack_client.types.agents.turn_response_event_payload import (
-    AgentTurnResponseStepCompletePayload,
-)
 from llama_stack_client.types.shared.tool_call import ToolCall
 from llama_stack_client.types.agents.turn import CompletionMessage
 from .client_tool import ClientTool
 from .tool_parser import ToolParser
-from datetime import datetime
-import uuid
-from llama_stack_client.types.tool_execution_step import ToolExecutionStep
-from llama_stack_client.types.tool_response import ToolResponse
 
 DEFAULT_MAX_ITER = 10
 
@@ -169,7 +161,7 @@ class Agent:
         stop = False
         n_iter = 0
         max_iter = self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER)
-        
+
         # 1. create an agent turn
         turn_response = self.client.agents.turn.create(
             agent_id=self.agent_id,
@@ -194,7 +186,7 @@ class Agent:
                 turn_id = self._get_turn_id(chunk)
                 yield chunk
                 break
-        
+
         # 2. while the turn is not complete, continue the turn
         while not is_turn_complete and n_iter < max_iter:
             is_turn_complete = True
