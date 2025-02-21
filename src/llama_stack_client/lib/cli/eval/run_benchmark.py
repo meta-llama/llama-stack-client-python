@@ -148,21 +148,13 @@ def run_benchmark(
                     for aggregation_function in aggregation_functions:
                         scoring_results = output_res[scoring_fn]
                         if aggregation_function == "categorical_count":
-                            output_res[scoring_fn].append(
-                                aggregate_categorical_count(scoring_results)
-                            )
+                            output_res[scoring_fn].append(aggregate_categorical_count(scoring_results))
                         elif aggregation_function == "average":
-                            output_res[scoring_fn].append(
-                                aggregate_average(scoring_results)
-                            )
+                            output_res[scoring_fn].append(aggregate_average(scoring_results))
                         elif aggregation_function == "median":
-                            output_res[scoring_fn].append(
-                                aggregate_median(scoring_results)
-                            )
+                            output_res[scoring_fn].append(aggregate_median(scoring_results))
                         elif aggregation_function == "accuracy":
-                            output_res[scoring_fn].append(
-                                aggregate_accuracy(scoring_results)
-                            )
+                            output_res[scoring_fn].append(aggregate_accuracy(scoring_results))
                         else:
                             raise NotImplementedError(
                                 f"Aggregation function {aggregation_function} is not supported yet"

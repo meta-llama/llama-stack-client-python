@@ -8,9 +8,7 @@ from typing import Any, Dict, List, Union
 
 
 def aggregate_categorical_count(
-    scoring_results: List[
-        Dict[str, Union[bool, float, str, List[object], object, None]]
-    ],
+    scoring_results: List[Dict[str, Union[bool, float, str, List[object], object, None]]],
 ) -> Dict[str, Any]:
     scores = [str(r["score"]) for r in scoring_results]
     unique_scores = sorted(list(set(scores)))
@@ -18,22 +16,16 @@ def aggregate_categorical_count(
 
 
 def aggregate_average(
-    scoring_results: List[
-        Dict[str, Union[bool, float, str, List[object], object, None]]
-    ],
+    scoring_results: List[Dict[str, Union[bool, float, str, List[object], object, None]]],
 ) -> Dict[str, Any]:
     return {
-        "average": sum(
-            result["score"] for result in scoring_results if result["score"] is not None
-        )
+        "average": sum(result["score"] for result in scoring_results if result["score"] is not None)
         / len([_ for _ in scoring_results if _["score"] is not None]),
     }
 
 
 def aggregate_median(
-    scoring_results: List[
-        Dict[str, Union[bool, float, str, List[object], object, None]]
-    ],
+    scoring_results: List[Dict[str, Union[bool, float, str, List[object], object, None]]],
 ) -> Dict[str, Any]:
     scores = [r["score"] for r in scoring_results if r["score"] is not None]
     median = statistics.median(scores) if scores else None
@@ -41,9 +33,7 @@ def aggregate_median(
 
 
 def aggregate_accuracy(
-    scoring_results: List[
-        Dict[str, Union[bool, float, str, List[object], object, None]]
-    ],
+    scoring_results: List[Dict[str, Union[bool, float, str, List[object], object, None]]],
 ) -> Dict[str, Any]:
     num_correct = sum(result["score"] for result in scoring_results)
     avg_score = num_correct / len(scoring_results)
