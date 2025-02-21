@@ -4,10 +4,19 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
+import inspect
 import json
 from abc import abstractmethod
-from typing import Callable, Dict, TypeVar, get_type_hints, Union, get_origin, get_args, List
-import inspect
+from typing import (
+    Callable,
+    Dict,
+    get_args,
+    get_origin,
+    get_type_hints,
+    List,
+    TypeVar,
+    Union,
+)
 
 from llama_stack_client.types import Message, ToolResponseMessage
 from llama_stack_client.types.tool_def_param import Parameter, ToolDefParam
@@ -155,9 +164,10 @@ def client_tool(func: T) -> ClientTool:
                     name=name,
                     description=param_doc or f"Parameter {name}",
                     parameter_type=type_hint.__name__,
-                    default=param.default if param.default != inspect.Parameter.empty else None,
+                    default=(param.default if param.default != inspect.Parameter.empty else None),
                     required=is_required,
                 )
+
             return params
 
         def run_impl(self, **kwargs):
