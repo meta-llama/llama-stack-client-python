@@ -13,28 +13,62 @@ from rich import print as rprint
 from tqdm.rich import tqdm
 
 from ..common.utils import create_bar_chart
+from .utils import (
+    aggregate_accuracy,
+    aggregate_average,
+    aggregate_categorical_count,
+    aggregate_median,
+)
 
 
 @click.command("run-benchmark")
-@click.argument("model_id", required=True)
 @click.argument("benchmark_ids", nargs=-1, required=True)
-# @click.option(
-#     "--eval-task-config",
-#     required=True,
-#     help="Path to the eval task config file in JSON format",
-#     type=click.Path(exists=True),
-# )
-# @click.option(
-#     "--output-dir",
-#     required=True,
-#     help="Path to the dump eval results output directory",
-# )
 @click.option(
-    "--num-examples",
+    "--model_id",
+    required=True,
+    help="model id to run the benchmark eval on",
+    default=None,
+    type=str,
+)
+@click.option(
+    "--output_dir",
+    required=True,
+    help="Path to the dump eval results output directory",
+)
+@click.option(
+    "--num_examples",
     required=False,
     help="Number of examples to evaluate on, useful for debugging",
     default=None,
     type=int,
+)
+@click.option(
+    "--temperature",
+    required=False,
+    help="temperature in the sampling params to run generation",
+    default=0.0,
+    type=float,
+)
+@click.option(
+    "--max_tokens",
+    required=False,
+    help="max_tokens in the sampling params to run generation",
+    default=4096,
+    type=int,
+)
+@click.option(
+    "--top_p",
+    required=False,
+    help="top_p in the sampling params to run generation",
+    default=0.9,
+    type=float,
+)
+@click.option(
+    "--repeat_penalty",
+    required=False,
+    help="repeat_penalty in the sampling params to run generation",
+    default=1.0,
+    type=float,
 )
 @click.option(
     "--visualize",
@@ -45,15 +79,14 @@ from ..common.utils import create_bar_chart
 @click.pass_context
 def run_benchmark(
     ctx,
-    model_id: str,
     benchmark_ids: tuple[str, ...],
-    # eval_task_config: str,
-    # output_dir: str,
+    model_id: str,
+    output_dir: str,
     num_examples: Optional[int],
-    temperature,
-    max_tokens,
-    top_p,
-    repetition_penalty,
+    temperature: float,
+    max_tokens: int,
+    top_p: float,
+    repeat_penalty: float,
     visualize: bool,
 ):
     """Run a evaluation benchmark task"""
@@ -67,18 +100,20 @@ def run_benchmark(
 
         print("scoring_functions", scoring_functions)
         print("dataset_id", dataset_id)
+        print("model_id", model_id)
+        print("temperature", temperature)
+        print("max_tokens", max_tokens)
+        print("top_p", top_p)
+        print("repeat_penalty", repeat_penalty)
 
         rows = client.datasetio.get_rows_paginated(
             dataset_id=dataset_id,
             rows_in_page=-1 if num_examples is None else num_examples,
         )
 
-        # with open(eval_task_config, "r") as f:
-        #     eval_task_config = json.load(f)
-
         output_res = {}
 
-        for r in tqdm(rows.rows):
+        for i, r in enumerate(tqdm(rows.rows)):
             eval_res = client.eval.evaluate_rows_alpha(
                 benchmark_id=benchmark_id,
                 input_rows=[r],
@@ -89,10 +124,10 @@ def run_benchmark(
                         "type": "model",
                         "model": model_id,
                         "sampling_params": {
-                            "temperature": 0.0,
-                            "max_tokens": 4096,
-                            "top_p": 0.9,
-                            "repeat_penalty": 1.0,
+                            "temperature": temperature,
+                            "max_tokens": max_tokens,
+                            "top_p": top_p,
+                            "repeat_penalty": repeat_penalty,
                         },
                     },
                 },
@@ -112,20 +147,63 @@ def run_benchmark(
                     output_res[scoring_fn] = []
                 output_res[scoring_fn].append(eval_res.scores[scoring_fn].score_rows[0])
 
-        # # Create output directory if it doesn't exist
-        # os.makedirs(output_dir, exist_ok=True)
-        # # Save results to JSON file
-        # output_file = os.path.join(output_dir, f"{eval_task_id}_results.json")
-        # with open(output_file, "w") as f:
-        #     json.dump(output_res, f, indent=2)
+                aggregation_functions = client.scoring_functions.retrieve(
+                    scoring_fn_id=scoring_fn
+                ).params.aggregation_functions
 
-        # rprint(f"[green]✓[/green] Results saved to: [blue]{output_file}[/blue]!\n")
+                # only output the aggregation result for the last row
+                if i == len(rows.rows) - 1:
+                    for aggregation_function in aggregation_functions:
+                        scoring_results = output_res[scoring_fn]
+                        if aggregation_function == "categorical_count":
+                            output_res[scoring_fn].append(
+                                aggregate_categorical_count(scoring_results)
+                            )
+                        elif aggregation_function == "average":
+                            output_res[scoring_fn].append(
+                                aggregate_average(scoring_results)
+                            )
+                        elif aggregation_function == "median":
+                            output_res[scoring_fn].append(
+                                aggregate_median(scoring_results)
+                            )
+                        elif aggregation_function == "accuracy":
+                            output_res[scoring_fn].append(
+                                aggregate_accuracy(scoring_results)
+                            )
+                        else:
+                            raise NotImplementedError(
+                                f"Aggregation function {aggregation_function} is not supported yet"
+                            )
 
-        # if visualize:
-        #     for scoring_fn in scoring_functions:
-        #         res = output_res[scoring_fn]
-        #         assert len(res) > 0 and "score" in res[0]
-        #         scores = [str(r["score"]) for r in res]
-        #         unique_scores = sorted(list(set(scores)))
-        #         counts = [scores.count(s) for s in unique_scores]
-        #         create_bar_chart(counts, unique_scores, title=f"{scoring_fn}")
+        # Create output directory if it doesn't exist
+        os.makedirs(output_dir, exist_ok=True)
+        # Save results to JSON file
+        output_file = os.path.join(output_dir, f"{benchmark_id}_results.json")
+        with open(output_file, "w") as f:
+            json.dump(output_res, f, indent=2)
+
+        rprint(f"[green]✓[/green] Results saved to: [blue]{output_file}[/blue]!\n")
+
+        if visualize:
+            for scoring_fn in scoring_functions:
+                aggregation_functions = client.scoring_functions.retrieve(
+                    scoring_fn_id=scoring_fn
+                ).params.aggregation_functions
+
+                for aggregation_function in aggregation_functions:
+                    res = output_res[scoring_fn]
+                    assert len(res) > 0 and "score" in res[0]
+                    if aggregation_function == "categorical_count":
+                        scores = [str(r["score"]) for r in res]
+                        unique_scores = sorted(list(set(scores)))
+                        counts = [scores.count(s) for s in unique_scores]
+                        create_bar_chart(
+                            counts,
+                            unique_scores,
+                            title=f"{scoring_fn}-{aggregation_function}",
+                        )
+                    else:
+                        raise NotImplementedError(
+                            f"Aggregation function {aggregation_function} ius not supported for visualization yet"
+                        )
