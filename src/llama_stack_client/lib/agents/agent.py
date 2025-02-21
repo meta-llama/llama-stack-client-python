@@ -76,7 +76,7 @@ class Agent:
             return self.tool_parser.get_tool_calls(message)
 
         return message.tool_calls
-    
+
     def _get_turn_id(self, chunk: AgentTurnResponseStreamChunk) -> Optional[str]:
         if chunk.event.payload.event_type not in ["turn_complete", "turn_awaiting_input"]:
             return None
@@ -203,7 +203,6 @@ class Agent:
                     is_turn_complete = False
                     turn_id = self._get_turn_id(chunk)
                     n_iter += 1
-        
 
     def create_turn_DEPRECATED(
         self,
