@@ -526,7 +526,7 @@ class TestLlamaStackClient:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(LLAMA_STACK_CLIENT_BASE_URL="http://localhost:5000/from/env"):
+        with update_env(LLAMA_STACK_BASE_URL="http://localhost:5000/from/env"):
             client = LlamaStackClient(_strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
@@ -1316,7 +1316,7 @@ class TestAsyncLlamaStackClient:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(LLAMA_STACK_CLIENT_BASE_URL="http://localhost:5000/from/env"):
+        with update_env(LLAMA_STACK_BASE_URL="http://localhost:5000/from/env"):
             client = AsyncLlamaStackClient(_strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
