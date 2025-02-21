@@ -77,6 +77,12 @@ class Agent:
 
         return message.tool_calls
 
+    def _get_turn_id(self, chunk: AgentTurnResponseStreamChunk) -> Optional[str]:
+        if chunk.event.payload.event_type not in ["turn_complete", "turn_awaiting_input"]:
+            return None
+
+        return chunk.event.payload.turn.turn_id
+
     def _run_tool(self, tool_calls: List[ToolCall]) -> ToolResponseMessage:
         assert len(tool_calls) == 1, "Only one tool call is supported"
         tool_call = tool_calls[0]
@@ -163,19 +169,46 @@ class Agent:
         stop = False
         n_iter = 0
         max_iter = self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER)
-        while not stop and n_iter < max_iter:
-            response = self.client.agents.turn.create(
+        
+        # 1. create an agent turn
+        turn_response = self.client.agents.turn.create(
+            agent_id=self.agent_id,
+            # use specified session_id or last session created
+            session_id=session_id or self.session_id[-1],
+            messages=messages,
+            stream=True,
+            documents=documents,
+            toolgroups=toolgroups,
+        )
+        is_turn_complete = True
+        turn_id = None
+        for chunk in turn_response:
+            tool_calls = self._get_tool_calls(chunk)
+            if hasattr(chunk, "error"):
+                yield chunk
+                return
+            elif not tool_calls:
+                yield chunk
+            else:
+                is_turn_complete = False
+                turn_id = self._get_turn_id(chunk)
+                break
+        
+        # 2. while the turn is not complete, continue the turn
+        while not is_turn_complete and n_iter < max_iter:
+            assert turn_id is not None, "turn_id is None"
+
+            # run the tools
+            tool_response_message = self._run_tool(tool_calls)
+
+            continue_response = self.client.agents.turn.continue_(
                 agent_id=self.agent_id,
-                # use specified session_id or last session created
                 session_id=session_id or self.session_id[-1],
-                messages=messages,
+                turn_id=turn_id,
+                tool_responses=[tool_response_message],
                 stream=True,
-                documents=documents,
-                toolgroups=toolgroups,
             )
-            # by default, we stop after the first turn
-            stop = True
-            for chunk in response:
+            for chunk in continue_response:
                 tool_calls = self._get_tool_calls(chunk)
                 if hasattr(chunk, "error"):
                     yield chunk
@@ -183,39 +216,7 @@ class Agent:
                 elif not tool_calls:
                     yield chunk
                 else:
-                    tool_execution_start_time = datetime.now()
+                    is_turn_complete = False
+                    turn_id = self._get_turn_id(chunk)
                     tool_response_message = self._run_tool(tool_calls)
-                    tool_execution_step = ToolExecutionStep(
-                        step_type="tool_execution",
-                        step_id=str(uuid.uuid4()),
-                        tool_calls=tool_calls,
-                        tool_responses=[
-                            ToolResponse(
-                                tool_name=tool_response_message.tool_name,
-                                content=tool_response_message.content,
-                                call_id=tool_response_message.call_id,
-                            )
-                        ],
-                        turn_id=chunk.event.payload.turn.turn_id,
-                        completed_at=datetime.now(),
-                        started_at=tool_execution_start_time,
-                    )
-                    yield AgentTurnResponseStreamChunk(
-                        event=TurnResponseEvent(
-                            payload=AgentTurnResponseStepCompletePayload(
-                                event_type="step_complete",
-                                step_id=tool_execution_step.step_id,
-                                step_type="tool_execution",
-                                step_details=tool_execution_step,
-                            )
-                        )
-                    )
-
-                    # HACK: append the tool execution step to the turn
-                    chunk.event.payload.turn.steps.append(tool_execution_step)
-                    yield chunk
-
-                    # continue the turn when there's a tool call
-                    stop = False
-                    messages = [tool_response_message]
                     n_iter += 1
