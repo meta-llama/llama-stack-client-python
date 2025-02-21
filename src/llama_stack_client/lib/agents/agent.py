@@ -65,7 +65,7 @@ class Agent:
         return self.session_id
 
     def _get_tool_calls(self, chunk: AgentTurnResponseStreamChunk) -> List[ToolCall]:
-        if chunk.event.payload.event_type != "turn_complete":
+        if chunk.event.payload.event_type not in ["turn_complete", "turn_awaiting_input"]:
             return []
 
         message = chunk.event.payload.turn.output_message
@@ -133,7 +133,7 @@ class Agent:
         else:
             chunks = []
             for chunk in self._create_turn_streaming(messages, session_id, toolgroups, documents):
-                if chunk.event.payload.event_type == "turn_complete":
+                if chunk.event.payload.event_type in ["turn_complete", "turn_awaiting_input"]:
                     chunks.append(chunk)
                 pass
             if not chunks:

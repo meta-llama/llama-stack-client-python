@@ -75,7 +75,7 @@ class TurnStreamEventPrinter:
         event = chunk.event
         event_type = event.payload.event_type
 
-        if event_type in {"turn_start", "turn_complete"}:
+        if event_type in {"turn_start", "turn_complete", "turn_awaiting_input"}:
             # Currently not logging any turn realted info
             yield TurnStreamPrintableEvent(role=None, content="", end="", color="grey")
             return
@@ -149,7 +149,7 @@ class TurnStreamEventPrinter:
         if hasattr(chunk, "event"):
             previous_event_type = chunk.event.payload.event_type if hasattr(chunk, "event") else None
             previous_step_type = (
-                chunk.event.payload.step_type if previous_event_type not in {"turn_start", "turn_complete"} else None
+                chunk.event.payload.step_type if previous_event_type not in {"turn_start", "turn_complete", "turn_awaiting_input"} else None
             )
             return previous_event_type, previous_step_type
         return None, None
