@@ -166,7 +166,7 @@ class Agent:
 
         # 2. process turn and resume if there's a tool call
         is_turn_complete = False
-        while not is_turn_complete and n_iter < max_iter:
+        while not is_turn_complete:
             is_turn_complete = True
             for chunk in turn_response:
                 tool_calls = self._get_tool_calls(chunk)
@@ -193,7 +193,9 @@ class Agent:
                     )
 
                     n_iter += 1
-                
+            
+            if n_iter >= max_iter:
+                raise Exception(f"Turn did not complete in {max_iter} iterations")
 
     def create_turn_DEPRECATED(
         self,
