@@ -180,7 +180,7 @@ class Agent:
                     turn_id = self._get_turn_id(chunk)
                     if n_iter == 0:
                         yield chunk
-                    
+
                     # run the tools
                     tool_response_message = self._run_tool(tool_calls)
                     # pass it to next iteration
@@ -193,7 +193,7 @@ class Agent:
                     )
 
                     n_iter += 1
-            
+
             if n_iter >= max_iter:
                 raise Exception(f"Turn did not complete in {max_iter} iterations")
 
