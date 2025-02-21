@@ -65,7 +65,7 @@ class Agent:
         return self.session_id
 
     def _get_tool_calls(self, chunk: AgentTurnResponseStreamChunk) -> List[ToolCall]:
-        if chunk.event.payload.event_type != "turn_complete":
+        if chunk.event.payload.event_type not in {"turn_complete", "turn_awaiting_input"}:
             return []
 
         message = chunk.event.payload.turn.output_message
@@ -76,6 +76,12 @@ class Agent:
             return self.tool_parser.get_tool_calls(message)
 
         return message.tool_calls
+
+    def _get_turn_id(self, chunk: AgentTurnResponseStreamChunk) -> Optional[str]:
+        if chunk.event.payload.event_type not in ["turn_complete", "turn_awaiting_input"]:
+            return None
+
+        return chunk.event.payload.turn.turn_id
 
     def _run_tool(self, tool_calls: List[ToolCall]) -> ToolResponseMessage:
         assert len(tool_calls) == 1, "Only one tool call is supported"
@@ -131,8 +137,87 @@ class Agent:
         if stream:
             return self._create_turn_streaming(messages, session_id, toolgroups, documents)
         else:
+            chunks = [x for x in self._create_turn_streaming(messages, session_id, toolgroups, documents)]
+            if not chunks:
+                raise Exception("Turn did not complete")
+            return chunks[-1].event.payload.turn
+
+    def _create_turn_streaming(
+        self,
+        messages: List[Union[UserMessage, ToolResponseMessage]],
+        session_id: Optional[str] = None,
+        toolgroups: Optional[List[Toolgroup]] = None,
+        documents: Optional[List[Document]] = None,
+    ) -> Iterator[AgentTurnResponseStreamChunk]:
+        n_iter = 0
+        max_iter = self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER)
+
+        # 1. create an agent turn
+        turn_response = self.client.agents.turn.create(
+            agent_id=self.agent_id,
+            # use specified session_id or last session created
+            session_id=session_id or self.session_id[-1],
+            messages=messages,
+            stream=True,
+            documents=documents,
+            toolgroups=toolgroups,
+            allow_turn_resume=True,
+        )
+        is_turn_complete = True
+        turn_id = None
+        for chunk in turn_response:
+            tool_calls = self._get_tool_calls(chunk)
+            if hasattr(chunk, "error"):
+                yield chunk
+                return
+            elif not tool_calls:
+                yield chunk
+            else:
+                is_turn_complete = False
+                turn_id = self._get_turn_id(chunk)
+                yield chunk
+                break
+
+        # 2. while the turn is not complete, continue the turn
+        while not is_turn_complete and n_iter < max_iter:
+            is_turn_complete = True
+            assert turn_id is not None, "turn_id is None"
+
+            # run the tools
+            tool_response_message = self._run_tool(tool_calls)
+
+            continue_response = self.client.agents.turn.resume(
+                agent_id=self.agent_id,
+                session_id=session_id or self.session_id[-1],
+                turn_id=turn_id,
+                tool_responses=[tool_response_message],
+                stream=True,
+            )
+            for chunk in continue_response:
+                tool_calls = self._get_tool_calls(chunk)
+                if hasattr(chunk, "error"):
+                    yield chunk
+                    return
+                elif not tool_calls:
+                    yield chunk
+                else:
+                    is_turn_complete = False
+                    turn_id = self._get_turn_id(chunk)
+                    n_iter += 1
+
+    def create_turn_DEPRECATED(
+        self,
+        messages: List[Union[UserMessage, ToolResponseMessage]],
+        session_id: Optional[str] = None,
+        toolgroups: Optional[List[Toolgroup]] = None,
+        documents: Optional[List[Document]] = None,
+        stream: bool = True,
+    ) -> Iterator[AgentTurnResponseStreamChunk] | Turn:
+        if stream:
+            return self._create_turn_streaming_DEPRECATED(messages, session_id, toolgroups, documents)
+        else:
             chunks = []
-            for chunk in self._create_turn_streaming(messages, session_id, toolgroups, documents):
+            for chunk in self._create_turn_streaming_DEPRECATED(messages, session_id, toolgroups, documents):
                 if chunk.event.payload.event_type == "turn_complete":
                     chunks.append(chunk)
                 pass
@@ -153,7 +238,7 @@ class Agent:
                 ],
             )
 
-    def _create_turn_streaming(
+    def _create_turn_streaming_DEPRECATED(
         self,
         messages: List[Union[UserMessage, ToolResponseMessage]],
         session_id: Optional[str] = None,
