@@ -20,6 +20,7 @@ __all__ = [
     "AgentTurnResponseStepCompletePayloadStepDetails",
     "AgentTurnResponseTurnStartPayload",
     "AgentTurnResponseTurnCompletePayload",
+    "AgentTurnResponseTurnAwaitingInputPayload",
 ]
 
 
@@ -72,6 +73,13 @@ class AgentTurnResponseTurnCompletePayload(BaseModel):
     """A single turn in an interaction with an Agentic System."""
 
 
+class AgentTurnResponseTurnAwaitingInputPayload(BaseModel):
+    event_type: Literal["turn_awaiting_input"]
+
+    turn: Turn
+    """A single turn in an interaction with an Agentic System."""
+
+
 TurnResponseEventPayload: TypeAlias = Annotated[
     Union[
         AgentTurnResponseStepStartPayload,
@@ -79,6 +87,7 @@ TurnResponseEventPayload: TypeAlias = Annotated[
         AgentTurnResponseStepCompletePayload,
         AgentTurnResponseTurnStartPayload,
         AgentTurnResponseTurnCompletePayload,
+        AgentTurnResponseTurnAwaitingInputPayload,
     ],
     PropertyInfo(discriminator="event_type"),
 ]
