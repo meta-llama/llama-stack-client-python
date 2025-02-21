@@ -134,7 +134,76 @@ class Agent:
         documents: Optional[List[Document]] = None,
         stream: bool = True,
     ) -> Iterator[AgentTurnResponseStreamChunk] | Turn:
-        pass
+        if stream:
+            return self._create_turn_streaming(messages, session_id, toolgroups, documents)
+        else:
+            chunks = [x for x in self._create_turn_streaming(messages, session_id, toolgroups, documents)]
+            if not chunks:
+                raise Exception("Turn did not complete")
+            return chunks[-1].event.payload.turn
+
+    def _create_turn_streaming(
+        self,
+        messages: List[Union[UserMessage, ToolResponseMessage]],
+        session_id: Optional[str] = None,
+        toolgroups: Optional[List[Toolgroup]] = None,
+        documents: Optional[List[Document]] = None,
+    ) -> Iterator[AgentTurnResponseStreamChunk]:
+        n_iter = 0
+        max_iter = self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER)
+
+        # 1. create an agent turn
+        turn_response = self.client.agents.turn.create(
+            agent_id=self.agent_id,
+            # use specified session_id or last session created
+            session_id=session_id or self.session_id[-1],
+            messages=messages,
+            stream=True,
+            documents=documents,
+            toolgroups=toolgroups,
+        )
+        is_turn_complete = True
+        turn_id = None
+        for chunk in turn_response:
+            tool_calls = self._get_tool_calls(chunk)
+            if hasattr(chunk, "error"):
+                yield chunk
+                return
+            elif not tool_calls:
+                yield chunk
+            else:
+                is_turn_complete = False
+                turn_id = self._get_turn_id(chunk)
+                yield chunk
+                break
+
+        # 2. while the turn is not complete, continue the turn
+        while not is_turn_complete and n_iter < max_iter:
+            is_turn_complete = True
+            assert turn_id is not None, "turn_id is None"
+
+            # run the tools
+            tool_response_message = self._run_tool(tool_calls)
+
+            continue_response = self.client.agents.turn.resume(
+                agent_id=self.agent_id,
+                session_id=session_id or self.session_id[-1],
+                turn_id=turn_id,
+                tool_responses=[tool_response_message],
+                stream=True,
+            )
+            for chunk in continue_response:
+                tool_calls = self._get_tool_calls(chunk)
+                if hasattr(chunk, "error"):
+                    yield chunk
+                    return
+                elif not tool_calls:
+                    yield chunk
+                else:
+                    is_turn_complete = False
+                    turn_id = self._get_turn_id(chunk)
+                    n_iter += 1
+        
 
     def create_turn_DEPRECATED(
         self,
