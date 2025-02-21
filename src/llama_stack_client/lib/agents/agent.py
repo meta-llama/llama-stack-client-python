@@ -192,10 +192,12 @@ class Agent:
             else:
                 is_turn_complete = False
                 turn_id = self._get_turn_id(chunk)
+                yield chunk
                 break
         
         # 2. while the turn is not complete, continue the turn
         while not is_turn_complete and n_iter < max_iter:
+            is_turn_complete = True
             assert turn_id is not None, "turn_id is None"
 
             # run the tools
@@ -218,5 +220,4 @@ class Agent:
                 else:
                     is_turn_complete = False
                     turn_id = self._get_turn_id(chunk)
-                    tool_response_message = self._run_tool(tool_calls)
                     n_iter += 1
