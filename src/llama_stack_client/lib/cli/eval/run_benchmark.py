@@ -22,7 +22,7 @@ from .utils import (
 
 
 @click.command("run-benchmark")
-@click.argument("benchmark_ids", nargs=-1, required=True)
+@click.argument("benchmark-ids", nargs=-1, required=True)
 @click.option(
     "--model-id",
     required=True,
