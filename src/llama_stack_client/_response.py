@@ -229,7 +229,7 @@ class BaseAPIResponse(Generic[R]):
             # the response class ourselves but that is something that should be supported directly in httpx
             # as it would be easy to incorrectly construct the Response object due to the multitude of arguments.
             if cast_to != httpx.Response:
-                raise ValueError(f"Subclasses of httpx.Response cannot be passed to `cast_to`")
+                raise ValueError("Subclasses of httpx.Response cannot be passed to `cast_to`")
             return cast(R, response)
 
         if (
@@ -245,9 +245,9 @@ class BaseAPIResponse(Generic[R]):
 
         if (
             cast_to is not object
-            and not origin is list
-            and not origin is dict
-            and not origin is Union
+            and origin is not list
+            and origin is not dict
+            and origin is not Union
             and not issubclass(origin, BaseModel)
         ):
             raise RuntimeError(

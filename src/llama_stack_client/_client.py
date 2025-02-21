@@ -135,7 +135,7 @@ class LlamaStackClient(SyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("LLAMA_STACK_BASE_URL")
         if base_url is None:
-            base_url = f"http://any-hosted-llama-stack.com"
+            base_url = "http://any-hosted-llama-stack.com"
 
         custom_headers = default_headers or {}
         custom_headers["X-LlamaStack-Client-Version"] = __version__
@@ -351,7 +351,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("LLAMA_STACK_BASE_URL")
         if base_url is None:
-            base_url = f"http://any-hosted-llama-stack.com"
+            base_url = "http://any-hosted-llama-stack.com"
 
         custom_headers = default_headers or {}
         custom_headers["X-LlamaStack-Client-Version"] = __version__
