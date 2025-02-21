@@ -2,20 +2,21 @@
 
 from __future__ import annotations
 
-from typing import List
-from typing_extensions import Required, TypedDict
+from typing import List, Union, Iterable
+from typing_extensions import Literal, Required, TypedDict
 
-from .shared_params.interleaved_content import InterleavedContent
+from .shared_params.interleaved_content_item import InterleavedContentItem
 
 __all__ = ["InferenceEmbeddingsParams"]
 
 
 class InferenceEmbeddingsParams(TypedDict, total=False):
-    contents: Required[List[InterleavedContent]]
+    contents: Required[Union[List[str], Iterable[InterleavedContentItem]]]
     """List of contents to generate embeddings for.
 
-    Note that content can be multimodal. The behavior depends on the model and
-    provider. Some models may only support text.
+    Each content can be a string or an InterleavedContentItem (and hence can be
+    multimodal). The behavior depends on the model and provider. Some models may
+    only support text.
     """
 
     model_id: Required[str]
@@ -23,4 +24,22 @@ class InferenceEmbeddingsParams(TypedDict, total=False):
 
     The model must be an embedding model registered with Llama Stack and available
     via the /models endpoint.
+    """
+
+    output_dimension: int
+    """(Optional) Output dimensionality for the embeddings.
+
+    Only supported by Matryoshka models.
+    """
+
+    task_type: Literal["query", "document"]
+    """
+    (Optional) How is the embedding being used? This is only supported by asymmetric
+    embedding models.
+    """
+
+    text_truncation: Literal["none", "start", "end"]
+    """
+    (Optional) Config for how to truncate text for embedding when text is longer
+    than the model's max sequence length.
     """

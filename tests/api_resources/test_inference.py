@@ -330,6 +330,17 @@ class TestInference:
         assert_matches_type(EmbeddingsResponse, inference, path=["response"])
 
     @parametrize
+    def test_method_embeddings_with_all_params(self, client: LlamaStackClient) -> None:
+        inference = client.inference.embeddings(
+            contents=["string"],
+            model_id="model_id",
+            output_dimension=0,
+            task_type="query",
+            text_truncation="none",
+        )
+        assert_matches_type(EmbeddingsResponse, inference, path=["response"])
+
+    @parametrize
     def test_raw_response_embeddings(self, client: LlamaStackClient) -> None:
         response = client.inference.with_raw_response.embeddings(
             contents=["string"],
@@ -664,6 +675,17 @@ class TestAsyncInference:
         inference = await async_client.inference.embeddings(
             contents=["string"],
             model_id="model_id",
+        )
+        assert_matches_type(EmbeddingsResponse, inference, path=["response"])
+
+    @parametrize
+    async def test_method_embeddings_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        inference = await async_client.inference.embeddings(
+            contents=["string"],
+            model_id="model_id",
+            output_dimension=0,
+            task_type="query",
+            text_truncation="none",
         )
         assert_matches_type(EmbeddingsResponse, inference, path=["response"])
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Iterable
+from typing import List, Union, Iterable
 from typing_extensions import Literal, overload
 
 import httpx
@@ -36,6 +36,7 @@ from ..types.shared_params.sampling_params import SamplingParams
 from ..types.shared.chat_completion_response import ChatCompletionResponse
 from ..types.shared_params.interleaved_content import InterleavedContent
 from ..types.chat_completion_response_stream_chunk import ChatCompletionResponseStreamChunk
+from ..types.shared_params.interleaved_content_item import InterleavedContentItem
 
 __all__ = ["InferenceResource", "AsyncInferenceResource"]
 
@@ -493,8 +494,11 @@ class InferenceResource(SyncAPIResource):
     def embeddings(
         self,
         *,
-        contents: List[InterleavedContent],
+        contents: Union[List[str], Iterable[InterleavedContentItem]],
         model_id: str,
+        output_dimension: int | NotGiven = NOT_GIVEN,
+        task_type: Literal["query", "document"] | NotGiven = NOT_GIVEN,
+        text_truncation: Literal["none", "start", "end"] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -506,12 +510,21 @@ class InferenceResource(SyncAPIResource):
         Generate embeddings for content pieces using the specified model.
 
         Args:
-          contents: List of contents to generate embeddings for. Note that content can be
-              multimodal. The behavior depends on the model and provider. Some models may only
-              support text.
+          contents: List of contents to generate embeddings for. Each content can be a string or an
+              InterleavedContentItem (and hence can be multimodal). The behavior depends on
+              the model and provider. Some models may only support text.
 
           model_id: The identifier of the model to use. The model must be an embedding model
               registered with Llama Stack and available via the /models endpoint.
+
+          output_dimension: (Optional) Output dimensionality for the embeddings. Only supported by
+              Matryoshka models.
+
+          task_type: (Optional) How is the embedding being used? This is only supported by asymmetric
+              embedding models.
+
+          text_truncation: (Optional) Config for how to truncate text for embedding when text is longer
+              than the model's max sequence length.
 
           extra_headers: Send extra headers
 
@@ -527,6 +540,9 @@ class InferenceResource(SyncAPIResource):
                 {
                     "contents": contents,
                     "model_id": model_id,
+                    "output_dimension": output_dimension,
+                    "task_type": task_type,
+                    "text_truncation": text_truncation,
                 },
                 inference_embeddings_params.InferenceEmbeddingsParams,
             ),
@@ -990,8 +1006,11 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def embeddings(
         self,
         *,
-        contents: List[InterleavedContent],
+        contents: Union[List[str], Iterable[InterleavedContentItem]],
         model_id: str,
+        output_dimension: int | NotGiven = NOT_GIVEN,
+        task_type: Literal["query", "document"] | NotGiven = NOT_GIVEN,
+        text_truncation: Literal["none", "start", "end"] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1003,12 +1022,21 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate embeddings for content pieces using the specified model.
 
         Args:
-          contents: List of contents to generate embeddings for. Note that content can be
-              multimodal. The behavior depends on the model and provider. Some models may only
-              support text.
+          contents: List of contents to generate embeddings for. Each content can be a string or an
+              InterleavedContentItem (and hence can be multimodal). The behavior depends on
+              the model and provider. Some models may only support text.
 
           model_id: The identifier of the model to use. The model must be an embedding model
               registered with Llama Stack and available via the /models endpoint.
+
+          output_dimension: (Optional) Output dimensionality for the embeddings. Only supported by
+              Matryoshka models.
+
+          task_type: (Optional) How is the embedding being used? This is only supported by asymmetric
+              embedding models.
+
+          text_truncation: (Optional) Config for how to truncate text for embedding when text is longer
+              than the model's max sequence length.
 
           extra_headers: Send extra headers
 
@@ -1024,6 +1052,9 @@ class AsyncInferenceResource(AsyncAPIResource):
                 {
                     "contents": contents,
                     "model_id": model_id,
+                    "output_dimension": output_dimension,
+                    "task_type": task_type,
+                    "text_truncation": text_truncation,
                 },
                 inference_embeddings_params.InferenceEmbeddingsParams,
             ),

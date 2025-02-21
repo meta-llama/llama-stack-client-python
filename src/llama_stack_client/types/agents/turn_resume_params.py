@@ -16,14 +16,17 @@ class TurnResumeParamsBase(TypedDict, total=False):
     session_id: Required[str]
 
     tool_responses: Required[Iterable[ToolResponseMessage]]
+    """The tool call responses to resume the turn with."""
 
 
 class TurnResumeParamsNonStreaming(TurnResumeParamsBase, total=False):
     stream: Literal[False]
+    """Whether to stream the response."""
 
 
 class TurnResumeParamsStreaming(TurnResumeParamsBase):
     stream: Required[Literal[True]]
+    """Whether to stream the response."""
 
 
 TurnResumeParams = Union[TurnResumeParamsNonStreaming, TurnResumeParamsStreaming]
