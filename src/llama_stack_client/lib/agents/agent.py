@@ -161,6 +161,7 @@ class Agent:
             stream=True,
             documents=documents,
             toolgroups=toolgroups,
+            allow_turn_resume=True,
         )
         is_turn_complete = True
         turn_id = None
