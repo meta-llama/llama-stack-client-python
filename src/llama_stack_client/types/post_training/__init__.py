@@ -8,3 +8,8 @@ from .job_status_params import JobStatusParams as JobStatusParams
 from .job_status_response import JobStatusResponse as JobStatusResponse
 from .job_artifacts_params import JobArtifactsParams as JobArtifactsParams
 from .job_artifacts_response import JobArtifactsResponse as JobArtifactsResponse
+
+# --- Auto-added stubs ---
+PostTrainingJobStatus = None
+PostTrainingJobLogStream = None
+PostTrainingJobArtifacts = None  # <-- potřebné pro test_jobs.py

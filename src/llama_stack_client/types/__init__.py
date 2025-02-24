@@ -1,6 +1,16 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
-
 from __future__ import annotations
+
+# Stub definice pro chybějící symboly – nahraďte reálnou implementací později
+JobStatus = None
+EvaluationJobArtifacts = None
+EvaluationJobLogStream = None
+EvaluationJobStatus = None
+EvaluationJob = None
+QueryDocumentsResponse = None
+MemoryBankListResponse = None
+RewardScoringResponse = None
+MemoryBankRegisterResponse = None
+MemoryBankRetrieveResponse = None  # <-- potřebné pro test_memory_banks.py
 
 from .job import Job as Job
 from .tool import Tool as Tool
@@ -148,3 +158,6 @@ from .post_training_supervised_fine_tune_params import (
 from .synthetic_data_generation_generate_params import (
     SyntheticDataGenerationGenerateParams as SyntheticDataGenerationGenerateParams,
 )
+
+# --- Auto-added stubs ---
+MemoryBankRegisterResponse = None

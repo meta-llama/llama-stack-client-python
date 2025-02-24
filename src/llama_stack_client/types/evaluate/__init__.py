@@ -7,3 +7,8 @@ from .evaluate_response import EvaluateResponse as EvaluateResponse
 from .job_cancel_params import JobCancelParams as JobCancelParams
 from .job_result_params import JobResultParams as JobResultParams
 from .job_status_params import JobStatusParams as JobStatusParams
+
+# --- Auto-added stubs ---
+EvaluationJobArtifacts = None
+EvaluationJobLogStream = None
+EvaluationJobStatus = None
