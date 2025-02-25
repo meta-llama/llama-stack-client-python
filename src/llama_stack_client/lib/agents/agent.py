@@ -3,7 +3,7 @@
 #
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
-from typing import Iterator, List, Optional, Tuple, Union
+from typing import Iterator, List, Optional, Union
 
 from llama_stack_client import LlamaStackClient
 
@@ -16,7 +16,6 @@ from llama_stack_client.types.agents.turn_create_response import (
 )
 from llama_stack_client.types.shared.tool_call import ToolCall
 
-from .client_tool import ClientTool
 from .tool_parser import ToolParser
 
 DEFAULT_MAX_ITER = 10
@@ -27,14 +26,14 @@ class Agent:
         self,
         client: LlamaStackClient,
         agent_config: AgentConfig,
-        client_tools: Tuple[ClientTool] = (),
         tool_parser: Optional[ToolParser] = None,
     ):
         self.client = client
         self.agent_config = agent_config
-        self.agent_config["client_tools"] = [client_tool.get_tool_definition() for client_tool in client_tools]
+        if "client_tools" in agent_config.keys():
+            self.client_tools = {t.get_name(): t for t in agent_config["client_tools"]}
+            self.agent_config["client_tools"] = [tool.get_tool_definition() for tool in agent_config["client_tools"]]
         self.agent_id = self._create_agent(agent_config)
-        self.client_tools = {t.get_name(): t for t in client_tools}
         self.sessions = []
         self.tool_parser = tool_parser
         self.builtin_tools = {}
