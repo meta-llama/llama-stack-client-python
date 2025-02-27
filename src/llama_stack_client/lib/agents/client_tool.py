@@ -7,16 +7,7 @@
 import inspect
 import json
 from abc import abstractmethod
-from typing import (
-    Callable,
-    Dict,
-    get_args,
-    get_origin,
-    get_type_hints,
-    List,
-    TypeVar,
-    Union,
-)
+from typing import Callable, Dict, get_args, get_origin, get_type_hints, List, TypeVar, Union
 
 from llama_stack_client.types import Message, ToolResponseMessage
 from llama_stack_client.types.tool_def_param import Parameter, ToolDefParam
@@ -92,8 +83,33 @@ class ClientTool:
             role="tool",
         )
 
+    async def async_run(
+        self,
+        message_history: List[Message],
+    ) -> ToolResponseMessage:
+        last_message = message_history[-1]
+
+        assert len(last_message.tool_calls) == 1, "Expected single tool call"
+        tool_call = last_message.tool_calls[0]
+        try:
+            response = await self.async_run_impl(**tool_call.arguments)
+            response_str = json.dumps(response, ensure_ascii=False)
+        except Exception as e:
+            response_str = f"Error when running tool: {e}"
+
+        return ToolResponseMessage(
+            call_id=tool_call.call_id,
+            tool_name=tool_call.tool_name,
+            content=response_str,
+            role="tool",
+        )
+
     @abstractmethod
     def run_impl(self, **kwargs):
+        raise NotImplementedError
+
+    @abstractmethod
+    def async_run_impl(self, **kwargs):
         raise NotImplementedError
 
 
@@ -171,6 +187,14 @@ def client_tool(func: T) -> ClientTool:
             return params
 
         def run_impl(self, **kwargs):
+            if inspect.iscoroutinefunction(func):
+                raise NotImplementedError("Tool is async but run_impl is not async")
             return func(**kwargs)
+
+        async def async_run_impl(self, **kwargs):
+            if inspect.iscoroutinefunction(func):
+                return await func(**kwargs)
+            else:
+                return func(**kwargs)
 
     return _WrappedTool()

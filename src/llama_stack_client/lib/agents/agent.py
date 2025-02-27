@@ -247,8 +247,7 @@ class AsyncAgent(AgentMixin):
         # custom client tools
         if tool_call.tool_name in self.client_tools:
             tool = self.client_tools[tool_call.tool_name]
-            # TODO: make the client tool async
-            result_message = tool.run(
+            result_message = await tool.async_run(
                 [
                     CompletionMessage(
                         role="assistant",
@@ -303,6 +302,7 @@ class AsyncAgent(AgentMixin):
         max_iter = self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER)
         is_turn_complete = False
         while not is_turn_complete:
+            is_turn_complete = True
             async for chunk in turn_response:
                 tool_calls = self._get_tool_calls(chunk)
                 if hasattr(chunk, "error"):
