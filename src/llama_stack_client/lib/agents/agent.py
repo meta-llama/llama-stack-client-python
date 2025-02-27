@@ -240,6 +240,48 @@ class AsyncAgent(AgentMixin):
                 raise Exception("Turn did not complete")
             return chunks[-1].event.payload.turn
 
+    async def _run_tool(self, tool_calls: List[ToolCall]) -> ToolResponseMessage:
+        assert len(tool_calls) == 1, "Only one tool call is supported"
+        tool_call = tool_calls[0]
+
+        # custom client tools
+        if tool_call.tool_name in self.client_tools:
+            tool = self.client_tools[tool_call.tool_name]
+            # TODO: make the client tool async
+            result_message = tool.run(
+                [
+                    CompletionMessage(
+                        role="assistant",
+                        content=tool_call.tool_name,
+                        tool_calls=[tool_call],
+                        stop_reason="end_of_turn",
+                    )
+                ]
+            )
+            return result_message
+
+        # builtin tools executed by tool_runtime
+        if tool_call.tool_name in self.builtin_tools:
+            tool_result = await self.client.tool_runtime.invoke_tool(
+                tool_name=tool_call.tool_name,
+                kwargs=tool_call.arguments,
+            )
+            tool_response_message = ToolResponseMessage(
+                call_id=tool_call.call_id,
+                tool_name=tool_call.tool_name,
+                content=tool_result.content,
+                role="tool",
+            )
+            return tool_response_message
+
+        # cannot find tools
+        return ToolResponseMessage(
+            call_id=tool_call.call_id,
+            tool_name=tool_call.tool_name,
+            content=f"Unknown tool `{tool_call.tool_name}` was called.",
+            role="tool",
+        )
+
     async def _create_turn_streaming(
         self,
         messages: List[Union[UserMessage, ToolResponseMessage]],
@@ -247,6 +289,7 @@ class AsyncAgent(AgentMixin):
         toolgroups: Optional[List[Toolgroup]] = None,
         documents: Optional[List[Document]] = None,
     ) -> AsyncIterator[AgentTurnResponseStreamChunk]:
+        # 1. create an agent turn
         turn_response = await self.client.agents.turn.create(
             agent_id=self.agent_id,
             session_id=session_id or self.session_id[-1],
@@ -255,5 +298,37 @@ class AsyncAgent(AgentMixin):
             documents=documents,
         )
 
-        async for chunk in turn_response:
-            yield chunk
+        # 2. process turn and resume if there's a tool call
+        n_iter = 0
+        max_iter = self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER)
+        is_turn_complete = False
+        while not is_turn_complete:
+            async for chunk in turn_response:
+                tool_calls = self._get_tool_calls(chunk)
+                if hasattr(chunk, "error"):
+                    yield chunk
+                    return
+                elif not tool_calls:
+                    yield chunk
+                else:
+                    is_turn_complete = False
+                    turn_id = self._get_turn_id(chunk)
+                    if n_iter == 0:
+                        yield chunk
+
+                    # run the tools
+                    tool_response_message = await self._run_tool(tool_calls)
+                    # pass it to next iteration
+                    turn_response = await self.client.agents.turn.resume(
+                        agent_id=self.agent_id,
+                        session_id=session_id or self.session_id[-1],
+                        turn_id=turn_id,
+                        tool_responses=[tool_response_message],
+                        stream=True,
+                    )
+
+                    n_iter += 1
+                    break
+
+            if n_iter >= max_iter:
+                raise Exception(f"Turn did not complete in {max_iter} iterations")
