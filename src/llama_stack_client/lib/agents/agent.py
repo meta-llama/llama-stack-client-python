@@ -191,7 +191,7 @@ class Agent(AgentMixin):
                 raise Exception(f"Turn did not complete in {max_iter} iterations")
 
 
-class AsyncAgent:
+class AsyncAgent(AgentMixin):
     def __init__(
         self,
         client: AsyncLlamaStackClient,
