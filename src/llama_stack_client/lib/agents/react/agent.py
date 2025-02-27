@@ -97,7 +97,7 @@ class ReActAgent(Agent):
             agent_config = custom_agent_config
 
         if json_response_format:
-            agent_config.response_format = {
+            agent_config["response_format"] = {
                 "type": "json_schema",
                 "json_schema": ReActOutput.model_json_schema(),
             }
