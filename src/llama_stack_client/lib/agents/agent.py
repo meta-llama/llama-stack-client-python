@@ -21,27 +21,6 @@ from .tool_parser import ToolParser
 DEFAULT_MAX_ITER = 10
 
 
-class AgentMixin:
-    def _get_tool_calls(self, chunk: AgentTurnResponseStreamChunk) -> List[ToolCall]:
-        if chunk.event.payload.event_type not in {"turn_complete", "turn_awaiting_input"}:
-            return []
-
-        message = chunk.event.payload.turn.output_message
-        if message.stop_reason == "out_of_tokens":
-            return []
-
-        if self.tool_parser:
-            return self.tool_parser.get_tool_calls(message)
-
-        return message.tool_calls
-
-    def _get_turn_id(self, chunk: AgentTurnResponseStreamChunk) -> Optional[str]:
-        if chunk.event.payload.event_type not in ["turn_complete", "turn_awaiting_input"]:
-            return None
-
-        return chunk.event.payload.turn.turn_id
-
-
 class Agent:
     def __init__(
         self,
@@ -92,7 +71,7 @@ class Agent:
             return asyncio.run(self.async_agent.create_turn(messages, session_id, toolgroups, documents, stream))
 
 
-class AsyncAgent(AgentMixin):
+class AsyncAgent:
     def __init__(
         self,
         client: Union[AsyncLlamaStackClient, LlamaStackClient],
@@ -108,6 +87,7 @@ class AsyncAgent(AgentMixin):
         self.builtin_tools = {}
 
         self.is_async = True
+
         if isinstance(client, LlamaStackClient):
             self.is_async = False
 
@@ -310,3 +290,22 @@ class AsyncAgent(AgentMixin):
 
             if n_iter >= max_iter:
                 raise Exception(f"Turn did not complete in {max_iter} iterations")
+
+    def _get_tool_calls(self, chunk: AgentTurnResponseStreamChunk) -> List[ToolCall]:
+        if chunk.event.payload.event_type not in {"turn_complete", "turn_awaiting_input"}:
+            return []
+
+        message = chunk.event.payload.turn.output_message
+        if message.stop_reason == "out_of_tokens":
+            return []
+
+        if self.tool_parser:
+            return self.tool_parser.get_tool_calls(message)
+
+        return message.tool_calls
+
+    def _get_turn_id(self, chunk: AgentTurnResponseStreamChunk) -> Optional[str]:
+        if chunk.event.payload.event_type not in ["turn_complete", "turn_awaiting_input"]:
+            return None
+
+        return chunk.event.payload.turn.turn_id
