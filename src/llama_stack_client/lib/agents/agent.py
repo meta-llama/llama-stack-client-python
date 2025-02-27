@@ -48,7 +48,6 @@ class Agent:
         documents: Optional[List[Document]] = None,
         stream: bool = True,
     ) -> Iterator[AgentTurnResponseStreamChunk] | Turn:
-
         if stream:
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
