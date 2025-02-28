@@ -162,7 +162,6 @@ class Agent:
 
         # 2. process turn and resume if there's a tool call
         is_turn_complete = False
-        is_max_iter_reached = False
         while not is_turn_complete:
             is_turn_complete = True
             for chunk in turn_response:
@@ -172,12 +171,12 @@ class Agent:
                 tool_calls = self._get_tool_calls(chunk)
                 if not tool_calls:
                     yield chunk
-                elif is_max_iter_reached:
-                    yield chunk
                 else:
                     is_turn_complete = False
+                    # End of turn is reached, do not resume even if there's a tool call
                     if chunk.event.payload.turn.output_message.stop_reason != "end_of_message":
-                        is_max_iter_reached = True
+                        yield chunk
+                        continue
 
                     turn_id = self._get_turn_id(chunk)
                     if n_iter == 0:
@@ -196,7 +195,3 @@ class Agent:
                         stream=True,
                     )
                     n_iter += 1
-
-        # # if max iter is reached, raise an error
-        # if is_max_iter_reached:
-        #     raise Exception("Max iteration reached")
