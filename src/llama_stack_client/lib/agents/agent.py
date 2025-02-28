@@ -166,11 +166,11 @@ class Agent:
         while not is_turn_complete:
             is_turn_complete = True
             for chunk in turn_response:
-                tool_calls = self._get_tool_calls(chunk)
                 if hasattr(chunk, "error"):
                     yield chunk
                     return
-                elif not tool_calls:
+                tool_calls = self._get_tool_calls(chunk)
+                if not tool_calls:
                     yield chunk
                 elif is_max_iter_reached:
                     yield chunk

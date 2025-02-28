@@ -5,7 +5,7 @@
 # the root directory of this source tree.
 
 from pydantic import BaseModel, ValidationError
-from typing import Dict, Any, Optional, List
+from typing import Optional, List, Union
 from ..tool_parser import ToolParser
 from llama_stack_client.types.shared.completion_message import CompletionMessage
 from llama_stack_client.types.shared.tool_call import ToolCall
@@ -13,15 +13,20 @@ from llama_stack_client.types.shared.tool_call import ToolCall
 import uuid
 
 
+class Param(BaseModel):
+    name: str
+    value: Union[str, int, float, bool]
+
+
 class Action(BaseModel):
     tool_name: str
-    tool_params: Dict[str, Any]
+    tool_params: List[Param]
 
 
 class ReActOutput(BaseModel):
     thought: str
-    action: Optional[Action] = None
-    answer: Optional[str] = None
+    action: Optional[Action]
+    answer: Optional[str]
 
 
 class ReActToolParser(ToolParser):
@@ -40,8 +45,9 @@ class ReActToolParser(ToolParser):
         if react_output.action:
             tool_name = react_output.action.tool_name
             tool_params = react_output.action.tool_params
+            params = {param.name: param.value for param in tool_params}
             if tool_name and tool_params:
                 call_id = str(uuid.uuid4())
-                tool_calls = [ToolCall(call_id=call_id, tool_name=tool_name, arguments=tool_params)]
+                tool_calls = [ToolCall(call_id=call_id, tool_name=tool_name, arguments=params)]
 
         return tool_calls
