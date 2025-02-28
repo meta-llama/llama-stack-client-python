@@ -74,12 +74,6 @@ class Agent:
 
         return chunk.event.payload.turn.turn_id
 
-    def _is_turn_complete(self, chunk: AgentTurnResponseStreamChunk) -> bool:
-        if chunk.event.payload.event_type not in ["turn_complete", "turn_awaiting_input"]:
-            return False
-
-        return chunk.event.payload.turn.output_message.stop_reason == "end_of_turn"
-
     def _run_tool(self, tool_calls: List[ToolCall]) -> ToolResponseMessage:
         assert len(tool_calls) == 1, "Only one tool call is supported"
         tool_call = tool_calls[0]
@@ -184,7 +178,6 @@ class Agent:
 
                     # run the tools
                     tool_response_message = self._run_tool(tool_calls)
-                    print("tool_response_message", tool_response_message)
 
                     # pass it to next iteration
                     turn_response = self.client.agents.turn.resume(
