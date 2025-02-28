@@ -3,29 +3,18 @@
 #
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
-from typing import Any, Dict, Optional, Tuple
+from typing import Optional, Tuple
 
 from llama_stack_client import LlamaStackClient
 from llama_stack_client.types.agent_create_params import AgentConfig
-from pydantic import BaseModel
+
 
 from ..agent import Agent
 from ..client_tool import ClientTool
 from ..tool_parser import ToolParser
 from .prompts import DEFAULT_REACT_AGENT_SYSTEM_PROMPT_TEMPLATE
 
-from .tool_parser import ReActToolParser
-
-
-class Action(BaseModel):
-    tool_name: str
-    tool_params: Dict[str, Any]
-
-
-class ReActOutput(BaseModel):
-    thought: str
-    action: Optional[Action] = None
-    answer: Optional[str] = None
+from .tool_parser import ReActToolParser, ReActOutput
 
 
 class ReActAgent(Agent):

@@ -63,7 +63,8 @@ class TurnStreamEventPrinter:
         for printable_event in self._yield_printable_events(chunk, self.previous_event_type, self.previous_step_type):
             yield printable_event
 
-        self.previous_event_type, self.previous_step_type = self._get_event_type_step_type(chunk)
+        if not hasattr(chunk, "error"):
+            self.previous_event_type, self.previous_step_type = self._get_event_type_step_type(chunk)
 
     def _yield_printable_events(
         self, chunk: Any, previous_event_type: Optional[str] = None, previous_step_type: Optional[str] = None
