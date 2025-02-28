@@ -154,6 +154,7 @@ def client_tool(func: T) -> ClientTool:
                 params[name] = Parameter(
                     name=name,
                     description=param_doc or f"Parameter {name}",
+                    # Hack: litellm/openai expects "string" for str type
                     parameter_type=type_hint.__name__ if type_hint.__name__ != "str" else "string",
                     default=(param.default if param.default != inspect.Parameter.empty else None),
                     required=is_required,
