@@ -11,9 +11,7 @@ from llama_stack_client.types import ToolResponseMessage, UserMessage
 from llama_stack_client.types.agent_create_params import AgentConfig
 from llama_stack_client.types.agents.turn import CompletionMessage, Turn
 from llama_stack_client.types.agents.turn_create_params import Document, Toolgroup
-from llama_stack_client.types.agents.turn_create_response import (
-    AgentTurnResponseStreamChunk,
-)
+from llama_stack_client.types.agents.turn_create_response import AgentTurnResponseStreamChunk
 from llama_stack_client.types.shared.tool_call import ToolCall
 
 from .client_tool import ClientTool
@@ -75,6 +73,12 @@ class Agent:
             return None
 
         return chunk.event.payload.turn.turn_id
+
+    def _is_turn_complete(self, chunk: AgentTurnResponseStreamChunk) -> bool:
+        if chunk.event.payload.event_type not in ["turn_complete", "turn_awaiting_input"]:
+            return False
+
+        return chunk.event.payload.turn.output_message.stop_reason == "end_of_turn"
 
     def _run_tool(self, tool_calls: List[ToolCall]) -> ToolResponseMessage:
         assert len(tool_calls) == 1, "Only one tool call is supported"
@@ -143,7 +147,6 @@ class Agent:
         documents: Optional[List[Document]] = None,
     ) -> Iterator[AgentTurnResponseStreamChunk]:
         n_iter = 0
-        max_iter = self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER)
 
         # 1. create an agent turn
         turn_response = self.client.agents.turn.create(
@@ -159,6 +162,7 @@ class Agent:
 
         # 2. process turn and resume if there's a tool call
         is_turn_complete = False
+        is_max_iter_reached = False
         while not is_turn_complete:
             is_turn_complete = True
             for chunk in turn_response:
@@ -168,14 +172,21 @@ class Agent:
                     return
                 elif not tool_calls:
                     yield chunk
+                elif is_max_iter_reached:
+                    yield chunk
                 else:
                     is_turn_complete = False
+                    if chunk.event.payload.turn.output_message.stop_reason != "end_of_message":
+                        is_max_iter_reached = True
+
                     turn_id = self._get_turn_id(chunk)
                     if n_iter == 0:
                         yield chunk
 
                     # run the tools
                     tool_response_message = self._run_tool(tool_calls)
+                    print("tool_response_message", tool_response_message)
+
                     # pass it to next iteration
                     turn_response = self.client.agents.turn.resume(
                         agent_id=self.agent_id,
@@ -185,7 +196,7 @@ class Agent:
                         stream=True,
                     )
                     n_iter += 1
-                    break
 
-            if n_iter >= max_iter:
-                raise Exception(f"Turn did not complete in {max_iter} iterations")
+        # # if max iter is reached, raise an error
+        # if is_max_iter_reached:
+        #     raise Exception("Max iteration reached")

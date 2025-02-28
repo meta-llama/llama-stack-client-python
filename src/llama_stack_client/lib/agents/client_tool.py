@@ -7,16 +7,7 @@
 import inspect
 import json
 from abc import abstractmethod
-from typing import (
-    Callable,
-    Dict,
-    get_args,
-    get_origin,
-    get_type_hints,
-    List,
-    TypeVar,
-    Union,
-)
+from typing import Callable, Dict, get_args, get_origin, get_type_hints, List, TypeVar, Union
 
 from llama_stack_client.types import Message, ToolResponseMessage
 from llama_stack_client.types.tool_def_param import Parameter, ToolDefParam
@@ -163,7 +154,7 @@ def client_tool(func: T) -> ClientTool:
                 params[name] = Parameter(
                     name=name,
                     description=param_doc or f"Parameter {name}",
-                    parameter_type=type_hint.__name__,
+                    parameter_type=type_hint.__name__ if type_hint.__name__ != "str" else "string",
                     default=(param.default if param.default != inspect.Parameter.empty else None),
                     required=is_required,
                 )
