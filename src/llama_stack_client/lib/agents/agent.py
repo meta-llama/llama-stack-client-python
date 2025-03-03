@@ -32,7 +32,8 @@ class Agent:
     ):
         self.client = client
         self.agent_config = agent_config
-        self.agent_config["client_tools"] = [client_tool.get_tool_definition() for client_tool in client_tools]
+        if "client_tools" not in self.agent_config.keys():
+            self.agent_config["client_tools"] = [client_tool.get_tool_definition() for client_tool in client_tools]
         self.agent_id = self._create_agent(agent_config)
         self.client_tools = {t.get_name(): t for t in client_tools}
         self.sessions = []
