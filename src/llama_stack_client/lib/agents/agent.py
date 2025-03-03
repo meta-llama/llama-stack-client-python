@@ -293,15 +293,17 @@ class AsyncAgent(AgentMixin):
         documents: Optional[List[Document]] = None,
     ) -> AsyncIterator[AgentTurnResponseStreamChunk]:
         n_iter = 0
-        max_iter = self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER)
 
         # 1. create an agent turn
         turn_response = await self.client.agents.turn.create(
             agent_id=self.agent_id,
+            # use specified session_id or last session created
             session_id=session_id or self.session_id[-1],
             messages=messages,
             stream=True,
             documents=documents,
+            toolgroups=toolgroups,
+            allow_turn_resume=True,
         )
 
         # 2. process turn and resume if there's a tool call
@@ -309,20 +311,27 @@ class AsyncAgent(AgentMixin):
         while not is_turn_complete:
             is_turn_complete = True
             async for chunk in turn_response:
-                tool_calls = self._get_tool_calls(chunk)
                 if hasattr(chunk, "error"):
                     yield chunk
                     return
-                elif not tool_calls:
+
+                tool_calls = self._get_tool_calls(chunk)
+                if not tool_calls:
                     yield chunk
                 else:
                     is_turn_complete = False
+                    # End of turn is reached, do not resume even if there's a tool call
+                    if chunk.event.payload.turn.output_message.stop_reason in {"end_of_turn"}:
+                        yield chunk
+                        break
+
                     turn_id = self._get_turn_id(chunk)
                     if n_iter == 0:
                         yield chunk
 
                     # run the tools
                     tool_response_message = await self._run_tool(tool_calls)
+
                     # pass it to next iteration
                     turn_response = await self.client.agents.turn.resume(
                         agent_id=self.agent_id,
@@ -331,9 +340,4 @@ class AsyncAgent(AgentMixin):
                         tool_responses=[tool_response_message],
                         stream=True,
                     )
-
                     n_iter += 1
-                    break
-
-            if n_iter >= max_iter:
-                raise Exception(f"Turn did not complete in {max_iter} iterations")
