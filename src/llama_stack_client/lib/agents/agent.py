@@ -170,7 +170,7 @@ class Agent:
                     # End of turn is reached, do not resume even if there's a tool call
                     if chunk.event.payload.turn.output_message.stop_reason in {"end_of_turn"}:
                         yield chunk
-                        continue
+                        break
 
                     turn_id = self._get_turn_id(chunk)
                     if n_iter == 0:
