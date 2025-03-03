@@ -11,9 +11,7 @@ from llama_stack_client.types import ToolResponseMessage, UserMessage
 from llama_stack_client.types.agent_create_params import AgentConfig
 from llama_stack_client.types.agents.turn import CompletionMessage, Turn
 from llama_stack_client.types.agents.turn_create_params import Document, Toolgroup
-from llama_stack_client.types.agents.turn_create_response import (
-    AgentTurnResponseStreamChunk,
-)
+from llama_stack_client.types.agents.turn_create_response import AgentTurnResponseStreamChunk
 from llama_stack_client.types.shared.tool_call import ToolCall
 
 from .client_tool import ClientTool
@@ -143,7 +141,6 @@ class Agent:
         documents: Optional[List[Document]] = None,
     ) -> Iterator[AgentTurnResponseStreamChunk]:
         n_iter = 0
-        max_iter = self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER)
 
         # 1. create an agent turn
         turn_response = self.client.agents.turn.create(
@@ -170,12 +167,18 @@ class Agent:
                     yield chunk
                 else:
                     is_turn_complete = False
+                    # End of turn is reached, do not resume even if there's a tool call
+                    if chunk.event.payload.turn.output_message.stop_reason in {"end_of_turn"}:
+                        yield chunk
+                        break
+
                     turn_id = self._get_turn_id(chunk)
                     if n_iter == 0:
                         yield chunk
 
                     # run the tools
                     tool_response_message = self._run_tool(tool_calls)
+
                     # pass it to next iteration
                     turn_response = self.client.agents.turn.resume(
                         agent_id=self.agent_id,
@@ -185,7 +188,3 @@ class Agent:
                         stream=True,
                     )
                     n_iter += 1
-                    break
-
-            if n_iter >= max_iter:
-                raise Exception(f"Turn did not complete in {max_iter} iterations")

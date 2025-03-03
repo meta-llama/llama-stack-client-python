@@ -7,16 +7,7 @@
 import inspect
 import json
 from abc import abstractmethod
-from typing import (
-    Callable,
-    Dict,
-    get_args,
-    get_origin,
-    get_type_hints,
-    List,
-    TypeVar,
-    Union,
-)
+from typing import Callable, Dict, get_args, get_origin, get_type_hints, List, TypeVar, Union
 
 from llama_stack_client.types import Message, ToolResponseMessage
 from llama_stack_client.types.tool_def_param import Parameter, ToolDefParam
