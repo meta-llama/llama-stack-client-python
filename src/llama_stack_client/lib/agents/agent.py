@@ -168,7 +168,7 @@ class Agent:
                 else:
                     is_turn_complete = False
                     # End of turn is reached, do not resume even if there's a tool call
-                    if chunk.event.payload.turn.output_message.stop_reason != "end_of_message":
+                    if chunk.event.payload.turn.output_message.stop_reason in {"end_of_turn"}:
                         yield chunk
                         continue
 
