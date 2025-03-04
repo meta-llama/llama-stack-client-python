@@ -151,7 +151,6 @@ class Agent:
             stream=True,
             documents=documents,
             toolgroups=toolgroups,
-            allow_turn_resume=True,
         )
 
         # 2. process turn and resume if there's a tool call
