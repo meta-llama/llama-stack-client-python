@@ -13,12 +13,7 @@ from rich import print as rprint
 from tqdm.rich import tqdm
 
 from ..common.utils import create_bar_chart
-from .utils import (
-    aggregate_accuracy,
-    aggregate_average,
-    aggregate_categorical_count,
-    aggregate_median,
-)
+from .utils import aggregate_accuracy, aggregate_average, aggregate_categorical_count, aggregate_median
 
 
 @click.command("run-benchmark")
@@ -110,7 +105,7 @@ def run_benchmark(
                 benchmark_id=benchmark_id,
                 input_rows=[r],
                 scoring_functions=scoring_functions,
-                task_config={
+                benchmark_config={
                     "type": "benchmark",
                     "eval_candidate": {
                         "type": "model",
