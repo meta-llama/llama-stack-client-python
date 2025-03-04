@@ -124,7 +124,7 @@ class LlamaStackClient(SyncAPIClient):
         _strict_response_validation: bool = False,
         provider_data: Mapping[str, Any] | None = None,
     ) -> None:
-        """Construct a new synchronous llama-stack-client client instance.
+        """Construct a new synchronous LlamaStackClient client instance.
 
         This automatically infers the `api_key` argument from the `LLAMA_STACK_API_KEY` environment variable if it is not provided.
         """
@@ -340,7 +340,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         _strict_response_validation: bool = False,
         provider_data: Mapping[str, Any] | None = None,
     ) -> None:
-        """Construct a new async llama-stack-client client instance.
+        """Construct a new async AsyncLlamaStackClient client instance.
 
         This automatically infers the `api_key` argument from the `LLAMA_STACK_API_KEY` environment variable if it is not provided.
         """

@@ -182,7 +182,7 @@ Options:
 - `--num-examples`: Optional. Number of examples to evaluate (useful for debugging)
 - `--visualize`: Optional flag. If set, visualizes evaluation results after completion
 
-Example eval_task_config.json:
+Example eval_benchmark_config.json:
 ```json
 {
     "type": "benchmark",

@@ -11,8 +11,8 @@ __all__ = ["EvalEvaluateRowsAlphaParams"]
 
 
 class EvalEvaluateRowsAlphaParams(TypedDict, total=False):
+    benchmark_config: Required[BenchmarkConfigParam]
+
     input_rows: Required[Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]]
 
     scoring_functions: Required[List[str]]
-
-    task_config: Required[BenchmarkConfigParam]

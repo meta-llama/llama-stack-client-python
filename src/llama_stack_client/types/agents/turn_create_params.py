@@ -32,8 +32,6 @@ class TurnCreateParamsBase(TypedDict, total=False):
 
     messages: Required[Iterable[Message]]
 
-    allow_turn_resume: bool
-
     documents: Iterable[Document]
 
     tool_config: ToolConfig

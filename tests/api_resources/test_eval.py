@@ -24,9 +24,7 @@ class TestEval:
     def test_method_evaluate_rows(self, client: LlamaStackClient) -> None:
         eval = client.eval.evaluate_rows(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -39,6 +37,8 @@ class TestEval:
                     }
                 },
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         )
         assert_matches_type(EvaluateResponse, eval, path=["response"])
 
@@ -46,9 +46,7 @@ class TestEval:
     def test_method_evaluate_rows_with_all_params(self, client: LlamaStackClient) -> None:
         eval = client.eval.evaluate_rows(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {
@@ -73,6 +71,8 @@ class TestEval:
                 },
                 "num_examples": 0,
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         )
         assert_matches_type(EvaluateResponse, eval, path=["response"])
 
@@ -80,9 +80,7 @@ class TestEval:
     def test_raw_response_evaluate_rows(self, client: LlamaStackClient) -> None:
         response = client.eval.with_raw_response.evaluate_rows(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -95,6 +93,8 @@ class TestEval:
                     }
                 },
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         )
 
         assert response.is_closed is True
@@ -106,9 +106,7 @@ class TestEval:
     def test_streaming_response_evaluate_rows(self, client: LlamaStackClient) -> None:
         with client.eval.with_streaming_response.evaluate_rows(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -121,6 +119,8 @@ class TestEval:
                     }
                 },
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -135,9 +135,7 @@ class TestEval:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             client.eval.with_raw_response.evaluate_rows(
                 benchmark_id="",
-                input_rows=[{"foo": True}],
-                scoring_functions=["string"],
-                task_config={
+                benchmark_config={
                     "eval_candidate": {
                         "model": "model",
                         "sampling_params": {"strategy": {"type": "greedy"}},
@@ -150,15 +148,15 @@ class TestEval:
                         }
                     },
                 },
+                input_rows=[{"foo": True}],
+                scoring_functions=["string"],
             )
 
     @parametrize
     def test_method_evaluate_rows_alpha(self, client: LlamaStackClient) -> None:
         eval = client.eval.evaluate_rows_alpha(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -171,6 +169,8 @@ class TestEval:
                     }
                 },
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         )
         assert_matches_type(EvaluateResponse, eval, path=["response"])
 
@@ -178,9 +178,7 @@ class TestEval:
     def test_method_evaluate_rows_alpha_with_all_params(self, client: LlamaStackClient) -> None:
         eval = client.eval.evaluate_rows_alpha(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {
@@ -205,6 +203,8 @@ class TestEval:
                 },
                 "num_examples": 0,
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         )
         assert_matches_type(EvaluateResponse, eval, path=["response"])
 
@@ -212,9 +212,7 @@ class TestEval:
     def test_raw_response_evaluate_rows_alpha(self, client: LlamaStackClient) -> None:
         response = client.eval.with_raw_response.evaluate_rows_alpha(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -227,6 +225,8 @@ class TestEval:
                     }
                 },
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         )
 
         assert response.is_closed is True
@@ -238,9 +238,7 @@ class TestEval:
     def test_streaming_response_evaluate_rows_alpha(self, client: LlamaStackClient) -> None:
         with client.eval.with_streaming_response.evaluate_rows_alpha(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -253,6 +251,8 @@ class TestEval:
                     }
                 },
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -267,9 +267,7 @@ class TestEval:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             client.eval.with_raw_response.evaluate_rows_alpha(
                 benchmark_id="",
-                input_rows=[{"foo": True}],
-                scoring_functions=["string"],
-                task_config={
+                benchmark_config={
                     "eval_candidate": {
                         "model": "model",
                         "sampling_params": {"strategy": {"type": "greedy"}},
@@ -282,13 +280,15 @@ class TestEval:
                         }
                     },
                 },
+                input_rows=[{"foo": True}],
+                scoring_functions=["string"],
             )
 
     @parametrize
     def test_method_run_eval(self, client: LlamaStackClient) -> None:
         eval = client.eval.run_eval(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -308,7 +308,7 @@ class TestEval:
     def test_method_run_eval_with_all_params(self, client: LlamaStackClient) -> None:
         eval = client.eval.run_eval(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {
@@ -340,7 +340,7 @@ class TestEval:
     def test_raw_response_run_eval(self, client: LlamaStackClient) -> None:
         response = client.eval.with_raw_response.run_eval(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -364,7 +364,7 @@ class TestEval:
     def test_streaming_response_run_eval(self, client: LlamaStackClient) -> None:
         with client.eval.with_streaming_response.run_eval(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -391,7 +391,7 @@ class TestEval:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             client.eval.with_raw_response.run_eval(
                 benchmark_id="",
-                task_config={
+                benchmark_config={
                     "eval_candidate": {
                         "model": "model",
                         "sampling_params": {"strategy": {"type": "greedy"}},
@@ -410,7 +410,7 @@ class TestEval:
     def test_method_run_eval_alpha(self, client: LlamaStackClient) -> None:
         eval = client.eval.run_eval_alpha(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -430,7 +430,7 @@ class TestEval:
     def test_method_run_eval_alpha_with_all_params(self, client: LlamaStackClient) -> None:
         eval = client.eval.run_eval_alpha(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {
@@ -462,7 +462,7 @@ class TestEval:
     def test_raw_response_run_eval_alpha(self, client: LlamaStackClient) -> None:
         response = client.eval.with_raw_response.run_eval_alpha(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -486,7 +486,7 @@ class TestEval:
     def test_streaming_response_run_eval_alpha(self, client: LlamaStackClient) -> None:
         with client.eval.with_streaming_response.run_eval_alpha(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -513,7 +513,7 @@ class TestEval:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             client.eval.with_raw_response.run_eval_alpha(
                 benchmark_id="",
-                task_config={
+                benchmark_config={
                     "eval_candidate": {
                         "model": "model",
                         "sampling_params": {"strategy": {"type": "greedy"}},
@@ -536,9 +536,7 @@ class TestAsyncEval:
     async def test_method_evaluate_rows(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.evaluate_rows(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -551,6 +549,8 @@ class TestAsyncEval:
                     }
                 },
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         )
         assert_matches_type(EvaluateResponse, eval, path=["response"])
 
@@ -558,9 +558,7 @@ class TestAsyncEval:
     async def test_method_evaluate_rows_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.evaluate_rows(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {
@@ -585,6 +583,8 @@ class TestAsyncEval:
                 },
                 "num_examples": 0,
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         )
         assert_matches_type(EvaluateResponse, eval, path=["response"])
 
@@ -592,9 +592,7 @@ class TestAsyncEval:
     async def test_raw_response_evaluate_rows(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.eval.with_raw_response.evaluate_rows(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -607,6 +605,8 @@ class TestAsyncEval:
                     }
                 },
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         )
 
         assert response.is_closed is True
@@ -618,9 +618,7 @@ class TestAsyncEval:
     async def test_streaming_response_evaluate_rows(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.eval.with_streaming_response.evaluate_rows(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -633,6 +631,8 @@ class TestAsyncEval:
                     }
                 },
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -647,9 +647,7 @@ class TestAsyncEval:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             await async_client.eval.with_raw_response.evaluate_rows(
                 benchmark_id="",
-                input_rows=[{"foo": True}],
-                scoring_functions=["string"],
-                task_config={
+                benchmark_config={
                     "eval_candidate": {
                         "model": "model",
                         "sampling_params": {"strategy": {"type": "greedy"}},
@@ -662,15 +660,15 @@ class TestAsyncEval:
                         }
                     },
                 },
+                input_rows=[{"foo": True}],
+                scoring_functions=["string"],
             )
 
     @parametrize
     async def test_method_evaluate_rows_alpha(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.evaluate_rows_alpha(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -683,6 +681,8 @@ class TestAsyncEval:
                     }
                 },
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         )
         assert_matches_type(EvaluateResponse, eval, path=["response"])
 
@@ -690,9 +690,7 @@ class TestAsyncEval:
     async def test_method_evaluate_rows_alpha_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.evaluate_rows_alpha(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {
@@ -717,6 +715,8 @@ class TestAsyncEval:
                 },
                 "num_examples": 0,
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         )
         assert_matches_type(EvaluateResponse, eval, path=["response"])
 
@@ -724,9 +724,7 @@ class TestAsyncEval:
     async def test_raw_response_evaluate_rows_alpha(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.eval.with_raw_response.evaluate_rows_alpha(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -739,6 +737,8 @@ class TestAsyncEval:
                     }
                 },
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         )
 
         assert response.is_closed is True
@@ -750,9 +750,7 @@ class TestAsyncEval:
     async def test_streaming_response_evaluate_rows_alpha(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.eval.with_streaming_response.evaluate_rows_alpha(
             benchmark_id="benchmark_id",
-            input_rows=[{"foo": True}],
-            scoring_functions=["string"],
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -765,6 +763,8 @@ class TestAsyncEval:
                     }
                 },
             },
+            input_rows=[{"foo": True}],
+            scoring_functions=["string"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -779,9 +779,7 @@ class TestAsyncEval:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             await async_client.eval.with_raw_response.evaluate_rows_alpha(
                 benchmark_id="",
-                input_rows=[{"foo": True}],
-                scoring_functions=["string"],
-                task_config={
+                benchmark_config={
                     "eval_candidate": {
                         "model": "model",
                         "sampling_params": {"strategy": {"type": "greedy"}},
@@ -794,13 +792,15 @@ class TestAsyncEval:
                         }
                     },
                 },
+                input_rows=[{"foo": True}],
+                scoring_functions=["string"],
             )
 
     @parametrize
     async def test_method_run_eval(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.run_eval(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -820,7 +820,7 @@ class TestAsyncEval:
     async def test_method_run_eval_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.run_eval(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {
@@ -852,7 +852,7 @@ class TestAsyncEval:
     async def test_raw_response_run_eval(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.eval.with_raw_response.run_eval(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -876,7 +876,7 @@ class TestAsyncEval:
     async def test_streaming_response_run_eval(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.eval.with_streaming_response.run_eval(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -903,7 +903,7 @@ class TestAsyncEval:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             await async_client.eval.with_raw_response.run_eval(
                 benchmark_id="",
-                task_config={
+                benchmark_config={
                     "eval_candidate": {
                         "model": "model",
                         "sampling_params": {"strategy": {"type": "greedy"}},
@@ -922,7 +922,7 @@ class TestAsyncEval:
     async def test_method_run_eval_alpha(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.run_eval_alpha(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -942,7 +942,7 @@ class TestAsyncEval:
     async def test_method_run_eval_alpha_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         eval = await async_client.eval.run_eval_alpha(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {
@@ -974,7 +974,7 @@ class TestAsyncEval:
     async def test_raw_response_run_eval_alpha(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.eval.with_raw_response.run_eval_alpha(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -998,7 +998,7 @@ class TestAsyncEval:
     async def test_streaming_response_run_eval_alpha(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.eval.with_streaming_response.run_eval_alpha(
             benchmark_id="benchmark_id",
-            task_config={
+            benchmark_config={
                 "eval_candidate": {
                     "model": "model",
                     "sampling_params": {"strategy": {"type": "greedy"}},
@@ -1025,7 +1025,7 @@ class TestAsyncEval:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `benchmark_id` but received ''"):
             await async_client.eval.with_raw_response.run_eval_alpha(
                 benchmark_id="",
-                task_config={
+                benchmark_config={
                     "eval_candidate": {
                         "model": "model",
                         "sampling_params": {"strategy": {"type": "greedy"}},
