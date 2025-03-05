@@ -10,4 +10,4 @@ __all__ = ["EvalRunEvalParams"]
 
 
 class EvalRunEvalParams(TypedDict, total=False):
-    task_config: Required[BenchmarkConfigParam]
+    benchmark_config: Required[BenchmarkConfigParam]

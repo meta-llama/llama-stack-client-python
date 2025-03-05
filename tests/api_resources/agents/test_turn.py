@@ -43,7 +43,6 @@ class TestTurn:
                     "context": "string",
                 }
             ],
-            allow_turn_resume=True,
             documents=[
                 {
                     "content": "string",
@@ -152,7 +151,6 @@ class TestTurn:
                 }
             ],
             stream=True,
-            allow_turn_resume=True,
             documents=[
                 {
                     "content": "string",
@@ -564,7 +562,6 @@ class TestAsyncTurn:
                     "context": "string",
                 }
             ],
-            allow_turn_resume=True,
             documents=[
                 {
                     "content": "string",
@@ -673,7 +670,6 @@ class TestAsyncTurn:
                 }
             ],
             stream=True,
-            allow_turn_resume=True,
             documents=[
                 {
                     "content": "string",
