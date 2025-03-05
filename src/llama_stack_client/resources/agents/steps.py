@@ -54,6 +54,8 @@ class StepsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> StepRetrieveResponse:
         """
+        Retrieve an agent step by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -115,6 +117,8 @@ class AsyncStepsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> StepRetrieveResponse:
         """
+        Retrieve an agent step by its ID.
+
         Args:
           extra_headers: Send extra headers
 

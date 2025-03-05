@@ -31,13 +31,22 @@ class TurnCreateParamsBase(TypedDict, total=False):
     agent_id: Required[str]
 
     messages: Required[Iterable[Message]]
+    """List of messages to start the turn with."""
 
     documents: Iterable[Document]
+    """(Optional) List of documents to create the turn with."""
 
     tool_config: ToolConfig
-    """Configuration for tool use."""
+    """
+    (Optional) The tool configuration to create the turn with, will be used to
+    override the agent's tool_config.
+    """
 
     toolgroups: List[Toolgroup]
+    """
+    (Optional) List of toolgroups to create the turn with, will be used in addition
+    to the agent's config toolgroups for the request.
+    """
 
 
 Message: TypeAlias = Union[UserMessage, ToolResponseMessage]
@@ -89,9 +98,10 @@ DocumentContent: TypeAlias = Union[
 
 class Document(TypedDict, total=False):
     content: Required[DocumentContent]
-    """A image content item"""
+    """The content of the document."""
 
     mime_type: Required[str]
+    """The MIME type of the document."""
 
 
 class ToolConfig(TypedDict, total=False):
@@ -134,10 +144,18 @@ Toolgroup: TypeAlias = Union[str, ToolgroupAgentToolGroupWithArgs]
 
 class TurnCreateParamsNonStreaming(TurnCreateParamsBase, total=False):
     stream: Literal[False]
+    """(Optional) If True, generate an SSE event stream of the response.
+
+    Defaults to False.
+    """
 
 
 class TurnCreateParamsStreaming(TurnCreateParamsBase):
     stream: Required[Literal[True]]
+    """(Optional) If True, generate an SSE event stream of the response.
+
+    Defaults to False.
+    """
 
 
 TurnCreateParams = Union[TurnCreateParamsNonStreaming, TurnCreateParamsStreaming]

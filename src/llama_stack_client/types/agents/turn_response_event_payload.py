@@ -30,6 +30,7 @@ class AgentTurnResponseStepStartPayload(BaseModel):
     step_id: str
 
     step_type: Literal["inference", "tool_execution", "shield_call", "memory_retrieval"]
+    """Type of the step in an agent turn."""
 
     metadata: Optional[Dict[str, Union[bool, float, str, List[object], object, None]]] = None
 
@@ -42,6 +43,7 @@ class AgentTurnResponseStepProgressPayload(BaseModel):
     step_id: str
 
     step_type: Literal["inference", "tool_execution", "shield_call", "memory_retrieval"]
+    """Type of the step in an agent turn."""
 
 
 AgentTurnResponseStepCompletePayloadStepDetails: TypeAlias = Annotated[
@@ -54,10 +56,12 @@ class AgentTurnResponseStepCompletePayload(BaseModel):
     event_type: Literal["step_complete"]
 
     step_details: AgentTurnResponseStepCompletePayloadStepDetails
+    """An inference step in an agent turn."""
 
     step_id: str
 
     step_type: Literal["inference", "tool_execution", "shield_call", "memory_retrieval"]
+    """Type of the step in an agent turn."""
 
 
 class AgentTurnResponseTurnStartPayload(BaseModel):
