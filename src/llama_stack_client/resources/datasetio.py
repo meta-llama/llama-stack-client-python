@@ -99,7 +99,17 @@ class DatasetioResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PaginatedRowsResult:
         """
+        Get a paginated list of rows from a dataset.
+
         Args:
+          dataset_id: The ID of the dataset to get the rows from.
+
+          rows_in_page: The number of rows to get per page.
+
+          filter_condition: (Optional) A condition to filter the rows by.
+
+          page_token: The token to get the next page of rows.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -202,7 +212,17 @@ class AsyncDatasetioResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PaginatedRowsResult:
         """
+        Get a paginated list of rows from a dataset.
+
         Args:
+          dataset_id: The ID of the dataset to get the rows from.
+
+          rows_in_page: The number of rows to get per page.
+
+          filter_condition: (Optional) A condition to filter the rows by.
+
+          page_token: The token to get the next page of rows.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

@@ -13,15 +13,21 @@ __all__ = ["ToolExecutionStep"]
 
 class ToolExecutionStep(BaseModel):
     step_id: str
+    """The ID of the step."""
 
     step_type: Literal["tool_execution"]
 
     tool_calls: List[ToolCall]
+    """The tool calls to execute."""
 
     tool_responses: List[ToolResponse]
+    """The tool responses from the tool calls."""
 
     turn_id: str
+    """The ID of the turn."""
 
     completed_at: Optional[datetime] = None
+    """The time the step completed."""
 
     started_at: Optional[datetime] = None
+    """The time the step started."""

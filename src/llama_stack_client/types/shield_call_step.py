@@ -12,13 +12,18 @@ __all__ = ["ShieldCallStep"]
 
 class ShieldCallStep(BaseModel):
     step_id: str
+    """The ID of the step."""
 
     step_type: Literal["shield_call"]
 
     turn_id: str
+    """The ID of the turn."""
 
     completed_at: Optional[datetime] = None
+    """The time the step completed."""
 
     started_at: Optional[datetime] = None
+    """The time the step started."""
 
     violation: Optional[SafetyViolation] = None
+    """The violation from the shield call."""

@@ -11,3 +11,4 @@ __all__ = ["AgentCreateParams"]
 
 class AgentCreateParams(TypedDict, total=False):
     agent_config: Required[AgentConfig]
+    """The configuration for the agent."""

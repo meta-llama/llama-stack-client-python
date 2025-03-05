@@ -14,17 +14,20 @@ __all__ = ["EvalCandidateParam", "ModelCandidate", "AgentCandidate"]
 
 class ModelCandidate(TypedDict, total=False):
     model: Required[str]
+    """The model ID to evaluate."""
 
     sampling_params: Required[SamplingParams]
+    """The sampling parameters for the model."""
 
     type: Required[Literal["model"]]
 
     system_message: SystemMessage
-    """A system message providing instructions or context to the model."""
+    """(Optional) The system message providing instructions or context to the model."""
 
 
 class AgentCandidate(TypedDict, total=False):
     config: Required[AgentConfig]
+    """The configuration for the agent candidate."""
 
     type: Required[Literal["agent"]]
 
