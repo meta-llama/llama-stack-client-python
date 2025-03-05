@@ -101,7 +101,7 @@ def run_benchmark(
         output_res = {}
 
         for i, r in enumerate(tqdm(rows.rows)):
-            eval_res = client.eval.evaluate_rows_alpha(
+            eval_res = client.eval.evaluate_rows(
                 benchmark_id=benchmark_id,
                 input_rows=[r],
                 scoring_functions=scoring_functions,
