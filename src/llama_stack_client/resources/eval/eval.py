@@ -80,7 +80,15 @@ class EvalResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EvaluateResponse:
         """
+        Evaluate a list of rows on a benchmark.
+
         Args:
+          benchmark_config: The configuration for the benchmark.
+
+          input_rows: The rows to evaluate.
+
+          scoring_functions: The scoring functions to use for the evaluation.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -122,7 +130,15 @@ class EvalResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EvaluateResponse:
         """
+        Evaluate a list of rows on a benchmark.
+
         Args:
+          benchmark_config: The configuration for the benchmark.
+
+          input_rows: The rows to evaluate.
+
+          scoring_functions: The scoring functions to use for the evaluation.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -162,7 +178,11 @@ class EvalResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Job:
         """
+        Run an evaluation on a benchmark.
+
         Args:
+          benchmark_config: The configuration for the benchmark.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -195,7 +215,11 @@ class EvalResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Job:
         """
+        Run an evaluation on a benchmark.
+
         Args:
+          benchmark_config: The configuration for the benchmark.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -257,7 +281,15 @@ class AsyncEvalResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EvaluateResponse:
         """
+        Evaluate a list of rows on a benchmark.
+
         Args:
+          benchmark_config: The configuration for the benchmark.
+
+          input_rows: The rows to evaluate.
+
+          scoring_functions: The scoring functions to use for the evaluation.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -299,7 +331,15 @@ class AsyncEvalResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EvaluateResponse:
         """
+        Evaluate a list of rows on a benchmark.
+
         Args:
+          benchmark_config: The configuration for the benchmark.
+
+          input_rows: The rows to evaluate.
+
+          scoring_functions: The scoring functions to use for the evaluation.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -339,7 +379,11 @@ class AsyncEvalResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Job:
         """
+        Run an evaluation on a benchmark.
+
         Args:
+          benchmark_config: The configuration for the benchmark.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -374,7 +418,11 @@ class AsyncEvalResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Job:
         """
+        Run an evaluation on a benchmark.
+
         Args:
+          benchmark_config: The configuration for the benchmark.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

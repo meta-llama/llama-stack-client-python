@@ -55,6 +55,8 @@ class JobsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EvaluateResponse:
         """
+        Get the result of a job.
+
         Args:
           extra_headers: Send extra headers
 
@@ -89,6 +91,8 @@ class JobsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Cancel a job.
+
         Args:
           extra_headers: Send extra headers
 
@@ -124,6 +128,8 @@ class JobsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Optional[JobStatusResponse]:
         """
+        Get the status of a job.
+
         Args:
           extra_headers: Send extra headers
 
@@ -179,6 +185,8 @@ class AsyncJobsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EvaluateResponse:
         """
+        Get the result of a job.
+
         Args:
           extra_headers: Send extra headers
 
@@ -213,6 +221,8 @@ class AsyncJobsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Cancel a job.
+
         Args:
           extra_headers: Send extra headers
 
@@ -248,6 +258,8 @@ class AsyncJobsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Optional[JobStatusResponse]:
         """
+        Get the status of a job.
+
         Args:
           extra_headers: Send extra headers
 

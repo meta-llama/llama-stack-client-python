@@ -14,14 +14,18 @@ __all__ = ["InferenceStep"]
 
 class InferenceStep(BaseModel):
     api_model_response: CompletionMessage = FieldInfo(alias="model_response")
-    """A message containing the model's (assistant) response in a chat conversation."""
+    """The response from the LLM."""
 
     step_id: str
+    """The ID of the step."""
 
     step_type: Literal["inference"]
 
     turn_id: str
+    """The ID of the turn."""
 
     completed_at: Optional[datetime] = None
+    """The time the step completed."""
 
     started_at: Optional[datetime] = None
+    """The time the step started."""

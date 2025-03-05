@@ -9,3 +9,4 @@ __all__ = ["SessionCreateParams"]
 
 class SessionCreateParams(TypedDict, total=False):
     session_name: Required[str]
+    """The name of the session to create."""

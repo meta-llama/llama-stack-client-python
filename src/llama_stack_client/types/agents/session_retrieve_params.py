@@ -12,3 +12,4 @@ class SessionRetrieveParams(TypedDict, total=False):
     agent_id: Required[str]
 
     turn_ids: List[str]
+    """(Optional) List of turn IDs to filter the session by."""

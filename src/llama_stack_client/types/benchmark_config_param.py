@@ -13,7 +13,16 @@ __all__ = ["BenchmarkConfigParam"]
 
 class BenchmarkConfigParam(TypedDict, total=False):
     eval_candidate: Required[EvalCandidateParam]
+    """The candidate to evaluate."""
 
     scoring_params: Required[Dict[str, ScoringFnParamsParam]]
+    """
+    Map between scoring function id and parameters for each scoring function you
+    want to run
+    """
 
     num_examples: int
+    """(Optional) The number of examples to evaluate.
+
+    If not provided, all examples in the dataset will be evaluated
+    """

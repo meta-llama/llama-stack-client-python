@@ -10,5 +10,7 @@ __all__ = ["EvaluateResponse"]
 
 class EvaluateResponse(BaseModel):
     generations: List[Dict[str, Union[bool, float, str, List[object], object, None]]]
+    """The generations from the evaluation."""
 
     scores: Dict[str, ScoringResult]
+    """The scores from the evaluation."""

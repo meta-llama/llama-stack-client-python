@@ -12,16 +12,21 @@ __all__ = ["MemoryRetrievalStep"]
 
 class MemoryRetrievalStep(BaseModel):
     inserted_context: InterleavedContent
-    """A image content item"""
+    """The context retrieved from the vector databases."""
 
     step_id: str
+    """The ID of the step."""
 
     step_type: Literal["memory_retrieval"]
 
     turn_id: str
+    """The ID of the turn."""
 
     vector_db_ids: str
+    """The IDs of the vector databases to retrieve context from."""
 
     completed_at: Optional[datetime] = None
+    """The time the step completed."""
 
     started_at: Optional[datetime] = None
+    """The time the step started."""

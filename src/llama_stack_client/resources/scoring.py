@@ -61,7 +61,13 @@ class ScoringResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ScoringScoreResponse:
         """
+        Score a list of rows.
+
         Args:
+          input_rows: The rows to score.
+
+          scoring_functions: The scoring functions to use for the scoring.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -158,7 +164,13 @@ class AsyncScoringResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ScoringScoreResponse:
         """
+        Score a list of rows.
+
         Args:
+          input_rows: The rows to score.
+
+          scoring_functions: The scoring functions to use for the scoring.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

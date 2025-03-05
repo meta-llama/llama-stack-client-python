@@ -60,7 +60,11 @@ class SessionResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> SessionCreateResponse:
         """
+        Create a new session for an agent.
+
         Args:
+          session_name: The name of the session to create.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -94,7 +98,11 @@ class SessionResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Session:
         """
+        Retrieve an agent session by its ID.
+
         Args:
+          turn_ids: (Optional) List of turn IDs to filter the session by.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -132,6 +140,8 @@ class SessionResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Delete an agent session by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -188,7 +198,11 @@ class AsyncSessionResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> SessionCreateResponse:
         """
+        Create a new session for an agent.
+
         Args:
+          session_name: The name of the session to create.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -222,7 +236,11 @@ class AsyncSessionResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Session:
         """
+        Retrieve an agent session by its ID.
+
         Args:
+          turn_ids: (Optional) List of turn IDs to filter the session by.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -262,6 +280,8 @@ class AsyncSessionResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Delete an agent session by its ID.
+
         Args:
           extra_headers: Send extra headers
 

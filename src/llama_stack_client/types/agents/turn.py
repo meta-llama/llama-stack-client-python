@@ -82,9 +82,10 @@ OutputAttachmentContent: TypeAlias = Union[
 
 class OutputAttachment(BaseModel):
     content: OutputAttachmentContent
-    """A image content item"""
+    """The content of the attachment."""
 
     mime_type: str
+    """The MIME type of the attachment."""
 
 
 class Turn(BaseModel):

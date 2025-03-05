@@ -61,6 +61,7 @@ from .model_list_response import ModelListResponse as ModelListResponse
 from .route_list_response import RouteListResponse as RouteListResponse
 from .run_shield_response import RunShieldResponse as RunShieldResponse
 from .tool_execution_step import ToolExecutionStep as ToolExecutionStep
+from .tool_response_param import ToolResponseParam as ToolResponseParam
 from .eval_candidate_param import EvalCandidateParam as EvalCandidateParam
 from .eval_run_eval_params import EvalRunEvalParams as EvalRunEvalParams
 from .list_models_response import ListModelsResponse as ListModelsResponse
