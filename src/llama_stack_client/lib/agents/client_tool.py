@@ -7,9 +7,9 @@
 import inspect
 import json
 from abc import abstractmethod
-from typing import Callable, Dict, get_args, get_origin, get_type_hints, List, TypeVar, Union
+from typing import Any, Callable, Dict, get_args, get_origin, get_type_hints, List, TypeVar, Union
 
-from llama_stack_client.types import Message, ToolResponseMessage
+from llama_stack_client.types import Message, CompletionMessage, ToolResponse
 from llama_stack_client.types.tool_def_param import Parameter, ToolDefParam
 
 
@@ -63,28 +63,37 @@ class ClientTool:
     def run(
         self,
         message_history: List[Message],
-    ) -> ToolResponseMessage:
+    ) -> ToolResponse:
         # NOTE: we could override this method to use the entire message history for advanced tools
         last_message = message_history[-1]
-
+        assert isinstance(last_message, CompletionMessage), "Expected CompletionMessage"
         assert len(last_message.tool_calls) == 1, "Expected single tool call"
         tool_call = last_message.tool_calls[0]
 
+        metadata = {}
         try:
             response = self.run_impl(**tool_call.arguments)
-            response_str = json.dumps(response, ensure_ascii=False)
+            if isinstance(response, dict) and "content" in response:
+                content = json.dumps(response["content"], ensure_ascii=False)
+                metadata = response.get("metadata", {})
+            else:
+                content = json.dumps(response, ensure_ascii=False)
         except Exception as e:
-            response_str = f"Error when running tool: {e}"
-
-        return ToolResponseMessage(
+            content = f"Error when running tool: {e}"
+        return ToolResponse(
             call_id=tool_call.call_id,
             tool_name=tool_call.tool_name,
-            content=response_str,
-            role="tool",
+            content=content,
+            metadata=metadata,
         )
 
     @abstractmethod
-    def run_impl(self, **kwargs):
+    def run_impl(self, **kwargs) -> Any:
+        """
+        Can return any json serializable object.
+        To return metadata along with the response, return a dict with a "content" key, and a "metadata" key, where the "content" is the response that'll
+        be serialized and passed to the model, and the "metadata" will be logged as metadata in the tool execution step within the Agent execution trace.
+        """
         raise NotImplementedError
 
 
@@ -107,6 +116,10 @@ def client_tool(func: T) -> ClientTool:
 
     Note that you must use RST-style docstrings with :param tags for each parameter. These will be used for prompting model to use tools correctly.
     :returns: tags in the docstring is optional as it would not be used for the tool's description.
+
+    Your function can return any json serializable object.
+    To return metadata along with the response, return a dict with a "content" key, and a "metadata" key, where the "content" is the response that'll
+    be serialized and passed to the model, and the "metadata" will be logged as metadata in the tool execution step within the Agent execution trace.
     """
 
     class _WrappedTool(ClientTool):
@@ -162,7 +175,7 @@ def client_tool(func: T) -> ClientTool:
 
             return params
 
-        def run_impl(self, **kwargs):
+        def run_impl(self, **kwargs) -> Any:
             return func(**kwargs)
 
     return _WrappedTool()
