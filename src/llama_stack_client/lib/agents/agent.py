@@ -40,7 +40,7 @@ class Agent:
         tools: Optional[List[Union[Toolgroup, ClientTool]]] = None,
         tool_config: Optional[ToolConfig] = None,
         sampling_params: Optional[SamplingParams] = None,
-        max_infer_iters: int = DEFAULT_MAX_ITER,
+        max_infer_iters: Optional[int] = None,
         input_shields: Optional[List[str]] = None,
         output_shields: Optional[List[str]] = None,
         response_format: Optional[ResponseFormat] = None,
@@ -91,10 +91,10 @@ class Agent:
             # Add optional parameters if provided
             if enable_session_persistence is not None:
                 agent_config["enable_session_persistence"] = enable_session_persistence
-            if input_shields is not None:
-                agent_config["input_shields"] = input_shields
             if max_infer_iters is not None:
                 agent_config["max_infer_iters"] = max_infer_iters
+            if input_shields is not None:
+                agent_config["input_shields"] = input_shields
             if output_shields is not None:
                 agent_config["output_shields"] = output_shields
             if response_format is not None:
@@ -119,10 +119,10 @@ class Agent:
             agent_config = AgentConfig(**agent_config)
 
         self.agent_config = agent_config
-        self.agent_config["max_infer_iters"] = max_infer_iters
-        from rich.pretty import pprint
 
-        pprint(agent_config)
+        if "max_infer_iters" not in self.agent_config:
+            self.agent_config["max_infer_iters"] = DEFAULT_MAX_ITER
+
         self.agent_id = self._create_agent(agent_config)
         self.client_tools = {t.get_name(): t for t in client_tools}
         self.sessions = []
