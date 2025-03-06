@@ -4,13 +4,14 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
+import uuid
+from typing import List, Optional, Union
+
 from pydantic import BaseModel, ValidationError
-from typing import Optional, List, Union
-from ..tool_parser import ToolParser
+
 from llama_stack_client.types.shared.completion_message import CompletionMessage
 from llama_stack_client.types.shared.tool_call import ToolCall
-
-import uuid
+from ..tool_parser import ToolParser
 
 
 class Param(BaseModel):
