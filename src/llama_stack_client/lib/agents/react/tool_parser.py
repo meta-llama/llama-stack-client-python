@@ -5,7 +5,7 @@
 # the root directory of this source tree.
 
 import uuid
-from typing import Dict, List, Optional, Union
+from typing import List, Optional, Union
 
 from pydantic import BaseModel, ValidationError
 
