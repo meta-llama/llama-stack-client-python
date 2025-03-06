@@ -16,15 +16,7 @@ from ..tool_parser import ToolParser
 
 class Param(BaseModel):
     name: str
-    value: Union[
-        str,
-        int,
-        float,
-        bool,
-        List[Union[str, int, float, bool, None]],
-        Dict[str, Union[str, int, float, bool, None]],
-        None,
-    ]
+    value: Union[str, int, float, bool]
 
 
 class Action(BaseModel):
@@ -46,13 +38,6 @@ class ReActToolParser(ToolParser):
             react_output = ReActOutput.model_validate_json(response_text)
         except ValidationError as e:
             print(f"Error parsing action: {e}")
-            print(f"Response text: {response_text}")
-            import json
-
-            from rich.pretty import pprint
-
-            try_json = json.loads(response_text)
-            pprint(try_json)
             return tool_calls
 
         if react_output.answer:
