@@ -4,18 +4,27 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
+import uuid
+from typing import Dict, List, Optional, Union
+
 from pydantic import BaseModel, ValidationError
-from typing import Optional, List, Union
-from ..tool_parser import ToolParser
+
 from llama_stack_client.types.shared.completion_message import CompletionMessage
 from llama_stack_client.types.shared.tool_call import ToolCall
-
-import uuid
+from ..tool_parser import ToolParser
 
 
 class Param(BaseModel):
     name: str
-    value: Union[str, int, float, bool]
+    value: Union[
+        str,
+        int,
+        float,
+        bool,
+        List[Union[str, int, float, bool, None]],
+        Dict[str, Union[str, int, float, bool, None]],
+        None,
+    ]
 
 
 class Action(BaseModel):
@@ -37,6 +46,13 @@ class ReActToolParser(ToolParser):
             react_output = ReActOutput.model_validate_json(response_text)
         except ValidationError as e:
             print(f"Error parsing action: {e}")
+            print(f"Response text: {response_text}")
+            import json
+
+            from rich.pretty import pprint
+
+            try_json = json.loads(response_text)
+            pprint(try_json)
             return tool_calls
 
         if react_output.answer:

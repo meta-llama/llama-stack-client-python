@@ -3,10 +3,10 @@
 #
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
+import logging
 from typing import Iterator, List, Optional, Tuple, Union
 
 from llama_stack_client import LlamaStackClient
-import logging
 
 from llama_stack_client.types import ToolResponseMessage, ToolResponseParam, UserMessage
 from llama_stack_client.types.agent_create_params import AgentConfig
@@ -14,9 +14,9 @@ from llama_stack_client.types.agents.turn import CompletionMessage, Turn
 from llama_stack_client.types.agents.turn_create_params import Document, Toolgroup
 from llama_stack_client.types.agents.turn_create_response import AgentTurnResponseStreamChunk
 from llama_stack_client.types.shared.tool_call import ToolCall
+from llama_stack_client.types.shared_params.agent_config import ToolConfig
 from llama_stack_client.types.shared_params.response_format import ResponseFormat
 from llama_stack_client.types.shared_params.sampling_params import SamplingParams
-from llama_stack_client.types.shared_params.agent_config import ToolConfig
 
 from .client_tool import ClientTool
 from .tool_parser import ToolParser
@@ -40,7 +40,7 @@ class Agent:
         tools: Optional[List[Union[Toolgroup, ClientTool]]] = None,
         tool_config: Optional[ToolConfig] = None,
         sampling_params: Optional[SamplingParams] = None,
-        max_infer_iters: Optional[int] = None,
+        max_infer_iters: int = DEFAULT_MAX_ITER,
         input_shields: Optional[List[str]] = None,
         output_shields: Optional[List[str]] = None,
         response_format: Optional[ResponseFormat] = None,
@@ -119,6 +119,10 @@ class Agent:
             agent_config = AgentConfig(**agent_config)
 
         self.agent_config = agent_config
+        self.agent_config["max_infer_iters"] = max_infer_iters
+        from rich.pretty import pprint
+
+        pprint(agent_config)
         self.agent_id = self._create_agent(agent_config)
         self.client_tools = {t.get_name(): t for t in client_tools}
         self.sessions = []
@@ -254,7 +258,9 @@ class Agent:
                 else:
                     is_turn_complete = False
                     # End of turn is reached, do not resume even if there's a tool call
-                    if chunk.event.payload.turn.output_message.stop_reason in {"end_of_turn"}:
+                    # We only check for this if tool_parser is not set, because otherwise
+                    # tool call will be parsed on client side, and server will always return "end_of_turn"
+                    if not self.tool_parser and chunk.event.payload.turn.output_message.stop_reason in {"end_of_turn"}:
                         yield chunk
                         break
 
@@ -274,3 +280,6 @@ class Agent:
                         stream=True,
                     )
                     n_iter += 1
+
+            if n_iter > self.agent_config["max_infer_iters"]:
+                raise Exception("Max inference iterations reached")
