@@ -278,7 +278,7 @@ class Agent(AgentMixin):
                         stream=True,
                     )
                     n_iter += 1
-                   
+
             if self.tool_parser and n_iter > self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER):
                 raise Exception("Max inference iterations reached")
 
