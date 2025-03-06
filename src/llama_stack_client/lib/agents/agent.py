@@ -277,5 +277,5 @@ class Agent:
                     )
                     n_iter += 1
 
-            if n_iter > self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER):
+            if self.tool_parser and n_iter > self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER):
                 raise Exception("Max inference iterations reached")
