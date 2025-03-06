@@ -119,10 +119,6 @@ class Agent:
             agent_config = AgentConfig(**agent_config)
 
         self.agent_config = agent_config
-
-        if "max_infer_iters" not in self.agent_config:
-            self.agent_config["max_infer_iters"] = DEFAULT_MAX_ITER
-
         self.agent_id = self._create_agent(agent_config)
         self.client_tools = {t.get_name(): t for t in client_tools}
         self.sessions = []
@@ -281,5 +277,5 @@ class Agent:
                     )
                     n_iter += 1
 
-            if n_iter > self.agent_config["max_infer_iters"]:
+            if n_iter > self.agent_config.get("max_infer_iters", DEFAULT_MAX_ITER):
                 raise Exception("Max inference iterations reached")
