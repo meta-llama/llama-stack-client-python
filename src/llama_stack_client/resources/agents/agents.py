@@ -93,7 +93,11 @@ class AgentsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AgentCreateResponse:
         """
+        Create an agent with the given configuration.
+
         Args:
+          agent_config: The configuration for the agent.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -123,6 +127,8 @@ class AgentsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Delete an agent by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -188,7 +194,11 @@ class AsyncAgentsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AgentCreateResponse:
         """
+        Create an agent with the given configuration.
+
         Args:
+          agent_config: The configuration for the agent.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -218,6 +228,8 @@ class AsyncAgentsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Delete an agent by its ID.
+
         Args:
           extra_headers: Send extra headers
 

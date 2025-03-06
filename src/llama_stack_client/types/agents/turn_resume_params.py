@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Union, Iterable
 from typing_extensions import Literal, Required, TypedDict
 
+from ..tool_response_param import ToolResponseParam
 from ..shared_params.tool_response_message import ToolResponseMessage
 
 __all__ = ["TurnResumeParamsBase", "TurnResumeParamsNonStreaming", "TurnResumeParamsStreaming"]
@@ -15,8 +16,11 @@ class TurnResumeParamsBase(TypedDict, total=False):
 
     session_id: Required[str]
 
-    tool_responses: Required[Iterable[ToolResponseMessage]]
-    """The tool call responses to resume the turn with."""
+    tool_responses: Required[Union[Iterable[ToolResponseParam], Iterable[ToolResponseMessage]]]
+    """The tool call responses to resume the turn with.
+
+    NOTE: ToolResponseMessage will be deprecated. Use ToolResponse.
+    """
 
 
 class TurnResumeParamsNonStreaming(TurnResumeParamsBase, total=False):

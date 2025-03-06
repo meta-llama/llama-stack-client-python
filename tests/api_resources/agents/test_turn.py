@@ -43,7 +43,6 @@ class TestTurn:
                     "context": "string",
                 }
             ],
-            allow_turn_resume=True,
             documents=[
                 {
                     "content": "string",
@@ -152,7 +151,6 @@ class TestTurn:
                 }
             ],
             stream=True,
-            allow_turn_resume=True,
             documents=[
                 {
                     "content": "string",
@@ -305,7 +303,6 @@ class TestTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
                 }
             ],
@@ -322,8 +319,8 @@ class TestTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
+                    "metadata": {"foo": True},
                 }
             ],
             stream=False,
@@ -340,7 +337,6 @@ class TestTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
                 }
             ],
@@ -361,7 +357,6 @@ class TestTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
                 }
             ],
@@ -385,7 +380,6 @@ class TestTurn:
                     {
                         "call_id": "call_id",
                         "content": "string",
-                        "role": "tool",
                         "tool_name": "brave_search",
                     }
                 ],
@@ -400,7 +394,6 @@ class TestTurn:
                     {
                         "call_id": "call_id",
                         "content": "string",
-                        "role": "tool",
                         "tool_name": "brave_search",
                     }
                 ],
@@ -415,7 +408,6 @@ class TestTurn:
                     {
                         "call_id": "call_id",
                         "content": "string",
-                        "role": "tool",
                         "tool_name": "brave_search",
                     }
                 ],
@@ -432,7 +424,6 @@ class TestTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
                 }
             ],
@@ -450,7 +441,6 @@ class TestTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
                 }
             ],
@@ -471,7 +461,6 @@ class TestTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
                 }
             ],
@@ -496,7 +485,6 @@ class TestTurn:
                     {
                         "call_id": "call_id",
                         "content": "string",
-                        "role": "tool",
                         "tool_name": "brave_search",
                     }
                 ],
@@ -512,7 +500,6 @@ class TestTurn:
                     {
                         "call_id": "call_id",
                         "content": "string",
-                        "role": "tool",
                         "tool_name": "brave_search",
                     }
                 ],
@@ -528,7 +515,6 @@ class TestTurn:
                     {
                         "call_id": "call_id",
                         "content": "string",
-                        "role": "tool",
                         "tool_name": "brave_search",
                     }
                 ],
@@ -564,7 +550,6 @@ class TestAsyncTurn:
                     "context": "string",
                 }
             ],
-            allow_turn_resume=True,
             documents=[
                 {
                     "content": "string",
@@ -673,7 +658,6 @@ class TestAsyncTurn:
                 }
             ],
             stream=True,
-            allow_turn_resume=True,
             documents=[
                 {
                     "content": "string",
@@ -826,7 +810,6 @@ class TestAsyncTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
                 }
             ],
@@ -843,8 +826,8 @@ class TestAsyncTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
+                    "metadata": {"foo": True},
                 }
             ],
             stream=False,
@@ -861,7 +844,6 @@ class TestAsyncTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
                 }
             ],
@@ -882,7 +864,6 @@ class TestAsyncTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
                 }
             ],
@@ -906,7 +887,6 @@ class TestAsyncTurn:
                     {
                         "call_id": "call_id",
                         "content": "string",
-                        "role": "tool",
                         "tool_name": "brave_search",
                     }
                 ],
@@ -921,7 +901,6 @@ class TestAsyncTurn:
                     {
                         "call_id": "call_id",
                         "content": "string",
-                        "role": "tool",
                         "tool_name": "brave_search",
                     }
                 ],
@@ -936,7 +915,6 @@ class TestAsyncTurn:
                     {
                         "call_id": "call_id",
                         "content": "string",
-                        "role": "tool",
                         "tool_name": "brave_search",
                     }
                 ],
@@ -953,7 +931,6 @@ class TestAsyncTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
                 }
             ],
@@ -971,7 +948,6 @@ class TestAsyncTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
                 }
             ],
@@ -992,7 +968,6 @@ class TestAsyncTurn:
                 {
                     "call_id": "call_id",
                     "content": "string",
-                    "role": "tool",
                     "tool_name": "brave_search",
                 }
             ],
@@ -1017,7 +992,6 @@ class TestAsyncTurn:
                     {
                         "call_id": "call_id",
                         "content": "string",
-                        "role": "tool",
                         "tool_name": "brave_search",
                     }
                 ],
@@ -1033,7 +1007,6 @@ class TestAsyncTurn:
                     {
                         "call_id": "call_id",
                         "content": "string",
-                        "role": "tool",
                         "tool_name": "brave_search",
                     }
                 ],
@@ -1049,7 +1022,6 @@ class TestAsyncTurn:
                     {
                         "call_id": "call_id",
                         "content": "string",
-                        "role": "tool",
                         "tool_name": "brave_search",
                     }
                 ],
