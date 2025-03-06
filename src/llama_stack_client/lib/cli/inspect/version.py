@@ -5,6 +5,7 @@ from ..common.utils import handle_client_errors
 
 
 @click.command("version")
+@click.help_option("-h", "--help")
 @click.pass_context
 @handle_client_errors("inspect version")
 def inspect_version(ctx):

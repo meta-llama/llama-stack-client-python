@@ -14,11 +14,13 @@ from ..common.utils import handle_client_errors
 
 
 @click.group()
+@click.help_option("-h", "--help")
 def models():
     """Manage GenAI models."""
 
 
 @click.command(name="list", help="Show available llama models at distribution endpoint")
+@click.help_option("-h", "--help")
 @click.pass_context
 @handle_client_errors("list models")
 def list_models(ctx):
@@ -63,6 +65,7 @@ def list_models(ctx):
 
 
 @click.command(name="get")
+@click.help_option("-h", "--help")
 @click.argument("model_id")
 @click.pass_context
 @handle_client_errors("get model details")
@@ -91,6 +94,7 @@ def get_model(ctx, model_id: str):
 
 
 @click.command(name="register", help="Register a new model at distribution endpoint")
+@click.help_option("-h", "--help")
 @click.argument("model_id")
 @click.option("--provider-id", help="Provider ID for the model", default=None)
 @click.option("--provider-model-id", help="Provider's model ID", default=None)
@@ -119,6 +123,7 @@ def register_model(
 
 
 @click.command(name="unregister", help="Unregister a model from distribution endpoint")
+@click.help_option("-h", "--help")
 @click.argument("model_id")
 @click.pass_context
 @handle_client_errors("unregister model")

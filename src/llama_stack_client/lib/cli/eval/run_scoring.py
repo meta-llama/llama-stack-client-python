@@ -15,6 +15,7 @@ from tqdm.rich import tqdm
 
 
 @click.command("run-scoring")
+@click.help_option("-h", "--help")
 @click.argument("scoring-function-ids", nargs=-1, required=True)
 @click.option(
     "--dataset-id",
