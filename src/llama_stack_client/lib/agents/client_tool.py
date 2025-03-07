@@ -9,7 +9,7 @@ import json
 from abc import abstractmethod
 from typing import Any, Callable, Dict, get_args, get_origin, get_type_hints, List, TypeVar, Union
 
-from llama_stack_client.types import Message, CompletionMessage, ToolResponse
+from llama_stack_client.types import CompletionMessage, Message, ToolResponse
 from llama_stack_client.types.tool_def_param import Parameter, ToolDefParam
 
 
@@ -87,6 +87,32 @@ class ClientTool:
             metadata=metadata,
         )
 
+    async def async_run(
+        self,
+        message_history: List[Message],
+    ) -> ToolResponse:
+        last_message = message_history[-1]
+
+        assert len(last_message.tool_calls) == 1, "Expected single tool call"
+        tool_call = last_message.tool_calls[0]
+        metadata = {}
+        try:
+            response = await self.async_run_impl(**tool_call.arguments)
+            if isinstance(response, dict) and "content" in response:
+                content = json.dumps(response["content"], ensure_ascii=False)
+                metadata = response.get("metadata", {})
+            else:
+                content = json.dumps(response, ensure_ascii=False)
+        except Exception as e:
+            content = f"Error when running tool: {e}"
+
+        return ToolResponse(
+            call_id=tool_call.call_id,
+            tool_name=tool_call.tool_name,
+            content=content,
+            metadata=metadata,
+        )
+
     @abstractmethod
     def run_impl(self, **kwargs) -> Any:
         """
@@ -94,6 +120,10 @@ class ClientTool:
         To return metadata along with the response, return a dict with a "content" key, and a "metadata" key, where the "content" is the response that'll
         be serialized and passed to the model, and the "metadata" will be logged as metadata in the tool execution step within the Agent execution trace.
         """
+        raise NotImplementedError
+
+    @abstractmethod
+    def async_run_impl(self, **kwargs):
         raise NotImplementedError
 
 
@@ -176,6 +206,14 @@ def client_tool(func: T) -> ClientTool:
             return params
 
         def run_impl(self, **kwargs) -> Any:
+            if inspect.iscoroutinefunction(func):
+                raise NotImplementedError("Tool is async but run_impl is not async")
             return func(**kwargs)
+
+        async def async_run_impl(self, **kwargs):
+            if inspect.iscoroutinefunction(func):
+                return await func(**kwargs)
+            else:
+                return func(**kwargs)
 
     return _WrappedTool()
