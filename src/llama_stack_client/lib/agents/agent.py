@@ -107,6 +107,8 @@ class Agent(AgentMixin):
             agent_config = {
                 "model": model,
                 "instructions": instructions,
+                "toolgroups": [],
+                "client_tools": [],
             }
 
             # Add optional parameters if provided
