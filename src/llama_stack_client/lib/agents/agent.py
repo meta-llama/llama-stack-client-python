@@ -26,8 +26,9 @@ DEFAULT_MAX_ITER = 10
 logger = logging.getLogger(__name__)
 
 
-class AgentMixin:
-    def _get_tool_calls(self, chunk: AgentTurnResponseStreamChunk) -> List[ToolCall]:
+class AgentUtils:
+    @staticmethod
+    def get_tool_calls(chunk: AgentTurnResponseStreamChunk, tool_parser: Optional[ToolParser] = None) -> List[ToolCall]:
         if chunk.event.payload.event_type not in {"turn_complete", "turn_awaiting_input"}:
             return []
 
@@ -35,19 +36,20 @@ class AgentMixin:
         if message.stop_reason == "out_of_tokens":
             return []
 
-        if self.tool_parser:
-            return self.tool_parser.get_tool_calls(message)
+        if tool_parser:
+            return tool_parser.get_tool_calls(message)
 
         return message.tool_calls
 
-    def _get_turn_id(self, chunk: AgentTurnResponseStreamChunk) -> Optional[str]:
+    @staticmethod
+    def get_turn_id(chunk: AgentTurnResponseStreamChunk) -> Optional[str]:
         if chunk.event.payload.event_type not in ["turn_complete", "turn_awaiting_input"]:
             return None
 
         return chunk.event.payload.turn.turn_id
 
 
-class Agent(AgentMixin):
+class Agent:
     def __init__(
         self,
         client: LlamaStackClient,
@@ -252,7 +254,7 @@ class Agent(AgentMixin):
                 if hasattr(chunk, "error"):
                     yield chunk
                     return
-                tool_calls = self._get_tool_calls(chunk)
+                tool_calls = AgentUtils.get_tool_calls(chunk, self.tool_parser)
                 if not tool_calls:
                     yield chunk
                 else:
@@ -264,7 +266,7 @@ class Agent(AgentMixin):
                         yield chunk
                         break
 
-                    turn_id = self._get_turn_id(chunk)
+                    turn_id = AgentUtils.get_turn_id(chunk)
                     if n_iter == 0:
                         yield chunk
 
@@ -408,7 +410,7 @@ class AsyncAgent(AgentMixin):
                     yield chunk
                     return
 
-                tool_calls = self._get_tool_calls(chunk)
+                tool_calls = AgentUtils.get_tool_calls(chunk, self.tool_parser)
                 if not tool_calls:
                     yield chunk
                 else:
@@ -418,7 +420,7 @@ class AsyncAgent(AgentMixin):
                         yield chunk
                         break
 
-                    turn_id = self._get_turn_id(chunk)
+                    turn_id = AgentUtils.get_turn_id(chunk)
                     if n_iter == 0:
                         yield chunk
 
