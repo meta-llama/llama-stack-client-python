@@ -14,11 +14,13 @@ from ..common.utils import handle_client_errors
 
 
 @click.group()
+@click.help_option("-h", "--help")
 def toolgroups():
     """Manage available tool groups."""
 
 
 @click.command(name="list", help="Show available llama toolgroups at distribution endpoint")
+@click.help_option("-h", "--help")
 @click.pass_context
 @handle_client_errors("list toolgroups")
 def list_toolgroups(ctx):
@@ -39,6 +41,7 @@ def list_toolgroups(ctx):
 
 
 @click.command(name="get")
+@click.help_option("-h", "--help")
 @click.argument("toolgroup_id")
 @click.pass_context
 @handle_client_errors("get toolgroup details")
@@ -72,6 +75,7 @@ def get_toolgroup(ctx, toolgroup_id: str):
 
 
 @click.command(name="register", help="Register a new toolgroup at distribution endpoint")
+@click.help_option("-h", "--help")
 @click.argument("toolgroup_id")
 @click.option("--provider-id", help="Provider ID for the toolgroup", default=None)
 @click.option("--provider-toolgroup-id", help="Provider's toolgroup ID", default=None)
@@ -102,6 +106,7 @@ def register_toolgroup(
 
 
 @click.command(name="unregister", help="Unregister a toolgroup from distribution endpoint")
+@click.help_option("-h", "--help")
 @click.argument("toolgroup_id")
 @click.pass_context
 @handle_client_errors("unregister toolgroup")
