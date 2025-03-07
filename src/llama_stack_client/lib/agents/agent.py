@@ -6,7 +6,7 @@
 import logging
 from typing import AsyncIterator, Iterator, List, Optional, Tuple, Union
 
-from llama_stack_client import AsyncLlamaStackClient, LlamaStackClient
+from llama_stack_client import LlamaStackClient
 
 from llama_stack_client.types import ToolResponseMessage, ToolResponseParam, UserMessage
 from llama_stack_client.types.agent_create_params import AgentConfig
