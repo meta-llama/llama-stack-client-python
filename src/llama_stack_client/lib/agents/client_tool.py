@@ -9,7 +9,7 @@ import json
 from abc import abstractmethod
 from typing import Any, Callable, Dict, get_args, get_origin, get_type_hints, List, TypeVar, Union
 
-from llama_stack_client.types import Message, CompletionMessage, ToolResponse
+from llama_stack_client.types import CompletionMessage, Message, ToolResponse
 from llama_stack_client.types.tool_def_param import Parameter, ToolDefParam
 
 
@@ -90,22 +90,27 @@ class ClientTool:
     async def async_run(
         self,
         message_history: List[Message],
-    ) -> ToolResponseMessage:
+    ) -> ToolResponse:
         last_message = message_history[-1]
 
         assert len(last_message.tool_calls) == 1, "Expected single tool call"
         tool_call = last_message.tool_calls[0]
+        metadata = {}
         try:
             response = await self.async_run_impl(**tool_call.arguments)
-            response_str = json.dumps(response, ensure_ascii=False)
+            if isinstance(response, dict) and "content" in response:
+                content = json.dumps(response["content"], ensure_ascii=False)
+                metadata = response.get("metadata", {})
+            else:
+                content = json.dumps(response, ensure_ascii=False)
         except Exception as e:
-            response_str = f"Error when running tool: {e}"
+            content = f"Error when running tool: {e}"
 
-        return ToolResponseMessage(
+        return ToolResponse(
             call_id=tool_call.call_id,
             tool_name=tool_call.tool_name,
-            content=response_str,
-            role="tool",
+            content=content,
+            metadata=metadata,
         )
 
     @abstractmethod

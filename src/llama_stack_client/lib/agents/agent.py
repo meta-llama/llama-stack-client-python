@@ -314,7 +314,7 @@ class Agent:
                 raise Exception("Max inference iterations reached")
 
 
-class AsyncAgent(AgentMixin):
+class AsyncAgent:
     def __init__(
         self,
         client: AsyncLlamaStackClient,
