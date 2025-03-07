@@ -171,21 +171,20 @@ class Agent:
             )
 
         self.agent_config = agent_config
-        self.agent_id = self._create_agent(agent_config)
         self.client_tools = {t.get_name(): t for t in client_tools}
         self.sessions = []
         self.tool_parser = tool_parser
         self.builtin_tools = {}
-        for tg in agent_config["toolgroups"]:
-            for tool in self.client.tools.list(toolgroup_id=tg):
-                self.builtin_tools[tool.identifier] = tool
+        self.initialize()
 
-    def _create_agent(self, agent_config: AgentConfig) -> int:
+    def initialize(self) -> None:
         agentic_system_create_response = self.client.agents.create(
-            agent_config=agent_config,
+            agent_config=self.agent_config,
         )
         self.agent_id = agentic_system_create_response.agent_id
-        return self.agent_id
+        for tg in self.agent_config["toolgroups"]:
+            for tool in self.client.tools.list(toolgroup_id=tg):
+                self.builtin_tools[tool.identifier] = tool
 
     def create_session(self, session_name: str) -> str:
         agentic_system_create_session_response = self.client.agents.session.create(
