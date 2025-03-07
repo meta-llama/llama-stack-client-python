@@ -393,15 +393,25 @@ class AsyncAgent:
         self.sessions = []
         self.tool_parser = tool_parser
         self.builtin_tools = {}
+        self._agent_id = None
 
         if isinstance(client, LlamaStackClient):
             raise ValueError("AsyncAgent must be initialized with an AsyncLlamaStackClient")
 
+    @property
+    def agent_id(self) -> str:
+        if not self._agent_id:
+            raise RuntimeError("Agent ID not initialized. Call initialize() first.")
+        return self._agent_id
+
     async def initialize(self) -> None:
+        if self._agent_id:
+            return
+
         agentic_system_create_response = await self.client.agents.create(
             agent_config=self.agent_config,
         )
-        self.agent_id = agentic_system_create_response.agent_id
+        self._agent_id = agentic_system_create_response.agent_id
         for tg in self.agent_config["toolgroups"]:
             for tool in await self.client.tools.list(toolgroup_id=tg):
                 self.builtin_tools[tool.identifier] = tool
@@ -491,7 +501,6 @@ class AsyncAgent:
             stream=True,
             documents=documents,
             toolgroups=toolgroups,
-            allow_turn_resume=True,
         )
 
         # 2. process turn and resume if there's a tool call
@@ -513,7 +522,7 @@ class AsyncAgent:
                         yield chunk
                         break
 
-                    turn_id = self._get_turn_id(chunk)
+                    turn_id = AgentUtils.get_turn_id(chunk)
                     if n_iter == 0:
                         yield chunk
 
