@@ -386,6 +386,7 @@ class AsyncAgent:
                 response_format=response_format,
                 enable_session_persistence=enable_session_persistence,
             )
+            client_tools = AgentUtils.get_client_tools(tools)
 
         self.agent_config = agent_config
         self.client_tools = {t.get_name(): t for t in client_tools}
