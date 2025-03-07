@@ -316,12 +316,69 @@ class Agent:
 class AsyncAgent:
     def __init__(
         self,
-        client: AsyncLlamaStackClient,
-        agent_config: AgentConfig,
-        client_tools: Tuple[ClientTool] = (),
+        client: LlamaStackClient,
+        # begin deprecated
+        agent_config: Optional[AgentConfig] = None,
+        client_tools: Tuple[ClientTool, ...] = (),
+        # end deprecated
         tool_parser: Optional[ToolParser] = None,
+        model: Optional[str] = None,
+        instructions: Optional[str] = None,
+        tools: Optional[List[Union[Toolgroup, ClientTool]]] = None,
+        tool_config: Optional[ToolConfig] = None,
+        sampling_params: Optional[SamplingParams] = None,
+        max_infer_iters: Optional[int] = None,
+        input_shields: Optional[List[str]] = None,
+        output_shields: Optional[List[str]] = None,
+        response_format: Optional[ResponseFormat] = None,
+        enable_session_persistence: Optional[bool] = None,
     ):
+        """Construct an Agent with the given parameters.
+
+        :param client: The LlamaStackClient instance.
+        :param agent_config: The AgentConfig instance.
+            ::deprecated: use other parameters instead
+        :param client_tools: A tuple of ClientTool instances.
+            ::deprecated: use tools instead
+        :param tool_parser: Custom logic that parses tool calls from a message.
+        :param model: The model to use for the agent.
+        :param instructions: The instructions for the agent.
+        :param tools: A list of tools for the agent. Values can be one of the following:
+            - dict representing a toolgroup/tool with arguments: e.g. {"name": "builtin::rag/knowledge_search", "args": {"vector_db_ids": [123]}}
+            - a python function decorated with @client_tool
+            - str representing a tool within a toolgroup: e.g. "builtin::rag/knowledge_search"
+            - str representing a toolgroup_id: e.g. "builtin::rag", "builtin::code_interpreter", where all tools in the toolgroup will be added to the agent
+            - an instance of ClientTool: A client tool object.
+        :param tool_config: The tool configuration for the agent.
+        :param sampling_params: The sampling parameters for the agent.
+        :param max_infer_iters: The maximum number of inference iterations.
+        :param input_shields: The input shields for the agent.
+        :param output_shields: The output shields for the agent.
+        :param response_format: The response format for the agent.
+        :param enable_session_persistence: Whether to enable session persistence.
+        """
         self.client = client
+
+        if agent_config is not None:
+            logger.warning("`agent_config` is deprecated. Use inlined parameters instead.")
+        if client_tools != ():
+            logger.warning("`client_tools` is deprecated. Use `tools` instead.")
+
+        # Construct agent_config from parameters if not provided
+        if agent_config is None:
+            agent_config = AgentUtils.get_agent_config(
+                model=model,
+                instructions=instructions,
+                tools=tools,
+                tool_config=tool_config,
+                sampling_params=sampling_params,
+                max_infer_iters=max_infer_iters,
+                input_shields=input_shields,
+                output_shields=output_shields,
+                response_format=response_format,
+                enable_session_persistence=enable_session_persistence,
+            )
+
         self.agent_config = agent_config
         self.client_tools = {t.get_name(): t for t in client_tools}
         self.sessions = []
@@ -341,6 +398,7 @@ class AsyncAgent:
                 self.builtin_tools[tool.identifier] = tool
 
     async def create_session(self, session_name: str) -> str:
+        await self.initialize()
         agentic_system_create_session_response = await self.client.agents.session.create(
             agent_id=self.agent_id,
             session_name=session_name,
