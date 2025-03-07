@@ -48,6 +48,61 @@ class AgentUtils:
 
         return chunk.event.payload.turn.turn_id
 
+    @staticmethod
+    def get_agent_config(
+        model: Optional[str] = None,
+        instructions: Optional[str] = None,
+        tools: Optional[List[Union[Toolgroup, ClientTool]]] = None,
+        tool_config: Optional[ToolConfig] = None,
+        sampling_params: Optional[SamplingParams] = None,
+        max_infer_iters: Optional[int] = None,
+        input_shields: Optional[List[str]] = None,
+        output_shields: Optional[List[str]] = None,
+        response_format: Optional[ResponseFormat] = None,
+        enable_session_persistence: Optional[bool] = None,
+    ) -> AgentConfig:
+        # Create a minimal valid AgentConfig with required fields
+        if model is None or instructions is None:
+            raise ValueError("Both 'model' and 'instructions' are required when agent_config is not provided")
+
+        agent_config = {
+            "model": model,
+            "instructions": instructions,
+            "toolgroups": [],
+            "client_tools": [],
+        }
+
+        # Add optional parameters if provided
+        if enable_session_persistence is not None:
+            agent_config["enable_session_persistence"] = enable_session_persistence
+        if max_infer_iters is not None:
+            agent_config["max_infer_iters"] = max_infer_iters
+        if input_shields is not None:
+            agent_config["input_shields"] = input_shields
+        if output_shields is not None:
+            agent_config["output_shields"] = output_shields
+        if response_format is not None:
+            agent_config["response_format"] = response_format
+        if sampling_params is not None:
+            agent_config["sampling_params"] = sampling_params
+        if tool_config is not None:
+            agent_config["tool_config"] = tool_config
+        if tools is not None:
+            toolgroups: List[Toolgroup] = []
+            client_tools: List[ClientTool] = []
+
+            for tool in tools:
+                if isinstance(tool, str) or isinstance(tool, dict):
+                    toolgroups.append(tool)
+                else:
+                    client_tools.append(tool)
+
+            agent_config["toolgroups"] = toolgroups
+            agent_config["client_tools"] = [tool.get_tool_definition() for tool in client_tools]
+
+        agent_config = AgentConfig(**agent_config)
+        return agent_config
+
 
 class Agent:
     def __init__(
@@ -102,46 +157,18 @@ class Agent:
 
         # Construct agent_config from parameters if not provided
         if agent_config is None:
-            # Create a minimal valid AgentConfig with required fields
-            if model is None or instructions is None:
-                raise ValueError("Both 'model' and 'instructions' are required when agent_config is not provided")
-
-            agent_config = {
-                "model": model,
-                "instructions": instructions,
-                "toolgroups": [],
-                "client_tools": [],
-            }
-
-            # Add optional parameters if provided
-            if enable_session_persistence is not None:
-                agent_config["enable_session_persistence"] = enable_session_persistence
-            if max_infer_iters is not None:
-                agent_config["max_infer_iters"] = max_infer_iters
-            if input_shields is not None:
-                agent_config["input_shields"] = input_shields
-            if output_shields is not None:
-                agent_config["output_shields"] = output_shields
-            if response_format is not None:
-                agent_config["response_format"] = response_format
-            if sampling_params is not None:
-                agent_config["sampling_params"] = sampling_params
-            if tool_config is not None:
-                agent_config["tool_config"] = tool_config
-            if tools is not None:
-                toolgroups: List[Toolgroup] = []
-                client_tools: List[ClientTool] = []
-
-                for tool in tools:
-                    if isinstance(tool, str) or isinstance(tool, dict):
-                        toolgroups.append(tool)
-                    else:
-                        client_tools.append(tool)
-
-                agent_config["toolgroups"] = toolgroups
-                agent_config["client_tools"] = [tool.get_tool_definition() for tool in client_tools]
-
-            agent_config = AgentConfig(**agent_config)
+            agent_config = AgentUtils.get_agent_config(
+                model=model,
+                instructions=instructions,
+                tools=tools,
+                tool_config=tool_config,
+                sampling_params=sampling_params,
+                max_infer_iters=max_infer_iters,
+                input_shields=input_shields,
+                output_shields=output_shields,
+                response_format=response_format,
+                enable_session_persistence=enable_session_persistence,
+            )
 
         self.agent_config = agent_config
         self.agent_id = self._create_agent(agent_config)
@@ -420,7 +447,7 @@ class AsyncAgent(AgentMixin):
                         yield chunk
                         break
 
-                    turn_id = AgentUtils.get_turn_id(chunk)
+                    turn_id = self._get_turn_id(chunk)
                     if n_iter == 0:
                         yield chunk
 
