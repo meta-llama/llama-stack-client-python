@@ -28,6 +28,13 @@ logger = logging.getLogger(__name__)
 
 class AgentUtils:
     @staticmethod
+    def get_client_tools(tools: Optional[List[Union[Toolgroup, ClientTool]]]) -> List[ClientTool]:
+        if not tools:
+            return []
+
+        return [tool for tool in tools if isinstance(tool, ClientTool)]
+
+    @staticmethod
     def get_tool_calls(chunk: AgentTurnResponseStreamChunk, tool_parser: Optional[ToolParser] = None) -> List[ToolCall]:
         if chunk.event.payload.event_type not in {"turn_complete", "turn_awaiting_input"}:
             return []
@@ -169,6 +176,7 @@ class Agent:
                 response_format=response_format,
                 enable_session_persistence=enable_session_persistence,
             )
+            client_tools = AgentUtils.get_client_tools(tools)
 
         self.agent_config = agent_config
         self.client_tools = {t.get_name(): t for t in client_tools}
