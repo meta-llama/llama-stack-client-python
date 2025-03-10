@@ -34,7 +34,7 @@ def generate_markdown_docs(command, parent=None, level=1):
     for param in command.get_params(ctx):
         if isinstance(param, click.Option):
             if not has_options:
-                doc.append("### Options\n")
+                doc.append("**Options**\n")
                 has_options = True
             opts = ", ".join(param.opts)
             help_text = param.help or ""
@@ -46,14 +46,14 @@ def generate_markdown_docs(command, parent=None, level=1):
     for param in command.get_params(ctx):
         if isinstance(param, click.Argument):
             if not has_arguments:
-                doc.append("### Arguments\n")
+                doc.append("**Arguments**\n")
                 has_arguments = True
             name = param.name.upper()
             doc.append(f"* **{name}**\n")
 
     # If this is a group with commands, add subcommands
     if isinstance(command, click.Group):
-        doc.append("### Commands\n")
+        doc.append("**Commands**\n")
         for cmd_name in command.list_commands(ctx):
             cmd = command.get_command(ctx, cmd_name)
             cmd_help = cmd.get_short_help_str() if cmd else ""
