@@ -1,6 +1,6 @@
 # CLI Reference
 
-Welcome to the LlamaStackClient CLI
+Welcome to the llama-stack-client CLI - a command-line interface for interacting with Llama Stack
 
 ### Usage
 

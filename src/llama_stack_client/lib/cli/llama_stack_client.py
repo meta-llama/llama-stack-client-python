@@ -36,7 +36,7 @@ from .vector_dbs import vector_dbs
 @click.option("--config", type=str, help="Path to config file", default=None)
 @click.pass_context
 def llama_stack_client(ctx, endpoint: str, api_key: str, config: str | None):
-    """Welcome to the LlamaStackClient CLI"""
+    """Welcome to the llama-stack-client CLI - a command-line interface for interacting with Llama Stack"""
     ctx.ensure_object(dict)
 
     # If no config provided, check default location
