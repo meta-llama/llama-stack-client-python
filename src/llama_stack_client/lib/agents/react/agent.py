@@ -186,7 +186,7 @@ class ReActAgent(Agent):
         else:
             # build REACT instructions
             client_tools = AgentUtils.get_client_tools(tools)
-            builtin_toolgroups = [x for x in tools if isinstance(x, Toolgroup)]
+            builtin_toolgroups = [x for x in tools if isinstance(x, str) or isinstance(x, dict)]
             if not instructions:
                 instructions = get_default_react_instructions(client, builtin_toolgroups, client_tools)
             if not tool_config:
