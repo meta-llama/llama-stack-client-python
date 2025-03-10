@@ -13,7 +13,6 @@ from llama_stack_client.lib.cli.llama_stack_client import llama_stack_client
 
 def generate_markdown_docs(command, parent=None, level=1):
     """Generate markdown documentation for a click command."""
-    print("command.name", command.name)
     ctx = click.Context(command, info_name=command.name, parent=parent)
 
     # Start with the command name as a header
