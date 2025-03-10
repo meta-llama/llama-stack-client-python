@@ -1,4 +1,4 @@
-# cli
+# 'CLI Reference'
 
 Welcome to the LlamaStackClient CLI
 
@@ -50,7 +50,7 @@ Usage: cli [OPTIONS] COMMAND [ARGS]...
 
 
 
-## configure
+## 'CLI Reference'
 
 Configure Llama Stack Client CLI.
 
@@ -70,7 +70,7 @@ Usage: cli configure [OPTIONS]
 
 
 
-## datasets
+## 'CLI Reference'
 
 Manage datasets.
 
@@ -92,7 +92,7 @@ Usage: cli datasets [OPTIONS] COMMAND [ARGS]...
 
 
 
-### list
+### 'CLI Reference'
 
 Show available datasets on distribution endpoint
 
@@ -108,7 +108,7 @@ Usage: cli datasets list [OPTIONS]
 
 
 
-### register
+### 'CLI Reference'
 
 Create a new dataset
 
@@ -138,7 +138,7 @@ Usage: cli datasets register [OPTIONS]
 
 
 
-## eval
+## 'CLI Reference'
 
 Run evaluation tasks.
 
@@ -160,7 +160,7 @@ Usage: cli eval [OPTIONS] COMMAND [ARGS]...
 
 
 
-### run-benchmark
+### 'CLI Reference'
 
 Run a evaluation benchmark task
 
@@ -196,7 +196,7 @@ Usage: cli eval run-benchmark [OPTIONS] BENCHMARK_IDS...
 
 
 
-### run-scoring
+### 'CLI Reference'
 
 Run scoring from application datasets
 
@@ -228,7 +228,7 @@ Usage: cli eval run-scoring [OPTIONS] SCORING_FUNCTION_IDS...
 
 
 
-## eval-tasks
+## 'CLI Reference'
 
 Manage evaluation tasks.
 
@@ -250,7 +250,7 @@ Usage: cli eval-tasks [OPTIONS] COMMAND [ARGS]...
 
 
 
-### list
+### 'CLI Reference'
 
 Show available eval tasks on distribution endpoint
 
@@ -266,7 +266,7 @@ Usage: cli eval-tasks list [OPTIONS]
 
 
 
-### register
+### 'CLI Reference'
 
 Register a new eval task
 
@@ -294,7 +294,7 @@ Usage: cli eval-tasks register [OPTIONS]
 
 
 
-## inference
+## 'CLI Reference'
 
 Inference (chat).
 
@@ -314,7 +314,7 @@ Usage: cli inference [OPTIONS] COMMAND [ARGS]...
 
 
 
-### chat-completion
+### 'CLI Reference'
 
 Show available inference chat completion endpoints on distribution endpoint
 
@@ -338,7 +338,7 @@ Usage: cli inference chat-completion [OPTIONS]
 
 
 
-## inspect
+## 'CLI Reference'
 
 Inspect server configuration.
 
@@ -358,7 +358,7 @@ Usage: cli inspect [OPTIONS] COMMAND [ARGS]...
 
 
 
-### version
+### 'CLI Reference'
 
 Show available providers on distribution endpoint
 
@@ -374,7 +374,7 @@ Usage: cli inspect version [OPTIONS]
 
 
 
-## models
+## 'CLI Reference'
 
 Manage GenAI models.
 
@@ -400,7 +400,7 @@ Usage: cli models [OPTIONS] COMMAND [ARGS]...
 
 
 
-### get
+### 'CLI Reference'
 
 Show available llama models at distribution endpoint
 
@@ -420,7 +420,7 @@ Usage: cli models get [OPTIONS] MODEL_ID
 
 
 
-### list
+### 'CLI Reference'
 
 Show available llama models at distribution endpoint
 
@@ -436,7 +436,7 @@ Usage: cli models list [OPTIONS]
 
 
 
-### register
+### 'CLI Reference'
 
 Register a new model at distribution endpoint
 
@@ -462,7 +462,7 @@ Usage: cli models register [OPTIONS] MODEL_ID
 
 
 
-### unregister
+### 'CLI Reference'
 
 Unregister a model from distribution endpoint
 
@@ -482,7 +482,7 @@ Usage: cli models unregister [OPTIONS] MODEL_ID
 
 
 
-## post-training
+## 'CLI Reference'
 
 Post-training.
 
@@ -510,7 +510,7 @@ Usage: cli post-training [OPTIONS] COMMAND [ARGS]...
 
 
 
-### artifacts
+### 'CLI Reference'
 
 Get the training artifacts of a specific post training job
 
@@ -528,7 +528,7 @@ Usage: cli post-training artifacts [OPTIONS]
 
 
 
-### cancel
+### 'CLI Reference'
 
 Cancel the training job
 
@@ -546,7 +546,7 @@ Usage: cli post-training cancel [OPTIONS]
 
 
 
-### list
+### 'CLI Reference'
 
 Show the list of available post training jobs
 
@@ -562,7 +562,7 @@ Usage: cli post-training list [OPTIONS]
 
 
 
-### status
+### 'CLI Reference'
 
 Show the status of a specific post training job
 
@@ -580,7 +580,7 @@ Usage: cli post-training status [OPTIONS]
 
 
 
-### supervised_fine_tune
+### 'CLI Reference'
 
 Kick off a supervised fine tune job
 
@@ -606,7 +606,7 @@ Usage: cli post-training supervised_fine_tune [OPTIONS]
 
 
 
-## providers
+## 'CLI Reference'
 
 Manage API providers.
 
@@ -626,7 +626,7 @@ Usage: cli providers [OPTIONS] COMMAND [ARGS]...
 
 
 
-### list
+### 'CLI Reference'
 
 Show available providers on distribution endpoint
 
@@ -642,7 +642,7 @@ Usage: cli providers list [OPTIONS]
 
 
 
-## scoring-functions
+## 'CLI Reference'
 
 Manage scoring functions.
 
@@ -664,7 +664,7 @@ Usage: cli scoring-functions [OPTIONS] COMMAND [ARGS]...
 
 
 
-### list
+### 'CLI Reference'
 
 Show available scoring functions on distribution endpoint
 
@@ -680,7 +680,7 @@ Usage: cli scoring-functions list [OPTIONS]
 
 
 
-### register
+### 'CLI Reference'
 
 Register a new scoring function
 
@@ -708,7 +708,7 @@ Usage: cli scoring-functions register [OPTIONS]
 
 
 
-## shields
+## 'CLI Reference'
 
 Manage safety shield services.
 
@@ -730,7 +730,7 @@ Usage: cli shields [OPTIONS] COMMAND [ARGS]...
 
 
 
-### list
+### 'CLI Reference'
 
 Show available safety shields on distribution endpoint
 
@@ -746,7 +746,7 @@ Usage: cli shields list [OPTIONS]
 
 
 
-### register
+### 'CLI Reference'
 
 Register a new safety shield
 
@@ -770,7 +770,7 @@ Usage: cli shields register [OPTIONS]
 
 
 
-## toolgroups
+## 'CLI Reference'
 
 Manage available tool groups.
 
@@ -796,7 +796,7 @@ Usage: cli toolgroups [OPTIONS] COMMAND [ARGS]...
 
 
 
-### get
+### 'CLI Reference'
 
 Show available llama toolgroups at distribution endpoint
 
@@ -816,7 +816,7 @@ Usage: cli toolgroups get [OPTIONS] TOOLGROUP_ID
 
 
 
-### list
+### 'CLI Reference'
 
 Show available llama toolgroups at distribution endpoint
 
@@ -832,7 +832,7 @@ Usage: cli toolgroups list [OPTIONS]
 
 
 
-### register
+### 'CLI Reference'
 
 Register a new toolgroup at distribution endpoint
 
@@ -860,7 +860,7 @@ Usage: cli toolgroups register [OPTIONS] TOOLGROUP_ID
 
 
 
-### unregister
+### 'CLI Reference'
 
 Unregister a toolgroup from distribution endpoint
 
@@ -880,7 +880,7 @@ Usage: cli toolgroups unregister [OPTIONS] TOOLGROUP_ID
 
 
 
-## vector-dbs
+## 'CLI Reference'
 
 Manage vector databases.
 
@@ -904,7 +904,7 @@ Usage: cli vector-dbs [OPTIONS] COMMAND [ARGS]...
 
 
 
-### list
+### 'CLI Reference'
 
 Show available vector dbs on distribution endpoint
 
@@ -920,7 +920,7 @@ Usage: cli vector-dbs list [OPTIONS]
 
 
 
-### register
+### 'CLI Reference'
 
 Create a new vector db
 
@@ -948,7 +948,7 @@ Usage: cli vector-dbs register [OPTIONS] VECTOR_DB_ID
 
 
 
-### unregister
+### 'CLI Reference'
 
 Delete a vector db
 
