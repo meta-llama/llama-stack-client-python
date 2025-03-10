@@ -86,7 +86,6 @@ def get_agent_config_DEPRECATED(
             client_tools=[client_tool.get_tool_definition() for client_tool in client_tools],
             tool_config={
                 "tool_choice": "auto",
-                "tool_prompt_format": "json" if "3.1" in model else "python_list",
                 "system_message_behavior": "replace",
             },
             input_shields=[],
@@ -188,7 +187,14 @@ class ReActAgent(Agent):
             # build REACT instructions
             client_tools = AgentUtils.get_client_tools(tools)
             builtin_toolgroups = [x for x in tools if isinstance(x, Toolgroup)]
-            instructions = get_default_react_instructions(client, builtin_toolgroups, client_tools)
+            if not instructions:
+                instructions = get_default_react_instructions(client, builtin_toolgroups, client_tools)
+            if not tool_config:
+                tool_config = {
+                    "tool_choice": "auto",
+                    "system_message_behavior": "replace",
+                }
+
             if json_response_format:
                 if instructions is not None:
                     logger.warning(
