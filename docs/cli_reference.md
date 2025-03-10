@@ -1,252 +1,967 @@
-# CLI Reference
-
-You may use the `llama-stack-client` to query information about the distribution.
-
-#### `llama-stack-client`
-```bash
-$ llama-stack-client -h
-
-usage: llama-stack-client [-h] {models,memory_banks,shields} ...
+# cli
 
 Welcome to the LlamaStackClient CLI
 
-options:
-  -h, --help            show this help message and exit
-
-subcommands:
-  {models,memory_banks,shields}
-```
-
-#### `llama-stack-client configure`
-```bash
-$ llama-stack-client configure
-> Enter the host name of the Llama Stack distribution server: localhost
-> Enter the port number of the Llama Stack distribution server: 5000
-Done! You can now use the Llama Stack Client CLI with endpoint http://localhost:5000
-```
-
-
-#### `llama-stack-client providers list`
-```bash
-$ llama-stack-client providers list
-```
-```
-+-----------+----------------+-----------------+
-| API       | Provider ID    | Provider Type   |
-+===========+================+=================+
-| scoring   | meta0          | meta-reference  |
-+-----------+----------------+-----------------+
-| datasetio | meta0          | meta-reference  |
-+-----------+----------------+-----------------+
-| inference | tgi0           | remote::tgi     |
-+-----------+----------------+-----------------+
-| memory    | meta-reference | meta-reference  |
-+-----------+----------------+-----------------+
-| agents    | meta-reference | meta-reference  |
-+-----------+----------------+-----------------+
-| telemetry | meta-reference | meta-reference  |
-+-----------+----------------+-----------------+
-| safety    | meta-reference | meta-reference  |
-+-----------+----------------+-----------------+
-```
-
-#### `llama-stack-client models list`
-```bash
-$ llama-stack-client models list
-```
-```
-+----------------------+----------------------+---------------+----------------------------------------------------------+
-| identifier           | llama_model          | provider_id   | metadata                                                 |
-+======================+======================+===============+==========================================================+
-| Llama3.1-8B-Instruct | Llama3.1-8B-Instruct | tgi0          | {'huggingface_repo': 'meta-llama/Llama-3.1-8B-Instruct'} |
-+----------------------+----------------------+---------------+----------------------------------------------------------+
-```
-
-#### `llama-stack-client models get`
-```bash
-$ llama-stack-client models get Llama3.1-8B-Instruct
-```
+### Usage
 
 ```
-+----------------------+----------------------+----------------------------------------------------------+---------------+
-| identifier           | llama_model          | metadata                                                 | provider_id   |
-+======================+======================+==========================================================+===============+
-| Llama3.1-8B-Instruct | Llama3.1-8B-Instruct | {'huggingface_repo': 'meta-llama/Llama-3.1-8B-Instruct'} | tgi0          |
-+----------------------+----------------------+----------------------------------------------------------+---------------+
+Usage: cli [OPTIONS] COMMAND [ARGS]...
 ```
 
+### Options
 
-```bash
-$ llama-stack-client models get Random-Model
+* **-h, --help**: Show this message and exit. [default: False]
 
-Model RandomModel is not found at distribution endpoint host:port. Please ensure endpoint is serving specified model.
-```
+* **--version**: Show the version and exit. [default: False]
 
-#### `llama-stack-client models register`
+* **--endpoint**: Llama Stack distribution endpoint [default: ]
 
-```bash
-$ llama-stack-client models register <model_id> [--provider-id <provider_id>] [--provider-model-id <provider_model_id>] [--metadata <metadata>]
-```
+* **--api-key**: Llama Stack distribution API key [default: ]
 
-#### `llama-stack-client models update`
+* **--config**: Path to config file
 
-```bash
-$ llama-stack-client models update <model_id> [--provider-id <provider_id>] [--provider-model-id <provider_model_id>] [--metadata <metadata>]
-```
+### Commands
 
-#### `llama-stack-client models delete`
+* **configure**: Configure Llama Stack Client CLI.
 
-```bash
-$ llama-stack-client models delete <model_id>
-```
+* **datasets**: Manage datasets.
 
-#### `llama-stack-client vector_dbs list`
-```bash
-$ llama-stack-client vector_dbs list
-```
-```
-+--------------+----------------+---------------------+---------------+------------------------+
-| identifier   | provider_id    | provider_resource_id| vector_db_type| params                |
-+==============+================+=====================+===============+========================+
-| test_bank    | meta-reference | test_bank          | vector        | embedding_model: all-MiniLM-L6-v2
-                                                                      embedding_dimension: 384|
-+--------------+----------------+---------------------+---------------+------------------------+
-```
+* **eval**: Run evaluation tasks.
 
-#### `llama-stack-client vector_dbs register`
-```bash
-$ llama-stack-client vector_dbs register <vector-db-id> [--provider-id <provider-id>] [--provider-vector-db-id <provider-vector-db-id>] [--embedding-model <embedding-model>] [--embedding-dimension <embedding-dimension>]
-```
+* **eval_tasks**: Manage evaluation tasks.
 
-Options:
-- `--provider-id`: Optional. Provider ID for the vector db
-- `--provider-vector-db-id`: Optional. Provider's vector db ID
-- `--embedding-model`: Optional. Embedding model to use. Default: "all-MiniLM-L6-v2"
-- `--embedding-dimension`: Optional. Dimension of embeddings. Default: 384
+* **inference**: Inference (chat).
 
-#### `llama-stack-client vector_dbs unregister`
-```bash
-$ llama-stack-client vector_dbs unregister <vector-db-id>
-```
+* **inspect**: Inspect server configuration.
 
-#### `llama-stack-client shields list`
-```bash
-$ llama-stack-client shields list
-```
+* **models**: Manage GenAI models.
+
+* **post_training**: Post-training.
+
+* **providers**: Manage API providers.
+
+* **scoring_functions**: Manage scoring functions.
+
+* **shields**: Manage safety shield services.
+
+* **toolgroups**: Manage available tool groups.
+
+* **vector_dbs**: Manage vector databases.
+
+
+
+## configure
+
+Configure Llama Stack Client CLI.
+
+### Usage
 
 ```
-+--------------+----------+----------------+-------------+
-| identifier   | params   | provider_id    | type        |
-+==============+==========+================+=============+
-| llama_guard  | {}       | meta-reference | llama_guard |
-+--------------+----------+----------------+-------------+
+Usage: cli configure [OPTIONS]
 ```
 
-#### `llama-stack-client shields register`
-```bash
-$ llama-stack-client shields register --shield-id <shield-id> [--provider-id <provider-id>] [--provider-shield-id <provider-shield-id>] [--params <params>]
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--endpoint**: Llama Stack distribution endpoint [default: ]
+
+* **--api-key**: Llama Stack distribution API key [default: ]
+
+
+
+## datasets
+
+Manage datasets.
+
+### Usage
+
+```
+Usage: cli datasets [OPTIONS] COMMAND [ARGS]...
 ```
 
-Options:
-- `--shield-id`: Required. ID of the shield
-- `--provider-id`: Optional. Provider ID for the shield
-- `--provider-shield-id`: Optional. Provider's shield ID
-- `--params`: Optional. JSON configuration parameters for the shield
+### Options
 
-#### `llama-stack-client eval_tasks list`
-```bash
-$ llama-stack-client eval_tasks list
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Commands
+
+* **list**: Show available datasets on distribution...
+
+* **register**: Create a new dataset
+
+
+
+### list
+
+Show available datasets on distribution endpoint
+
+### Usage
+
+```
+Usage: cli datasets list [OPTIONS]
 ```
 
-#### `llama-stack-client eval_tasks register`
-```bash
-$ llama-stack-client eval_tasks register --eval-task-id <eval-task-id> --dataset-id <dataset-id> --scoring-functions <function1> [<function2> ...] [--provider-id <provider-id>] [--provider-eval-task-id <provider-eval-task-id>] [--metadata <metadata>]
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+
+
+### register
+
+Create a new dataset
+
+### Usage
+
+```
+Usage: cli datasets register [OPTIONS]
 ```
 
-Options:
-- `--eval-task-id`: Required. ID of the eval task
-- `--dataset-id`: Required. ID of the dataset to evaluate
-- `--scoring-functions`: Required. One or more scoring functions to use for evaluation
-- `--provider-id`: Optional. Provider ID for the eval task
-- `--provider-eval-task-id`: Optional. Provider's eval task ID
-- `--metadata`: Optional. Metadata for the eval task in JSON format
+### Options
 
-#### `llama-stack-client eval run-benchmark`
-```bash
-$ llama-stack-client eval run-benchmark <eval-task-id1> [<eval-task-id2> ...] --eval-task-config <config-file> --output-dir <output-dir> [--num-examples <num>] [--visualize]
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--dataset-id**: Id of the dataset
+
+* **--provider-id**: Provider ID for the dataset
+
+* **--provider-dataset-id**: Provider's dataset ID
+
+* **--metadata**: Metadata of the dataset
+
+* **--url**: URL of the dataset
+
+* **--dataset-path**: Local file path to the dataset. If specified, upload dataset via URL
+
+* **--schema**: JSON schema of the dataset
+
+
+
+## eval
+
+Run evaluation tasks.
+
+### Usage
+
+```
+Usage: cli eval [OPTIONS] COMMAND [ARGS]...
 ```
 
-Options:
-- `--eval-task-config`: Required. Path to the eval task config file in JSON format
-- `--output-dir`: Required. Path to the directory where evaluation results will be saved
-- `--num-examples`: Optional. Number of examples to evaluate (useful for debugging)
-- `--visualize`: Optional flag. If set, visualizes evaluation results after completion
+### Options
 
-Example eval_benchmark_config.json:
-```json
-{
-    "type": "benchmark",
-    "eval_candidate": {
-        "type": "model",
-        "model": "Llama3.1-405B-Instruct",
-        "sampling_params": {
-            "strategy": "greedy",
-            "temperature": 0,
-            "top_p": 0.95,
-            "top_k": 0,
-            "max_tokens": 0,
-            "repetition_penalty": 1.0
-        }
-    }
-}
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Commands
+
+* **run-benchmark**: Run a evaluation benchmark task
+
+* **run-scoring**: Run scoring from application datasets
+
+
+
+### run-benchmark
+
+Run a evaluation benchmark task
+
+### Usage
+
+```
+Usage: cli eval run-benchmark [OPTIONS] BENCHMARK_IDS...
 ```
 
-#### `llama-stack-client eval run-scoring`
-```bash
-$ llama-stack-client eval run-scoring <eval-task-id> --eval-task-config <config-file> --output-dir <output-dir> [--num-examples <num>] [--visualize]
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--model-id**: model id to run the benchmark eval on
+
+* **--output-dir**: Path to the dump eval results output directory
+
+* **--num-examples**: Number of examples to evaluate on, useful for debugging
+
+* **--temperature**: temperature in the sampling params to run generation [default: 0.0]
+
+* **--max-tokens**: max-tokens in the sampling params to run generation [default: 4096]
+
+* **--top-p**: top-p in the sampling params to run generation [default: 0.9]
+
+* **--repeat-penalty**: repeat-penalty in the sampling params to run generation [default: 1.0]
+
+* **--visualize**: Visualize evaluation results after completion [default: False]
+
+### Arguments
+
+* **BENCHMARK_IDS**
+
+
+
+### run-scoring
+
+Run scoring from application datasets
+
+### Usage
+
+```
+Usage: cli eval run-scoring [OPTIONS] SCORING_FUNCTION_IDS...
 ```
 
-Options:
-- `--eval-task-config`: Required. Path to the eval task config file in JSON format
-- `--output-dir`: Required. Path to the directory where scoring results will be saved
-- `--num-examples`: Optional. Number of examples to evaluate (useful for debugging)
-- `--visualize`: Optional flag. If set, visualizes scoring results after completion
+### Options
 
-#### `llama-stack-client toolgroups list`
-```bash
-$ llama-stack-client toolgroups list
-```
-```
-+---------------------------+------------------+------+---------------+
-| identifier                | provider_id      | args | mcp_endpoint  |
-+===========================+==================+======+===============+
-| builtin::code_interpreter | code-interpreter | None | None         |
-+---------------------------+------------------+------+---------------+
-| builtin::rag             | rag-runtime      | None | None         |
-+---------------------------+------------------+------+---------------+
-| builtin::websearch       | tavily-search    | None | None         |
-+---------------------------+------------------+------+---------------+
-```
+* **-h, --help**: Show this message and exit. [default: False]
 
-#### `llama-stack-client toolgroups get`
-```bash
-$ llama-stack-client toolgroups get <toolgroup_id>
+* **--dataset-id**: Pre-registered dataset_id to score (from llama-stack-client datasets list)
+
+* **--dataset-path**: Path to the dataset file to score
+
+* **--scoring-params-config**: Path to the scoring params config file in JSON format
+
+* **--num-examples**: Number of examples to evaluate on, useful for debugging
+
+* **--output-dir**: Path to the dump eval results output directory
+
+* **--visualize**: Visualize evaluation results after completion [default: False]
+
+### Arguments
+
+* **SCORING_FUNCTION_IDS**
+
+
+
+## eval-tasks
+
+Manage evaluation tasks.
+
+### Usage
+
 ```
-
-Shows detailed information about a specific toolgroup. If the toolgroup is not found, displays an error message.
-
-#### `llama-stack-client toolgroups register`
-```bash
-$ llama-stack-client toolgroups register <toolgroup_id> [--provider-id <provider-id>] [--provider-toolgroup-id <provider-toolgroup-id>] [--mcp-config <mcp-config>] [--args <args>]
+Usage: cli eval-tasks [OPTIONS] COMMAND [ARGS]...
 ```
 
-Options:
-- `--provider-id`: Optional. Provider ID for the toolgroup
-- `--provider-toolgroup-id`: Optional. Provider's toolgroup ID
-- `--mcp-config`: Optional. JSON configuration for the MCP endpoint
-- `--args`: Optional. JSON arguments for the toolgroup
+### Options
 
-#### `llama-stack-client toolgroups unregister`
-```bash
-$ llama-stack-client toolgroups unregister <toolgroup_id>
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Commands
+
+* **list**: Show available eval tasks on distribution...
+
+* **register**: Register a new eval task
+
+
+
+### list
+
+Show available eval tasks on distribution endpoint
+
+### Usage
+
 ```
+Usage: cli eval-tasks list [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+
+
+### register
+
+Register a new eval task
+
+### Usage
+
+```
+Usage: cli eval-tasks register [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--eval-task-id**: ID of the eval task
+
+* **--dataset-id**: ID of the dataset to evaluate
+
+* **--scoring-functions**: Scoring functions to use for evaluation
+
+* **--provider-id**: Provider ID for the eval task
+
+* **--provider-eval-task-id**: Provider's eval task ID
+
+* **--metadata**: Metadata for the eval task in JSON format
+
+
+
+## inference
+
+Inference (chat).
+
+### Usage
+
+```
+Usage: cli inference [OPTIONS] COMMAND [ARGS]...
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Commands
+
+* **chat-completion**: Show available inference chat completion...
+
+
+
+### chat-completion
+
+Show available inference chat completion endpoints on distribution endpoint
+
+### Usage
+
+```
+Usage: cli inference chat-completion [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--message**: Message
+
+* **--stream**: Streaming [default: False]
+
+* **--session**: Start a Chat Session [default: False]
+
+* **--model-id**: Model ID
+
+
+
+## inspect
+
+Inspect server configuration.
+
+### Usage
+
+```
+Usage: cli inspect [OPTIONS] COMMAND [ARGS]...
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Commands
+
+* **version**: Show available providers on distribution...
+
+
+
+### version
+
+Show available providers on distribution endpoint
+
+### Usage
+
+```
+Usage: cli inspect version [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+
+
+## models
+
+Manage GenAI models.
+
+### Usage
+
+```
+Usage: cli models [OPTIONS] COMMAND [ARGS]...
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Commands
+
+* **get**: Show available llama models at distribution...
+
+* **list**: Show available llama models at distribution...
+
+* **register**: Register a new model at distribution endpoint
+
+* **unregister**: Unregister a model from distribution endpoint
+
+
+
+### get
+
+Show available llama models at distribution endpoint
+
+### Usage
+
+```
+Usage: cli models get [OPTIONS] MODEL_ID
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Arguments
+
+* **MODEL_ID**
+
+
+
+### list
+
+Show available llama models at distribution endpoint
+
+### Usage
+
+```
+Usage: cli models list [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+
+
+### register
+
+Register a new model at distribution endpoint
+
+### Usage
+
+```
+Usage: cli models register [OPTIONS] MODEL_ID
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--provider-id**: Provider ID for the model
+
+* **--provider-model-id**: Provider's model ID
+
+* **--metadata**: JSON metadata for the model
+
+### Arguments
+
+* **MODEL_ID**
+
+
+
+### unregister
+
+Unregister a model from distribution endpoint
+
+### Usage
+
+```
+Usage: cli models unregister [OPTIONS] MODEL_ID
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Arguments
+
+* **MODEL_ID**
+
+
+
+## post-training
+
+Post-training.
+
+### Usage
+
+```
+Usage: cli post-training [OPTIONS] COMMAND [ARGS]...
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Commands
+
+* **artifacts**: Get the training artifacts of a specific post...
+
+* **cancel**: Cancel the training job
+
+* **list**: Show the list of available post training jobs
+
+* **status**: Show the status of a specific post training...
+
+* **supervised_fine_tune**: Kick off a supervised fine tune job
+
+
+
+### artifacts
+
+Get the training artifacts of a specific post training job
+
+### Usage
+
+```
+Usage: cli post-training artifacts [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--job-uuid**: Job UUID
+
+
+
+### cancel
+
+Cancel the training job
+
+### Usage
+
+```
+Usage: cli post-training cancel [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--job-uuid**: Job UUID
+
+
+
+### list
+
+Show the list of available post training jobs
+
+### Usage
+
+```
+Usage: cli post-training list [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+
+
+### status
+
+Show the status of a specific post training job
+
+### Usage
+
+```
+Usage: cli post-training status [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--job-uuid**: Job UUID
+
+
+
+### supervised_fine_tune
+
+Kick off a supervised fine tune job
+
+### Usage
+
+```
+Usage: cli post-training supervised_fine_tune [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--job-uuid**: Job UUID
+
+* **--model**: Model ID
+
+* **--algorithm-config**: Algorithm Config
+
+* **--training-config**: Training Config
+
+* **--checkpoint-dir**: Checkpoint Config
+
+
+
+## providers
+
+Manage API providers.
+
+### Usage
+
+```
+Usage: cli providers [OPTIONS] COMMAND [ARGS]...
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Commands
+
+* **list**: Show available providers on distribution...
+
+
+
+### list
+
+Show available providers on distribution endpoint
+
+### Usage
+
+```
+Usage: cli providers list [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+
+
+## scoring-functions
+
+Manage scoring functions.
+
+### Usage
+
+```
+Usage: cli scoring-functions [OPTIONS] COMMAND [ARGS]...
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Commands
+
+* **list**: Show available scoring functions on...
+
+* **register**: Register a new scoring function
+
+
+
+### list
+
+Show available scoring functions on distribution endpoint
+
+### Usage
+
+```
+Usage: cli scoring-functions list [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+
+
+### register
+
+Register a new scoring function
+
+### Usage
+
+```
+Usage: cli scoring-functions register [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--scoring-fn-id**: Id of the scoring function
+
+* **--description**: Description of the scoring function
+
+* **--return-type**: Return type of the scoring function
+
+* **--provider-id**: Provider ID for the scoring function
+
+* **--provider-scoring-fn-id**: Provider's scoring function ID
+
+* **--params**: Parameters for the scoring function in JSON format
+
+
+
+## shields
+
+Manage safety shield services.
+
+### Usage
+
+```
+Usage: cli shields [OPTIONS] COMMAND [ARGS]...
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Commands
+
+* **list**: Show available safety shields on distribution...
+
+* **register**: Register a new safety shield
+
+
+
+### list
+
+Show available safety shields on distribution endpoint
+
+### Usage
+
+```
+Usage: cli shields list [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+
+
+### register
+
+Register a new safety shield
+
+### Usage
+
+```
+Usage: cli shields register [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--shield-id**: Id of the shield
+
+* **--provider-id**: Provider ID for the shield
+
+* **--provider-shield-id**: Provider's shield ID
+
+* **--params**: JSON configuration parameters for the shield
+
+
+
+## toolgroups
+
+Manage available tool groups.
+
+### Usage
+
+```
+Usage: cli toolgroups [OPTIONS] COMMAND [ARGS]...
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Commands
+
+* **get**: Show available llama toolgroups at...
+
+* **list**: Show available llama toolgroups at...
+
+* **register**: Register a new toolgroup at distribution...
+
+* **unregister**: Unregister a toolgroup from distribution...
+
+
+
+### get
+
+Show available llama toolgroups at distribution endpoint
+
+### Usage
+
+```
+Usage: cli toolgroups get [OPTIONS] TOOLGROUP_ID
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Arguments
+
+* **TOOLGROUP_ID**
+
+
+
+### list
+
+Show available llama toolgroups at distribution endpoint
+
+### Usage
+
+```
+Usage: cli toolgroups list [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+
+
+### register
+
+Register a new toolgroup at distribution endpoint
+
+### Usage
+
+```
+Usage: cli toolgroups register [OPTIONS] TOOLGROUP_ID
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--provider-id**: Provider ID for the toolgroup
+
+* **--provider-toolgroup-id**: Provider's toolgroup ID
+
+* **--mcp-config**: JSON mcp_config for the toolgroup
+
+* **--args**: JSON args for the toolgroup
+
+### Arguments
+
+* **TOOLGROUP_ID**
+
+
+
+### unregister
+
+Unregister a toolgroup from distribution endpoint
+
+### Usage
+
+```
+Usage: cli toolgroups unregister [OPTIONS] TOOLGROUP_ID
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Arguments
+
+* **TOOLGROUP_ID**
+
+
+
+## vector-dbs
+
+Manage vector databases.
+
+### Usage
+
+```
+Usage: cli vector-dbs [OPTIONS] COMMAND [ARGS]...
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Commands
+
+* **list**: Show available vector dbs on distribution...
+
+* **register**: Create a new vector db
+
+* **unregister**: Delete a vector db
+
+
+
+### list
+
+Show available vector dbs on distribution endpoint
+
+### Usage
+
+```
+Usage: cli vector-dbs list [OPTIONS]
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+
+
+### register
+
+Create a new vector db
+
+### Usage
+
+```
+Usage: cli vector-dbs register [OPTIONS] VECTOR_DB_ID
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+* **--provider-id**: Provider ID for the vector db
+
+* **--provider-vector-db-id**: Provider's vector db ID
+
+* **--embedding-model**: Embedding model (for vector type) [default: all-MiniLM-L6-v2]
+
+* **--embedding-dimension**: Embedding dimension (for vector type) [default: 384]
+
+### Arguments
+
+* **VECTOR_DB_ID**
+
+
+
+### unregister
+
+Delete a vector db
+
+### Usage
+
+```
+Usage: cli vector-dbs unregister [OPTIONS] VECTOR_DB_ID
+```
+
+### Options
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+### Arguments
+
+* **VECTOR_DB_ID**
