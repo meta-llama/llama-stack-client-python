@@ -8,11 +8,12 @@ import os
 from pathlib import Path
 
 import click
-from llama_stack_client.lib.cli.llama_stack_client import cli
+from llama_stack_client.lib.cli.llama_stack_client import llama_stack_client
 
 
 def generate_markdown_docs(command, parent=None, level=1):
     """Generate markdown documentation for a click command."""
+    print("command.name", command.name)
     ctx = click.Context(command, info_name=command.name, parent=parent)
 
     # Start with the command name as a header
@@ -69,7 +70,7 @@ def generate_markdown_docs(command, parent=None, level=1):
 
 if __name__ == "__main__":
     # Generate the docs
-    markdown_lines = generate_markdown_docs(cli)
+    markdown_lines = generate_markdown_docs(llama_stack_client)
     markdown = "\n".join(markdown_lines)
 
     # Write to file

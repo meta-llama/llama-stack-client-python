@@ -5,7 +5,7 @@ Welcome to the LlamaStackClient CLI
 ### Usage
 
 ```
-Usage: cli [OPTIONS] COMMAND [ARGS]...
+Usage: llama-stack-client [OPTIONS] COMMAND [ARGS]...
 ```
 
 ### Options
@@ -57,7 +57,7 @@ Configure Llama Stack Client CLI.
 ### Usage
 
 ```
-Usage: cli configure [OPTIONS]
+Usage: llama-stack-client configure [OPTIONS]
 ```
 
 ### Options
@@ -77,7 +77,7 @@ Manage datasets.
 ### Usage
 
 ```
-Usage: cli datasets [OPTIONS] COMMAND [ARGS]...
+Usage: llama-stack-client datasets [OPTIONS] COMMAND [ARGS]...
 ```
 
 ### Options
@@ -99,7 +99,7 @@ Show available datasets on distribution endpoint
 ### Usage
 
 ```
-Usage: cli datasets list [OPTIONS]
+Usage: llama-stack-client datasets list [OPTIONS]
 ```
 
 ### Options
@@ -115,7 +115,7 @@ Create a new dataset
 ### Usage
 
 ```
-Usage: cli datasets register [OPTIONS]
+Usage: llama-stack-client datasets register [OPTIONS]
 ```
 
 ### Options
@@ -145,7 +145,7 @@ Run evaluation tasks.
 ### Usage
 
 ```
-Usage: cli eval [OPTIONS] COMMAND [ARGS]...
+Usage: llama-stack-client eval [OPTIONS] COMMAND [ARGS]...
 ```
 
 ### Options
@@ -167,7 +167,7 @@ Run a evaluation benchmark task
 ### Usage
 
 ```
-Usage: cli eval run-benchmark [OPTIONS] BENCHMARK_IDS...
+Usage: llama-stack-client eval run-benchmark [OPTIONS] BENCHMARK_IDS...
 ```
 
 ### Options
@@ -203,7 +203,7 @@ Run scoring from application datasets
 ### Usage
 
 ```
-Usage: cli eval run-scoring [OPTIONS] SCORING_FUNCTION_IDS...
+Usage: llama-stack-client eval run-scoring [OPTIONS] SCORING_FUNCTION_IDS...
 ```
 
 ### Options
@@ -235,7 +235,7 @@ Manage evaluation tasks.
 ### Usage
 
 ```
-Usage: cli eval-tasks [OPTIONS] COMMAND [ARGS]...
+Usage: llama-stack-client eval-tasks [OPTIONS] COMMAND [ARGS]...
 ```
 
 ### Options
@@ -257,7 +257,7 @@ Show available eval tasks on distribution endpoint
 ### Usage
 
 ```
-Usage: cli eval-tasks list [OPTIONS]
+Usage: llama-stack-client eval-tasks list [OPTIONS]
 ```
 
 ### Options
@@ -273,7 +273,7 @@ Register a new eval task
 ### Usage
 
 ```
-Usage: cli eval-tasks register [OPTIONS]
+Usage: llama-stack-client eval-tasks register [OPTIONS]
 ```
 
 ### Options
@@ -301,7 +301,7 @@ Inference (chat).
 ### Usage
 
 ```
-Usage: cli inference [OPTIONS] COMMAND [ARGS]...
+Usage: llama-stack-client inference [OPTIONS] COMMAND [ARGS]...
 ```
 
 ### Options
@@ -321,7 +321,7 @@ Show available inference chat completion endpoints on distribution endpoint
 ### Usage
 
 ```
-Usage: cli inference chat-completion [OPTIONS]
+Usage: llama-stack-client inference chat-completion [OPTIONS]
 ```
 
 ### Options
@@ -345,7 +345,7 @@ Inspect server configuration.
 ### Usage
 
 ```
-Usage: cli inspect [OPTIONS] COMMAND [ARGS]...
+Usage: llama-stack-client inspect [OPTIONS] COMMAND [ARGS]...
 ```
 
 ### Options
@@ -365,7 +365,7 @@ Show available providers on distribution endpoint
 ### Usage
 
 ```
-Usage: cli inspect version [OPTIONS]
+Usage: llama-stack-client inspect version [OPTIONS]
 ```
 
 ### Options
@@ -381,7 +381,7 @@ Manage GenAI models.
 ### Usage
 
 ```
-Usage: cli models [OPTIONS] COMMAND [ARGS]...
+Usage: llama-stack-client models [OPTIONS] COMMAND [ARGS]...
 ```
 
 ### Options
@@ -407,7 +407,7 @@ Show available llama models at distribution endpoint
 ### Usage
 
 ```
-Usage: cli models get [OPTIONS] MODEL_ID
+Usage: llama-stack-client models get [OPTIONS] MODEL_ID
 ```
 
 ### Options
@@ -427,7 +427,7 @@ Show available llama models at distribution endpoint
 ### Usage
 
 ```
-Usage: cli models list [OPTIONS]
+Usage: llama-stack-client models list [OPTIONS]
 ```
 
 ### Options
@@ -443,7 +443,7 @@ Register a new model at distribution endpoint
 ### Usage
 
 ```
-Usage: cli models register [OPTIONS] MODEL_ID
+Usage: llama-stack-client models register [OPTIONS] MODEL_ID
 ```
 
 ### Options
@@ -469,7 +469,7 @@ Unregister a model from distribution endpoint
 ### Usage
 
 ```
-Usage: cli models unregister [OPTIONS] MODEL_ID
+Usage: llama-stack-client models unregister [OPTIONS] MODEL_ID
 ```
 
 ### Options
@@ -489,7 +489,7 @@ Post-training.
 ### Usage
 
 ```
-Usage: cli post-training [OPTIONS] COMMAND [ARGS]...
+Usage: llama-stack-client post-training [OPTIONS] COMMAND [ARGS]...
 ```
 
 ### Options
@@ -517,7 +517,7 @@ Get the training artifacts of a specific post training job
 ### Usage
 
 ```
-Usage: cli post-training artifacts [OPTIONS]
+Usage: llama-stack-client post-training artifacts [OPTIONS]
 ```
 
 ### Options
@@ -535,7 +535,7 @@ Cancel the training job
 ### Usage
 
 ```
-Usage: cli post-training cancel [OPTIONS]
+Usage: llama-stack-client post-training cancel [OPTIONS]
 ```
 
 ### Options
@@ -553,7 +553,7 @@ Show the list of available post training jobs
 ### Usage
 
 ```
-Usage: cli post-training list [OPTIONS]
+Usage: llama-stack-client post-training list [OPTIONS]
 ```
 
 ### Options
@@ -569,7 +569,7 @@ Show the status of a specific post training job
 ### Usage
 
 ```
-Usage: cli post-training status [OPTIONS]
+Usage: llama-stack-client post-training status [OPTIONS]
 ```
 
 ### Options
@@ -587,7 +587,8 @@ Kick off a supervised fine tune job
 ### Usage
 
 ```
-Usage: cli post-training supervised_fine_tune [OPTIONS]
+Usage: llama-stack-client post-training supervised_fine_tune 
+           [OPTIONS]
 ```
 
 ### Options
@@ -613,7 +614,7 @@ Manage API providers.
 ### Usage
 
 ```
-Usage: cli providers [OPTIONS] COMMAND [ARGS]...
+Usage: llama-stack-client providers [OPTIONS] COMMAND [ARGS]...
 ```
 
 ### Options
@@ -633,7 +634,7 @@ Show available providers on distribution endpoint
 ### Usage
 
 ```
-Usage: cli providers list [OPTIONS]
+Usage: llama-stack-client providers list [OPTIONS]
 ```
 
 ### Options
@@ -649,7 +650,7 @@ Manage scoring functions.
 ### Usage
 
 ```
-Usage: cli scoring-functions [OPTIONS] COMMAND [ARGS]...
+Usage: llama-stack-client scoring-functions [OPTIONS] COMMAND [ARGS]...
 ```
 
 ### Options
@@ -671,7 +672,7 @@ Show available scoring functions on distribution endpoint
 ### Usage
 
 ```
-Usage: cli scoring-functions list [OPTIONS]
+Usage: llama-stack-client scoring-functions list [OPTIONS]
 ```
 
 ### Options
@@ -687,7 +688,7 @@ Register a new scoring function
 ### Usage
 
 ```
-Usage: cli scoring-functions register [OPTIONS]
+Usage: llama-stack-client scoring-functions register [OPTIONS]
 ```
 
 ### Options
@@ -715,7 +716,7 @@ Manage safety shield services.
 ### Usage
 
 ```
-Usage: cli shields [OPTIONS] COMMAND [ARGS]...
+Usage: llama-stack-client shields [OPTIONS] COMMAND [ARGS]...
 ```
 
 ### Options
@@ -737,7 +738,7 @@ Show available safety shields on distribution endpoint
 ### Usage
 
 ```
-Usage: cli shields list [OPTIONS]
+Usage: llama-stack-client shields list [OPTIONS]
 ```
 
 ### Options
@@ -753,7 +754,7 @@ Register a new safety shield
 ### Usage
 
 ```
-Usage: cli shields register [OPTIONS]
+Usage: llama-stack-client shields register [OPTIONS]
 ```
 
 ### Options
@@ -777,7 +778,7 @@ Manage available tool groups.
 ### Usage
 
 ```
-Usage: cli toolgroups [OPTIONS] COMMAND [ARGS]...
+Usage: llama-stack-client toolgroups [OPTIONS] COMMAND [ARGS]...
 ```
 
 ### Options
@@ -803,7 +804,7 @@ Show available llama toolgroups at distribution endpoint
 ### Usage
 
 ```
-Usage: cli toolgroups get [OPTIONS] TOOLGROUP_ID
+Usage: llama-stack-client toolgroups get [OPTIONS] TOOLGROUP_ID
 ```
 
 ### Options
@@ -823,7 +824,7 @@ Show available llama toolgroups at distribution endpoint
 ### Usage
 
 ```
-Usage: cli toolgroups list [OPTIONS]
+Usage: llama-stack-client toolgroups list [OPTIONS]
 ```
 
 ### Options
@@ -839,7 +840,7 @@ Register a new toolgroup at distribution endpoint
 ### Usage
 
 ```
-Usage: cli toolgroups register [OPTIONS] TOOLGROUP_ID
+Usage: llama-stack-client toolgroups register [OPTIONS] TOOLGROUP_ID
 ```
 
 ### Options
@@ -867,7 +868,7 @@ Unregister a toolgroup from distribution endpoint
 ### Usage
 
 ```
-Usage: cli toolgroups unregister [OPTIONS] TOOLGROUP_ID
+Usage: llama-stack-client toolgroups unregister [OPTIONS] TOOLGROUP_ID
 ```
 
 ### Options
@@ -887,7 +888,7 @@ Manage vector databases.
 ### Usage
 
 ```
-Usage: cli vector-dbs [OPTIONS] COMMAND [ARGS]...
+Usage: llama-stack-client vector-dbs [OPTIONS] COMMAND [ARGS]...
 ```
 
 ### Options
@@ -911,7 +912,7 @@ Show available vector dbs on distribution endpoint
 ### Usage
 
 ```
-Usage: cli vector-dbs list [OPTIONS]
+Usage: llama-stack-client vector-dbs list [OPTIONS]
 ```
 
 ### Options
@@ -927,7 +928,7 @@ Create a new vector db
 ### Usage
 
 ```
-Usage: cli vector-dbs register [OPTIONS] VECTOR_DB_ID
+Usage: llama-stack-client vector-dbs register [OPTIONS] VECTOR_DB_ID
 ```
 
 ### Options
@@ -955,7 +956,7 @@ Delete a vector db
 ### Usage
 
 ```
-Usage: cli vector-dbs unregister [OPTIONS] VECTOR_DB_ID
+Usage: llama-stack-client vector-dbs unregister [OPTIONS] VECTOR_DB_ID
 ```
 
 ### Options
