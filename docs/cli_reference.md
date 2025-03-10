@@ -6,7 +6,7 @@ Welcome to the llama-stack-client CLI - a command-line interface for interacting
 Usage: llama-stack-client [OPTIONS] COMMAND [ARGS]...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -18,7 +18,7 @@ Usage: llama-stack-client [OPTIONS] COMMAND [ARGS]...
 
 * **--config**: Path to config file
 
-### Commands
+**Commands**
 
 * **configure**: Configure Llama Stack Client CLI.
 
@@ -56,7 +56,7 @@ Configure Llama Stack Client CLI.
 Usage: llama-stack-client configure [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -74,11 +74,11 @@ Manage datasets.
 Usage: llama-stack-client datasets [OPTIONS] COMMAND [ARGS]...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Commands
+**Commands**
 
 * **list**: Show available datasets on distribution...
 
@@ -94,7 +94,7 @@ Show available datasets on distribution endpoint
 Usage: llama-stack-client datasets list [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -108,7 +108,7 @@ Create a new dataset
 Usage: llama-stack-client datasets register [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -136,11 +136,11 @@ Run evaluation tasks.
 Usage: llama-stack-client eval [OPTIONS] COMMAND [ARGS]...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Commands
+**Commands**
 
 * **run-benchmark**: Run a evaluation benchmark task
 
@@ -156,7 +156,7 @@ Run a evaluation benchmark task
 Usage: llama-stack-client eval run-benchmark [OPTIONS] BENCHMARK_IDS...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -176,7 +176,7 @@ Usage: llama-stack-client eval run-benchmark [OPTIONS] BENCHMARK_IDS...
 
 * **--visualize**: Visualize evaluation results after completion [default: False]
 
-### Arguments
+**Arguments**
 
 * **BENCHMARK_IDS**
 
@@ -190,7 +190,7 @@ Run scoring from application datasets
 Usage: llama-stack-client eval run-scoring [OPTIONS] SCORING_FUNCTION_IDS...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -206,7 +206,7 @@ Usage: llama-stack-client eval run-scoring [OPTIONS] SCORING_FUNCTION_IDS...
 
 * **--visualize**: Visualize evaluation results after completion [default: False]
 
-### Arguments
+**Arguments**
 
 * **SCORING_FUNCTION_IDS**
 
@@ -220,11 +220,11 @@ Manage evaluation tasks.
 Usage: llama-stack-client eval-tasks [OPTIONS] COMMAND [ARGS]...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Commands
+**Commands**
 
 * **list**: Show available eval tasks on distribution...
 
@@ -240,7 +240,7 @@ Show available eval tasks on distribution endpoint
 Usage: llama-stack-client eval-tasks list [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -254,7 +254,7 @@ Register a new eval task
 Usage: llama-stack-client eval-tasks register [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -280,11 +280,11 @@ Inference (chat).
 Usage: llama-stack-client inference [OPTIONS] COMMAND [ARGS]...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Commands
+**Commands**
 
 * **chat-completion**: Show available inference chat completion...
 
@@ -298,7 +298,7 @@ Show available inference chat completion endpoints on distribution endpoint
 Usage: llama-stack-client inference chat-completion [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -320,11 +320,11 @@ Inspect server configuration.
 Usage: llama-stack-client inspect [OPTIONS] COMMAND [ARGS]...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Commands
+**Commands**
 
 * **version**: Show available providers on distribution...
 
@@ -338,7 +338,7 @@ Show available providers on distribution endpoint
 Usage: llama-stack-client inspect version [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -352,11 +352,11 @@ Manage GenAI models.
 Usage: llama-stack-client models [OPTIONS] COMMAND [ARGS]...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Commands
+**Commands**
 
 * **get**: Show available llama models at distribution...
 
@@ -376,11 +376,11 @@ Show available llama models at distribution endpoint
 Usage: llama-stack-client models get [OPTIONS] MODEL_ID
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Arguments
+**Arguments**
 
 * **MODEL_ID**
 
@@ -394,7 +394,7 @@ Show available llama models at distribution endpoint
 Usage: llama-stack-client models list [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -408,7 +408,7 @@ Register a new model at distribution endpoint
 Usage: llama-stack-client models register [OPTIONS] MODEL_ID
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -418,7 +418,7 @@ Usage: llama-stack-client models register [OPTIONS] MODEL_ID
 
 * **--metadata**: JSON metadata for the model
 
-### Arguments
+**Arguments**
 
 * **MODEL_ID**
 
@@ -432,11 +432,11 @@ Unregister a model from distribution endpoint
 Usage: llama-stack-client models unregister [OPTIONS] MODEL_ID
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Arguments
+**Arguments**
 
 * **MODEL_ID**
 
@@ -450,11 +450,11 @@ Post-training.
 Usage: llama-stack-client post-training [OPTIONS] COMMAND [ARGS]...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Commands
+**Commands**
 
 * **artifacts**: Get the training artifacts of a specific post...
 
@@ -476,7 +476,7 @@ Get the training artifacts of a specific post training job
 Usage: llama-stack-client post-training artifacts [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -492,7 +492,7 @@ Cancel the training job
 Usage: llama-stack-client post-training cancel [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -508,7 +508,7 @@ Show the list of available post training jobs
 Usage: llama-stack-client post-training list [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -522,7 +522,7 @@ Show the status of a specific post training job
 Usage: llama-stack-client post-training status [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -539,7 +539,7 @@ Usage: llama-stack-client post-training supervised_fine_tune
            [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -563,11 +563,11 @@ Manage API providers.
 Usage: llama-stack-client providers [OPTIONS] COMMAND [ARGS]...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Commands
+**Commands**
 
 * **list**: Show available providers on distribution...
 
@@ -581,7 +581,7 @@ Show available providers on distribution endpoint
 Usage: llama-stack-client providers list [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -595,11 +595,11 @@ Manage scoring functions.
 Usage: llama-stack-client scoring-functions [OPTIONS] COMMAND [ARGS]...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Commands
+**Commands**
 
 * **list**: Show available scoring functions on...
 
@@ -615,7 +615,7 @@ Show available scoring functions on distribution endpoint
 Usage: llama-stack-client scoring-functions list [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -629,7 +629,7 @@ Register a new scoring function
 Usage: llama-stack-client scoring-functions register [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -655,11 +655,11 @@ Manage safety shield services.
 Usage: llama-stack-client shields [OPTIONS] COMMAND [ARGS]...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Commands
+**Commands**
 
 * **list**: Show available safety shields on distribution...
 
@@ -675,7 +675,7 @@ Show available safety shields on distribution endpoint
 Usage: llama-stack-client shields list [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -689,7 +689,7 @@ Register a new safety shield
 Usage: llama-stack-client shields register [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -711,11 +711,11 @@ Manage available tool groups.
 Usage: llama-stack-client toolgroups [OPTIONS] COMMAND [ARGS]...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Commands
+**Commands**
 
 * **get**: Show available llama toolgroups at...
 
@@ -735,11 +735,11 @@ Show available llama toolgroups at distribution endpoint
 Usage: llama-stack-client toolgroups get [OPTIONS] TOOLGROUP_ID
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Arguments
+**Arguments**
 
 * **TOOLGROUP_ID**
 
@@ -753,7 +753,7 @@ Show available llama toolgroups at distribution endpoint
 Usage: llama-stack-client toolgroups list [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -767,7 +767,7 @@ Register a new toolgroup at distribution endpoint
 Usage: llama-stack-client toolgroups register [OPTIONS] TOOLGROUP_ID
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -779,7 +779,7 @@ Usage: llama-stack-client toolgroups register [OPTIONS] TOOLGROUP_ID
 
 * **--args**: JSON args for the toolgroup
 
-### Arguments
+**Arguments**
 
 * **TOOLGROUP_ID**
 
@@ -793,11 +793,11 @@ Unregister a toolgroup from distribution endpoint
 Usage: llama-stack-client toolgroups unregister [OPTIONS] TOOLGROUP_ID
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Arguments
+**Arguments**
 
 * **TOOLGROUP_ID**
 
@@ -811,11 +811,11 @@ Manage vector databases.
 Usage: llama-stack-client vector-dbs [OPTIONS] COMMAND [ARGS]...
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Commands
+**Commands**
 
 * **list**: Show available vector dbs on distribution...
 
@@ -833,7 +833,7 @@ Show available vector dbs on distribution endpoint
 Usage: llama-stack-client vector-dbs list [OPTIONS]
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -847,7 +847,7 @@ Create a new vector db
 Usage: llama-stack-client vector-dbs register [OPTIONS] VECTOR_DB_ID
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
@@ -859,7 +859,7 @@ Usage: llama-stack-client vector-dbs register [OPTIONS] VECTOR_DB_ID
 
 * **--embedding-dimension**: Embedding dimension (for vector type) [default: 384]
 
-### Arguments
+**Arguments**
 
 * **VECTOR_DB_ID**
 
@@ -873,10 +873,10 @@ Delete a vector db
 Usage: llama-stack-client vector-dbs unregister [OPTIONS] VECTOR_DB_ID
 ```
 
-### Options
+**Options**
 
 * **-h, --help**: Show this message and exit. [default: False]
 
-### Arguments
+**Arguments**
 
 * **VECTOR_DB_ID**
