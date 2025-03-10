@@ -23,6 +23,7 @@ def get_config():
 
 
 @click.command()
+@click.help_option("-h", "--help")
 @click.option("--endpoint", type=str, help="Llama Stack distribution endpoint", default="")
 @click.option("--api-key", type=str, help="Llama Stack distribution API key", default="")
 def configure(endpoint: str | None, api_key: str | None):

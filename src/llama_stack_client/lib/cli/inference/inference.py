@@ -15,11 +15,13 @@ from ..common.utils import handle_client_errors
 
 
 @click.group()
+@click.help_option("-h", "--help")
 def inference():
     """Inference (chat)."""
 
 
 @click.command("chat-completion")
+@click.help_option("-h", "--help")
 @click.option("--message", help="Message")
 @click.option("--stream", is_flag=True, help="Streaming", default=False)
 @click.option("--session", is_flag=True, help="Start a Chat Session", default=False)

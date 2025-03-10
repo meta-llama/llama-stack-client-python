@@ -30,6 +30,7 @@ def data_url_from_file(file_path: str) -> str:
 
 
 @click.command("register")
+@click.help_option("-h", "--help")
 @click.option("--dataset-id", required=True, help="Id of the dataset")
 @click.option("--provider-id", help="Provider ID for the dataset", default=None)
 @click.option("--provider-dataset-id", help="Provider's dataset ID", default=None)

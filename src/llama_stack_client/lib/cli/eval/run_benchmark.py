@@ -17,6 +17,7 @@ from .utils import aggregate_accuracy, aggregate_average, aggregate_categorical_
 
 
 @click.command("run-benchmark")
+@click.help_option("-h", "--help")
 @click.argument("benchmark-ids", nargs=-1, required=True)
 @click.option(
     "--model-id",

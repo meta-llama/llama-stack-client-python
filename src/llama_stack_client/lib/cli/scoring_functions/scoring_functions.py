@@ -14,11 +14,13 @@ from .list import list_scoring_functions
 
 
 @click.group()
+@click.help_option("-h", "--help")
 def scoring_functions():
     """Manage scoring functions."""
 
 
 @scoring_functions.command()
+@click.help_option("-h", "--help")
 @click.option("--scoring-fn-id", required=True, help="Id of the scoring function")
 @click.option("--description", required=True, help="Description of the scoring function")
 @click.option("--return-type", type=str, required=True, help="Return type of the scoring function")

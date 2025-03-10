@@ -15,11 +15,13 @@ from ..common.utils import handle_client_errors
 
 
 @click.group()
+@click.help_option("-h", "--help")
 def vector_dbs():
     """Manage vector databases."""
 
 
 @click.command("list")
+@click.help_option("-h", "--help")
 @click.pass_context
 @handle_client_errors("list vector dbs")
 def list(ctx):
@@ -56,6 +58,7 @@ def list(ctx):
 
 
 @vector_dbs.command()
+@click.help_option("-h", "--help")
 @click.argument("vector-db-id")
 @click.option("--provider-id", help="Provider ID for the vector db", default=None)
 @click.option("--provider-vector-db-id", help="Provider's vector db ID", default=None)
@@ -96,6 +99,7 @@ def register(
 
 
 @vector_dbs.command()
+@click.help_option("-h", "--help")
 @click.argument("vector-db-id")
 @click.pass_context
 @handle_client_errors("delete vector db")

@@ -29,6 +29,7 @@ from .vector_dbs import vector_dbs
 
 
 @click.group()
+@click.help_option("-h", "--help")
 @click.version_option(version=version("llama-stack-client"), prog_name="llama-stack-client")
 @click.option("--endpoint", type=str, help="Llama Stack distribution endpoint", default="")
 @click.option("--api-key", type=str, help="Llama Stack distribution API key", default="")

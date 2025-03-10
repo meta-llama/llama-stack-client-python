@@ -15,11 +15,13 @@ from ..common.utils import handle_client_errors
 
 
 @click.group()
+@click.help_option("-h", "--help")
 def post_training():
     """Post-training."""
 
 
 @click.command("supervised_fine_tune")
+@click.help_option("-h", "--help")
 @click.option("--job-uuid", required=True, help="Job UUID")
 @click.option("--model", required=True, help="Model ID")
 @click.option("--algorithm-config", required=True, help="Algorithm Config")
@@ -53,6 +55,7 @@ def supervised_fine_tune(
 
 
 @click.command("list")
+@click.help_option("-h", "--help")
 @click.pass_context
 @handle_client_errors("post_training get_training_jobs")
 def get_training_jobs(ctx):
@@ -65,6 +68,7 @@ def get_training_jobs(ctx):
 
 
 @click.command("status")
+@click.help_option("-h", "--help")
 @click.option("--job-uuid", required=True, help="Job UUID")
 @click.pass_context
 @handle_client_errors("post_training get_training_job_status")
@@ -78,6 +82,7 @@ def get_training_job_status(ctx, job_uuid: str):
 
 
 @click.command("artifacts")
+@click.help_option("-h", "--help")
 @click.option("--job-uuid", required=True, help="Job UUID")
 @click.pass_context
 @handle_client_errors("post_training get_training_job_artifacts")
@@ -91,6 +96,7 @@ def get_training_job_artifacts(ctx, job_uuid: str):
 
 
 @click.command("cancel")
+@click.help_option("-h", "--help")
 @click.option("--job-uuid", required=True, help="Job UUID")
 @click.pass_context
 @handle_client_errors("post_training cancel_training_job")
