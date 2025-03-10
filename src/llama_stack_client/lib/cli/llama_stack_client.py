@@ -35,8 +35,8 @@ from .vector_dbs import vector_dbs
 @click.option("--api-key", type=str, help="Llama Stack distribution API key", default="")
 @click.option("--config", type=str, help="Path to config file", default=None)
 @click.pass_context
-def cli(ctx, endpoint: str, api_key: str, config: str | None):
-    """Welcome to the LlamaStackClient CLI"""
+def llama_stack_client(ctx, endpoint: str, api_key: str, config: str | None):
+    """Welcome to the llama-stack-client CLI - a command-line interface for interacting with Llama Stack"""
     ctx.ensure_object(dict)
 
     # If no config provided, check default location
@@ -80,23 +80,23 @@ def cli(ctx, endpoint: str, api_key: str, config: str | None):
 
 
 # Register all subcommands
-cli.add_command(models, "models")
-cli.add_command(vector_dbs, "vector_dbs")
-cli.add_command(shields, "shields")
-cli.add_command(eval_tasks, "eval_tasks")
-cli.add_command(providers, "providers")
-cli.add_command(datasets, "datasets")
-cli.add_command(configure, "configure")
-cli.add_command(scoring_functions, "scoring_functions")
-cli.add_command(eval, "eval")
-cli.add_command(inference, "inference")
-cli.add_command(post_training, "post_training")
-cli.add_command(inspect, "inspect")
-cli.add_command(toolgroups, "toolgroups")
+llama_stack_client.add_command(models, "models")
+llama_stack_client.add_command(vector_dbs, "vector_dbs")
+llama_stack_client.add_command(shields, "shields")
+llama_stack_client.add_command(eval_tasks, "eval_tasks")
+llama_stack_client.add_command(providers, "providers")
+llama_stack_client.add_command(datasets, "datasets")
+llama_stack_client.add_command(configure, "configure")
+llama_stack_client.add_command(scoring_functions, "scoring_functions")
+llama_stack_client.add_command(eval, "eval")
+llama_stack_client.add_command(inference, "inference")
+llama_stack_client.add_command(post_training, "post_training")
+llama_stack_client.add_command(inspect, "inspect")
+llama_stack_client.add_command(toolgroups, "toolgroups")
 
 
 def main():
-    cli()
+    llama_stack_client()
 
 
 if __name__ == "__main__":
