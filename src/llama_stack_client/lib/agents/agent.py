@@ -17,7 +17,7 @@ from llama_stack_client.types.shared_params.agent_config import ToolConfig
 from llama_stack_client.types.shared_params.response_format import ResponseFormat
 from llama_stack_client.types.shared_params.sampling_params import SamplingParams
 
-from .client_tool import ClientTool, client_tool
+from .client_tool import client_tool, ClientTool
 from .tool_parser import ToolParser
 
 DEFAULT_MAX_ITER = 10
