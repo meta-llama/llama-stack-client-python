@@ -129,6 +129,14 @@ class ClientTool:
 
 T = TypeVar("T", bound=Callable)
 
+# python typehint to litellm/openai parameter spec
+TYPEHINT_TO_LITELLM_TYPE = {
+    "int": "integer",
+    "float": "number",
+    "bool": "boolean",
+    "str": "string",
+}
+
 
 def client_tool(func: T) -> ClientTool:
     """
@@ -197,8 +205,7 @@ def client_tool(func: T) -> ClientTool:
                 params[name] = Parameter(
                     name=name,
                     description=param_doc or f"Parameter {name}",
-                    # Hack: litellm/openai expects "string" for str type
-                    parameter_type=type_hint.__name__ if type_hint.__name__ != "str" else "string",
+                    parameter_type=TYPEHINT_TO_LITELLM_TYPE.get(type_hint.__name__, type_hint.__name__),
                     default=(param.default if param.default != inspect.Parameter.empty else None),
                     required=is_required,
                 )
