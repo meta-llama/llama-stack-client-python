@@ -27,7 +27,6 @@ def generate_markdown_docs(command, parent=None, level=1):
         doc.append(f"{command.help}\n")
 
     # Add usage
-    doc.append("### Usage\n")
     doc.append(f"```\n{command.get_usage(ctx)}\n```\n")
 
     # Add options if present
