@@ -17,7 +17,10 @@ def generate_markdown_docs(command, parent=None, level=1):
 
     # Start with the command name as a header
     prefix = "#" * level
-    doc = [f"{prefix} CLI Reference\n"]
+    if level == 1:
+        doc = [f"{prefix} CLI Reference\n"]
+    else:
+        doc = [f"{prefix} {command.name}\n"]
 
     # Add command help docstring
     if command.help:

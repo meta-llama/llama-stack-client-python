@@ -50,7 +50,7 @@ Usage: llama-stack-client [OPTIONS] COMMAND [ARGS]...
 
 
 
-## CLI Reference
+## configure
 
 Configure Llama Stack Client CLI.
 
@@ -70,7 +70,7 @@ Usage: llama-stack-client configure [OPTIONS]
 
 
 
-## CLI Reference
+## datasets
 
 Manage datasets.
 
@@ -92,7 +92,7 @@ Usage: llama-stack-client datasets [OPTIONS] COMMAND [ARGS]...
 
 
 
-### CLI Reference
+### list
 
 Show available datasets on distribution endpoint
 
@@ -108,7 +108,7 @@ Usage: llama-stack-client datasets list [OPTIONS]
 
 
 
-### CLI Reference
+### register
 
 Create a new dataset
 
@@ -138,7 +138,7 @@ Usage: llama-stack-client datasets register [OPTIONS]
 
 
 
-## CLI Reference
+## eval
 
 Run evaluation tasks.
 
@@ -160,7 +160,7 @@ Usage: llama-stack-client eval [OPTIONS] COMMAND [ARGS]...
 
 
 
-### CLI Reference
+### run-benchmark
 
 Run a evaluation benchmark task
 
@@ -196,7 +196,7 @@ Usage: llama-stack-client eval run-benchmark [OPTIONS] BENCHMARK_IDS...
 
 
 
-### CLI Reference
+### run-scoring
 
 Run scoring from application datasets
 
@@ -228,7 +228,7 @@ Usage: llama-stack-client eval run-scoring [OPTIONS] SCORING_FUNCTION_IDS...
 
 
 
-## CLI Reference
+## eval-tasks
 
 Manage evaluation tasks.
 
@@ -250,7 +250,7 @@ Usage: llama-stack-client eval-tasks [OPTIONS] COMMAND [ARGS]...
 
 
 
-### CLI Reference
+### list
 
 Show available eval tasks on distribution endpoint
 
@@ -266,7 +266,7 @@ Usage: llama-stack-client eval-tasks list [OPTIONS]
 
 
 
-### CLI Reference
+### register
 
 Register a new eval task
 
@@ -294,7 +294,7 @@ Usage: llama-stack-client eval-tasks register [OPTIONS]
 
 
 
-## CLI Reference
+## inference
 
 Inference (chat).
 
@@ -314,7 +314,7 @@ Usage: llama-stack-client inference [OPTIONS] COMMAND [ARGS]...
 
 
 
-### CLI Reference
+### chat-completion
 
 Show available inference chat completion endpoints on distribution endpoint
 
@@ -338,7 +338,7 @@ Usage: llama-stack-client inference chat-completion [OPTIONS]
 
 
 
-## CLI Reference
+## inspect
 
 Inspect server configuration.
 
@@ -358,7 +358,7 @@ Usage: llama-stack-client inspect [OPTIONS] COMMAND [ARGS]...
 
 
 
-### CLI Reference
+### version
 
 Show available providers on distribution endpoint
 
@@ -374,7 +374,7 @@ Usage: llama-stack-client inspect version [OPTIONS]
 
 
 
-## CLI Reference
+## models
 
 Manage GenAI models.
 
@@ -400,7 +400,7 @@ Usage: llama-stack-client models [OPTIONS] COMMAND [ARGS]...
 
 
 
-### CLI Reference
+### get
 
 Show available llama models at distribution endpoint
 
@@ -420,7 +420,7 @@ Usage: llama-stack-client models get [OPTIONS] MODEL_ID
 
 
 
-### CLI Reference
+### list
 
 Show available llama models at distribution endpoint
 
@@ -436,7 +436,7 @@ Usage: llama-stack-client models list [OPTIONS]
 
 
 
-### CLI Reference
+### register
 
 Register a new model at distribution endpoint
 
@@ -462,7 +462,7 @@ Usage: llama-stack-client models register [OPTIONS] MODEL_ID
 
 
 
-### CLI Reference
+### unregister
 
 Unregister a model from distribution endpoint
 
@@ -482,7 +482,7 @@ Usage: llama-stack-client models unregister [OPTIONS] MODEL_ID
 
 
 
-## CLI Reference
+## post-training
 
 Post-training.
 
@@ -510,7 +510,7 @@ Usage: llama-stack-client post-training [OPTIONS] COMMAND [ARGS]...
 
 
 
-### CLI Reference
+### artifacts
 
 Get the training artifacts of a specific post training job
 
@@ -528,7 +528,7 @@ Usage: llama-stack-client post-training artifacts [OPTIONS]
 
 
 
-### CLI Reference
+### cancel
 
 Cancel the training job
 
@@ -546,7 +546,7 @@ Usage: llama-stack-client post-training cancel [OPTIONS]
 
 
 
-### CLI Reference
+### list
 
 Show the list of available post training jobs
 
@@ -562,7 +562,7 @@ Usage: llama-stack-client post-training list [OPTIONS]
 
 
 
-### CLI Reference
+### status
 
 Show the status of a specific post training job
 
@@ -580,7 +580,7 @@ Usage: llama-stack-client post-training status [OPTIONS]
 
 
 
-### CLI Reference
+### supervised_fine_tune
 
 Kick off a supervised fine tune job
 
@@ -607,7 +607,7 @@ Usage: llama-stack-client post-training supervised_fine_tune
 
 
 
-## CLI Reference
+## providers
 
 Manage API providers.
 
@@ -627,7 +627,7 @@ Usage: llama-stack-client providers [OPTIONS] COMMAND [ARGS]...
 
 
 
-### CLI Reference
+### list
 
 Show available providers on distribution endpoint
 
@@ -643,7 +643,7 @@ Usage: llama-stack-client providers list [OPTIONS]
 
 
 
-## CLI Reference
+## scoring-functions
 
 Manage scoring functions.
 
@@ -665,7 +665,7 @@ Usage: llama-stack-client scoring-functions [OPTIONS] COMMAND [ARGS]...
 
 
 
-### CLI Reference
+### list
 
 Show available scoring functions on distribution endpoint
 
@@ -681,7 +681,7 @@ Usage: llama-stack-client scoring-functions list [OPTIONS]
 
 
 
-### CLI Reference
+### register
 
 Register a new scoring function
 
@@ -709,7 +709,7 @@ Usage: llama-stack-client scoring-functions register [OPTIONS]
 
 
 
-## CLI Reference
+## shields
 
 Manage safety shield services.
 
@@ -731,7 +731,7 @@ Usage: llama-stack-client shields [OPTIONS] COMMAND [ARGS]...
 
 
 
-### CLI Reference
+### list
 
 Show available safety shields on distribution endpoint
 
@@ -747,7 +747,7 @@ Usage: llama-stack-client shields list [OPTIONS]
 
 
 
-### CLI Reference
+### register
 
 Register a new safety shield
 
@@ -771,7 +771,7 @@ Usage: llama-stack-client shields register [OPTIONS]
 
 
 
-## CLI Reference
+## toolgroups
 
 Manage available tool groups.
 
@@ -797,7 +797,7 @@ Usage: llama-stack-client toolgroups [OPTIONS] COMMAND [ARGS]...
 
 
 
-### CLI Reference
+### get
 
 Show available llama toolgroups at distribution endpoint
 
@@ -817,7 +817,7 @@ Usage: llama-stack-client toolgroups get [OPTIONS] TOOLGROUP_ID
 
 
 
-### CLI Reference
+### list
 
 Show available llama toolgroups at distribution endpoint
 
@@ -833,7 +833,7 @@ Usage: llama-stack-client toolgroups list [OPTIONS]
 
 
 
-### CLI Reference
+### register
 
 Register a new toolgroup at distribution endpoint
 
@@ -861,7 +861,7 @@ Usage: llama-stack-client toolgroups register [OPTIONS] TOOLGROUP_ID
 
 
 
-### CLI Reference
+### unregister
 
 Unregister a toolgroup from distribution endpoint
 
@@ -881,7 +881,7 @@ Usage: llama-stack-client toolgroups unregister [OPTIONS] TOOLGROUP_ID
 
 
 
-## CLI Reference
+## vector-dbs
 
 Manage vector databases.
 
@@ -905,7 +905,7 @@ Usage: llama-stack-client vector-dbs [OPTIONS] COMMAND [ARGS]...
 
 
 
-### CLI Reference
+### list
 
 Show available vector dbs on distribution endpoint
 
@@ -921,7 +921,7 @@ Usage: llama-stack-client vector-dbs list [OPTIONS]
 
 
 
-### CLI Reference
+### register
 
 Create a new vector db
 
@@ -949,7 +949,7 @@ Usage: llama-stack-client vector-dbs register [OPTIONS] VECTOR_DB_ID
 
 
 
-### CLI Reference
+### unregister
 
 Delete a vector db
 
