@@ -12,6 +12,7 @@ from .run_scoring import run_scoring
 
 
 @click.group()
+@click.help_option("-h", "--help")
 def eval():
     """Run evaluation tasks."""
 

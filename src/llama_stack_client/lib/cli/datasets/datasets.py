@@ -10,6 +10,7 @@ from .register import register
 
 
 @click.group()
+@click.help_option("-h", "--help")
 def datasets():
     """Manage datasets."""
 

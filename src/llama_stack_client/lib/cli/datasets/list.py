@@ -12,6 +12,7 @@ from ..common.utils import handle_client_errors
 
 
 @click.command("list")
+@click.help_option("-h", "--help")
 @click.pass_context
 @handle_client_errors("list datasets")
 def list_datasets(ctx):

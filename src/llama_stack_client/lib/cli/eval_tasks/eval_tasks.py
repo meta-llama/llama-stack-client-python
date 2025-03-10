@@ -16,11 +16,13 @@ from .list import list_eval_tasks
 
 
 @click.group()
+@click.help_option("-h", "--help")
 def eval_tasks():
     """Manage evaluation tasks."""
 
 
 @eval_tasks.command()
+@click.help_option("-h", "--help")
 @click.option("--eval-task-id", required=True, help="ID of the eval task")
 @click.option("--dataset-id", required=True, help="ID of the dataset to evaluate")
 @click.option("--scoring-functions", required=True, multiple=True, help="Scoring functions to use for evaluation")
