@@ -37,7 +37,7 @@ Observation: "image_1.jpg"
     "thought": "I need to transform the image that I received in the previous observation to make it green.",
     "action": {
         "tool_name": "image_transformer",
-        "tool_params": {"image": "image_1.jpg"}
+        "tool_params": [{"image": "image_1.jpg"}]
     },
     "answer": null
 }
@@ -61,7 +61,7 @@ Your Response:
     "thought": "I will proceed step by step and use the following tools: `document_qa` to find the oldest person in the document, then `image_generator` to generate an image according to the answer.",
     "action": {
         "tool_name": "document_qa",
-        "tool_params": {"document": "document.pdf", "question": "Who is the oldest person mentioned?"}
+        "tool_params": [{"document": "document.pdf", "question": "Who is the oldest person mentioned?"}]
     },
     "answer": null
 }
@@ -73,7 +73,7 @@ Your Response:
     "thought": "I will now generate an image showcasing the oldest person.",
     "action": {
         "tool_name": "image_generator",
-        "tool_params": {"prompt": "A portrait of John Doe, a 55-year-old man living in Canada."}
+        "tool_params": [{"prompt": "A portrait of John Doe, a 55-year-old man living in Canada."}]
     },
     "answer": null
 }
@@ -93,7 +93,7 @@ Your Response:
     "thought": "I will use python code evaluator to compute the result of the operation and then return the final answer using the `final_answer` tool",
     "action": {
         "tool_name": "python_interpreter",
-        "tool_params": {"code": "5 + 3 + 1294.678"}
+        "tool_params": [{"code": "5 + 3 + 1294.678"}]
     },
     "answer": null
 }
@@ -113,7 +113,7 @@ Your Response:
     "thought": "I need to get the populations for both cities and compare them: I will use the tool `search` to get the population of both cities.",
     "action": {
         "tool_name": "search",
-        "tool_params": {"query": "Population Guangzhou"}
+        "tool_params": [{"query": "Population Guangzhou"}]
     },
     "answer": null
 }
@@ -124,7 +124,7 @@ Your Response:
     "thought": "Now let's get the population of Shanghai using the tool 'search'.",
     "action": {
         "tool_name": "search",
-        "tool_params": {"query": "Population Shanghai"}
+        "tool_params": [{"query": "Population Shanghai"}]
     },
     "answer": null
 }
