@@ -70,7 +70,7 @@ def list_models(ctx):
 @click.pass_context
 @handle_client_errors("get model details")
 def get_model(ctx, model_id: str):
-    """Show available llama models at distribution endpoint"""
+    """Show details of a specific model at the distribution endpoint"""
     client = ctx.obj["client"]
     console = Console()
 
