@@ -1,8 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Union, Optional
-from datetime import datetime
-from typing_extensions import Literal
+from typing import List, Optional
 
 from ..._models import BaseModel
 from ..token_log_probs import TokenLogProbs
@@ -14,19 +12,9 @@ __all__ = ["ChatCompletionResponse", "Metric"]
 class Metric(BaseModel):
     metric: str
 
-    span_id: str
-
-    timestamp: datetime
-
-    trace_id: str
-
-    type: Literal["metric"]
-
-    unit: str
-
     value: float
 
-    attributes: Optional[Dict[str, Union[str, float, bool, None]]] = None
+    unit: Optional[str] = None
 
 
 class ChatCompletionResponse(BaseModel):

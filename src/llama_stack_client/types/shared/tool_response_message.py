@@ -1,6 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Union
 from typing_extensions import Literal
 
 from ..._models import BaseModel
@@ -18,6 +17,3 @@ class ToolResponseMessage(BaseModel):
 
     role: Literal["tool"]
     """Must be "tool" to identify this as a tool response"""
-
-    tool_name: Union[Literal["brave_search", "wolfram_alpha", "photogen", "code_interpreter"], str]
-    """Name of the tool that was called"""

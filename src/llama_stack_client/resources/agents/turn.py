@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Union, Iterable
+from typing import List, Iterable
 from typing_extensions import Literal, overload
 
 import httpx
@@ -26,7 +26,6 @@ from ..._base_client import make_request_options
 from ...types.agents import turn_create_params, turn_resume_params
 from ...types.agents.turn import Turn
 from ...types.tool_response_param import ToolResponseParam
-from ...types.shared_params.tool_response_message import ToolResponseMessage
 from ...types.agents.agent_turn_response_stream_chunk import AgentTurnResponseStreamChunk
 
 __all__ = ["TurnResource", "AsyncTurnResource"]
@@ -275,7 +274,7 @@ class TurnResource(SyncAPIResource):
         *,
         agent_id: str,
         session_id: str,
-        tool_responses: Union[Iterable[ToolResponseParam], Iterable[ToolResponseMessage]],
+        tool_responses: Iterable[ToolResponseParam],
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -292,8 +291,7 @@ class TurnResource(SyncAPIResource):
         ready.
 
         Args:
-          tool_responses: The tool call responses to resume the turn with. NOTE: ToolResponseMessage will
-              be deprecated. Use ToolResponse.
+          tool_responses: The tool call responses to resume the turn with.
 
           stream: Whether to stream the response.
 
@@ -315,7 +313,7 @@ class TurnResource(SyncAPIResource):
         agent_id: str,
         session_id: str,
         stream: Literal[True],
-        tool_responses: Union[Iterable[ToolResponseParam], Iterable[ToolResponseMessage]],
+        tool_responses: Iterable[ToolResponseParam],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -333,8 +331,7 @@ class TurnResource(SyncAPIResource):
         Args:
           stream: Whether to stream the response.
 
-          tool_responses: The tool call responses to resume the turn with. NOTE: ToolResponseMessage will
-              be deprecated. Use ToolResponse.
+          tool_responses: The tool call responses to resume the turn with.
 
           extra_headers: Send extra headers
 
@@ -354,7 +351,7 @@ class TurnResource(SyncAPIResource):
         agent_id: str,
         session_id: str,
         stream: bool,
-        tool_responses: Union[Iterable[ToolResponseParam], Iterable[ToolResponseMessage]],
+        tool_responses: Iterable[ToolResponseParam],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -372,8 +369,7 @@ class TurnResource(SyncAPIResource):
         Args:
           stream: Whether to stream the response.
 
-          tool_responses: The tool call responses to resume the turn with. NOTE: ToolResponseMessage will
-              be deprecated. Use ToolResponse.
+          tool_responses: The tool call responses to resume the turn with.
 
           extra_headers: Send extra headers
 
@@ -392,7 +388,7 @@ class TurnResource(SyncAPIResource):
         *,
         agent_id: str,
         session_id: str,
-        tool_responses: Union[Iterable[ToolResponseParam], Iterable[ToolResponseMessage]],
+        tool_responses: Iterable[ToolResponseParam],
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -668,7 +664,7 @@ class AsyncTurnResource(AsyncAPIResource):
         *,
         agent_id: str,
         session_id: str,
-        tool_responses: Union[Iterable[ToolResponseParam], Iterable[ToolResponseMessage]],
+        tool_responses: Iterable[ToolResponseParam],
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -685,8 +681,7 @@ class AsyncTurnResource(AsyncAPIResource):
         ready.
 
         Args:
-          tool_responses: The tool call responses to resume the turn with. NOTE: ToolResponseMessage will
-              be deprecated. Use ToolResponse.
+          tool_responses: The tool call responses to resume the turn with.
 
           stream: Whether to stream the response.
 
@@ -708,7 +703,7 @@ class AsyncTurnResource(AsyncAPIResource):
         agent_id: str,
         session_id: str,
         stream: Literal[True],
-        tool_responses: Union[Iterable[ToolResponseParam], Iterable[ToolResponseMessage]],
+        tool_responses: Iterable[ToolResponseParam],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -726,8 +721,7 @@ class AsyncTurnResource(AsyncAPIResource):
         Args:
           stream: Whether to stream the response.
 
-          tool_responses: The tool call responses to resume the turn with. NOTE: ToolResponseMessage will
-              be deprecated. Use ToolResponse.
+          tool_responses: The tool call responses to resume the turn with.
 
           extra_headers: Send extra headers
 
@@ -747,7 +741,7 @@ class AsyncTurnResource(AsyncAPIResource):
         agent_id: str,
         session_id: str,
         stream: bool,
-        tool_responses: Union[Iterable[ToolResponseParam], Iterable[ToolResponseMessage]],
+        tool_responses: Iterable[ToolResponseParam],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -765,8 +759,7 @@ class AsyncTurnResource(AsyncAPIResource):
         Args:
           stream: Whether to stream the response.
 
-          tool_responses: The tool call responses to resume the turn with. NOTE: ToolResponseMessage will
-              be deprecated. Use ToolResponse.
+          tool_responses: The tool call responses to resume the turn with.
 
           extra_headers: Send extra headers
 
@@ -785,7 +778,7 @@ class AsyncTurnResource(AsyncAPIResource):
         *,
         agent_id: str,
         session_id: str,
-        tool_responses: Union[Iterable[ToolResponseParam], Iterable[ToolResponseMessage]],
+        tool_responses: Iterable[ToolResponseParam],
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
