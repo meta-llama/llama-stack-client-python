@@ -188,8 +188,8 @@ class Agent:
         )
         self.agent_id = agentic_system_create_response.agent_id
         for tg in self.agent_config["toolgroups"]:
-            for tool in self.client.tools.list(toolgroup_id=tg):
-                self.builtin_tools[tool.identifier] = tool
+            for tool in self.client.tools.list(toolgroup_id=tg if isinstance(tg, str) else tg.get("name")):
+                self.builtin_tools[tool.identifier] = tg.get("args", {}) if isinstance(tg, dict) else {}
 
     def create_session(self, session_name: str) -> str:
         agentic_system_create_session_response = self.client.agents.session.create(
@@ -225,7 +225,7 @@ class Agent:
         if tool_call.tool_name in self.builtin_tools:
             tool_result = self.client.tool_runtime.invoke_tool(
                 tool_name=tool_call.tool_name,
-                kwargs=tool_call.arguments,
+                kwargs={**tool_call.arguments, **self.builtin_tools[tool_call.tool_name]},
             )
             tool_response = ToolResponseParam(
                 call_id=tool_call.call_id,
@@ -411,7 +411,7 @@ class AsyncAgent:
         self._agent_id = agentic_system_create_response.agent_id
         for tg in self.agent_config["toolgroups"]:
             for tool in await self.client.tools.list(toolgroup_id=tg):
-                self.builtin_tools[tool.identifier] = tool
+                self.builtin_tools[tool.identifier] = tg.get("args", {}) if isinstance(tg, dict) else {}
 
     async def create_session(self, session_name: str) -> str:
         await self.initialize()
@@ -462,7 +462,7 @@ class AsyncAgent:
         if tool_call.tool_name in self.builtin_tools:
             tool_result = await self.client.tool_runtime.invoke_tool(
                 tool_name=tool_call.tool_name,
-                kwargs=tool_call.arguments,
+                kwargs={**tool_call.arguments, **self.builtin_tools[tool_call.tool_name]},
             )
             tool_response = ToolResponseParam(
                 call_id=tool_call.call_id,
