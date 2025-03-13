@@ -10,6 +10,7 @@ import click
 import yaml
 from prompt_toolkit import prompt
 from prompt_toolkit.validation import Validator
+from urllib.parse import urlparse
 
 from llama_stack_client.lib.cli.constants import LLAMA_STACK_CLIENT_CONFIG_DIR, get_config_file_path
 
@@ -37,8 +38,8 @@ def configure(endpoint: str | None, api_key: str | None):
         final_endpoint = prompt(
             "> Enter the endpoint of the Llama Stack distribution server: ",
             validator=Validator.from_callable(
-                lambda x: len(x) > 0,
-                error_message="Endpoint cannot be empty, please enter a valid endpoint",
+                lambda x: len(x) > 0 and (parsed := urlparse(x)).scheme and parsed.netloc,
+                error_message="Endpoint cannot be empty and must be a valid URL, please enter a valid endpoint",
             ),
         )
 
