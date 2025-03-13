@@ -11,7 +11,7 @@ from llama_stack_client.types import ToolResponseMessage, ToolResponseParam, Use
 from llama_stack_client.types.agent_create_params import AgentConfig
 from llama_stack_client.types.agents.turn import CompletionMessage, Turn
 from llama_stack_client.types.agents.turn_create_params import Document, Toolgroup
-from llama_stack_client.types.agents.turn_create_response import AgentTurnResponseStreamChunk
+from llama_stack_client.types.agents.agent_turn_response_stream_chunk import AgentTurnResponseStreamChunk
 from llama_stack_client.types.shared.tool_call import ToolCall
 from llama_stack_client.types.shared_params.agent_config import ToolConfig
 from llama_stack_client.types.shared_params.response_format import ResponseFormat
