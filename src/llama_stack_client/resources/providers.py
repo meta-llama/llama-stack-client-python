@@ -18,6 +18,7 @@ from .._response import (
 from .._wrappers import DataWrapper
 from .._base_client import make_request_options
 from ..types.provider_list_response import ProviderListResponse
+from ..types.provider_get_response import GetProviderResponse
 
 __all__ = ["ProvidersResource", "AsyncProvidersResource"]
 
@@ -53,7 +54,7 @@ class ProvidersResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ProviderListResponse:
         return self._get(
-            "/v1/inspect/providers",
+            "/v1/providers",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -62,6 +63,29 @@ class ProvidersResource(SyncAPIResource):
                 post_parser=DataWrapper[ProviderListResponse]._unwrapper,
             ),
             cast_to=cast(Type[ProviderListResponse], DataWrapper[ProviderListResponse]),
+        )
+
+    def inspect(
+        self,
+        provider_id,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> GetProviderResponse:
+        return self._get(
+            f"/v1/providers/{provider_id}",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[GetProviderResponse]._unwrapper,
+            ),
+            cast_to=cast(Type[GetProviderResponse], DataWrapper[GetProviderResponse]),
         )
 
 
@@ -96,7 +120,7 @@ class AsyncProvidersResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ProviderListResponse:
         return await self._get(
-            "/v1/inspect/providers",
+            "/v1/providers",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -105,6 +129,29 @@ class AsyncProvidersResource(AsyncAPIResource):
                 post_parser=DataWrapper[ProviderListResponse]._unwrapper,
             ),
             cast_to=cast(Type[ProviderListResponse], DataWrapper[ProviderListResponse]),
+        )
+    
+    async def inspect(
+        self,
+        provider_id,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> GetProviderResponse:
+        return await self._get(
+            f"/v1/providers/{provider_id}",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[GetProviderResponse]._unwrapper,
+            ),
+            cast_to=cast(Type[GetProviderResponse], DataWrapper[GetProviderResponse]),
         )
 
 
@@ -116,6 +163,9 @@ class ProvidersResourceWithRawResponse:
             providers.list,
         )
 
+        self.inspect = to_raw_response_wrapper(
+            providers.inspect,
+        )
 
 class AsyncProvidersResourceWithRawResponse:
     def __init__(self, providers: AsyncProvidersResource) -> None:
@@ -124,6 +174,11 @@ class AsyncProvidersResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             providers.list,
         )
+
+        self.inspect = async_to_raw_response_wrapper(
+            providers.inspect,
+        )
+
 
 
 class ProvidersResourceWithStreamingResponse:
@@ -134,6 +189,10 @@ class ProvidersResourceWithStreamingResponse:
             providers.list,
         )
 
+        self.inspect = to_streamed_response_wrapper(
+            providers.inspect,
+        )
+
 
 class AsyncProvidersResourceWithStreamingResponse:
     def __init__(self, providers: AsyncProvidersResource) -> None:
@@ -141,4 +200,7 @@ class AsyncProvidersResourceWithStreamingResponse:
 
         self.list = async_to_streamed_response_wrapper(
             providers.list,
+        )
+        self.inspect = async_to_streamed_response_wrapper(
+            providers.inspect,
         )
