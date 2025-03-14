@@ -14,9 +14,9 @@ def inspect_provider(ctx, provider_id):
     client = ctx.obj["client"]
     console = Console()
 
-    providers_response = client.providers.inspect(provider_id=provider_id)
+    providers_response = client.providers.retrieve(provider_id=provider_id)
 
-    if providers_response is None:
+    if not providers_response:
         click.secho("Provider not found", fg="red")
         raise click.exceptions.Exit(1)
 
