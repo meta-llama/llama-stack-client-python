@@ -80,14 +80,6 @@ from .datasets import (
     DatasetsResourceWithStreamingResponse,
     AsyncDatasetsResourceWithStreamingResponse,
 )
-from .datasetio import (
-    DatasetioResource,
-    AsyncDatasetioResource,
-    DatasetioResourceWithRawResponse,
-    AsyncDatasetioResourceWithRawResponse,
-    DatasetioResourceWithStreamingResponse,
-    AsyncDatasetioResourceWithStreamingResponse,
-)
 from .inference import (
     InferenceResource,
     AsyncInferenceResource,
@@ -300,12 +292,6 @@ __all__ = [
     "AsyncTelemetryResourceWithRawResponse",
     "TelemetryResourceWithStreamingResponse",
     "AsyncTelemetryResourceWithStreamingResponse",
-    "DatasetioResource",
-    "AsyncDatasetioResource",
-    "DatasetioResourceWithRawResponse",
-    "AsyncDatasetioResourceWithRawResponse",
-    "DatasetioResourceWithStreamingResponse",
-    "AsyncDatasetioResourceWithStreamingResponse",
     "ScoringResource",
     "AsyncScoringResource",
     "ScoringResourceWithRawResponse",

@@ -3,7 +3,6 @@
 from .message import Message as Message
 from .document import Document as Document
 from .tool_call import ToolCall as ToolCall
-from .param_type import ParamType as ParamType
 from .return_type import ReturnType as ReturnType
 from .agent_config import AgentConfig as AgentConfig
 from .query_config import QueryConfig as QueryConfig

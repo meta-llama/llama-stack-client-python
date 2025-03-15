@@ -74,7 +74,6 @@ from .dataset_list_response import DatasetListResponse as DatasetListResponse
 from .list_shields_response import ListShieldsResponse as ListShieldsResponse
 from .memory_retrieval_step import MemoryRetrievalStep as MemoryRetrievalStep
 from .model_register_params import ModelRegisterParams as ModelRegisterParams
-from .paginated_rows_result import PaginatedRowsResult as PaginatedRowsResult
 from .query_chunks_response import QueryChunksResponse as QueryChunksResponse
 from .query_condition_param import QueryConditionParam as QueryConditionParam
 from .algorithm_config_param import AlgorithmConfigParam as AlgorithmConfigParam
@@ -86,6 +85,7 @@ from .shield_register_params import ShieldRegisterParams as ShieldRegisterParams
 from .tool_invocation_result import ToolInvocationResult as ToolInvocationResult
 from .vector_io_query_params import VectorIoQueryParams as VectorIoQueryParams
 from .benchmark_list_response import BenchmarkListResponse as BenchmarkListResponse
+from .dataset_iterrows_params import DatasetIterrowsParams as DatasetIterrowsParams
 from .dataset_register_params import DatasetRegisterParams as DatasetRegisterParams
 from .list_providers_response import ListProvidersResponse as ListProvidersResponse
 from .scoring_fn_params_param import ScoringFnParamsParam as ScoringFnParamsParam
@@ -96,6 +96,8 @@ from .list_benchmarks_response import ListBenchmarksResponse as ListBenchmarksRe
 from .list_vector_dbs_response import ListVectorDBsResponse as ListVectorDBsResponse
 from .safety_run_shield_params import SafetyRunShieldParams as SafetyRunShieldParams
 from .benchmark_register_params import BenchmarkRegisterParams as BenchmarkRegisterParams
+from .dataset_iterrows_response import DatasetIterrowsResponse as DatasetIterrowsResponse
+from .dataset_register_response import DatasetRegisterResponse as DatasetRegisterResponse
 from .dataset_retrieve_response import DatasetRetrieveResponse as DatasetRetrieveResponse
 from .eval_evaluate_rows_params import EvalEvaluateRowsParams as EvalEvaluateRowsParams
 from .list_tool_groups_response import ListToolGroupsResponse as ListToolGroupsResponse
@@ -109,7 +111,6 @@ from .inference_embeddings_params import InferenceEmbeddingsParams as InferenceE
 from .telemetry_get_span_response import TelemetryGetSpanResponse as TelemetryGetSpanResponse
 from .vector_db_register_response import VectorDBRegisterResponse as VectorDBRegisterResponse
 from .vector_db_retrieve_response import VectorDBRetrieveResponse as VectorDBRetrieveResponse
-from .datasetio_append_rows_params import DatasetioAppendRowsParams as DatasetioAppendRowsParams
 from .scoring_score_batch_response import ScoringScoreBatchResponse as ScoringScoreBatchResponse
 from .telemetry_query_spans_params import TelemetryQuerySpansParams as TelemetryQuerySpansParams
 from .telemetry_query_traces_params import TelemetryQueryTracesParams as TelemetryQueryTracesParams
@@ -127,7 +128,6 @@ from .scoring_function_register_params import ScoringFunctionRegisterParams as S
 from .telemetry_get_span_tree_response import TelemetryGetSpanTreeResponse as TelemetryGetSpanTreeResponse
 from .batch_inference_completion_params import BatchInferenceCompletionParams as BatchInferenceCompletionParams
 from .synthetic_data_generation_response import SyntheticDataGenerationResponse as SyntheticDataGenerationResponse
-from .datasetio_get_rows_paginated_params import DatasetioGetRowsPaginatedParams as DatasetioGetRowsPaginatedParams
 from .chat_completion_response_stream_chunk import (
     ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
 )
