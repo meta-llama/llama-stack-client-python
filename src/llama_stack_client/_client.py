@@ -34,7 +34,6 @@ from .resources import (
     scoring,
     shields,
     datasets,
-    datasetio,
     inference,
     providers,
     telemetry,
@@ -90,7 +89,6 @@ class LlamaStackClient(SyncAPIClient):
     shields: shields.ShieldsResource
     synthetic_data_generation: synthetic_data_generation.SyntheticDataGenerationResource
     telemetry: telemetry.TelemetryResource
-    datasetio: datasetio.DatasetioResource
     scoring: scoring.ScoringResource
     scoring_functions: scoring_functions.ScoringFunctionsResource
     benchmarks: benchmarks.BenchmarksResource
@@ -172,7 +170,6 @@ class LlamaStackClient(SyncAPIClient):
         self.shields = shields.ShieldsResource(self)
         self.synthetic_data_generation = synthetic_data_generation.SyntheticDataGenerationResource(self)
         self.telemetry = telemetry.TelemetryResource(self)
-        self.datasetio = datasetio.DatasetioResource(self)
         self.scoring = scoring.ScoringResource(self)
         self.scoring_functions = scoring_functions.ScoringFunctionsResource(self)
         self.benchmarks = benchmarks.BenchmarksResource(self)
@@ -306,7 +303,6 @@ class AsyncLlamaStackClient(AsyncAPIClient):
     shields: shields.AsyncShieldsResource
     synthetic_data_generation: synthetic_data_generation.AsyncSyntheticDataGenerationResource
     telemetry: telemetry.AsyncTelemetryResource
-    datasetio: datasetio.AsyncDatasetioResource
     scoring: scoring.AsyncScoringResource
     scoring_functions: scoring_functions.AsyncScoringFunctionsResource
     benchmarks: benchmarks.AsyncBenchmarksResource
@@ -388,7 +384,6 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         self.shields = shields.AsyncShieldsResource(self)
         self.synthetic_data_generation = synthetic_data_generation.AsyncSyntheticDataGenerationResource(self)
         self.telemetry = telemetry.AsyncTelemetryResource(self)
-        self.datasetio = datasetio.AsyncDatasetioResource(self)
         self.scoring = scoring.AsyncScoringResource(self)
         self.scoring_functions = scoring_functions.AsyncScoringFunctionsResource(self)
         self.benchmarks = benchmarks.AsyncBenchmarksResource(self)
@@ -525,7 +520,6 @@ class LlamaStackClientWithRawResponse:
             client.synthetic_data_generation
         )
         self.telemetry = telemetry.TelemetryResourceWithRawResponse(client.telemetry)
-        self.datasetio = datasetio.DatasetioResourceWithRawResponse(client.datasetio)
         self.scoring = scoring.ScoringResourceWithRawResponse(client.scoring)
         self.scoring_functions = scoring_functions.ScoringFunctionsResourceWithRawResponse(client.scoring_functions)
         self.benchmarks = benchmarks.BenchmarksResourceWithRawResponse(client.benchmarks)
@@ -554,7 +548,6 @@ class AsyncLlamaStackClientWithRawResponse:
             client.synthetic_data_generation
         )
         self.telemetry = telemetry.AsyncTelemetryResourceWithRawResponse(client.telemetry)
-        self.datasetio = datasetio.AsyncDatasetioResourceWithRawResponse(client.datasetio)
         self.scoring = scoring.AsyncScoringResourceWithRawResponse(client.scoring)
         self.scoring_functions = scoring_functions.AsyncScoringFunctionsResourceWithRawResponse(
             client.scoring_functions
@@ -585,7 +578,6 @@ class LlamaStackClientWithStreamedResponse:
             client.synthetic_data_generation
         )
         self.telemetry = telemetry.TelemetryResourceWithStreamingResponse(client.telemetry)
-        self.datasetio = datasetio.DatasetioResourceWithStreamingResponse(client.datasetio)
         self.scoring = scoring.ScoringResourceWithStreamingResponse(client.scoring)
         self.scoring_functions = scoring_functions.ScoringFunctionsResourceWithStreamingResponse(
             client.scoring_functions
@@ -618,7 +610,6 @@ class AsyncLlamaStackClientWithStreamedResponse:
             )
         )
         self.telemetry = telemetry.AsyncTelemetryResourceWithStreamingResponse(client.telemetry)
-        self.datasetio = datasetio.AsyncDatasetioResourceWithStreamingResponse(client.datasetio)
         self.scoring = scoring.AsyncScoringResourceWithStreamingResponse(client.scoring)
         self.scoring_functions = scoring_functions.AsyncScoringFunctionsResourceWithStreamingResponse(
             client.scoring_functions
