@@ -15,11 +15,13 @@ from ..common.utils import handle_client_errors
 
 
 @click.group()
+@click.help_option("-h", "--help")
 def shields():
     """Manage safety shield services."""
 
 
 @click.command("list")
+@click.help_option("-h", "--help")
 @click.pass_context
 @handle_client_errors("list shields")
 def list(ctx):
@@ -59,6 +61,7 @@ def list(ctx):
 
 
 @shields.command()
+@click.help_option("-h", "--help")
 @click.option("--shield-id", required=True, help="Id of the shield")
 @click.option("--provider-id", help="Provider ID for the shield", default=None)
 @click.option("--provider-shield-id", help="Provider's shield ID", default=None)

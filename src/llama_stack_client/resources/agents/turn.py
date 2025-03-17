@@ -25,7 +25,7 @@ from ..._streaming import Stream, AsyncStream
 from ..._base_client import make_request_options
 from ...types.agents import turn_create_params, turn_resume_params
 from ...types.agents.turn import Turn
-from ...types.shared_params.tool_response_message import ToolResponseMessage
+from ...types.tool_response_param import ToolResponseParam
 from ...types.agents.agent_turn_response_stream_chunk import AgentTurnResponseStreamChunk
 
 __all__ = ["TurnResource", "AsyncTurnResource"]
@@ -58,7 +58,6 @@ class TurnResource(SyncAPIResource):
         *,
         agent_id: str,
         messages: Iterable[turn_create_params.Message],
-        allow_turn_resume: bool | NotGiven = NOT_GIVEN,
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
@@ -71,8 +70,21 @@ class TurnResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Turn:
         """
+        Create a new turn for an agent.
+
         Args:
-          tool_config: Configuration for tool use.
+          messages: List of messages to start the turn with.
+
+          documents: (Optional) List of documents to create the turn with.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          tool_config: (Optional) The tool configuration to create the turn with, will be used to
+              override the agent's tool_config.
+
+          toolgroups: (Optional) List of toolgroups to create the turn with, will be used in addition
+              to the agent's config toolgroups for the request.
 
           extra_headers: Send extra headers
 
@@ -92,7 +104,6 @@ class TurnResource(SyncAPIResource):
         agent_id: str,
         messages: Iterable[turn_create_params.Message],
         stream: Literal[True],
-        allow_turn_resume: bool | NotGiven = NOT_GIVEN,
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
@@ -104,8 +115,21 @@ class TurnResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Stream[AgentTurnResponseStreamChunk]:
         """
+        Create a new turn for an agent.
+
         Args:
-          tool_config: Configuration for tool use.
+          messages: List of messages to start the turn with.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          documents: (Optional) List of documents to create the turn with.
+
+          tool_config: (Optional) The tool configuration to create the turn with, will be used to
+              override the agent's tool_config.
+
+          toolgroups: (Optional) List of toolgroups to create the turn with, will be used in addition
+              to the agent's config toolgroups for the request.
 
           extra_headers: Send extra headers
 
@@ -125,7 +149,6 @@ class TurnResource(SyncAPIResource):
         agent_id: str,
         messages: Iterable[turn_create_params.Message],
         stream: bool,
-        allow_turn_resume: bool | NotGiven = NOT_GIVEN,
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
@@ -137,8 +160,21 @@ class TurnResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Turn | Stream[AgentTurnResponseStreamChunk]:
         """
+        Create a new turn for an agent.
+
         Args:
-          tool_config: Configuration for tool use.
+          messages: List of messages to start the turn with.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          documents: (Optional) List of documents to create the turn with.
+
+          tool_config: (Optional) The tool configuration to create the turn with, will be used to
+              override the agent's tool_config.
+
+          toolgroups: (Optional) List of toolgroups to create the turn with, will be used in addition
+              to the agent's config toolgroups for the request.
 
           extra_headers: Send extra headers
 
@@ -157,7 +193,6 @@ class TurnResource(SyncAPIResource):
         *,
         agent_id: str,
         messages: Iterable[turn_create_params.Message],
-        allow_turn_resume: bool | NotGiven = NOT_GIVEN,
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
@@ -178,7 +213,6 @@ class TurnResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "messages": messages,
-                    "allow_turn_resume": allow_turn_resume,
                     "documents": documents,
                     "stream": stream,
                     "tool_config": tool_config,
@@ -208,6 +242,8 @@ class TurnResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Turn:
         """
+        Retrieve an agent turn by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -238,7 +274,7 @@ class TurnResource(SyncAPIResource):
         *,
         agent_id: str,
         session_id: str,
-        tool_responses: Iterable[ToolResponseMessage],
+        tool_responses: Iterable[ToolResponseParam],
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -277,7 +313,7 @@ class TurnResource(SyncAPIResource):
         agent_id: str,
         session_id: str,
         stream: Literal[True],
-        tool_responses: Iterable[ToolResponseMessage],
+        tool_responses: Iterable[ToolResponseParam],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -315,7 +351,7 @@ class TurnResource(SyncAPIResource):
         agent_id: str,
         session_id: str,
         stream: bool,
-        tool_responses: Iterable[ToolResponseMessage],
+        tool_responses: Iterable[ToolResponseParam],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -352,7 +388,7 @@ class TurnResource(SyncAPIResource):
         *,
         agent_id: str,
         session_id: str,
-        tool_responses: Iterable[ToolResponseMessage],
+        tool_responses: Iterable[ToolResponseParam],
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -412,7 +448,6 @@ class AsyncTurnResource(AsyncAPIResource):
         *,
         agent_id: str,
         messages: Iterable[turn_create_params.Message],
-        allow_turn_resume: bool | NotGiven = NOT_GIVEN,
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
@@ -425,8 +460,21 @@ class AsyncTurnResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Turn:
         """
+        Create a new turn for an agent.
+
         Args:
-          tool_config: Configuration for tool use.
+          messages: List of messages to start the turn with.
+
+          documents: (Optional) List of documents to create the turn with.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          tool_config: (Optional) The tool configuration to create the turn with, will be used to
+              override the agent's tool_config.
+
+          toolgroups: (Optional) List of toolgroups to create the turn with, will be used in addition
+              to the agent's config toolgroups for the request.
 
           extra_headers: Send extra headers
 
@@ -446,7 +494,6 @@ class AsyncTurnResource(AsyncAPIResource):
         agent_id: str,
         messages: Iterable[turn_create_params.Message],
         stream: Literal[True],
-        allow_turn_resume: bool | NotGiven = NOT_GIVEN,
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
@@ -458,8 +505,21 @@ class AsyncTurnResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AsyncStream[AgentTurnResponseStreamChunk]:
         """
+        Create a new turn for an agent.
+
         Args:
-          tool_config: Configuration for tool use.
+          messages: List of messages to start the turn with.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          documents: (Optional) List of documents to create the turn with.
+
+          tool_config: (Optional) The tool configuration to create the turn with, will be used to
+              override the agent's tool_config.
+
+          toolgroups: (Optional) List of toolgroups to create the turn with, will be used in addition
+              to the agent's config toolgroups for the request.
 
           extra_headers: Send extra headers
 
@@ -479,7 +539,6 @@ class AsyncTurnResource(AsyncAPIResource):
         agent_id: str,
         messages: Iterable[turn_create_params.Message],
         stream: bool,
-        allow_turn_resume: bool | NotGiven = NOT_GIVEN,
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
         toolgroups: List[turn_create_params.Toolgroup] | NotGiven = NOT_GIVEN,
@@ -491,8 +550,21 @@ class AsyncTurnResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Turn | AsyncStream[AgentTurnResponseStreamChunk]:
         """
+        Create a new turn for an agent.
+
         Args:
-          tool_config: Configuration for tool use.
+          messages: List of messages to start the turn with.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          documents: (Optional) List of documents to create the turn with.
+
+          tool_config: (Optional) The tool configuration to create the turn with, will be used to
+              override the agent's tool_config.
+
+          toolgroups: (Optional) List of toolgroups to create the turn with, will be used in addition
+              to the agent's config toolgroups for the request.
 
           extra_headers: Send extra headers
 
@@ -511,7 +583,6 @@ class AsyncTurnResource(AsyncAPIResource):
         *,
         agent_id: str,
         messages: Iterable[turn_create_params.Message],
-        allow_turn_resume: bool | NotGiven = NOT_GIVEN,
         documents: Iterable[turn_create_params.Document] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         tool_config: turn_create_params.ToolConfig | NotGiven = NOT_GIVEN,
@@ -532,7 +603,6 @@ class AsyncTurnResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "messages": messages,
-                    "allow_turn_resume": allow_turn_resume,
                     "documents": documents,
                     "stream": stream,
                     "tool_config": tool_config,
@@ -562,6 +632,8 @@ class AsyncTurnResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Turn:
         """
+        Retrieve an agent turn by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -592,7 +664,7 @@ class AsyncTurnResource(AsyncAPIResource):
         *,
         agent_id: str,
         session_id: str,
-        tool_responses: Iterable[ToolResponseMessage],
+        tool_responses: Iterable[ToolResponseParam],
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -631,7 +703,7 @@ class AsyncTurnResource(AsyncAPIResource):
         agent_id: str,
         session_id: str,
         stream: Literal[True],
-        tool_responses: Iterable[ToolResponseMessage],
+        tool_responses: Iterable[ToolResponseParam],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -669,7 +741,7 @@ class AsyncTurnResource(AsyncAPIResource):
         agent_id: str,
         session_id: str,
         stream: bool,
-        tool_responses: Iterable[ToolResponseMessage],
+        tool_responses: Iterable[ToolResponseParam],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -706,7 +778,7 @@ class AsyncTurnResource(AsyncAPIResource):
         *,
         agent_id: str,
         session_id: str,
-        tool_responses: Iterable[ToolResponseMessage],
+        tool_responses: Iterable[ToolResponseParam],
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.

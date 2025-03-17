@@ -13,15 +13,11 @@ from rich import print as rprint
 from tqdm.rich import tqdm
 
 from ..common.utils import create_bar_chart
-from .utils import (
-    aggregate_accuracy,
-    aggregate_average,
-    aggregate_categorical_count,
-    aggregate_median,
-)
+from .utils import aggregate_accuracy, aggregate_average, aggregate_categorical_count, aggregate_median
 
 
 @click.command("run-benchmark")
+@click.help_option("-h", "--help")
 @click.argument("benchmark-ids", nargs=-1, required=True)
 @click.option(
     "--model-id",
@@ -106,11 +102,11 @@ def run_benchmark(
         output_res = {}
 
         for i, r in enumerate(tqdm(rows.rows)):
-            eval_res = client.eval.evaluate_rows_alpha(
+            eval_res = client.eval.evaluate_rows(
                 benchmark_id=benchmark_id,
                 input_rows=[r],
                 scoring_functions=scoring_functions,
-                task_config={
+                benchmark_config={
                     "type": "benchmark",
                     "eval_candidate": {
                         "type": "model",
