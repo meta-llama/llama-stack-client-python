@@ -4,13 +4,15 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
+import json
 import uuid
 from typing import List, Optional, Union
 
-from pydantic import BaseModel, ValidationError
-
 from llama_stack_client.types.shared.completion_message import CompletionMessage
 from llama_stack_client.types.shared.tool_call import ToolCall
+
+from pydantic import BaseModel, ValidationError
+
 from ..tool_parser import ToolParser
 
 
@@ -31,6 +33,7 @@ class ReActOutput(BaseModel):
 
 
 class ReActToolParser(ToolParser):
+    @override
     def get_tool_calls(self, output_message: CompletionMessage) -> List[ToolCall]:
         tool_calls = []
         response_text = str(output_message.content)
@@ -49,6 +52,13 @@ class ReActToolParser(ToolParser):
             params = {param.name: param.value for param in tool_params}
             if tool_name and tool_params:
                 call_id = str(uuid.uuid4())
-                tool_calls = [ToolCall(call_id=call_id, tool_name=tool_name, arguments=params)]
+                tool_calls = [
+                    ToolCall(
+                        call_id=call_id,
+                        tool_name=tool_name,
+                        arguments=params,
+                        arguments_json=json.dumps(params),
+                    )
+                ]
 
         return tool_calls

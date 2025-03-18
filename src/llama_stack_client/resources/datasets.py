@@ -122,7 +122,7 @@ class DatasetsResource(SyncAPIResource):
         Uses cursor-based pagination.
 
         Args:
-          limit: The number of rows to get per page.
+          limit: The number of rows to get.
 
           start_index: Index into dataset for the first row to get. Get all rows if None.
 
@@ -185,8 +185,8 @@ class DatasetsResource(SyncAPIResource):
               "Hello, John Doe. How can I help you today?"}, {"role": "user", "content":
               "What's my name?"}, ], "answer": "John Doe" }
 
-          source:
-              The data source of the dataset. Examples: - { "type": "uri", "uri":
+          source: The data source of the dataset. Ensure that the data source schema is compatible
+              with the purpose of the dataset. Examples: - { "type": "uri", "uri":
               "https://mywebsite.com/mydata.jsonl" } - { "type": "uri", "uri":
               "lsfs://mydata.jsonl" } - { "type": "uri", "uri":
               "data:csv;base64,{base64_content}" } - { "type": "uri", "uri":
@@ -347,7 +347,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
         Uses cursor-based pagination.
 
         Args:
-          limit: The number of rows to get per page.
+          limit: The number of rows to get.
 
           start_index: Index into dataset for the first row to get. Get all rows if None.
 
@@ -410,8 +410,8 @@ class AsyncDatasetsResource(AsyncAPIResource):
               "Hello, John Doe. How can I help you today?"}, {"role": "user", "content":
               "What's my name?"}, ], "answer": "John Doe" }
 
-          source:
-              The data source of the dataset. Examples: - { "type": "uri", "uri":
+          source: The data source of the dataset. Ensure that the data source schema is compatible
+              with the purpose of the dataset. Examples: - { "type": "uri", "uri":
               "https://mywebsite.com/mydata.jsonl" } - { "type": "uri", "uri":
               "lsfs://mydata.jsonl" } - { "type": "uri", "uri":
               "data:csv;base64,{base64_content}" } - { "type": "uri", "uri":

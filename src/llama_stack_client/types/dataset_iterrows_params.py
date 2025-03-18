@@ -9,7 +9,7 @@ __all__ = ["DatasetIterrowsParams"]
 
 class DatasetIterrowsParams(TypedDict, total=False):
     limit: int
-    """The number of rows to get per page."""
+    """The number of rows to get."""
 
     start_index: int
     """Index into dataset for the first row to get. Get all rows if None."""
