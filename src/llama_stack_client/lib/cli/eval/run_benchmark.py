@@ -13,7 +13,13 @@ from rich import print as rprint
 from tqdm.rich import tqdm
 
 from ..common.utils import create_bar_chart
-from .utils import aggregate_accuracy, aggregate_average, aggregate_categorical_count, aggregate_median
+from .utils import (
+    aggregate_accuracy,
+    aggregate_average,
+    aggregate_weighted_average,
+    aggregate_categorical_count,
+    aggregate_median,
+)
 
 
 @click.command("run-benchmark")
@@ -94,9 +100,7 @@ def run_benchmark(
         scoring_functions = benchmark.scoring_functions
         dataset_id = benchmark.dataset_id
 
-        results = client.datasets.iterrows(
-            dataset_id=dataset_id, limit=-1 if num_examples is None else num_examples
-        )
+        results = client.datasets.iterrows(dataset_id=dataset_id, limit=-1 if num_examples is None else num_examples)
 
         output_res = {}
 
@@ -146,6 +150,8 @@ def run_benchmark(
                             output_res[scoring_fn].append(aggregate_categorical_count(scoring_results))
                         elif aggregation_function == "average":
                             output_res[scoring_fn].append(aggregate_average(scoring_results))
+                        elif aggregation_function == "weighted_average":
+                            output_res[scoring_fn].append(aggregate_weighted_average(scoring_results))
                         elif aggregation_function == "median":
                             output_res[scoring_fn].append(aggregate_median(scoring_results))
                         elif aggregation_function == "accuracy":

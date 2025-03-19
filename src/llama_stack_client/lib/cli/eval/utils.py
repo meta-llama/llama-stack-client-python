@@ -24,6 +24,19 @@ def aggregate_average(
     }
 
 
+def aggregate_weighted_average(
+    scoring_results: List[Dict[str, Union[bool, float, str, List[object], object, None]]],
+) -> Dict[str, Any]:
+    return {
+        "weighted_average": sum(
+            result["score"] * result["weight"]
+            for result in scoring_results
+            if result["score"] is not None and result["weight"] is not None
+        )
+        / sum(result["weight"] for result in scoring_results if result["weight"] is not None),
+    }
+
+
 def aggregate_median(
     scoring_results: List[Dict[str, Union[bool, float, str, List[object], object, None]]],
 ) -> Dict[str, Any]:
