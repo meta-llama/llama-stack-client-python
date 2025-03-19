@@ -86,9 +86,7 @@ def run_scoring(
 
         # TODO: this will eventually be replaced with jobs polling from server vis score_bath
         # For now, get all datasets rows via datasets API
-        results = client.datasets.iterrows(
-            dataset_id=dataset_id, limit=-1 if num_examples is None else num_examples
-        )
+        results = client.datasets.iterrows(dataset_id=dataset_id, limit=-1 if num_examples is None else num_examples)
         rows = results.rows
 
     if dataset_path is not None:
