@@ -257,7 +257,18 @@ class Agent:
             chunks = [x for x in self._create_turn_streaming(messages, session_id, toolgroups, documents)]
             if not chunks:
                 raise Exception("Turn did not complete")
-            return chunks[-1].event.payload.turn
+
+            last_chunk = chunks[-1]
+            if hasattr(last_chunk, "error"):
+                if "message" in last_chunk.error:
+                    error_msg = last_chunk.error["message"]
+                else:
+                    error_msg = str(last_chunk.error)
+                raise RuntimeError(f"Turn did not complete. Error: {error_msg}")
+            try:
+                return last_chunk.event.payload.turn
+            except AttributeError:
+                raise RuntimeError(f"Turn did not complete. Output: {last_chunk}") from None
 
     def _create_turn_streaming(
         self,
