@@ -27,8 +27,10 @@ class DatasetRegisterParams(TypedDict, total=False):
     source: Required[Source]
     """The data source of the dataset.
 
-    Examples: - { "type": "uri", "uri": "https://mywebsite.com/mydata.jsonl" } - {
-    "type": "uri", "uri": "lsfs://mydata.jsonl" } - { "type": "uri", "uri":
+    Ensure that the data source schema is compatible with the purpose of the
+    dataset. Examples: - { "type": "uri", "uri":
+    "https://mywebsite.com/mydata.jsonl" } - { "type": "uri", "uri":
+    "lsfs://mydata.jsonl" } - { "type": "uri", "uri":
     "data:csv;base64,{base64_content}" } - { "type": "uri", "uri":
     "huggingface://llamastack/simpleqa?split=train" } - { "type": "rows", "rows": [
     { "messages": [ {"role": "user", "content": "Hello, world!"}, {"role":

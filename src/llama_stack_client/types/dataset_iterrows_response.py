@@ -11,7 +11,7 @@ class DatasetIterrowsResponse(BaseModel):
     data: List[Dict[str, Union[bool, float, str, List[object], object, None]]]
     """The rows in the current page."""
 
-    next_index: Optional[int] = None
+    next_start_index: Optional[int] = None
     """Index into dataset for the first row in the next page.
 
     None if there are no more rows.

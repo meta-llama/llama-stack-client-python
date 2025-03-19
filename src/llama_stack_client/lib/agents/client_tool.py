@@ -7,7 +7,17 @@
 import inspect
 import json
 from abc import abstractmethod
-from typing import Any, Callable, Dict, get_args, get_origin, get_type_hints, List, TypeVar, Union
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    get_args,
+    get_origin,
+    get_type_hints,
+    List,
+    TypeVar,
+    Union,
+)
 
 from llama_stack_client.types import CompletionMessage, Message, ToolResponse
 from llama_stack_client.types.tool_def_param import Parameter, ToolDefParam
@@ -72,7 +82,14 @@ class ClientTool:
 
         metadata = {}
         try:
-            response = self.run_impl(**tool_call.arguments)
+            if tool_call.arguments_json is not None:
+                params = json.loads(tool_call.arguments_json)
+            elif isinstance(tool_call.arguments, str):
+                params = json.loads(tool_call.arguments)
+            else:
+                params = tool_call.arguments
+
+            response = self.run_impl(**params)
             if isinstance(response, dict) and "content" in response:
                 content = json.dumps(response["content"], ensure_ascii=False)
                 metadata = response.get("metadata", {})

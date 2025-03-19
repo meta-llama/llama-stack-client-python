@@ -10,10 +10,18 @@ __all__ = ["ToolCall"]
 
 class ToolCall(TypedDict, total=False):
     arguments: Required[
-        Dict[
+        Union[
             str,
-            Union[
-                str, float, bool, List[Union[str, float, bool, None]], Dict[str, Union[str, float, bool, None]], None
+            Dict[
+                str,
+                Union[
+                    str,
+                    float,
+                    bool,
+                    List[Union[str, float, bool, None]],
+                    Dict[str, Union[str, float, bool, None]],
+                    None,
+                ],
             ],
         ]
     ]
@@ -21,3 +29,5 @@ class ToolCall(TypedDict, total=False):
     call_id: Required[str]
 
     tool_name: Required[Union[Literal["brave_search", "wolfram_alpha", "photogen", "code_interpreter"], str]]
+
+    arguments_json: str
