@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 from typing import Dict, Type, Union, Iterable, Optional, cast
+from typing_extensions import Literal
 
 import httpx
 
-from ..types import dataset_register_params
+from ..types import dataset_iterrows_params, dataset_register_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from .._utils import (
     maybe_transform,
@@ -23,7 +24,8 @@ from .._response import (
 from .._wrappers import DataWrapper
 from .._base_client import make_request_options
 from ..types.dataset_list_response import DatasetListResponse
-from ..types.shared_params.param_type import ParamType
+from ..types.dataset_iterrows_response import DatasetIterrowsResponse
+from ..types.dataset_register_response import DatasetRegisterResponse
 from ..types.dataset_retrieve_response import DatasetRetrieveResponse
 
 __all__ = ["DatasetsResource", "AsyncDatasetsResource"]
@@ -102,24 +104,28 @@ class DatasetsResource(SyncAPIResource):
             cast_to=cast(Type[DatasetListResponse], DataWrapper[DatasetListResponse]),
         )
 
-    def register(
+    def iterrows(
         self,
-        *,
         dataset_id: str,
-        dataset_schema: Dict[str, ParamType],
-        url: dataset_register_params.URL,
-        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        provider_dataset_id: str | NotGiven = NOT_GIVEN,
-        provider_id: str | NotGiven = NOT_GIVEN,
+        *,
+        limit: int | NotGiven = NOT_GIVEN,
+        start_index: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> None:
-        """
+    ) -> DatasetIterrowsResponse:
+        """Get a paginated list of rows from a dataset.
+
+        Uses cursor-based pagination.
+
         Args:
+          limit: The number of rows to get per page.
+
+          start_index: Index into dataset for the first row to get. Get all rows if None.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -128,24 +134,93 @@ class DatasetsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        if not dataset_id:
+            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
+        return self._get(
+            f"/v1/datasetio/iterrows/{dataset_id}",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "start_index": start_index,
+                    },
+                    dataset_iterrows_params.DatasetIterrowsParams,
+                ),
+            ),
+            cast_to=DatasetIterrowsResponse,
+        )
+
+    def register(
+        self,
+        *,
+        purpose: Literal["post-training/messages", "eval/question-answer", "eval/messages-answer"],
+        source: dataset_register_params.Source,
+        dataset_id: str | NotGiven = NOT_GIVEN,
+        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DatasetRegisterResponse:
+        """Register a new dataset.
+
+        Args:
+          purpose: The purpose of the dataset.
+
+        One of - "post-training/messages": The dataset
+              contains a messages column with list of messages for post-training. {
+              "messages": [ {"role": "user", "content": "Hello, world!"}, {"role":
+              "assistant", "content": "Hello, world!"}, ] } - "eval/question-answer": The
+              dataset contains a question column and an answer column for evaluation. {
+              "question": "What is the capital of France?", "answer": "Paris" } -
+              "eval/messages-answer": The dataset contains a messages column with list of
+              messages and an answer column for evaluation. { "messages": [ {"role": "user",
+              "content": "Hello, my name is John Doe."}, {"role": "assistant", "content":
+              "Hello, John Doe. How can I help you today?"}, {"role": "user", "content":
+              "What's my name?"}, ], "answer": "John Doe" }
+
+          source:
+              The data source of the dataset. Examples: - { "type": "uri", "uri":
+              "https://mywebsite.com/mydata.jsonl" } - { "type": "uri", "uri":
+              "lsfs://mydata.jsonl" } - { "type": "uri", "uri":
+              "data:csv;base64,{base64_content}" } - { "type": "uri", "uri":
+              "huggingface://llamastack/simpleqa?split=train" } - { "type": "rows", "rows": [
+              { "messages": [ {"role": "user", "content": "Hello, world!"}, {"role":
+              "assistant", "content": "Hello, world!"}, ] } ] }
+
+          dataset_id: The ID of the dataset. If not provided, an ID will be generated.
+
+          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return self._post(
             "/v1/datasets",
             body=maybe_transform(
                 {
+                    "purpose": purpose,
+                    "source": source,
                     "dataset_id": dataset_id,
-                    "dataset_schema": dataset_schema,
-                    "url": url,
                     "metadata": metadata,
-                    "provider_dataset_id": provider_dataset_id,
-                    "provider_id": provider_id,
                 },
                 dataset_register_params.DatasetRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=DatasetRegisterResponse,
         )
 
     def unregister(
@@ -254,24 +329,28 @@ class AsyncDatasetsResource(AsyncAPIResource):
             cast_to=cast(Type[DatasetListResponse], DataWrapper[DatasetListResponse]),
         )
 
-    async def register(
+    async def iterrows(
         self,
-        *,
         dataset_id: str,
-        dataset_schema: Dict[str, ParamType],
-        url: dataset_register_params.URL,
-        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        provider_dataset_id: str | NotGiven = NOT_GIVEN,
-        provider_id: str | NotGiven = NOT_GIVEN,
+        *,
+        limit: int | NotGiven = NOT_GIVEN,
+        start_index: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> None:
-        """
+    ) -> DatasetIterrowsResponse:
+        """Get a paginated list of rows from a dataset.
+
+        Uses cursor-based pagination.
+
         Args:
+          limit: The number of rows to get per page.
+
+          start_index: Index into dataset for the first row to get. Get all rows if None.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -280,24 +359,93 @@ class AsyncDatasetsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        if not dataset_id:
+            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
+        return await self._get(
+            f"/v1/datasetio/iterrows/{dataset_id}",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "limit": limit,
+                        "start_index": start_index,
+                    },
+                    dataset_iterrows_params.DatasetIterrowsParams,
+                ),
+            ),
+            cast_to=DatasetIterrowsResponse,
+        )
+
+    async def register(
+        self,
+        *,
+        purpose: Literal["post-training/messages", "eval/question-answer", "eval/messages-answer"],
+        source: dataset_register_params.Source,
+        dataset_id: str | NotGiven = NOT_GIVEN,
+        metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DatasetRegisterResponse:
+        """Register a new dataset.
+
+        Args:
+          purpose: The purpose of the dataset.
+
+        One of - "post-training/messages": The dataset
+              contains a messages column with list of messages for post-training. {
+              "messages": [ {"role": "user", "content": "Hello, world!"}, {"role":
+              "assistant", "content": "Hello, world!"}, ] } - "eval/question-answer": The
+              dataset contains a question column and an answer column for evaluation. {
+              "question": "What is the capital of France?", "answer": "Paris" } -
+              "eval/messages-answer": The dataset contains a messages column with list of
+              messages and an answer column for evaluation. { "messages": [ {"role": "user",
+              "content": "Hello, my name is John Doe."}, {"role": "assistant", "content":
+              "Hello, John Doe. How can I help you today?"}, {"role": "user", "content":
+              "What's my name?"}, ], "answer": "John Doe" }
+
+          source:
+              The data source of the dataset. Examples: - { "type": "uri", "uri":
+              "https://mywebsite.com/mydata.jsonl" } - { "type": "uri", "uri":
+              "lsfs://mydata.jsonl" } - { "type": "uri", "uri":
+              "data:csv;base64,{base64_content}" } - { "type": "uri", "uri":
+              "huggingface://llamastack/simpleqa?split=train" } - { "type": "rows", "rows": [
+              { "messages": [ {"role": "user", "content": "Hello, world!"}, {"role":
+              "assistant", "content": "Hello, world!"}, ] } ] }
+
+          dataset_id: The ID of the dataset. If not provided, an ID will be generated.
+
+          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return await self._post(
             "/v1/datasets",
             body=await async_maybe_transform(
                 {
+                    "purpose": purpose,
+                    "source": source,
                     "dataset_id": dataset_id,
-                    "dataset_schema": dataset_schema,
-                    "url": url,
                     "metadata": metadata,
-                    "provider_dataset_id": provider_dataset_id,
-                    "provider_id": provider_id,
                 },
                 dataset_register_params.DatasetRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=DatasetRegisterResponse,
         )
 
     async def unregister(
@@ -343,6 +491,9 @@ class DatasetsResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             datasets.list,
         )
+        self.iterrows = to_raw_response_wrapper(
+            datasets.iterrows,
+        )
         self.register = to_raw_response_wrapper(
             datasets.register,
         )
@@ -360,6 +511,9 @@ class AsyncDatasetsResourceWithRawResponse:
         )
         self.list = async_to_raw_response_wrapper(
             datasets.list,
+        )
+        self.iterrows = async_to_raw_response_wrapper(
+            datasets.iterrows,
         )
         self.register = async_to_raw_response_wrapper(
             datasets.register,
@@ -379,6 +533,9 @@ class DatasetsResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             datasets.list,
         )
+        self.iterrows = to_streamed_response_wrapper(
+            datasets.iterrows,
+        )
         self.register = to_streamed_response_wrapper(
             datasets.register,
         )
@@ -396,6 +553,9 @@ class AsyncDatasetsResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             datasets.list,
+        )
+        self.iterrows = async_to_streamed_response_wrapper(
+            datasets.iterrows,
         )
         self.register = async_to_streamed_response_wrapper(
             datasets.register,

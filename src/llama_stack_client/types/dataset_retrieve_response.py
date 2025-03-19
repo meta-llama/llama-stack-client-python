@@ -1,21 +1,40 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Union
-from typing_extensions import Literal
+from typing_extensions import Literal, Annotated, TypeAlias
 
+from .._utils import PropertyInfo
 from .._models import BaseModel
-from .shared.param_type import ParamType
 
-__all__ = ["DatasetRetrieveResponse", "URL"]
+__all__ = ["DatasetRetrieveResponse", "Source", "SourceUriDataSource", "SourceRowsDataSource"]
 
 
-class URL(BaseModel):
+class SourceUriDataSource(BaseModel):
+    type: Literal["uri"]
+
     uri: str
+    """The dataset can be obtained from a URI.
+
+    E.g. - "https://mywebsite.com/mydata.jsonl" - "lsfs://mydata.jsonl" -
+    "data:csv;base64,{base64_content}"
+    """
+
+
+class SourceRowsDataSource(BaseModel):
+    rows: List[Dict[str, Union[bool, float, str, List[object], object, None]]]
+    """The dataset is stored in rows.
+
+    E.g. - [ {"messages": [{"role": "user", "content": "Hello, world!"}, {"role":
+    "assistant", "content": "Hello, world!"}]} ]
+    """
+
+    type: Literal["rows"]
+
+
+Source: TypeAlias = Annotated[Union[SourceUriDataSource, SourceRowsDataSource], PropertyInfo(discriminator="type")]
 
 
 class DatasetRetrieveResponse(BaseModel):
-    dataset_schema: Dict[str, ParamType]
-
     identifier: str
 
     metadata: Dict[str, Union[bool, float, str, List[object], object, None]]
@@ -24,6 +43,10 @@ class DatasetRetrieveResponse(BaseModel):
 
     provider_resource_id: str
 
-    type: Literal["dataset"]
+    purpose: Literal["post-training/messages", "eval/question-answer", "eval/messages-answer"]
+    """Purpose of the dataset. Each purpose has a required input data schema."""
 
-    url: URL
+    source: Source
+    """A dataset that can be obtained from a URI."""
+
+    type: Literal["dataset"]
