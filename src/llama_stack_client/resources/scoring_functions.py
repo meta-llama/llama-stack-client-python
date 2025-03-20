@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Type, Optional, cast
+from typing import Type, cast
 
 import httpx
 
@@ -60,7 +60,7 @@ class ScoringFunctionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[ScoringFn]:
+    ) -> ScoringFn:
         """
         Args:
           extra_headers: Send extra headers
@@ -180,7 +180,7 @@ class AsyncScoringFunctionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[ScoringFn]:
+    ) -> ScoringFn:
         """
         Args:
           extra_headers: Send extra headers

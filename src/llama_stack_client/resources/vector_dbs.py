@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Type, Optional, cast
+from typing import Type, cast
 
 import httpx
 
@@ -59,7 +59,7 @@ class VectorDBsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[VectorDBRetrieveResponse]:
+    ) -> VectorDBRetrieveResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -208,7 +208,7 @@ class AsyncVectorDBsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[VectorDBRetrieveResponse]:
+    ) -> VectorDBRetrieveResponse:
         """
         Args:
           extra_headers: Send extra headers

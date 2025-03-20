@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Type, Optional, cast
+from typing import List, Type, cast
 
 import httpx
 
@@ -81,7 +81,7 @@ class JobResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[JobArtifactsResponse]:
+    ) -> JobArtifactsResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -145,7 +145,7 @@ class JobResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[JobStatusResponse]:
+    ) -> JobStatusResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -221,7 +221,7 @@ class AsyncJobResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[JobArtifactsResponse]:
+    ) -> JobArtifactsResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -285,7 +285,7 @@ class AsyncJobResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[JobStatusResponse]:
+    ) -> JobStatusResponse:
         """
         Args:
           extra_headers: Send extra headers
