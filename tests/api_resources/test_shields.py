@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Optional, cast
+from typing import Any, cast
 
 import pytest
 
@@ -22,7 +22,7 @@ class TestShields:
         shield = client.shields.retrieve(
             "identifier",
         )
-        assert_matches_type(Optional[Shield], shield, path=["response"])
+        assert_matches_type(Shield, shield, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
@@ -33,7 +33,7 @@ class TestShields:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         shield = response.parse()
-        assert_matches_type(Optional[Shield], shield, path=["response"])
+        assert_matches_type(Shield, shield, path=["response"])
 
     @parametrize
     def test_streaming_response_retrieve(self, client: LlamaStackClient) -> None:
@@ -44,7 +44,7 @@ class TestShields:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             shield = response.parse()
-            assert_matches_type(Optional[Shield], shield, path=["response"])
+            assert_matches_type(Shield, shield, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -130,7 +130,7 @@ class TestAsyncShields:
         shield = await async_client.shields.retrieve(
             "identifier",
         )
-        assert_matches_type(Optional[Shield], shield, path=["response"])
+        assert_matches_type(Shield, shield, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
@@ -141,7 +141,7 @@ class TestAsyncShields:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         shield = await response.parse()
-        assert_matches_type(Optional[Shield], shield, path=["response"])
+        assert_matches_type(Shield, shield, path=["response"])
 
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
@@ -152,7 +152,7 @@ class TestAsyncShields:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             shield = await response.parse()
-            assert_matches_type(Optional[Shield], shield, path=["response"])
+            assert_matches_type(Shield, shield, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

@@ -60,10 +60,13 @@ Content: TypeAlias = Union[
 
 class Document(TypedDict, total=False):
     content: Required[Content]
-    """A image content item"""
+    """The content of the document."""
 
     document_id: Required[str]
+    """The unique identifier for the document."""
 
     metadata: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+    """Additional metadata for the document."""
 
     mime_type: str
+    """The MIME type of the document."""

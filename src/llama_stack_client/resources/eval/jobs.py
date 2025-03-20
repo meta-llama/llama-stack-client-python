@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
@@ -126,7 +124,7 @@ class JobsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[JobStatusResponse]:
+    ) -> JobStatusResponse:
         """
         Get the status of a job.
 
@@ -256,7 +254,7 @@ class AsyncJobsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[JobStatusResponse]:
+    ) -> JobStatusResponse:
         """
         Get the status of a job.
 

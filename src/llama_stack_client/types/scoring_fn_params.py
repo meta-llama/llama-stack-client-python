@@ -14,7 +14,9 @@ class LlmAsJudgeScoringFnParams(BaseModel):
 
     type: Literal["llm_as_judge"]
 
-    aggregation_functions: Optional[List[Literal["average", "median", "categorical_count", "accuracy"]]] = None
+    aggregation_functions: Optional[
+        List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
+    ] = None
 
     judge_score_regexes: Optional[List[str]] = None
 
@@ -24,7 +26,9 @@ class LlmAsJudgeScoringFnParams(BaseModel):
 class RegexParserScoringFnParams(BaseModel):
     type: Literal["regex_parser"]
 
-    aggregation_functions: Optional[List[Literal["average", "median", "categorical_count", "accuracy"]]] = None
+    aggregation_functions: Optional[
+        List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
+    ] = None
 
     parsing_regexes: Optional[List[str]] = None
 
@@ -32,7 +36,9 @@ class RegexParserScoringFnParams(BaseModel):
 class BasicScoringFnParams(BaseModel):
     type: Literal["basic"]
 
-    aggregation_functions: Optional[List[Literal["average", "median", "categorical_count", "accuracy"]]] = None
+    aggregation_functions: Optional[
+        List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
+    ] = None
 
 
 ScoringFnParams: TypeAlias = Annotated[

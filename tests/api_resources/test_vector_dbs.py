@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Optional, cast
+from typing import Any, cast
 
 import pytest
 
@@ -26,7 +26,7 @@ class TestVectorDBs:
         vector_db = client.vector_dbs.retrieve(
             "vector_db_id",
         )
-        assert_matches_type(Optional[VectorDBRetrieveResponse], vector_db, path=["response"])
+        assert_matches_type(VectorDBRetrieveResponse, vector_db, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
@@ -37,7 +37,7 @@ class TestVectorDBs:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vector_db = response.parse()
-        assert_matches_type(Optional[VectorDBRetrieveResponse], vector_db, path=["response"])
+        assert_matches_type(VectorDBRetrieveResponse, vector_db, path=["response"])
 
     @parametrize
     def test_streaming_response_retrieve(self, client: LlamaStackClient) -> None:
@@ -48,7 +48,7 @@ class TestVectorDBs:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vector_db = response.parse()
-            assert_matches_type(Optional[VectorDBRetrieveResponse], vector_db, path=["response"])
+            assert_matches_type(VectorDBRetrieveResponse, vector_db, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -176,7 +176,7 @@ class TestAsyncVectorDBs:
         vector_db = await async_client.vector_dbs.retrieve(
             "vector_db_id",
         )
-        assert_matches_type(Optional[VectorDBRetrieveResponse], vector_db, path=["response"])
+        assert_matches_type(VectorDBRetrieveResponse, vector_db, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
@@ -187,7 +187,7 @@ class TestAsyncVectorDBs:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vector_db = await response.parse()
-        assert_matches_type(Optional[VectorDBRetrieveResponse], vector_db, path=["response"])
+        assert_matches_type(VectorDBRetrieveResponse, vector_db, path=["response"])
 
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
@@ -198,7 +198,7 @@ class TestAsyncVectorDBs:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vector_db = await response.parse()
-            assert_matches_type(Optional[VectorDBRetrieveResponse], vector_db, path=["response"])
+            assert_matches_type(VectorDBRetrieveResponse, vector_db, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

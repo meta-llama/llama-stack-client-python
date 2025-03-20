@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Type, Union, Iterable, Optional, cast
+from typing import Dict, Type, Union, Iterable, cast
 from typing_extensions import Literal
 
 import httpx
@@ -59,7 +59,7 @@ class ModelsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[Model]:
+    ) -> Model:
         """
         Args:
           extra_headers: Send extra headers
@@ -208,7 +208,7 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[Model]:
+    ) -> Model:
         """
         Args:
           extra_headers: Send extra headers
