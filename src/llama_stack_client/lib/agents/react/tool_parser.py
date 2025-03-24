@@ -33,7 +33,6 @@ class ReActOutput(BaseModel):
 
 
 class ReActToolParser(ToolParser):
-    @override
     def get_tool_calls(self, output_message: CompletionMessage) -> List[ToolCall]:
         tool_calls = []
         response_text = str(output_message.content)
