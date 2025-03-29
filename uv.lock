@@ -289,7 +289,7 @@ wheels = [
 
 [[package]]
 name = "llama-stack-client"
-version = "0.1.8"
+version = "0.1.19"
 source = { editable = "." }
 dependencies = [
     { name = "anyio", version = "3.7.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.8'" },
