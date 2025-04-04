@@ -6,7 +6,7 @@
 import logging
 from typing import Any, AsyncIterator, Callable, Iterator, List, Optional, Tuple, Union
 
-from llama_stack_client import LlamaStackClient
+from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
 from llama_stack_client.types import ToolResponseMessage, ToolResponseParam, UserMessage
 from llama_stack_client.types.agent_create_params import AgentConfig
 from llama_stack_client.types.agents.turn import CompletionMessage, Turn
@@ -334,7 +334,7 @@ class Agent:
 class AsyncAgent:
     def __init__(
         self,
-        client: LlamaStackClient,
+        client: AsyncLlamaStackClient,
         # begin deprecated
         agent_config: Optional[AgentConfig] = None,
         client_tools: Tuple[ClientTool, ...] = (),
@@ -353,7 +353,7 @@ class AsyncAgent:
     ):
         """Construct an Agent with the given parameters.
 
-        :param client: The LlamaStackClient instance.
+        :param client: The AsyncLlamaStackClient instance.
         :param agent_config: The AgentConfig instance.
             ::deprecated: use other parameters instead
         :param client_tools: A tuple of ClientTool instances.
