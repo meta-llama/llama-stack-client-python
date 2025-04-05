@@ -1,5 +1,4 @@
 version = 1
-revision = 1
 requires-python = ">=3.7"
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -289,7 +288,7 @@ wheels = [
 
 [[package]]
 name = "llama-stack-client"
-version = "0.1.9"
+version = "0.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "anyio", version = "3.7.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.8'" },
