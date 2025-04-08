@@ -69,6 +69,7 @@ class AgentConfig(TypedDict, total=False):
     """Configuration for JSON schema-guided response generation."""
 
     sampling_params: SamplingParams
+    """Sampling parameters."""
 
     tool_choice: Literal["auto", "required", "none"]
     """Whether tool use is required or automatic.

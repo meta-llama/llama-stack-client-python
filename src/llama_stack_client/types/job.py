@@ -10,4 +10,4 @@ __all__ = ["Job"]
 class Job(BaseModel):
     job_id: str
 
-    status: Literal["completed", "in_progress", "failed", "scheduled"]
+    status: Literal["completed", "in_progress", "failed", "scheduled", "cancelled"]

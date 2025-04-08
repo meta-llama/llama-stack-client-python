@@ -119,7 +119,15 @@ class DatasetsResource(SyncAPIResource):
     ) -> DatasetIterrowsResponse:
         """Get a paginated list of rows from a dataset.
 
-        Uses cursor-based pagination.
+        Uses offset-based pagination where:
+
+        - start_index: The starting index (0-based). If None, starts from beginning.
+        - limit: Number of items to return. If None or -1, returns all items.
+
+        The response includes:
+
+        - data: List of items for the current page
+        - has_more: Whether there are more items available after this set
 
         Args:
           limit: The number of rows to get.
@@ -344,7 +352,15 @@ class AsyncDatasetsResource(AsyncAPIResource):
     ) -> DatasetIterrowsResponse:
         """Get a paginated list of rows from a dataset.
 
-        Uses cursor-based pagination.
+        Uses offset-based pagination where:
+
+        - start_index: The starting index (0-based). If None, starts from beginning.
+        - limit: Number of items to return. If None or -1, returns all items.
+
+        The response includes:
+
+        - data: List of items for the current page
+        - has_more: Whether there are more items available after this set
 
         Args:
           limit: The number of rows to get.

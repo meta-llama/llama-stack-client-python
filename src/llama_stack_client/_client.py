@@ -41,7 +41,6 @@ from .resources import (
     benchmarks,
     toolgroups,
     vector_dbs,
-    batch_inference,
     scoring_functions,
     synthetic_data_generation,
 )
@@ -74,7 +73,6 @@ class LlamaStackClient(SyncAPIClient):
     tools: tools.ToolsResource
     tool_runtime: tool_runtime.ToolRuntimeResource
     agents: agents.AgentsResource
-    batch_inference: batch_inference.BatchInferenceResource
     datasets: datasets.DatasetsResource
     eval: eval.EvalResource
     inspect: inspect.InspectResource
@@ -155,7 +153,6 @@ class LlamaStackClient(SyncAPIClient):
         self.tools = tools.ToolsResource(self)
         self.tool_runtime = tool_runtime.ToolRuntimeResource(self)
         self.agents = agents.AgentsResource(self)
-        self.batch_inference = batch_inference.BatchInferenceResource(self)
         self.datasets = datasets.DatasetsResource(self)
         self.eval = eval.EvalResource(self)
         self.inspect = inspect.InspectResource(self)
@@ -288,7 +285,6 @@ class AsyncLlamaStackClient(AsyncAPIClient):
     tools: tools.AsyncToolsResource
     tool_runtime: tool_runtime.AsyncToolRuntimeResource
     agents: agents.AsyncAgentsResource
-    batch_inference: batch_inference.AsyncBatchInferenceResource
     datasets: datasets.AsyncDatasetsResource
     eval: eval.AsyncEvalResource
     inspect: inspect.AsyncInspectResource
@@ -369,7 +365,6 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         self.tools = tools.AsyncToolsResource(self)
         self.tool_runtime = tool_runtime.AsyncToolRuntimeResource(self)
         self.agents = agents.AsyncAgentsResource(self)
-        self.batch_inference = batch_inference.AsyncBatchInferenceResource(self)
         self.datasets = datasets.AsyncDatasetsResource(self)
         self.eval = eval.AsyncEvalResource(self)
         self.inspect = inspect.AsyncInspectResource(self)
@@ -503,7 +498,6 @@ class LlamaStackClientWithRawResponse:
         self.tools = tools.ToolsResourceWithRawResponse(client.tools)
         self.tool_runtime = tool_runtime.ToolRuntimeResourceWithRawResponse(client.tool_runtime)
         self.agents = agents.AgentsResourceWithRawResponse(client.agents)
-        self.batch_inference = batch_inference.BatchInferenceResourceWithRawResponse(client.batch_inference)
         self.datasets = datasets.DatasetsResourceWithRawResponse(client.datasets)
         self.eval = eval.EvalResourceWithRawResponse(client.eval)
         self.inspect = inspect.InspectResourceWithRawResponse(client.inspect)
@@ -531,7 +525,6 @@ class AsyncLlamaStackClientWithRawResponse:
         self.tools = tools.AsyncToolsResourceWithRawResponse(client.tools)
         self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithRawResponse(client.tool_runtime)
         self.agents = agents.AsyncAgentsResourceWithRawResponse(client.agents)
-        self.batch_inference = batch_inference.AsyncBatchInferenceResourceWithRawResponse(client.batch_inference)
         self.datasets = datasets.AsyncDatasetsResourceWithRawResponse(client.datasets)
         self.eval = eval.AsyncEvalResourceWithRawResponse(client.eval)
         self.inspect = inspect.AsyncInspectResourceWithRawResponse(client.inspect)
@@ -561,7 +554,6 @@ class LlamaStackClientWithStreamedResponse:
         self.tools = tools.ToolsResourceWithStreamingResponse(client.tools)
         self.tool_runtime = tool_runtime.ToolRuntimeResourceWithStreamingResponse(client.tool_runtime)
         self.agents = agents.AgentsResourceWithStreamingResponse(client.agents)
-        self.batch_inference = batch_inference.BatchInferenceResourceWithStreamingResponse(client.batch_inference)
         self.datasets = datasets.DatasetsResourceWithStreamingResponse(client.datasets)
         self.eval = eval.EvalResourceWithStreamingResponse(client.eval)
         self.inspect = inspect.InspectResourceWithStreamingResponse(client.inspect)
@@ -591,7 +583,6 @@ class AsyncLlamaStackClientWithStreamedResponse:
         self.tools = tools.AsyncToolsResourceWithStreamingResponse(client.tools)
         self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithStreamingResponse(client.tool_runtime)
         self.agents = agents.AsyncAgentsResourceWithStreamingResponse(client.agents)
-        self.batch_inference = batch_inference.AsyncBatchInferenceResourceWithStreamingResponse(client.batch_inference)
         self.datasets = datasets.AsyncDatasetsResourceWithStreamingResponse(client.datasets)
         self.eval = eval.AsyncEvalResourceWithStreamingResponse(client.eval)
         self.inspect = inspect.AsyncInspectResourceWithStreamingResponse(client.inspect)

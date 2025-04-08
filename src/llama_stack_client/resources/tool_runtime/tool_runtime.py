@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable
+from typing import Dict, Type, Union, Iterable, cast
 
 import httpx
 
@@ -28,10 +28,10 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ..._wrappers import DataWrapper
 from ..._base_client import make_request_options
-from ...types.tool_def import ToolDef
-from ..._decoders.jsonl import JSONLDecoder, AsyncJSONLDecoder
 from ...types.tool_invocation_result import ToolInvocationResult
+from ...types.tool_runtime_list_tools_response import ToolRuntimeListToolsResponse
 
 __all__ = ["ToolRuntimeResource", "AsyncToolRuntimeResource"]
 
@@ -110,7 +110,7 @@ class ToolRuntimeResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JSONLDecoder[ToolDef]:
+    ) -> ToolRuntimeListToolsResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -121,7 +121,6 @@ class ToolRuntimeResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         return self._get(
             "/v1/tool-runtime/list-tools",
             options=make_request_options(
@@ -136,9 +135,9 @@ class ToolRuntimeResource(SyncAPIResource):
                     },
                     tool_runtime_list_tools_params.ToolRuntimeListToolsParams,
                 ),
+                post_parser=DataWrapper[ToolRuntimeListToolsResponse]._unwrapper,
             ),
-            cast_to=JSONLDecoder[ToolDef],
-            stream=True,
+            cast_to=cast(Type[ToolRuntimeListToolsResponse], DataWrapper[ToolRuntimeListToolsResponse]),
         )
 
 
@@ -216,7 +215,7 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncJSONLDecoder[ToolDef]:
+    ) -> ToolRuntimeListToolsResponse:
         """
         Args:
           extra_headers: Send extra headers
@@ -227,7 +226,6 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         return await self._get(
             "/v1/tool-runtime/list-tools",
             options=make_request_options(
@@ -242,9 +240,9 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
                     },
                     tool_runtime_list_tools_params.ToolRuntimeListToolsParams,
                 ),
+                post_parser=DataWrapper[ToolRuntimeListToolsResponse]._unwrapper,
             ),
-            cast_to=AsyncJSONLDecoder[ToolDef],
-            stream=True,
+            cast_to=cast(Type[ToolRuntimeListToolsResponse], DataWrapper[ToolRuntimeListToolsResponse]),
         )
 
 
