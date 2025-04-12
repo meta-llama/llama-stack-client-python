@@ -61,6 +61,7 @@ class TestAgents:
                     "strategy": {"type": "greedy"},
                     "max_tokens": 0,
                     "repetition_penalty": 0,
+                    "stop": ["string"],
                 },
                 "tool_choice": "auto",
                 "tool_config": {
@@ -190,6 +191,7 @@ class TestAsyncAgents:
                     "strategy": {"type": "greedy"},
                     "max_tokens": 0,
                     "repetition_penalty": 0,
+                    "stop": ["string"],
                 },
                 "tool_choice": "auto",
                 "tool_config": {

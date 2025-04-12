@@ -152,14 +152,6 @@ from .post_training import (
     PostTrainingResourceWithStreamingResponse,
     AsyncPostTrainingResourceWithStreamingResponse,
 )
-from .batch_inference import (
-    BatchInferenceResource,
-    AsyncBatchInferenceResource,
-    BatchInferenceResourceWithRawResponse,
-    AsyncBatchInferenceResourceWithRawResponse,
-    BatchInferenceResourceWithStreamingResponse,
-    AsyncBatchInferenceResourceWithStreamingResponse,
-)
 from .scoring_functions import (
     ScoringFunctionsResource,
     AsyncScoringFunctionsResource,
@@ -202,12 +194,6 @@ __all__ = [
     "AsyncAgentsResourceWithRawResponse",
     "AgentsResourceWithStreamingResponse",
     "AsyncAgentsResourceWithStreamingResponse",
-    "BatchInferenceResource",
-    "AsyncBatchInferenceResource",
-    "BatchInferenceResourceWithRawResponse",
-    "AsyncBatchInferenceResourceWithRawResponse",
-    "BatchInferenceResourceWithStreamingResponse",
-    "AsyncBatchInferenceResourceWithStreamingResponse",
     "DatasetsResource",
     "AsyncDatasetsResource",
     "DatasetsResourceWithRawResponse",

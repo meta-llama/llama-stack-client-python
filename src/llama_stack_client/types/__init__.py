@@ -126,19 +126,20 @@ from .inference_chat_completion_params import InferenceChatCompletionParams as I
 from .list_post_training_jobs_response import ListPostTrainingJobsResponse as ListPostTrainingJobsResponse
 from .scoring_function_register_params import ScoringFunctionRegisterParams as ScoringFunctionRegisterParams
 from .telemetry_get_span_tree_response import TelemetryGetSpanTreeResponse as TelemetryGetSpanTreeResponse
-from .batch_inference_completion_params import BatchInferenceCompletionParams as BatchInferenceCompletionParams
+from .tool_runtime_list_tools_response import ToolRuntimeListToolsResponse as ToolRuntimeListToolsResponse
+from .inference_batch_completion_params import InferenceBatchCompletionParams as InferenceBatchCompletionParams
 from .synthetic_data_generation_response import SyntheticDataGenerationResponse as SyntheticDataGenerationResponse
 from .chat_completion_response_stream_chunk import (
     ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
 )
-from .batch_inference_chat_completion_params import (
-    BatchInferenceChatCompletionParams as BatchInferenceChatCompletionParams,
+from .inference_batch_chat_completion_params import (
+    InferenceBatchChatCompletionParams as InferenceBatchChatCompletionParams,
 )
 from .telemetry_save_spans_to_dataset_params import (
     TelemetrySaveSpansToDatasetParams as TelemetrySaveSpansToDatasetParams,
 )
-from .batch_inference_chat_completion_response import (
-    BatchInferenceChatCompletionResponse as BatchInferenceChatCompletionResponse,
+from .inference_batch_chat_completion_response import (
+    InferenceBatchChatCompletionResponse as InferenceBatchChatCompletionResponse,
 )
 from .post_training_preference_optimize_params import (
     PostTrainingPreferenceOptimizeParams as PostTrainingPreferenceOptimizeParams,

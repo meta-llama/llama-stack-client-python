@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union
+from typing import List, Union
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 __all__ = [
@@ -37,7 +37,24 @@ Strategy: TypeAlias = Union[StrategyGreedySamplingStrategy, StrategyTopPSampling
 
 class SamplingParams(TypedDict, total=False):
     strategy: Required[Strategy]
+    """The sampling strategy."""
 
     max_tokens: int
+    """The maximum number of tokens that can be generated in the completion.
+
+    The token count of your prompt plus max_tokens cannot exceed the model's context
+    length.
+    """
 
     repetition_penalty: float
+    """Number between -2.0 and 2.0.
+
+    Positive values penalize new tokens based on whether they appear in the text so
+    far, increasing the model's likelihood to talk about new topics.
+    """
+
+    stop: List[str]
+    """Up to 4 sequences where the API will stop generating further tokens.
+
+    The returned text will not contain the stop sequence.
+    """

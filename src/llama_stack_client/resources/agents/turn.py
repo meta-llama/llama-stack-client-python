@@ -218,7 +218,9 @@ class TurnResource(SyncAPIResource):
                     "tool_config": tool_config,
                     "toolgroups": toolgroups,
                 },
-                turn_create_params.TurnCreateParams,
+                turn_create_params.TurnCreateParamsStreaming
+                if stream
+                else turn_create_params.TurnCreateParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -410,7 +412,9 @@ class TurnResource(SyncAPIResource):
                     "tool_responses": tool_responses,
                     "stream": stream,
                 },
-                turn_resume_params.TurnResumeParams,
+                turn_resume_params.TurnResumeParamsStreaming
+                if stream
+                else turn_resume_params.TurnResumeParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -608,7 +612,9 @@ class AsyncTurnResource(AsyncAPIResource):
                     "tool_config": tool_config,
                     "toolgroups": toolgroups,
                 },
-                turn_create_params.TurnCreateParams,
+                turn_create_params.TurnCreateParamsStreaming
+                if stream
+                else turn_create_params.TurnCreateParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -800,7 +806,9 @@ class AsyncTurnResource(AsyncAPIResource):
                     "tool_responses": tool_responses,
                     "stream": stream,
                 },
-                turn_resume_params.TurnResumeParams,
+                turn_resume_params.TurnResumeParamsStreaming
+                if stream
+                else turn_resume_params.TurnResumeParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout

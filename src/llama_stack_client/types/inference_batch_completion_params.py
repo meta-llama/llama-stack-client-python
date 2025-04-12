@@ -9,13 +9,13 @@ from .shared_params.response_format import ResponseFormat
 from .shared_params.sampling_params import SamplingParams
 from .shared_params.interleaved_content import InterleavedContent
 
-__all__ = ["BatchInferenceCompletionParams", "Logprobs"]
+__all__ = ["InferenceBatchCompletionParams", "Logprobs"]
 
 
-class BatchInferenceCompletionParams(TypedDict, total=False):
+class InferenceBatchCompletionParams(TypedDict, total=False):
     content_batch: Required[List[InterleavedContent]]
 
-    model: Required[str]
+    model_id: Required[str]
 
     logprobs: Logprobs
 
@@ -23,6 +23,7 @@ class BatchInferenceCompletionParams(TypedDict, total=False):
     """Configuration for JSON schema-guided response generation."""
 
     sampling_params: SamplingParams
+    """Sampling parameters."""
 
 
 class Logprobs(TypedDict, total=False):
