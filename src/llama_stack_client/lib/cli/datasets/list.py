@@ -19,7 +19,7 @@ def list_datasets(ctx):
     """Show available datasets on distribution endpoint"""
     client = ctx.obj["client"]
     console = Console()
-    headers = ["identifier", "provider_id", "metadata", "type"]
+    headers = ["identifier", "provider_id", "metadata", "type", "purpose"]
 
     datasets_list_response = client.datasets.list()
     if datasets_list_response:

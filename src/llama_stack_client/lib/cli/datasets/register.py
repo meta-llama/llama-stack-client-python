@@ -7,7 +7,7 @@ import base64
 import json
 import mimetypes
 import os
-from typing import Optional
+from typing import Optional, Literal
 
 import click
 import yaml
@@ -32,33 +32,29 @@ def data_url_from_file(file_path: str) -> str:
 @click.command("register")
 @click.help_option("-h", "--help")
 @click.option("--dataset-id", required=True, help="Id of the dataset")
-@click.option("--provider-id", help="Provider ID for the dataset", default=None)
-@click.option("--provider-dataset-id", help="Provider's dataset ID", default=None)
+@click.option(
+    "--purpose",
+    type=click.Choice(["post-training/messages", "eval/question-answer", "eval/messages-answer"]),
+    help="Purpose of the dataset",
+    required=True,
+)
 @click.option("--metadata", type=str, help="Metadata of the dataset")
 @click.option("--url", type=str, help="URL of the dataset", required=False)
 @click.option(
     "--dataset-path", required=False, help="Local file path to the dataset. If specified, upload dataset via URL"
 )
-@click.option("--schema", type=str, help="JSON schema of the dataset", required=True)
 @click.pass_context
 @handle_client_errors("register dataset")
 def register(
     ctx,
     dataset_id: str,
-    provider_id: Optional[str],
-    provider_dataset_id: Optional[str],
+    purpose: Literal["post-training/messages", "eval/question-answer", "eval/messages-answer"],
     metadata: Optional[str],
     url: Optional[str],
     dataset_path: Optional[str],
-    schema: str,
 ):
     """Create a new dataset"""
     client = ctx.obj["client"]
-
-    try:
-        dataset_schema = json.loads(schema)
-    except json.JSONDecodeError as err:
-        raise click.BadParameter("Schema must be valid JSON") from err
 
     if metadata:
         try:
@@ -74,11 +70,9 @@ def register(
 
     response = client.datasets.register(
         dataset_id=dataset_id,
-        dataset_schema=dataset_schema,
-        url={"uri": url},
-        provider_id=provider_id,
-        provider_dataset_id=provider_dataset_id,
+        source={"uri": url},
         metadata=metadata,
+        purpose=purpose,
     )
     if response:
         click.echo(yaml.dump(response.dict()))
