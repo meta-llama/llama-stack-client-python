@@ -80,9 +80,11 @@ Usage: llama-stack-client datasets [OPTIONS] COMMAND [ARGS]...
 
 **Commands**
 
-* **list**: Show available datasets on distribution...
+* **list**: Show available datasets on distribution endpoint
 
 * **register**: Create a new dataset
+
+* **unregister**: Remove a dataset
 
 
 
@@ -114,9 +116,7 @@ Usage: llama-stack-client datasets register [OPTIONS]
 
 * **--dataset-id**: Id of the dataset
 
-* **--provider-id**: Provider ID for the dataset
-
-* **--provider-dataset-id**: Provider's dataset ID
+* **--purpose**: Purpose of the dataset
 
 * **--metadata**: Metadata of the dataset
 
@@ -124,7 +124,23 @@ Usage: llama-stack-client datasets register [OPTIONS]
 
 * **--dataset-path**: Local file path to the dataset. If specified, upload dataset via URL
 
-* **--schema**: JSON schema of the dataset
+
+
+### unregister
+
+Remove a dataset
+
+```
+Usage: llama-stack-client datasets unregister [OPTIONS] DATASET_ID
+```
+
+**Options**
+
+* **-h, --help**: Show this message and exit. [default: False]
+
+**Arguments**
+
+* **DATASET_ID**
 
 
 
@@ -226,7 +242,7 @@ Usage: llama-stack-client eval-tasks [OPTIONS] COMMAND [ARGS]...
 
 **Commands**
 
-* **list**: Show available eval tasks on distribution...
+* **list**: Show available eval tasks on distribution endpoint
 
 * **register**: Register a new eval task
 
@@ -286,7 +302,7 @@ Usage: llama-stack-client inference [OPTIONS] COMMAND [ARGS]...
 
 **Commands**
 
-* **chat-completion**: Show available inference chat completion...
+* **chat-completion**: Show available inference chat completion endpoints on distribution endpoint
 
 
 
@@ -326,7 +342,7 @@ Usage: llama-stack-client inspect [OPTIONS] COMMAND [ARGS]...
 
 **Commands**
 
-* **version**: Show available providers on distribution...
+* **version**: Show available providers on distribution endpoint
 
 
 
@@ -358,9 +374,9 @@ Usage: llama-stack-client models [OPTIONS] COMMAND [ARGS]...
 
 **Commands**
 
-* **get**: Show available llama models at distribution...
+* **get**: Show details of a specific model at the distribution endpoint
 
-* **list**: Show available llama models at distribution...
+* **list**: Show available llama models at distribution endpoint
 
 * **register**: Register a new model at distribution endpoint
 
@@ -370,7 +386,7 @@ Usage: llama-stack-client models [OPTIONS] COMMAND [ARGS]...
 
 ### get
 
-Show available llama models at distribution endpoint
+Show details of a specific model at the distribution endpoint
 
 ```
 Usage: llama-stack-client models get [OPTIONS] MODEL_ID
@@ -456,13 +472,13 @@ Usage: llama-stack-client post-training [OPTIONS] COMMAND [ARGS]...
 
 **Commands**
 
-* **artifacts**: Get the training artifacts of a specific post...
+* **artifacts**: Get the training artifacts of a specific post training job
 
 * **cancel**: Cancel the training job
 
 * **list**: Show the list of available post training jobs
 
-* **status**: Show the status of a specific post training...
+* **status**: Show the status of a specific post training job
 
 * **supervised_fine_tune**: Kick off a supervised fine tune job
 
@@ -569,7 +585,27 @@ Usage: llama-stack-client providers [OPTIONS] COMMAND [ARGS]...
 
 **Commands**
 
-* **list**: Show available providers on distribution...
+* **inspect**: Show available providers on distribution endpoint
+
+* **list**: Show available providers on distribution endpoint
+
+
+
+### inspect
+
+Show available providers on distribution endpoint
+
+```
+Usage: llama-stack-client providers inspect [OPTIONS] PROVIDER_ID
+```
+
+**Options**
+
+* **--help**: Show this message and exit. [default: False]
+
+**Arguments**
+
+* **PROVIDER_ID**
 
 
 
@@ -601,7 +637,7 @@ Usage: llama-stack-client scoring-functions [OPTIONS] COMMAND [ARGS]...
 
 **Commands**
 
-* **list**: Show available scoring functions on...
+* **list**: Show available scoring functions on distribution endpoint
 
 * **register**: Register a new scoring function
 
@@ -661,7 +697,7 @@ Usage: llama-stack-client shields [OPTIONS] COMMAND [ARGS]...
 
 **Commands**
 
-* **list**: Show available safety shields on distribution...
+* **list**: Show available safety shields on distribution endpoint
 
 * **register**: Register a new safety shield
 
@@ -717,13 +753,13 @@ Usage: llama-stack-client toolgroups [OPTIONS] COMMAND [ARGS]...
 
 **Commands**
 
-* **get**: Show available llama toolgroups at...
+* **get**: Show available llama toolgroups at distribution endpoint
 
-* **list**: Show available llama toolgroups at...
+* **list**: Show available llama toolgroups at distribution endpoint
 
-* **register**: Register a new toolgroup at distribution...
+* **register**: Register a new toolgroup at distribution endpoint
 
-* **unregister**: Unregister a toolgroup from distribution...
+* **unregister**: Unregister a toolgroup from distribution endpoint
 
 
 
@@ -817,7 +853,7 @@ Usage: llama-stack-client vector-dbs [OPTIONS] COMMAND [ARGS]...
 
 **Commands**
 
-* **list**: Show available vector dbs on distribution...
+* **list**: Show available vector dbs on distribution endpoint
 
 * **register**: Create a new vector db
 
