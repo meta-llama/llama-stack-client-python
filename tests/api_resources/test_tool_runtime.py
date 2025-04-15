@@ -10,10 +10,9 @@ import pytest
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
 from llama_stack_client.types import (
-    ToolDef,
     ToolInvocationResult,
+    ToolRuntimeListToolsResponse,
 )
-from llama_stack_client._decoders.jsonl import JSONLDecoder, AsyncJSONLDecoder
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -55,22 +54,19 @@ class TestToolRuntime:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support JSONL responses yet")
     @parametrize
     def test_method_list_tools(self, client: LlamaStackClient) -> None:
         tool_runtime = client.tool_runtime.list_tools()
-        assert_matches_type(JSONLDecoder[ToolDef], tool_runtime, path=["response"])
+        assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
-    @pytest.mark.skip(reason="Prism doesn't support JSONL responses yet")
     @parametrize
     def test_method_list_tools_with_all_params(self, client: LlamaStackClient) -> None:
         tool_runtime = client.tool_runtime.list_tools(
             mcp_endpoint={"uri": "uri"},
             tool_group_id="tool_group_id",
         )
-        assert_matches_type(JSONLDecoder[ToolDef], tool_runtime, path=["response"])
+        assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
-    @pytest.mark.skip(reason="Prism doesn't support JSONL responses yet")
     @parametrize
     def test_raw_response_list_tools(self, client: LlamaStackClient) -> None:
         response = client.tool_runtime.with_raw_response.list_tools()
@@ -78,9 +74,8 @@ class TestToolRuntime:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         tool_runtime = response.parse()
-        assert_matches_type(JSONLDecoder[ToolDef], tool_runtime, path=["response"])
+        assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
-    @pytest.mark.skip(reason="Prism doesn't support JSONL responses yet")
     @parametrize
     def test_streaming_response_list_tools(self, client: LlamaStackClient) -> None:
         with client.tool_runtime.with_streaming_response.list_tools() as response:
@@ -88,7 +83,7 @@ class TestToolRuntime:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             tool_runtime = response.parse()
-            assert_matches_type(JSONLDecoder[ToolDef], tool_runtime, path=["response"])
+            assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -130,22 +125,19 @@ class TestAsyncToolRuntime:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support JSONL responses yet")
     @parametrize
     async def test_method_list_tools(self, async_client: AsyncLlamaStackClient) -> None:
         tool_runtime = await async_client.tool_runtime.list_tools()
-        assert_matches_type(AsyncJSONLDecoder[ToolDef], tool_runtime, path=["response"])
+        assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
-    @pytest.mark.skip(reason="Prism doesn't support JSONL responses yet")
     @parametrize
     async def test_method_list_tools_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         tool_runtime = await async_client.tool_runtime.list_tools(
             mcp_endpoint={"uri": "uri"},
             tool_group_id="tool_group_id",
         )
-        assert_matches_type(AsyncJSONLDecoder[ToolDef], tool_runtime, path=["response"])
+        assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
-    @pytest.mark.skip(reason="Prism doesn't support JSONL responses yet")
     @parametrize
     async def test_raw_response_list_tools(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.tool_runtime.with_raw_response.list_tools()
@@ -153,9 +145,8 @@ class TestAsyncToolRuntime:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         tool_runtime = await response.parse()
-        assert_matches_type(AsyncJSONLDecoder[ToolDef], tool_runtime, path=["response"])
+        assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
-    @pytest.mark.skip(reason="Prism doesn't support JSONL responses yet")
     @parametrize
     async def test_streaming_response_list_tools(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.tool_runtime.with_streaming_response.list_tools() as response:
@@ -163,6 +154,6 @@ class TestAsyncToolRuntime:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             tool_runtime = await response.parse()
-            assert_matches_type(AsyncJSONLDecoder[ToolDef], tool_runtime, path=["response"])
+            assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
         assert cast(Any, response.is_closed) is True

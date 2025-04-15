@@ -313,9 +313,6 @@ class TestLlamaStackClient:
         assert request.headers.get("x-foo") == "stainless"
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
-    def test_validate_headers(self) -> None:
-        client = LlamaStackClient(base_url=base_url, _strict_response_validation=True)
-
     def test_default_query_option(self) -> None:
         client = LlamaStackClient(
             base_url=base_url, _strict_response_validation=True, default_query={"query_param": "bar"}
@@ -1103,9 +1100,6 @@ class TestAsyncLlamaStackClient:
         assert request.headers.get("x-foo") == "stainless"
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
-    def test_validate_headers(self) -> None:
-        client = AsyncLlamaStackClient(base_url=base_url, _strict_response_validation=True)
-
     def test_default_query_option(self) -> None:
         client = AsyncLlamaStackClient(
             base_url=base_url, _strict_response_validation=True, default_query={"query_param": "bar"}
@@ -1648,7 +1642,7 @@ class TestAsyncLlamaStackClient:
         import threading
 
         from llama_stack_client._utils import asyncify
-        from llama_stack_client._base_client import get_platform 
+        from llama_stack_client._base_client import get_platform
 
         async def test_main() -> None:
             result = await asyncify(get_platform)()

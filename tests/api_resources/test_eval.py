@@ -53,6 +53,7 @@ class TestEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
+                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -185,6 +186,7 @@ class TestEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
+                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -315,6 +317,7 @@ class TestEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
+                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -437,6 +440,7 @@ class TestEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
+                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -565,6 +569,7 @@ class TestAsyncEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
+                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -697,6 +702,7 @@ class TestAsyncEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
+                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -827,6 +833,7 @@ class TestAsyncEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
+                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -949,6 +956,7 @@ class TestAsyncEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
+                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {

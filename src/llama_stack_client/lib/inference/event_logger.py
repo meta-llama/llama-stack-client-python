@@ -22,12 +22,24 @@ class InferenceStreamPrintableEvent:
 
 
 class InferenceStreamLogEventPrinter:
+    def __init__(self):
+        self.is_thinking = False
+
     def yield_printable_events(self, chunk):
         event = chunk.event
         if event.event_type == "start":
             yield InferenceStreamPrintableEvent("Assistant> ", color="cyan", end="")
         elif event.event_type == "progress":
-            yield InferenceStreamPrintableEvent(event.delta.text, color="yellow", end="")
+            if event.delta.type == "reasoning":
+                if not self.is_thinking:
+                    yield InferenceStreamPrintableEvent("<thinking> ", color="magenta", end="")
+                    self.is_thinking = True
+                yield InferenceStreamPrintableEvent(event.delta.reasoning, color="magenta", end="")
+            else:
+                if self.is_thinking:
+                    yield InferenceStreamPrintableEvent("</thinking>", color="magenta", end="")
+                    self.is_thinking = False
+                yield InferenceStreamPrintableEvent(event.delta.text, color="yellow", end="")
         elif event.event_type == "complete":
             yield InferenceStreamPrintableEvent("")
 

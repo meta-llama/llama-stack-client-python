@@ -7,6 +7,7 @@ import click
 
 from .list import list_datasets
 from .register import register
+from .unregister import unregister
 
 
 @click.group()
@@ -18,3 +19,4 @@ def datasets():
 # Register subcommands
 datasets.add_command(list_datasets)
 datasets.add_command(register)
+datasets.add_command(unregister)

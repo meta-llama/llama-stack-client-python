@@ -68,6 +68,7 @@ class AgentConfig(BaseModel):
     """Configuration for JSON schema-guided response generation."""
 
     sampling_params: Optional[SamplingParams] = None
+    """Sampling parameters."""
 
     tool_choice: Optional[Literal["auto", "required", "none"]] = None
     """Whether tool use is required or automatic.
