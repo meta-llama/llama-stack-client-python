@@ -56,7 +56,7 @@ def generate_markdown_docs(command, parent=None, level=1):
         doc.append("**Commands**\n")
         for cmd_name in command.list_commands(ctx):
             cmd = command.get_command(ctx, cmd_name)
-            cmd_help = cmd.get_short_help_str() if cmd else ""
+            cmd_help = cmd.get_short_help_str(limit=80) if cmd else ""
             doc.append(f"* **{cmd_name}**: {cmd_help}\n")
 
         # Add detailed subcommand documentation
