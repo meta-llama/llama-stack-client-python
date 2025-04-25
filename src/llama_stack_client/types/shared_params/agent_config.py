@@ -52,21 +52,27 @@ Toolgroup: TypeAlias = Union[str, ToolgroupAgentToolGroupWithArgs]
 
 class AgentConfig(TypedDict, total=False):
     instructions: Required[str]
+    """The system instructions for the agent"""
 
     model: Required[str]
+    """The model identifier to use for the agent"""
 
     client_tools: Iterable[ToolDefParam]
 
     enable_session_persistence: bool
+    """Optional flag indicating whether session data has to be persisted"""
 
     input_shields: List[str]
 
     max_infer_iters: int
 
+    name: str
+    """Optional name for the agent, used in telemetry and identification"""
+
     output_shields: List[str]
 
     response_format: ResponseFormat
-    """Configuration for JSON schema-guided response generation."""
+    """Optional response format configuration"""
 
     sampling_params: SamplingParams
     """Sampling parameters."""

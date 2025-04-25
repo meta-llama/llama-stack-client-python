@@ -8,10 +8,7 @@ import httpx
 
 from ...types import tool_runtime_list_tools_params, tool_runtime_invoke_tool_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import (
-    maybe_transform,
-    async_maybe_transform,
-)
+from ..._utils import maybe_transform, async_maybe_transform
 from .rag_tool import (
     RagToolResource,
     AsyncRagToolResource,

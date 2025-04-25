@@ -11,8 +11,8 @@ __all__ = [
     "PostTrainingSupervisedFineTuneParams",
     "TrainingConfig",
     "TrainingConfigDataConfig",
-    "TrainingConfigOptimizerConfig",
     "TrainingConfigEfficiencyConfig",
+    "TrainingConfigOptimizerConfig",
 ]
 
 
@@ -23,13 +23,13 @@ class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
 
     logger_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
-    model: Required[str]
-
     training_config: Required[TrainingConfig]
 
     algorithm_config: AlgorithmConfigParam
 
     checkpoint_dir: str
+
+    model: str
 
 
 class TrainingConfigDataConfig(TypedDict, total=False):
@@ -48,16 +48,6 @@ class TrainingConfigDataConfig(TypedDict, total=False):
     validation_dataset_id: str
 
 
-class TrainingConfigOptimizerConfig(TypedDict, total=False):
-    lr: Required[float]
-
-    num_warmup_steps: Required[int]
-
-    optimizer_type: Required[Literal["adam", "adamw", "sgd"]]
-
-    weight_decay: Required[float]
-
-
 class TrainingConfigEfficiencyConfig(TypedDict, total=False):
     enable_activation_checkpointing: bool
 
@@ -68,19 +58,29 @@ class TrainingConfigEfficiencyConfig(TypedDict, total=False):
     memory_efficient_fsdp_wrap: bool
 
 
-class TrainingConfig(TypedDict, total=False):
-    data_config: Required[TrainingConfigDataConfig]
+class TrainingConfigOptimizerConfig(TypedDict, total=False):
+    lr: Required[float]
 
+    num_warmup_steps: Required[int]
+
+    optimizer_type: Required[Literal["adam", "adamw", "sgd"]]
+
+    weight_decay: Required[float]
+
+
+class TrainingConfig(TypedDict, total=False):
     gradient_accumulation_steps: Required[int]
 
     max_steps_per_epoch: Required[int]
 
-    max_validation_steps: Required[int]
-
     n_epochs: Required[int]
 
-    optimizer_config: Required[TrainingConfigOptimizerConfig]
+    data_config: TrainingConfigDataConfig
 
     dtype: str
 
     efficiency_config: TrainingConfigEfficiencyConfig
+
+    max_validation_steps: int
+
+    optimizer_config: TrainingConfigOptimizerConfig

@@ -1,5 +1,13 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from .chat import (
+    ChatResource,
+    AsyncChatResource,
+    ChatResourceWithRawResponse,
+    AsyncChatResourceWithRawResponse,
+    ChatResourceWithStreamingResponse,
+    AsyncChatResourceWithStreamingResponse,
+)
 from .eval import (
     EvalResource,
     AsyncEvalResource,
@@ -136,6 +144,14 @@ from .vector_dbs import (
     VectorDBsResourceWithStreamingResponse,
     AsyncVectorDBsResourceWithStreamingResponse,
 )
+from .completions import (
+    CompletionsResource,
+    AsyncCompletionsResource,
+    CompletionsResourceWithRawResponse,
+    AsyncCompletionsResourceWithRawResponse,
+    CompletionsResourceWithStreamingResponse,
+    AsyncCompletionsResourceWithStreamingResponse,
+)
 from .tool_runtime import (
     ToolRuntimeResource,
     AsyncToolRuntimeResource,
@@ -218,6 +234,18 @@ __all__ = [
     "AsyncInferenceResourceWithRawResponse",
     "InferenceResourceWithStreamingResponse",
     "AsyncInferenceResourceWithStreamingResponse",
+    "ChatResource",
+    "AsyncChatResource",
+    "ChatResourceWithRawResponse",
+    "AsyncChatResourceWithRawResponse",
+    "ChatResourceWithStreamingResponse",
+    "AsyncChatResourceWithStreamingResponse",
+    "CompletionsResource",
+    "AsyncCompletionsResource",
+    "CompletionsResourceWithRawResponse",
+    "AsyncCompletionsResourceWithRawResponse",
+    "CompletionsResourceWithStreamingResponse",
+    "AsyncCompletionsResourceWithStreamingResponse",
     "VectorIoResource",
     "AsyncVectorIoResource",
     "VectorIoResourceWithRawResponse",
