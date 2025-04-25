@@ -51,21 +51,27 @@ Toolgroup: TypeAlias = Union[str, ToolgroupAgentToolGroupWithArgs]
 
 class AgentConfig(BaseModel):
     instructions: str
+    """The system instructions for the agent"""
 
     model: str
+    """The model identifier to use for the agent"""
 
     client_tools: Optional[List[ToolDef]] = None
 
     enable_session_persistence: Optional[bool] = None
+    """Optional flag indicating whether session data has to be persisted"""
 
     input_shields: Optional[List[str]] = None
 
     max_infer_iters: Optional[int] = None
 
+    name: Optional[str] = None
+    """Optional name for the agent, used in telemetry and identification"""
+
     output_shields: Optional[List[str]] = None
 
     response_format: Optional[ResponseFormat] = None
-    """Configuration for JSON schema-guided response generation."""
+    """Optional response format configuration"""
 
     sampling_params: Optional[SamplingParams] = None
     """Sampling parameters."""

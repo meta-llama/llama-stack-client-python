@@ -20,10 +20,7 @@ from ._types import (
     ProxiesTypes,
     RequestOptions,
 )
-from ._utils import (
-    is_given,
-    get_async_library,
-)
+from ._utils import is_given, get_async_library
 from ._version import __version__
 from .resources import (
     tools,
@@ -41,6 +38,7 @@ from .resources import (
     benchmarks,
     toolgroups,
     vector_dbs,
+    completions,
     scoring_functions,
     synthetic_data_generation,
 )
@@ -51,6 +49,7 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .resources.chat import chat
 from .resources.eval import eval
 from .resources.agents import agents
 from .resources.tool_runtime import tool_runtime
@@ -77,6 +76,8 @@ class LlamaStackClient(SyncAPIClient):
     eval: eval.EvalResource
     inspect: inspect.InspectResource
     inference: inference.InferenceResource
+    chat: chat.ChatResource
+    completions: completions.CompletionsResource
     vector_io: vector_io.VectorIoResource
     vector_dbs: vector_dbs.VectorDBsResource
     models: models.ModelsResource
@@ -157,6 +158,8 @@ class LlamaStackClient(SyncAPIClient):
         self.eval = eval.EvalResource(self)
         self.inspect = inspect.InspectResource(self)
         self.inference = inference.InferenceResource(self)
+        self.chat = chat.ChatResource(self)
+        self.completions = completions.CompletionsResource(self)
         self.vector_io = vector_io.VectorIoResource(self)
         self.vector_dbs = vector_dbs.VectorDBsResource(self)
         self.models = models.ModelsResource(self)
@@ -289,6 +292,8 @@ class AsyncLlamaStackClient(AsyncAPIClient):
     eval: eval.AsyncEvalResource
     inspect: inspect.AsyncInspectResource
     inference: inference.AsyncInferenceResource
+    chat: chat.AsyncChatResource
+    completions: completions.AsyncCompletionsResource
     vector_io: vector_io.AsyncVectorIoResource
     vector_dbs: vector_dbs.AsyncVectorDBsResource
     models: models.AsyncModelsResource
@@ -369,6 +374,8 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         self.eval = eval.AsyncEvalResource(self)
         self.inspect = inspect.AsyncInspectResource(self)
         self.inference = inference.AsyncInferenceResource(self)
+        self.chat = chat.AsyncChatResource(self)
+        self.completions = completions.AsyncCompletionsResource(self)
         self.vector_io = vector_io.AsyncVectorIoResource(self)
         self.vector_dbs = vector_dbs.AsyncVectorDBsResource(self)
         self.models = models.AsyncModelsResource(self)
@@ -502,6 +509,8 @@ class LlamaStackClientWithRawResponse:
         self.eval = eval.EvalResourceWithRawResponse(client.eval)
         self.inspect = inspect.InspectResourceWithRawResponse(client.inspect)
         self.inference = inference.InferenceResourceWithRawResponse(client.inference)
+        self.chat = chat.ChatResourceWithRawResponse(client.chat)
+        self.completions = completions.CompletionsResourceWithRawResponse(client.completions)
         self.vector_io = vector_io.VectorIoResourceWithRawResponse(client.vector_io)
         self.vector_dbs = vector_dbs.VectorDBsResourceWithRawResponse(client.vector_dbs)
         self.models = models.ModelsResourceWithRawResponse(client.models)
@@ -529,6 +538,8 @@ class AsyncLlamaStackClientWithRawResponse:
         self.eval = eval.AsyncEvalResourceWithRawResponse(client.eval)
         self.inspect = inspect.AsyncInspectResourceWithRawResponse(client.inspect)
         self.inference = inference.AsyncInferenceResourceWithRawResponse(client.inference)
+        self.chat = chat.AsyncChatResourceWithRawResponse(client.chat)
+        self.completions = completions.AsyncCompletionsResourceWithRawResponse(client.completions)
         self.vector_io = vector_io.AsyncVectorIoResourceWithRawResponse(client.vector_io)
         self.vector_dbs = vector_dbs.AsyncVectorDBsResourceWithRawResponse(client.vector_dbs)
         self.models = models.AsyncModelsResourceWithRawResponse(client.models)
@@ -558,6 +569,8 @@ class LlamaStackClientWithStreamedResponse:
         self.eval = eval.EvalResourceWithStreamingResponse(client.eval)
         self.inspect = inspect.InspectResourceWithStreamingResponse(client.inspect)
         self.inference = inference.InferenceResourceWithStreamingResponse(client.inference)
+        self.chat = chat.ChatResourceWithStreamingResponse(client.chat)
+        self.completions = completions.CompletionsResourceWithStreamingResponse(client.completions)
         self.vector_io = vector_io.VectorIoResourceWithStreamingResponse(client.vector_io)
         self.vector_dbs = vector_dbs.VectorDBsResourceWithStreamingResponse(client.vector_dbs)
         self.models = models.ModelsResourceWithStreamingResponse(client.models)
@@ -587,6 +600,8 @@ class AsyncLlamaStackClientWithStreamedResponse:
         self.eval = eval.AsyncEvalResourceWithStreamingResponse(client.eval)
         self.inspect = inspect.AsyncInspectResourceWithStreamingResponse(client.inspect)
         self.inference = inference.AsyncInferenceResourceWithStreamingResponse(client.inference)
+        self.chat = chat.AsyncChatResourceWithStreamingResponse(client.chat)
+        self.completions = completions.AsyncCompletionsResourceWithStreamingResponse(client.completions)
         self.vector_io = vector_io.AsyncVectorIoResourceWithStreamingResponse(client.vector_io)
         self.vector_dbs = vector_dbs.AsyncVectorDBsResourceWithStreamingResponse(client.vector_dbs)
         self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)

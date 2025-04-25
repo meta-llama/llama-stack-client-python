@@ -19,10 +19,7 @@ from ...types import (
     post_training_supervised_fine_tune_params,
 )
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import (
-    maybe_transform,
-    async_maybe_transform,
-)
+from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -113,10 +110,10 @@ class PostTrainingResource(SyncAPIResource):
         hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
-        model: str,
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
         algorithm_config: AlgorithmConfigParam | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
+        model: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -141,10 +138,10 @@ class PostTrainingResource(SyncAPIResource):
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
-                    "model": model,
                     "training_config": training_config,
                     "algorithm_config": algorithm_config,
                     "checkpoint_dir": checkpoint_dir,
+                    "model": model,
                 },
                 post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),
@@ -230,10 +227,10 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
-        model: str,
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
         algorithm_config: AlgorithmConfigParam | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
+        model: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -258,10 +255,10 @@ class AsyncPostTrainingResource(AsyncAPIResource):
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
-                    "model": model,
                     "training_config": training_config,
                     "algorithm_config": algorithm_config,
                     "checkpoint_dir": checkpoint_dir,
+                    "model": model,
                 },
                 post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),

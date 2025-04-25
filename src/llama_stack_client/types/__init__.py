@@ -70,6 +70,7 @@ from .query_spans_response import QuerySpansResponse as QuerySpansResponse
 from .scoring_score_params import ScoringScoreParams as ScoringScoreParams
 from .shield_list_response import ShieldListResponse as ShieldListResponse
 from .agent_create_response import AgentCreateResponse as AgentCreateResponse
+from .chat_completion_chunk import ChatCompletionChunk as ChatCompletionChunk
 from .dataset_list_response import DatasetListResponse as DatasetListResponse
 from .list_shields_response import ListShieldsResponse as ListShieldsResponse
 from .memory_retrieval_step import MemoryRetrievalStep as MemoryRetrievalStep
@@ -92,6 +93,7 @@ from .scoring_fn_params_param import ScoringFnParamsParam as ScoringFnParamsPara
 from .toolgroup_list_response import ToolgroupListResponse as ToolgroupListResponse
 from .vector_db_list_response import VectorDBListResponse as VectorDBListResponse
 from .vector_io_insert_params import VectorIoInsertParams as VectorIoInsertParams
+from .completion_create_params import CompletionCreateParams as CompletionCreateParams
 from .list_benchmarks_response import ListBenchmarksResponse as ListBenchmarksResponse
 from .list_vector_dbs_response import ListVectorDBsResponse as ListVectorDBsResponse
 from .safety_run_shield_params import SafetyRunShieldParams as SafetyRunShieldParams
@@ -103,6 +105,7 @@ from .eval_evaluate_rows_params import EvalEvaluateRowsParams as EvalEvaluateRow
 from .list_tool_groups_response import ListToolGroupsResponse as ListToolGroupsResponse
 from .toolgroup_register_params import ToolgroupRegisterParams as ToolgroupRegisterParams
 from .vector_db_register_params import VectorDBRegisterParams as VectorDBRegisterParams
+from .completion_create_response import CompletionCreateResponse as CompletionCreateResponse
 from .eval_run_eval_alpha_params import EvalRunEvalAlphaParams as EvalRunEvalAlphaParams
 from .scoring_score_batch_params import ScoringScoreBatchParams as ScoringScoreBatchParams
 from .telemetry_log_event_params import TelemetryLogEventParams as TelemetryLogEventParams

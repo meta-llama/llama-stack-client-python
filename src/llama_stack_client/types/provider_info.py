@@ -12,6 +12,8 @@ class ProviderInfo(BaseModel):
 
     config: Dict[str, Union[bool, float, str, List[object], object, None]]
 
+    health: Dict[str, Union[bool, float, str, List[object], object, None]]
+
     provider_id: str
 
     provider_type: str
