@@ -45,6 +45,7 @@ from .provider_info import ProviderInfo as ProviderInfo
 from .tool_response import ToolResponse as ToolResponse
 from .inference_step import InferenceStep as InferenceStep
 from .tool_def_param import ToolDefParam as ToolDefParam
+from .response_object import ResponseObject as ResponseObject
 from .token_log_probs import TokenLogProbs as TokenLogProbs
 from .shield_call_step import ShieldCallStep as ShieldCallStep
 from .span_with_status import SpanWithStatus as SpanWithStatus
@@ -81,6 +82,8 @@ from .algorithm_config_param import AlgorithmConfigParam as AlgorithmConfigParam
 from .benchmark_config_param import BenchmarkConfigParam as BenchmarkConfigParam
 from .list_datasets_response import ListDatasetsResponse as ListDatasetsResponse
 from .provider_list_response import ProviderListResponse as ProviderListResponse
+from .response_create_params import ResponseCreateParams as ResponseCreateParams
+from .response_object_stream import ResponseObjectStream as ResponseObjectStream
 from .scoring_score_response import ScoringScoreResponse as ScoringScoreResponse
 from .shield_register_params import ShieldRegisterParams as ShieldRegisterParams
 from .tool_invocation_result import ToolInvocationResult as ToolInvocationResult

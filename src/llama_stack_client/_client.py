@@ -33,6 +33,7 @@ from .resources import (
     datasets,
     inference,
     providers,
+    responses,
     telemetry,
     vector_io,
     benchmarks,
@@ -71,6 +72,7 @@ class LlamaStackClient(SyncAPIClient):
     toolgroups: toolgroups.ToolgroupsResource
     tools: tools.ToolsResource
     tool_runtime: tool_runtime.ToolRuntimeResource
+    responses: responses.ResponsesResource
     agents: agents.AgentsResource
     datasets: datasets.DatasetsResource
     eval: eval.EvalResource
@@ -153,6 +155,7 @@ class LlamaStackClient(SyncAPIClient):
         self.toolgroups = toolgroups.ToolgroupsResource(self)
         self.tools = tools.ToolsResource(self)
         self.tool_runtime = tool_runtime.ToolRuntimeResource(self)
+        self.responses = responses.ResponsesResource(self)
         self.agents = agents.AgentsResource(self)
         self.datasets = datasets.DatasetsResource(self)
         self.eval = eval.EvalResource(self)
@@ -287,6 +290,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
     toolgroups: toolgroups.AsyncToolgroupsResource
     tools: tools.AsyncToolsResource
     tool_runtime: tool_runtime.AsyncToolRuntimeResource
+    responses: responses.AsyncResponsesResource
     agents: agents.AsyncAgentsResource
     datasets: datasets.AsyncDatasetsResource
     eval: eval.AsyncEvalResource
@@ -369,6 +373,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         self.toolgroups = toolgroups.AsyncToolgroupsResource(self)
         self.tools = tools.AsyncToolsResource(self)
         self.tool_runtime = tool_runtime.AsyncToolRuntimeResource(self)
+        self.responses = responses.AsyncResponsesResource(self)
         self.agents = agents.AsyncAgentsResource(self)
         self.datasets = datasets.AsyncDatasetsResource(self)
         self.eval = eval.AsyncEvalResource(self)
@@ -504,6 +509,7 @@ class LlamaStackClientWithRawResponse:
         self.toolgroups = toolgroups.ToolgroupsResourceWithRawResponse(client.toolgroups)
         self.tools = tools.ToolsResourceWithRawResponse(client.tools)
         self.tool_runtime = tool_runtime.ToolRuntimeResourceWithRawResponse(client.tool_runtime)
+        self.responses = responses.ResponsesResourceWithRawResponse(client.responses)
         self.agents = agents.AgentsResourceWithRawResponse(client.agents)
         self.datasets = datasets.DatasetsResourceWithRawResponse(client.datasets)
         self.eval = eval.EvalResourceWithRawResponse(client.eval)
@@ -533,6 +539,7 @@ class AsyncLlamaStackClientWithRawResponse:
         self.toolgroups = toolgroups.AsyncToolgroupsResourceWithRawResponse(client.toolgroups)
         self.tools = tools.AsyncToolsResourceWithRawResponse(client.tools)
         self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithRawResponse(client.tool_runtime)
+        self.responses = responses.AsyncResponsesResourceWithRawResponse(client.responses)
         self.agents = agents.AsyncAgentsResourceWithRawResponse(client.agents)
         self.datasets = datasets.AsyncDatasetsResourceWithRawResponse(client.datasets)
         self.eval = eval.AsyncEvalResourceWithRawResponse(client.eval)
@@ -564,6 +571,7 @@ class LlamaStackClientWithStreamedResponse:
         self.toolgroups = toolgroups.ToolgroupsResourceWithStreamingResponse(client.toolgroups)
         self.tools = tools.ToolsResourceWithStreamingResponse(client.tools)
         self.tool_runtime = tool_runtime.ToolRuntimeResourceWithStreamingResponse(client.tool_runtime)
+        self.responses = responses.ResponsesResourceWithStreamingResponse(client.responses)
         self.agents = agents.AgentsResourceWithStreamingResponse(client.agents)
         self.datasets = datasets.DatasetsResourceWithStreamingResponse(client.datasets)
         self.eval = eval.EvalResourceWithStreamingResponse(client.eval)
@@ -595,6 +603,7 @@ class AsyncLlamaStackClientWithStreamedResponse:
         self.toolgroups = toolgroups.AsyncToolgroupsResourceWithStreamingResponse(client.toolgroups)
         self.tools = tools.AsyncToolsResourceWithStreamingResponse(client.tools)
         self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithStreamingResponse(client.tool_runtime)
+        self.responses = responses.AsyncResponsesResourceWithStreamingResponse(client.responses)
         self.agents = agents.AsyncAgentsResourceWithStreamingResponse(client.agents)
         self.datasets = datasets.AsyncDatasetsResourceWithStreamingResponse(client.datasets)
         self.eval = eval.AsyncEvalResourceWithStreamingResponse(client.eval)
