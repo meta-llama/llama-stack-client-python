@@ -1,0 +1,342 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+import os
+from typing import Any, cast
+
+import pytest
+
+from tests.utils import assert_matches_type
+from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
+from llama_stack_client.types import ToolGroup, ToolgroupListResponse
+
+base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
+
+
+class TestToolgroups:
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_method_retrieve(self, client: LlamaStackClient) -> None:
+        toolgroup = client.toolgroups.retrieve(
+            "toolgroup_id",
+        )
+        assert_matches_type(ToolGroup, toolgroup, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
+        response = client.toolgroups.with_raw_response.retrieve(
+            "toolgroup_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        toolgroup = response.parse()
+        assert_matches_type(ToolGroup, toolgroup, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_streaming_response_retrieve(self, client: LlamaStackClient) -> None:
+        with client.toolgroups.with_streaming_response.retrieve(
+            "toolgroup_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            toolgroup = response.parse()
+            assert_matches_type(ToolGroup, toolgroup, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_path_params_retrieve(self, client: LlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `toolgroup_id` but received ''"):
+            client.toolgroups.with_raw_response.retrieve(
+                "",
+            )
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_method_list(self, client: LlamaStackClient) -> None:
+        toolgroup = client.toolgroups.list()
+        assert_matches_type(ToolgroupListResponse, toolgroup, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_raw_response_list(self, client: LlamaStackClient) -> None:
+        response = client.toolgroups.with_raw_response.list()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        toolgroup = response.parse()
+        assert_matches_type(ToolgroupListResponse, toolgroup, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_streaming_response_list(self, client: LlamaStackClient) -> None:
+        with client.toolgroups.with_streaming_response.list() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            toolgroup = response.parse()
+            assert_matches_type(ToolgroupListResponse, toolgroup, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_method_register(self, client: LlamaStackClient) -> None:
+        toolgroup = client.toolgroups.register(
+            provider_id="provider_id",
+            toolgroup_id="toolgroup_id",
+        )
+        assert toolgroup is None
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_method_register_with_all_params(self, client: LlamaStackClient) -> None:
+        toolgroup = client.toolgroups.register(
+            provider_id="provider_id",
+            toolgroup_id="toolgroup_id",
+            args={"foo": True},
+            mcp_endpoint={"uri": "uri"},
+        )
+        assert toolgroup is None
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_raw_response_register(self, client: LlamaStackClient) -> None:
+        response = client.toolgroups.with_raw_response.register(
+            provider_id="provider_id",
+            toolgroup_id="toolgroup_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        toolgroup = response.parse()
+        assert toolgroup is None
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_streaming_response_register(self, client: LlamaStackClient) -> None:
+        with client.toolgroups.with_streaming_response.register(
+            provider_id="provider_id",
+            toolgroup_id="toolgroup_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            toolgroup = response.parse()
+            assert toolgroup is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_method_unregister(self, client: LlamaStackClient) -> None:
+        toolgroup = client.toolgroups.unregister(
+            "toolgroup_id",
+        )
+        assert toolgroup is None
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_raw_response_unregister(self, client: LlamaStackClient) -> None:
+        response = client.toolgroups.with_raw_response.unregister(
+            "toolgroup_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        toolgroup = response.parse()
+        assert toolgroup is None
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_streaming_response_unregister(self, client: LlamaStackClient) -> None:
+        with client.toolgroups.with_streaming_response.unregister(
+            "toolgroup_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            toolgroup = response.parse()
+            assert toolgroup is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_path_params_unregister(self, client: LlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `toolgroup_id` but received ''"):
+            client.toolgroups.with_raw_response.unregister(
+                "",
+            )
+
+
+class TestAsyncToolgroups:
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_method_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
+        toolgroup = await async_client.toolgroups.retrieve(
+            "toolgroup_id",
+        )
+        assert_matches_type(ToolGroup, toolgroup, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.toolgroups.with_raw_response.retrieve(
+            "toolgroup_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        toolgroup = await response.parse()
+        assert_matches_type(ToolGroup, toolgroup, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_streaming_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.toolgroups.with_streaming_response.retrieve(
+            "toolgroup_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            toolgroup = await response.parse()
+            assert_matches_type(ToolGroup, toolgroup, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_path_params_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `toolgroup_id` but received ''"):
+            await async_client.toolgroups.with_raw_response.retrieve(
+                "",
+            )
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_method_list(self, async_client: AsyncLlamaStackClient) -> None:
+        toolgroup = await async_client.toolgroups.list()
+        assert_matches_type(ToolgroupListResponse, toolgroup, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_raw_response_list(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.toolgroups.with_raw_response.list()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        toolgroup = await response.parse()
+        assert_matches_type(ToolgroupListResponse, toolgroup, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_streaming_response_list(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.toolgroups.with_streaming_response.list() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            toolgroup = await response.parse()
+            assert_matches_type(ToolgroupListResponse, toolgroup, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_method_register(self, async_client: AsyncLlamaStackClient) -> None:
+        toolgroup = await async_client.toolgroups.register(
+            provider_id="provider_id",
+            toolgroup_id="toolgroup_id",
+        )
+        assert toolgroup is None
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_method_register_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        toolgroup = await async_client.toolgroups.register(
+            provider_id="provider_id",
+            toolgroup_id="toolgroup_id",
+            args={"foo": True},
+            mcp_endpoint={"uri": "uri"},
+        )
+        assert toolgroup is None
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_raw_response_register(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.toolgroups.with_raw_response.register(
+            provider_id="provider_id",
+            toolgroup_id="toolgroup_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        toolgroup = await response.parse()
+        assert toolgroup is None
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_streaming_response_register(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.toolgroups.with_streaming_response.register(
+            provider_id="provider_id",
+            toolgroup_id="toolgroup_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            toolgroup = await response.parse()
+            assert toolgroup is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_method_unregister(self, async_client: AsyncLlamaStackClient) -> None:
+        toolgroup = await async_client.toolgroups.unregister(
+            "toolgroup_id",
+        )
+        assert toolgroup is None
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_raw_response_unregister(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.toolgroups.with_raw_response.unregister(
+            "toolgroup_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        toolgroup = await response.parse()
+        assert toolgroup is None
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_streaming_response_unregister(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.toolgroups.with_streaming_response.unregister(
+            "toolgroup_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            toolgroup = await response.parse()
+            assert toolgroup is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_path_params_unregister(self, async_client: AsyncLlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `toolgroup_id` but received ''"):
+            await async_client.toolgroups.with_raw_response.unregister(
+                "",
+            )

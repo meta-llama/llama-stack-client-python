@@ -1,0 +1,316 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+import httpx
+
+from ..types import scoring_function_create_params
+from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
+from .._utils import maybe_transform, async_maybe_transform
+from .._compat import cached_property
+from .._resource import SyncAPIResource, AsyncAPIResource
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from .._base_client import make_request_options
+from ..types.scoring_fn import ScoringFn
+from ..types.param_type_param import ParamTypeParam
+from ..types.scoring_fn_params_param import ScoringFnParamsParam
+from ..types.scoring_function_list_response import ScoringFunctionListResponse
+
+__all__ = ["ScoringFunctionsResource", "AsyncScoringFunctionsResource"]
+
+
+class ScoringFunctionsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> ScoringFunctionsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/stainless-sdks/llama-stack-client-python#accessing-raw-response-data-eg-headers
+        """
+        return ScoringFunctionsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> ScoringFunctionsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/stainless-sdks/llama-stack-client-python#with_streaming_response
+        """
+        return ScoringFunctionsResourceWithStreamingResponse(self)
+
+    def create(
+        self,
+        *,
+        description: str,
+        return_type: ParamTypeParam,
+        scoring_fn_id: str,
+        params: ScoringFnParamsParam | NotGiven = NOT_GIVEN,
+        provider_id: str | NotGiven = NOT_GIVEN,
+        provider_scoring_fn_id: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> None:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._post(
+            "/v1/scoring-functions",
+            body=maybe_transform(
+                {
+                    "description": description,
+                    "return_type": return_type,
+                    "scoring_fn_id": scoring_fn_id,
+                    "params": params,
+                    "provider_id": provider_id,
+                    "provider_scoring_fn_id": provider_scoring_fn_id,
+                },
+                scoring_function_create_params.ScoringFunctionCreateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def retrieve(
+        self,
+        scoring_fn_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ScoringFn:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not scoring_fn_id:
+            raise ValueError(f"Expected a non-empty value for `scoring_fn_id` but received {scoring_fn_id!r}")
+        return self._get(
+            f"/v1/scoring-functions/{scoring_fn_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ScoringFn,
+        )
+
+    def list(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ScoringFunctionListResponse:
+        return self._get(
+            "/v1/scoring-functions",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ScoringFunctionListResponse,
+        )
+
+
+class AsyncScoringFunctionsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncScoringFunctionsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/stainless-sdks/llama-stack-client-python#accessing-raw-response-data-eg-headers
+        """
+        return AsyncScoringFunctionsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncScoringFunctionsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/stainless-sdks/llama-stack-client-python#with_streaming_response
+        """
+        return AsyncScoringFunctionsResourceWithStreamingResponse(self)
+
+    async def create(
+        self,
+        *,
+        description: str,
+        return_type: ParamTypeParam,
+        scoring_fn_id: str,
+        params: ScoringFnParamsParam | NotGiven = NOT_GIVEN,
+        provider_id: str | NotGiven = NOT_GIVEN,
+        provider_scoring_fn_id: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> None:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._post(
+            "/v1/scoring-functions",
+            body=await async_maybe_transform(
+                {
+                    "description": description,
+                    "return_type": return_type,
+                    "scoring_fn_id": scoring_fn_id,
+                    "params": params,
+                    "provider_id": provider_id,
+                    "provider_scoring_fn_id": provider_scoring_fn_id,
+                },
+                scoring_function_create_params.ScoringFunctionCreateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    async def retrieve(
+        self,
+        scoring_fn_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ScoringFn:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not scoring_fn_id:
+            raise ValueError(f"Expected a non-empty value for `scoring_fn_id` but received {scoring_fn_id!r}")
+        return await self._get(
+            f"/v1/scoring-functions/{scoring_fn_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ScoringFn,
+        )
+
+    async def list(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ScoringFunctionListResponse:
+        return await self._get(
+            "/v1/scoring-functions",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ScoringFunctionListResponse,
+        )
+
+
+class ScoringFunctionsResourceWithRawResponse:
+    def __init__(self, scoring_functions: ScoringFunctionsResource) -> None:
+        self._scoring_functions = scoring_functions
+
+        self.create = to_raw_response_wrapper(
+            scoring_functions.create,
+        )
+        self.retrieve = to_raw_response_wrapper(
+            scoring_functions.retrieve,
+        )
+        self.list = to_raw_response_wrapper(
+            scoring_functions.list,
+        )
+
+
+class AsyncScoringFunctionsResourceWithRawResponse:
+    def __init__(self, scoring_functions: AsyncScoringFunctionsResource) -> None:
+        self._scoring_functions = scoring_functions
+
+        self.create = async_to_raw_response_wrapper(
+            scoring_functions.create,
+        )
+        self.retrieve = async_to_raw_response_wrapper(
+            scoring_functions.retrieve,
+        )
+        self.list = async_to_raw_response_wrapper(
+            scoring_functions.list,
+        )
+
+
+class ScoringFunctionsResourceWithStreamingResponse:
+    def __init__(self, scoring_functions: ScoringFunctionsResource) -> None:
+        self._scoring_functions = scoring_functions
+
+        self.create = to_streamed_response_wrapper(
+            scoring_functions.create,
+        )
+        self.retrieve = to_streamed_response_wrapper(
+            scoring_functions.retrieve,
+        )
+        self.list = to_streamed_response_wrapper(
+            scoring_functions.list,
+        )
+
+
+class AsyncScoringFunctionsResourceWithStreamingResponse:
+    def __init__(self, scoring_functions: AsyncScoringFunctionsResource) -> None:
+        self._scoring_functions = scoring_functions
+
+        self.create = async_to_streamed_response_wrapper(
+            scoring_functions.create,
+        )
+        self.retrieve = async_to_streamed_response_wrapper(
+            scoring_functions.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            scoring_functions.list,
+        )
