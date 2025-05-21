@@ -30,9 +30,11 @@ class TestResponses:
         response = client.responses.create(
             input="string",
             model="model",
+            instructions="instructions",
             previous_response_id="previous_response_id",
             store=True,
             stream=False,
+            temperature=0,
             tools=[
                 {
                     "type": "web_search",
@@ -83,8 +85,10 @@ class TestResponses:
             input="string",
             model="model",
             stream=True,
+            instructions="instructions",
             previous_response_id="previous_response_id",
             store=True,
+            temperature=0,
             tools=[
                 {
                     "type": "web_search",
@@ -176,9 +180,11 @@ class TestAsyncResponses:
         response = await async_client.responses.create(
             input="string",
             model="model",
+            instructions="instructions",
             previous_response_id="previous_response_id",
             store=True,
             stream=False,
+            temperature=0,
             tools=[
                 {
                     "type": "web_search",
@@ -229,8 +235,10 @@ class TestAsyncResponses:
             input="string",
             model="model",
             stream=True,
+            instructions="instructions",
             previous_response_id="previous_response_id",
             store=True,
+            temperature=0,
             tools=[
                 {
                     "type": "web_search",

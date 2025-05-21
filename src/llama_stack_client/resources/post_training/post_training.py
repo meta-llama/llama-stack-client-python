@@ -76,7 +76,21 @@ class PostTrainingResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PostTrainingJob:
         """
+        Run preference optimization of a model.
+
         Args:
+          algorithm_config: The algorithm configuration.
+
+          finetuned_model: The model to fine-tune.
+
+          hyperparam_search_config: The hyperparam search configuration.
+
+          job_uuid: The UUID of the job to create.
+
+          logger_config: The logger configuration.
+
+          training_config: The training configuration.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -122,7 +136,23 @@ class PostTrainingResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PostTrainingJob:
         """
+        Run supervised fine-tuning of a model.
+
         Args:
+          hyperparam_search_config: The hyperparam search configuration.
+
+          job_uuid: The UUID of the job to create.
+
+          logger_config: The logger configuration.
+
+          training_config: The training configuration.
+
+          algorithm_config: The algorithm configuration.
+
+          checkpoint_dir: The directory to save checkpoint(s) to.
+
+          model: The model to fine-tune.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -193,7 +223,21 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PostTrainingJob:
         """
+        Run preference optimization of a model.
+
         Args:
+          algorithm_config: The algorithm configuration.
+
+          finetuned_model: The model to fine-tune.
+
+          hyperparam_search_config: The hyperparam search configuration.
+
+          job_uuid: The UUID of the job to create.
+
+          logger_config: The logger configuration.
+
+          training_config: The training configuration.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -239,7 +283,23 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PostTrainingJob:
         """
+        Run supervised fine-tuning of a model.
+
         Args:
+          hyperparam_search_config: The hyperparam search configuration.
+
+          job_uuid: The UUID of the job to create.
+
+          logger_config: The logger configuration.
+
+          training_config: The training configuration.
+
+          algorithm_config: The algorithm configuration.
+
+          checkpoint_dir: The directory to save checkpoint(s) to.
+
+          model: The model to fine-tune.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

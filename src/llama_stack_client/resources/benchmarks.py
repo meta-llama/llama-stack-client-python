@@ -57,6 +57,8 @@ class BenchmarksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Benchmark:
         """
+        Get a benchmark by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -86,6 +88,7 @@ class BenchmarksResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> BenchmarkListResponse:
+        """List all benchmarks."""
         return self._get(
             "/v1/eval/benchmarks",
             options=make_request_options(
@@ -115,7 +118,21 @@ class BenchmarksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Register a benchmark.
+
         Args:
+          benchmark_id: The ID of the benchmark to register.
+
+          dataset_id: The ID of the dataset to use for the benchmark.
+
+          scoring_functions: The scoring functions to use for the benchmark.
+
+          metadata: The metadata to use for the benchmark.
+
+          provider_benchmark_id: The ID of the provider benchmark to use for the benchmark.
+
+          provider_id: The ID of the provider to use for the benchmark.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -177,6 +194,8 @@ class AsyncBenchmarksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Benchmark:
         """
+        Get a benchmark by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -206,6 +225,7 @@ class AsyncBenchmarksResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> BenchmarkListResponse:
+        """List all benchmarks."""
         return await self._get(
             "/v1/eval/benchmarks",
             options=make_request_options(
@@ -235,7 +255,21 @@ class AsyncBenchmarksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Register a benchmark.
+
         Args:
+          benchmark_id: The ID of the benchmark to register.
+
+          dataset_id: The ID of the dataset to use for the benchmark.
+
+          scoring_functions: The scoring functions to use for the benchmark.
+
+          metadata: The metadata to use for the benchmark.
+
+          provider_benchmark_id: The ID of the provider benchmark to use for the benchmark.
+
+          provider_id: The ID of the provider to use for the benchmark.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

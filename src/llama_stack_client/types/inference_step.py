@@ -20,6 +20,7 @@ class InferenceStep(BaseModel):
     """The ID of the step."""
 
     step_type: Literal["inference"]
+    """Type of the step in an agent turn."""
 
     turn_id: str
     """The ID of the turn."""

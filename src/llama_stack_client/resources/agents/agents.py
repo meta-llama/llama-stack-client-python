@@ -124,7 +124,7 @@ class AgentsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Delete an agent by its ID.
+        Delete an agent by its ID and its associated sessions and turns.
 
         Args:
           extra_headers: Send extra headers
@@ -225,7 +225,7 @@ class AsyncAgentsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Delete an agent by its ID.
+        Delete an agent by its ID and its associated sessions and turns.
 
         Args:
           extra_headers: Send extra headers

@@ -58,6 +58,8 @@ class ModelsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Model:
         """
+        Get a model by its identifier.
+
         Args:
           extra_headers: Send extra headers
 
@@ -87,6 +89,7 @@ class ModelsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ModelListResponse:
+        """List all models."""
         return self._get(
             "/v1/models",
             options=make_request_options(
@@ -115,7 +118,19 @@ class ModelsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Model:
         """
+        Register a model.
+
         Args:
+          model_id: The identifier of the model to register.
+
+          metadata: Any additional metadata for this model.
+
+          model_type: The type of model to register.
+
+          provider_id: The identifier of the provider.
+
+          provider_model_id: The identifier of the model in the provider.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -154,6 +169,8 @@ class ModelsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Unregister a model.
+
         Args:
           extra_headers: Send extra headers
 
@@ -207,6 +224,8 @@ class AsyncModelsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Model:
         """
+        Get a model by its identifier.
+
         Args:
           extra_headers: Send extra headers
 
@@ -236,6 +255,7 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ModelListResponse:
+        """List all models."""
         return await self._get(
             "/v1/models",
             options=make_request_options(
@@ -264,7 +284,19 @@ class AsyncModelsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Model:
         """
+        Register a model.
+
         Args:
+          model_id: The identifier of the model to register.
+
+          metadata: Any additional metadata for this model.
+
+          model_type: The type of model to register.
+
+          provider_id: The identifier of the provider.
+
+          provider_model_id: The identifier of the model in the provider.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -303,6 +335,8 @@ class AsyncModelsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Unregister a model.
+
         Args:
           extra_headers: Send extra headers
 

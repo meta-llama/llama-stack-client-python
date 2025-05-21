@@ -12,7 +12,10 @@ __all__ = ["SafetyRunShieldParams"]
 
 class SafetyRunShieldParams(TypedDict, total=False):
     messages: Required[Iterable[Message]]
+    """The messages to run the shield on."""
 
     params: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+    """The parameters of the shield."""
 
     shield_id: Required[str]
+    """The identifier of the shield to run."""

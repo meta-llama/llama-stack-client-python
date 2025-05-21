@@ -26,7 +26,9 @@ class TestScoring:
             input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
+                    "aggregation_functions": ["average"],
                     "judge_model": "judge_model",
+                    "judge_score_regexes": ["string"],
                     "type": "llm_as_judge",
                 }
             },
@@ -39,7 +41,9 @@ class TestScoring:
             input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
+                    "aggregation_functions": ["average"],
                     "judge_model": "judge_model",
+                    "judge_score_regexes": ["string"],
                     "type": "llm_as_judge",
                 }
             },
@@ -56,7 +60,9 @@ class TestScoring:
             input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
+                    "aggregation_functions": ["average"],
                     "judge_model": "judge_model",
+                    "judge_score_regexes": ["string"],
                     "type": "llm_as_judge",
                 }
             },
@@ -76,7 +82,9 @@ class TestScoring:
             save_results_dataset=True,
             scoring_functions={
                 "foo": {
+                    "aggregation_functions": ["average"],
                     "judge_model": "judge_model",
+                    "judge_score_regexes": ["string"],
                     "type": "llm_as_judge",
                 }
             },
@@ -90,7 +98,9 @@ class TestScoring:
             save_results_dataset=True,
             scoring_functions={
                 "foo": {
+                    "aggregation_functions": ["average"],
                     "judge_model": "judge_model",
+                    "judge_score_regexes": ["string"],
                     "type": "llm_as_judge",
                 }
             },
@@ -108,7 +118,9 @@ class TestScoring:
             save_results_dataset=True,
             scoring_functions={
                 "foo": {
+                    "aggregation_functions": ["average"],
                     "judge_model": "judge_model",
+                    "judge_score_regexes": ["string"],
                     "type": "llm_as_judge",
                 }
             },
@@ -131,7 +143,9 @@ class TestAsyncScoring:
             input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
+                    "aggregation_functions": ["average"],
                     "judge_model": "judge_model",
+                    "judge_score_regexes": ["string"],
                     "type": "llm_as_judge",
                 }
             },
@@ -144,7 +158,9 @@ class TestAsyncScoring:
             input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
+                    "aggregation_functions": ["average"],
                     "judge_model": "judge_model",
+                    "judge_score_regexes": ["string"],
                     "type": "llm_as_judge",
                 }
             },
@@ -161,7 +177,9 @@ class TestAsyncScoring:
             input_rows=[{"foo": True}],
             scoring_functions={
                 "foo": {
+                    "aggregation_functions": ["average"],
                     "judge_model": "judge_model",
+                    "judge_score_regexes": ["string"],
                     "type": "llm_as_judge",
                 }
             },
@@ -181,7 +199,9 @@ class TestAsyncScoring:
             save_results_dataset=True,
             scoring_functions={
                 "foo": {
+                    "aggregation_functions": ["average"],
                     "judge_model": "judge_model",
+                    "judge_score_regexes": ["string"],
                     "type": "llm_as_judge",
                 }
             },
@@ -195,7 +215,9 @@ class TestAsyncScoring:
             save_results_dataset=True,
             scoring_functions={
                 "foo": {
+                    "aggregation_functions": ["average"],
                     "judge_model": "judge_model",
+                    "judge_score_regexes": ["string"],
                     "type": "llm_as_judge",
                 }
             },
@@ -213,7 +235,9 @@ class TestAsyncScoring:
             save_results_dataset=True,
             scoring_functions={
                 "foo": {
+                    "aggregation_functions": ["average"],
                     "judge_model": "judge_model",
+                    "judge_score_regexes": ["string"],
                     "type": "llm_as_judge",
                 }
             },

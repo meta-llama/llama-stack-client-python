@@ -160,6 +160,14 @@ from .completions import (
     CompletionsResourceWithStreamingResponse,
     AsyncCompletionsResourceWithStreamingResponse,
 )
+from .credentials import (
+    CredentialsResource,
+    AsyncCredentialsResource,
+    CredentialsResourceWithRawResponse,
+    AsyncCredentialsResourceWithRawResponse,
+    CredentialsResourceWithStreamingResponse,
+    AsyncCredentialsResourceWithStreamingResponse,
+)
 from .tool_runtime import (
     ToolRuntimeResource,
     AsyncToolRuntimeResource,
@@ -260,6 +268,12 @@ __all__ = [
     "AsyncCompletionsResourceWithRawResponse",
     "CompletionsResourceWithStreamingResponse",
     "AsyncCompletionsResourceWithStreamingResponse",
+    "CredentialsResource",
+    "AsyncCredentialsResource",
+    "CredentialsResourceWithRawResponse",
+    "AsyncCredentialsResourceWithRawResponse",
+    "CredentialsResourceWithStreamingResponse",
+    "AsyncCredentialsResourceWithStreamingResponse",
     "VectorIoResource",
     "AsyncVectorIoResource",
     "VectorIoResourceWithRawResponse",

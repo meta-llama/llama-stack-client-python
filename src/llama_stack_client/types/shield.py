@@ -13,8 +13,8 @@ class Shield(BaseModel):
 
     provider_id: str
 
-    provider_resource_id: str
-
     type: Literal["shield"]
 
     params: Optional[Dict[str, Union[bool, float, str, List[object], object, None]]] = None
+
+    provider_resource_id: Optional[str] = None

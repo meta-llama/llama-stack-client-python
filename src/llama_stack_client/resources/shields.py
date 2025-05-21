@@ -57,6 +57,8 @@ class ShieldsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Shield:
         """
+        Get a shield by its identifier.
+
         Args:
           extra_headers: Send extra headers
 
@@ -86,6 +88,7 @@ class ShieldsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ShieldListResponse:
+        """List all shields."""
         return self._get(
             "/v1/shields",
             options=make_request_options(
@@ -113,7 +116,17 @@ class ShieldsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Shield:
         """
+        Register a shield.
+
         Args:
+          shield_id: The identifier of the shield to register.
+
+          params: The parameters of the shield.
+
+          provider_id: The identifier of the provider.
+
+          provider_shield_id: The identifier of the shield in the provider.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -172,6 +185,8 @@ class AsyncShieldsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Shield:
         """
+        Get a shield by its identifier.
+
         Args:
           extra_headers: Send extra headers
 
@@ -201,6 +216,7 @@ class AsyncShieldsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ShieldListResponse:
+        """List all shields."""
         return await self._get(
             "/v1/shields",
             options=make_request_options(
@@ -228,7 +244,17 @@ class AsyncShieldsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Shield:
         """
+        Register a shield.
+
         Args:
+          shield_id: The identifier of the shield to register.
+
+          params: The parameters of the shield.
+
+          provider_id: The identifier of the provider.
+
+          provider_shield_id: The identifier of the shield in the provider.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

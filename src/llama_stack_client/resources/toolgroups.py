@@ -55,7 +55,7 @@ class ToolgroupsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolgroupListResponse:
-        """List tool groups with optional provider"""
+        """List tool groups with optional provider."""
         return self._get(
             "/v1/toolgroups",
             options=make_request_options(
@@ -80,6 +80,8 @@ class ToolgroupsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolGroup:
         """
+        Get a tool group by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -114,9 +116,17 @@ class ToolgroupsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Register a tool group
+        Register a tool group.
 
         Args:
+          provider_id: The ID of the provider to use for the tool group.
+
+          toolgroup_id: The ID of the tool group to register.
+
+          args: A dictionary of arguments to pass to the tool group.
+
+          mcp_endpoint: The MCP endpoint to use for the tool group.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -155,7 +165,7 @@ class ToolgroupsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Unregister a tool group
+        Unregister a tool group.
 
         Args:
           extra_headers: Send extra headers
@@ -208,7 +218,7 @@ class AsyncToolgroupsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolgroupListResponse:
-        """List tool groups with optional provider"""
+        """List tool groups with optional provider."""
         return await self._get(
             "/v1/toolgroups",
             options=make_request_options(
@@ -233,6 +243,8 @@ class AsyncToolgroupsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolGroup:
         """
+        Get a tool group by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -267,9 +279,17 @@ class AsyncToolgroupsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Register a tool group
+        Register a tool group.
 
         Args:
+          provider_id: The ID of the provider to use for the tool group.
+
+          toolgroup_id: The ID of the tool group to register.
+
+          args: A dictionary of arguments to pass to the tool group.
+
+          mcp_endpoint: The MCP endpoint to use for the tool group.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -308,7 +328,7 @@ class AsyncToolgroupsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Unregister a tool group
+        Unregister a tool group.
 
         Args:
           extra_headers: Send extra headers

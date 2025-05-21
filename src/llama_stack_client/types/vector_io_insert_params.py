@@ -12,10 +12,13 @@ __all__ = ["VectorIoInsertParams", "Chunk"]
 
 class VectorIoInsertParams(TypedDict, total=False):
     chunks: Required[Iterable[Chunk]]
+    """The chunks to insert."""
 
     vector_db_id: Required[str]
+    """The identifier of the vector database to insert the chunks into."""
 
     ttl_seconds: int
+    """The time to live of the chunks."""
 
 
 class Chunk(TypedDict, total=False):

@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Optional
 from typing_extensions import Literal
 
 from .._models import BaseModel
@@ -17,8 +17,8 @@ class Benchmark(BaseModel):
 
     provider_id: str
 
-    provider_resource_id: str
-
     scoring_functions: List[str]
 
     type: Literal["benchmark"]
+
+    provider_resource_id: Optional[str] = None

@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List
+from typing import List, Optional
 from typing_extensions import Literal, TypeAlias
 
 from .._models import BaseModel
@@ -17,9 +17,9 @@ class VectorDBListResponseItem(BaseModel):
 
     provider_id: str
 
-    provider_resource_id: str
-
     type: Literal["vector_db"]
+
+    provider_resource_id: Optional[str] = None
 
 
 VectorDBListResponse: TypeAlias = List[VectorDBListResponseItem]

@@ -18,6 +18,7 @@ class MemoryRetrievalStep(BaseModel):
     """The ID of the step."""
 
     step_type: Literal["memory_retrieval"]
+    """Type of the step in an agent turn."""
 
     turn_id: str
     """The ID of the turn."""

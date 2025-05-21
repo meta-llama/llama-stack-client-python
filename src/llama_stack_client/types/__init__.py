@@ -97,6 +97,7 @@ from .toolgroup_list_response import ToolgroupListResponse as ToolgroupListRespo
 from .vector_db_list_response import VectorDBListResponse as VectorDBListResponse
 from .vector_io_insert_params import VectorIoInsertParams as VectorIoInsertParams
 from .completion_create_params import CompletionCreateParams as CompletionCreateParams
+from .credential_create_params import CredentialCreateParams as CredentialCreateParams
 from .list_benchmarks_response import ListBenchmarksResponse as ListBenchmarksResponse
 from .list_vector_dbs_response import ListVectorDBsResponse as ListVectorDBsResponse
 from .safety_run_shield_params import SafetyRunShieldParams as SafetyRunShieldParams
@@ -109,6 +110,7 @@ from .list_tool_groups_response import ListToolGroupsResponse as ListToolGroupsR
 from .toolgroup_register_params import ToolgroupRegisterParams as ToolgroupRegisterParams
 from .vector_db_register_params import VectorDBRegisterParams as VectorDBRegisterParams
 from .completion_create_response import CompletionCreateResponse as CompletionCreateResponse
+from .credential_create_response import CredentialCreateResponse as CredentialCreateResponse
 from .eval_run_eval_alpha_params import EvalRunEvalAlphaParams as EvalRunEvalAlphaParams
 from .scoring_score_batch_params import ScoringScoreBatchParams as ScoringScoreBatchParams
 from .telemetry_log_event_params import TelemetryLogEventParams as TelemetryLogEventParams
@@ -117,6 +119,7 @@ from .inference_embeddings_params import InferenceEmbeddingsParams as InferenceE
 from .telemetry_get_span_response import TelemetryGetSpanResponse as TelemetryGetSpanResponse
 from .vector_db_register_response import VectorDBRegisterResponse as VectorDBRegisterResponse
 from .vector_db_retrieve_response import VectorDBRetrieveResponse as VectorDBRetrieveResponse
+from .credential_retrieve_response import CredentialRetrieveResponse as CredentialRetrieveResponse
 from .scoring_score_batch_response import ScoringScoreBatchResponse as ScoringScoreBatchResponse
 from .telemetry_query_spans_params import TelemetryQuerySpansParams as TelemetryQuerySpansParams
 from .telemetry_query_traces_params import TelemetryQueryTracesParams as TelemetryQueryTracesParams

@@ -83,37 +83,37 @@ class CompletionsResource(SyncAPIResource):
           model: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
 
-          prompt: The prompt to generate a completion for
+          prompt: The prompt to generate a completion for.
 
-          best_of: (Optional) The number of completions to generate
+          best_of: (Optional) The number of completions to generate.
 
-          echo: (Optional) Whether to echo the prompt
+          echo: (Optional) Whether to echo the prompt.
 
-          frequency_penalty: (Optional) The penalty for repeated tokens
+          frequency_penalty: (Optional) The penalty for repeated tokens.
 
-          logit_bias: (Optional) The logit bias to use
+          logit_bias: (Optional) The logit bias to use.
 
-          logprobs: (Optional) The log probabilities to use
+          logprobs: (Optional) The log probabilities to use.
 
-          max_tokens: (Optional) The maximum number of tokens to generate
+          max_tokens: (Optional) The maximum number of tokens to generate.
 
-          n: (Optional) The number of completions to generate
+          n: (Optional) The number of completions to generate.
 
-          presence_penalty: (Optional) The penalty for repeated tokens
+          presence_penalty: (Optional) The penalty for repeated tokens.
 
-          seed: (Optional) The seed to use
+          seed: (Optional) The seed to use.
 
-          stop: (Optional) The stop tokens to use
+          stop: (Optional) The stop tokens to use.
 
-          stream: (Optional) Whether to stream the response
+          stream: (Optional) Whether to stream the response.
 
-          stream_options: (Optional) The stream options to use
+          stream_options: (Optional) The stream options to use.
 
-          temperature: (Optional) The temperature to use
+          temperature: (Optional) The temperature to use.
 
-          top_p: (Optional) The top p to use
+          top_p: (Optional) The top p to use.
 
-          user: (Optional) The user to use
+          user: (Optional) The user to use.
 
           extra_headers: Send extra headers
 
@@ -163,37 +163,37 @@ class CompletionsResource(SyncAPIResource):
           model: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
 
-          prompt: The prompt to generate a completion for
+          prompt: The prompt to generate a completion for.
 
-          stream: (Optional) Whether to stream the response
+          stream: (Optional) Whether to stream the response.
 
-          best_of: (Optional) The number of completions to generate
+          best_of: (Optional) The number of completions to generate.
 
-          echo: (Optional) Whether to echo the prompt
+          echo: (Optional) Whether to echo the prompt.
 
-          frequency_penalty: (Optional) The penalty for repeated tokens
+          frequency_penalty: (Optional) The penalty for repeated tokens.
 
-          logit_bias: (Optional) The logit bias to use
+          logit_bias: (Optional) The logit bias to use.
 
-          logprobs: (Optional) The log probabilities to use
+          logprobs: (Optional) The log probabilities to use.
 
-          max_tokens: (Optional) The maximum number of tokens to generate
+          max_tokens: (Optional) The maximum number of tokens to generate.
 
-          n: (Optional) The number of completions to generate
+          n: (Optional) The number of completions to generate.
 
-          presence_penalty: (Optional) The penalty for repeated tokens
+          presence_penalty: (Optional) The penalty for repeated tokens.
 
-          seed: (Optional) The seed to use
+          seed: (Optional) The seed to use.
 
-          stop: (Optional) The stop tokens to use
+          stop: (Optional) The stop tokens to use.
 
-          stream_options: (Optional) The stream options to use
+          stream_options: (Optional) The stream options to use.
 
-          temperature: (Optional) The temperature to use
+          temperature: (Optional) The temperature to use.
 
-          top_p: (Optional) The top p to use
+          top_p: (Optional) The top p to use.
 
-          user: (Optional) The user to use
+          user: (Optional) The user to use.
 
           extra_headers: Send extra headers
 
@@ -243,37 +243,37 @@ class CompletionsResource(SyncAPIResource):
           model: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
 
-          prompt: The prompt to generate a completion for
+          prompt: The prompt to generate a completion for.
 
-          stream: (Optional) Whether to stream the response
+          stream: (Optional) Whether to stream the response.
 
-          best_of: (Optional) The number of completions to generate
+          best_of: (Optional) The number of completions to generate.
 
-          echo: (Optional) Whether to echo the prompt
+          echo: (Optional) Whether to echo the prompt.
 
-          frequency_penalty: (Optional) The penalty for repeated tokens
+          frequency_penalty: (Optional) The penalty for repeated tokens.
 
-          logit_bias: (Optional) The logit bias to use
+          logit_bias: (Optional) The logit bias to use.
 
-          logprobs: (Optional) The log probabilities to use
+          logprobs: (Optional) The log probabilities to use.
 
-          max_tokens: (Optional) The maximum number of tokens to generate
+          max_tokens: (Optional) The maximum number of tokens to generate.
 
-          n: (Optional) The number of completions to generate
+          n: (Optional) The number of completions to generate.
 
-          presence_penalty: (Optional) The penalty for repeated tokens
+          presence_penalty: (Optional) The penalty for repeated tokens.
 
-          seed: (Optional) The seed to use
+          seed: (Optional) The seed to use.
 
-          stop: (Optional) The stop tokens to use
+          stop: (Optional) The stop tokens to use.
 
-          stream_options: (Optional) The stream options to use
+          stream_options: (Optional) The stream options to use.
 
-          temperature: (Optional) The temperature to use
+          temperature: (Optional) The temperature to use.
 
-          top_p: (Optional) The top p to use
+          top_p: (Optional) The top p to use.
 
-          user: (Optional) The user to use
+          user: (Optional) The user to use.
 
           extra_headers: Send extra headers
 
@@ -410,37 +410,37 @@ class AsyncCompletionsResource(AsyncAPIResource):
           model: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
 
-          prompt: The prompt to generate a completion for
+          prompt: The prompt to generate a completion for.
 
-          best_of: (Optional) The number of completions to generate
+          best_of: (Optional) The number of completions to generate.
 
-          echo: (Optional) Whether to echo the prompt
+          echo: (Optional) Whether to echo the prompt.
 
-          frequency_penalty: (Optional) The penalty for repeated tokens
+          frequency_penalty: (Optional) The penalty for repeated tokens.
 
-          logit_bias: (Optional) The logit bias to use
+          logit_bias: (Optional) The logit bias to use.
 
-          logprobs: (Optional) The log probabilities to use
+          logprobs: (Optional) The log probabilities to use.
 
-          max_tokens: (Optional) The maximum number of tokens to generate
+          max_tokens: (Optional) The maximum number of tokens to generate.
 
-          n: (Optional) The number of completions to generate
+          n: (Optional) The number of completions to generate.
 
-          presence_penalty: (Optional) The penalty for repeated tokens
+          presence_penalty: (Optional) The penalty for repeated tokens.
 
-          seed: (Optional) The seed to use
+          seed: (Optional) The seed to use.
 
-          stop: (Optional) The stop tokens to use
+          stop: (Optional) The stop tokens to use.
 
-          stream: (Optional) Whether to stream the response
+          stream: (Optional) Whether to stream the response.
 
-          stream_options: (Optional) The stream options to use
+          stream_options: (Optional) The stream options to use.
 
-          temperature: (Optional) The temperature to use
+          temperature: (Optional) The temperature to use.
 
-          top_p: (Optional) The top p to use
+          top_p: (Optional) The top p to use.
 
-          user: (Optional) The user to use
+          user: (Optional) The user to use.
 
           extra_headers: Send extra headers
 
@@ -490,37 +490,37 @@ class AsyncCompletionsResource(AsyncAPIResource):
           model: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
 
-          prompt: The prompt to generate a completion for
+          prompt: The prompt to generate a completion for.
 
-          stream: (Optional) Whether to stream the response
+          stream: (Optional) Whether to stream the response.
 
-          best_of: (Optional) The number of completions to generate
+          best_of: (Optional) The number of completions to generate.
 
-          echo: (Optional) Whether to echo the prompt
+          echo: (Optional) Whether to echo the prompt.
 
-          frequency_penalty: (Optional) The penalty for repeated tokens
+          frequency_penalty: (Optional) The penalty for repeated tokens.
 
-          logit_bias: (Optional) The logit bias to use
+          logit_bias: (Optional) The logit bias to use.
 
-          logprobs: (Optional) The log probabilities to use
+          logprobs: (Optional) The log probabilities to use.
 
-          max_tokens: (Optional) The maximum number of tokens to generate
+          max_tokens: (Optional) The maximum number of tokens to generate.
 
-          n: (Optional) The number of completions to generate
+          n: (Optional) The number of completions to generate.
 
-          presence_penalty: (Optional) The penalty for repeated tokens
+          presence_penalty: (Optional) The penalty for repeated tokens.
 
-          seed: (Optional) The seed to use
+          seed: (Optional) The seed to use.
 
-          stop: (Optional) The stop tokens to use
+          stop: (Optional) The stop tokens to use.
 
-          stream_options: (Optional) The stream options to use
+          stream_options: (Optional) The stream options to use.
 
-          temperature: (Optional) The temperature to use
+          temperature: (Optional) The temperature to use.
 
-          top_p: (Optional) The top p to use
+          top_p: (Optional) The top p to use.
 
-          user: (Optional) The user to use
+          user: (Optional) The user to use.
 
           extra_headers: Send extra headers
 
@@ -570,37 +570,37 @@ class AsyncCompletionsResource(AsyncAPIResource):
           model: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
 
-          prompt: The prompt to generate a completion for
+          prompt: The prompt to generate a completion for.
 
-          stream: (Optional) Whether to stream the response
+          stream: (Optional) Whether to stream the response.
 
-          best_of: (Optional) The number of completions to generate
+          best_of: (Optional) The number of completions to generate.
 
-          echo: (Optional) Whether to echo the prompt
+          echo: (Optional) Whether to echo the prompt.
 
-          frequency_penalty: (Optional) The penalty for repeated tokens
+          frequency_penalty: (Optional) The penalty for repeated tokens.
 
-          logit_bias: (Optional) The logit bias to use
+          logit_bias: (Optional) The logit bias to use.
 
-          logprobs: (Optional) The log probabilities to use
+          logprobs: (Optional) The log probabilities to use.
 
-          max_tokens: (Optional) The maximum number of tokens to generate
+          max_tokens: (Optional) The maximum number of tokens to generate.
 
-          n: (Optional) The number of completions to generate
+          n: (Optional) The number of completions to generate.
 
-          presence_penalty: (Optional) The penalty for repeated tokens
+          presence_penalty: (Optional) The penalty for repeated tokens.
 
-          seed: (Optional) The seed to use
+          seed: (Optional) The seed to use.
 
-          stop: (Optional) The stop tokens to use
+          stop: (Optional) The stop tokens to use.
 
-          stream_options: (Optional) The stream options to use
+          stream_options: (Optional) The stream options to use.
 
-          temperature: (Optional) The temperature to use
+          temperature: (Optional) The temperature to use.
 
-          top_p: (Optional) The top p to use
+          top_p: (Optional) The top p to use.
 
-          user: (Optional) The user to use
+          user: (Optional) The user to use.
 
           extra_headers: Send extra headers
 

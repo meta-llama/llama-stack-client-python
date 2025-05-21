@@ -2,16 +2,25 @@
 
 from __future__ import annotations
 
-from typing import Union, Iterable
+from typing import Dict, List, Union, Iterable
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 __all__ = [
     "ResponseCreateParamsBase",
     "InputUnionMember1",
-    "InputUnionMember1ContentUnionMember1",
-    "InputUnionMember1ContentUnionMember1OpenAIResponseInputMessageContentText",
-    "InputUnionMember1ContentUnionMember1OpenAIResponseInputMessageContentImage",
+    "InputUnionMember1OpenAIResponseOutputMessageWebSearchToolCall",
+    "InputUnionMember1OpenAIResponseOutputMessageFunctionToolCall",
+    "InputUnionMember1OpenAIResponseInputFunctionToolCallOutput",
+    "InputUnionMember1OpenAIResponseMessage",
+    "InputUnionMember1OpenAIResponseMessageContentUnionMember1",
+    "InputUnionMember1OpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentText",
+    "InputUnionMember1OpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentImage",
+    "InputUnionMember1OpenAIResponseMessageContentUnionMember2",
     "Tool",
+    "ToolOpenAIResponseInputToolWebSearch",
+    "ToolOpenAIResponseInputToolFileSearch",
+    "ToolOpenAIResponseInputToolFileSearchRankingOptions",
+    "ToolOpenAIResponseInputToolFunction",
     "ResponseCreateParamsNonStreaming",
     "ResponseCreateParamsStreaming",
 ]
@@ -24,6 +33,8 @@ class ResponseCreateParamsBase(TypedDict, total=False):
     model: Required[str]
     """The underlying LLM used for completions."""
 
+    instructions: str
+
     previous_response_id: str
     """
     (Optional) if specified, the new response will be a continuation of the previous
@@ -33,16 +44,56 @@ class ResponseCreateParamsBase(TypedDict, total=False):
 
     store: bool
 
+    temperature: float
+
     tools: Iterable[Tool]
 
 
-class InputUnionMember1ContentUnionMember1OpenAIResponseInputMessageContentText(TypedDict, total=False):
+class InputUnionMember1OpenAIResponseOutputMessageWebSearchToolCall(TypedDict, total=False):
+    id: Required[str]
+
+    status: Required[str]
+
+    type: Required[Literal["web_search_call"]]
+
+
+class InputUnionMember1OpenAIResponseOutputMessageFunctionToolCall(TypedDict, total=False):
+    id: Required[str]
+
+    arguments: Required[str]
+
+    call_id: Required[str]
+
+    name: Required[str]
+
+    status: Required[str]
+
+    type: Required[Literal["function_call"]]
+
+
+class InputUnionMember1OpenAIResponseInputFunctionToolCallOutput(TypedDict, total=False):
+    call_id: Required[str]
+
+    output: Required[str]
+
+    type: Required[Literal["function_call_output"]]
+
+    id: str
+
+    status: str
+
+
+class InputUnionMember1OpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentText(
+    TypedDict, total=False
+):
     text: Required[str]
 
     type: Required[Literal["input_text"]]
 
 
-class InputUnionMember1ContentUnionMember1OpenAIResponseInputMessageContentImage(TypedDict, total=False):
+class InputUnionMember1OpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentImage(
+    TypedDict, total=False
+):
     detail: Required[Literal["low", "high", "auto"]]
 
     type: Required[Literal["input_image"]]
@@ -50,24 +101,79 @@ class InputUnionMember1ContentUnionMember1OpenAIResponseInputMessageContentImage
     image_url: str
 
 
-InputUnionMember1ContentUnionMember1: TypeAlias = Union[
-    InputUnionMember1ContentUnionMember1OpenAIResponseInputMessageContentText,
-    InputUnionMember1ContentUnionMember1OpenAIResponseInputMessageContentImage,
+InputUnionMember1OpenAIResponseMessageContentUnionMember1: TypeAlias = Union[
+    InputUnionMember1OpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentText,
+    InputUnionMember1OpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentImage,
 ]
 
 
-class InputUnionMember1(TypedDict, total=False):
-    content: Required[Union[str, Iterable[InputUnionMember1ContentUnionMember1]]]
+class InputUnionMember1OpenAIResponseMessageContentUnionMember2(TypedDict, total=False):
+    text: Required[str]
+
+    type: Required[Literal["output_text"]]
+
+
+class InputUnionMember1OpenAIResponseMessage(TypedDict, total=False):
+    content: Required[
+        Union[
+            str,
+            Iterable[InputUnionMember1OpenAIResponseMessageContentUnionMember1],
+            Iterable[InputUnionMember1OpenAIResponseMessageContentUnionMember2],
+        ]
+    ]
 
     role: Required[Literal["system", "developer", "user", "assistant"]]
 
-    type: Literal["message"]
+    type: Required[Literal["message"]]
+
+    id: str
+
+    status: str
 
 
-class Tool(TypedDict, total=False):
+InputUnionMember1: TypeAlias = Union[
+    InputUnionMember1OpenAIResponseOutputMessageWebSearchToolCall,
+    InputUnionMember1OpenAIResponseOutputMessageFunctionToolCall,
+    InputUnionMember1OpenAIResponseInputFunctionToolCallOutput,
+    InputUnionMember1OpenAIResponseMessage,
+]
+
+
+class ToolOpenAIResponseInputToolWebSearch(TypedDict, total=False):
     type: Required[Literal["web_search", "web_search_preview_2025_03_11"]]
 
     search_context_size: str
+
+
+class ToolOpenAIResponseInputToolFileSearchRankingOptions(TypedDict, total=False):
+    ranker: str
+
+    score_threshold: float
+
+
+class ToolOpenAIResponseInputToolFileSearch(TypedDict, total=False):
+    type: Required[Literal["file_search"]]
+
+    vector_store_id: Required[List[str]]
+
+    ranking_options: ToolOpenAIResponseInputToolFileSearchRankingOptions
+
+
+class ToolOpenAIResponseInputToolFunction(TypedDict, total=False):
+    name: Required[str]
+
+    type: Required[Literal["function"]]
+
+    description: str
+
+    parameters: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+
+    strict: bool
+
+
+Tool: TypeAlias = Union[
+    ToolOpenAIResponseInputToolWebSearch, ToolOpenAIResponseInputToolFileSearch, ToolOpenAIResponseInputToolFunction
+]
 
 
 class ResponseCreateParamsNonStreaming(ResponseCreateParamsBase, total=False):

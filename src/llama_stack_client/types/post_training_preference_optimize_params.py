@@ -17,16 +17,22 @@ __all__ = [
 
 class PostTrainingPreferenceOptimizeParams(TypedDict, total=False):
     algorithm_config: Required[AlgorithmConfig]
+    """The algorithm configuration."""
 
     finetuned_model: Required[str]
+    """The model to fine-tune."""
 
     hyperparam_search_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+    """The hyperparam search configuration."""
 
     job_uuid: Required[str]
+    """The UUID of the job to create."""
 
     logger_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+    """The logger configuration."""
 
     training_config: Required[TrainingConfig]
+    """The training configuration."""
 
 
 class AlgorithmConfig(TypedDict, total=False):

@@ -12,13 +12,21 @@ __all__ = ["ScoringFunctionRegisterParams"]
 
 class ScoringFunctionRegisterParams(TypedDict, total=False):
     description: Required[str]
+    """The description of the scoring function."""
 
     return_type: Required[ReturnType]
 
     scoring_fn_id: Required[str]
+    """The ID of the scoring function to register."""
 
     params: ScoringFnParamsParam
+    """
+    The parameters for the scoring function for benchmark eval, these can be
+    overridden for app eval.
+    """
 
     provider_id: str
+    """The ID of the provider to use for the scoring function."""
 
     provider_scoring_fn_id: str
+    """The ID of the provider scoring function to use for the scoring function."""

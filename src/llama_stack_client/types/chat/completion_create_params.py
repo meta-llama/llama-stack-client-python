@@ -47,7 +47,7 @@ __all__ = [
 
 class CompletionCreateParamsBase(TypedDict, total=False):
     messages: Required[Iterable[Message]]
-    """List of messages in the conversation"""
+    """List of messages in the conversation."""
 
     model: Required[str]
     """The identifier of the model to use.
@@ -57,64 +57,64 @@ class CompletionCreateParamsBase(TypedDict, total=False):
     """
 
     frequency_penalty: float
-    """(Optional) The penalty for repeated tokens"""
+    """(Optional) The penalty for repeated tokens."""
 
     function_call: Union[str, Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
-    """(Optional) The function call to use"""
+    """(Optional) The function call to use."""
 
     functions: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
-    """(Optional) List of functions to use"""
+    """(Optional) List of functions to use."""
 
     logit_bias: Dict[str, float]
-    """(Optional) The logit bias to use"""
+    """(Optional) The logit bias to use."""
 
     logprobs: bool
-    """(Optional) The log probabilities to use"""
+    """(Optional) The log probabilities to use."""
 
     max_completion_tokens: int
-    """(Optional) The maximum number of tokens to generate"""
+    """(Optional) The maximum number of tokens to generate."""
 
     max_tokens: int
-    """(Optional) The maximum number of tokens to generate"""
+    """(Optional) The maximum number of tokens to generate."""
 
     n: int
-    """(Optional) The number of completions to generate"""
+    """(Optional) The number of completions to generate."""
 
     parallel_tool_calls: bool
-    """(Optional) Whether to parallelize tool calls"""
+    """(Optional) Whether to parallelize tool calls."""
 
     presence_penalty: float
-    """(Optional) The penalty for repeated tokens"""
+    """(Optional) The penalty for repeated tokens."""
 
     response_format: ResponseFormat
-    """(Optional) The response format to use"""
+    """(Optional) The response format to use."""
 
     seed: int
-    """(Optional) The seed to use"""
+    """(Optional) The seed to use."""
 
     stop: Union[str, List[str]]
-    """(Optional) The stop tokens to use"""
+    """(Optional) The stop tokens to use."""
 
     stream_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-    """(Optional) The stream options to use"""
+    """(Optional) The stream options to use."""
 
     temperature: float
-    """(Optional) The temperature to use"""
+    """(Optional) The temperature to use."""
 
     tool_choice: Union[str, Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
-    """(Optional) The tool choice to use"""
+    """(Optional) The tool choice to use."""
 
     tools: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
-    """(Optional) The tools to use"""
+    """(Optional) The tools to use."""
 
     top_logprobs: int
-    """(Optional) The top log probabilities to use"""
+    """(Optional) The top log probabilities to use."""
 
     top_p: float
-    """(Optional) The top p to use"""
+    """(Optional) The top p to use."""
 
     user: str
-    """(Optional) The user to use"""
+    """(Optional) The user to use."""
 
 
 class MessageOpenAIUserMessageParamContentUnionMember1OpenAIChatCompletionContentPartTextParam(TypedDict, total=False):
@@ -390,12 +390,12 @@ ResponseFormat: TypeAlias = Union[
 
 class CompletionCreateParamsNonStreaming(CompletionCreateParamsBase, total=False):
     stream: Literal[False]
-    """(Optional) Whether to stream the response"""
+    """(Optional) Whether to stream the response."""
 
 
 class CompletionCreateParamsStreaming(CompletionCreateParamsBase):
     stream: Required[Literal[True]]
-    """(Optional) Whether to stream the response"""
+    """(Optional) Whether to stream the response."""
 
 
 CompletionCreateParams = Union[CompletionCreateParamsNonStreaming, CompletionCreateParamsStreaming]

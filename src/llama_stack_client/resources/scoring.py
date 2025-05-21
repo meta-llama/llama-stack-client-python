@@ -102,7 +102,15 @@ class ScoringResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ScoringScoreBatchResponse:
         """
+        Score a batch of rows.
+
         Args:
+          dataset_id: The ID of the dataset to score.
+
+          save_results_dataset: Whether to save the results to a dataset.
+
+          scoring_functions: The scoring functions to use for the scoring.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -205,7 +213,15 @@ class AsyncScoringResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ScoringScoreBatchResponse:
         """
+        Score a batch of rows.
+
         Args:
+          dataset_id: The ID of the dataset to score.
+
+          save_results_dataset: Whether to save the results to a dataset.
+
+          scoring_functions: The scoring functions to use for the scoring.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

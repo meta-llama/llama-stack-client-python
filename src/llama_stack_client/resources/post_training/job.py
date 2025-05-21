@@ -56,6 +56,7 @@ class JobResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> List[Data]:
+        """Get all training jobs."""
         return self._get(
             "/v1/post-training/jobs",
             options=make_request_options(
@@ -80,7 +81,11 @@ class JobResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> JobArtifactsResponse:
         """
+        Get the artifacts of a training job.
+
         Args:
+          job_uuid: The UUID of the job to get the artifacts of.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -113,7 +118,11 @@ class JobResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Cancel a training job.
+
         Args:
+          job_uuid: The UUID of the job to cancel.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -144,7 +153,11 @@ class JobResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> JobStatusResponse:
         """
+        Get the status of a training job.
+
         Args:
+          job_uuid: The UUID of the job to get the status of.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -196,6 +209,7 @@ class AsyncJobResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> List[Data]:
+        """Get all training jobs."""
         return await self._get(
             "/v1/post-training/jobs",
             options=make_request_options(
@@ -220,7 +234,11 @@ class AsyncJobResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> JobArtifactsResponse:
         """
+        Get the artifacts of a training job.
+
         Args:
+          job_uuid: The UUID of the job to get the artifacts of.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -253,7 +271,11 @@ class AsyncJobResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Cancel a training job.
+
         Args:
+          job_uuid: The UUID of the job to cancel.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -284,7 +306,11 @@ class AsyncJobResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> JobStatusResponse:
         """
+        Get the status of a training job.
+
         Args:
+          job_uuid: The UUID of the job to get the status of.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

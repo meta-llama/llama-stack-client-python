@@ -2,65 +2,79 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing_extensions import Literal
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from ..._utils import maybe_transform, async_maybe_transform
-from ..._compat import cached_property
-from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
+from ..types import credential_create_params
+from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
+from .._utils import maybe_transform, async_maybe_transform
+from .._compat import cached_property
+from .._resource import SyncAPIResource, AsyncAPIResource
+from .._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import make_request_options
-from ...types.agents import session_create_params, session_retrieve_params
-from ...types.agents.session import Session
-from ...types.agents.session_create_response import SessionCreateResponse
+from .._base_client import make_request_options
+from .._decoders.jsonl import JSONLDecoder, AsyncJSONLDecoder
+from ..types.credential_retrieve_response import CredentialRetrieveResponse
 
-__all__ = ["SessionResource", "AsyncSessionResource"]
+__all__ = ["CredentialsResource", "AsyncCredentialsResource"]
 
 
-class SessionResource(SyncAPIResource):
+class CredentialsResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> SessionResourceWithRawResponse:
+    def with_raw_response(self) -> CredentialsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#accessing-raw-response-data-eg-headers
         """
-        return SessionResourceWithRawResponse(self)
+        return CredentialsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> SessionResourceWithStreamingResponse:
+    def with_streaming_response(self) -> CredentialsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#with_streaming_response
         """
-        return SessionResourceWithStreamingResponse(self)
+        return CredentialsResourceWithStreamingResponse(self)
 
     def create(
         self,
-        agent_id: str,
         *,
-        session_name: str,
+        token: str,
+        provider_id: str,
+        token_type: Literal["oauth2_authorization_code", "access_token"],
+        ttl_seconds: int,
+        nonce: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionCreateResponse:
+    ) -> str:
         """
-        Create a new session for an agent.
+        Create a new set of credentials for a given provider.
 
         Args:
-          session_name: The name of the session to create.
+          token: The token itself.
+
+          provider_id: The ID of the provider to create credentials for.
+
+          token_type: The type of token to create. This is provided in the API to serve as lightweight
+              documentation / metadata for the token.
+
+          ttl_seconds: The time to live for the credential in seconds. Defaults to 3600 seconds. When
+              token_type is oauth2_authorization_code, the TTL is ignored and is obtained from
+              the provider when exchanging the code for an access token.
+
+          nonce: The nonce is required when the token type is oauth2_authorization_code.
 
           extra_headers: Send extra headers
 
@@ -70,65 +84,49 @@ class SessionResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
         return self._post(
-            f"/v1/agents/{agent_id}/session",
-            body=maybe_transform({"session_name": session_name}, session_create_params.SessionCreateParams),
+            "/v1/credentials",
+            body=maybe_transform(
+                {
+                    "token": token,
+                    "provider_id": provider_id,
+                    "token_type": token_type,
+                    "ttl_seconds": ttl_seconds,
+                    "nonce": nonce,
+                },
+                credential_create_params.CredentialCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionCreateResponse,
+            cast_to=str,
         )
 
     def retrieve(
         self,
-        session_id: str,
         *,
-        agent_id: str,
-        turn_ids: List[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Session:
-        """
-        Retrieve an agent session by its ID.
-
-        Args:
-          turn_ids: (Optional) List of turn IDs to filter the session by.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        if not session_id:
-            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+    ) -> JSONLDecoder[CredentialRetrieveResponse]:
+        """Get all credentials for the current user."""
+        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         return self._get(
-            f"/v1/agents/{agent_id}/session/{session_id}",
+            "/v1/credentials",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"turn_ids": turn_ids}, session_retrieve_params.SessionRetrieveParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Session,
+            cast_to=JSONLDecoder[CredentialRetrieveResponse],
+            stream=True,
         )
 
     def delete(
         self,
-        session_id: str,
+        credential_id: str,
         *,
-        agent_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -137,7 +135,7 @@ class SessionResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Delete an agent session by its ID and its associated turns.
+        Delete a credential by its ID.
 
         Args:
           extra_headers: Send extra headers
@@ -148,13 +146,11 @@ class SessionResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        if not session_id:
-            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+        if not credential_id:
+            raise ValueError(f"Expected a non-empty value for `credential_id` but received {credential_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/v1/agents/{agent_id}/session/{session_id}",
+            f"/v1/credentials/{credential_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -162,43 +158,57 @@ class SessionResource(SyncAPIResource):
         )
 
 
-class AsyncSessionResource(AsyncAPIResource):
+class AsyncCredentialsResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncSessionResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncCredentialsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncSessionResourceWithRawResponse(self)
+        return AsyncCredentialsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncSessionResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncCredentialsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#with_streaming_response
         """
-        return AsyncSessionResourceWithStreamingResponse(self)
+        return AsyncCredentialsResourceWithStreamingResponse(self)
 
     async def create(
         self,
-        agent_id: str,
         *,
-        session_name: str,
+        token: str,
+        provider_id: str,
+        token_type: Literal["oauth2_authorization_code", "access_token"],
+        ttl_seconds: int,
+        nonce: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SessionCreateResponse:
+    ) -> str:
         """
-        Create a new session for an agent.
+        Create a new set of credentials for a given provider.
 
         Args:
-          session_name: The name of the session to create.
+          token: The token itself.
+
+          provider_id: The ID of the provider to create credentials for.
+
+          token_type: The type of token to create. This is provided in the API to serve as lightweight
+              documentation / metadata for the token.
+
+          ttl_seconds: The time to live for the credential in seconds. Defaults to 3600 seconds. When
+              token_type is oauth2_authorization_code, the TTL is ignored and is obtained from
+              the provider when exchanging the code for an access token.
+
+          nonce: The nonce is required when the token type is oauth2_authorization_code.
 
           extra_headers: Send extra headers
 
@@ -208,67 +218,49 @@ class AsyncSessionResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
         return await self._post(
-            f"/v1/agents/{agent_id}/session",
-            body=await async_maybe_transform({"session_name": session_name}, session_create_params.SessionCreateParams),
+            "/v1/credentials",
+            body=await async_maybe_transform(
+                {
+                    "token": token,
+                    "provider_id": provider_id,
+                    "token_type": token_type,
+                    "ttl_seconds": ttl_seconds,
+                    "nonce": nonce,
+                },
+                credential_create_params.CredentialCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SessionCreateResponse,
+            cast_to=str,
         )
 
     async def retrieve(
         self,
-        session_id: str,
         *,
-        agent_id: str,
-        turn_ids: List[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Session:
-        """
-        Retrieve an agent session by its ID.
-
-        Args:
-          turn_ids: (Optional) List of turn IDs to filter the session by.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        if not session_id:
-            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+    ) -> AsyncJSONLDecoder[CredentialRetrieveResponse]:
+        """Get all credentials for the current user."""
+        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         return await self._get(
-            f"/v1/agents/{agent_id}/session/{session_id}",
+            "/v1/credentials",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {"turn_ids": turn_ids}, session_retrieve_params.SessionRetrieveParams
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Session,
+            cast_to=AsyncJSONLDecoder[CredentialRetrieveResponse],
+            stream=True,
         )
 
     async def delete(
         self,
-        session_id: str,
+        credential_id: str,
         *,
-        agent_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -277,7 +269,7 @@ class AsyncSessionResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Delete an agent session by its ID and its associated turns.
+        Delete a credential by its ID.
 
         Args:
           extra_headers: Send extra headers
@@ -288,13 +280,11 @@ class AsyncSessionResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        if not session_id:
-            raise ValueError(f"Expected a non-empty value for `session_id` but received {session_id!r}")
+        if not credential_id:
+            raise ValueError(f"Expected a non-empty value for `credential_id` but received {credential_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/v1/agents/{agent_id}/session/{session_id}",
+            f"/v1/credentials/{credential_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -302,61 +292,61 @@ class AsyncSessionResource(AsyncAPIResource):
         )
 
 
-class SessionResourceWithRawResponse:
-    def __init__(self, session: SessionResource) -> None:
-        self._session = session
+class CredentialsResourceWithRawResponse:
+    def __init__(self, credentials: CredentialsResource) -> None:
+        self._credentials = credentials
 
         self.create = to_raw_response_wrapper(
-            session.create,
+            credentials.create,
         )
         self.retrieve = to_raw_response_wrapper(
-            session.retrieve,
+            credentials.retrieve,
         )
         self.delete = to_raw_response_wrapper(
-            session.delete,
+            credentials.delete,
         )
 
 
-class AsyncSessionResourceWithRawResponse:
-    def __init__(self, session: AsyncSessionResource) -> None:
-        self._session = session
+class AsyncCredentialsResourceWithRawResponse:
+    def __init__(self, credentials: AsyncCredentialsResource) -> None:
+        self._credentials = credentials
 
         self.create = async_to_raw_response_wrapper(
-            session.create,
+            credentials.create,
         )
         self.retrieve = async_to_raw_response_wrapper(
-            session.retrieve,
+            credentials.retrieve,
         )
         self.delete = async_to_raw_response_wrapper(
-            session.delete,
+            credentials.delete,
         )
 
 
-class SessionResourceWithStreamingResponse:
-    def __init__(self, session: SessionResource) -> None:
-        self._session = session
+class CredentialsResourceWithStreamingResponse:
+    def __init__(self, credentials: CredentialsResource) -> None:
+        self._credentials = credentials
 
         self.create = to_streamed_response_wrapper(
-            session.create,
+            credentials.create,
         )
         self.retrieve = to_streamed_response_wrapper(
-            session.retrieve,
+            credentials.retrieve,
         )
         self.delete = to_streamed_response_wrapper(
-            session.delete,
+            credentials.delete,
         )
 
 
-class AsyncSessionResourceWithStreamingResponse:
-    def __init__(self, session: AsyncSessionResource) -> None:
-        self._session = session
+class AsyncCredentialsResourceWithStreamingResponse:
+    def __init__(self, credentials: AsyncCredentialsResource) -> None:
+        self._credentials = credentials
 
         self.create = async_to_streamed_response_wrapper(
-            session.create,
+            credentials.create,
         )
         self.retrieve = async_to_streamed_response_wrapper(
-            session.retrieve,
+            credentials.retrieve,
         )
         self.delete = async_to_streamed_response_wrapper(
-            session.delete,
+            credentials.delete,
         )

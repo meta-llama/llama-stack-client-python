@@ -57,9 +57,11 @@ class ToolsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolListResponse:
         """
-        List tools with optional tool group
+        List tools with optional tool group.
 
         Args:
+          toolgroup_id: The ID of the tool group to list tools for.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -93,6 +95,8 @@ class ToolsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Tool:
         """
+        Get a tool by its name.
+
         Args:
           extra_headers: Send extra headers
 
@@ -145,9 +149,11 @@ class AsyncToolsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolListResponse:
         """
-        List tools with optional tool group
+        List tools with optional tool group.
 
         Args:
+          toolgroup_id: The ID of the tool group to list tools for.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -181,6 +187,8 @@ class AsyncToolsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Tool:
         """
+        Get a tool by its name.
+
         Args:
           extra_headers: Send extra headers
 

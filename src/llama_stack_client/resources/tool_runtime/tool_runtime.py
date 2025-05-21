@@ -70,9 +70,13 @@ class ToolRuntimeResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolInvocationResult:
         """
-        Run a tool with the given arguments
+        Run a tool with the given arguments.
 
         Args:
+          kwargs: A dictionary of arguments to pass to the tool.
+
+          tool_name: The name of the tool to invoke.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -109,7 +113,13 @@ class ToolRuntimeResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolRuntimeListToolsResponse:
         """
+        List all tools in the runtime.
+
         Args:
+          mcp_endpoint: The MCP endpoint to use for the tool group.
+
+          tool_group_id: The ID of the tool group to list tools for.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -175,9 +185,13 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolInvocationResult:
         """
-        Run a tool with the given arguments
+        Run a tool with the given arguments.
 
         Args:
+          kwargs: A dictionary of arguments to pass to the tool.
+
+          tool_name: The name of the tool to invoke.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -214,7 +228,13 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolRuntimeListToolsResponse:
         """
+        List all tools in the runtime.
+
         Args:
+          mcp_endpoint: The MCP endpoint to use for the tool group.
+
+          tool_group_id: The ID of the tool group to list tools for.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
