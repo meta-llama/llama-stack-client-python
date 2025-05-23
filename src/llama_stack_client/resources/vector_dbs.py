@@ -58,6 +58,8 @@ class VectorDBsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> VectorDBRetrieveResponse:
         """
+        Get a vector database by its identifier.
+
         Args:
           extra_headers: Send extra headers
 
@@ -87,6 +89,7 @@ class VectorDBsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> VectorDBListResponse:
+        """List all vector databases."""
         return self._get(
             "/v1/vector-dbs",
             options=make_request_options(
@@ -115,7 +118,19 @@ class VectorDBsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> VectorDBRegisterResponse:
         """
+        Register a vector database.
+
         Args:
+          embedding_model: The embedding model to use.
+
+          vector_db_id: The identifier of the vector database to register.
+
+          embedding_dimension: The dimension of the embedding model.
+
+          provider_id: The identifier of the provider.
+
+          provider_vector_db_id: The identifier of the vector database in the provider.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -154,6 +169,8 @@ class VectorDBsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Unregister a vector database.
+
         Args:
           extra_headers: Send extra headers
 
@@ -207,6 +224,8 @@ class AsyncVectorDBsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> VectorDBRetrieveResponse:
         """
+        Get a vector database by its identifier.
+
         Args:
           extra_headers: Send extra headers
 
@@ -236,6 +255,7 @@ class AsyncVectorDBsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> VectorDBListResponse:
+        """List all vector databases."""
         return await self._get(
             "/v1/vector-dbs",
             options=make_request_options(
@@ -264,7 +284,19 @@ class AsyncVectorDBsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> VectorDBRegisterResponse:
         """
+        Register a vector database.
+
         Args:
+          embedding_model: The embedding model to use.
+
+          vector_db_id: The identifier of the vector database to register.
+
+          embedding_dimension: The dimension of the embedding model.
+
+          provider_id: The identifier of the provider.
+
+          provider_vector_db_id: The identifier of the vector database in the provider.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -303,6 +335,8 @@ class AsyncVectorDBsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Unregister a vector database.
+
         Args:
           extra_headers: Send extra headers
 

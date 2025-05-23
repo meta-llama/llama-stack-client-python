@@ -18,18 +18,25 @@ __all__ = [
 
 class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
     hyperparam_search_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+    """The hyperparam search configuration."""
 
     job_uuid: Required[str]
+    """The UUID of the job to create."""
 
     logger_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+    """The logger configuration."""
 
     training_config: Required[TrainingConfig]
+    """The training configuration."""
 
     algorithm_config: AlgorithmConfigParam
+    """The algorithm configuration."""
 
     checkpoint_dir: str
+    """The directory to save checkpoint(s) to."""
 
     model: str
+    """The model to fine-tune."""
 
 
 class TrainingConfigDataConfig(TypedDict, total=False):

@@ -18,10 +18,12 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._streaming import Stream, AsyncStream
-from ...types.chat import completion_create_params
+from ...types.chat import completion_list_params, completion_create_params
 from ..._base_client import make_request_options
 from ...types.chat_completion_chunk import ChatCompletionChunk
+from ...types.chat.completion_list_response import CompletionListResponse
 from ...types.chat.completion_create_response import CompletionCreateResponse
+from ...types.chat.completion_retrieve_response import CompletionRetrieveResponse
 
 __all__ = ["CompletionsResource", "AsyncCompletionsResource"]
 
@@ -87,52 +89,52 @@ class CompletionsResource(SyncAPIResource):
         specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
 
-          frequency_penalty: (Optional) The penalty for repeated tokens
+          frequency_penalty: (Optional) The penalty for repeated tokens.
 
-          function_call: (Optional) The function call to use
+          function_call: (Optional) The function call to use.
 
-          functions: (Optional) List of functions to use
+          functions: (Optional) List of functions to use.
 
-          logit_bias: (Optional) The logit bias to use
+          logit_bias: (Optional) The logit bias to use.
 
-          logprobs: (Optional) The log probabilities to use
+          logprobs: (Optional) The log probabilities to use.
 
-          max_completion_tokens: (Optional) The maximum number of tokens to generate
+          max_completion_tokens: (Optional) The maximum number of tokens to generate.
 
-          max_tokens: (Optional) The maximum number of tokens to generate
+          max_tokens: (Optional) The maximum number of tokens to generate.
 
-          n: (Optional) The number of completions to generate
+          n: (Optional) The number of completions to generate.
 
-          parallel_tool_calls: (Optional) Whether to parallelize tool calls
+          parallel_tool_calls: (Optional) Whether to parallelize tool calls.
 
-          presence_penalty: (Optional) The penalty for repeated tokens
+          presence_penalty: (Optional) The penalty for repeated tokens.
 
-          response_format: (Optional) The response format to use
+          response_format: (Optional) The response format to use.
 
-          seed: (Optional) The seed to use
+          seed: (Optional) The seed to use.
 
-          stop: (Optional) The stop tokens to use
+          stop: (Optional) The stop tokens to use.
 
-          stream: (Optional) Whether to stream the response
+          stream: (Optional) Whether to stream the response.
 
-          stream_options: (Optional) The stream options to use
+          stream_options: (Optional) The stream options to use.
 
-          temperature: (Optional) The temperature to use
+          temperature: (Optional) The temperature to use.
 
-          tool_choice: (Optional) The tool choice to use
+          tool_choice: (Optional) The tool choice to use.
 
-          tools: (Optional) The tools to use
+          tools: (Optional) The tools to use.
 
-          top_logprobs: (Optional) The top log probabilities to use
+          top_logprobs: (Optional) The top log probabilities to use.
 
-          top_p: (Optional) The top p to use
+          top_p: (Optional) The top p to use.
 
-          user: (Optional) The user to use
+          user: (Optional) The user to use.
 
           extra_headers: Send extra headers
 
@@ -185,52 +187,52 @@ class CompletionsResource(SyncAPIResource):
         specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
 
-          stream: (Optional) Whether to stream the response
+          stream: (Optional) Whether to stream the response.
 
-          frequency_penalty: (Optional) The penalty for repeated tokens
+          frequency_penalty: (Optional) The penalty for repeated tokens.
 
-          function_call: (Optional) The function call to use
+          function_call: (Optional) The function call to use.
 
-          functions: (Optional) List of functions to use
+          functions: (Optional) List of functions to use.
 
-          logit_bias: (Optional) The logit bias to use
+          logit_bias: (Optional) The logit bias to use.
 
-          logprobs: (Optional) The log probabilities to use
+          logprobs: (Optional) The log probabilities to use.
 
-          max_completion_tokens: (Optional) The maximum number of tokens to generate
+          max_completion_tokens: (Optional) The maximum number of tokens to generate.
 
-          max_tokens: (Optional) The maximum number of tokens to generate
+          max_tokens: (Optional) The maximum number of tokens to generate.
 
-          n: (Optional) The number of completions to generate
+          n: (Optional) The number of completions to generate.
 
-          parallel_tool_calls: (Optional) Whether to parallelize tool calls
+          parallel_tool_calls: (Optional) Whether to parallelize tool calls.
 
-          presence_penalty: (Optional) The penalty for repeated tokens
+          presence_penalty: (Optional) The penalty for repeated tokens.
 
-          response_format: (Optional) The response format to use
+          response_format: (Optional) The response format to use.
 
-          seed: (Optional) The seed to use
+          seed: (Optional) The seed to use.
 
-          stop: (Optional) The stop tokens to use
+          stop: (Optional) The stop tokens to use.
 
-          stream_options: (Optional) The stream options to use
+          stream_options: (Optional) The stream options to use.
 
-          temperature: (Optional) The temperature to use
+          temperature: (Optional) The temperature to use.
 
-          tool_choice: (Optional) The tool choice to use
+          tool_choice: (Optional) The tool choice to use.
 
-          tools: (Optional) The tools to use
+          tools: (Optional) The tools to use.
 
-          top_logprobs: (Optional) The top log probabilities to use
+          top_logprobs: (Optional) The top log probabilities to use.
 
-          top_p: (Optional) The top p to use
+          top_p: (Optional) The top p to use.
 
-          user: (Optional) The user to use
+          user: (Optional) The user to use.
 
           extra_headers: Send extra headers
 
@@ -283,52 +285,52 @@ class CompletionsResource(SyncAPIResource):
         specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
 
-          stream: (Optional) Whether to stream the response
+          stream: (Optional) Whether to stream the response.
 
-          frequency_penalty: (Optional) The penalty for repeated tokens
+          frequency_penalty: (Optional) The penalty for repeated tokens.
 
-          function_call: (Optional) The function call to use
+          function_call: (Optional) The function call to use.
 
-          functions: (Optional) List of functions to use
+          functions: (Optional) List of functions to use.
 
-          logit_bias: (Optional) The logit bias to use
+          logit_bias: (Optional) The logit bias to use.
 
-          logprobs: (Optional) The log probabilities to use
+          logprobs: (Optional) The log probabilities to use.
 
-          max_completion_tokens: (Optional) The maximum number of tokens to generate
+          max_completion_tokens: (Optional) The maximum number of tokens to generate.
 
-          max_tokens: (Optional) The maximum number of tokens to generate
+          max_tokens: (Optional) The maximum number of tokens to generate.
 
-          n: (Optional) The number of completions to generate
+          n: (Optional) The number of completions to generate.
 
-          parallel_tool_calls: (Optional) Whether to parallelize tool calls
+          parallel_tool_calls: (Optional) Whether to parallelize tool calls.
 
-          presence_penalty: (Optional) The penalty for repeated tokens
+          presence_penalty: (Optional) The penalty for repeated tokens.
 
-          response_format: (Optional) The response format to use
+          response_format: (Optional) The response format to use.
 
-          seed: (Optional) The seed to use
+          seed: (Optional) The seed to use.
 
-          stop: (Optional) The stop tokens to use
+          stop: (Optional) The stop tokens to use.
 
-          stream_options: (Optional) The stream options to use
+          stream_options: (Optional) The stream options to use.
 
-          temperature: (Optional) The temperature to use
+          temperature: (Optional) The temperature to use.
 
-          tool_choice: (Optional) The tool choice to use
+          tool_choice: (Optional) The tool choice to use.
 
-          tools: (Optional) The tools to use
+          tools: (Optional) The tools to use.
 
-          top_logprobs: (Optional) The top log probabilities to use
+          top_logprobs: (Optional) The top log probabilities to use.
 
-          top_p: (Optional) The top p to use
+          top_p: (Optional) The top p to use.
 
-          user: (Optional) The user to use
+          user: (Optional) The user to use.
 
           extra_headers: Send extra headers
 
@@ -418,6 +420,93 @@ class CompletionsResource(SyncAPIResource):
             stream_cls=Stream[ChatCompletionChunk],
         )
 
+    def retrieve(
+        self,
+        completion_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompletionRetrieveResponse:
+        """
+        Describe a chat completion by its ID.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not completion_id:
+            raise ValueError(f"Expected a non-empty value for `completion_id` but received {completion_id!r}")
+        return self._get(
+            f"/v1/openai/v1/chat/completions/{completion_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CompletionRetrieveResponse,
+        )
+
+    def list(
+        self,
+        *,
+        after: str | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        model: str | NotGiven = NOT_GIVEN,
+        order: Literal["asc", "desc"] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompletionListResponse:
+        """
+        List all chat completions.
+
+        Args:
+          after: The ID of the last chat completion to return.
+
+          limit: The maximum number of chat completions to return.
+
+          model: The model to filter by.
+
+          order: The order to sort the chat completions by: "asc" or "desc". Defaults to "desc".
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/v1/openai/v1/chat/completions",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                        "model": model,
+                        "order": order,
+                    },
+                    completion_list_params.CompletionListParams,
+                ),
+            ),
+            cast_to=CompletionListResponse,
+        )
+
 
 class AsyncCompletionsResource(AsyncAPIResource):
     @cached_property
@@ -480,52 +569,52 @@ class AsyncCompletionsResource(AsyncAPIResource):
         specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
 
-          frequency_penalty: (Optional) The penalty for repeated tokens
+          frequency_penalty: (Optional) The penalty for repeated tokens.
 
-          function_call: (Optional) The function call to use
+          function_call: (Optional) The function call to use.
 
-          functions: (Optional) List of functions to use
+          functions: (Optional) List of functions to use.
 
-          logit_bias: (Optional) The logit bias to use
+          logit_bias: (Optional) The logit bias to use.
 
-          logprobs: (Optional) The log probabilities to use
+          logprobs: (Optional) The log probabilities to use.
 
-          max_completion_tokens: (Optional) The maximum number of tokens to generate
+          max_completion_tokens: (Optional) The maximum number of tokens to generate.
 
-          max_tokens: (Optional) The maximum number of tokens to generate
+          max_tokens: (Optional) The maximum number of tokens to generate.
 
-          n: (Optional) The number of completions to generate
+          n: (Optional) The number of completions to generate.
 
-          parallel_tool_calls: (Optional) Whether to parallelize tool calls
+          parallel_tool_calls: (Optional) Whether to parallelize tool calls.
 
-          presence_penalty: (Optional) The penalty for repeated tokens
+          presence_penalty: (Optional) The penalty for repeated tokens.
 
-          response_format: (Optional) The response format to use
+          response_format: (Optional) The response format to use.
 
-          seed: (Optional) The seed to use
+          seed: (Optional) The seed to use.
 
-          stop: (Optional) The stop tokens to use
+          stop: (Optional) The stop tokens to use.
 
-          stream: (Optional) Whether to stream the response
+          stream: (Optional) Whether to stream the response.
 
-          stream_options: (Optional) The stream options to use
+          stream_options: (Optional) The stream options to use.
 
-          temperature: (Optional) The temperature to use
+          temperature: (Optional) The temperature to use.
 
-          tool_choice: (Optional) The tool choice to use
+          tool_choice: (Optional) The tool choice to use.
 
-          tools: (Optional) The tools to use
+          tools: (Optional) The tools to use.
 
-          top_logprobs: (Optional) The top log probabilities to use
+          top_logprobs: (Optional) The top log probabilities to use.
 
-          top_p: (Optional) The top p to use
+          top_p: (Optional) The top p to use.
 
-          user: (Optional) The user to use
+          user: (Optional) The user to use.
 
           extra_headers: Send extra headers
 
@@ -578,52 +667,52 @@ class AsyncCompletionsResource(AsyncAPIResource):
         specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
 
-          stream: (Optional) Whether to stream the response
+          stream: (Optional) Whether to stream the response.
 
-          frequency_penalty: (Optional) The penalty for repeated tokens
+          frequency_penalty: (Optional) The penalty for repeated tokens.
 
-          function_call: (Optional) The function call to use
+          function_call: (Optional) The function call to use.
 
-          functions: (Optional) List of functions to use
+          functions: (Optional) List of functions to use.
 
-          logit_bias: (Optional) The logit bias to use
+          logit_bias: (Optional) The logit bias to use.
 
-          logprobs: (Optional) The log probabilities to use
+          logprobs: (Optional) The log probabilities to use.
 
-          max_completion_tokens: (Optional) The maximum number of tokens to generate
+          max_completion_tokens: (Optional) The maximum number of tokens to generate.
 
-          max_tokens: (Optional) The maximum number of tokens to generate
+          max_tokens: (Optional) The maximum number of tokens to generate.
 
-          n: (Optional) The number of completions to generate
+          n: (Optional) The number of completions to generate.
 
-          parallel_tool_calls: (Optional) Whether to parallelize tool calls
+          parallel_tool_calls: (Optional) Whether to parallelize tool calls.
 
-          presence_penalty: (Optional) The penalty for repeated tokens
+          presence_penalty: (Optional) The penalty for repeated tokens.
 
-          response_format: (Optional) The response format to use
+          response_format: (Optional) The response format to use.
 
-          seed: (Optional) The seed to use
+          seed: (Optional) The seed to use.
 
-          stop: (Optional) The stop tokens to use
+          stop: (Optional) The stop tokens to use.
 
-          stream_options: (Optional) The stream options to use
+          stream_options: (Optional) The stream options to use.
 
-          temperature: (Optional) The temperature to use
+          temperature: (Optional) The temperature to use.
 
-          tool_choice: (Optional) The tool choice to use
+          tool_choice: (Optional) The tool choice to use.
 
-          tools: (Optional) The tools to use
+          tools: (Optional) The tools to use.
 
-          top_logprobs: (Optional) The top log probabilities to use
+          top_logprobs: (Optional) The top log probabilities to use.
 
-          top_p: (Optional) The top p to use
+          top_p: (Optional) The top p to use.
 
-          user: (Optional) The user to use
+          user: (Optional) The user to use.
 
           extra_headers: Send extra headers
 
@@ -676,52 +765,52 @@ class AsyncCompletionsResource(AsyncAPIResource):
         specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
 
-          stream: (Optional) Whether to stream the response
+          stream: (Optional) Whether to stream the response.
 
-          frequency_penalty: (Optional) The penalty for repeated tokens
+          frequency_penalty: (Optional) The penalty for repeated tokens.
 
-          function_call: (Optional) The function call to use
+          function_call: (Optional) The function call to use.
 
-          functions: (Optional) List of functions to use
+          functions: (Optional) List of functions to use.
 
-          logit_bias: (Optional) The logit bias to use
+          logit_bias: (Optional) The logit bias to use.
 
-          logprobs: (Optional) The log probabilities to use
+          logprobs: (Optional) The log probabilities to use.
 
-          max_completion_tokens: (Optional) The maximum number of tokens to generate
+          max_completion_tokens: (Optional) The maximum number of tokens to generate.
 
-          max_tokens: (Optional) The maximum number of tokens to generate
+          max_tokens: (Optional) The maximum number of tokens to generate.
 
-          n: (Optional) The number of completions to generate
+          n: (Optional) The number of completions to generate.
 
-          parallel_tool_calls: (Optional) Whether to parallelize tool calls
+          parallel_tool_calls: (Optional) Whether to parallelize tool calls.
 
-          presence_penalty: (Optional) The penalty for repeated tokens
+          presence_penalty: (Optional) The penalty for repeated tokens.
 
-          response_format: (Optional) The response format to use
+          response_format: (Optional) The response format to use.
 
-          seed: (Optional) The seed to use
+          seed: (Optional) The seed to use.
 
-          stop: (Optional) The stop tokens to use
+          stop: (Optional) The stop tokens to use.
 
-          stream_options: (Optional) The stream options to use
+          stream_options: (Optional) The stream options to use.
 
-          temperature: (Optional) The temperature to use
+          temperature: (Optional) The temperature to use.
 
-          tool_choice: (Optional) The tool choice to use
+          tool_choice: (Optional) The tool choice to use.
 
-          tools: (Optional) The tools to use
+          tools: (Optional) The tools to use.
 
-          top_logprobs: (Optional) The top log probabilities to use
+          top_logprobs: (Optional) The top log probabilities to use.
 
-          top_p: (Optional) The top p to use
+          top_p: (Optional) The top p to use.
 
-          user: (Optional) The user to use
+          user: (Optional) The user to use.
 
           extra_headers: Send extra headers
 
@@ -811,6 +900,93 @@ class AsyncCompletionsResource(AsyncAPIResource):
             stream_cls=AsyncStream[ChatCompletionChunk],
         )
 
+    async def retrieve(
+        self,
+        completion_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompletionRetrieveResponse:
+        """
+        Describe a chat completion by its ID.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not completion_id:
+            raise ValueError(f"Expected a non-empty value for `completion_id` but received {completion_id!r}")
+        return await self._get(
+            f"/v1/openai/v1/chat/completions/{completion_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CompletionRetrieveResponse,
+        )
+
+    async def list(
+        self,
+        *,
+        after: str | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        model: str | NotGiven = NOT_GIVEN,
+        order: Literal["asc", "desc"] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompletionListResponse:
+        """
+        List all chat completions.
+
+        Args:
+          after: The ID of the last chat completion to return.
+
+          limit: The maximum number of chat completions to return.
+
+          model: The model to filter by.
+
+          order: The order to sort the chat completions by: "asc" or "desc". Defaults to "desc".
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/v1/openai/v1/chat/completions",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                        "model": model,
+                        "order": order,
+                    },
+                    completion_list_params.CompletionListParams,
+                ),
+            ),
+            cast_to=CompletionListResponse,
+        )
+
 
 class CompletionsResourceWithRawResponse:
     def __init__(self, completions: CompletionsResource) -> None:
@@ -818,6 +994,12 @@ class CompletionsResourceWithRawResponse:
 
         self.create = to_raw_response_wrapper(
             completions.create,
+        )
+        self.retrieve = to_raw_response_wrapper(
+            completions.retrieve,
+        )
+        self.list = to_raw_response_wrapper(
+            completions.list,
         )
 
 
@@ -828,6 +1010,12 @@ class AsyncCompletionsResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             completions.create,
         )
+        self.retrieve = async_to_raw_response_wrapper(
+            completions.retrieve,
+        )
+        self.list = async_to_raw_response_wrapper(
+            completions.list,
+        )
 
 
 class CompletionsResourceWithStreamingResponse:
@@ -837,6 +1025,12 @@ class CompletionsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             completions.create,
         )
+        self.retrieve = to_streamed_response_wrapper(
+            completions.retrieve,
+        )
+        self.list = to_streamed_response_wrapper(
+            completions.list,
+        )
 
 
 class AsyncCompletionsResourceWithStreamingResponse:
@@ -845,4 +1039,10 @@ class AsyncCompletionsResourceWithStreamingResponse:
 
         self.create = async_to_streamed_response_wrapper(
             completions.create,
+        )
+        self.retrieve = async_to_streamed_response_wrapper(
+            completions.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            completions.list,
         )

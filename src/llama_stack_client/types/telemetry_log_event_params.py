@@ -11,5 +11,7 @@ __all__ = ["TelemetryLogEventParams"]
 
 class TelemetryLogEventParams(TypedDict, total=False):
     event: Required[EventParam]
+    """The event to log."""
 
     ttl_seconds: Required[int]
+    """The time to live of the event."""

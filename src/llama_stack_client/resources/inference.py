@@ -79,12 +79,24 @@ class InferenceResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceBatchChatCompletionResponse:
         """
+        Generate chat completions for a batch of messages using the specified model.
+
         Args:
-          response_format: Configuration for JSON schema-guided response generation.
+          messages_batch: The messages to generate completions for.
 
-          sampling_params: Sampling parameters.
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
 
-          tool_config: Configuration for tool use.
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
+
+          sampling_params: (Optional) Parameters to control the sampling strategy.
+
+          tool_config: (Optional) Configuration for tool use.
+
+          tools: (Optional) List of tool definitions available to the model.
 
           extra_headers: Send extra headers
 
@@ -130,10 +142,20 @@ class InferenceResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> BatchCompletion:
         """
-        Args:
-          response_format: Configuration for JSON schema-guided response generation.
+        Generate completions for a batch of content using the specified model.
 
-          sampling_params: Sampling parameters.
+        Args:
+          content_batch: The content to generate completions for.
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
+
+          sampling_params: (Optional) Parameters to control the sampling strategy.
 
           extra_headers: Send extra headers
 
@@ -186,7 +208,7 @@ class InferenceResource(SyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -199,7 +221,7 @@ class InferenceResource(SyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy
+          sampling_params: Parameters to control the sampling strategy.
 
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
@@ -217,7 +239,7 @@ class InferenceResource(SyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model
+          tools: (Optional) List of tool definitions available to the model.
 
           extra_headers: Send extra headers
 
@@ -254,7 +276,7 @@ class InferenceResource(SyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -270,7 +292,7 @@ class InferenceResource(SyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy
+          sampling_params: Parameters to control the sampling strategy.
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
               ToolChoice.auto. .. deprecated:: Use tool_config instead.
@@ -285,7 +307,7 @@ class InferenceResource(SyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model
+          tools: (Optional) List of tool definitions available to the model.
 
           extra_headers: Send extra headers
 
@@ -322,7 +344,7 @@ class InferenceResource(SyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -338,7 +360,7 @@ class InferenceResource(SyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy
+          sampling_params: Parameters to control the sampling strategy.
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
               ToolChoice.auto. .. deprecated:: Use tool_config instead.
@@ -353,7 +375,7 @@ class InferenceResource(SyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model
+          tools: (Optional) List of tool definitions available to the model.
 
           extra_headers: Send extra headers
 
@@ -436,7 +458,7 @@ class InferenceResource(SyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for
+          content: The content to generate a completion for.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -444,9 +466,9 @@ class InferenceResource(SyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
 
-          sampling_params: (Optional) Parameters to control the sampling strategy
+          sampling_params: (Optional) Parameters to control the sampling strategy.
 
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
@@ -482,7 +504,7 @@ class InferenceResource(SyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for
+          content: The content to generate a completion for.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -493,9 +515,9 @@ class InferenceResource(SyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
 
-          sampling_params: (Optional) Parameters to control the sampling strategy
+          sampling_params: (Optional) Parameters to control the sampling strategy.
 
           extra_headers: Send extra headers
 
@@ -528,7 +550,7 @@ class InferenceResource(SyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for
+          content: The content to generate a completion for.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -539,9 +561,9 @@ class InferenceResource(SyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
 
-          sampling_params: (Optional) Parameters to control the sampling strategy
+          sampling_params: (Optional) Parameters to control the sampling strategy.
 
           extra_headers: Send extra headers
 
@@ -695,12 +717,24 @@ class AsyncInferenceResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceBatchChatCompletionResponse:
         """
+        Generate chat completions for a batch of messages using the specified model.
+
         Args:
-          response_format: Configuration for JSON schema-guided response generation.
+          messages_batch: The messages to generate completions for.
 
-          sampling_params: Sampling parameters.
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
 
-          tool_config: Configuration for tool use.
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
+
+          sampling_params: (Optional) Parameters to control the sampling strategy.
+
+          tool_config: (Optional) Configuration for tool use.
+
+          tools: (Optional) List of tool definitions available to the model.
 
           extra_headers: Send extra headers
 
@@ -746,10 +780,20 @@ class AsyncInferenceResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> BatchCompletion:
         """
-        Args:
-          response_format: Configuration for JSON schema-guided response generation.
+        Generate completions for a batch of content using the specified model.
 
-          sampling_params: Sampling parameters.
+        Args:
+          content_batch: The content to generate completions for.
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
+
+          sampling_params: (Optional) Parameters to control the sampling strategy.
 
           extra_headers: Send extra headers
 
@@ -802,7 +846,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -815,7 +859,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy
+          sampling_params: Parameters to control the sampling strategy.
 
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
@@ -833,7 +877,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model
+          tools: (Optional) List of tool definitions available to the model.
 
           extra_headers: Send extra headers
 
@@ -870,7 +914,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -886,7 +930,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy
+          sampling_params: Parameters to control the sampling strategy.
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
               ToolChoice.auto. .. deprecated:: Use tool_config instead.
@@ -901,7 +945,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model
+          tools: (Optional) List of tool definitions available to the model.
 
           extra_headers: Send extra headers
 
@@ -938,7 +982,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -954,7 +998,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy
+          sampling_params: Parameters to control the sampling strategy.
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
               ToolChoice.auto. .. deprecated:: Use tool_config instead.
@@ -969,7 +1013,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model
+          tools: (Optional) List of tool definitions available to the model.
 
           extra_headers: Send extra headers
 
@@ -1052,7 +1096,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for
+          content: The content to generate a completion for.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -1060,9 +1104,9 @@ class AsyncInferenceResource(AsyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
 
-          sampling_params: (Optional) Parameters to control the sampling strategy
+          sampling_params: (Optional) Parameters to control the sampling strategy.
 
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
@@ -1098,7 +1142,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for
+          content: The content to generate a completion for.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -1109,9 +1153,9 @@ class AsyncInferenceResource(AsyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
 
-          sampling_params: (Optional) Parameters to control the sampling strategy
+          sampling_params: (Optional) Parameters to control the sampling strategy.
 
           extra_headers: Send extra headers
 
@@ -1144,7 +1188,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for
+          content: The content to generate a completion for.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -1155,9 +1199,9 @@ class AsyncInferenceResource(AsyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
 
-          sampling_params: (Optional) Parameters to control the sampling strategy
+          sampling_params: (Optional) Parameters to control the sampling strategy.
 
           extra_headers: Send extra headers
 

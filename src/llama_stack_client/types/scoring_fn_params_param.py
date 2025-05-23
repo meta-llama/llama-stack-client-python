@@ -9,29 +9,35 @@ __all__ = ["ScoringFnParamsParam", "LlmAsJudgeScoringFnParams", "RegexParserScor
 
 
 class LlmAsJudgeScoringFnParams(TypedDict, total=False):
+    aggregation_functions: Required[
+        List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
+    ]
+
     judge_model: Required[str]
 
+    judge_score_regexes: Required[List[str]]
+
     type: Required[Literal["llm_as_judge"]]
-
-    aggregation_functions: List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
-
-    judge_score_regexes: List[str]
 
     prompt_template: str
 
 
 class RegexParserScoringFnParams(TypedDict, total=False):
+    aggregation_functions: Required[
+        List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
+    ]
+
+    parsing_regexes: Required[List[str]]
+
     type: Required[Literal["regex_parser"]]
-
-    aggregation_functions: List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
-
-    parsing_regexes: List[str]
 
 
 class BasicScoringFnParams(TypedDict, total=False):
-    type: Required[Literal["basic"]]
+    aggregation_functions: Required[
+        List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
+    ]
 
-    aggregation_functions: List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
+    type: Required[Literal["basic"]]
 
 
 ScoringFnParamsParam: TypeAlias = Union[LlmAsJudgeScoringFnParams, RegexParserScoringFnParams, BasicScoringFnParams]

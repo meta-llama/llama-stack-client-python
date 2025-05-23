@@ -14,16 +14,26 @@ __all__ = ["InferenceBatchCompletionParams", "Logprobs"]
 
 class InferenceBatchCompletionParams(TypedDict, total=False):
     content_batch: Required[List[InterleavedContent]]
+    """The content to generate completions for."""
 
     model_id: Required[str]
+    """The identifier of the model to use.
+
+    The model must be registered with Llama Stack and available via the /models
+    endpoint.
+    """
 
     logprobs: Logprobs
+    """
+    (Optional) If specified, log probabilities for each token position will be
+    returned.
+    """
 
     response_format: ResponseFormat
-    """Configuration for JSON schema-guided response generation."""
+    """(Optional) Grammar specification for guided (structured) decoding."""
 
     sampling_params: SamplingParams
-    """Sampling parameters."""
+    """(Optional) Parameters to control the sampling strategy."""
 
 
 class Logprobs(TypedDict, total=False):

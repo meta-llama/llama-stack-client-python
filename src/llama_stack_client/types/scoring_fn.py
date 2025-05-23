@@ -17,8 +17,6 @@ class ScoringFn(BaseModel):
 
     provider_id: str
 
-    provider_resource_id: str
-
     return_type: ReturnType
 
     type: Literal["scoring_function"]
@@ -26,3 +24,5 @@ class ScoringFn(BaseModel):
     description: Optional[str] = None
 
     params: Optional[ScoringFnParams] = None
+
+    provider_resource_id: Optional[str] = None
