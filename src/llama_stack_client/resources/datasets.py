@@ -60,6 +60,8 @@ class DatasetsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> DatasetRetrieveResponse:
         """
+        Get a dataset by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -89,6 +91,7 @@ class DatasetsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> DatasetListResponse:
+        """List all datasets."""
         return self._get(
             "/v1/datasets",
             options=make_request_options(
@@ -123,8 +126,8 @@ class DatasetsResource(SyncAPIResource):
 
         The response includes:
 
-        - data: List of items for the current page
-        - has_more: Whether there are more items available after this set
+        - data: List of items for the current page.
+        - has_more: Whether there are more items available after this set.
 
         Args:
           limit: The number of rows to get.
@@ -178,7 +181,7 @@ class DatasetsResource(SyncAPIResource):
         Args:
           purpose: The purpose of the dataset.
 
-        One of - "post-training/messages": The dataset
+        One of: - "post-training/messages": The dataset
               contains a messages column with list of messages for post-training. {
               "messages": [ {"role": "user", "content": "Hello, world!"}, {"role":
               "assistant", "content": "Hello, world!"}, ] } - "eval/question-answer": The
@@ -201,7 +204,7 @@ class DatasetsResource(SyncAPIResource):
 
           dataset_id: The ID of the dataset. If not provided, an ID will be generated.
 
-          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}
+          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}.
 
           extra_headers: Send extra headers
 
@@ -240,6 +243,8 @@ class DatasetsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Unregister a dataset by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -293,6 +298,8 @@ class AsyncDatasetsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> DatasetRetrieveResponse:
         """
+        Get a dataset by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -322,6 +329,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> DatasetListResponse:
+        """List all datasets."""
         return await self._get(
             "/v1/datasets",
             options=make_request_options(
@@ -356,8 +364,8 @@ class AsyncDatasetsResource(AsyncAPIResource):
 
         The response includes:
 
-        - data: List of items for the current page
-        - has_more: Whether there are more items available after this set
+        - data: List of items for the current page.
+        - has_more: Whether there are more items available after this set.
 
         Args:
           limit: The number of rows to get.
@@ -411,7 +419,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
         Args:
           purpose: The purpose of the dataset.
 
-        One of - "post-training/messages": The dataset
+        One of: - "post-training/messages": The dataset
               contains a messages column with list of messages for post-training. {
               "messages": [ {"role": "user", "content": "Hello, world!"}, {"role":
               "assistant", "content": "Hello, world!"}, ] } - "eval/question-answer": The
@@ -434,7 +442,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
 
           dataset_id: The ID of the dataset. If not provided, an ID will be generated.
 
-          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}
+          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}.
 
           extra_headers: Send extra headers
 
@@ -473,6 +481,8 @@ class AsyncDatasetsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Unregister a dataset by its ID.
+
         Args:
           extra_headers: Send extra headers
 

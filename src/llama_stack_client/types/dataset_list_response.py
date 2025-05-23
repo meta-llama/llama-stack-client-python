@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Optional
 from typing_extensions import Literal, Annotated, TypeAlias
 
 from .._utils import PropertyInfo
@@ -50,8 +50,6 @@ class DatasetListResponseItem(BaseModel):
 
     provider_id: str
 
-    provider_resource_id: str
-
     purpose: Literal["post-training/messages", "eval/question-answer", "eval/messages-answer"]
     """Purpose of the dataset. Each purpose has a required input data schema."""
 
@@ -59,6 +57,8 @@ class DatasetListResponseItem(BaseModel):
     """A dataset that can be obtained from a URI."""
 
     type: Literal["dataset"]
+
+    provider_resource_id: Optional[str] = None
 
 
 DatasetListResponse: TypeAlias = List[DatasetListResponseItem]

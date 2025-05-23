@@ -17,10 +17,10 @@ class ToolGroup(BaseModel):
 
     provider_id: str
 
-    provider_resource_id: str
-
     type: Literal["tool_group"]
 
     args: Optional[Dict[str, Union[bool, float, str, List[object], object, None]]] = None
 
     mcp_endpoint: Optional[McpEndpoint] = None
+
+    provider_resource_id: Optional[str] = None

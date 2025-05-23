@@ -19,7 +19,7 @@ __all__ = [
 
 class InferenceCompletionParamsBase(TypedDict, total=False):
     content: Required[InterleavedContent]
-    """The content to generate a completion for"""
+    """The content to generate a completion for."""
 
     model_id: Required[str]
     """The identifier of the model to use.
@@ -35,10 +35,10 @@ class InferenceCompletionParamsBase(TypedDict, total=False):
     """
 
     response_format: ResponseFormat
-    """(Optional) Grammar specification for guided (structured) decoding"""
+    """(Optional) Grammar specification for guided (structured) decoding."""
 
     sampling_params: SamplingParams
-    """(Optional) Parameters to control the sampling strategy"""
+    """(Optional) Parameters to control the sampling strategy."""
 
 
 class Logprobs(TypedDict, total=False):

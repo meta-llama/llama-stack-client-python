@@ -107,6 +107,8 @@ class RagToolResource(SyncAPIResource):
         Args:
           content: A image content item
 
+          query_config: Configuration for the RAG query generation.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -212,6 +214,8 @@ class AsyncRagToolResource(AsyncAPIResource):
 
         Args:
           content: A image content item
+
+          query_config: Configuration for the RAG query generation.
 
           extra_headers: Send extra headers
 

@@ -12,9 +12,13 @@ __all__ = ["TelemetryQueryTracesParams"]
 
 class TelemetryQueryTracesParams(TypedDict, total=False):
     attribute_filters: Iterable[QueryConditionParam]
+    """The attribute filters to apply to the traces."""
 
     limit: int
+    """The limit of traces to return."""
 
     offset: int
+    """The offset of the traces to return."""
 
     order_by: List[str]
+    """The order by of the traces to return."""

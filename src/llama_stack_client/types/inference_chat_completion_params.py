@@ -22,7 +22,7 @@ __all__ = [
 
 class InferenceChatCompletionParamsBase(TypedDict, total=False):
     messages: Required[Iterable[Message]]
-    """List of messages in the conversation"""
+    """List of messages in the conversation."""
 
     model_id: Required[str]
     """The identifier of the model to use.
@@ -47,7 +47,7 @@ class InferenceChatCompletionParamsBase(TypedDict, total=False):
     """
 
     sampling_params: SamplingParams
-    """Parameters to control the sampling strategy"""
+    """Parameters to control the sampling strategy."""
 
     tool_choice: Literal["auto", "required", "none"]
     """(Optional) Whether tool use is required or automatic.
@@ -70,7 +70,7 @@ class InferenceChatCompletionParamsBase(TypedDict, total=False):
     """
 
     tools: Iterable[Tool]
-    """(Optional) List of tool definitions available to the model"""
+    """(Optional) List of tool definitions available to the model."""
 
 
 class Logprobs(TypedDict, total=False):

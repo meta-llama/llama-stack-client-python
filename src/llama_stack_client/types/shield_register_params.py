@@ -10,9 +10,13 @@ __all__ = ["ShieldRegisterParams"]
 
 class ShieldRegisterParams(TypedDict, total=False):
     shield_id: Required[str]
+    """The identifier of the shield to register."""
 
     params: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    """The parameters of the shield."""
 
     provider_id: str
+    """The identifier of the provider."""
 
     provider_shield_id: str
+    """The identifier of the shield in the provider."""

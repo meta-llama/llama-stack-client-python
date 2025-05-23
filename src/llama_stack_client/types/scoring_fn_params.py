@@ -10,35 +10,29 @@ __all__ = ["ScoringFnParams", "LlmAsJudgeScoringFnParams", "RegexParserScoringFn
 
 
 class LlmAsJudgeScoringFnParams(BaseModel):
+    aggregation_functions: List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
+
     judge_model: str
 
+    judge_score_regexes: List[str]
+
     type: Literal["llm_as_judge"]
-
-    aggregation_functions: Optional[
-        List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
-    ] = None
-
-    judge_score_regexes: Optional[List[str]] = None
 
     prompt_template: Optional[str] = None
 
 
 class RegexParserScoringFnParams(BaseModel):
+    aggregation_functions: List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
+
+    parsing_regexes: List[str]
+
     type: Literal["regex_parser"]
-
-    aggregation_functions: Optional[
-        List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
-    ] = None
-
-    parsing_regexes: Optional[List[str]] = None
 
 
 class BasicScoringFnParams(BaseModel):
-    type: Literal["basic"]
+    aggregation_functions: List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
 
-    aggregation_functions: Optional[
-        List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
-    ] = None
+    type: Literal["basic"]
 
 
 ScoringFnParams: TypeAlias = Annotated[

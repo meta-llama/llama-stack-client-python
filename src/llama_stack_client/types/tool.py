@@ -29,8 +29,6 @@ class Tool(BaseModel):
 
     provider_id: str
 
-    provider_resource_id: str
-
     tool_host: Literal["distribution", "client", "model_context_protocol"]
 
     toolgroup_id: str
@@ -38,3 +36,5 @@ class Tool(BaseModel):
     type: Literal["tool"]
 
     metadata: Optional[Dict[str, Union[bool, float, str, List[object], object, None]]] = None
+
+    provider_resource_id: Optional[str] = None

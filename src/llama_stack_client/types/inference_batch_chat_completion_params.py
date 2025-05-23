@@ -15,21 +15,32 @@ __all__ = ["InferenceBatchChatCompletionParams", "Logprobs", "ToolConfig", "Tool
 
 class InferenceBatchChatCompletionParams(TypedDict, total=False):
     messages_batch: Required[Iterable[Iterable[Message]]]
+    """The messages to generate completions for."""
 
     model_id: Required[str]
+    """The identifier of the model to use.
+
+    The model must be registered with Llama Stack and available via the /models
+    endpoint.
+    """
 
     logprobs: Logprobs
+    """
+    (Optional) If specified, log probabilities for each token position will be
+    returned.
+    """
 
     response_format: ResponseFormat
-    """Configuration for JSON schema-guided response generation."""
+    """(Optional) Grammar specification for guided (structured) decoding."""
 
     sampling_params: SamplingParams
-    """Sampling parameters."""
+    """(Optional) Parameters to control the sampling strategy."""
 
     tool_config: ToolConfig
-    """Configuration for tool use."""
+    """(Optional) Configuration for tool use."""
 
     tools: Iterable[Tool]
+    """(Optional) List of tool definitions available to the model."""
 
 
 class Logprobs(TypedDict, total=False):

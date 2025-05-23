@@ -12,7 +12,7 @@ class DatasetRegisterParams(TypedDict, total=False):
     purpose: Required[Literal["post-training/messages", "eval/question-answer", "eval/messages-answer"]]
     """The purpose of the dataset.
 
-    One of - "post-training/messages": The dataset contains a messages column with
+    One of: - "post-training/messages": The dataset contains a messages column with
     list of messages for post-training. { "messages": [ {"role": "user", "content":
     "Hello, world!"}, {"role": "assistant", "content": "Hello, world!"}, ] } -
     "eval/question-answer": The dataset contains a question column and an answer
@@ -41,7 +41,7 @@ class DatasetRegisterParams(TypedDict, total=False):
     """The ID of the dataset. If not provided, an ID will be generated."""
 
     metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-    """The metadata for the dataset. - E.g. {"description": "My dataset"}"""
+    """The metadata for the dataset. - E.g. {"description": "My dataset"}."""
 
 
 class SourceUriDataSource(TypedDict, total=False):

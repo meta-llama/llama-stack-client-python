@@ -32,7 +32,9 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -63,10 +65,10 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "judge_model": "judge_model",
-                        "type": "llm_as_judge",
                         "aggregation_functions": ["average"],
+                        "judge_model": "judge_model",
                         "judge_score_regexes": ["string"],
+                        "type": "llm_as_judge",
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -89,7 +91,9 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -115,7 +119,9 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -144,7 +150,9 @@ class TestEval:
                     },
                     "scoring_params": {
                         "foo": {
+                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
+                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -165,7 +173,9 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -196,10 +206,10 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "judge_model": "judge_model",
-                        "type": "llm_as_judge",
                         "aggregation_functions": ["average"],
+                        "judge_model": "judge_model",
                         "judge_score_regexes": ["string"],
+                        "type": "llm_as_judge",
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -222,7 +232,9 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -248,7 +260,9 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -277,7 +291,9 @@ class TestEval:
                     },
                     "scoring_params": {
                         "foo": {
+                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
+                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -298,7 +314,9 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -327,10 +345,10 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "judge_model": "judge_model",
-                        "type": "llm_as_judge",
                         "aggregation_functions": ["average"],
+                        "judge_model": "judge_model",
                         "judge_score_regexes": ["string"],
+                        "type": "llm_as_judge",
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -351,7 +369,9 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -375,7 +395,9 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -402,7 +424,9 @@ class TestEval:
                     },
                     "scoring_params": {
                         "foo": {
+                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
+                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -421,7 +445,9 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -450,10 +476,10 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "judge_model": "judge_model",
-                        "type": "llm_as_judge",
                         "aggregation_functions": ["average"],
+                        "judge_model": "judge_model",
                         "judge_score_regexes": ["string"],
+                        "type": "llm_as_judge",
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -474,7 +500,9 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -498,7 +526,9 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -525,7 +555,9 @@ class TestEval:
                     },
                     "scoring_params": {
                         "foo": {
+                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
+                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -548,7 +580,9 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -579,10 +613,10 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "judge_model": "judge_model",
-                        "type": "llm_as_judge",
                         "aggregation_functions": ["average"],
+                        "judge_model": "judge_model",
                         "judge_score_regexes": ["string"],
+                        "type": "llm_as_judge",
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -605,7 +639,9 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -631,7 +667,9 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -660,7 +698,9 @@ class TestAsyncEval:
                     },
                     "scoring_params": {
                         "foo": {
+                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
+                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -681,7 +721,9 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -712,10 +754,10 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "judge_model": "judge_model",
-                        "type": "llm_as_judge",
                         "aggregation_functions": ["average"],
+                        "judge_model": "judge_model",
                         "judge_score_regexes": ["string"],
+                        "type": "llm_as_judge",
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -738,7 +780,9 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -764,7 +808,9 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -793,7 +839,9 @@ class TestAsyncEval:
                     },
                     "scoring_params": {
                         "foo": {
+                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
+                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -814,7 +862,9 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -843,10 +893,10 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "judge_model": "judge_model",
-                        "type": "llm_as_judge",
                         "aggregation_functions": ["average"],
+                        "judge_model": "judge_model",
                         "judge_score_regexes": ["string"],
+                        "type": "llm_as_judge",
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -867,7 +917,9 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -891,7 +943,9 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -918,7 +972,9 @@ class TestAsyncEval:
                     },
                     "scoring_params": {
                         "foo": {
+                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
+                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -937,7 +993,9 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -966,10 +1024,10 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "judge_model": "judge_model",
-                        "type": "llm_as_judge",
                         "aggregation_functions": ["average"],
+                        "judge_model": "judge_model",
                         "judge_score_regexes": ["string"],
+                        "type": "llm_as_judge",
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -990,7 +1048,9 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -1014,7 +1074,9 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
+                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
+                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -1041,7 +1103,9 @@ class TestAsyncEval:
                     },
                     "scoring_params": {
                         "foo": {
+                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
+                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },

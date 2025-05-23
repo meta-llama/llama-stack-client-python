@@ -52,9 +52,11 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
+        instructions: str | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
         store: bool | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
         tools: Iterable[response_create_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -92,8 +94,10 @@ class ResponsesResource(SyncAPIResource):
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
         stream: Literal[True],
+        instructions: str | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
         store: bool | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
         tools: Iterable[response_create_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -131,8 +135,10 @@ class ResponsesResource(SyncAPIResource):
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
         stream: bool,
+        instructions: str | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
         store: bool | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
         tools: Iterable[response_create_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -169,9 +175,11 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
+        instructions: str | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
         store: bool | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
         tools: Iterable[response_create_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -186,9 +194,11 @@ class ResponsesResource(SyncAPIResource):
                 {
                     "input": input,
                     "model": model,
+                    "instructions": instructions,
                     "previous_response_id": previous_response_id,
                     "store": store,
                     "stream": stream,
+                    "temperature": temperature,
                     "tools": tools,
                 },
                 response_create_params.ResponseCreateParamsStreaming
@@ -205,7 +215,7 @@ class ResponsesResource(SyncAPIResource):
 
     def retrieve(
         self,
-        id: str,
+        response_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -226,10 +236,10 @@ class ResponsesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not response_id:
+            raise ValueError(f"Expected a non-empty value for `response_id` but received {response_id!r}")
         return self._get(
-            f"/v1/openai/v1/responses/{id}",
+            f"/v1/openai/v1/responses/{response_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -263,9 +273,11 @@ class AsyncResponsesResource(AsyncAPIResource):
         *,
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
+        instructions: str | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
         store: bool | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
         tools: Iterable[response_create_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -303,8 +315,10 @@ class AsyncResponsesResource(AsyncAPIResource):
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
         stream: Literal[True],
+        instructions: str | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
         store: bool | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
         tools: Iterable[response_create_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -342,8 +356,10 @@ class AsyncResponsesResource(AsyncAPIResource):
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
         stream: bool,
+        instructions: str | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
         store: bool | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
         tools: Iterable[response_create_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -380,9 +396,11 @@ class AsyncResponsesResource(AsyncAPIResource):
         *,
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
+        instructions: str | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
         store: bool | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
         tools: Iterable[response_create_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -397,9 +415,11 @@ class AsyncResponsesResource(AsyncAPIResource):
                 {
                     "input": input,
                     "model": model,
+                    "instructions": instructions,
                     "previous_response_id": previous_response_id,
                     "store": store,
                     "stream": stream,
+                    "temperature": temperature,
                     "tools": tools,
                 },
                 response_create_params.ResponseCreateParamsStreaming
@@ -416,7 +436,7 @@ class AsyncResponsesResource(AsyncAPIResource):
 
     async def retrieve(
         self,
-        id: str,
+        response_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -437,10 +457,10 @@ class AsyncResponsesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not response_id:
+            raise ValueError(f"Expected a non-empty value for `response_id` but received {response_id!r}")
         return await self._get(
-            f"/v1/openai/v1/responses/{id}",
+            f"/v1/openai/v1/responses/{response_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
