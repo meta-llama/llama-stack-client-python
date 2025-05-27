@@ -1,5 +1,6 @@
 import json
 import logging
+from urllib.parse import urlparse
 
 import fire
 import httpx
@@ -40,16 +41,28 @@ def main(model_id: str, mcp_servers: str = "https://mcp.asana.com/sse", llama_st
     servers = [s.strip() for s in mcp_servers.split(",")]
     mcp_headers = get_and_cache_mcp_headers(servers)
 
+    toolgroup_ids = []
     for server in servers:
+        # we cannot use "/" in the toolgroup_id because we have some tech debt from earlier which uses
+        # "/" as a separator for toolgroup_id and tool_name. We should fix this in the future.
+        group_id = urlparse(server).netloc
+        toolgroup_ids.append(group_id)
         client.toolgroups.register(
-            toolgroup_id=server, mcp_endpoint=dict(uri=server), provider_id="model-context-protocol"
+            toolgroup_id=group_id, mcp_endpoint=dict(uri=server), provider_id="model-context-protocol"
         )
 
     agent = Agent(
         client=client,
         model=model_id,
         instructions="You are a helpful assistant who can use tools when necessary to answer questions.",
-        tools=servers,
+        tools=toolgroup_ids,
+        extra_headers={
+            "X-LlamaStack-Provider-Data": json.dumps(
+                {
+                    "mcp_headers": mcp_headers,
+                }
+            ),
+        },
     )
 
     session_id = agent.create_session("test-session")
@@ -63,13 +76,6 @@ def main(model_id: str, mcp_servers: str = "https://mcp.asana.com/sse", llama_st
             session_id=session_id,
             messages=[{"role": "user", "content": user_input}],
             stream=True,
-            extra_headers={
-                "X-LlamaStack-Provider-Data": json.dumps(
-                    {
-                        "mcp_headers": mcp_headers,
-                    }
-                ),
-            },
         )
         for log in AgentEventLogger().log(response):
             log.print()
