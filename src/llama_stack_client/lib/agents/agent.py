@@ -138,6 +138,7 @@ class Agent:
         output_shields: Optional[List[str]] = None,
         response_format: Optional[ResponseFormat] = None,
         enable_session_persistence: Optional[bool] = None,
+        extra_headers: Headers | None = None,
     ):
         """Construct an Agent with the given parameters.
 
@@ -162,6 +163,7 @@ class Agent:
         :param output_shields: The output shields for the agent.
         :param response_format: The response format for the agent.
         :param enable_session_persistence: Whether to enable session persistence.
+        :param extra_headers: Extra headers to add to all requests sent by the agent.
         """
         self.client = client
 
@@ -191,21 +193,25 @@ class Agent:
         self.sessions = []
         self.tool_parser = tool_parser
         self.builtin_tools = {}
+        self.extra_headers = extra_headers
         self.initialize()
 
     def initialize(self) -> None:
         agentic_system_create_response = self.client.agents.create(
             agent_config=self.agent_config,
+            extra_headers=self.extra_headers,
         )
         self.agent_id = agentic_system_create_response.agent_id
         for tg in self.agent_config["toolgroups"]:
-            for tool in self.client.tools.list(toolgroup_id=tg if isinstance(tg, str) else tg.get("name")):
+            toolgroup_id = tg if isinstance(tg, str) else tg.get("name")
+            for tool in self.client.tools.list(toolgroup_id=toolgroup_id, extra_headers=self.extra_headers):
                 self.builtin_tools[tool.identifier] = tg.get("args", {}) if isinstance(tg, dict) else {}
 
     def create_session(self, session_name: str) -> str:
         agentic_system_create_session_response = self.client.agents.session.create(
             agent_id=self.agent_id,
             session_name=session_name,
+            extra_headers=self.extra_headers,
         )
         self.session_id = agentic_system_create_session_response.session_id
         self.sessions.append(self.session_id)
@@ -243,6 +249,7 @@ class Agent:
                     **tool_call.arguments,
                     **self.builtin_tools[tool_call.tool_name],
                 },
+                extra_headers=self.extra_headers,
             )
             return ToolResponseParam(
                 call_id=tool_call.call_id,
@@ -264,10 +271,13 @@ class Agent:
         toolgroups: Optional[List[Toolgroup]] = None,
         documents: Optional[List[Document]] = None,
         stream: bool = True,
+        # TODO: deprecate this
         extra_headers: Headers | None = None,
     ) -> Iterator[AgentTurnResponseStreamChunk] | Turn:
         if stream:
-            return self._create_turn_streaming(messages, session_id, toolgroups, documents, extra_headers=extra_headers)
+            return self._create_turn_streaming(
+                messages, session_id, toolgroups, documents, extra_headers=extra_headers or self.extra_headers
+            )
         else:
             chunks = [
                 x
@@ -276,7 +286,7 @@ class Agent:
                     session_id,
                     toolgroups,
                     documents,
-                    extra_headers=extra_headers,
+                    extra_headers=extra_headers or self.extra_headers,
                 )
             ]
             if not chunks:
@@ -300,6 +310,7 @@ class Agent:
         session_id: Optional[str] = None,
         toolgroups: Optional[List[Toolgroup]] = None,
         documents: Optional[List[Document]] = None,
+        # TODO: deprecate this
         extra_headers: Headers | None = None,
     ) -> Iterator[AgentTurnResponseStreamChunk]:
         n_iter = 0
@@ -313,7 +324,7 @@ class Agent:
             stream=True,
             documents=documents,
             toolgroups=toolgroups,
-            extra_headers=extra_headers,
+            extra_headers=extra_headers or self.extra_headers,
         )
 
         # 2. process turn and resume if there's a tool call
@@ -350,7 +361,7 @@ class Agent:
                         turn_id=turn_id,
                         tool_responses=tool_responses,
                         stream=True,
-                        extra_headers=extra_headers,
+                        extra_headers=extra_headers or self.extra_headers,
                     )
                     n_iter += 1
 
@@ -377,6 +388,7 @@ class AsyncAgent:
         output_shields: Optional[List[str]] = None,
         response_format: Optional[ResponseFormat] = None,
         enable_session_persistence: Optional[bool] = None,
+        extra_headers: Headers | None = None,
     ):
         """Construct an Agent with the given parameters.
 
@@ -401,6 +413,7 @@ class AsyncAgent:
         :param output_shields: The output shields for the agent.
         :param response_format: The response format for the agent.
         :param enable_session_persistence: Whether to enable session persistence.
+        :param extra_headers: Extra headers to add to all requests sent by the agent.
         """
         self.client = client
 
@@ -430,6 +443,7 @@ class AsyncAgent:
         self.sessions = []
         self.tool_parser = tool_parser
         self.builtin_tools = {}
+        self.extra_headers = extra_headers
         self._agent_id = None
 
         if isinstance(client, LlamaStackClient):
@@ -450,7 +464,7 @@ class AsyncAgent:
         )
         self._agent_id = agentic_system_create_response.agent_id
         for tg in self.agent_config["toolgroups"]:
-            for tool in await self.client.tools.list(toolgroup_id=tg):
+            for tool in await self.client.tools.list(toolgroup_id=tg, extra_headers=self.extra_headers):
                 self.builtin_tools[tool.identifier] = tg.get("args", {}) if isinstance(tg, dict) else {}
 
     async def create_session(self, session_name: str) -> str:
@@ -458,6 +472,7 @@ class AsyncAgent:
         agentic_system_create_session_response = await self.client.agents.session.create(
             agent_id=self.agent_id,
             session_name=session_name,
+            extra_headers=self.extra_headers,
         )
         self.session_id = agentic_system_create_session_response.session_id
         self.sessions.append(self.session_id)
@@ -509,6 +524,7 @@ class AsyncAgent:
                     **tool_call.arguments,
                     **self.builtin_tools[tool_call.tool_name],
                 },
+                extra_headers=self.extra_headers,
             )
             return ToolResponseParam(
                 call_id=tool_call.call_id,
@@ -541,6 +557,7 @@ class AsyncAgent:
             stream=True,
             documents=documents,
             toolgroups=toolgroups,
+            extra_headers=self.extra_headers,
         )
 
         # 2. process turn and resume if there's a tool call
@@ -576,6 +593,7 @@ class AsyncAgent:
                         turn_id=turn_id,
                         tool_responses=tool_responses,
                         stream=True,
+                        extra_headers=self.extra_headers,
                     )
                     n_iter += 1
 

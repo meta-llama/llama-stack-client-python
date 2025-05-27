@@ -4,9 +4,7 @@ version = "0.2.7"
 description = "The official Python library for the llama-stack-client API"
 dynamic = ["readme"]
 license = "Apache-2.0"
-authors = [
-{ name = "Llama Stack Client", email = "dev-feedback@llama-stack-client.com" },
-]
+authors = [{ name = "Meta Llama", email = "llama-oss@meta.com" }]
 dependencies = [
     "httpx>=0.23.0, <1",
     "pydantic>=1.9.0, <3",
@@ -48,52 +46,6 @@ Repository = "https://github.com/meta-llama/llama-stack-client-python"
 
 
 
-[tool.rye]
-managed = true
-# version pins are in requirements-dev.lock
-dev-dependencies = [
-    "pyright>=1.1.359",
-    "mypy",
-    "respx",
-    "pytest",
-    "pytest-asyncio",
-    "ruff",
-    "time-machine",
-    "nox",
-    "dirty-equals>=0.6.0",
-    "importlib-metadata>=6.7.0",
-    "rich>=13.7.1",
-]
-
-[tool.rye.scripts]
-format = { chain = [
-  "format:ruff",
-  "format:docs",
-  "fix:ruff",
-]}
-"format:black" = "black ."
-"format:docs" = "python scripts/utils/ruffen-docs.py README.md api.md"
-"format:ruff" = "ruff format"
-"format:isort" = "isort ."
-
-"lint" = { chain = [
-  "check:ruff",
-  "typecheck",
-  "check:importable",
-]}
-"check:ruff" = "ruff check ."
-"fix:ruff" = "ruff check --fix ."
-
-"check:importable" = "python -c 'import llama_stack_client'"
-
-typecheck = { chain = [
-  "typecheck:pyright",
-  "typecheck:mypy"
-]}
-"typecheck:pyright" = "pyright"
-"typecheck:verify-types" = "pyright --verifytypes llama_stack_client --ignoreexternal"
-"typecheck:mypy" = "mypy ."
-
 [build-system]
 requires = ["hatchling", "hatch-fancy-pypi-readme"]
 build-backend = "hatchling.build"
@@ -131,37 +83,6 @@ path = "README.md"
 # replace relative links with absolute links
 pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
 replacement = '[\1](https://github.com/meta-llama/llama-stack-client-python/tree/main/\g<2>)'
-
-[tool.black]
-line-length = 120
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-addopts = "--tb=short"
-xfail_strict = true
-asyncio_mode = "auto"
-filterwarnings = [
-  "error"
-]
-
-[tool.pyright]
-# this enables practically every flag given by pyright.
-# there are a couple of flags that are still disabled by
-# default in strict mode as they are experimental and niche.
-typeCheckingMode = "strict"
-pythonVersion = "3.7"
-
-exclude = [
-    "_dev",
-    ".venv",
-    ".nox",
-]
-
-reportImplicitOverride = true
-
-reportImportCycles = false
-reportPrivateUsage = false
-
 
 [tool.ruff]
 line-length = 120
