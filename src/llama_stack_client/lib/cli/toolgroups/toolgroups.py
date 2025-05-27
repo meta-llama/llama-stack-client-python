@@ -11,6 +11,8 @@ from rich.console import Console
 from rich.table import Table
 
 from ..common.utils import handle_client_errors
+from ....types import toolgroup_register_params
+from ...._types import NOT_GIVEN, NotGiven
 
 
 @click.group()
@@ -78,8 +80,7 @@ def get_toolgroup(ctx, toolgroup_id: str):
 @click.help_option("-h", "--help")
 @click.argument("toolgroup_id")
 @click.option("--provider-id", help="Provider ID for the toolgroup", default=None)
-@click.option("--provider-toolgroup-id", help="Provider's toolgroup ID", default=None)
-@click.option("--mcp-config", help="JSON mcp_config for the toolgroup", default=None)
+@click.option("--mcp-endpoint", help="JSON mcp_config for the toolgroup", default=None)
 @click.option("--args", help="JSON args for the toolgroup", default=None)
 @click.pass_context
 @handle_client_errors("register toolgroup")
@@ -87,19 +88,22 @@ def register_toolgroup(
     ctx,
     toolgroup_id: str,
     provider_id: Optional[str],
-    provider_toolgroup_id: Optional[str],
-    mcp_config: Optional[str],
+    mcp_endpoint: Optional[str],
     args: Optional[str],
 ):
     """Register a new toolgroup at distribution endpoint"""
     client = ctx.obj["client"]
     console = Console()
 
+    _mcp_endpoint: toolgroup_register_params.McpEndpoint | NotGiven = NOT_GIVEN
+    if mcp_endpoint:
+        _mcp_endpoint = toolgroup_register_params.McpEndpoint(uri=mcp_endpoint)
+
     response = client.toolgroups.register(
         toolgroup_id=toolgroup_id,
         provider_id=provider_id,
         args=args,
-        mcp_config=mcp_config,
+        mcp_endpoint=_mcp_endpoint,
     )
     if response:
         console.print(f"[green]Successfully registered toolgroup {toolgroup_id}[/green]")
