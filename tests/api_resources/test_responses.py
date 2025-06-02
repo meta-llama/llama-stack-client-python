@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
-from llama_stack_client.types import ResponseObject
+from llama_stack_client.types import ResponseObject, ResponseListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -163,6 +163,41 @@ class TestResponses:
                 "",
             )
 
+    @parametrize
+    def test_method_list(self, client: LlamaStackClient) -> None:
+        response = client.responses.list()
+        assert_matches_type(ResponseListResponse, response, path=["response"])
+
+    @parametrize
+    def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
+        response = client.responses.list(
+            after="after",
+            limit=0,
+            model="model",
+            order="asc",
+        )
+        assert_matches_type(ResponseListResponse, response, path=["response"])
+
+    @parametrize
+    def test_raw_response_list(self, client: LlamaStackClient) -> None:
+        http_response = client.responses.with_raw_response.list()
+
+        assert http_response.is_closed is True
+        assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
+        response = http_response.parse()
+        assert_matches_type(ResponseListResponse, response, path=["response"])
+
+    @parametrize
+    def test_streaming_response_list(self, client: LlamaStackClient) -> None:
+        with client.responses.with_streaming_response.list() as http_response:
+            assert not http_response.is_closed
+            assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            response = http_response.parse()
+            assert_matches_type(ResponseListResponse, response, path=["response"])
+
+        assert cast(Any, http_response.is_closed) is True
+
 
 class TestAsyncResponses:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
@@ -312,3 +347,38 @@ class TestAsyncResponses:
             await async_client.responses.with_raw_response.retrieve(
                 "",
             )
+
+    @parametrize
+    async def test_method_list(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.responses.list()
+        assert_matches_type(ResponseListResponse, response, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.responses.list(
+            after="after",
+            limit=0,
+            model="model",
+            order="asc",
+        )
+        assert_matches_type(ResponseListResponse, response, path=["response"])
+
+    @parametrize
+    async def test_raw_response_list(self, async_client: AsyncLlamaStackClient) -> None:
+        http_response = await async_client.responses.with_raw_response.list()
+
+        assert http_response.is_closed is True
+        assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
+        response = await http_response.parse()
+        assert_matches_type(ResponseListResponse, response, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_list(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.responses.with_streaming_response.list() as http_response:
+            assert not http_response.is_closed
+            assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            response = await http_response.parse()
+            assert_matches_type(ResponseListResponse, response, path=["response"])
+
+        assert cast(Any, http_response.is_closed) is True

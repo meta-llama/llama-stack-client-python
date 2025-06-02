@@ -7,7 +7,7 @@ from typing_extensions import Literal, overload
 
 import httpx
 
-from ..types import response_create_params
+from ..types import response_list_params, response_create_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -21,6 +21,7 @@ from .._response import (
 from .._streaming import Stream, AsyncStream
 from .._base_client import make_request_options
 from ..types.response_object import ResponseObject
+from ..types.response_list_response import ResponseListResponse
 from ..types.response_object_stream import ResponseObjectStream
 
 __all__ = ["ResponsesResource", "AsyncResponsesResource"]
@@ -246,6 +247,60 @@ class ResponsesResource(SyncAPIResource):
             cast_to=ResponseObject,
         )
 
+    def list(
+        self,
+        *,
+        after: str | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        model: str | NotGiven = NOT_GIVEN,
+        order: Literal["asc", "desc"] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ResponseListResponse:
+        """
+        List all OpenAI responses.
+
+        Args:
+          after: The ID of the last response to return.
+
+          limit: The number of responses to return.
+
+          model: The model to filter responses by.
+
+          order: The order to sort responses by when sorted by created_at ('asc' or 'desc').
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/v1/openai/v1/responses",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                        "model": model,
+                        "order": order,
+                    },
+                    response_list_params.ResponseListParams,
+                ),
+            ),
+            cast_to=ResponseListResponse,
+        )
+
 
 class AsyncResponsesResource(AsyncAPIResource):
     @cached_property
@@ -467,6 +522,60 @@ class AsyncResponsesResource(AsyncAPIResource):
             cast_to=ResponseObject,
         )
 
+    async def list(
+        self,
+        *,
+        after: str | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        model: str | NotGiven = NOT_GIVEN,
+        order: Literal["asc", "desc"] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ResponseListResponse:
+        """
+        List all OpenAI responses.
+
+        Args:
+          after: The ID of the last response to return.
+
+          limit: The number of responses to return.
+
+          model: The model to filter responses by.
+
+          order: The order to sort responses by when sorted by created_at ('asc' or 'desc').
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/v1/openai/v1/responses",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "after": after,
+                        "limit": limit,
+                        "model": model,
+                        "order": order,
+                    },
+                    response_list_params.ResponseListParams,
+                ),
+            ),
+            cast_to=ResponseListResponse,
+        )
+
 
 class ResponsesResourceWithRawResponse:
     def __init__(self, responses: ResponsesResource) -> None:
@@ -477,6 +586,9 @@ class ResponsesResourceWithRawResponse:
         )
         self.retrieve = to_raw_response_wrapper(
             responses.retrieve,
+        )
+        self.list = to_raw_response_wrapper(
+            responses.list,
         )
 
 
@@ -490,6 +602,9 @@ class AsyncResponsesResourceWithRawResponse:
         self.retrieve = async_to_raw_response_wrapper(
             responses.retrieve,
         )
+        self.list = async_to_raw_response_wrapper(
+            responses.list,
+        )
 
 
 class ResponsesResourceWithStreamingResponse:
@@ -502,6 +617,9 @@ class ResponsesResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             responses.retrieve,
         )
+        self.list = to_streamed_response_wrapper(
+            responses.list,
+        )
 
 
 class AsyncResponsesResourceWithStreamingResponse:
@@ -513,4 +631,7 @@ class AsyncResponsesResourceWithStreamingResponse:
         )
         self.retrieve = async_to_streamed_response_wrapper(
             responses.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            responses.list,
         )

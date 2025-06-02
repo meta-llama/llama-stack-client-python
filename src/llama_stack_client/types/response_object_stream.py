@@ -10,6 +10,7 @@ from .response_object import ResponseObject
 __all__ = [
     "ResponseObjectStream",
     "OpenAIResponseObjectStreamResponseCreated",
+    "OpenAIResponseObjectStreamResponseOutputTextDelta",
     "OpenAIResponseObjectStreamResponseCompleted",
 ]
 
@@ -20,6 +21,20 @@ class OpenAIResponseObjectStreamResponseCreated(BaseModel):
     type: Literal["response.created"]
 
 
+class OpenAIResponseObjectStreamResponseOutputTextDelta(BaseModel):
+    content_index: int
+
+    delta: str
+
+    item_id: str
+
+    output_index: int
+
+    sequence_number: int
+
+    type: Literal["response.output_text.delta"]
+
+
 class OpenAIResponseObjectStreamResponseCompleted(BaseModel):
     response: ResponseObject
 
@@ -27,6 +42,10 @@ class OpenAIResponseObjectStreamResponseCompleted(BaseModel):
 
 
 ResponseObjectStream: TypeAlias = Annotated[
-    Union[OpenAIResponseObjectStreamResponseCreated, OpenAIResponseObjectStreamResponseCompleted],
+    Union[
+        OpenAIResponseObjectStreamResponseCreated,
+        OpenAIResponseObjectStreamResponseOutputTextDelta,
+        OpenAIResponseObjectStreamResponseCompleted,
+    ],
     PropertyInfo(discriminator="type"),
 ]

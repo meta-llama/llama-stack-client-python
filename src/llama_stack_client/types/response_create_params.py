@@ -63,17 +63,17 @@ class InputUnionMember1OpenAIResponseOutputMessageWebSearchToolCall(TypedDict, t
 
 
 class InputUnionMember1OpenAIResponseOutputMessageFunctionToolCall(TypedDict, total=False):
-    id: Required[str]
-
     arguments: Required[str]
 
     call_id: Required[str]
 
     name: Required[str]
 
-    status: Required[str]
-
     type: Required[Literal["function_call"]]
+
+    id: str
+
+    status: str
 
 
 class InputUnionMember1OpenAIResponseInputFunctionToolCallOutput(TypedDict, total=False):

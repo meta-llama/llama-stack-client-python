@@ -23,6 +23,7 @@ from ._types import (
 from ._utils import is_given, get_async_library
 from ._version import __version__
 from .resources import (
+    files,
     tools,
     models,
     routes,
@@ -80,6 +81,7 @@ class LlamaStackClient(SyncAPIClient):
     inference: inference.InferenceResource
     chat: chat.ChatResource
     completions: completions.CompletionsResource
+    files: files.FilesResource
     vector_io: vector_io.VectorIoResource
     vector_dbs: vector_dbs.VectorDBsResource
     models: models.ModelsResource
@@ -163,6 +165,7 @@ class LlamaStackClient(SyncAPIClient):
         self.inference = inference.InferenceResource(self)
         self.chat = chat.ChatResource(self)
         self.completions = completions.CompletionsResource(self)
+        self.files = files.FilesResource(self)
         self.vector_io = vector_io.VectorIoResource(self)
         self.vector_dbs = vector_dbs.VectorDBsResource(self)
         self.models = models.ModelsResource(self)
@@ -298,6 +301,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
     inference: inference.AsyncInferenceResource
     chat: chat.AsyncChatResource
     completions: completions.AsyncCompletionsResource
+    files: files.AsyncFilesResource
     vector_io: vector_io.AsyncVectorIoResource
     vector_dbs: vector_dbs.AsyncVectorDBsResource
     models: models.AsyncModelsResource
@@ -381,6 +385,7 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         self.inference = inference.AsyncInferenceResource(self)
         self.chat = chat.AsyncChatResource(self)
         self.completions = completions.AsyncCompletionsResource(self)
+        self.files = files.AsyncFilesResource(self)
         self.vector_io = vector_io.AsyncVectorIoResource(self)
         self.vector_dbs = vector_dbs.AsyncVectorDBsResource(self)
         self.models = models.AsyncModelsResource(self)
@@ -517,6 +522,7 @@ class LlamaStackClientWithRawResponse:
         self.inference = inference.InferenceResourceWithRawResponse(client.inference)
         self.chat = chat.ChatResourceWithRawResponse(client.chat)
         self.completions = completions.CompletionsResourceWithRawResponse(client.completions)
+        self.files = files.FilesResourceWithRawResponse(client.files)
         self.vector_io = vector_io.VectorIoResourceWithRawResponse(client.vector_io)
         self.vector_dbs = vector_dbs.VectorDBsResourceWithRawResponse(client.vector_dbs)
         self.models = models.ModelsResourceWithRawResponse(client.models)
@@ -547,6 +553,7 @@ class AsyncLlamaStackClientWithRawResponse:
         self.inference = inference.AsyncInferenceResourceWithRawResponse(client.inference)
         self.chat = chat.AsyncChatResourceWithRawResponse(client.chat)
         self.completions = completions.AsyncCompletionsResourceWithRawResponse(client.completions)
+        self.files = files.AsyncFilesResourceWithRawResponse(client.files)
         self.vector_io = vector_io.AsyncVectorIoResourceWithRawResponse(client.vector_io)
         self.vector_dbs = vector_dbs.AsyncVectorDBsResourceWithRawResponse(client.vector_dbs)
         self.models = models.AsyncModelsResourceWithRawResponse(client.models)
@@ -579,6 +586,7 @@ class LlamaStackClientWithStreamedResponse:
         self.inference = inference.InferenceResourceWithStreamingResponse(client.inference)
         self.chat = chat.ChatResourceWithStreamingResponse(client.chat)
         self.completions = completions.CompletionsResourceWithStreamingResponse(client.completions)
+        self.files = files.FilesResourceWithStreamingResponse(client.files)
         self.vector_io = vector_io.VectorIoResourceWithStreamingResponse(client.vector_io)
         self.vector_dbs = vector_dbs.VectorDBsResourceWithStreamingResponse(client.vector_dbs)
         self.models = models.ModelsResourceWithStreamingResponse(client.models)
@@ -611,6 +619,7 @@ class AsyncLlamaStackClientWithStreamedResponse:
         self.inference = inference.AsyncInferenceResourceWithStreamingResponse(client.inference)
         self.chat = chat.AsyncChatResourceWithStreamingResponse(client.chat)
         self.completions = completions.AsyncCompletionsResourceWithStreamingResponse(client.completions)
+        self.files = files.AsyncFilesResourceWithStreamingResponse(client.files)
         self.vector_io = vector_io.AsyncVectorIoResourceWithStreamingResponse(client.vector_io)
         self.vector_dbs = vector_dbs.AsyncVectorDBsResourceWithStreamingResponse(client.vector_dbs)
         self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)

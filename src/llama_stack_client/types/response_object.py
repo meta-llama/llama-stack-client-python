@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union, Optional
+from typing import Dict, List, Union, Optional
 from typing_extensions import Literal, Annotated, TypeAlias
 
 from .._utils import PropertyInfo
@@ -16,6 +16,9 @@ __all__ = [
     "OutputOpenAIResponseMessageContentUnionMember2",
     "OutputOpenAIResponseOutputMessageWebSearchToolCall",
     "OutputOpenAIResponseOutputMessageFunctionToolCall",
+    "OutputOpenAIResponseOutputMessageMcpCall",
+    "OutputOpenAIResponseOutputMessageMcpListTools",
+    "OutputOpenAIResponseOutputMessageMcpListToolsTool",
     "Error",
 ]
 
@@ -72,17 +75,51 @@ class OutputOpenAIResponseOutputMessageWebSearchToolCall(BaseModel):
 
 
 class OutputOpenAIResponseOutputMessageFunctionToolCall(BaseModel):
-    id: str
-
     arguments: str
 
     call_id: str
 
     name: str
 
-    status: str
-
     type: Literal["function_call"]
+
+    id: Optional[str] = None
+
+    status: Optional[str] = None
+
+
+class OutputOpenAIResponseOutputMessageMcpCall(BaseModel):
+    id: str
+
+    arguments: str
+
+    name: str
+
+    server_label: str
+
+    type: Literal["mcp_call"]
+
+    error: Optional[str] = None
+
+    output: Optional[str] = None
+
+
+class OutputOpenAIResponseOutputMessageMcpListToolsTool(BaseModel):
+    input_schema: Dict[str, Union[bool, float, str, List[object], object, None]]
+
+    name: str
+
+    description: Optional[str] = None
+
+
+class OutputOpenAIResponseOutputMessageMcpListTools(BaseModel):
+    id: str
+
+    server_label: str
+
+    tools: List[OutputOpenAIResponseOutputMessageMcpListToolsTool]
+
+    type: Literal["mcp_list_tools"]
 
 
 Output: TypeAlias = Annotated[
@@ -90,6 +127,8 @@ Output: TypeAlias = Annotated[
         OutputOpenAIResponseMessage,
         OutputOpenAIResponseOutputMessageWebSearchToolCall,
         OutputOpenAIResponseOutputMessageFunctionToolCall,
+        OutputOpenAIResponseOutputMessageMcpCall,
+        OutputOpenAIResponseOutputMessageMcpListTools,
     ],
     PropertyInfo(discriminator="type"),
 ]
@@ -102,16 +141,6 @@ class Error(BaseModel):
 
 
 class ResponseObject(BaseModel):
-    @property
-    def output_text(self) -> str:
-        texts: List[str] = []
-        for output in self.output:
-            if output.type == "message":
-                for content in output.content:
-                    if content.type == "output_text":
-                        texts.append(content.text)
-        return "".join(texts)
-
     id: str
 
     created_at: int
