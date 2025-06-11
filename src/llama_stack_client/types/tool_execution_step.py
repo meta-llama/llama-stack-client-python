@@ -16,7 +16,6 @@ class ToolExecutionStep(BaseModel):
     """The ID of the step."""
 
     step_type: Literal["tool_execution"]
-    """Type of the step in an agent turn."""
 
     tool_calls: List[ToolCall]
     """The tool calls to execute."""

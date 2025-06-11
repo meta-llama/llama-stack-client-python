@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
-from typing import Dict, Type, Union, Iterable, cast
+from typing import Dict, Type, Union, Iterable, Optional, cast
 from typing_extensions import Literal
 
 import httpx
 
 from ..types import dataset_iterrows_params, dataset_register_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -58,10 +61,8 @@ class DatasetsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DatasetRetrieveResponse:
+    ) -> Optional[DatasetRetrieveResponse]:
         """
-        Get a dataset by its ID.
-
         Args:
           extra_headers: Send extra headers
 
@@ -91,7 +92,6 @@ class DatasetsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> DatasetListResponse:
-        """List all datasets."""
         return self._get(
             "/v1/datasets",
             options=make_request_options(
@@ -119,15 +119,7 @@ class DatasetsResource(SyncAPIResource):
     ) -> DatasetIterrowsResponse:
         """Get a paginated list of rows from a dataset.
 
-        Uses offset-based pagination where:
-
-        - start_index: The starting index (0-based). If None, starts from beginning.
-        - limit: Number of items to return. If None or -1, returns all items.
-
-        The response includes:
-
-        - data: List of items for the current page.
-        - has_more: Whether there are more items available after this set.
+        Uses cursor-based pagination.
 
         Args:
           limit: The number of rows to get.
@@ -181,7 +173,7 @@ class DatasetsResource(SyncAPIResource):
         Args:
           purpose: The purpose of the dataset.
 
-        One of: - "post-training/messages": The dataset
+        One of - "post-training/messages": The dataset
               contains a messages column with list of messages for post-training. {
               "messages": [ {"role": "user", "content": "Hello, world!"}, {"role":
               "assistant", "content": "Hello, world!"}, ] } - "eval/question-answer": The
@@ -204,7 +196,7 @@ class DatasetsResource(SyncAPIResource):
 
           dataset_id: The ID of the dataset. If not provided, an ID will be generated.
 
-          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}.
+          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}
 
           extra_headers: Send extra headers
 
@@ -243,8 +235,6 @@ class DatasetsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Unregister a dataset by its ID.
-
         Args:
           extra_headers: Send extra headers
 
@@ -296,10 +286,8 @@ class AsyncDatasetsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DatasetRetrieveResponse:
+    ) -> Optional[DatasetRetrieveResponse]:
         """
-        Get a dataset by its ID.
-
         Args:
           extra_headers: Send extra headers
 
@@ -329,7 +317,6 @@ class AsyncDatasetsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> DatasetListResponse:
-        """List all datasets."""
         return await self._get(
             "/v1/datasets",
             options=make_request_options(
@@ -357,15 +344,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
     ) -> DatasetIterrowsResponse:
         """Get a paginated list of rows from a dataset.
 
-        Uses offset-based pagination where:
-
-        - start_index: The starting index (0-based). If None, starts from beginning.
-        - limit: Number of items to return. If None or -1, returns all items.
-
-        The response includes:
-
-        - data: List of items for the current page.
-        - has_more: Whether there are more items available after this set.
+        Uses cursor-based pagination.
 
         Args:
           limit: The number of rows to get.
@@ -419,7 +398,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
         Args:
           purpose: The purpose of the dataset.
 
-        One of: - "post-training/messages": The dataset
+        One of - "post-training/messages": The dataset
               contains a messages column with list of messages for post-training. {
               "messages": [ {"role": "user", "content": "Hello, world!"}, {"role":
               "assistant", "content": "Hello, world!"}, ] } - "eval/question-answer": The
@@ -442,7 +421,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
 
           dataset_id: The ID of the dataset. If not provided, an ID will be generated.
 
-          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}.
+          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}
 
           extra_headers: Send extra headers
 
@@ -481,8 +460,6 @@ class AsyncDatasetsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Unregister a dataset by its ID.
-
         Args:
           extra_headers: Send extra headers
 

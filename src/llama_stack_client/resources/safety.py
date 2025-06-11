@@ -8,7 +8,10 @@ import httpx
 
 from ..types import safety_run_shield_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -58,15 +61,7 @@ class SafetyResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> RunShieldResponse:
         """
-        Run a shield.
-
         Args:
-          messages: The messages to run the shield on.
-
-          params: The parameters of the shield.
-
-          shield_id: The identifier of the shield to run.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -126,15 +121,7 @@ class AsyncSafetyResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> RunShieldResponse:
         """
-        Run a shield.
-
         Args:
-          messages: The messages to run the shield on.
-
-          params: The parameters of the shield.
-
-          shield_id: The identifier of the shield to run.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

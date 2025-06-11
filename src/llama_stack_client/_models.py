@@ -19,6 +19,7 @@ from typing_extensions import (
 )
 
 import pydantic
+import pydantic.generics
 from pydantic.fields import FieldInfo
 
 from ._types import (
@@ -626,8 +627,8 @@ def _build_discriminated_union_meta(*, union: type, meta_annotations: tuple[Any,
                 # Note: if one variant defines an alias then they all should
                 discriminator_alias = field_info.alias
 
-                if (annotation := getattr(field_info, "annotation", None)) and is_literal_type(annotation):
-                    for entry in get_args(annotation):
+                if field_info.annotation and is_literal_type(field_info.annotation):
+                    for entry in get_args(field_info.annotation):
                         if isinstance(entry, str):
                             mapping[entry] = variant
 
@@ -680,7 +681,7 @@ def set_pydantic_config(typ: Any, config: pydantic.ConfigDict) -> None:
     setattr(typ, "__pydantic_config__", config)  # noqa: B010
 
 
-# our use of subclassing here causes weirdness for type checkers,
+# our use of subclasssing here causes weirdness for type checkers,
 # so we just pretend that we don't subclass
 if TYPE_CHECKING:
     GenericModel = BaseModel

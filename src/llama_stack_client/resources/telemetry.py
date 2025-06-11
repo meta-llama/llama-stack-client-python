@@ -14,7 +14,10 @@ from ..types import (
     telemetry_save_spans_to_dataset_params,
 )
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -69,8 +72,6 @@ class TelemetryResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TelemetryGetSpanResponse:
         """
-        Get a span by its ID.
-
         Args:
           extra_headers: Send extra headers
 
@@ -106,13 +107,7 @@ class TelemetryResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TelemetryGetSpanTreeResponse:
         """
-        Get a span tree by its ID.
-
         Args:
-          attributes_to_return: The attributes to return in the tree.
-
-          max_depth: The maximum depth of the tree.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -154,8 +149,6 @@ class TelemetryResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Trace:
         """
-        Get a trace by its ID.
-
         Args:
           extra_headers: Send extra headers
 
@@ -188,13 +181,7 @@ class TelemetryResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Log an event.
-
         Args:
-          event: The event to log.
-
-          ttl_seconds: The time to live of the event.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -233,15 +220,7 @@ class TelemetryResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TelemetryQuerySpansResponse:
         """
-        Query spans.
-
         Args:
-          attribute_filters: The attribute filters to apply to the spans.
-
-          attributes_to_return: The attributes to return in the spans.
-
-          max_depth: The maximum depth of the tree.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -285,17 +264,7 @@ class TelemetryResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TelemetryQueryTracesResponse:
         """
-        Query traces.
-
         Args:
-          attribute_filters: The attribute filters to apply to the traces.
-
-          limit: The limit of traces to return.
-
-          offset: The offset of the traces to return.
-
-          order_by: The order by of the traces to return.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -340,17 +309,7 @@ class TelemetryResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Save spans to a dataset.
-
         Args:
-          attribute_filters: The attribute filters to apply to the spans.
-
-          attributes_to_save: The attributes to save to the dataset.
-
-          dataset_id: The ID of the dataset to save the spans to.
-
-          max_depth: The maximum depth of the tree.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -411,8 +370,6 @@ class AsyncTelemetryResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TelemetryGetSpanResponse:
         """
-        Get a span by its ID.
-
         Args:
           extra_headers: Send extra headers
 
@@ -448,13 +405,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TelemetryGetSpanTreeResponse:
         """
-        Get a span tree by its ID.
-
         Args:
-          attributes_to_return: The attributes to return in the tree.
-
-          max_depth: The maximum depth of the tree.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -496,8 +447,6 @@ class AsyncTelemetryResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Trace:
         """
-        Get a trace by its ID.
-
         Args:
           extra_headers: Send extra headers
 
@@ -530,13 +479,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Log an event.
-
         Args:
-          event: The event to log.
-
-          ttl_seconds: The time to live of the event.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -575,15 +518,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TelemetryQuerySpansResponse:
         """
-        Query spans.
-
         Args:
-          attribute_filters: The attribute filters to apply to the spans.
-
-          attributes_to_return: The attributes to return in the spans.
-
-          max_depth: The maximum depth of the tree.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -627,17 +562,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TelemetryQueryTracesResponse:
         """
-        Query traces.
-
         Args:
-          attribute_filters: The attribute filters to apply to the traces.
-
-          limit: The limit of traces to return.
-
-          offset: The offset of the traces to return.
-
-          order_by: The order by of the traces to return.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -682,17 +607,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Save spans to a dataset.
-
         Args:
-          attribute_filters: The attribute filters to apply to the spans.
-
-          attributes_to_save: The attributes to save to the dataset.
-
-          dataset_id: The ID of the dataset to save the spans to.
-
-          max_depth: The maximum depth of the tree.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

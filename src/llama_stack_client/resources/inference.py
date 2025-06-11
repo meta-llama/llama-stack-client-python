@@ -11,11 +11,13 @@ from ..types import (
     inference_completion_params,
     inference_embeddings_params,
     inference_chat_completion_params,
-    inference_batch_completion_params,
-    inference_batch_chat_completion_params,
 )
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import required_args, maybe_transform, async_maybe_transform
+from .._utils import (
+    required_args,
+    maybe_transform,
+    async_maybe_transform,
+)
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -29,14 +31,12 @@ from .._base_client import make_request_options
 from ..types.completion_response import CompletionResponse
 from ..types.embeddings_response import EmbeddingsResponse
 from ..types.shared_params.message import Message
-from ..types.shared.batch_completion import BatchCompletion
 from ..types.shared_params.response_format import ResponseFormat
 from ..types.shared_params.sampling_params import SamplingParams
 from ..types.shared.chat_completion_response import ChatCompletionResponse
 from ..types.shared_params.interleaved_content import InterleavedContent
 from ..types.chat_completion_response_stream_chunk import ChatCompletionResponseStreamChunk
 from ..types.shared_params.interleaved_content_item import InterleavedContentItem
-from ..types.inference_batch_chat_completion_response import InferenceBatchChatCompletionResponse
 
 __all__ = ["InferenceResource", "AsyncInferenceResource"]
 
@@ -60,128 +60,6 @@ class InferenceResource(SyncAPIResource):
         For more information, see https://www.github.com/stainless-sdks/llama-stack-python#with_streaming_response
         """
         return InferenceResourceWithStreamingResponse(self)
-
-    def batch_chat_completion(
-        self,
-        *,
-        messages_batch: Iterable[Iterable[Message]],
-        model_id: str,
-        logprobs: inference_batch_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        tool_config: inference_batch_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
-        tools: Iterable[inference_batch_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceBatchChatCompletionResponse:
-        """
-        Generate chat completions for a batch of messages using the specified model.
-
-        Args:
-          messages_batch: The messages to generate completions for.
-
-          model_id: The identifier of the model to use. The model must be registered with Llama
-              Stack and available via the /models endpoint.
-
-          logprobs: (Optional) If specified, log probabilities for each token position will be
-              returned.
-
-          response_format: (Optional) Grammar specification for guided (structured) decoding.
-
-          sampling_params: (Optional) Parameters to control the sampling strategy.
-
-          tool_config: (Optional) Configuration for tool use.
-
-          tools: (Optional) List of tool definitions available to the model.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._post(
-            "/v1/inference/batch-chat-completion",
-            body=maybe_transform(
-                {
-                    "messages_batch": messages_batch,
-                    "model_id": model_id,
-                    "logprobs": logprobs,
-                    "response_format": response_format,
-                    "sampling_params": sampling_params,
-                    "tool_config": tool_config,
-                    "tools": tools,
-                },
-                inference_batch_chat_completion_params.InferenceBatchChatCompletionParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=InferenceBatchChatCompletionResponse,
-        )
-
-    def batch_completion(
-        self,
-        *,
-        content_batch: List[InterleavedContent],
-        model_id: str,
-        logprobs: inference_batch_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BatchCompletion:
-        """
-        Generate completions for a batch of content using the specified model.
-
-        Args:
-          content_batch: The content to generate completions for.
-
-          model_id: The identifier of the model to use. The model must be registered with Llama
-              Stack and available via the /models endpoint.
-
-          logprobs: (Optional) If specified, log probabilities for each token position will be
-              returned.
-
-          response_format: (Optional) Grammar specification for guided (structured) decoding.
-
-          sampling_params: (Optional) Parameters to control the sampling strategy.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._post(
-            "/v1/inference/batch-completion",
-            body=maybe_transform(
-                {
-                    "content_batch": content_batch,
-                    "model_id": model_id,
-                    "logprobs": logprobs,
-                    "response_format": response_format,
-                    "sampling_params": sampling_params,
-                },
-                inference_batch_completion_params.InferenceBatchCompletionParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=BatchCompletion,
-        )
 
     @overload
     def chat_completion(
@@ -208,7 +86,7 @@ class InferenceResource(SyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation.
+          messages: List of messages in the conversation
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -221,7 +99,7 @@ class InferenceResource(SyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy.
+          sampling_params: Parameters to control the sampling strategy
 
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
@@ -239,7 +117,7 @@ class InferenceResource(SyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model.
+          tools: (Optional) List of tool definitions available to the model
 
           extra_headers: Send extra headers
 
@@ -276,7 +154,7 @@ class InferenceResource(SyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation.
+          messages: List of messages in the conversation
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -292,7 +170,7 @@ class InferenceResource(SyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy.
+          sampling_params: Parameters to control the sampling strategy
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
               ToolChoice.auto. .. deprecated:: Use tool_config instead.
@@ -307,7 +185,7 @@ class InferenceResource(SyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model.
+          tools: (Optional) List of tool definitions available to the model
 
           extra_headers: Send extra headers
 
@@ -344,7 +222,7 @@ class InferenceResource(SyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation.
+          messages: List of messages in the conversation
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -360,7 +238,7 @@ class InferenceResource(SyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy.
+          sampling_params: Parameters to control the sampling strategy
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
               ToolChoice.auto. .. deprecated:: Use tool_config instead.
@@ -375,7 +253,7 @@ class InferenceResource(SyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model.
+          tools: (Optional) List of tool definitions available to the model
 
           extra_headers: Send extra headers
 
@@ -425,9 +303,7 @@ class InferenceResource(SyncAPIResource):
                     "tool_prompt_format": tool_prompt_format,
                     "tools": tools,
                 },
-                inference_chat_completion_params.InferenceChatCompletionParamsStreaming
-                if stream
-                else inference_chat_completion_params.InferenceChatCompletionParamsNonStreaming,
+                inference_chat_completion_params.InferenceChatCompletionParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -458,7 +334,7 @@ class InferenceResource(SyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for.
+          content: The content to generate a completion for
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -466,9 +342,9 @@ class InferenceResource(SyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding.
+          response_format: (Optional) Grammar specification for guided (structured) decoding
 
-          sampling_params: (Optional) Parameters to control the sampling strategy.
+          sampling_params: (Optional) Parameters to control the sampling strategy
 
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
@@ -504,7 +380,7 @@ class InferenceResource(SyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for.
+          content: The content to generate a completion for
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -515,9 +391,9 @@ class InferenceResource(SyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding.
+          response_format: (Optional) Grammar specification for guided (structured) decoding
 
-          sampling_params: (Optional) Parameters to control the sampling strategy.
+          sampling_params: (Optional) Parameters to control the sampling strategy
 
           extra_headers: Send extra headers
 
@@ -550,7 +426,7 @@ class InferenceResource(SyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for.
+          content: The content to generate a completion for
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -561,9 +437,9 @@ class InferenceResource(SyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding.
+          response_format: (Optional) Grammar specification for guided (structured) decoding
 
-          sampling_params: (Optional) Parameters to control the sampling strategy.
+          sampling_params: (Optional) Parameters to control the sampling strategy
 
           extra_headers: Send extra headers
 
@@ -605,9 +481,7 @@ class InferenceResource(SyncAPIResource):
                     "sampling_params": sampling_params,
                     "stream": stream,
                 },
-                inference_completion_params.InferenceCompletionParamsStreaming
-                if stream
-                else inference_completion_params.InferenceCompletionParamsNonStreaming,
+                inference_completion_params.InferenceCompletionParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -699,128 +573,6 @@ class AsyncInferenceResource(AsyncAPIResource):
         """
         return AsyncInferenceResourceWithStreamingResponse(self)
 
-    async def batch_chat_completion(
-        self,
-        *,
-        messages_batch: Iterable[Iterable[Message]],
-        model_id: str,
-        logprobs: inference_batch_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        tool_config: inference_batch_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
-        tools: Iterable[inference_batch_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceBatchChatCompletionResponse:
-        """
-        Generate chat completions for a batch of messages using the specified model.
-
-        Args:
-          messages_batch: The messages to generate completions for.
-
-          model_id: The identifier of the model to use. The model must be registered with Llama
-              Stack and available via the /models endpoint.
-
-          logprobs: (Optional) If specified, log probabilities for each token position will be
-              returned.
-
-          response_format: (Optional) Grammar specification for guided (structured) decoding.
-
-          sampling_params: (Optional) Parameters to control the sampling strategy.
-
-          tool_config: (Optional) Configuration for tool use.
-
-          tools: (Optional) List of tool definitions available to the model.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._post(
-            "/v1/inference/batch-chat-completion",
-            body=await async_maybe_transform(
-                {
-                    "messages_batch": messages_batch,
-                    "model_id": model_id,
-                    "logprobs": logprobs,
-                    "response_format": response_format,
-                    "sampling_params": sampling_params,
-                    "tool_config": tool_config,
-                    "tools": tools,
-                },
-                inference_batch_chat_completion_params.InferenceBatchChatCompletionParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=InferenceBatchChatCompletionResponse,
-        )
-
-    async def batch_completion(
-        self,
-        *,
-        content_batch: List[InterleavedContent],
-        model_id: str,
-        logprobs: inference_batch_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BatchCompletion:
-        """
-        Generate completions for a batch of content using the specified model.
-
-        Args:
-          content_batch: The content to generate completions for.
-
-          model_id: The identifier of the model to use. The model must be registered with Llama
-              Stack and available via the /models endpoint.
-
-          logprobs: (Optional) If specified, log probabilities for each token position will be
-              returned.
-
-          response_format: (Optional) Grammar specification for guided (structured) decoding.
-
-          sampling_params: (Optional) Parameters to control the sampling strategy.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._post(
-            "/v1/inference/batch-completion",
-            body=await async_maybe_transform(
-                {
-                    "content_batch": content_batch,
-                    "model_id": model_id,
-                    "logprobs": logprobs,
-                    "response_format": response_format,
-                    "sampling_params": sampling_params,
-                },
-                inference_batch_completion_params.InferenceBatchCompletionParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=BatchCompletion,
-        )
-
     @overload
     async def chat_completion(
         self,
@@ -846,7 +598,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation.
+          messages: List of messages in the conversation
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -859,7 +611,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy.
+          sampling_params: Parameters to control the sampling strategy
 
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
@@ -877,7 +629,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model.
+          tools: (Optional) List of tool definitions available to the model
 
           extra_headers: Send extra headers
 
@@ -914,7 +666,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation.
+          messages: List of messages in the conversation
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -930,7 +682,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy.
+          sampling_params: Parameters to control the sampling strategy
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
               ToolChoice.auto. .. deprecated:: Use tool_config instead.
@@ -945,7 +697,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model.
+          tools: (Optional) List of tool definitions available to the model
 
           extra_headers: Send extra headers
 
@@ -982,7 +734,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation.
+          messages: List of messages in the conversation
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -998,7 +750,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy.
+          sampling_params: Parameters to control the sampling strategy
 
           tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
               ToolChoice.auto. .. deprecated:: Use tool_config instead.
@@ -1013,7 +765,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model.
+          tools: (Optional) List of tool definitions available to the model
 
           extra_headers: Send extra headers
 
@@ -1063,9 +815,7 @@ class AsyncInferenceResource(AsyncAPIResource):
                     "tool_prompt_format": tool_prompt_format,
                     "tools": tools,
                 },
-                inference_chat_completion_params.InferenceChatCompletionParamsStreaming
-                if stream
-                else inference_chat_completion_params.InferenceChatCompletionParamsNonStreaming,
+                inference_chat_completion_params.InferenceChatCompletionParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -1096,7 +846,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for.
+          content: The content to generate a completion for
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -1104,9 +854,9 @@ class AsyncInferenceResource(AsyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding.
+          response_format: (Optional) Grammar specification for guided (structured) decoding
 
-          sampling_params: (Optional) Parameters to control the sampling strategy.
+          sampling_params: (Optional) Parameters to control the sampling strategy
 
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
@@ -1142,7 +892,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for.
+          content: The content to generate a completion for
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -1153,9 +903,9 @@ class AsyncInferenceResource(AsyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding.
+          response_format: (Optional) Grammar specification for guided (structured) decoding
 
-          sampling_params: (Optional) Parameters to control the sampling strategy.
+          sampling_params: (Optional) Parameters to control the sampling strategy
 
           extra_headers: Send extra headers
 
@@ -1188,7 +938,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for.
+          content: The content to generate a completion for
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -1199,9 +949,9 @@ class AsyncInferenceResource(AsyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding.
+          response_format: (Optional) Grammar specification for guided (structured) decoding
 
-          sampling_params: (Optional) Parameters to control the sampling strategy.
+          sampling_params: (Optional) Parameters to control the sampling strategy
 
           extra_headers: Send extra headers
 
@@ -1243,9 +993,7 @@ class AsyncInferenceResource(AsyncAPIResource):
                     "sampling_params": sampling_params,
                     "stream": stream,
                 },
-                inference_completion_params.InferenceCompletionParamsStreaming
-                if stream
-                else inference_completion_params.InferenceCompletionParamsNonStreaming,
+                inference_completion_params.InferenceCompletionParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -1321,12 +1069,6 @@ class InferenceResourceWithRawResponse:
     def __init__(self, inference: InferenceResource) -> None:
         self._inference = inference
 
-        self.batch_chat_completion = to_raw_response_wrapper(
-            inference.batch_chat_completion,
-        )
-        self.batch_completion = to_raw_response_wrapper(
-            inference.batch_completion,
-        )
         self.chat_completion = to_raw_response_wrapper(
             inference.chat_completion,
         )
@@ -1342,12 +1084,6 @@ class AsyncInferenceResourceWithRawResponse:
     def __init__(self, inference: AsyncInferenceResource) -> None:
         self._inference = inference
 
-        self.batch_chat_completion = async_to_raw_response_wrapper(
-            inference.batch_chat_completion,
-        )
-        self.batch_completion = async_to_raw_response_wrapper(
-            inference.batch_completion,
-        )
         self.chat_completion = async_to_raw_response_wrapper(
             inference.chat_completion,
         )
@@ -1363,12 +1099,6 @@ class InferenceResourceWithStreamingResponse:
     def __init__(self, inference: InferenceResource) -> None:
         self._inference = inference
 
-        self.batch_chat_completion = to_streamed_response_wrapper(
-            inference.batch_chat_completion,
-        )
-        self.batch_completion = to_streamed_response_wrapper(
-            inference.batch_completion,
-        )
         self.chat_completion = to_streamed_response_wrapper(
             inference.chat_completion,
         )
@@ -1384,12 +1114,6 @@ class AsyncInferenceResourceWithStreamingResponse:
     def __init__(self, inference: AsyncInferenceResource) -> None:
         self._inference = inference
 
-        self.batch_chat_completion = async_to_streamed_response_wrapper(
-            inference.batch_chat_completion,
-        )
-        self.batch_completion = async_to_streamed_response_wrapper(
-            inference.batch_completion,
-        )
         self.chat_completion = async_to_streamed_response_wrapper(
             inference.chat_completion,
         )

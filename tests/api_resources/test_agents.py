@@ -52,7 +52,6 @@ class TestAgents:
                 "enable_session_persistence": True,
                 "input_shields": ["string"],
                 "max_infer_iters": 0,
-                "name": "name",
                 "output_shields": ["string"],
                 "response_format": {
                     "json_schema": {"foo": True},
@@ -62,7 +61,6 @@ class TestAgents:
                     "strategy": {"type": "greedy"},
                     "max_tokens": 0,
                     "repetition_penalty": 0,
-                    "stop": ["string"],
                 },
                 "tool_choice": "auto",
                 "tool_config": {
@@ -183,7 +181,6 @@ class TestAsyncAgents:
                 "enable_session_persistence": True,
                 "input_shields": ["string"],
                 "max_infer_iters": 0,
-                "name": "name",
                 "output_shields": ["string"],
                 "response_format": {
                     "json_schema": {"foo": True},
@@ -193,7 +190,6 @@ class TestAsyncAgents:
                     "strategy": {"type": "greedy"},
                     "max_tokens": 0,
                     "repetition_penalty": 0,
-                    "stop": ["string"],
                 },
                 "tool_choice": "auto",
                 "tool_config": {

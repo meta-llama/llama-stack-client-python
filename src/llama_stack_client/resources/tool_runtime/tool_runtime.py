@@ -2,13 +2,16 @@
 
 from __future__ import annotations
 
-from typing import Dict, Type, Union, Iterable, cast
+from typing import Dict, Union, Iterable
 
 import httpx
 
 from ...types import tool_runtime_list_tools_params, tool_runtime_invoke_tool_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from .rag_tool import (
     RagToolResource,
     AsyncRagToolResource,
@@ -25,10 +28,10 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._wrappers import DataWrapper
 from ..._base_client import make_request_options
+from ...types.tool_def import ToolDef
+from ..._decoders.jsonl import JSONLDecoder, AsyncJSONLDecoder
 from ...types.tool_invocation_result import ToolInvocationResult
-from ...types.tool_runtime_list_tools_response import ToolRuntimeListToolsResponse
 
 __all__ = ["ToolRuntimeResource", "AsyncToolRuntimeResource"]
 
@@ -70,13 +73,9 @@ class ToolRuntimeResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolInvocationResult:
         """
-        Run a tool with the given arguments.
+        Run a tool with the given arguments
 
         Args:
-          kwargs: A dictionary of arguments to pass to the tool.
-
-          tool_name: The name of the tool to invoke.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -111,15 +110,9 @@ class ToolRuntimeResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ToolRuntimeListToolsResponse:
+    ) -> JSONLDecoder[ToolDef]:
         """
-        List all tools in the runtime.
-
         Args:
-          mcp_endpoint: The MCP endpoint to use for the tool group.
-
-          tool_group_id: The ID of the tool group to list tools for.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -128,6 +121,7 @@ class ToolRuntimeResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         return self._get(
             "/v1/tool-runtime/list-tools",
             options=make_request_options(
@@ -142,9 +136,9 @@ class ToolRuntimeResource(SyncAPIResource):
                     },
                     tool_runtime_list_tools_params.ToolRuntimeListToolsParams,
                 ),
-                post_parser=DataWrapper[ToolRuntimeListToolsResponse]._unwrapper,
             ),
-            cast_to=cast(Type[ToolRuntimeListToolsResponse], DataWrapper[ToolRuntimeListToolsResponse]),
+            cast_to=JSONLDecoder[ToolDef],
+            stream=True,
         )
 
 
@@ -185,13 +179,9 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolInvocationResult:
         """
-        Run a tool with the given arguments.
+        Run a tool with the given arguments
 
         Args:
-          kwargs: A dictionary of arguments to pass to the tool.
-
-          tool_name: The name of the tool to invoke.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -226,15 +216,9 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ToolRuntimeListToolsResponse:
+    ) -> AsyncJSONLDecoder[ToolDef]:
         """
-        List all tools in the runtime.
-
         Args:
-          mcp_endpoint: The MCP endpoint to use for the tool group.
-
-          tool_group_id: The ID of the tool group to list tools for.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -243,6 +227,7 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "application/jsonl", **(extra_headers or {})}
         return await self._get(
             "/v1/tool-runtime/list-tools",
             options=make_request_options(
@@ -257,9 +242,9 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
                     },
                     tool_runtime_list_tools_params.ToolRuntimeListToolsParams,
                 ),
-                post_parser=DataWrapper[ToolRuntimeListToolsResponse]._unwrapper,
             ),
-            cast_to=cast(Type[ToolRuntimeListToolsResponse], DataWrapper[ToolRuntimeListToolsResponse]),
+            cast_to=AsyncJSONLDecoder[ToolDef],
+            stream=True,
         )
 
 

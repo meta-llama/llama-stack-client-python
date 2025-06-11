@@ -10,7 +10,5 @@ __all__ = ["TelemetryGetSpanTreeParams"]
 
 class TelemetryGetSpanTreeParams(TypedDict, total=False):
     attributes_to_return: List[str]
-    """The attributes to return in the tree."""
 
     max_depth: int
-    """The maximum depth of the tree."""

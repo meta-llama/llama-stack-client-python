@@ -1,13 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .chat import (
-    ChatResource,
-    AsyncChatResource,
-    ChatResourceWithRawResponse,
-    AsyncChatResourceWithRawResponse,
-    ChatResourceWithStreamingResponse,
-    AsyncChatResourceWithStreamingResponse,
-)
 from .eval import (
     EvalResource,
     AsyncEvalResource,
@@ -104,14 +96,6 @@ from .providers import (
     ProvidersResourceWithStreamingResponse,
     AsyncProvidersResourceWithStreamingResponse,
 )
-from .responses import (
-    ResponsesResource,
-    AsyncResponsesResource,
-    ResponsesResourceWithRawResponse,
-    AsyncResponsesResourceWithRawResponse,
-    ResponsesResourceWithStreamingResponse,
-    AsyncResponsesResourceWithStreamingResponse,
-)
 from .telemetry import (
     TelemetryResource,
     AsyncTelemetryResource,
@@ -152,14 +136,6 @@ from .vector_dbs import (
     VectorDBsResourceWithStreamingResponse,
     AsyncVectorDBsResourceWithStreamingResponse,
 )
-from .completions import (
-    CompletionsResource,
-    AsyncCompletionsResource,
-    CompletionsResourceWithRawResponse,
-    AsyncCompletionsResourceWithRawResponse,
-    CompletionsResourceWithStreamingResponse,
-    AsyncCompletionsResourceWithStreamingResponse,
-)
 from .tool_runtime import (
     ToolRuntimeResource,
     AsyncToolRuntimeResource,
@@ -175,6 +151,14 @@ from .post_training import (
     AsyncPostTrainingResourceWithRawResponse,
     PostTrainingResourceWithStreamingResponse,
     AsyncPostTrainingResourceWithStreamingResponse,
+)
+from .batch_inference import (
+    BatchInferenceResource,
+    AsyncBatchInferenceResource,
+    BatchInferenceResourceWithRawResponse,
+    AsyncBatchInferenceResourceWithRawResponse,
+    BatchInferenceResourceWithStreamingResponse,
+    AsyncBatchInferenceResourceWithStreamingResponse,
 )
 from .scoring_functions import (
     ScoringFunctionsResource,
@@ -212,18 +196,18 @@ __all__ = [
     "AsyncToolRuntimeResourceWithRawResponse",
     "ToolRuntimeResourceWithStreamingResponse",
     "AsyncToolRuntimeResourceWithStreamingResponse",
-    "ResponsesResource",
-    "AsyncResponsesResource",
-    "ResponsesResourceWithRawResponse",
-    "AsyncResponsesResourceWithRawResponse",
-    "ResponsesResourceWithStreamingResponse",
-    "AsyncResponsesResourceWithStreamingResponse",
     "AgentsResource",
     "AsyncAgentsResource",
     "AgentsResourceWithRawResponse",
     "AsyncAgentsResourceWithRawResponse",
     "AgentsResourceWithStreamingResponse",
     "AsyncAgentsResourceWithStreamingResponse",
+    "BatchInferenceResource",
+    "AsyncBatchInferenceResource",
+    "BatchInferenceResourceWithRawResponse",
+    "AsyncBatchInferenceResourceWithRawResponse",
+    "BatchInferenceResourceWithStreamingResponse",
+    "AsyncBatchInferenceResourceWithStreamingResponse",
     "DatasetsResource",
     "AsyncDatasetsResource",
     "DatasetsResourceWithRawResponse",
@@ -248,18 +232,6 @@ __all__ = [
     "AsyncInferenceResourceWithRawResponse",
     "InferenceResourceWithStreamingResponse",
     "AsyncInferenceResourceWithStreamingResponse",
-    "ChatResource",
-    "AsyncChatResource",
-    "ChatResourceWithRawResponse",
-    "AsyncChatResourceWithRawResponse",
-    "ChatResourceWithStreamingResponse",
-    "AsyncChatResourceWithStreamingResponse",
-    "CompletionsResource",
-    "AsyncCompletionsResource",
-    "CompletionsResourceWithRawResponse",
-    "AsyncCompletionsResourceWithRawResponse",
-    "CompletionsResourceWithStreamingResponse",
-    "AsyncCompletionsResourceWithStreamingResponse",
     "VectorIoResource",
     "AsyncVectorIoResource",
     "VectorIoResourceWithRawResponse",

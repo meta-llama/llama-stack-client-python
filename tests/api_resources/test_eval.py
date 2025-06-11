@@ -32,9 +32,7 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -55,7 +53,6 @@ class TestEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
-                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -65,10 +62,10 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
+                        "aggregation_functions": ["average"],
+                        "judge_score_regexes": ["string"],
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -91,9 +88,7 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -119,9 +114,7 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -150,9 +143,7 @@ class TestEval:
                     },
                     "scoring_params": {
                         "foo": {
-                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
-                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -173,9 +164,7 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -196,7 +185,6 @@ class TestEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
-                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -206,10 +194,10 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
+                        "aggregation_functions": ["average"],
+                        "judge_score_regexes": ["string"],
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -232,9 +220,7 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -260,9 +246,7 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -291,9 +275,7 @@ class TestEval:
                     },
                     "scoring_params": {
                         "foo": {
-                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
-                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -314,9 +296,7 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -335,7 +315,6 @@ class TestEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
-                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -345,10 +324,10 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
+                        "aggregation_functions": ["average"],
+                        "judge_score_regexes": ["string"],
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -369,9 +348,7 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -395,9 +372,7 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -424,9 +399,7 @@ class TestEval:
                     },
                     "scoring_params": {
                         "foo": {
-                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
-                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -445,9 +418,7 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -466,7 +437,6 @@ class TestEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
-                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -476,10 +446,10 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
+                        "aggregation_functions": ["average"],
+                        "judge_score_regexes": ["string"],
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -500,9 +470,7 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -526,9 +494,7 @@ class TestEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -555,9 +521,7 @@ class TestEval:
                     },
                     "scoring_params": {
                         "foo": {
-                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
-                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -580,9 +544,7 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -603,7 +565,6 @@ class TestAsyncEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
-                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -613,10 +574,10 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
+                        "aggregation_functions": ["average"],
+                        "judge_score_regexes": ["string"],
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -639,9 +600,7 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -667,9 +626,7 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -698,9 +655,7 @@ class TestAsyncEval:
                     },
                     "scoring_params": {
                         "foo": {
-                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
-                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -721,9 +676,7 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -744,7 +697,6 @@ class TestAsyncEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
-                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -754,10 +706,10 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
+                        "aggregation_functions": ["average"],
+                        "judge_score_regexes": ["string"],
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -780,9 +732,7 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -808,9 +758,7 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -839,9 +787,7 @@ class TestAsyncEval:
                     },
                     "scoring_params": {
                         "foo": {
-                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
-                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -862,9 +808,7 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -883,7 +827,6 @@ class TestAsyncEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
-                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -893,10 +836,10 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
+                        "aggregation_functions": ["average"],
+                        "judge_score_regexes": ["string"],
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -917,9 +860,7 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -943,9 +884,7 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -972,9 +911,7 @@ class TestAsyncEval:
                     },
                     "scoring_params": {
                         "foo": {
-                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
-                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },
@@ -993,9 +930,7 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -1014,7 +949,6 @@ class TestAsyncEval:
                         "strategy": {"type": "greedy"},
                         "max_tokens": 0,
                         "repetition_penalty": 0,
-                        "stop": ["string"],
                     },
                     "type": "model",
                     "system_message": {
@@ -1024,10 +958,10 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
+                        "aggregation_functions": ["average"],
+                        "judge_score_regexes": ["string"],
                         "prompt_template": "prompt_template",
                     }
                 },
@@ -1048,9 +982,7 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -1074,9 +1006,7 @@ class TestAsyncEval:
                 },
                 "scoring_params": {
                     "foo": {
-                        "aggregation_functions": ["average"],
                         "judge_model": "judge_model",
-                        "judge_score_regexes": ["string"],
                         "type": "llm_as_judge",
                     }
                 },
@@ -1103,9 +1033,7 @@ class TestAsyncEval:
                     },
                     "scoring_params": {
                         "foo": {
-                            "aggregation_functions": ["average"],
                             "judge_model": "judge_model",
-                            "judge_score_regexes": ["string"],
                             "type": "llm_as_judge",
                         }
                     },

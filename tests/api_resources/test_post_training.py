@@ -33,9 +33,22 @@ class TestPostTraining:
             job_uuid="job_uuid",
             logger_config={"foo": True},
             training_config={
+                "data_config": {
+                    "batch_size": 0,
+                    "data_format": "instruct",
+                    "dataset_id": "dataset_id",
+                    "shuffle": True,
+                },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
             },
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
@@ -54,9 +67,6 @@ class TestPostTraining:
             job_uuid="job_uuid",
             logger_config={"foo": True},
             training_config={
-                "gradient_accumulation_steps": 0,
-                "max_steps_per_epoch": 0,
-                "n_epochs": 0,
                 "data_config": {
                     "batch_size": 0,
                     "data_format": "instruct",
@@ -66,19 +76,22 @@ class TestPostTraining:
                     "train_on_input": True,
                     "validation_dataset_id": "validation_dataset_id",
                 },
+                "gradient_accumulation_steps": 0,
+                "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
+                "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
                 "dtype": "dtype",
                 "efficiency_config": {
                     "enable_activation_checkpointing": True,
                     "enable_activation_offloading": True,
                     "fsdp_cpu_offload": True,
                     "memory_efficient_fsdp_wrap": True,
-                },
-                "max_validation_steps": 0,
-                "optimizer_config": {
-                    "lr": 0,
-                    "num_warmup_steps": 0,
-                    "optimizer_type": "adam",
-                    "weight_decay": 0,
                 },
             },
         )
@@ -98,9 +111,22 @@ class TestPostTraining:
             job_uuid="job_uuid",
             logger_config={"foo": True},
             training_config={
+                "data_config": {
+                    "batch_size": 0,
+                    "data_format": "instruct",
+                    "dataset_id": "dataset_id",
+                    "shuffle": True,
+                },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
             },
         )
 
@@ -123,9 +149,22 @@ class TestPostTraining:
             job_uuid="job_uuid",
             logger_config={"foo": True},
             training_config={
+                "data_config": {
+                    "batch_size": 0,
+                    "data_format": "instruct",
+                    "dataset_id": "dataset_id",
+                    "shuffle": True,
+                },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
             },
         ) as response:
             assert not response.is_closed
@@ -142,10 +181,24 @@ class TestPostTraining:
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
+            model="model",
             training_config={
+                "data_config": {
+                    "batch_size": 0,
+                    "data_format": "instruct",
+                    "dataset_id": "dataset_id",
+                    "shuffle": True,
+                },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
             },
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
@@ -156,10 +209,8 @@ class TestPostTraining:
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
+            model="model",
             training_config={
-                "gradient_accumulation_steps": 0,
-                "max_steps_per_epoch": 0,
-                "n_epochs": 0,
                 "data_config": {
                     "batch_size": 0,
                     "data_format": "instruct",
@@ -169,19 +220,22 @@ class TestPostTraining:
                     "train_on_input": True,
                     "validation_dataset_id": "validation_dataset_id",
                 },
+                "gradient_accumulation_steps": 0,
+                "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
+                "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
                 "dtype": "dtype",
                 "efficiency_config": {
                     "enable_activation_checkpointing": True,
                     "enable_activation_offloading": True,
                     "fsdp_cpu_offload": True,
                     "memory_efficient_fsdp_wrap": True,
-                },
-                "max_validation_steps": 0,
-                "optimizer_config": {
-                    "lr": 0,
-                    "num_warmup_steps": 0,
-                    "optimizer_type": "adam",
-                    "weight_decay": 0,
                 },
             },
             algorithm_config={
@@ -195,7 +249,6 @@ class TestPostTraining:
                 "use_dora": True,
             },
             checkpoint_dir="checkpoint_dir",
-            model="model",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
 
@@ -205,10 +258,24 @@ class TestPostTraining:
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
+            model="model",
             training_config={
+                "data_config": {
+                    "batch_size": 0,
+                    "data_format": "instruct",
+                    "dataset_id": "dataset_id",
+                    "shuffle": True,
+                },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
             },
         )
 
@@ -223,10 +290,24 @@ class TestPostTraining:
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
+            model="model",
             training_config={
+                "data_config": {
+                    "batch_size": 0,
+                    "data_format": "instruct",
+                    "dataset_id": "dataset_id",
+                    "shuffle": True,
+                },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
             },
         ) as response:
             assert not response.is_closed
@@ -255,9 +336,22 @@ class TestAsyncPostTraining:
             job_uuid="job_uuid",
             logger_config={"foo": True},
             training_config={
+                "data_config": {
+                    "batch_size": 0,
+                    "data_format": "instruct",
+                    "dataset_id": "dataset_id",
+                    "shuffle": True,
+                },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
             },
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
@@ -276,9 +370,6 @@ class TestAsyncPostTraining:
             job_uuid="job_uuid",
             logger_config={"foo": True},
             training_config={
-                "gradient_accumulation_steps": 0,
-                "max_steps_per_epoch": 0,
-                "n_epochs": 0,
                 "data_config": {
                     "batch_size": 0,
                     "data_format": "instruct",
@@ -288,19 +379,22 @@ class TestAsyncPostTraining:
                     "train_on_input": True,
                     "validation_dataset_id": "validation_dataset_id",
                 },
+                "gradient_accumulation_steps": 0,
+                "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
+                "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
                 "dtype": "dtype",
                 "efficiency_config": {
                     "enable_activation_checkpointing": True,
                     "enable_activation_offloading": True,
                     "fsdp_cpu_offload": True,
                     "memory_efficient_fsdp_wrap": True,
-                },
-                "max_validation_steps": 0,
-                "optimizer_config": {
-                    "lr": 0,
-                    "num_warmup_steps": 0,
-                    "optimizer_type": "adam",
-                    "weight_decay": 0,
                 },
             },
         )
@@ -320,9 +414,22 @@ class TestAsyncPostTraining:
             job_uuid="job_uuid",
             logger_config={"foo": True},
             training_config={
+                "data_config": {
+                    "batch_size": 0,
+                    "data_format": "instruct",
+                    "dataset_id": "dataset_id",
+                    "shuffle": True,
+                },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
             },
         )
 
@@ -345,9 +452,22 @@ class TestAsyncPostTraining:
             job_uuid="job_uuid",
             logger_config={"foo": True},
             training_config={
+                "data_config": {
+                    "batch_size": 0,
+                    "data_format": "instruct",
+                    "dataset_id": "dataset_id",
+                    "shuffle": True,
+                },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
             },
         ) as response:
             assert not response.is_closed
@@ -364,10 +484,24 @@ class TestAsyncPostTraining:
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
+            model="model",
             training_config={
+                "data_config": {
+                    "batch_size": 0,
+                    "data_format": "instruct",
+                    "dataset_id": "dataset_id",
+                    "shuffle": True,
+                },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
             },
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
@@ -378,10 +512,8 @@ class TestAsyncPostTraining:
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
+            model="model",
             training_config={
-                "gradient_accumulation_steps": 0,
-                "max_steps_per_epoch": 0,
-                "n_epochs": 0,
                 "data_config": {
                     "batch_size": 0,
                     "data_format": "instruct",
@@ -391,19 +523,22 @@ class TestAsyncPostTraining:
                     "train_on_input": True,
                     "validation_dataset_id": "validation_dataset_id",
                 },
+                "gradient_accumulation_steps": 0,
+                "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
+                "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
                 "dtype": "dtype",
                 "efficiency_config": {
                     "enable_activation_checkpointing": True,
                     "enable_activation_offloading": True,
                     "fsdp_cpu_offload": True,
                     "memory_efficient_fsdp_wrap": True,
-                },
-                "max_validation_steps": 0,
-                "optimizer_config": {
-                    "lr": 0,
-                    "num_warmup_steps": 0,
-                    "optimizer_type": "adam",
-                    "weight_decay": 0,
                 },
             },
             algorithm_config={
@@ -417,7 +552,6 @@ class TestAsyncPostTraining:
                 "use_dora": True,
             },
             checkpoint_dir="checkpoint_dir",
-            model="model",
         )
         assert_matches_type(PostTrainingJob, post_training, path=["response"])
 
@@ -427,10 +561,24 @@ class TestAsyncPostTraining:
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
+            model="model",
             training_config={
+                "data_config": {
+                    "batch_size": 0,
+                    "data_format": "instruct",
+                    "dataset_id": "dataset_id",
+                    "shuffle": True,
+                },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
             },
         )
 
@@ -445,10 +593,24 @@ class TestAsyncPostTraining:
             hyperparam_search_config={"foo": True},
             job_uuid="job_uuid",
             logger_config={"foo": True},
+            model="model",
             training_config={
+                "data_config": {
+                    "batch_size": 0,
+                    "data_format": "instruct",
+                    "dataset_id": "dataset_id",
+                    "shuffle": True,
+                },
                 "gradient_accumulation_steps": 0,
                 "max_steps_per_epoch": 0,
+                "max_validation_steps": 0,
                 "n_epochs": 0,
+                "optimizer_config": {
+                    "lr": 0,
+                    "num_warmup_steps": 0,
+                    "optimizer_type": "adam",
+                    "weight_decay": 0,
+                },
             },
         ) as response:
             assert not response.is_closed

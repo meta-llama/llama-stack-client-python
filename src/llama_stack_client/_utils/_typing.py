@@ -13,7 +13,6 @@ from typing_extensions import (
     get_origin,
 )
 
-from ._utils import lru_cache
 from .._types import InheritsGeneric
 from .._compat import is_union as _is_union
 
@@ -67,7 +66,6 @@ def is_type_alias_type(tp: Any, /) -> TypeIs[typing_extensions.TypeAliasType]:
 
 
 # Extracts T from Annotated[T, ...] or from Required[Annotated[T, ...]]
-@lru_cache(maxsize=8096)
 def strip_annotated_type(typ: type) -> type:
     if is_required_type(typ) or is_annotated_type(typ):
         return strip_annotated_type(cast(type, get_args(typ)[0]))
@@ -110,7 +108,7 @@ def extract_type_var_from_base(
     ```
     """
     cls = cast(object, get_origin(typ) or typ)
-    if cls in generic_bases:  # pyright: ignore[reportUnnecessaryContains]
+    if cls in generic_bases:
         # we're given the class directly
         return extract_type_arg(typ, index)
 

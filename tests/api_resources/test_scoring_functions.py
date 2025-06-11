@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, cast
+from typing import Any, Optional, cast
 
 import pytest
 
@@ -25,7 +25,7 @@ class TestScoringFunctions:
         scoring_function = client.scoring_functions.retrieve(
             "scoring_fn_id",
         )
-        assert_matches_type(ScoringFn, scoring_function, path=["response"])
+        assert_matches_type(Optional[ScoringFn], scoring_function, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
@@ -36,7 +36,7 @@ class TestScoringFunctions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         scoring_function = response.parse()
-        assert_matches_type(ScoringFn, scoring_function, path=["response"])
+        assert_matches_type(Optional[ScoringFn], scoring_function, path=["response"])
 
     @parametrize
     def test_streaming_response_retrieve(self, client: LlamaStackClient) -> None:
@@ -47,7 +47,7 @@ class TestScoringFunctions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             scoring_function = response.parse()
-            assert_matches_type(ScoringFn, scoring_function, path=["response"])
+            assert_matches_type(Optional[ScoringFn], scoring_function, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -99,10 +99,10 @@ class TestScoringFunctions:
             return_type={"type": "string"},
             scoring_fn_id="scoring_fn_id",
             params={
-                "aggregation_functions": ["average"],
                 "judge_model": "judge_model",
-                "judge_score_regexes": ["string"],
                 "type": "llm_as_judge",
+                "aggregation_functions": ["average"],
+                "judge_score_regexes": ["string"],
                 "prompt_template": "prompt_template",
             },
             provider_id="provider_id",
@@ -147,7 +147,7 @@ class TestAsyncScoringFunctions:
         scoring_function = await async_client.scoring_functions.retrieve(
             "scoring_fn_id",
         )
-        assert_matches_type(ScoringFn, scoring_function, path=["response"])
+        assert_matches_type(Optional[ScoringFn], scoring_function, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
@@ -158,7 +158,7 @@ class TestAsyncScoringFunctions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         scoring_function = await response.parse()
-        assert_matches_type(ScoringFn, scoring_function, path=["response"])
+        assert_matches_type(Optional[ScoringFn], scoring_function, path=["response"])
 
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
@@ -169,7 +169,7 @@ class TestAsyncScoringFunctions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             scoring_function = await response.parse()
-            assert_matches_type(ScoringFn, scoring_function, path=["response"])
+            assert_matches_type(Optional[ScoringFn], scoring_function, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -221,10 +221,10 @@ class TestAsyncScoringFunctions:
             return_type={"type": "string"},
             scoring_fn_id="scoring_fn_id",
             params={
-                "aggregation_functions": ["average"],
                 "judge_model": "judge_model",
-                "judge_score_regexes": ["string"],
                 "type": "llm_as_judge",
+                "aggregation_functions": ["average"],
+                "judge_score_regexes": ["string"],
                 "prompt_template": "prompt_template",
             },
             provider_id="provider_id",

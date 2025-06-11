@@ -9,4 +9,3 @@ __all__ = ["ToolListParams"]
 
 class ToolListParams(TypedDict, total=False):
     toolgroup_id: str
-    """The ID of the tool group to list tools for."""

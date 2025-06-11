@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
-from typing import Dict, Type, Union, Iterable, cast
+from typing import Dict, Type, Union, Iterable, Optional, cast
 from typing_extensions import Literal
 
 import httpx
 
 from ..types import model_register_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -56,10 +59,8 @@ class ModelsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Model:
+    ) -> Optional[Model]:
         """
-        Get a model by its identifier.
-
         Args:
           extra_headers: Send extra headers
 
@@ -89,7 +90,6 @@ class ModelsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ModelListResponse:
-        """List all models."""
         return self._get(
             "/v1/models",
             options=make_request_options(
@@ -118,19 +118,7 @@ class ModelsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Model:
         """
-        Register a model.
-
         Args:
-          model_id: The identifier of the model to register.
-
-          metadata: Any additional metadata for this model.
-
-          model_type: The type of model to register.
-
-          provider_id: The identifier of the provider.
-
-          provider_model_id: The identifier of the model in the provider.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -169,8 +157,6 @@ class ModelsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Unregister a model.
-
         Args:
           extra_headers: Send extra headers
 
@@ -222,10 +208,8 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Model:
+    ) -> Optional[Model]:
         """
-        Get a model by its identifier.
-
         Args:
           extra_headers: Send extra headers
 
@@ -255,7 +239,6 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ModelListResponse:
-        """List all models."""
         return await self._get(
             "/v1/models",
             options=make_request_options(
@@ -284,19 +267,7 @@ class AsyncModelsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Model:
         """
-        Register a model.
-
         Args:
-          model_id: The identifier of the model to register.
-
-          metadata: Any additional metadata for this model.
-
-          model_type: The type of model to register.
-
-          provider_id: The identifier of the provider.
-
-          provider_model_id: The identifier of the model in the provider.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -335,8 +306,6 @@ class AsyncModelsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Unregister a model.
-
         Args:
           extra_headers: Send extra headers
 
