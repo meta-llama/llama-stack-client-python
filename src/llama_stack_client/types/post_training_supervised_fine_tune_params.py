@@ -11,32 +11,25 @@ __all__ = [
     "PostTrainingSupervisedFineTuneParams",
     "TrainingConfig",
     "TrainingConfigDataConfig",
-    "TrainingConfigEfficiencyConfig",
     "TrainingConfigOptimizerConfig",
+    "TrainingConfigEfficiencyConfig",
 ]
 
 
 class PostTrainingSupervisedFineTuneParams(TypedDict, total=False):
     hyperparam_search_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
-    """The hyperparam search configuration."""
 
     job_uuid: Required[str]
-    """The UUID of the job to create."""
 
     logger_config: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
-    """The logger configuration."""
+
+    model: Required[str]
 
     training_config: Required[TrainingConfig]
-    """The training configuration."""
 
     algorithm_config: AlgorithmConfigParam
-    """The algorithm configuration."""
 
     checkpoint_dir: str
-    """The directory to save checkpoint(s) to."""
-
-    model: str
-    """The model to fine-tune."""
 
 
 class TrainingConfigDataConfig(TypedDict, total=False):
@@ -55,16 +48,6 @@ class TrainingConfigDataConfig(TypedDict, total=False):
     validation_dataset_id: str
 
 
-class TrainingConfigEfficiencyConfig(TypedDict, total=False):
-    enable_activation_checkpointing: bool
-
-    enable_activation_offloading: bool
-
-    fsdp_cpu_offload: bool
-
-    memory_efficient_fsdp_wrap: bool
-
-
 class TrainingConfigOptimizerConfig(TypedDict, total=False):
     lr: Required[float]
 
@@ -75,19 +58,29 @@ class TrainingConfigOptimizerConfig(TypedDict, total=False):
     weight_decay: Required[float]
 
 
+class TrainingConfigEfficiencyConfig(TypedDict, total=False):
+    enable_activation_checkpointing: bool
+
+    enable_activation_offloading: bool
+
+    fsdp_cpu_offload: bool
+
+    memory_efficient_fsdp_wrap: bool
+
+
 class TrainingConfig(TypedDict, total=False):
+    data_config: Required[TrainingConfigDataConfig]
+
     gradient_accumulation_steps: Required[int]
 
     max_steps_per_epoch: Required[int]
 
+    max_validation_steps: Required[int]
+
     n_epochs: Required[int]
 
-    data_config: TrainingConfigDataConfig
+    optimizer_config: Required[TrainingConfigOptimizerConfig]
 
     dtype: str
 
     efficiency_config: TrainingConfigEfficiencyConfig
-
-    max_validation_steps: int
-
-    optimizer_config: TrainingConfigOptimizerConfig

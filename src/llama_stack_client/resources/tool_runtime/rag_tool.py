@@ -7,7 +7,10 @@ from typing import List, Iterable
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -106,8 +109,6 @@ class RagToolResource(SyncAPIResource):
 
         Args:
           content: A image content item
-
-          query_config: Configuration for the RAG query generation.
 
           extra_headers: Send extra headers
 
@@ -214,8 +215,6 @@ class AsyncRagToolResource(AsyncAPIResource):
 
         Args:
           content: A image content item
-
-          query_config: Configuration for the RAG query generation.
 
           extra_headers: Send extra headers
 

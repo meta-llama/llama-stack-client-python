@@ -59,13 +59,10 @@ Content: TypeAlias = Union[
 
 class Document(BaseModel):
     content: Content
-    """The content of the document."""
+    """A image content item"""
 
     document_id: str
-    """The unique identifier for the document."""
 
     metadata: Dict[str, Union[bool, float, str, List[object], object, None]]
-    """Additional metadata for the document."""
 
     mime_type: Optional[str] = None
-    """The MIME type of the document."""

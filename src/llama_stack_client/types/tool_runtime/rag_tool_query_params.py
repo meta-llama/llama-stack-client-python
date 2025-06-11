@@ -18,4 +18,3 @@ class RagToolQueryParams(TypedDict, total=False):
     vector_db_ids: Required[List[str]]
 
     query_config: QueryConfig
-    """Configuration for the RAG query generation."""

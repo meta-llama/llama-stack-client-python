@@ -20,7 +20,10 @@ from ._types import (
     ProxiesTypes,
     RequestOptions,
 )
-from ._utils import is_given, get_async_library
+from ._utils import (
+    is_given,
+    get_async_library,
+)
 from ._version import __version__
 from .resources import (
     tools,
@@ -33,13 +36,12 @@ from .resources import (
     datasets,
     inference,
     providers,
-    responses,
     telemetry,
     vector_io,
     benchmarks,
     toolgroups,
     vector_dbs,
-    completions,
+    batch_inference,
     scoring_functions,
     synthetic_data_generation,
 )
@@ -50,7 +52,6 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.chat import chat
 from .resources.eval import eval
 from .resources.agents import agents
 from .resources.tool_runtime import tool_runtime
@@ -72,14 +73,12 @@ class LlamaStackClient(SyncAPIClient):
     toolgroups: toolgroups.ToolgroupsResource
     tools: tools.ToolsResource
     tool_runtime: tool_runtime.ToolRuntimeResource
-    responses: responses.ResponsesResource
     agents: agents.AgentsResource
+    batch_inference: batch_inference.BatchInferenceResource
     datasets: datasets.DatasetsResource
     eval: eval.EvalResource
     inspect: inspect.InspectResource
     inference: inference.InferenceResource
-    chat: chat.ChatResource
-    completions: completions.CompletionsResource
     vector_io: vector_io.VectorIoResource
     vector_dbs: vector_dbs.VectorDBsResource
     models: models.ModelsResource
@@ -155,14 +154,12 @@ class LlamaStackClient(SyncAPIClient):
         self.toolgroups = toolgroups.ToolgroupsResource(self)
         self.tools = tools.ToolsResource(self)
         self.tool_runtime = tool_runtime.ToolRuntimeResource(self)
-        self.responses = responses.ResponsesResource(self)
         self.agents = agents.AgentsResource(self)
+        self.batch_inference = batch_inference.BatchInferenceResource(self)
         self.datasets = datasets.DatasetsResource(self)
         self.eval = eval.EvalResource(self)
         self.inspect = inspect.InspectResource(self)
         self.inference = inference.InferenceResource(self)
-        self.chat = chat.ChatResource(self)
-        self.completions = completions.CompletionsResource(self)
         self.vector_io = vector_io.VectorIoResource(self)
         self.vector_dbs = vector_dbs.VectorDBsResource(self)
         self.models = models.ModelsResource(self)
@@ -290,14 +287,12 @@ class AsyncLlamaStackClient(AsyncAPIClient):
     toolgroups: toolgroups.AsyncToolgroupsResource
     tools: tools.AsyncToolsResource
     tool_runtime: tool_runtime.AsyncToolRuntimeResource
-    responses: responses.AsyncResponsesResource
     agents: agents.AsyncAgentsResource
+    batch_inference: batch_inference.AsyncBatchInferenceResource
     datasets: datasets.AsyncDatasetsResource
     eval: eval.AsyncEvalResource
     inspect: inspect.AsyncInspectResource
     inference: inference.AsyncInferenceResource
-    chat: chat.AsyncChatResource
-    completions: completions.AsyncCompletionsResource
     vector_io: vector_io.AsyncVectorIoResource
     vector_dbs: vector_dbs.AsyncVectorDBsResource
     models: models.AsyncModelsResource
@@ -373,14 +368,12 @@ class AsyncLlamaStackClient(AsyncAPIClient):
         self.toolgroups = toolgroups.AsyncToolgroupsResource(self)
         self.tools = tools.AsyncToolsResource(self)
         self.tool_runtime = tool_runtime.AsyncToolRuntimeResource(self)
-        self.responses = responses.AsyncResponsesResource(self)
         self.agents = agents.AsyncAgentsResource(self)
+        self.batch_inference = batch_inference.AsyncBatchInferenceResource(self)
         self.datasets = datasets.AsyncDatasetsResource(self)
         self.eval = eval.AsyncEvalResource(self)
         self.inspect = inspect.AsyncInspectResource(self)
         self.inference = inference.AsyncInferenceResource(self)
-        self.chat = chat.AsyncChatResource(self)
-        self.completions = completions.AsyncCompletionsResource(self)
         self.vector_io = vector_io.AsyncVectorIoResource(self)
         self.vector_dbs = vector_dbs.AsyncVectorDBsResource(self)
         self.models = models.AsyncModelsResource(self)
@@ -509,14 +502,12 @@ class LlamaStackClientWithRawResponse:
         self.toolgroups = toolgroups.ToolgroupsResourceWithRawResponse(client.toolgroups)
         self.tools = tools.ToolsResourceWithRawResponse(client.tools)
         self.tool_runtime = tool_runtime.ToolRuntimeResourceWithRawResponse(client.tool_runtime)
-        self.responses = responses.ResponsesResourceWithRawResponse(client.responses)
         self.agents = agents.AgentsResourceWithRawResponse(client.agents)
+        self.batch_inference = batch_inference.BatchInferenceResourceWithRawResponse(client.batch_inference)
         self.datasets = datasets.DatasetsResourceWithRawResponse(client.datasets)
         self.eval = eval.EvalResourceWithRawResponse(client.eval)
         self.inspect = inspect.InspectResourceWithRawResponse(client.inspect)
         self.inference = inference.InferenceResourceWithRawResponse(client.inference)
-        self.chat = chat.ChatResourceWithRawResponse(client.chat)
-        self.completions = completions.CompletionsResourceWithRawResponse(client.completions)
         self.vector_io = vector_io.VectorIoResourceWithRawResponse(client.vector_io)
         self.vector_dbs = vector_dbs.VectorDBsResourceWithRawResponse(client.vector_dbs)
         self.models = models.ModelsResourceWithRawResponse(client.models)
@@ -539,14 +530,12 @@ class AsyncLlamaStackClientWithRawResponse:
         self.toolgroups = toolgroups.AsyncToolgroupsResourceWithRawResponse(client.toolgroups)
         self.tools = tools.AsyncToolsResourceWithRawResponse(client.tools)
         self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithRawResponse(client.tool_runtime)
-        self.responses = responses.AsyncResponsesResourceWithRawResponse(client.responses)
         self.agents = agents.AsyncAgentsResourceWithRawResponse(client.agents)
+        self.batch_inference = batch_inference.AsyncBatchInferenceResourceWithRawResponse(client.batch_inference)
         self.datasets = datasets.AsyncDatasetsResourceWithRawResponse(client.datasets)
         self.eval = eval.AsyncEvalResourceWithRawResponse(client.eval)
         self.inspect = inspect.AsyncInspectResourceWithRawResponse(client.inspect)
         self.inference = inference.AsyncInferenceResourceWithRawResponse(client.inference)
-        self.chat = chat.AsyncChatResourceWithRawResponse(client.chat)
-        self.completions = completions.AsyncCompletionsResourceWithRawResponse(client.completions)
         self.vector_io = vector_io.AsyncVectorIoResourceWithRawResponse(client.vector_io)
         self.vector_dbs = vector_dbs.AsyncVectorDBsResourceWithRawResponse(client.vector_dbs)
         self.models = models.AsyncModelsResourceWithRawResponse(client.models)
@@ -571,14 +560,12 @@ class LlamaStackClientWithStreamedResponse:
         self.toolgroups = toolgroups.ToolgroupsResourceWithStreamingResponse(client.toolgroups)
         self.tools = tools.ToolsResourceWithStreamingResponse(client.tools)
         self.tool_runtime = tool_runtime.ToolRuntimeResourceWithStreamingResponse(client.tool_runtime)
-        self.responses = responses.ResponsesResourceWithStreamingResponse(client.responses)
         self.agents = agents.AgentsResourceWithStreamingResponse(client.agents)
+        self.batch_inference = batch_inference.BatchInferenceResourceWithStreamingResponse(client.batch_inference)
         self.datasets = datasets.DatasetsResourceWithStreamingResponse(client.datasets)
         self.eval = eval.EvalResourceWithStreamingResponse(client.eval)
         self.inspect = inspect.InspectResourceWithStreamingResponse(client.inspect)
         self.inference = inference.InferenceResourceWithStreamingResponse(client.inference)
-        self.chat = chat.ChatResourceWithStreamingResponse(client.chat)
-        self.completions = completions.CompletionsResourceWithStreamingResponse(client.completions)
         self.vector_io = vector_io.VectorIoResourceWithStreamingResponse(client.vector_io)
         self.vector_dbs = vector_dbs.VectorDBsResourceWithStreamingResponse(client.vector_dbs)
         self.models = models.ModelsResourceWithStreamingResponse(client.models)
@@ -603,14 +590,12 @@ class AsyncLlamaStackClientWithStreamedResponse:
         self.toolgroups = toolgroups.AsyncToolgroupsResourceWithStreamingResponse(client.toolgroups)
         self.tools = tools.AsyncToolsResourceWithStreamingResponse(client.tools)
         self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithStreamingResponse(client.tool_runtime)
-        self.responses = responses.AsyncResponsesResourceWithStreamingResponse(client.responses)
         self.agents = agents.AsyncAgentsResourceWithStreamingResponse(client.agents)
+        self.batch_inference = batch_inference.AsyncBatchInferenceResourceWithStreamingResponse(client.batch_inference)
         self.datasets = datasets.AsyncDatasetsResourceWithStreamingResponse(client.datasets)
         self.eval = eval.AsyncEvalResourceWithStreamingResponse(client.eval)
         self.inspect = inspect.AsyncInspectResourceWithStreamingResponse(client.inspect)
         self.inference = inference.AsyncInferenceResourceWithStreamingResponse(client.inference)
-        self.chat = chat.AsyncChatResourceWithStreamingResponse(client.chat)
-        self.completions = completions.AsyncCompletionsResourceWithStreamingResponse(client.completions)
         self.vector_io = vector_io.AsyncVectorIoResourceWithStreamingResponse(client.vector_io)
         self.vector_dbs = vector_dbs.AsyncVectorDBsResourceWithStreamingResponse(client.vector_dbs)
         self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)

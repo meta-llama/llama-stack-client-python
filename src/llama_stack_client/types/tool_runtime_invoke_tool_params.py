@@ -10,7 +10,5 @@ __all__ = ["ToolRuntimeInvokeToolParams"]
 
 class ToolRuntimeInvokeToolParams(TypedDict, total=False):
     kwargs: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
-    """A dictionary of arguments to pass to the tool."""
 
     tool_name: Required[str]
-    """The name of the tool to invoke."""

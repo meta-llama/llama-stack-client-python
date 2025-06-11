@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
-from typing import List, Type, cast
+from typing import List, Type, Optional, cast
 
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -56,7 +59,6 @@ class JobResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> List[Data]:
-        """Get all training jobs."""
         return self._get(
             "/v1/post-training/jobs",
             options=make_request_options(
@@ -79,13 +81,9 @@ class JobResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobArtifactsResponse:
+    ) -> Optional[JobArtifactsResponse]:
         """
-        Get the artifacts of a training job.
-
         Args:
-          job_uuid: The UUID of the job to get the artifacts of.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -118,11 +116,7 @@ class JobResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Cancel a training job.
-
         Args:
-          job_uuid: The UUID of the job to cancel.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -151,13 +145,9 @@ class JobResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobStatusResponse:
+    ) -> Optional[JobStatusResponse]:
         """
-        Get the status of a training job.
-
         Args:
-          job_uuid: The UUID of the job to get the status of.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -209,7 +199,6 @@ class AsyncJobResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> List[Data]:
-        """Get all training jobs."""
         return await self._get(
             "/v1/post-training/jobs",
             options=make_request_options(
@@ -232,13 +221,9 @@ class AsyncJobResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobArtifactsResponse:
+    ) -> Optional[JobArtifactsResponse]:
         """
-        Get the artifacts of a training job.
-
         Args:
-          job_uuid: The UUID of the job to get the artifacts of.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -271,11 +256,7 @@ class AsyncJobResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Cancel a training job.
-
         Args:
-          job_uuid: The UUID of the job to cancel.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -304,13 +285,9 @@ class AsyncJobResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobStatusResponse:
+    ) -> Optional[JobStatusResponse]:
         """
-        Get the status of a training job.
-
         Args:
-          job_uuid: The UUID of the job to get the status of.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

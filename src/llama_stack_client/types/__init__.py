@@ -45,7 +45,6 @@ from .provider_info import ProviderInfo as ProviderInfo
 from .tool_response import ToolResponse as ToolResponse
 from .inference_step import InferenceStep as InferenceStep
 from .tool_def_param import ToolDefParam as ToolDefParam
-from .response_object import ResponseObject as ResponseObject
 from .token_log_probs import TokenLogProbs as TokenLogProbs
 from .shield_call_step import ShieldCallStep as ShieldCallStep
 from .span_with_status import SpanWithStatus as SpanWithStatus
@@ -71,7 +70,6 @@ from .query_spans_response import QuerySpansResponse as QuerySpansResponse
 from .scoring_score_params import ScoringScoreParams as ScoringScoreParams
 from .shield_list_response import ShieldListResponse as ShieldListResponse
 from .agent_create_response import AgentCreateResponse as AgentCreateResponse
-from .chat_completion_chunk import ChatCompletionChunk as ChatCompletionChunk
 from .dataset_list_response import DatasetListResponse as DatasetListResponse
 from .list_shields_response import ListShieldsResponse as ListShieldsResponse
 from .memory_retrieval_step import MemoryRetrievalStep as MemoryRetrievalStep
@@ -82,8 +80,6 @@ from .algorithm_config_param import AlgorithmConfigParam as AlgorithmConfigParam
 from .benchmark_config_param import BenchmarkConfigParam as BenchmarkConfigParam
 from .list_datasets_response import ListDatasetsResponse as ListDatasetsResponse
 from .provider_list_response import ProviderListResponse as ProviderListResponse
-from .response_create_params import ResponseCreateParams as ResponseCreateParams
-from .response_object_stream import ResponseObjectStream as ResponseObjectStream
 from .scoring_score_response import ScoringScoreResponse as ScoringScoreResponse
 from .shield_register_params import ShieldRegisterParams as ShieldRegisterParams
 from .tool_invocation_result import ToolInvocationResult as ToolInvocationResult
@@ -96,7 +92,6 @@ from .scoring_fn_params_param import ScoringFnParamsParam as ScoringFnParamsPara
 from .toolgroup_list_response import ToolgroupListResponse as ToolgroupListResponse
 from .vector_db_list_response import VectorDBListResponse as VectorDBListResponse
 from .vector_io_insert_params import VectorIoInsertParams as VectorIoInsertParams
-from .completion_create_params import CompletionCreateParams as CompletionCreateParams
 from .list_benchmarks_response import ListBenchmarksResponse as ListBenchmarksResponse
 from .list_vector_dbs_response import ListVectorDBsResponse as ListVectorDBsResponse
 from .safety_run_shield_params import SafetyRunShieldParams as SafetyRunShieldParams
@@ -108,7 +103,6 @@ from .eval_evaluate_rows_params import EvalEvaluateRowsParams as EvalEvaluateRow
 from .list_tool_groups_response import ListToolGroupsResponse as ListToolGroupsResponse
 from .toolgroup_register_params import ToolgroupRegisterParams as ToolgroupRegisterParams
 from .vector_db_register_params import VectorDBRegisterParams as VectorDBRegisterParams
-from .completion_create_response import CompletionCreateResponse as CompletionCreateResponse
 from .eval_run_eval_alpha_params import EvalRunEvalAlphaParams as EvalRunEvalAlphaParams
 from .scoring_score_batch_params import ScoringScoreBatchParams as ScoringScoreBatchParams
 from .telemetry_log_event_params import TelemetryLogEventParams as TelemetryLogEventParams
@@ -132,20 +126,19 @@ from .inference_chat_completion_params import InferenceChatCompletionParams as I
 from .list_post_training_jobs_response import ListPostTrainingJobsResponse as ListPostTrainingJobsResponse
 from .scoring_function_register_params import ScoringFunctionRegisterParams as ScoringFunctionRegisterParams
 from .telemetry_get_span_tree_response import TelemetryGetSpanTreeResponse as TelemetryGetSpanTreeResponse
-from .tool_runtime_list_tools_response import ToolRuntimeListToolsResponse as ToolRuntimeListToolsResponse
-from .inference_batch_completion_params import InferenceBatchCompletionParams as InferenceBatchCompletionParams
+from .batch_inference_completion_params import BatchInferenceCompletionParams as BatchInferenceCompletionParams
 from .synthetic_data_generation_response import SyntheticDataGenerationResponse as SyntheticDataGenerationResponse
 from .chat_completion_response_stream_chunk import (
     ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
 )
-from .inference_batch_chat_completion_params import (
-    InferenceBatchChatCompletionParams as InferenceBatchChatCompletionParams,
+from .batch_inference_chat_completion_params import (
+    BatchInferenceChatCompletionParams as BatchInferenceChatCompletionParams,
 )
 from .telemetry_save_spans_to_dataset_params import (
     TelemetrySaveSpansToDatasetParams as TelemetrySaveSpansToDatasetParams,
 )
-from .inference_batch_chat_completion_response import (
-    InferenceBatchChatCompletionResponse as InferenceBatchChatCompletionResponse,
+from .batch_inference_chat_completion_response import (
+    BatchInferenceChatCompletionResponse as BatchInferenceChatCompletionResponse,
 )
 from .post_training_preference_optimize_params import (
     PostTrainingPreferenceOptimizeParams as PostTrainingPreferenceOptimizeParams,

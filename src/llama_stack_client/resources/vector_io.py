@@ -8,7 +8,10 @@ import httpx
 
 from ..types import vector_io_query_params, vector_io_insert_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -58,15 +61,7 @@ class VectorIoResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Insert chunks into a vector database.
-
         Args:
-          chunks: The chunks to insert.
-
-          vector_db_id: The identifier of the vector database to insert the chunks into.
-
-          ttl_seconds: The time to live of the chunks.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -106,14 +101,8 @@ class VectorIoResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> QueryChunksResponse:
         """
-        Query chunks from a vector database.
-
         Args:
-          query: The query to search for.
-
-          vector_db_id: The identifier of the vector database to query.
-
-          params: The parameters of the query.
+          query: A image content item
 
           extra_headers: Send extra headers
 
@@ -174,15 +163,7 @@ class AsyncVectorIoResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Insert chunks into a vector database.
-
         Args:
-          chunks: The chunks to insert.
-
-          vector_db_id: The identifier of the vector database to insert the chunks into.
-
-          ttl_seconds: The time to live of the chunks.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -222,14 +203,8 @@ class AsyncVectorIoResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> QueryChunksResponse:
         """
-        Query chunks from a vector database.
-
         Args:
-          query: The query to search for.
-
-          vector_db_id: The identifier of the vector database to query.
-
-          params: The parameters of the query.
+          query: A image content item
 
           extra_headers: Send extra headers
 

@@ -52,7 +52,6 @@ class RoutesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> RouteListResponse:
-        """List all routes."""
         return self._get(
             "/v1/inspect/routes",
             options=make_request_options(
@@ -96,7 +95,6 @@ class AsyncRoutesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> RouteListResponse:
-        """List all routes."""
         return await self._get(
             "/v1/inspect/routes",
             options=make_request_options(

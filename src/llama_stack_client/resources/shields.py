@@ -2,13 +2,16 @@
 
 from __future__ import annotations
 
-from typing import Dict, Type, Union, Iterable, cast
+from typing import Dict, Type, Union, Iterable, Optional, cast
 
 import httpx
 
 from ..types import shield_register_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -55,10 +58,8 @@ class ShieldsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Shield:
+    ) -> Optional[Shield]:
         """
-        Get a shield by its identifier.
-
         Args:
           extra_headers: Send extra headers
 
@@ -88,7 +89,6 @@ class ShieldsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ShieldListResponse:
-        """List all shields."""
         return self._get(
             "/v1/shields",
             options=make_request_options(
@@ -116,17 +116,7 @@ class ShieldsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Shield:
         """
-        Register a shield.
-
         Args:
-          shield_id: The identifier of the shield to register.
-
-          params: The parameters of the shield.
-
-          provider_id: The identifier of the provider.
-
-          provider_shield_id: The identifier of the shield in the provider.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -183,10 +173,8 @@ class AsyncShieldsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Shield:
+    ) -> Optional[Shield]:
         """
-        Get a shield by its identifier.
-
         Args:
           extra_headers: Send extra headers
 
@@ -216,7 +204,6 @@ class AsyncShieldsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ShieldListResponse:
-        """List all shields."""
         return await self._get(
             "/v1/shields",
             options=make_request_options(
@@ -244,17 +231,7 @@ class AsyncShieldsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Shield:
         """
-        Register a shield.
-
         Args:
-          shield_id: The identifier of the shield to register.
-
-          params: The parameters of the shield.
-
-          provider_id: The identifier of the provider.
-
-          provider_shield_id: The identifier of the shield in the provider.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

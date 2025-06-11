@@ -19,7 +19,10 @@ from ...types import (
     post_training_supervised_fine_tune_params,
 )
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -76,21 +79,7 @@ class PostTrainingResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PostTrainingJob:
         """
-        Run preference optimization of a model.
-
         Args:
-          algorithm_config: The algorithm configuration.
-
-          finetuned_model: The model to fine-tune.
-
-          hyperparam_search_config: The hyperparam search configuration.
-
-          job_uuid: The UUID of the job to create.
-
-          logger_config: The logger configuration.
-
-          training_config: The training configuration.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -124,10 +113,10 @@ class PostTrainingResource(SyncAPIResource):
         hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
+        model: str,
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
         algorithm_config: AlgorithmConfigParam | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
-        model: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -136,23 +125,7 @@ class PostTrainingResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PostTrainingJob:
         """
-        Run supervised fine-tuning of a model.
-
         Args:
-          hyperparam_search_config: The hyperparam search configuration.
-
-          job_uuid: The UUID of the job to create.
-
-          logger_config: The logger configuration.
-
-          training_config: The training configuration.
-
-          algorithm_config: The algorithm configuration.
-
-          checkpoint_dir: The directory to save checkpoint(s) to.
-
-          model: The model to fine-tune.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -168,10 +141,10 @@ class PostTrainingResource(SyncAPIResource):
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
+                    "model": model,
                     "training_config": training_config,
                     "algorithm_config": algorithm_config,
                     "checkpoint_dir": checkpoint_dir,
-                    "model": model,
                 },
                 post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),
@@ -223,21 +196,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PostTrainingJob:
         """
-        Run preference optimization of a model.
-
         Args:
-          algorithm_config: The algorithm configuration.
-
-          finetuned_model: The model to fine-tune.
-
-          hyperparam_search_config: The hyperparam search configuration.
-
-          job_uuid: The UUID of the job to create.
-
-          logger_config: The logger configuration.
-
-          training_config: The training configuration.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -271,10 +230,10 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
+        model: str,
         training_config: post_training_supervised_fine_tune_params.TrainingConfig,
         algorithm_config: AlgorithmConfigParam | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
-        model: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -283,23 +242,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PostTrainingJob:
         """
-        Run supervised fine-tuning of a model.
-
         Args:
-          hyperparam_search_config: The hyperparam search configuration.
-
-          job_uuid: The UUID of the job to create.
-
-          logger_config: The logger configuration.
-
-          training_config: The training configuration.
-
-          algorithm_config: The algorithm configuration.
-
-          checkpoint_dir: The directory to save checkpoint(s) to.
-
-          model: The model to fine-tune.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -315,10 +258,10 @@ class AsyncPostTrainingResource(AsyncAPIResource):
                     "hyperparam_search_config": hyperparam_search_config,
                     "job_uuid": job_uuid,
                     "logger_config": logger_config,
+                    "model": model,
                     "training_config": training_config,
                     "algorithm_config": algorithm_config,
                     "checkpoint_dir": checkpoint_dir,
-                    "model": model,
                 },
                 post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),

@@ -8,7 +8,10 @@ import httpx
 
 from ..types import tool_list_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -57,11 +60,9 @@ class ToolsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolListResponse:
         """
-        List tools with optional tool group.
+        List tools with optional tool group
 
         Args:
-          toolgroup_id: The ID of the tool group to list tools for.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -95,8 +96,6 @@ class ToolsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Tool:
         """
-        Get a tool by its name.
-
         Args:
           extra_headers: Send extra headers
 
@@ -149,11 +148,9 @@ class AsyncToolsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolListResponse:
         """
-        List tools with optional tool group.
+        List tools with optional tool group
 
         Args:
-          toolgroup_id: The ID of the tool group to list tools for.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -187,8 +184,6 @@ class AsyncToolsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Tool:
         """
-        Get a tool by its name.
-
         Args:
           extra_headers: Send extra headers
 

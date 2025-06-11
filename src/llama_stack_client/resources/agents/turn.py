@@ -8,7 +8,11 @@ from typing_extensions import Literal, overload
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import required_args, maybe_transform, async_maybe_transform
+from ..._utils import (
+    required_args,
+    maybe_transform,
+    async_maybe_transform,
+)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -214,9 +218,7 @@ class TurnResource(SyncAPIResource):
                     "tool_config": tool_config,
                     "toolgroups": toolgroups,
                 },
-                turn_create_params.TurnCreateParamsStreaming
-                if stream
-                else turn_create_params.TurnCreateParamsNonStreaming,
+                turn_create_params.TurnCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -408,9 +410,7 @@ class TurnResource(SyncAPIResource):
                     "tool_responses": tool_responses,
                     "stream": stream,
                 },
-                turn_resume_params.TurnResumeParamsStreaming
-                if stream
-                else turn_resume_params.TurnResumeParamsNonStreaming,
+                turn_resume_params.TurnResumeParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -608,9 +608,7 @@ class AsyncTurnResource(AsyncAPIResource):
                     "tool_config": tool_config,
                     "toolgroups": toolgroups,
                 },
-                turn_create_params.TurnCreateParamsStreaming
-                if stream
-                else turn_create_params.TurnCreateParamsNonStreaming,
+                turn_create_params.TurnCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -802,9 +800,7 @@ class AsyncTurnResource(AsyncAPIResource):
                     "tool_responses": tool_responses,
                     "stream": stream,
                 },
-                turn_resume_params.TurnResumeParamsStreaming
-                if stream
-                else turn_resume_params.TurnResumeParamsNonStreaming,
+                turn_resume_params.TurnResumeParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout

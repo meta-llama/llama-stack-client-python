@@ -15,7 +15,6 @@ class ShieldCallStep(BaseModel):
     """The ID of the step."""
 
     step_type: Literal["shield_call"]
-    """Type of the step in an agent turn."""
 
     turn_id: str
     """The ID of the turn."""

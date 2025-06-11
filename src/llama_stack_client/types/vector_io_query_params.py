@@ -12,10 +12,8 @@ __all__ = ["VectorIoQueryParams"]
 
 class VectorIoQueryParams(TypedDict, total=False):
     query: Required[InterleavedContent]
-    """The query to search for."""
+    """A image content item"""
 
     vector_db_id: Required[str]
-    """The identifier of the vector database to query."""
 
     params: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
-    """The parameters of the query."""

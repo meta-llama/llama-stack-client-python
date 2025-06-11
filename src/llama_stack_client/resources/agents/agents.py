@@ -30,7 +30,10 @@ from .session import (
     AsyncSessionResourceWithStreamingResponse,
 )
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -124,7 +127,7 @@ class AgentsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Delete an agent by its ID and its associated sessions and turns.
+        Delete an agent by its ID.
 
         Args:
           extra_headers: Send extra headers
@@ -225,7 +228,7 @@ class AsyncAgentsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Delete an agent by its ID and its associated sessions and turns.
+        Delete an agent by its ID.
 
         Args:
           extra_headers: Send extra headers
