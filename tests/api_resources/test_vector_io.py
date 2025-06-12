@@ -37,6 +37,7 @@ class TestVectorIo:
                 {
                     "content": "string",
                     "metadata": {"foo": True},
+                    "embedding": [0],
                 }
             ],
             vector_db_id="vector_db_id",
@@ -147,6 +148,7 @@ class TestAsyncVectorIo:
                 {
                     "content": "string",
                     "metadata": {"foo": True},
+                    "embedding": [0],
                 }
             ],
             vector_db_id="vector_db_id",
