@@ -57,11 +57,16 @@ class VectorIoResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
-        """
-        Insert chunks into a vector database.
+        """Insert chunks into a vector database.
 
         Args:
           chunks: The chunks to insert.
+
+        Each `Chunk` should contain content which can be
+              interleaved text, images, or other types. `metadata`: `dict[str, Any]` and
+              `embedding`: `List[float]` are optional. If `metadata` is provided, you
+              configure how Llama Stack formats the chunk during generation. If `embedding` is
+              not provided, it will be computed later.
 
           vector_db_id: The identifier of the vector database to insert the chunks into.
 
@@ -173,11 +178,16 @@ class AsyncVectorIoResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
-        """
-        Insert chunks into a vector database.
+        """Insert chunks into a vector database.
 
         Args:
           chunks: The chunks to insert.
+
+        Each `Chunk` should contain content which can be
+              interleaved text, images, or other types. `metadata`: `dict[str, Any]` and
+              `embedding`: `List[float]` are optional. If `metadata` is provided, you
+              configure how Llama Stack formats the chunk during generation. If `embedding` is
+              not provided, it will be computed later.
 
           vector_db_id: The identifier of the vector database to insert the chunks into.
 
