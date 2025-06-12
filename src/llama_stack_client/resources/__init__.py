@@ -16,6 +16,14 @@ from .eval import (
     EvalResourceWithStreamingResponse,
     AsyncEvalResourceWithStreamingResponse,
 )
+from .files import (
+    FilesResource,
+    AsyncFilesResource,
+    FilesResourceWithRawResponse,
+    AsyncFilesResourceWithRawResponse,
+    FilesResourceWithStreamingResponse,
+    AsyncFilesResourceWithStreamingResponse,
+)
 from .tools import (
     ToolsResource,
     AsyncToolsResource,
@@ -136,6 +144,14 @@ from .benchmarks import (
     BenchmarksResourceWithStreamingResponse,
     AsyncBenchmarksResourceWithStreamingResponse,
 )
+from .embeddings import (
+    EmbeddingsResource,
+    AsyncEmbeddingsResource,
+    EmbeddingsResourceWithRawResponse,
+    AsyncEmbeddingsResourceWithRawResponse,
+    EmbeddingsResourceWithStreamingResponse,
+    AsyncEmbeddingsResourceWithStreamingResponse,
+)
 from .toolgroups import (
     ToolgroupsResource,
     AsyncToolgroupsResource,
@@ -175,6 +191,14 @@ from .post_training import (
     AsyncPostTrainingResourceWithRawResponse,
     PostTrainingResourceWithStreamingResponse,
     AsyncPostTrainingResourceWithStreamingResponse,
+)
+from .vector_stores import (
+    VectorStoresResource,
+    AsyncVectorStoresResource,
+    VectorStoresResourceWithRawResponse,
+    AsyncVectorStoresResourceWithRawResponse,
+    VectorStoresResourceWithStreamingResponse,
+    AsyncVectorStoresResourceWithStreamingResponse,
 )
 from .scoring_functions import (
     ScoringFunctionsResource,
@@ -248,6 +272,12 @@ __all__ = [
     "AsyncInferenceResourceWithRawResponse",
     "InferenceResourceWithStreamingResponse",
     "AsyncInferenceResourceWithStreamingResponse",
+    "EmbeddingsResource",
+    "AsyncEmbeddingsResource",
+    "EmbeddingsResourceWithRawResponse",
+    "AsyncEmbeddingsResourceWithRawResponse",
+    "EmbeddingsResourceWithStreamingResponse",
+    "AsyncEmbeddingsResourceWithStreamingResponse",
     "ChatResource",
     "AsyncChatResource",
     "ChatResourceWithRawResponse",
@@ -272,6 +302,12 @@ __all__ = [
     "AsyncVectorDBsResourceWithRawResponse",
     "VectorDBsResourceWithStreamingResponse",
     "AsyncVectorDBsResourceWithStreamingResponse",
+    "VectorStoresResource",
+    "AsyncVectorStoresResource",
+    "VectorStoresResourceWithRawResponse",
+    "AsyncVectorStoresResourceWithRawResponse",
+    "VectorStoresResourceWithStreamingResponse",
+    "AsyncVectorStoresResourceWithStreamingResponse",
     "ModelsResource",
     "AsyncModelsResource",
     "ModelsResourceWithRawResponse",
@@ -338,4 +374,10 @@ __all__ = [
     "AsyncBenchmarksResourceWithRawResponse",
     "BenchmarksResourceWithStreamingResponse",
     "AsyncBenchmarksResourceWithStreamingResponse",
+    "FilesResource",
+    "AsyncFilesResource",
+    "FilesResourceWithRawResponse",
+    "AsyncFilesResourceWithRawResponse",
+    "FilesResourceWithStreamingResponse",
+    "AsyncFilesResourceWithStreamingResponse",
 ]

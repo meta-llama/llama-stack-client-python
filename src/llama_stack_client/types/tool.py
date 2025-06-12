@@ -29,8 +29,6 @@ class Tool(BaseModel):
 
     provider_id: str
 
-    tool_host: Literal["distribution", "client", "model_context_protocol"]
-
     toolgroup_id: str
 
     type: Literal["tool"]

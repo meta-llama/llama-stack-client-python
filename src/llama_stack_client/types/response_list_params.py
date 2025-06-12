@@ -1,0 +1,21 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+from typing_extensions import Literal, TypedDict
+
+__all__ = ["ResponseListParams"]
+
+
+class ResponseListParams(TypedDict, total=False):
+    after: str
+    """The ID of the last response to return."""
+
+    limit: int
+    """The number of responses to return."""
+
+    model: str
+    """The model to filter responses by."""
+
+    order: Literal["asc", "desc"]
+    """The order to sort responses by when sorted by created_at ('asc' or 'desc')."""

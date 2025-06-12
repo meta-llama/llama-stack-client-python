@@ -1,0 +1,226 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+from typing import List
+from typing_extensions import Literal
+
+import httpx
+
+from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._utils import maybe_transform, async_maybe_transform
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import make_request_options
+from ...types.responses import input_item_list_params
+from ...types.responses.input_item_list_response import InputItemListResponse
+
+__all__ = ["InputItemsResource", "AsyncInputItemsResource"]
+
+
+class InputItemsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> InputItemsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/stainless-sdks/llama-stack-python#accessing-raw-response-data-eg-headers
+        """
+        return InputItemsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> InputItemsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/stainless-sdks/llama-stack-python#with_streaming_response
+        """
+        return InputItemsResourceWithStreamingResponse(self)
+
+    def list(
+        self,
+        response_id: str,
+        *,
+        after: str | NotGiven = NOT_GIVEN,
+        before: str | NotGiven = NOT_GIVEN,
+        include: List[str] | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        order: Literal["asc", "desc"] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> InputItemListResponse:
+        """
+        List input items for a given OpenAI response.
+
+        Args:
+          after: An item ID to list items after, used for pagination.
+
+          before: An item ID to list items before, used for pagination.
+
+          include: Additional fields to include in the response.
+
+          limit: A limit on the number of objects to be returned. Limit can range between 1 and
+              100, and the default is 20.
+
+          order: The order to return the input items in. Default is desc.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not response_id:
+            raise ValueError(f"Expected a non-empty value for `response_id` but received {response_id!r}")
+        return self._get(
+            f"/v1/openai/v1/responses/{response_id}/input_items",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "after": after,
+                        "before": before,
+                        "include": include,
+                        "limit": limit,
+                        "order": order,
+                    },
+                    input_item_list_params.InputItemListParams,
+                ),
+            ),
+            cast_to=InputItemListResponse,
+        )
+
+
+class AsyncInputItemsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncInputItemsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/stainless-sdks/llama-stack-python#accessing-raw-response-data-eg-headers
+        """
+        return AsyncInputItemsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncInputItemsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/stainless-sdks/llama-stack-python#with_streaming_response
+        """
+        return AsyncInputItemsResourceWithStreamingResponse(self)
+
+    async def list(
+        self,
+        response_id: str,
+        *,
+        after: str | NotGiven = NOT_GIVEN,
+        before: str | NotGiven = NOT_GIVEN,
+        include: List[str] | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        order: Literal["asc", "desc"] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> InputItemListResponse:
+        """
+        List input items for a given OpenAI response.
+
+        Args:
+          after: An item ID to list items after, used for pagination.
+
+          before: An item ID to list items before, used for pagination.
+
+          include: Additional fields to include in the response.
+
+          limit: A limit on the number of objects to be returned. Limit can range between 1 and
+              100, and the default is 20.
+
+          order: The order to return the input items in. Default is desc.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not response_id:
+            raise ValueError(f"Expected a non-empty value for `response_id` but received {response_id!r}")
+        return await self._get(
+            f"/v1/openai/v1/responses/{response_id}/input_items",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "after": after,
+                        "before": before,
+                        "include": include,
+                        "limit": limit,
+                        "order": order,
+                    },
+                    input_item_list_params.InputItemListParams,
+                ),
+            ),
+            cast_to=InputItemListResponse,
+        )
+
+
+class InputItemsResourceWithRawResponse:
+    def __init__(self, input_items: InputItemsResource) -> None:
+        self._input_items = input_items
+
+        self.list = to_raw_response_wrapper(
+            input_items.list,
+        )
+
+
+class AsyncInputItemsResourceWithRawResponse:
+    def __init__(self, input_items: AsyncInputItemsResource) -> None:
+        self._input_items = input_items
+
+        self.list = async_to_raw_response_wrapper(
+            input_items.list,
+        )
+
+
+class InputItemsResourceWithStreamingResponse:
+    def __init__(self, input_items: InputItemsResource) -> None:
+        self._input_items = input_items
+
+        self.list = to_streamed_response_wrapper(
+            input_items.list,
+        )
+
+
+class AsyncInputItemsResourceWithStreamingResponse:
+    def __init__(self, input_items: AsyncInputItemsResource) -> None:
+        self._input_items = input_items
+
+        self.list = async_to_streamed_response_wrapper(
+            input_items.list,
+        )
