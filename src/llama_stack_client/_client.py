@@ -33,7 +33,6 @@ from .resources import (
     datasets,
     inference,
     providers,
-    responses,
     telemetry,
     vector_io,
     benchmarks,
@@ -53,6 +52,7 @@ from ._base_client import (
 from .resources.chat import chat
 from .resources.eval import eval
 from .resources.agents import agents
+from .resources.responses import responses
 from .resources.tool_runtime import tool_runtime
 from .resources.post_training import post_training
 
