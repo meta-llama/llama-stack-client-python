@@ -1,0 +1,25 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+from typing import Dict, List, Union, Iterable
+from typing_extensions import Required, TypedDict
+
+__all__ = ["VectorStoreSearchParams"]
+
+
+class VectorStoreSearchParams(TypedDict, total=False):
+    query: Required[Union[str, List[str]]]
+    """The query string or array for performing the search."""
+
+    filters: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    """Filters based on file attributes to narrow the search results."""
+
+    max_num_results: int
+    """Maximum number of results to return (1 to 50 inclusive, default 10)."""
+
+    ranking_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    """Ranking options for fine-tuning the search results."""
+
+    rewrite_query: bool
+    """Whether to rewrite the natural language query for vector search (default false)"""
