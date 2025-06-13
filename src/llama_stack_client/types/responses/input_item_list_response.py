@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union, Optional
+from typing import Dict, List, Union, Optional
 from typing_extensions import Literal, Annotated, TypeAlias
 
 from ..._utils import PropertyInfo
@@ -10,6 +10,7 @@ __all__ = [
     "InputItemListResponse",
     "Data",
     "DataOpenAIResponseOutputMessageWebSearchToolCall",
+    "DataOpenAIResponseOutputMessageFileSearchToolCall",
     "DataOpenAIResponseOutputMessageFunctionToolCall",
     "DataOpenAIResponseInputFunctionToolCallOutput",
     "DataOpenAIResponseMessage",
@@ -26,6 +27,18 @@ class DataOpenAIResponseOutputMessageWebSearchToolCall(BaseModel):
     status: str
 
     type: Literal["web_search_call"]
+
+
+class DataOpenAIResponseOutputMessageFileSearchToolCall(BaseModel):
+    id: str
+
+    queries: List[str]
+
+    status: str
+
+    type: Literal["file_search_call"]
+
+    results: Optional[List[Dict[str, Union[bool, float, str, List[object], object, None]]]] = None
 
 
 class DataOpenAIResponseOutputMessageFunctionToolCall(BaseModel):
@@ -99,6 +112,7 @@ class DataOpenAIResponseMessage(BaseModel):
 
 Data: TypeAlias = Union[
     DataOpenAIResponseOutputMessageWebSearchToolCall,
+    DataOpenAIResponseOutputMessageFileSearchToolCall,
     DataOpenAIResponseOutputMessageFunctionToolCall,
     DataOpenAIResponseInputFunctionToolCallOutput,
     DataOpenAIResponseMessage,

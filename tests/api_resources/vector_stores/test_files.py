@@ -1,0 +1,126 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+import os
+from typing import Any, cast
+
+import pytest
+
+from tests.utils import assert_matches_type
+from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
+from llama_stack_client.types.vector_stores import VectorStoreFile
+
+base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
+
+
+class TestFiles:
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @parametrize
+    def test_method_create(self, client: LlamaStackClient) -> None:
+        file = client.vector_stores.files.create(
+            vector_store_id="vector_store_id",
+            file_id="file_id",
+        )
+        assert_matches_type(VectorStoreFile, file, path=["response"])
+
+    @parametrize
+    def test_method_create_with_all_params(self, client: LlamaStackClient) -> None:
+        file = client.vector_stores.files.create(
+            vector_store_id="vector_store_id",
+            file_id="file_id",
+            attributes={"foo": True},
+            chunking_strategy={"type": "auto"},
+        )
+        assert_matches_type(VectorStoreFile, file, path=["response"])
+
+    @parametrize
+    def test_raw_response_create(self, client: LlamaStackClient) -> None:
+        response = client.vector_stores.files.with_raw_response.create(
+            vector_store_id="vector_store_id",
+            file_id="file_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        file = response.parse()
+        assert_matches_type(VectorStoreFile, file, path=["response"])
+
+    @parametrize
+    def test_streaming_response_create(self, client: LlamaStackClient) -> None:
+        with client.vector_stores.files.with_streaming_response.create(
+            vector_store_id="vector_store_id",
+            file_id="file_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            file = response.parse()
+            assert_matches_type(VectorStoreFile, file, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_create(self, client: LlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `vector_store_id` but received ''"):
+            client.vector_stores.files.with_raw_response.create(
+                vector_store_id="",
+                file_id="file_id",
+            )
+
+
+class TestAsyncFiles:
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @parametrize
+    async def test_method_create(self, async_client: AsyncLlamaStackClient) -> None:
+        file = await async_client.vector_stores.files.create(
+            vector_store_id="vector_store_id",
+            file_id="file_id",
+        )
+        assert_matches_type(VectorStoreFile, file, path=["response"])
+
+    @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        file = await async_client.vector_stores.files.create(
+            vector_store_id="vector_store_id",
+            file_id="file_id",
+            attributes={"foo": True},
+            chunking_strategy={"type": "auto"},
+        )
+        assert_matches_type(VectorStoreFile, file, path=["response"])
+
+    @parametrize
+    async def test_raw_response_create(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.vector_stores.files.with_raw_response.create(
+            vector_store_id="vector_store_id",
+            file_id="file_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        file = await response.parse()
+        assert_matches_type(VectorStoreFile, file, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_create(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.vector_stores.files.with_streaming_response.create(
+            vector_store_id="vector_store_id",
+            file_id="file_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            file = await response.parse()
+            assert_matches_type(VectorStoreFile, file, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_create(self, async_client: AsyncLlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `vector_store_id` but received ''"):
+            await async_client.vector_stores.files.with_raw_response.create(
+                vector_store_id="",
+                file_id="file_id",
+            )

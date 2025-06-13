@@ -41,7 +41,6 @@ from .resources import (
     toolgroups,
     vector_dbs,
     completions,
-    vector_stores,
     scoring_functions,
     synthetic_data_generation,
 )
@@ -58,6 +57,7 @@ from .resources.agents import agents
 from .resources.responses import responses
 from .resources.tool_runtime import tool_runtime
 from .resources.post_training import post_training
+from .resources.vector_stores import vector_stores
 
 __all__ = [
     "Timeout",

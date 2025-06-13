@@ -17,6 +17,7 @@ __all__ = [
     "OutputOpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentImage",
     "OutputOpenAIResponseMessageContentUnionMember2",
     "OutputOpenAIResponseOutputMessageWebSearchToolCall",
+    "OutputOpenAIResponseOutputMessageFileSearchToolCall",
     "OutputOpenAIResponseOutputMessageFunctionToolCall",
     "OutputOpenAIResponseOutputMessageMcpCall",
     "OutputOpenAIResponseOutputMessageMcpListTools",
@@ -78,6 +79,18 @@ class OutputOpenAIResponseOutputMessageWebSearchToolCall(BaseModel):
     type: Literal["web_search_call"]
 
 
+class OutputOpenAIResponseOutputMessageFileSearchToolCall(BaseModel):
+    id: str
+
+    queries: List[str]
+
+    status: str
+
+    type: Literal["file_search_call"]
+
+    results: Optional[List[Dict[str, Union[bool, float, str, List[object], object, None]]]] = None
+
+
 class OutputOpenAIResponseOutputMessageFunctionToolCall(BaseModel):
     arguments: str
 
@@ -130,6 +143,7 @@ Output: TypeAlias = Annotated[
     Union[
         OutputOpenAIResponseMessage,
         OutputOpenAIResponseOutputMessageWebSearchToolCall,
+        OutputOpenAIResponseOutputMessageFileSearchToolCall,
         OutputOpenAIResponseOutputMessageFunctionToolCall,
         OutputOpenAIResponseOutputMessageMcpCall,
         OutputOpenAIResponseOutputMessageMcpListTools,

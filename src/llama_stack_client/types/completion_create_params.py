@@ -56,6 +56,9 @@ class CompletionCreateParamsBase(TypedDict, total=False):
     stream_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
     """(Optional) The stream options to use."""
 
+    suffix: str
+    """(Optional) The suffix that should be appended to the completion."""
+
     temperature: float
     """(Optional) The temperature to use."""
 

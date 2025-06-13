@@ -1,11 +1,40 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import Union, Optional
+from typing_extensions import Literal, Annotated, TypeAlias
 
+from ..._utils import PropertyInfo
 from ..._models import BaseModel
 from .query_generator_config import QueryGeneratorConfig
 
-__all__ = ["QueryConfig"]
+__all__ = ["QueryConfig", "Ranker", "RankerRrfRanker", "RankerWeightedRanker"]
+
+
+class RankerRrfRanker(BaseModel):
+    impact_factor: float
+    """The impact factor for RRF scoring.
+
+    Higher values give more weight to higher-ranked results. Must be greater than 0.
+    Default of 60 is from the original RRF paper (Cormack et al., 2009).
+    """
+
+    type: Literal["rrf"]
+    """The type of ranker, always "rrf" """
+
+
+class RankerWeightedRanker(BaseModel):
+    alpha: float
+    """Weight factor between 0 and 1.
+
+    0 means only use keyword scores, 1 means only use vector scores, values in
+    between blend both scores.
+    """
+
+    type: Literal["weighted"]
+    """The type of ranker, always "weighted" """
+
+
+Ranker: TypeAlias = Annotated[Union[RankerRrfRanker, RankerWeightedRanker], PropertyInfo(discriminator="type")]
 
 
 class QueryConfig(BaseModel):
@@ -27,4 +56,10 @@ class QueryConfig(BaseModel):
     """Configuration for the query generator."""
 
     mode: Optional[str] = None
-    """Search mode for retrieval—either "vector" or "keyword". Default "vector"."""
+    """Search mode for retrieval—either "vector", "keyword", or "hybrid".
+
+    Default "vector".
+    """
+
+    ranker: Optional[Ranker] = None
+    """Configuration for the ranker to use in hybrid search. Defaults to RRF ranker."""

@@ -2,11 +2,39 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, TypedDict
+from typing import Union
+from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .query_generator_config import QueryGeneratorConfig
 
-__all__ = ["QueryConfig"]
+__all__ = ["QueryConfig", "Ranker", "RankerRrfRanker", "RankerWeightedRanker"]
+
+
+class RankerRrfRanker(TypedDict, total=False):
+    impact_factor: Required[float]
+    """The impact factor for RRF scoring.
+
+    Higher values give more weight to higher-ranked results. Must be greater than 0.
+    Default of 60 is from the original RRF paper (Cormack et al., 2009).
+    """
+
+    type: Required[Literal["rrf"]]
+    """The type of ranker, always "rrf" """
+
+
+class RankerWeightedRanker(TypedDict, total=False):
+    alpha: Required[float]
+    """Weight factor between 0 and 1.
+
+    0 means only use keyword scores, 1 means only use vector scores, values in
+    between blend both scores.
+    """
+
+    type: Required[Literal["weighted"]]
+    """The type of ranker, always "weighted" """
+
+
+Ranker: TypeAlias = Union[RankerRrfRanker, RankerWeightedRanker]
 
 
 class QueryConfig(TypedDict, total=False):
@@ -28,4 +56,10 @@ class QueryConfig(TypedDict, total=False):
     """Configuration for the query generator."""
 
     mode: str
-    """Search mode for retrieval—either "vector" or "keyword". Default "vector"."""
+    """Search mode for retrieval—either "vector", "keyword", or "hybrid".
+
+    Default "vector".
+    """
+
+    ranker: Ranker
+    """Configuration for the ranker to use in hybrid search. Defaults to RRF ranker."""

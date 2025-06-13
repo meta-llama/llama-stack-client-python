@@ -13,6 +13,7 @@ __all__ = [
     "Data",
     "DataInput",
     "DataInputOpenAIResponseOutputMessageWebSearchToolCall",
+    "DataInputOpenAIResponseOutputMessageFileSearchToolCall",
     "DataInputOpenAIResponseOutputMessageFunctionToolCall",
     "DataInputOpenAIResponseInputFunctionToolCallOutput",
     "DataInputOpenAIResponseMessage",
@@ -27,6 +28,7 @@ __all__ = [
     "DataOutputOpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentImage",
     "DataOutputOpenAIResponseMessageContentUnionMember2",
     "DataOutputOpenAIResponseOutputMessageWebSearchToolCall",
+    "DataOutputOpenAIResponseOutputMessageFileSearchToolCall",
     "DataOutputOpenAIResponseOutputMessageFunctionToolCall",
     "DataOutputOpenAIResponseOutputMessageMcpCall",
     "DataOutputOpenAIResponseOutputMessageMcpListTools",
@@ -43,6 +45,18 @@ class DataInputOpenAIResponseOutputMessageWebSearchToolCall(BaseModel):
     status: str
 
     type: Literal["web_search_call"]
+
+
+class DataInputOpenAIResponseOutputMessageFileSearchToolCall(BaseModel):
+    id: str
+
+    queries: List[str]
+
+    status: str
+
+    type: Literal["file_search_call"]
+
+    results: Optional[List[Dict[str, Union[bool, float, str, List[object], object, None]]]] = None
 
 
 class DataInputOpenAIResponseOutputMessageFunctionToolCall(BaseModel):
@@ -118,6 +132,7 @@ class DataInputOpenAIResponseMessage(BaseModel):
 
 DataInput: TypeAlias = Union[
     DataInputOpenAIResponseOutputMessageWebSearchToolCall,
+    DataInputOpenAIResponseOutputMessageFileSearchToolCall,
     DataInputOpenAIResponseOutputMessageFunctionToolCall,
     DataInputOpenAIResponseInputFunctionToolCallOutput,
     DataInputOpenAIResponseMessage,
@@ -177,6 +192,18 @@ class DataOutputOpenAIResponseOutputMessageWebSearchToolCall(BaseModel):
     type: Literal["web_search_call"]
 
 
+class DataOutputOpenAIResponseOutputMessageFileSearchToolCall(BaseModel):
+    id: str
+
+    queries: List[str]
+
+    status: str
+
+    type: Literal["file_search_call"]
+
+    results: Optional[List[Dict[str, Union[bool, float, str, List[object], object, None]]]] = None
+
+
 class DataOutputOpenAIResponseOutputMessageFunctionToolCall(BaseModel):
     arguments: str
 
@@ -229,6 +256,7 @@ DataOutput: TypeAlias = Annotated[
     Union[
         DataOutputOpenAIResponseMessage,
         DataOutputOpenAIResponseOutputMessageWebSearchToolCall,
+        DataOutputOpenAIResponseOutputMessageFileSearchToolCall,
         DataOutputOpenAIResponseOutputMessageFunctionToolCall,
         DataOutputOpenAIResponseOutputMessageMcpCall,
         DataOutputOpenAIResponseOutputMessageMcpListTools,
