@@ -395,6 +395,7 @@ class TestInference:
                 "stop": ["string"],
             },
             stream=False,
+            suffix="suffix",
         )
         assert_matches_type(CompletionResponse, inference, path=["response"])
 
@@ -450,6 +451,7 @@ class TestInference:
                 "repetition_penalty": 0,
                 "stop": ["string"],
             },
+            suffix="suffix",
         )
         inference_stream.response.close()
 
@@ -902,6 +904,7 @@ class TestAsyncInference:
                 "stop": ["string"],
             },
             stream=False,
+            suffix="suffix",
         )
         assert_matches_type(CompletionResponse, inference, path=["response"])
 
@@ -957,6 +960,7 @@ class TestAsyncInference:
                 "repetition_penalty": 0,
                 "stop": ["string"],
             },
+            suffix="suffix",
         )
         await inference_stream.response.aclose()
 
