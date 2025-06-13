@@ -447,6 +447,7 @@ class InferenceResource(SyncAPIResource):
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -473,6 +474,8 @@ class InferenceResource(SyncAPIResource):
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
 
+          suffix: (Optional) The text after the model's completion.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -493,6 +496,7 @@ class InferenceResource(SyncAPIResource):
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -519,6 +523,8 @@ class InferenceResource(SyncAPIResource):
 
           sampling_params: (Optional) Parameters to control the sampling strategy.
 
+          suffix: (Optional) The text after the model's completion.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -539,6 +545,7 @@ class InferenceResource(SyncAPIResource):
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -565,6 +572,8 @@ class InferenceResource(SyncAPIResource):
 
           sampling_params: (Optional) Parameters to control the sampling strategy.
 
+          suffix: (Optional) The text after the model's completion.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -585,6 +594,7 @@ class InferenceResource(SyncAPIResource):
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -604,6 +614,7 @@ class InferenceResource(SyncAPIResource):
                     "response_format": response_format,
                     "sampling_params": sampling_params,
                     "stream": stream,
+                    "suffix": suffix,
                 },
                 inference_completion_params.InferenceCompletionParamsStreaming
                 if stream
@@ -1085,6 +1096,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1111,6 +1123,8 @@ class AsyncInferenceResource(AsyncAPIResource):
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
 
+          suffix: (Optional) The text after the model's completion.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1131,6 +1145,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1157,6 +1172,8 @@ class AsyncInferenceResource(AsyncAPIResource):
 
           sampling_params: (Optional) Parameters to control the sampling strategy.
 
+          suffix: (Optional) The text after the model's completion.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1177,6 +1194,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1203,6 +1221,8 @@ class AsyncInferenceResource(AsyncAPIResource):
 
           sampling_params: (Optional) Parameters to control the sampling strategy.
 
+          suffix: (Optional) The text after the model's completion.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1223,6 +1243,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         response_format: ResponseFormat | NotGiven = NOT_GIVEN,
         sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1242,6 +1263,7 @@ class AsyncInferenceResource(AsyncAPIResource):
                     "response_format": response_format,
                     "sampling_params": sampling_params,
                     "stream": stream,
+                    "suffix": suffix,
                 },
                 inference_completion_params.InferenceCompletionParamsStreaming
                 if stream

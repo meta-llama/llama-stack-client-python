@@ -65,6 +65,7 @@ class CompletionsResource(SyncAPIResource):
         stop: Union[str, List[str]] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         stream_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         top_p: float | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
@@ -109,6 +110,8 @@ class CompletionsResource(SyncAPIResource):
 
           stream_options: (Optional) The stream options to use.
 
+          suffix: (Optional) The suffix that should be appended to the completion.
+
           temperature: (Optional) The temperature to use.
 
           top_p: (Optional) The top p to use.
@@ -145,6 +148,7 @@ class CompletionsResource(SyncAPIResource):
         seed: int | NotGiven = NOT_GIVEN,
         stop: Union[str, List[str]] | NotGiven = NOT_GIVEN,
         stream_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         top_p: float | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
@@ -189,6 +193,8 @@ class CompletionsResource(SyncAPIResource):
 
           stream_options: (Optional) The stream options to use.
 
+          suffix: (Optional) The suffix that should be appended to the completion.
+
           temperature: (Optional) The temperature to use.
 
           top_p: (Optional) The top p to use.
@@ -225,6 +231,7 @@ class CompletionsResource(SyncAPIResource):
         seed: int | NotGiven = NOT_GIVEN,
         stop: Union[str, List[str]] | NotGiven = NOT_GIVEN,
         stream_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         top_p: float | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
@@ -269,6 +276,8 @@ class CompletionsResource(SyncAPIResource):
 
           stream_options: (Optional) The stream options to use.
 
+          suffix: (Optional) The suffix that should be appended to the completion.
+
           temperature: (Optional) The temperature to use.
 
           top_p: (Optional) The top p to use.
@@ -305,6 +314,7 @@ class CompletionsResource(SyncAPIResource):
         stop: Union[str, List[str]] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         stream_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         top_p: float | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
@@ -335,6 +345,7 @@ class CompletionsResource(SyncAPIResource):
                     "stop": stop,
                     "stream": stream,
                     "stream_options": stream_options,
+                    "suffix": suffix,
                     "temperature": temperature,
                     "top_p": top_p,
                     "user": user,
@@ -392,6 +403,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         stop: Union[str, List[str]] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | NotGiven = NOT_GIVEN,
         stream_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         top_p: float | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
@@ -436,6 +448,8 @@ class AsyncCompletionsResource(AsyncAPIResource):
 
           stream_options: (Optional) The stream options to use.
 
+          suffix: (Optional) The suffix that should be appended to the completion.
+
           temperature: (Optional) The temperature to use.
 
           top_p: (Optional) The top p to use.
@@ -472,6 +486,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         seed: int | NotGiven = NOT_GIVEN,
         stop: Union[str, List[str]] | NotGiven = NOT_GIVEN,
         stream_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         top_p: float | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
@@ -516,6 +531,8 @@ class AsyncCompletionsResource(AsyncAPIResource):
 
           stream_options: (Optional) The stream options to use.
 
+          suffix: (Optional) The suffix that should be appended to the completion.
+
           temperature: (Optional) The temperature to use.
 
           top_p: (Optional) The top p to use.
@@ -552,6 +569,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         seed: int | NotGiven = NOT_GIVEN,
         stop: Union[str, List[str]] | NotGiven = NOT_GIVEN,
         stream_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         top_p: float | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
@@ -596,6 +614,8 @@ class AsyncCompletionsResource(AsyncAPIResource):
 
           stream_options: (Optional) The stream options to use.
 
+          suffix: (Optional) The suffix that should be appended to the completion.
+
           temperature: (Optional) The temperature to use.
 
           top_p: (Optional) The top p to use.
@@ -632,6 +652,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         stop: Union[str, List[str]] | NotGiven = NOT_GIVEN,
         stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
         stream_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        suffix: str | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         top_p: float | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
@@ -662,6 +683,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
                     "stop": stop,
                     "stream": stream,
                     "stream_options": stream_options,
+                    "suffix": suffix,
                     "temperature": temperature,
                     "top_p": top_p,
                     "user": user,

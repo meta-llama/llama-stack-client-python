@@ -40,6 +40,9 @@ class InferenceCompletionParamsBase(TypedDict, total=False):
     sampling_params: SamplingParams
     """(Optional) Parameters to control the sampling strategy."""
 
+    suffix: str
+    """(Optional) The text after the model's completion."""
+
 
 class Logprobs(TypedDict, total=False):
     top_k: int
