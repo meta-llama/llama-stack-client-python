@@ -9,6 +9,7 @@ __all__ = [
     "ResponseCreateParamsBase",
     "InputUnionMember1",
     "InputUnionMember1OpenAIResponseOutputMessageWebSearchToolCall",
+    "InputUnionMember1OpenAIResponseOutputMessageFileSearchToolCall",
     "InputUnionMember1OpenAIResponseOutputMessageFunctionToolCall",
     "InputUnionMember1OpenAIResponseInputFunctionToolCallOutput",
     "InputUnionMember1OpenAIResponseMessage",
@@ -66,6 +67,18 @@ class InputUnionMember1OpenAIResponseOutputMessageWebSearchToolCall(TypedDict, t
     status: Required[str]
 
     type: Required[Literal["web_search_call"]]
+
+
+class InputUnionMember1OpenAIResponseOutputMessageFileSearchToolCall(TypedDict, total=False):
+    id: Required[str]
+
+    queries: Required[List[str]]
+
+    status: Required[str]
+
+    type: Required[Literal["file_search_call"]]
+
+    results: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
 
 
 class InputUnionMember1OpenAIResponseOutputMessageFunctionToolCall(TypedDict, total=False):
@@ -144,6 +157,7 @@ class InputUnionMember1OpenAIResponseMessage(TypedDict, total=False):
 
 InputUnionMember1: TypeAlias = Union[
     InputUnionMember1OpenAIResponseOutputMessageWebSearchToolCall,
+    InputUnionMember1OpenAIResponseOutputMessageFileSearchToolCall,
     InputUnionMember1OpenAIResponseOutputMessageFunctionToolCall,
     InputUnionMember1OpenAIResponseInputFunctionToolCallOutput,
     InputUnionMember1OpenAIResponseMessage,
@@ -193,7 +207,11 @@ class ToolOpenAIResponseInputToolFileSearchRankingOptions(TypedDict, total=False
 class ToolOpenAIResponseInputToolFileSearch(TypedDict, total=False):
     type: Required[Literal["file_search"]]
 
-    vector_store_id: Required[List[str]]
+    vector_store_ids: Required[List[str]]
+
+    filters: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+
+    max_num_results: int
 
     ranking_options: ToolOpenAIResponseInputToolFileSearchRankingOptions
 

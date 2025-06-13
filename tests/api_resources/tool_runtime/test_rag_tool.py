@@ -94,6 +94,10 @@ class TestRagTool:
                     "type": "default",
                 },
                 "mode": "mode",
+                "ranker": {
+                    "impact_factor": 0,
+                    "type": "rrf",
+                },
             },
         )
         assert_matches_type(QueryResult, rag_tool, path=["response"])
@@ -205,6 +209,10 @@ class TestAsyncRagTool:
                     "type": "default",
                 },
                 "mode": "mode",
+                "ranker": {
+                    "impact_factor": 0,
+                    "type": "rrf",
+                },
             },
         )
         assert_matches_type(QueryResult, rag_tool, path=["response"])
