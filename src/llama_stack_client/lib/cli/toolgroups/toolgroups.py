@@ -118,7 +118,7 @@ def unregister_toolgroup(ctx, toolgroup_id: str):
     client = ctx.obj["client"]
     console = Console()
 
-    response = client.toolgroups.unregister(tool_group_id=toolgroup_id)
+    response = client.toolgroups.unregister(toolgroup_id=toolgroup_id)
     if response:
         console.print(f"[green]Successfully deleted toolgroup {toolgroup_id}[/green]")
 
