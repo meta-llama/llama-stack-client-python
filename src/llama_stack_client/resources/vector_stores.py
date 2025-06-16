@@ -6,44 +6,32 @@ from typing import Dict, List, Union, Iterable
 
 import httpx
 
-from .files import (
-    FilesResource,
-    AsyncFilesResource,
-    FilesResourceWithRawResponse,
-    AsyncFilesResourceWithRawResponse,
-    FilesResourceWithStreamingResponse,
-    AsyncFilesResourceWithStreamingResponse,
-)
-from ...types import (
+from ..types import (
     vector_store_list_params,
     vector_store_create_params,
     vector_store_search_params,
     vector_store_update_params,
 )
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform, async_maybe_transform
-from ..._compat import cached_property
-from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
+from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._utils import maybe_transform, async_maybe_transform
+from .._compat import cached_property
+from .._resource import SyncAPIResource, AsyncAPIResource
+from .._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import make_request_options
-from ...types.vector_store import VectorStore
-from ...types.list_vector_stores_response import ListVectorStoresResponse
-from ...types.vector_store_delete_response import VectorStoreDeleteResponse
-from ...types.vector_store_search_response import VectorStoreSearchResponse
+from .._base_client import make_request_options
+from ..types.vector_store import VectorStore
+from ..types.list_vector_stores_response import ListVectorStoresResponse
+from ..types.vector_store_delete_response import VectorStoreDeleteResponse
+from ..types.vector_store_search_response import VectorStoreSearchResponse
 
 __all__ = ["VectorStoresResource", "AsyncVectorStoresResource"]
 
 
 class VectorStoresResource(SyncAPIResource):
-    @cached_property
-    def files(self) -> FilesResource:
-        return FilesResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> VectorStoresResourceWithRawResponse:
         """
@@ -373,10 +361,6 @@ class VectorStoresResource(SyncAPIResource):
 
 
 class AsyncVectorStoresResource(AsyncAPIResource):
-    @cached_property
-    def files(self) -> AsyncFilesResource:
-        return AsyncFilesResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> AsyncVectorStoresResourceWithRawResponse:
         """
@@ -728,10 +712,6 @@ class VectorStoresResourceWithRawResponse:
             vector_stores.search,
         )
 
-    @cached_property
-    def files(self) -> FilesResourceWithRawResponse:
-        return FilesResourceWithRawResponse(self._vector_stores.files)
-
 
 class AsyncVectorStoresResourceWithRawResponse:
     def __init__(self, vector_stores: AsyncVectorStoresResource) -> None:
@@ -755,10 +735,6 @@ class AsyncVectorStoresResourceWithRawResponse:
         self.search = async_to_raw_response_wrapper(
             vector_stores.search,
         )
-
-    @cached_property
-    def files(self) -> AsyncFilesResourceWithRawResponse:
-        return AsyncFilesResourceWithRawResponse(self._vector_stores.files)
 
 
 class VectorStoresResourceWithStreamingResponse:
@@ -784,10 +760,6 @@ class VectorStoresResourceWithStreamingResponse:
             vector_stores.search,
         )
 
-    @cached_property
-    def files(self) -> FilesResourceWithStreamingResponse:
-        return FilesResourceWithStreamingResponse(self._vector_stores.files)
-
 
 class AsyncVectorStoresResourceWithStreamingResponse:
     def __init__(self, vector_stores: AsyncVectorStoresResource) -> None:
@@ -811,7 +783,3 @@ class AsyncVectorStoresResourceWithStreamingResponse:
         self.search = async_to_streamed_response_wrapper(
             vector_stores.search,
         )
-
-    @cached_property
-    def files(self) -> AsyncFilesResourceWithStreamingResponse:
-        return AsyncFilesResourceWithStreamingResponse(self._vector_stores.files)
