@@ -119,6 +119,7 @@ from .list_tool_groups_response import ListToolGroupsResponse as ListToolGroupsR
 from .toolgroup_register_params import ToolgroupRegisterParams as ToolgroupRegisterParams
 from .vector_db_register_params import VectorDBRegisterParams as VectorDBRegisterParams
 from .completion_create_response import CompletionCreateResponse as CompletionCreateResponse
+from .create_embeddings_response import CreateEmbeddingsResponse as CreateEmbeddingsResponse
 from .eval_run_eval_alpha_params import EvalRunEvalAlphaParams as EvalRunEvalAlphaParams
 from .scoring_score_batch_params import ScoringScoreBatchParams as ScoringScoreBatchParams
 from .telemetry_log_event_params import TelemetryLogEventParams as TelemetryLogEventParams
