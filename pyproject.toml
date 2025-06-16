@@ -20,6 +20,8 @@ dependencies = [
     "prompt_toolkit",
     "pandas",
     "termcolor",
+    "fire",
+    "requests",
 ]
 requires-python = ">= 3.7"
 classifiers = [
@@ -38,6 +40,18 @@ classifiers = [
   "Operating System :: Microsoft :: Windows",
   "Topic :: Software Development :: Libraries :: Python Modules",
   "License :: OSI Approved :: Apache Software License"
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.1.1",
+    "pytest-asyncio",
+    "pre-commit",
+    "black",
+    "ruff",
+    "mypy",
+    "respx",
+    "dirty-equals"
 ]
 
 [project.urls]
