@@ -242,7 +242,10 @@ class TestVectorStores:
             query="string",
             filters={"foo": True},
             max_num_results=0,
-            ranking_options={"foo": True},
+            ranking_options={
+                "ranker": "ranker",
+                "score_threshold": 0,
+            },
             rewrite_query=True,
         )
         assert_matches_type(VectorStoreSearchResponse, vector_store, path=["response"])
@@ -505,7 +508,10 @@ class TestAsyncVectorStores:
             query="string",
             filters={"foo": True},
             max_num_results=0,
-            ranking_options={"foo": True},
+            ranking_options={
+                "ranker": "ranker",
+                "score_threshold": 0,
+            },
             rewrite_query=True,
         )
         assert_matches_type(VectorStoreSearchResponse, vector_store, path=["response"])
