@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Dict, List, Union, Iterable
 from typing_extensions import Required, TypedDict
 
-__all__ = ["VectorStoreSearchParams"]
+__all__ = ["VectorStoreSearchParams", "RankingOptions"]
 
 
 class VectorStoreSearchParams(TypedDict, total=False):
@@ -18,8 +18,14 @@ class VectorStoreSearchParams(TypedDict, total=False):
     max_num_results: int
     """Maximum number of results to return (1 to 50 inclusive, default 10)."""
 
-    ranking_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    ranking_options: RankingOptions
     """Ranking options for fine-tuning the search results."""
 
     rewrite_query: bool
     """Whether to rewrite the natural language query for vector search (default false)"""
+
+
+class RankingOptions(TypedDict, total=False):
+    ranker: str
+
+    score_threshold: float
