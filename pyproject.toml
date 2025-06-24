@@ -12,7 +12,6 @@ dependencies = [
     "anyio>=3.5.0, <5",
     "distro>=1.7.0, <2",
     "sniffio",
-    "cached-property; python_version < '3.8'",
     "tqdm",
     "rich",
     "click",
@@ -21,15 +20,10 @@ dependencies = [
     "pandas",
     "termcolor",
 ]
-requires-python = ">= 3.7"
+requires-python = ">= 3.12"
 classifiers = [
   "Typing :: Typed",
   "Intended Audience :: Developers",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Operating System :: OS Independent",
   "Operating System :: POSIX",
