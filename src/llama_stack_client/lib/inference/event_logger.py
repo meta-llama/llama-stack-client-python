@@ -7,6 +7,7 @@ from termcolor import cprint
 
 from llama_stack_client.types import ChatCompletionChunk
 
+
 class InferenceStreamPrintableEvent:
     def __init__(
         self,
@@ -43,6 +44,7 @@ class InferenceStreamLogEventPrinter:
                 yield InferenceStreamPrintableEvent(event.delta.text, color="yellow", end="")
         elif event.event_type == "complete":
             yield InferenceStreamPrintableEvent("")
+
 
 class ChatCompletionsStreamLogEventPrinter:
     def yield_printable_events(self, chunk):
