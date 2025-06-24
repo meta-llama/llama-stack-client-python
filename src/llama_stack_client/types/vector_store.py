@@ -5,7 +5,19 @@ from typing import Dict, List, Union, Optional
 
 from .._models import BaseModel
 
-__all__ = ["VectorStore"]
+__all__ = ["VectorStore", "FileCounts"]
+
+
+class FileCounts(BaseModel):
+    cancelled: int
+
+    completed: int
+
+    failed: int
+
+    in_progress: int
+
+    total: int
 
 
 class VectorStore(BaseModel):
@@ -13,7 +25,7 @@ class VectorStore(BaseModel):
 
     created_at: int
 
-    file_counts: Dict[str, int]
+    file_counts: FileCounts
 
     metadata: Dict[str, Union[bool, float, str, List[object], object, None]]
 

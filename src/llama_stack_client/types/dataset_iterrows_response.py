@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Optional
 
 from .._models import BaseModel
 
@@ -13,3 +13,6 @@ class DatasetIterrowsResponse(BaseModel):
 
     has_more: bool
     """Whether there are more items available after this set"""
+
+    url: Optional[str] = None
+    """The URL for accessing this list"""

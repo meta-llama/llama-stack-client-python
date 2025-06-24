@@ -318,7 +318,7 @@ class VectorStoresResource(SyncAPIResource):
         query: Union[str, List[str]],
         filters: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         max_num_results: int | NotGiven = NOT_GIVEN,
-        ranking_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        ranking_options: vector_store_search_params.RankingOptions | NotGiven = NOT_GIVEN,
         rewrite_query: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -651,7 +651,7 @@ class AsyncVectorStoresResource(AsyncAPIResource):
         query: Union[str, List[str]],
         filters: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         max_num_results: int | NotGiven = NOT_GIVEN,
-        ranking_options: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        ranking_options: vector_store_search_params.RankingOptions | NotGiven = NOT_GIVEN,
         rewrite_query: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.

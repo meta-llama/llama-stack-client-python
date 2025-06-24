@@ -1,6 +1,6 @@
 [project]
 name = "llama_stack_client"
-version = "0.2.10"
+version = "0.2.12"
 description = "The official Python library for the llama-stack-client API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -12,7 +12,6 @@ dependencies = [
     "anyio>=3.5.0, <5",
     "distro>=1.7.0, <2",
     "sniffio",
-    "cached-property; python_version < '3.8'",
     "tqdm",
     "rich",
     "click",
@@ -20,16 +19,13 @@ dependencies = [
     "prompt_toolkit",
     "pandas",
     "termcolor",
+    "fire",
+    "requests",
 ]
-requires-python = ">= 3.7"
+requires-python = ">= 3.12"
 classifiers = [
   "Typing :: Typed",
   "Intended Audience :: Developers",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Operating System :: OS Independent",
   "Operating System :: POSIX",
@@ -38,6 +34,18 @@ classifiers = [
   "Operating System :: Microsoft :: Windows",
   "Topic :: Software Development :: Libraries :: Python Modules",
   "License :: OSI Approved :: Apache Software License"
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.1.1",
+    "pytest-asyncio",
+    "pre-commit",
+    "black",
+    "ruff",
+    "mypy",
+    "respx",
+    "dirty-equals"
 ]
 
 [project.urls]
