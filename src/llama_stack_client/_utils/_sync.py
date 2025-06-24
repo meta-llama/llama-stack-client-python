@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import sys
 import asyncio
 import functools
-from typing import TypeVar, Callable, Awaitable
+import contextvars
+from typing import Any, TypeVar, Callable, Awaitable
 from typing_extensions import ParamSpec
 
 import anyio
@@ -12,7 +14,28 @@ import anyio.to_thread
 T_Retval = TypeVar("T_Retval")
 T_ParamSpec = ParamSpec("T_ParamSpec")
 
-_asyncio_to_thread = asyncio.to_thread
+
+if sys.version_info >= (3, 9):
+    _asyncio_to_thread = asyncio.to_thread
+else:
+    # backport of https://docs.python.org/3/library/asyncio-task.html#asyncio.to_thread
+    # for Python 3.8 support
+    async def _asyncio_to_thread(
+        func: Callable[T_ParamSpec, T_Retval], /, *args: T_ParamSpec.args, **kwargs: T_ParamSpec.kwargs
+    ) -> Any:
+        """Asynchronously run function *func* in a separate thread.
+
+        Any *args and **kwargs supplied for this function are directly passed
+        to *func*. Also, the current :class:`contextvars.Context` is propagated,
+        allowing context variables from the main thread to be accessed in the
+        separate thread.
+
+        Returns a coroutine that can be awaited to get the eventual result of *func*.
+        """
+        loop = asyncio.events.get_running_loop()
+        ctx = contextvars.copy_context()
+        func_call = functools.partial(ctx.run, func, *args, **kwargs)
+        return await loop.run_in_executor(None, func_call)
 
 
 async def to_thread(
