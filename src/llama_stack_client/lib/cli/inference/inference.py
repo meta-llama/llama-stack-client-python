@@ -46,8 +46,8 @@ def chat_completion(ctx, message: str, stream: bool, session: bool, model_id: Op
     messages = []
     if message:
         messages.append({"role": "user", "content": message})
-        response = client.inference.chat_completion(
-            model_id=model_id,
+        response = client.chat.completions.create(
+            model=model_id,
             messages=messages,
             stream=stream,
         )
@@ -69,8 +69,8 @@ def chat_session(client, model_id: Optional[str], messages: List[Dict[str, str]]
                 console.print("Exiting")
                 break
             messages.append({"role": "user", "content": message})
-            response = client.inference.chat_completion(
-                model_id=model_id,
+            response = client.chat.completions.create(
+                model=model_id,
                 messages=messages,
                 stream=True,
             )
