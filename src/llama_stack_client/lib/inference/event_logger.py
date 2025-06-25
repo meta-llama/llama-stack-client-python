@@ -3,9 +3,9 @@
 #
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
+from typing import Generator
 from termcolor import cprint
-
-from llama_stack_client.types import ChatCompletionChunk
+from llama_stack_client.types import ChatCompletionResponseStreamChunk, ChatCompletionChunk
 
 
 class InferenceStreamPrintableEvent:
@@ -27,7 +27,19 @@ class InferenceStreamLogEventPrinter:
     def __init__(self):
         self.is_thinking = False
 
-    def yield_printable_events(self, chunk):
+    def yield_printable_events(
+        self, chunk: ChatCompletionResponseStreamChunk | ChatCompletionChunk
+    ) -> Generator[InferenceStreamPrintableEvent, None, None]:
+        # Check if the chunk has event attribute (ChatCompletionResponseStreamChunk)
+        if hasattr(chunk, "event"):
+            yield from self._handle_inference_stream_chunk(chunk)
+        # Check if the chunk has choices attribute (ChatCompletionChunk)
+        elif hasattr(chunk, "choices") and len(chunk.choices) > 0:
+            yield from self._handle_chat_completion_chunk(chunk)
+
+    def _handle_inference_stream_chunk(
+        self, chunk: ChatCompletionResponseStreamChunk
+    ) -> Generator[InferenceStreamPrintableEvent, None, None]:
         event = chunk.event
         if event.event_type == "start":
             yield InferenceStreamPrintableEvent("Assistant> ", color="cyan", end="")
@@ -45,9 +57,9 @@ class InferenceStreamLogEventPrinter:
         elif event.event_type == "complete":
             yield InferenceStreamPrintableEvent("")
 
-
-class ChatCompletionsStreamLogEventPrinter:
-    def yield_printable_events(self, chunk):
+    def _handle_chat_completion_chunk(
+        self, chunk: ChatCompletionChunk
+    ) -> Generator[InferenceStreamPrintableEvent, None, None]:
         choice = chunk.choices[0]
         delta = choice.delta
         if delta:
@@ -64,10 +76,5 @@ class ChatCompletionsStreamLogEventPrinter:
 class EventLogger:
     def log(self, event_generator):
         printer = InferenceStreamLogEventPrinter()
-        # Check if the event generator is of type Stream[ChatCompletionChunk]
-        if hasattr(event_generator, "_cast_to"):
-            if event_generator._cast_to == ChatCompletionChunk:
-                # If it is, use the ChatCompletionsStreamLogEventPrinter
-                printer = ChatCompletionsStreamLogEventPrinter()
         for chunk in event_generator:
             yield from printer.yield_printable_events(chunk)
