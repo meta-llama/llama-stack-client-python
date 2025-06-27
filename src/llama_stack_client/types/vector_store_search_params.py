@@ -24,6 +24,9 @@ class VectorStoreSearchParams(TypedDict, total=False):
     rewrite_query: bool
     """Whether to rewrite the natural language query for vector search (default false)"""
 
+    search_mode: str
+    """The search mode to use - "keyword", "vector", or "hybrid" (default "vector")"""
+
 
 class RankingOptions(TypedDict, total=False):
     ranker: str
