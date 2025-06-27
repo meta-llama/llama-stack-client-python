@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+from typing import Type, cast
+
 import httpx
 
-from ..types import vector_db_create_params
+from ..types import vector_db_register_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -15,9 +17,11 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .._wrappers import DataWrapper
 from .._base_client import make_request_options
-from ..types.vector_db import VectorDB
 from ..types.vector_db_list_response import VectorDBListResponse
+from ..types.vector_db_register_response import VectorDBRegisterResponse
+from ..types.vector_db_retrieve_response import VectorDBRetrieveResponse
 
 __all__ = ["VectorDBsResource", "AsyncVectorDBsResource"]
 
@@ -42,7 +46,63 @@ class VectorDBsResource(SyncAPIResource):
         """
         return VectorDBsResourceWithStreamingResponse(self)
 
-    def create(
+    def retrieve(
+        self,
+        vector_db_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> VectorDBRetrieveResponse:
+        """
+        Get a vector database by its identifier.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not vector_db_id:
+            raise ValueError(f"Expected a non-empty value for `vector_db_id` but received {vector_db_id!r}")
+        return self._get(
+            f"/v1/vector-dbs/{vector_db_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VectorDBRetrieveResponse,
+        )
+
+    def list(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> VectorDBListResponse:
+        """List all vector databases."""
+        return self._get(
+            "/v1/vector-dbs",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[VectorDBListResponse]._unwrapper,
+            ),
+            cast_to=cast(Type[VectorDBListResponse], DataWrapper[VectorDBListResponse]),
+        )
+
+    def register(
         self,
         *,
         embedding_model: str,
@@ -56,9 +116,21 @@ class VectorDBsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VectorDB:
+    ) -> VectorDBRegisterResponse:
         """
+        Register a vector database.
+
         Args:
+          embedding_model: The embedding model to use.
+
+          vector_db_id: The identifier of the vector database to register.
+
+          embedding_dimension: The dimension of the embedding model.
+
+          provider_id: The identifier of the provider.
+
+          provider_vector_db_id: The identifier of the vector database in the provider.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -77,64 +149,15 @@ class VectorDBsResource(SyncAPIResource):
                     "provider_id": provider_id,
                     "provider_vector_db_id": provider_vector_db_id,
                 },
-                vector_db_create_params.VectorDBCreateParams,
+                vector_db_register_params.VectorDBRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=VectorDB,
+            cast_to=VectorDBRegisterResponse,
         )
 
-    def retrieve(
-        self,
-        vector_db_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VectorDB:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not vector_db_id:
-            raise ValueError(f"Expected a non-empty value for `vector_db_id` but received {vector_db_id!r}")
-        return self._get(
-            f"/v1/vector-dbs/{vector_db_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=VectorDB,
-        )
-
-    def list(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VectorDBListResponse:
-        return self._get(
-            "/v1/vector-dbs",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=VectorDBListResponse,
-        )
-
-    def delete(
+    def unregister(
         self,
         vector_db_id: str,
         *,
@@ -146,6 +169,8 @@ class VectorDBsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Unregister a vector database.
+
         Args:
           extra_headers: Send extra headers
 
@@ -187,7 +212,63 @@ class AsyncVectorDBsResource(AsyncAPIResource):
         """
         return AsyncVectorDBsResourceWithStreamingResponse(self)
 
-    async def create(
+    async def retrieve(
+        self,
+        vector_db_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> VectorDBRetrieveResponse:
+        """
+        Get a vector database by its identifier.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not vector_db_id:
+            raise ValueError(f"Expected a non-empty value for `vector_db_id` but received {vector_db_id!r}")
+        return await self._get(
+            f"/v1/vector-dbs/{vector_db_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VectorDBRetrieveResponse,
+        )
+
+    async def list(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> VectorDBListResponse:
+        """List all vector databases."""
+        return await self._get(
+            "/v1/vector-dbs",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[VectorDBListResponse]._unwrapper,
+            ),
+            cast_to=cast(Type[VectorDBListResponse], DataWrapper[VectorDBListResponse]),
+        )
+
+    async def register(
         self,
         *,
         embedding_model: str,
@@ -201,9 +282,21 @@ class AsyncVectorDBsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VectorDB:
+    ) -> VectorDBRegisterResponse:
         """
+        Register a vector database.
+
         Args:
+          embedding_model: The embedding model to use.
+
+          vector_db_id: The identifier of the vector database to register.
+
+          embedding_dimension: The dimension of the embedding model.
+
+          provider_id: The identifier of the provider.
+
+          provider_vector_db_id: The identifier of the vector database in the provider.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -222,64 +315,15 @@ class AsyncVectorDBsResource(AsyncAPIResource):
                     "provider_id": provider_id,
                     "provider_vector_db_id": provider_vector_db_id,
                 },
-                vector_db_create_params.VectorDBCreateParams,
+                vector_db_register_params.VectorDBRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=VectorDB,
+            cast_to=VectorDBRegisterResponse,
         )
 
-    async def retrieve(
-        self,
-        vector_db_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VectorDB:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not vector_db_id:
-            raise ValueError(f"Expected a non-empty value for `vector_db_id` but received {vector_db_id!r}")
-        return await self._get(
-            f"/v1/vector-dbs/{vector_db_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=VectorDB,
-        )
-
-    async def list(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VectorDBListResponse:
-        return await self._get(
-            "/v1/vector-dbs",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=VectorDBListResponse,
-        )
-
-    async def delete(
+    async def unregister(
         self,
         vector_db_id: str,
         *,
@@ -291,6 +335,8 @@ class AsyncVectorDBsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Unregister a vector database.
+
         Args:
           extra_headers: Send extra headers
 
@@ -316,17 +362,17 @@ class VectorDBsResourceWithRawResponse:
     def __init__(self, vector_dbs: VectorDBsResource) -> None:
         self._vector_dbs = vector_dbs
 
-        self.create = to_raw_response_wrapper(
-            vector_dbs.create,
-        )
         self.retrieve = to_raw_response_wrapper(
             vector_dbs.retrieve,
         )
         self.list = to_raw_response_wrapper(
             vector_dbs.list,
         )
-        self.delete = to_raw_response_wrapper(
-            vector_dbs.delete,
+        self.register = to_raw_response_wrapper(
+            vector_dbs.register,
+        )
+        self.unregister = to_raw_response_wrapper(
+            vector_dbs.unregister,
         )
 
 
@@ -334,17 +380,17 @@ class AsyncVectorDBsResourceWithRawResponse:
     def __init__(self, vector_dbs: AsyncVectorDBsResource) -> None:
         self._vector_dbs = vector_dbs
 
-        self.create = async_to_raw_response_wrapper(
-            vector_dbs.create,
-        )
         self.retrieve = async_to_raw_response_wrapper(
             vector_dbs.retrieve,
         )
         self.list = async_to_raw_response_wrapper(
             vector_dbs.list,
         )
-        self.delete = async_to_raw_response_wrapper(
-            vector_dbs.delete,
+        self.register = async_to_raw_response_wrapper(
+            vector_dbs.register,
+        )
+        self.unregister = async_to_raw_response_wrapper(
+            vector_dbs.unregister,
         )
 
 
@@ -352,17 +398,17 @@ class VectorDBsResourceWithStreamingResponse:
     def __init__(self, vector_dbs: VectorDBsResource) -> None:
         self._vector_dbs = vector_dbs
 
-        self.create = to_streamed_response_wrapper(
-            vector_dbs.create,
-        )
         self.retrieve = to_streamed_response_wrapper(
             vector_dbs.retrieve,
         )
         self.list = to_streamed_response_wrapper(
             vector_dbs.list,
         )
-        self.delete = to_streamed_response_wrapper(
-            vector_dbs.delete,
+        self.register = to_streamed_response_wrapper(
+            vector_dbs.register,
+        )
+        self.unregister = to_streamed_response_wrapper(
+            vector_dbs.unregister,
         )
 
 
@@ -370,15 +416,15 @@ class AsyncVectorDBsResourceWithStreamingResponse:
     def __init__(self, vector_dbs: AsyncVectorDBsResource) -> None:
         self._vector_dbs = vector_dbs
 
-        self.create = async_to_streamed_response_wrapper(
-            vector_dbs.create,
-        )
         self.retrieve = async_to_streamed_response_wrapper(
             vector_dbs.retrieve,
         )
         self.list = async_to_streamed_response_wrapper(
             vector_dbs.list,
         )
-        self.delete = async_to_streamed_response_wrapper(
-            vector_dbs.delete,
+        self.register = async_to_streamed_response_wrapper(
+            vector_dbs.register,
+        )
+        self.unregister = async_to_streamed_response_wrapper(
+            vector_dbs.unregister,
         )

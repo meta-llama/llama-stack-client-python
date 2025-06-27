@@ -14,7 +14,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.inspect_list_routes_response import InspectListRoutesResponse
+from ..types.health_info import HealthInfo
+from ..types.version_info import VersionInfo
 
 __all__ = ["InspectResource", "AsyncInspectResource"]
 
@@ -39,7 +40,7 @@ class InspectResource(SyncAPIResource):
         """
         return InspectResourceWithStreamingResponse(self)
 
-    def list_routes(
+    def health(
         self,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -48,13 +49,33 @@ class InspectResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InspectListRoutesResponse:
+    ) -> HealthInfo:
+        """Get the health of the service."""
         return self._get(
-            "/v1/inspect/routes",
+            "/v1/health",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=InspectListRoutesResponse,
+            cast_to=HealthInfo,
+        )
+
+    def version(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> VersionInfo:
+        """Get the version of the service."""
+        return self._get(
+            "/v1/version",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VersionInfo,
         )
 
 
@@ -78,7 +99,7 @@ class AsyncInspectResource(AsyncAPIResource):
         """
         return AsyncInspectResourceWithStreamingResponse(self)
 
-    async def list_routes(
+    async def health(
         self,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -87,13 +108,33 @@ class AsyncInspectResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InspectListRoutesResponse:
+    ) -> HealthInfo:
+        """Get the health of the service."""
         return await self._get(
-            "/v1/inspect/routes",
+            "/v1/health",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=InspectListRoutesResponse,
+            cast_to=HealthInfo,
+        )
+
+    async def version(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> VersionInfo:
+        """Get the version of the service."""
+        return await self._get(
+            "/v1/version",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VersionInfo,
         )
 
 
@@ -101,8 +142,11 @@ class InspectResourceWithRawResponse:
     def __init__(self, inspect: InspectResource) -> None:
         self._inspect = inspect
 
-        self.list_routes = to_raw_response_wrapper(
-            inspect.list_routes,
+        self.health = to_raw_response_wrapper(
+            inspect.health,
+        )
+        self.version = to_raw_response_wrapper(
+            inspect.version,
         )
 
 
@@ -110,8 +154,11 @@ class AsyncInspectResourceWithRawResponse:
     def __init__(self, inspect: AsyncInspectResource) -> None:
         self._inspect = inspect
 
-        self.list_routes = async_to_raw_response_wrapper(
-            inspect.list_routes,
+        self.health = async_to_raw_response_wrapper(
+            inspect.health,
+        )
+        self.version = async_to_raw_response_wrapper(
+            inspect.version,
         )
 
 
@@ -119,8 +166,11 @@ class InspectResourceWithStreamingResponse:
     def __init__(self, inspect: InspectResource) -> None:
         self._inspect = inspect
 
-        self.list_routes = to_streamed_response_wrapper(
-            inspect.list_routes,
+        self.health = to_streamed_response_wrapper(
+            inspect.health,
+        )
+        self.version = to_streamed_response_wrapper(
+            inspect.version,
         )
 
 
@@ -128,6 +178,9 @@ class AsyncInspectResourceWithStreamingResponse:
     def __init__(self, inspect: AsyncInspectResource) -> None:
         self._inspect = inspect
 
-        self.list_routes = async_to_streamed_response_wrapper(
-            inspect.list_routes,
+        self.health = async_to_streamed_response_wrapper(
+            inspect.health,
+        )
+        self.version = async_to_streamed_response_wrapper(
+            inspect.version,
         )

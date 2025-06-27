@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 from .job_cancel_params import JobCancelParams as JobCancelParams
-from .job_retrieve_status_params import JobRetrieveStatusParams as JobRetrieveStatusParams
-from .job_retrieve_status_response import JobRetrieveStatusResponse as JobRetrieveStatusResponse
-from .job_retrieve_artifacts_params import JobRetrieveArtifactsParams as JobRetrieveArtifactsParams
-from .job_retrieve_artifacts_response import JobRetrieveArtifactsResponse as JobRetrieveArtifactsResponse
+from .job_list_response import JobListResponse as JobListResponse
+from .job_status_params import JobStatusParams as JobStatusParams
+from .job_status_response import JobStatusResponse as JobStatusResponse
+from .job_artifacts_params import JobArtifactsParams as JobArtifactsParams
+from .job_artifacts_response import JobArtifactsResponse as JobArtifactsResponse

@@ -4,8 +4,8 @@ from typing import Dict, List, Union, Optional
 from typing_extensions import Literal
 
 from .._models import BaseModel
-from .param_type import ParamType
 from .scoring_fn_params import ScoringFnParams
+from .shared.return_type import ReturnType
 
 __all__ = ["ScoringFn"]
 
@@ -17,7 +17,7 @@ class ScoringFn(BaseModel):
 
     provider_id: str
 
-    return_type: ParamType
+    return_type: ReturnType
 
     type: Literal["scoring_function"]
 

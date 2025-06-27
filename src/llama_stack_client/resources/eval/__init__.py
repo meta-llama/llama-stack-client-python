@@ -8,22 +8,22 @@ from .eval import (
     EvalResourceWithStreamingResponse,
     AsyncEvalResourceWithStreamingResponse,
 )
-from .benchmarks import (
-    BenchmarksResource,
-    AsyncBenchmarksResource,
-    BenchmarksResourceWithRawResponse,
-    AsyncBenchmarksResourceWithRawResponse,
-    BenchmarksResourceWithStreamingResponse,
-    AsyncBenchmarksResourceWithStreamingResponse,
+from .jobs import (
+    JobsResource,
+    AsyncJobsResource,
+    JobsResourceWithRawResponse,
+    AsyncJobsResourceWithRawResponse,
+    JobsResourceWithStreamingResponse,
+    AsyncJobsResourceWithStreamingResponse,
 )
 
 __all__ = [
-    "BenchmarksResource",
-    "AsyncBenchmarksResource",
-    "BenchmarksResourceWithRawResponse",
-    "AsyncBenchmarksResourceWithRawResponse",
-    "BenchmarksResourceWithStreamingResponse",
-    "AsyncBenchmarksResourceWithStreamingResponse",
+    "JobsResource",
+    "AsyncJobsResource",
+    "JobsResourceWithRawResponse",
+    "AsyncJobsResourceWithRawResponse",
+    "JobsResourceWithStreamingResponse",
+    "AsyncJobsResourceWithStreamingResponse",
     "EvalResource",
     "AsyncEvalResource",
     "EvalResourceWithRawResponse",

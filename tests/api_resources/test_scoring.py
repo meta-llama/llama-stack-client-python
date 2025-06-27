@@ -20,7 +20,6 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestScoring:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_score(self, client: LlamaStackClient) -> None:
         scoring = client.scoring.score(
@@ -36,7 +35,6 @@ class TestScoring:
         )
         assert_matches_type(ScoringScoreResponse, scoring, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_score(self, client: LlamaStackClient) -> None:
         response = client.scoring.with_raw_response.score(
@@ -56,7 +54,6 @@ class TestScoring:
         scoring = response.parse()
         assert_matches_type(ScoringScoreResponse, scoring, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_score(self, client: LlamaStackClient) -> None:
         with client.scoring.with_streaming_response.score(
@@ -78,7 +75,6 @@ class TestScoring:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_score_batch(self, client: LlamaStackClient) -> None:
         scoring = client.scoring.score_batch(
@@ -95,7 +91,6 @@ class TestScoring:
         )
         assert_matches_type(ScoringScoreBatchResponse, scoring, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_score_batch(self, client: LlamaStackClient) -> None:
         response = client.scoring.with_raw_response.score_batch(
@@ -116,7 +111,6 @@ class TestScoring:
         scoring = response.parse()
         assert_matches_type(ScoringScoreBatchResponse, scoring, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_score_batch(self, client: LlamaStackClient) -> None:
         with client.scoring.with_streaming_response.score_batch(
@@ -145,7 +139,6 @@ class TestAsyncScoring:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_score(self, async_client: AsyncLlamaStackClient) -> None:
         scoring = await async_client.scoring.score(
@@ -161,7 +154,6 @@ class TestAsyncScoring:
         )
         assert_matches_type(ScoringScoreResponse, scoring, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_score(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.scoring.with_raw_response.score(
@@ -181,7 +173,6 @@ class TestAsyncScoring:
         scoring = await response.parse()
         assert_matches_type(ScoringScoreResponse, scoring, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_score(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.scoring.with_streaming_response.score(
@@ -203,7 +194,6 @@ class TestAsyncScoring:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_score_batch(self, async_client: AsyncLlamaStackClient) -> None:
         scoring = await async_client.scoring.score_batch(
@@ -220,7 +210,6 @@ class TestAsyncScoring:
         )
         assert_matches_type(ScoringScoreBatchResponse, scoring, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_score_batch(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.scoring.with_raw_response.score_batch(
@@ -241,7 +230,6 @@ class TestAsyncScoring:
         scoring = await response.parse()
         assert_matches_type(ScoringScoreBatchResponse, scoring, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_score_batch(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.scoring.with_streaming_response.score_batch(

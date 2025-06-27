@@ -5,9 +5,19 @@ from __future__ import annotations
 from typing import Dict, Union, Iterable
 from typing_extensions import Required, TypedDict
 
-from .tool_parameter_param import ToolParameterParam
+__all__ = ["ToolDefParam", "Parameter"]
 
-__all__ = ["ToolDefParam"]
+
+class Parameter(TypedDict, total=False):
+    description: Required[str]
+
+    name: Required[str]
+
+    parameter_type: Required[str]
+
+    required: Required[bool]
+
+    default: Union[bool, float, str, Iterable[object], object, None]
 
 
 class ToolDefParam(TypedDict, total=False):
@@ -17,4 +27,4 @@ class ToolDefParam(TypedDict, total=False):
 
     metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
 
-    parameters: Iterable[ToolParameterParam]
+    parameters: Iterable[Parameter]

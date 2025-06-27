@@ -3,7 +3,7 @@
 from typing import List
 
 from .._models import BaseModel
-from .chat_completion_response import ChatCompletionResponse
+from .shared.chat_completion_response import ChatCompletionResponse
 
 __all__ = ["InferenceBatchChatCompletionResponse"]
 

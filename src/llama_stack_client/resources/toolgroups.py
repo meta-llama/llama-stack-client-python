@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable
+from typing import Dict, Type, Union, Iterable, cast
 
 import httpx
 
@@ -17,8 +17,8 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .._wrappers import DataWrapper
 from .._base_client import make_request_options
-from ..types.url_param import URLParam
 from ..types.tool_group import ToolGroup
 from ..types.toolgroup_list_response import ToolgroupListResponse
 
@@ -45,7 +45,30 @@ class ToolgroupsResource(SyncAPIResource):
         """
         return ToolgroupsResourceWithStreamingResponse(self)
 
-    def retrieve(
+    def list(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ToolgroupListResponse:
+        """List tool groups with optional provider."""
+        return self._get(
+            "/v1/toolgroups",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[ToolgroupListResponse]._unwrapper,
+            ),
+            cast_to=cast(Type[ToolgroupListResponse], DataWrapper[ToolgroupListResponse]),
+        )
+
+    def get(
         self,
         toolgroup_id: str,
         *,
@@ -57,6 +80,8 @@ class ToolgroupsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolGroup:
         """
+        Get a tool group by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -76,32 +101,13 @@ class ToolgroupsResource(SyncAPIResource):
             cast_to=ToolGroup,
         )
 
-    def list(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ToolgroupListResponse:
-        """List tool groups with optional provider"""
-        return self._get(
-            "/v1/toolgroups",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ToolgroupListResponse,
-        )
-
     def register(
         self,
         *,
         provider_id: str,
         toolgroup_id: str,
         args: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        mcp_endpoint: URLParam | NotGiven = NOT_GIVEN,
+        mcp_endpoint: toolgroup_register_params.McpEndpoint | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -110,9 +116,17 @@ class ToolgroupsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Register a tool group
+        Register a tool group.
 
         Args:
+          provider_id: The ID of the provider to use for the tool group.
+
+          toolgroup_id: The ID of the tool group to register.
+
+          args: A dictionary of arguments to pass to the tool group.
+
+          mcp_endpoint: The MCP endpoint to use for the tool group.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -151,7 +165,7 @@ class ToolgroupsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Unregister a tool group
+        Unregister a tool group.
 
         Args:
           extra_headers: Send extra headers
@@ -194,7 +208,30 @@ class AsyncToolgroupsResource(AsyncAPIResource):
         """
         return AsyncToolgroupsResourceWithStreamingResponse(self)
 
-    async def retrieve(
+    async def list(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ToolgroupListResponse:
+        """List tool groups with optional provider."""
+        return await self._get(
+            "/v1/toolgroups",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[ToolgroupListResponse]._unwrapper,
+            ),
+            cast_to=cast(Type[ToolgroupListResponse], DataWrapper[ToolgroupListResponse]),
+        )
+
+    async def get(
         self,
         toolgroup_id: str,
         *,
@@ -206,6 +243,8 @@ class AsyncToolgroupsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolGroup:
         """
+        Get a tool group by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -225,32 +264,13 @@ class AsyncToolgroupsResource(AsyncAPIResource):
             cast_to=ToolGroup,
         )
 
-    async def list(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ToolgroupListResponse:
-        """List tool groups with optional provider"""
-        return await self._get(
-            "/v1/toolgroups",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ToolgroupListResponse,
-        )
-
     async def register(
         self,
         *,
         provider_id: str,
         toolgroup_id: str,
         args: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
-        mcp_endpoint: URLParam | NotGiven = NOT_GIVEN,
+        mcp_endpoint: toolgroup_register_params.McpEndpoint | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -259,9 +279,17 @@ class AsyncToolgroupsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Register a tool group
+        Register a tool group.
 
         Args:
+          provider_id: The ID of the provider to use for the tool group.
+
+          toolgroup_id: The ID of the tool group to register.
+
+          args: A dictionary of arguments to pass to the tool group.
+
+          mcp_endpoint: The MCP endpoint to use for the tool group.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -300,7 +328,7 @@ class AsyncToolgroupsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Unregister a tool group
+        Unregister a tool group.
 
         Args:
           extra_headers: Send extra headers
@@ -327,11 +355,11 @@ class ToolgroupsResourceWithRawResponse:
     def __init__(self, toolgroups: ToolgroupsResource) -> None:
         self._toolgroups = toolgroups
 
-        self.retrieve = to_raw_response_wrapper(
-            toolgroups.retrieve,
-        )
         self.list = to_raw_response_wrapper(
             toolgroups.list,
+        )
+        self.get = to_raw_response_wrapper(
+            toolgroups.get,
         )
         self.register = to_raw_response_wrapper(
             toolgroups.register,
@@ -345,11 +373,11 @@ class AsyncToolgroupsResourceWithRawResponse:
     def __init__(self, toolgroups: AsyncToolgroupsResource) -> None:
         self._toolgroups = toolgroups
 
-        self.retrieve = async_to_raw_response_wrapper(
-            toolgroups.retrieve,
-        )
         self.list = async_to_raw_response_wrapper(
             toolgroups.list,
+        )
+        self.get = async_to_raw_response_wrapper(
+            toolgroups.get,
         )
         self.register = async_to_raw_response_wrapper(
             toolgroups.register,
@@ -363,11 +391,11 @@ class ToolgroupsResourceWithStreamingResponse:
     def __init__(self, toolgroups: ToolgroupsResource) -> None:
         self._toolgroups = toolgroups
 
-        self.retrieve = to_streamed_response_wrapper(
-            toolgroups.retrieve,
-        )
         self.list = to_streamed_response_wrapper(
             toolgroups.list,
+        )
+        self.get = to_streamed_response_wrapper(
+            toolgroups.get,
         )
         self.register = to_streamed_response_wrapper(
             toolgroups.register,
@@ -381,11 +409,11 @@ class AsyncToolgroupsResourceWithStreamingResponse:
     def __init__(self, toolgroups: AsyncToolgroupsResource) -> None:
         self._toolgroups = toolgroups
 
-        self.retrieve = async_to_streamed_response_wrapper(
-            toolgroups.retrieve,
-        )
         self.list = async_to_streamed_response_wrapper(
             toolgroups.list,
+        )
+        self.get = async_to_streamed_response_wrapper(
+            toolgroups.get,
         )
         self.register = async_to_streamed_response_wrapper(
             toolgroups.register,

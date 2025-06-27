@@ -13,7 +13,6 @@ from ._qs import Querystring
 from ._types import (
     NOT_GIVEN,
     Omit,
-    Headers,
     Timeout,
     NotGiven,
     Transport,
@@ -23,21 +22,24 @@ from ._types import (
 from ._utils import is_given, get_async_library
 from ._version import __version__
 from .resources import (
+    files,
     tools,
-    health,
     models,
+    routes,
     safety,
     inspect,
     scoring,
     shields,
-    version,
     datasets,
-    datasetio,
     inference,
     providers,
+    telemetry,
     vector_io,
+    benchmarks,
+    embeddings,
     toolgroups,
     vector_dbs,
+    completions,
     scoring_functions,
     synthetic_data_generation,
 )
@@ -48,13 +50,13 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .resources.chat import chat
 from .resources.eval import eval
-from .resources.files import files
 from .resources.agents import agents
-from .resources.openai import openai
-from .resources.telemetry import telemetry
+from .resources.responses import responses
 from .resources.tool_runtime import tool_runtime
 from .resources.post_training import post_training
+from .resources.vector_stores import vector_stores
 
 __all__ = [
     "Timeout",
@@ -69,30 +71,33 @@ __all__ = [
 
 
 class LlamaStackClient(SyncAPIClient):
-    datasetio: datasetio.DatasetioResource
-    inference: inference.InferenceResource
-    post_training: post_training.PostTrainingResource
-    agents: agents.AgentsResource
-    openai: openai.OpenAIResource
-    files: files.FilesResource
-    eval: eval.EvalResource
-    datasets: datasets.DatasetsResource
-    models: models.ModelsResource
-    scoring_functions: scoring_functions.ScoringFunctionsResource
-    shields: shields.ShieldsResource
-    telemetry: telemetry.TelemetryResource
-    tools: tools.ToolsResource
     toolgroups: toolgroups.ToolgroupsResource
-    vector_dbs: vector_dbs.VectorDBsResource
-    health: health.HealthResource
+    tools: tools.ToolsResource
     tool_runtime: tool_runtime.ToolRuntimeResource
-    vector_io: vector_io.VectorIoResource
-    providers: providers.ProvidersResource
+    responses: responses.ResponsesResource
+    agents: agents.AgentsResource
+    datasets: datasets.DatasetsResource
+    eval: eval.EvalResource
     inspect: inspect.InspectResource
+    inference: inference.InferenceResource
+    embeddings: embeddings.EmbeddingsResource
+    chat: chat.ChatResource
+    completions: completions.CompletionsResource
+    vector_io: vector_io.VectorIoResource
+    vector_dbs: vector_dbs.VectorDBsResource
+    vector_stores: vector_stores.VectorStoresResource
+    models: models.ModelsResource
+    post_training: post_training.PostTrainingResource
+    providers: providers.ProvidersResource
+    routes: routes.RoutesResource
     safety: safety.SafetyResource
-    scoring: scoring.ScoringResource
+    shields: shields.ShieldsResource
     synthetic_data_generation: synthetic_data_generation.SyntheticDataGenerationResource
-    version: version.VersionResource
+    telemetry: telemetry.TelemetryResource
+    scoring: scoring.ScoringResource
+    scoring_functions: scoring_functions.ScoringFunctionsResource
+    benchmarks: benchmarks.BenchmarksResource
+    files: files.FilesResource
     with_raw_response: LlamaStackClientWithRawResponse
     with_streaming_response: LlamaStackClientWithStreamedResponse
 
@@ -124,14 +129,14 @@ class LlamaStackClient(SyncAPIClient):
     ) -> None:
         """Construct a new synchronous LlamaStackClient client instance.
 
-        This automatically infers the `api_key` argument from the `LLAMA_STACK_CLIENT_API_KEY` environment variable if it is not provided.
+        This automatically infers the `api_key` argument from the `LLAMA_STACK_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
-            api_key = os.environ.get("LLAMA_STACK_CLIENT_API_KEY")
+            api_key = os.environ.get("LLAMA_STACK_API_KEY")
         self.api_key = api_key
 
         if base_url is None:
-            base_url = os.environ.get("LLAMA_STACK_CLIENT_BASE_URL")
+            base_url = os.environ.get("LLAMA_STACK_BASE_URL")
         if base_url is None:
             base_url = f"http://any-hosted-llama-stack.com"
 
@@ -146,30 +151,33 @@ class LlamaStackClient(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.datasetio = datasetio.DatasetioResource(self)
-        self.inference = inference.InferenceResource(self)
-        self.post_training = post_training.PostTrainingResource(self)
-        self.agents = agents.AgentsResource(self)
-        self.openai = openai.OpenAIResource(self)
-        self.files = files.FilesResource(self)
-        self.eval = eval.EvalResource(self)
-        self.datasets = datasets.DatasetsResource(self)
-        self.models = models.ModelsResource(self)
-        self.scoring_functions = scoring_functions.ScoringFunctionsResource(self)
-        self.shields = shields.ShieldsResource(self)
-        self.telemetry = telemetry.TelemetryResource(self)
-        self.tools = tools.ToolsResource(self)
         self.toolgroups = toolgroups.ToolgroupsResource(self)
-        self.vector_dbs = vector_dbs.VectorDBsResource(self)
-        self.health = health.HealthResource(self)
+        self.tools = tools.ToolsResource(self)
         self.tool_runtime = tool_runtime.ToolRuntimeResource(self)
-        self.vector_io = vector_io.VectorIoResource(self)
-        self.providers = providers.ProvidersResource(self)
+        self.responses = responses.ResponsesResource(self)
+        self.agents = agents.AgentsResource(self)
+        self.datasets = datasets.DatasetsResource(self)
+        self.eval = eval.EvalResource(self)
         self.inspect = inspect.InspectResource(self)
+        self.inference = inference.InferenceResource(self)
+        self.embeddings = embeddings.EmbeddingsResource(self)
+        self.chat = chat.ChatResource(self)
+        self.completions = completions.CompletionsResource(self)
+        self.vector_io = vector_io.VectorIoResource(self)
+        self.vector_dbs = vector_dbs.VectorDBsResource(self)
+        self.vector_stores = vector_stores.VectorStoresResource(self)
+        self.models = models.ModelsResource(self)
+        self.post_training = post_training.PostTrainingResource(self)
+        self.providers = providers.ProvidersResource(self)
+        self.routes = routes.RoutesResource(self)
         self.safety = safety.SafetyResource(self)
-        self.scoring = scoring.ScoringResource(self)
+        self.shields = shields.ShieldsResource(self)
         self.synthetic_data_generation = synthetic_data_generation.SyntheticDataGenerationResource(self)
-        self.version = version.VersionResource(self)
+        self.telemetry = telemetry.TelemetryResource(self)
+        self.scoring = scoring.ScoringResource(self)
+        self.scoring_functions = scoring_functions.ScoringFunctionsResource(self)
+        self.benchmarks = benchmarks.BenchmarksResource(self)
+        self.files = files.FilesResource(self)
         self.with_raw_response = LlamaStackClientWithRawResponse(self)
         self.with_streaming_response = LlamaStackClientWithStreamedResponse(self)
 
@@ -194,17 +202,6 @@ class LlamaStackClient(SyncAPIClient):
             "X-Stainless-Async": "false",
             **self._custom_headers,
         }
-
-    @override
-    def _validate_headers(self, headers: Headers, custom_headers: Headers) -> None:
-        if self.api_key and headers.get("Authorization"):
-            return
-        if isinstance(custom_headers.get("Authorization"), Omit):
-            return
-
-        raise TypeError(
-            '"Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted"'
-        )
 
     def copy(
         self,
@@ -292,30 +289,33 @@ class LlamaStackClient(SyncAPIClient):
 
 
 class AsyncLlamaStackClient(AsyncAPIClient):
-    datasetio: datasetio.AsyncDatasetioResource
-    inference: inference.AsyncInferenceResource
-    post_training: post_training.AsyncPostTrainingResource
-    agents: agents.AsyncAgentsResource
-    openai: openai.AsyncOpenAIResource
-    files: files.AsyncFilesResource
-    eval: eval.AsyncEvalResource
-    datasets: datasets.AsyncDatasetsResource
-    models: models.AsyncModelsResource
-    scoring_functions: scoring_functions.AsyncScoringFunctionsResource
-    shields: shields.AsyncShieldsResource
-    telemetry: telemetry.AsyncTelemetryResource
-    tools: tools.AsyncToolsResource
     toolgroups: toolgroups.AsyncToolgroupsResource
-    vector_dbs: vector_dbs.AsyncVectorDBsResource
-    health: health.AsyncHealthResource
+    tools: tools.AsyncToolsResource
     tool_runtime: tool_runtime.AsyncToolRuntimeResource
-    vector_io: vector_io.AsyncVectorIoResource
-    providers: providers.AsyncProvidersResource
+    responses: responses.AsyncResponsesResource
+    agents: agents.AsyncAgentsResource
+    datasets: datasets.AsyncDatasetsResource
+    eval: eval.AsyncEvalResource
     inspect: inspect.AsyncInspectResource
+    inference: inference.AsyncInferenceResource
+    embeddings: embeddings.AsyncEmbeddingsResource
+    chat: chat.AsyncChatResource
+    completions: completions.AsyncCompletionsResource
+    vector_io: vector_io.AsyncVectorIoResource
+    vector_dbs: vector_dbs.AsyncVectorDBsResource
+    vector_stores: vector_stores.AsyncVectorStoresResource
+    models: models.AsyncModelsResource
+    post_training: post_training.AsyncPostTrainingResource
+    providers: providers.AsyncProvidersResource
+    routes: routes.AsyncRoutesResource
     safety: safety.AsyncSafetyResource
-    scoring: scoring.AsyncScoringResource
+    shields: shields.AsyncShieldsResource
     synthetic_data_generation: synthetic_data_generation.AsyncSyntheticDataGenerationResource
-    version: version.AsyncVersionResource
+    telemetry: telemetry.AsyncTelemetryResource
+    scoring: scoring.AsyncScoringResource
+    scoring_functions: scoring_functions.AsyncScoringFunctionsResource
+    benchmarks: benchmarks.AsyncBenchmarksResource
+    files: files.AsyncFilesResource
     with_raw_response: AsyncLlamaStackClientWithRawResponse
     with_streaming_response: AsyncLlamaStackClientWithStreamedResponse
 
@@ -347,14 +347,14 @@ class AsyncLlamaStackClient(AsyncAPIClient):
     ) -> None:
         """Construct a new async AsyncLlamaStackClient client instance.
 
-        This automatically infers the `api_key` argument from the `LLAMA_STACK_CLIENT_API_KEY` environment variable if it is not provided.
+        This automatically infers the `api_key` argument from the `LLAMA_STACK_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
-            api_key = os.environ.get("LLAMA_STACK_CLIENT_API_KEY")
+            api_key = os.environ.get("LLAMA_STACK_API_KEY")
         self.api_key = api_key
 
         if base_url is None:
-            base_url = os.environ.get("LLAMA_STACK_CLIENT_BASE_URL")
+            base_url = os.environ.get("LLAMA_STACK_BASE_URL")
         if base_url is None:
             base_url = f"http://any-hosted-llama-stack.com"
 
@@ -369,30 +369,33 @@ class AsyncLlamaStackClient(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.datasetio = datasetio.AsyncDatasetioResource(self)
-        self.inference = inference.AsyncInferenceResource(self)
-        self.post_training = post_training.AsyncPostTrainingResource(self)
-        self.agents = agents.AsyncAgentsResource(self)
-        self.openai = openai.AsyncOpenAIResource(self)
-        self.files = files.AsyncFilesResource(self)
-        self.eval = eval.AsyncEvalResource(self)
-        self.datasets = datasets.AsyncDatasetsResource(self)
-        self.models = models.AsyncModelsResource(self)
-        self.scoring_functions = scoring_functions.AsyncScoringFunctionsResource(self)
-        self.shields = shields.AsyncShieldsResource(self)
-        self.telemetry = telemetry.AsyncTelemetryResource(self)
-        self.tools = tools.AsyncToolsResource(self)
         self.toolgroups = toolgroups.AsyncToolgroupsResource(self)
-        self.vector_dbs = vector_dbs.AsyncVectorDBsResource(self)
-        self.health = health.AsyncHealthResource(self)
+        self.tools = tools.AsyncToolsResource(self)
         self.tool_runtime = tool_runtime.AsyncToolRuntimeResource(self)
-        self.vector_io = vector_io.AsyncVectorIoResource(self)
-        self.providers = providers.AsyncProvidersResource(self)
+        self.responses = responses.AsyncResponsesResource(self)
+        self.agents = agents.AsyncAgentsResource(self)
+        self.datasets = datasets.AsyncDatasetsResource(self)
+        self.eval = eval.AsyncEvalResource(self)
         self.inspect = inspect.AsyncInspectResource(self)
+        self.inference = inference.AsyncInferenceResource(self)
+        self.embeddings = embeddings.AsyncEmbeddingsResource(self)
+        self.chat = chat.AsyncChatResource(self)
+        self.completions = completions.AsyncCompletionsResource(self)
+        self.vector_io = vector_io.AsyncVectorIoResource(self)
+        self.vector_dbs = vector_dbs.AsyncVectorDBsResource(self)
+        self.vector_stores = vector_stores.AsyncVectorStoresResource(self)
+        self.models = models.AsyncModelsResource(self)
+        self.post_training = post_training.AsyncPostTrainingResource(self)
+        self.providers = providers.AsyncProvidersResource(self)
+        self.routes = routes.AsyncRoutesResource(self)
         self.safety = safety.AsyncSafetyResource(self)
-        self.scoring = scoring.AsyncScoringResource(self)
+        self.shields = shields.AsyncShieldsResource(self)
         self.synthetic_data_generation = synthetic_data_generation.AsyncSyntheticDataGenerationResource(self)
-        self.version = version.AsyncVersionResource(self)
+        self.telemetry = telemetry.AsyncTelemetryResource(self)
+        self.scoring = scoring.AsyncScoringResource(self)
+        self.scoring_functions = scoring_functions.AsyncScoringFunctionsResource(self)
+        self.benchmarks = benchmarks.AsyncBenchmarksResource(self)
+        self.files = files.AsyncFilesResource(self)
         self.with_raw_response = AsyncLlamaStackClientWithRawResponse(self)
         self.with_streaming_response = AsyncLlamaStackClientWithStreamedResponse(self)
 
@@ -417,17 +420,6 @@ class AsyncLlamaStackClient(AsyncAPIClient):
             "X-Stainless-Async": f"async:{get_async_library()}",
             **self._custom_headers,
         }
-
-    @override
-    def _validate_headers(self, headers: Headers, custom_headers: Headers) -> None:
-        if self.api_key and headers.get("Authorization"):
-            return
-        if isinstance(custom_headers.get("Authorization"), Omit):
-            return
-
-        raise TypeError(
-            '"Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted"'
-        )
 
     def copy(
         self,
@@ -516,130 +508,142 @@ class AsyncLlamaStackClient(AsyncAPIClient):
 
 class LlamaStackClientWithRawResponse:
     def __init__(self, client: LlamaStackClient) -> None:
-        self.datasetio = datasetio.DatasetioResourceWithRawResponse(client.datasetio)
-        self.inference = inference.InferenceResourceWithRawResponse(client.inference)
-        self.post_training = post_training.PostTrainingResourceWithRawResponse(client.post_training)
-        self.agents = agents.AgentsResourceWithRawResponse(client.agents)
-        self.openai = openai.OpenAIResourceWithRawResponse(client.openai)
-        self.files = files.FilesResourceWithRawResponse(client.files)
-        self.eval = eval.EvalResourceWithRawResponse(client.eval)
-        self.datasets = datasets.DatasetsResourceWithRawResponse(client.datasets)
-        self.models = models.ModelsResourceWithRawResponse(client.models)
-        self.scoring_functions = scoring_functions.ScoringFunctionsResourceWithRawResponse(client.scoring_functions)
-        self.shields = shields.ShieldsResourceWithRawResponse(client.shields)
-        self.telemetry = telemetry.TelemetryResourceWithRawResponse(client.telemetry)
-        self.tools = tools.ToolsResourceWithRawResponse(client.tools)
         self.toolgroups = toolgroups.ToolgroupsResourceWithRawResponse(client.toolgroups)
-        self.vector_dbs = vector_dbs.VectorDBsResourceWithRawResponse(client.vector_dbs)
-        self.health = health.HealthResourceWithRawResponse(client.health)
+        self.tools = tools.ToolsResourceWithRawResponse(client.tools)
         self.tool_runtime = tool_runtime.ToolRuntimeResourceWithRawResponse(client.tool_runtime)
-        self.vector_io = vector_io.VectorIoResourceWithRawResponse(client.vector_io)
-        self.providers = providers.ProvidersResourceWithRawResponse(client.providers)
+        self.responses = responses.ResponsesResourceWithRawResponse(client.responses)
+        self.agents = agents.AgentsResourceWithRawResponse(client.agents)
+        self.datasets = datasets.DatasetsResourceWithRawResponse(client.datasets)
+        self.eval = eval.EvalResourceWithRawResponse(client.eval)
         self.inspect = inspect.InspectResourceWithRawResponse(client.inspect)
+        self.inference = inference.InferenceResourceWithRawResponse(client.inference)
+        self.embeddings = embeddings.EmbeddingsResourceWithRawResponse(client.embeddings)
+        self.chat = chat.ChatResourceWithRawResponse(client.chat)
+        self.completions = completions.CompletionsResourceWithRawResponse(client.completions)
+        self.vector_io = vector_io.VectorIoResourceWithRawResponse(client.vector_io)
+        self.vector_dbs = vector_dbs.VectorDBsResourceWithRawResponse(client.vector_dbs)
+        self.vector_stores = vector_stores.VectorStoresResourceWithRawResponse(client.vector_stores)
+        self.models = models.ModelsResourceWithRawResponse(client.models)
+        self.post_training = post_training.PostTrainingResourceWithRawResponse(client.post_training)
+        self.providers = providers.ProvidersResourceWithRawResponse(client.providers)
+        self.routes = routes.RoutesResourceWithRawResponse(client.routes)
         self.safety = safety.SafetyResourceWithRawResponse(client.safety)
-        self.scoring = scoring.ScoringResourceWithRawResponse(client.scoring)
+        self.shields = shields.ShieldsResourceWithRawResponse(client.shields)
         self.synthetic_data_generation = synthetic_data_generation.SyntheticDataGenerationResourceWithRawResponse(
             client.synthetic_data_generation
         )
-        self.version = version.VersionResourceWithRawResponse(client.version)
+        self.telemetry = telemetry.TelemetryResourceWithRawResponse(client.telemetry)
+        self.scoring = scoring.ScoringResourceWithRawResponse(client.scoring)
+        self.scoring_functions = scoring_functions.ScoringFunctionsResourceWithRawResponse(client.scoring_functions)
+        self.benchmarks = benchmarks.BenchmarksResourceWithRawResponse(client.benchmarks)
+        self.files = files.FilesResourceWithRawResponse(client.files)
 
 
 class AsyncLlamaStackClientWithRawResponse:
     def __init__(self, client: AsyncLlamaStackClient) -> None:
-        self.datasetio = datasetio.AsyncDatasetioResourceWithRawResponse(client.datasetio)
-        self.inference = inference.AsyncInferenceResourceWithRawResponse(client.inference)
-        self.post_training = post_training.AsyncPostTrainingResourceWithRawResponse(client.post_training)
-        self.agents = agents.AsyncAgentsResourceWithRawResponse(client.agents)
-        self.openai = openai.AsyncOpenAIResourceWithRawResponse(client.openai)
-        self.files = files.AsyncFilesResourceWithRawResponse(client.files)
-        self.eval = eval.AsyncEvalResourceWithRawResponse(client.eval)
-        self.datasets = datasets.AsyncDatasetsResourceWithRawResponse(client.datasets)
-        self.models = models.AsyncModelsResourceWithRawResponse(client.models)
-        self.scoring_functions = scoring_functions.AsyncScoringFunctionsResourceWithRawResponse(
-            client.scoring_functions
-        )
-        self.shields = shields.AsyncShieldsResourceWithRawResponse(client.shields)
-        self.telemetry = telemetry.AsyncTelemetryResourceWithRawResponse(client.telemetry)
-        self.tools = tools.AsyncToolsResourceWithRawResponse(client.tools)
         self.toolgroups = toolgroups.AsyncToolgroupsResourceWithRawResponse(client.toolgroups)
-        self.vector_dbs = vector_dbs.AsyncVectorDBsResourceWithRawResponse(client.vector_dbs)
-        self.health = health.AsyncHealthResourceWithRawResponse(client.health)
+        self.tools = tools.AsyncToolsResourceWithRawResponse(client.tools)
         self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithRawResponse(client.tool_runtime)
-        self.vector_io = vector_io.AsyncVectorIoResourceWithRawResponse(client.vector_io)
-        self.providers = providers.AsyncProvidersResourceWithRawResponse(client.providers)
+        self.responses = responses.AsyncResponsesResourceWithRawResponse(client.responses)
+        self.agents = agents.AsyncAgentsResourceWithRawResponse(client.agents)
+        self.datasets = datasets.AsyncDatasetsResourceWithRawResponse(client.datasets)
+        self.eval = eval.AsyncEvalResourceWithRawResponse(client.eval)
         self.inspect = inspect.AsyncInspectResourceWithRawResponse(client.inspect)
+        self.inference = inference.AsyncInferenceResourceWithRawResponse(client.inference)
+        self.embeddings = embeddings.AsyncEmbeddingsResourceWithRawResponse(client.embeddings)
+        self.chat = chat.AsyncChatResourceWithRawResponse(client.chat)
+        self.completions = completions.AsyncCompletionsResourceWithRawResponse(client.completions)
+        self.vector_io = vector_io.AsyncVectorIoResourceWithRawResponse(client.vector_io)
+        self.vector_dbs = vector_dbs.AsyncVectorDBsResourceWithRawResponse(client.vector_dbs)
+        self.vector_stores = vector_stores.AsyncVectorStoresResourceWithRawResponse(client.vector_stores)
+        self.models = models.AsyncModelsResourceWithRawResponse(client.models)
+        self.post_training = post_training.AsyncPostTrainingResourceWithRawResponse(client.post_training)
+        self.providers = providers.AsyncProvidersResourceWithRawResponse(client.providers)
+        self.routes = routes.AsyncRoutesResourceWithRawResponse(client.routes)
         self.safety = safety.AsyncSafetyResourceWithRawResponse(client.safety)
-        self.scoring = scoring.AsyncScoringResourceWithRawResponse(client.scoring)
+        self.shields = shields.AsyncShieldsResourceWithRawResponse(client.shields)
         self.synthetic_data_generation = synthetic_data_generation.AsyncSyntheticDataGenerationResourceWithRawResponse(
             client.synthetic_data_generation
         )
-        self.version = version.AsyncVersionResourceWithRawResponse(client.version)
+        self.telemetry = telemetry.AsyncTelemetryResourceWithRawResponse(client.telemetry)
+        self.scoring = scoring.AsyncScoringResourceWithRawResponse(client.scoring)
+        self.scoring_functions = scoring_functions.AsyncScoringFunctionsResourceWithRawResponse(
+            client.scoring_functions
+        )
+        self.benchmarks = benchmarks.AsyncBenchmarksResourceWithRawResponse(client.benchmarks)
+        self.files = files.AsyncFilesResourceWithRawResponse(client.files)
 
 
 class LlamaStackClientWithStreamedResponse:
     def __init__(self, client: LlamaStackClient) -> None:
-        self.datasetio = datasetio.DatasetioResourceWithStreamingResponse(client.datasetio)
-        self.inference = inference.InferenceResourceWithStreamingResponse(client.inference)
-        self.post_training = post_training.PostTrainingResourceWithStreamingResponse(client.post_training)
-        self.agents = agents.AgentsResourceWithStreamingResponse(client.agents)
-        self.openai = openai.OpenAIResourceWithStreamingResponse(client.openai)
-        self.files = files.FilesResourceWithStreamingResponse(client.files)
-        self.eval = eval.EvalResourceWithStreamingResponse(client.eval)
-        self.datasets = datasets.DatasetsResourceWithStreamingResponse(client.datasets)
-        self.models = models.ModelsResourceWithStreamingResponse(client.models)
-        self.scoring_functions = scoring_functions.ScoringFunctionsResourceWithStreamingResponse(
-            client.scoring_functions
-        )
-        self.shields = shields.ShieldsResourceWithStreamingResponse(client.shields)
-        self.telemetry = telemetry.TelemetryResourceWithStreamingResponse(client.telemetry)
-        self.tools = tools.ToolsResourceWithStreamingResponse(client.tools)
         self.toolgroups = toolgroups.ToolgroupsResourceWithStreamingResponse(client.toolgroups)
-        self.vector_dbs = vector_dbs.VectorDBsResourceWithStreamingResponse(client.vector_dbs)
-        self.health = health.HealthResourceWithStreamingResponse(client.health)
+        self.tools = tools.ToolsResourceWithStreamingResponse(client.tools)
         self.tool_runtime = tool_runtime.ToolRuntimeResourceWithStreamingResponse(client.tool_runtime)
-        self.vector_io = vector_io.VectorIoResourceWithStreamingResponse(client.vector_io)
-        self.providers = providers.ProvidersResourceWithStreamingResponse(client.providers)
+        self.responses = responses.ResponsesResourceWithStreamingResponse(client.responses)
+        self.agents = agents.AgentsResourceWithStreamingResponse(client.agents)
+        self.datasets = datasets.DatasetsResourceWithStreamingResponse(client.datasets)
+        self.eval = eval.EvalResourceWithStreamingResponse(client.eval)
         self.inspect = inspect.InspectResourceWithStreamingResponse(client.inspect)
+        self.inference = inference.InferenceResourceWithStreamingResponse(client.inference)
+        self.embeddings = embeddings.EmbeddingsResourceWithStreamingResponse(client.embeddings)
+        self.chat = chat.ChatResourceWithStreamingResponse(client.chat)
+        self.completions = completions.CompletionsResourceWithStreamingResponse(client.completions)
+        self.vector_io = vector_io.VectorIoResourceWithStreamingResponse(client.vector_io)
+        self.vector_dbs = vector_dbs.VectorDBsResourceWithStreamingResponse(client.vector_dbs)
+        self.vector_stores = vector_stores.VectorStoresResourceWithStreamingResponse(client.vector_stores)
+        self.models = models.ModelsResourceWithStreamingResponse(client.models)
+        self.post_training = post_training.PostTrainingResourceWithStreamingResponse(client.post_training)
+        self.providers = providers.ProvidersResourceWithStreamingResponse(client.providers)
+        self.routes = routes.RoutesResourceWithStreamingResponse(client.routes)
         self.safety = safety.SafetyResourceWithStreamingResponse(client.safety)
-        self.scoring = scoring.ScoringResourceWithStreamingResponse(client.scoring)
+        self.shields = shields.ShieldsResourceWithStreamingResponse(client.shields)
         self.synthetic_data_generation = synthetic_data_generation.SyntheticDataGenerationResourceWithStreamingResponse(
             client.synthetic_data_generation
         )
-        self.version = version.VersionResourceWithStreamingResponse(client.version)
+        self.telemetry = telemetry.TelemetryResourceWithStreamingResponse(client.telemetry)
+        self.scoring = scoring.ScoringResourceWithStreamingResponse(client.scoring)
+        self.scoring_functions = scoring_functions.ScoringFunctionsResourceWithStreamingResponse(
+            client.scoring_functions
+        )
+        self.benchmarks = benchmarks.BenchmarksResourceWithStreamingResponse(client.benchmarks)
+        self.files = files.FilesResourceWithStreamingResponse(client.files)
 
 
 class AsyncLlamaStackClientWithStreamedResponse:
     def __init__(self, client: AsyncLlamaStackClient) -> None:
-        self.datasetio = datasetio.AsyncDatasetioResourceWithStreamingResponse(client.datasetio)
-        self.inference = inference.AsyncInferenceResourceWithStreamingResponse(client.inference)
-        self.post_training = post_training.AsyncPostTrainingResourceWithStreamingResponse(client.post_training)
-        self.agents = agents.AsyncAgentsResourceWithStreamingResponse(client.agents)
-        self.openai = openai.AsyncOpenAIResourceWithStreamingResponse(client.openai)
-        self.files = files.AsyncFilesResourceWithStreamingResponse(client.files)
-        self.eval = eval.AsyncEvalResourceWithStreamingResponse(client.eval)
-        self.datasets = datasets.AsyncDatasetsResourceWithStreamingResponse(client.datasets)
-        self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
-        self.scoring_functions = scoring_functions.AsyncScoringFunctionsResourceWithStreamingResponse(
-            client.scoring_functions
-        )
-        self.shields = shields.AsyncShieldsResourceWithStreamingResponse(client.shields)
-        self.telemetry = telemetry.AsyncTelemetryResourceWithStreamingResponse(client.telemetry)
-        self.tools = tools.AsyncToolsResourceWithStreamingResponse(client.tools)
         self.toolgroups = toolgroups.AsyncToolgroupsResourceWithStreamingResponse(client.toolgroups)
-        self.vector_dbs = vector_dbs.AsyncVectorDBsResourceWithStreamingResponse(client.vector_dbs)
-        self.health = health.AsyncHealthResourceWithStreamingResponse(client.health)
+        self.tools = tools.AsyncToolsResourceWithStreamingResponse(client.tools)
         self.tool_runtime = tool_runtime.AsyncToolRuntimeResourceWithStreamingResponse(client.tool_runtime)
-        self.vector_io = vector_io.AsyncVectorIoResourceWithStreamingResponse(client.vector_io)
-        self.providers = providers.AsyncProvidersResourceWithStreamingResponse(client.providers)
+        self.responses = responses.AsyncResponsesResourceWithStreamingResponse(client.responses)
+        self.agents = agents.AsyncAgentsResourceWithStreamingResponse(client.agents)
+        self.datasets = datasets.AsyncDatasetsResourceWithStreamingResponse(client.datasets)
+        self.eval = eval.AsyncEvalResourceWithStreamingResponse(client.eval)
         self.inspect = inspect.AsyncInspectResourceWithStreamingResponse(client.inspect)
+        self.inference = inference.AsyncInferenceResourceWithStreamingResponse(client.inference)
+        self.embeddings = embeddings.AsyncEmbeddingsResourceWithStreamingResponse(client.embeddings)
+        self.chat = chat.AsyncChatResourceWithStreamingResponse(client.chat)
+        self.completions = completions.AsyncCompletionsResourceWithStreamingResponse(client.completions)
+        self.vector_io = vector_io.AsyncVectorIoResourceWithStreamingResponse(client.vector_io)
+        self.vector_dbs = vector_dbs.AsyncVectorDBsResourceWithStreamingResponse(client.vector_dbs)
+        self.vector_stores = vector_stores.AsyncVectorStoresResourceWithStreamingResponse(client.vector_stores)
+        self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
+        self.post_training = post_training.AsyncPostTrainingResourceWithStreamingResponse(client.post_training)
+        self.providers = providers.AsyncProvidersResourceWithStreamingResponse(client.providers)
+        self.routes = routes.AsyncRoutesResourceWithStreamingResponse(client.routes)
         self.safety = safety.AsyncSafetyResourceWithStreamingResponse(client.safety)
-        self.scoring = scoring.AsyncScoringResourceWithStreamingResponse(client.scoring)
+        self.shields = shields.AsyncShieldsResourceWithStreamingResponse(client.shields)
         self.synthetic_data_generation = (
             synthetic_data_generation.AsyncSyntheticDataGenerationResourceWithStreamingResponse(
                 client.synthetic_data_generation
             )
         )
-        self.version = version.AsyncVersionResourceWithStreamingResponse(client.version)
+        self.telemetry = telemetry.AsyncTelemetryResourceWithStreamingResponse(client.telemetry)
+        self.scoring = scoring.AsyncScoringResourceWithStreamingResponse(client.scoring)
+        self.scoring_functions = scoring_functions.AsyncScoringFunctionsResourceWithStreamingResponse(
+            client.scoring_functions
+        )
+        self.benchmarks = benchmarks.AsyncBenchmarksResourceWithStreamingResponse(client.benchmarks)
+        self.files = files.AsyncFilesResourceWithStreamingResponse(client.files)
 
 
 Client = LlamaStackClient
