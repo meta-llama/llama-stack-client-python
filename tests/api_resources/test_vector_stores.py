@@ -247,6 +247,7 @@ class TestVectorStores:
                 "score_threshold": 0,
             },
             rewrite_query=True,
+            search_mode="search_mode",
         )
         assert_matches_type(VectorStoreSearchResponse, vector_store, path=["response"])
 
@@ -286,7 +287,9 @@ class TestVectorStores:
 
 
 class TestAsyncVectorStores:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
+    )
 
     @parametrize
     async def test_method_create(self, async_client: AsyncLlamaStackClient) -> None:
@@ -513,6 +516,7 @@ class TestAsyncVectorStores:
                 "score_threshold": 0,
             },
             rewrite_query=True,
+            search_mode="search_mode",
         )
         assert_matches_type(VectorStoreSearchResponse, vector_store, path=["response"])
 

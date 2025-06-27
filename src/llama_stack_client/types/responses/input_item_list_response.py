@@ -18,6 +18,11 @@ __all__ = [
     "DataOpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentText",
     "DataOpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentImage",
     "DataOpenAIResponseMessageContentUnionMember2",
+    "DataOpenAIResponseMessageContentUnionMember2Annotation",
+    "DataOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation",
+    "DataOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation",
+    "DataOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation",
+    "DataOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath",
 ]
 
 
@@ -90,7 +95,64 @@ DataOpenAIResponseMessageContentUnionMember1: TypeAlias = Annotated[
 ]
 
 
+class DataOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation(BaseModel):
+    file_id: str
+
+    filename: str
+
+    index: int
+
+    type: Literal["file_citation"]
+
+
+class DataOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation(BaseModel):
+    end_index: int
+
+    start_index: int
+
+    title: str
+
+    type: Literal["url_citation"]
+
+    url: str
+
+
+class DataOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation(BaseModel):
+    container_id: str
+
+    end_index: int
+
+    file_id: str
+
+    filename: str
+
+    start_index: int
+
+    type: Literal["container_file_citation"]
+
+
+class DataOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath(BaseModel):
+    file_id: str
+
+    index: int
+
+    type: Literal["file_path"]
+
+
+DataOpenAIResponseMessageContentUnionMember2Annotation: TypeAlias = Annotated[
+    Union[
+        DataOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation,
+        DataOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation,
+        DataOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation,
+        DataOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath,
+    ],
+    PropertyInfo(discriminator="type"),
+]
+
+
 class DataOpenAIResponseMessageContentUnionMember2(BaseModel):
+    annotations: List[DataOpenAIResponseMessageContentUnionMember2Annotation]
+
     text: str
 
     type: Literal["output_text"]

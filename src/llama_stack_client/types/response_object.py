@@ -16,6 +16,11 @@ __all__ = [
     "OutputOpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentText",
     "OutputOpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentImage",
     "OutputOpenAIResponseMessageContentUnionMember2",
+    "OutputOpenAIResponseMessageContentUnionMember2Annotation",
+    "OutputOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation",
+    "OutputOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation",
+    "OutputOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation",
+    "OutputOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath",
     "OutputOpenAIResponseOutputMessageWebSearchToolCall",
     "OutputOpenAIResponseOutputMessageFileSearchToolCall",
     "OutputOpenAIResponseOutputMessageFunctionToolCall",
@@ -51,7 +56,64 @@ OutputOpenAIResponseMessageContentUnionMember1: TypeAlias = Annotated[
 ]
 
 
+class OutputOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation(BaseModel):
+    file_id: str
+
+    filename: str
+
+    index: int
+
+    type: Literal["file_citation"]
+
+
+class OutputOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation(BaseModel):
+    end_index: int
+
+    start_index: int
+
+    title: str
+
+    type: Literal["url_citation"]
+
+    url: str
+
+
+class OutputOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation(BaseModel):
+    container_id: str
+
+    end_index: int
+
+    file_id: str
+
+    filename: str
+
+    start_index: int
+
+    type: Literal["container_file_citation"]
+
+
+class OutputOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath(BaseModel):
+    file_id: str
+
+    index: int
+
+    type: Literal["file_path"]
+
+
+OutputOpenAIResponseMessageContentUnionMember2Annotation: TypeAlias = Annotated[
+    Union[
+        OutputOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation,
+        OutputOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation,
+        OutputOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation,
+        OutputOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath,
+    ],
+    PropertyInfo(discriminator="type"),
+]
+
+
 class OutputOpenAIResponseMessageContentUnionMember2(BaseModel):
+    annotations: List[OutputOpenAIResponseMessageContentUnionMember2Annotation]
+
     text: str
 
     type: Literal["output_text"]
@@ -189,6 +251,16 @@ class Error(BaseModel):
 
 
 class ResponseObject(BaseModel):
+    @property
+    def output_text(self) -> str:
+        texts: List[str] = []
+        for output in self.output:
+            if output.type == "message":
+                for content in output.content:
+                    if content.type == "output_text":
+                        texts.append(content.text)
+        return "".join(texts)
+
     id: str
 
     created_at: int

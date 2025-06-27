@@ -7,7 +7,7 @@ from typing_extensions import Required, TypedDict
 
 from .shared_params.interleaved_content import InterleavedContent
 
-__all__ = ["VectorIoInsertParams", "Chunk"]
+__all__ = ["VectorIoInsertParams", "Chunk", "ChunkChunkMetadata"]
 
 
 class VectorIoInsertParams(TypedDict, total=False):
@@ -28,6 +28,44 @@ class VectorIoInsertParams(TypedDict, total=False):
     """The time to live of the chunks."""
 
 
+class ChunkChunkMetadata(TypedDict, total=False):
+    chunk_embedding_dimension: int
+    """The dimension of the embedding vector for the chunk."""
+
+    chunk_embedding_model: str
+    """The embedding model used to create the chunk's embedding."""
+
+    chunk_id: str
+    """The ID of the chunk.
+
+    If not set, it will be generated based on the document ID and content.
+    """
+
+    chunk_tokenizer: str
+    """The tokenizer used to create the chunk. Default is Tiktoken."""
+
+    chunk_window: str
+    """The window of the chunk, which can be used to group related chunks together."""
+
+    content_token_count: int
+    """The number of tokens in the content of the chunk."""
+
+    created_timestamp: int
+    """An optional timestamp indicating when the chunk was created."""
+
+    document_id: str
+    """The ID of the document this chunk belongs to."""
+
+    metadata_token_count: int
+    """The number of tokens in the metadata of the chunk."""
+
+    source: str
+    """The source of the content, such as a URL, file path, or other identifier."""
+
+    updated_timestamp: int
+    """An optional timestamp indicating when the chunk was last updated."""
+
+
 class Chunk(TypedDict, total=False):
     content: Required[InterleavedContent]
     """
@@ -36,9 +74,21 @@ class Chunk(TypedDict, total=False):
 
     metadata: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
     """
-    Metadata associated with the chunk, such as document ID, source, or other
-    relevant information.
+    Metadata associated with the chunk that will be used in the model context during
+    inference.
+    """
+
+    chunk_metadata: ChunkChunkMetadata
+    """Metadata for the chunk that will NOT be used in the context during inference.
+
+    The `chunk_metadata` is required backend functionality.
     """
 
     embedding: Iterable[float]
     """Optional embedding for the chunk. If not provided, it will be computed later."""
+
+    stored_chunk_id: str
+    """The chunk ID that is stored in the vector database.
+
+    Used for backend functionality.
+    """

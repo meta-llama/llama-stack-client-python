@@ -17,6 +17,11 @@ __all__ = [
     "OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentText",
     "OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentImage",
     "OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2",
+    "OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2Annotation",
+    "OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation",
+    "OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation",
+    "OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation",
+    "OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath",
     "OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseOutputMessageWebSearchToolCall",
     "OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseOutputMessageFileSearchToolCall",
     "OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseOutputMessageFunctionToolCall",
@@ -30,6 +35,11 @@ __all__ = [
     "OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentText",
     "OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentImage",
     "OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2",
+    "OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2Annotation",
+    "OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation",
+    "OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation",
+    "OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation",
+    "OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath",
     "OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseOutputMessageWebSearchToolCall",
     "OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseOutputMessageFileSearchToolCall",
     "OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseOutputMessageFunctionToolCall",
@@ -88,7 +98,74 @@ OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageConten
 ]
 
 
+class OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation(
+    BaseModel
+):
+    file_id: str
+
+    filename: str
+
+    index: int
+
+    type: Literal["file_citation"]
+
+
+class OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation(
+    BaseModel
+):
+    end_index: int
+
+    start_index: int
+
+    title: str
+
+    type: Literal["url_citation"]
+
+    url: str
+
+
+class OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation(
+    BaseModel
+):
+    container_id: str
+
+    end_index: int
+
+    file_id: str
+
+    filename: str
+
+    start_index: int
+
+    type: Literal["container_file_citation"]
+
+
+class OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath(
+    BaseModel
+):
+    file_id: str
+
+    index: int
+
+    type: Literal["file_path"]
+
+
+OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2Annotation: TypeAlias = Annotated[
+    Union[
+        OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation,
+        OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation,
+        OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation,
+        OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath,
+    ],
+    PropertyInfo(discriminator="type"),
+]
+
+
 class OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2(BaseModel):
+    annotations: List[
+        OpenAIResponseObjectStreamResponseOutputItemAddedItemOpenAIResponseMessageContentUnionMember2Annotation
+    ]
+
     text: str
 
     type: Literal["output_text"]
@@ -235,7 +312,74 @@ OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContent
 ]
 
 
+class OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation(
+    BaseModel
+):
+    file_id: str
+
+    filename: str
+
+    index: int
+
+    type: Literal["file_citation"]
+
+
+class OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation(
+    BaseModel
+):
+    end_index: int
+
+    start_index: int
+
+    title: str
+
+    type: Literal["url_citation"]
+
+    url: str
+
+
+class OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation(
+    BaseModel
+):
+    container_id: str
+
+    end_index: int
+
+    file_id: str
+
+    filename: str
+
+    start_index: int
+
+    type: Literal["container_file_citation"]
+
+
+class OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath(
+    BaseModel
+):
+    file_id: str
+
+    index: int
+
+    type: Literal["file_path"]
+
+
+OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2Annotation: TypeAlias = Annotated[
+    Union[
+        OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation,
+        OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation,
+        OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation,
+        OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath,
+    ],
+    PropertyInfo(discriminator="type"),
+]
+
+
 class OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2(BaseModel):
+    annotations: List[
+        OpenAIResponseObjectStreamResponseOutputItemDoneItemOpenAIResponseMessageContentUnionMember2Annotation
+    ]
+
     text: str
 
     type: Literal["output_text"]
