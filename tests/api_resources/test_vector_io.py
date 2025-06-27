@@ -37,7 +37,21 @@ class TestVectorIo:
                 {
                     "content": "string",
                     "metadata": {"foo": True},
+                    "chunk_metadata": {
+                        "chunk_embedding_dimension": 0,
+                        "chunk_embedding_model": "chunk_embedding_model",
+                        "chunk_id": "chunk_id",
+                        "chunk_tokenizer": "chunk_tokenizer",
+                        "chunk_window": "chunk_window",
+                        "content_token_count": 0,
+                        "created_timestamp": 0,
+                        "document_id": "document_id",
+                        "metadata_token_count": 0,
+                        "source": "source",
+                        "updated_timestamp": 0,
+                    },
                     "embedding": [0],
+                    "stored_chunk_id": "stored_chunk_id",
                 }
             ],
             vector_db_id="vector_db_id",
@@ -126,7 +140,9 @@ class TestVectorIo:
 
 
 class TestAsyncVectorIo:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
+    )
 
     @parametrize
     async def test_method_insert(self, async_client: AsyncLlamaStackClient) -> None:
@@ -148,7 +164,21 @@ class TestAsyncVectorIo:
                 {
                     "content": "string",
                     "metadata": {"foo": True},
+                    "chunk_metadata": {
+                        "chunk_embedding_dimension": 0,
+                        "chunk_embedding_model": "chunk_embedding_model",
+                        "chunk_id": "chunk_id",
+                        "chunk_tokenizer": "chunk_tokenizer",
+                        "chunk_window": "chunk_window",
+                        "content_token_count": 0,
+                        "created_timestamp": 0,
+                        "document_id": "document_id",
+                        "metadata_token_count": 0,
+                        "source": "source",
+                        "updated_timestamp": 0,
+                    },
                     "embedding": [0],
+                    "stored_chunk_id": "stored_chunk_id",
                 }
             ],
             vector_db_id="vector_db_id",

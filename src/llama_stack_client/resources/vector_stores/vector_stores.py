@@ -320,6 +320,7 @@ class VectorStoresResource(SyncAPIResource):
         max_num_results: int | NotGiven = NOT_GIVEN,
         ranking_options: vector_store_search_params.RankingOptions | NotGiven = NOT_GIVEN,
         rewrite_query: bool | NotGiven = NOT_GIVEN,
+        search_mode: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -343,6 +344,8 @@ class VectorStoresResource(SyncAPIResource):
 
           rewrite_query: Whether to rewrite the natural language query for vector search (default false)
 
+          search_mode: The search mode to use - "keyword", "vector", or "hybrid" (default "vector")
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -362,6 +365,7 @@ class VectorStoresResource(SyncAPIResource):
                     "max_num_results": max_num_results,
                     "ranking_options": ranking_options,
                     "rewrite_query": rewrite_query,
+                    "search_mode": search_mode,
                 },
                 vector_store_search_params.VectorStoreSearchParams,
             ),
@@ -653,6 +657,7 @@ class AsyncVectorStoresResource(AsyncAPIResource):
         max_num_results: int | NotGiven = NOT_GIVEN,
         ranking_options: vector_store_search_params.RankingOptions | NotGiven = NOT_GIVEN,
         rewrite_query: bool | NotGiven = NOT_GIVEN,
+        search_mode: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -676,6 +681,8 @@ class AsyncVectorStoresResource(AsyncAPIResource):
 
           rewrite_query: Whether to rewrite the natural language query for vector search (default false)
 
+          search_mode: The search mode to use - "keyword", "vector", or "hybrid" (default "vector")
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -695,6 +702,7 @@ class AsyncVectorStoresResource(AsyncAPIResource):
                     "max_num_results": max_num_results,
                     "ranking_options": ranking_options,
                     "rewrite_query": rewrite_query,
+                    "search_mode": search_mode,
                 },
                 vector_store_search_params.VectorStoreSearchParams,
             ),

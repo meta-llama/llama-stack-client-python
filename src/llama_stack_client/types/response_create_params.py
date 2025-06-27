@@ -17,6 +17,11 @@ __all__ = [
     "InputUnionMember1OpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentText",
     "InputUnionMember1OpenAIResponseMessageContentUnionMember1OpenAIResponseInputMessageContentImage",
     "InputUnionMember1OpenAIResponseMessageContentUnionMember2",
+    "InputUnionMember1OpenAIResponseMessageContentUnionMember2Annotation",
+    "InputUnionMember1OpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation",
+    "InputUnionMember1OpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation",
+    "InputUnionMember1OpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation",
+    "InputUnionMember1OpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath",
     "Text",
     "TextFormat",
     "Tool",
@@ -131,7 +136,69 @@ InputUnionMember1OpenAIResponseMessageContentUnionMember1: TypeAlias = Union[
 ]
 
 
+class InputUnionMember1OpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation(
+    TypedDict, total=False
+):
+    file_id: Required[str]
+
+    filename: Required[str]
+
+    index: Required[int]
+
+    type: Required[Literal["file_citation"]]
+
+
+class InputUnionMember1OpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation(
+    TypedDict, total=False
+):
+    end_index: Required[int]
+
+    start_index: Required[int]
+
+    title: Required[str]
+
+    type: Required[Literal["url_citation"]]
+
+    url: Required[str]
+
+
+class InputUnionMember1OpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation(
+    TypedDict, total=False
+):
+    container_id: Required[str]
+
+    end_index: Required[int]
+
+    file_id: Required[str]
+
+    filename: Required[str]
+
+    start_index: Required[int]
+
+    type: Required[Literal["container_file_citation"]]
+
+
+class InputUnionMember1OpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath(
+    TypedDict, total=False
+):
+    file_id: Required[str]
+
+    index: Required[int]
+
+    type: Required[Literal["file_path"]]
+
+
+InputUnionMember1OpenAIResponseMessageContentUnionMember2Annotation: TypeAlias = Union[
+    InputUnionMember1OpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFileCitation,
+    InputUnionMember1OpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationCitation,
+    InputUnionMember1OpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationContainerFileCitation,
+    InputUnionMember1OpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath,
+]
+
+
 class InputUnionMember1OpenAIResponseMessageContentUnionMember2(TypedDict, total=False):
+    annotations: Required[Iterable[InputUnionMember1OpenAIResponseMessageContentUnionMember2Annotation]]
+
     text: Required[str]
 
     type: Required[Literal["output_text"]]
@@ -193,7 +260,7 @@ class Text(TypedDict, total=False):
 
 
 class ToolOpenAIResponseInputToolWebSearch(TypedDict, total=False):
-    type: Required[Literal["web_search", "web_search_preview_2025_03_11"]]
+    type: Required[Literal["web_search", "web_search_preview", "web_search_preview_2025_03_11"]]
 
     search_context_size: str
 
