@@ -4,9 +4,20 @@ from typing import Dict, List, Union, Optional
 from typing_extensions import Literal
 
 from .._models import BaseModel
-from .tool_parameter import ToolParameter
 
-__all__ = ["Tool"]
+__all__ = ["Tool", "Parameter"]
+
+
+class Parameter(BaseModel):
+    description: str
+
+    name: str
+
+    parameter_type: str
+
+    required: bool
+
+    default: Union[bool, float, str, List[object], object, None] = None
 
 
 class Tool(BaseModel):
@@ -14,11 +25,9 @@ class Tool(BaseModel):
 
     identifier: str
 
-    parameters: List[ToolParameter]
+    parameters: List[Parameter]
 
     provider_id: str
-
-    tool_host: Literal["distribution", "client", "model_context_protocol"]
 
     toolgroup_id: str
 

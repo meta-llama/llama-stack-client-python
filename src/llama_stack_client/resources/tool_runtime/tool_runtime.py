@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable
+from typing import Dict, Type, Union, Iterable, cast
 
 import httpx
 
@@ -25,10 +25,10 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ..._wrappers import DataWrapper
 from ..._base_client import make_request_options
-from ...types.url_param import URLParam
+from ...types.tool_invocation_result import ToolInvocationResult
 from ...types.tool_runtime_list_tools_response import ToolRuntimeListToolsResponse
-from ...types.tool_runtime_invoke_tool_response import ToolRuntimeInvokeToolResponse
 
 __all__ = ["ToolRuntimeResource", "AsyncToolRuntimeResource"]
 
@@ -68,11 +68,15 @@ class ToolRuntimeResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ToolRuntimeInvokeToolResponse:
+    ) -> ToolInvocationResult:
         """
-        Run a tool with the given arguments
+        Run a tool with the given arguments.
 
         Args:
+          kwargs: A dictionary of arguments to pass to the tool.
+
+          tool_name: The name of the tool to invoke.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -93,13 +97,13 @@ class ToolRuntimeResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ToolRuntimeInvokeToolResponse,
+            cast_to=ToolInvocationResult,
         )
 
     def list_tools(
         self,
         *,
-        mcp_endpoint: URLParam | NotGiven = NOT_GIVEN,
+        mcp_endpoint: tool_runtime_list_tools_params.McpEndpoint | NotGiven = NOT_GIVEN,
         tool_group_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -109,7 +113,13 @@ class ToolRuntimeResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolRuntimeListToolsResponse:
         """
+        List all tools in the runtime.
+
         Args:
+          mcp_endpoint: The MCP endpoint to use for the tool group.
+
+          tool_group_id: The ID of the tool group to list tools for.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -132,8 +142,9 @@ class ToolRuntimeResource(SyncAPIResource):
                     },
                     tool_runtime_list_tools_params.ToolRuntimeListToolsParams,
                 ),
+                post_parser=DataWrapper[ToolRuntimeListToolsResponse]._unwrapper,
             ),
-            cast_to=ToolRuntimeListToolsResponse,
+            cast_to=cast(Type[ToolRuntimeListToolsResponse], DataWrapper[ToolRuntimeListToolsResponse]),
         )
 
 
@@ -172,11 +183,15 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ToolRuntimeInvokeToolResponse:
+    ) -> ToolInvocationResult:
         """
-        Run a tool with the given arguments
+        Run a tool with the given arguments.
 
         Args:
+          kwargs: A dictionary of arguments to pass to the tool.
+
+          tool_name: The name of the tool to invoke.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -197,13 +212,13 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ToolRuntimeInvokeToolResponse,
+            cast_to=ToolInvocationResult,
         )
 
     async def list_tools(
         self,
         *,
-        mcp_endpoint: URLParam | NotGiven = NOT_GIVEN,
+        mcp_endpoint: tool_runtime_list_tools_params.McpEndpoint | NotGiven = NOT_GIVEN,
         tool_group_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -213,7 +228,13 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ToolRuntimeListToolsResponse:
         """
+        List all tools in the runtime.
+
         Args:
+          mcp_endpoint: The MCP endpoint to use for the tool group.
+
+          tool_group_id: The ID of the tool group to list tools for.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -236,8 +257,9 @@ class AsyncToolRuntimeResource(AsyncAPIResource):
                     },
                     tool_runtime_list_tools_params.ToolRuntimeListToolsParams,
                 ),
+                post_parser=DataWrapper[ToolRuntimeListToolsResponse]._unwrapper,
             ),
-            cast_to=ToolRuntimeListToolsResponse,
+            cast_to=cast(Type[ToolRuntimeListToolsResponse], DataWrapper[ToolRuntimeListToolsResponse]),
         )
 
 

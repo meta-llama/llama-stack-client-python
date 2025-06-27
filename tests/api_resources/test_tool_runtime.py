@@ -10,8 +10,8 @@ import pytest
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
 from llama_stack_client.types import (
+    ToolInvocationResult,
     ToolRuntimeListToolsResponse,
-    ToolRuntimeInvokeToolResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -20,16 +20,14 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestToolRuntime:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_invoke_tool(self, client: LlamaStackClient) -> None:
         tool_runtime = client.tool_runtime.invoke_tool(
             kwargs={"foo": True},
             tool_name="tool_name",
         )
-        assert_matches_type(ToolRuntimeInvokeToolResponse, tool_runtime, path=["response"])
+        assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_invoke_tool(self, client: LlamaStackClient) -> None:
         response = client.tool_runtime.with_raw_response.invoke_tool(
@@ -40,9 +38,8 @@ class TestToolRuntime:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         tool_runtime = response.parse()
-        assert_matches_type(ToolRuntimeInvokeToolResponse, tool_runtime, path=["response"])
+        assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_invoke_tool(self, client: LlamaStackClient) -> None:
         with client.tool_runtime.with_streaming_response.invoke_tool(
@@ -53,17 +50,15 @@ class TestToolRuntime:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             tool_runtime = response.parse()
-            assert_matches_type(ToolRuntimeInvokeToolResponse, tool_runtime, path=["response"])
+            assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_list_tools(self, client: LlamaStackClient) -> None:
         tool_runtime = client.tool_runtime.list_tools()
         assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_list_tools_with_all_params(self, client: LlamaStackClient) -> None:
         tool_runtime = client.tool_runtime.list_tools(
@@ -72,7 +67,6 @@ class TestToolRuntime:
         )
         assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_list_tools(self, client: LlamaStackClient) -> None:
         response = client.tool_runtime.with_raw_response.list_tools()
@@ -82,7 +76,6 @@ class TestToolRuntime:
         tool_runtime = response.parse()
         assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_list_tools(self, client: LlamaStackClient) -> None:
         with client.tool_runtime.with_streaming_response.list_tools() as response:
@@ -100,16 +93,14 @@ class TestAsyncToolRuntime:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_invoke_tool(self, async_client: AsyncLlamaStackClient) -> None:
         tool_runtime = await async_client.tool_runtime.invoke_tool(
             kwargs={"foo": True},
             tool_name="tool_name",
         )
-        assert_matches_type(ToolRuntimeInvokeToolResponse, tool_runtime, path=["response"])
+        assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_invoke_tool(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.tool_runtime.with_raw_response.invoke_tool(
@@ -120,9 +111,8 @@ class TestAsyncToolRuntime:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         tool_runtime = await response.parse()
-        assert_matches_type(ToolRuntimeInvokeToolResponse, tool_runtime, path=["response"])
+        assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_invoke_tool(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.tool_runtime.with_streaming_response.invoke_tool(
@@ -133,17 +123,15 @@ class TestAsyncToolRuntime:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             tool_runtime = await response.parse()
-            assert_matches_type(ToolRuntimeInvokeToolResponse, tool_runtime, path=["response"])
+            assert_matches_type(ToolInvocationResult, tool_runtime, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_list_tools(self, async_client: AsyncLlamaStackClient) -> None:
         tool_runtime = await async_client.tool_runtime.list_tools()
         assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_list_tools_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         tool_runtime = await async_client.tool_runtime.list_tools(
@@ -152,7 +140,6 @@ class TestAsyncToolRuntime:
         )
         assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_list_tools(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.tool_runtime.with_raw_response.list_tools()
@@ -162,7 +149,6 @@ class TestAsyncToolRuntime:
         tool_runtime = await response.parse()
         assert_matches_type(ToolRuntimeListToolsResponse, tool_runtime, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_list_tools(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.tool_runtime.with_streaming_response.list_tools() as response:

@@ -3,9 +3,20 @@
 from typing import Dict, List, Union, Optional
 
 from .._models import BaseModel
-from .tool_parameter import ToolParameter
 
-__all__ = ["ToolDef"]
+__all__ = ["ToolDef", "Parameter"]
+
+
+class Parameter(BaseModel):
+    description: str
+
+    name: str
+
+    parameter_type: str
+
+    required: bool
+
+    default: Union[bool, float, str, List[object], object, None] = None
 
 
 class ToolDef(BaseModel):
@@ -15,4 +26,4 @@ class ToolDef(BaseModel):
 
     metadata: Optional[Dict[str, Union[bool, float, str, List[object], object, None]]] = None
 
-    parameters: Optional[List[ToolParameter]] = None
+    parameters: Optional[List[Parameter]] = None

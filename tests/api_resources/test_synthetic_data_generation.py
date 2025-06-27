@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
-from llama_stack_client.types import SyntheticDataGenerationGenerateResponse
+from llama_stack_client.types import SyntheticDataGenerationResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -17,7 +17,6 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestSyntheticDataGeneration:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_generate(self, client: LlamaStackClient) -> None:
         synthetic_data_generation = client.synthetic_data_generation.generate(
@@ -29,9 +28,8 @@ class TestSyntheticDataGeneration:
             ],
             filtering_function="none",
         )
-        assert_matches_type(SyntheticDataGenerationGenerateResponse, synthetic_data_generation, path=["response"])
+        assert_matches_type(SyntheticDataGenerationResponse, synthetic_data_generation, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_generate_with_all_params(self, client: LlamaStackClient) -> None:
         synthetic_data_generation = client.synthetic_data_generation.generate(
@@ -45,9 +43,8 @@ class TestSyntheticDataGeneration:
             filtering_function="none",
             model="model",
         )
-        assert_matches_type(SyntheticDataGenerationGenerateResponse, synthetic_data_generation, path=["response"])
+        assert_matches_type(SyntheticDataGenerationResponse, synthetic_data_generation, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_generate(self, client: LlamaStackClient) -> None:
         response = client.synthetic_data_generation.with_raw_response.generate(
@@ -63,9 +60,8 @@ class TestSyntheticDataGeneration:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         synthetic_data_generation = response.parse()
-        assert_matches_type(SyntheticDataGenerationGenerateResponse, synthetic_data_generation, path=["response"])
+        assert_matches_type(SyntheticDataGenerationResponse, synthetic_data_generation, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_generate(self, client: LlamaStackClient) -> None:
         with client.synthetic_data_generation.with_streaming_response.generate(
@@ -81,7 +77,7 @@ class TestSyntheticDataGeneration:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             synthetic_data_generation = response.parse()
-            assert_matches_type(SyntheticDataGenerationGenerateResponse, synthetic_data_generation, path=["response"])
+            assert_matches_type(SyntheticDataGenerationResponse, synthetic_data_generation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -91,7 +87,6 @@ class TestAsyncSyntheticDataGeneration:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_generate(self, async_client: AsyncLlamaStackClient) -> None:
         synthetic_data_generation = await async_client.synthetic_data_generation.generate(
@@ -103,9 +98,8 @@ class TestAsyncSyntheticDataGeneration:
             ],
             filtering_function="none",
         )
-        assert_matches_type(SyntheticDataGenerationGenerateResponse, synthetic_data_generation, path=["response"])
+        assert_matches_type(SyntheticDataGenerationResponse, synthetic_data_generation, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_generate_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         synthetic_data_generation = await async_client.synthetic_data_generation.generate(
@@ -119,9 +113,8 @@ class TestAsyncSyntheticDataGeneration:
             filtering_function="none",
             model="model",
         )
-        assert_matches_type(SyntheticDataGenerationGenerateResponse, synthetic_data_generation, path=["response"])
+        assert_matches_type(SyntheticDataGenerationResponse, synthetic_data_generation, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_generate(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.synthetic_data_generation.with_raw_response.generate(
@@ -137,9 +130,8 @@ class TestAsyncSyntheticDataGeneration:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         synthetic_data_generation = await response.parse()
-        assert_matches_type(SyntheticDataGenerationGenerateResponse, synthetic_data_generation, path=["response"])
+        assert_matches_type(SyntheticDataGenerationResponse, synthetic_data_generation, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_generate(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.synthetic_data_generation.with_streaming_response.generate(
@@ -155,6 +147,6 @@ class TestAsyncSyntheticDataGeneration:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             synthetic_data_generation = await response.parse()
-            assert_matches_type(SyntheticDataGenerationGenerateResponse, synthetic_data_generation, path=["response"])
+            assert_matches_type(SyntheticDataGenerationResponse, synthetic_data_generation, path=["response"])
 
         assert cast(Any, response.is_closed) is True

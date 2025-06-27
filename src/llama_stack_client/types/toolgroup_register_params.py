@@ -5,16 +5,22 @@ from __future__ import annotations
 from typing import Dict, Union, Iterable
 from typing_extensions import Required, TypedDict
 
-from .url_param import URLParam
-
-__all__ = ["ToolgroupRegisterParams"]
+__all__ = ["ToolgroupRegisterParams", "McpEndpoint"]
 
 
 class ToolgroupRegisterParams(TypedDict, total=False):
     provider_id: Required[str]
+    """The ID of the provider to use for the tool group."""
 
     toolgroup_id: Required[str]
+    """The ID of the tool group to register."""
 
     args: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    """A dictionary of arguments to pass to the tool group."""
 
-    mcp_endpoint: URLParam
+    mcp_endpoint: McpEndpoint
+    """The MCP endpoint to use for the tool group."""
+
+
+class McpEndpoint(TypedDict, total=False):
+    uri: Required[str]

@@ -10,7 +10,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [llama-stack.readthedocs.io](https://llama-stack.readthedocs.io/en/latest/). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -27,22 +27,19 @@ pip install git+ssh://git@github.com/llamastack/llama-stack-client-python.git
 The full API of this library can be found in [api.md](api.md).
 
 ```python
-import os
 from llama_stack_client import LlamaStackClient
 
-client = LlamaStackClient(
-    api_key=os.environ.get("LLAMA_STACK_CLIENT_API_KEY"),  # This is the default and can be omitted
-)
+client = LlamaStackClient()
 
-client.datasetio.append_rows(
-    dataset_id="REPLACE_ME",
-    rows=[{"foo": True}],
+model = client.models.register(
+    model_id="model_id",
 )
+print(model.identifier)
 ```
 
 While you can provide an `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `LLAMA_STACK_CLIENT_API_KEY="My API Key"` to your `.env` file
+to add `LLAMA_STACK_API_KEY="My API Key"` to your `.env` file
 so that your API Key is not stored in source control.
 
 ## Async usage
@@ -50,20 +47,17 @@ so that your API Key is not stored in source control.
 Simply import `AsyncLlamaStackClient` instead of `LlamaStackClient` and use `await` with each API call:
 
 ```python
-import os
 import asyncio
 from llama_stack_client import AsyncLlamaStackClient
 
-client = AsyncLlamaStackClient(
-    api_key=os.environ.get("LLAMA_STACK_CLIENT_API_KEY"),  # This is the default and can be omitted
-)
+client = AsyncLlamaStackClient()
 
 
 async def main() -> None:
-    await client.datasetio.append_rows(
-        dataset_id="REPLACE_ME",
-        rows=[{"foo": True}],
+    model = await client.models.register(
+        model_id="model_id",
     )
+    print(model.identifier)
 
 
 asyncio.run(main())
@@ -85,7 +79,6 @@ pip install 'llama_stack_client[aiohttp] @ git+ssh://git@github.com/llamastack/l
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
-import os
 import asyncio
 from llama_stack_client import DefaultAioHttpClient
 from llama_stack_client import AsyncLlamaStackClient
@@ -93,18 +86,59 @@ from llama_stack_client import AsyncLlamaStackClient
 
 async def main() -> None:
     async with AsyncLlamaStackClient(
-        api_key=os.environ.get(
-            "LLAMA_STACK_CLIENT_API_KEY"
-        ),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
-        await client.datasetio.append_rows(
-            dataset_id="REPLACE_ME",
-            rows=[{"foo": True}],
+        model = await client.models.register(
+            model_id="model_id",
         )
+        print(model.identifier)
 
 
 asyncio.run(main())
+```
+
+## Streaming responses
+
+We provide support for streaming responses using Server Side Events (SSE).
+
+```python
+from llama_stack_client import LlamaStackClient
+
+client = LlamaStackClient()
+
+stream = client.inference.chat_completion(
+    messages=[
+        {
+            "content": "string",
+            "role": "user",
+        }
+    ],
+    model_id="model_id",
+    stream=True,
+)
+for chat_completion_response in stream:
+    print(chat_completion_response.completion_message)
+```
+
+The async client uses the exact same interface.
+
+```python
+from llama_stack_client import AsyncLlamaStackClient
+
+client = AsyncLlamaStackClient()
+
+stream = await client.inference.chat_completion(
+    messages=[
+        {
+            "content": "string",
+            "role": "user",
+        }
+    ],
+    model_id="model_id",
+    stream=True,
+)
+async for chat_completion_response in stream:
+    print(chat_completion_response.completion_message)
 ```
 
 ## Using types
@@ -125,20 +159,36 @@ from llama_stack_client import LlamaStackClient
 
 client = LlamaStackClient()
 
-response = client.inference.batch_chat_completion(
-    messages_batch=[
-        [
-            {
-                "content": "string",
-                "role": "user",
-            }
-        ]
+chat_completion_response = client.inference.chat_completion(
+    messages=[
+        {
+            "content": "string",
+            "role": "user",
+        }
     ],
     model_id="model_id",
     logprobs={},
 )
-print(response.logprobs)
+print(chat_completion_response.logprobs)
 ```
+
+## File uploads
+
+Request parameters that correspond to file uploads can be passed as `bytes`, or a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance or a tuple of `(filename, contents, media type)`.
+
+```python
+from pathlib import Path
+from llama_stack_client import LlamaStackClient
+
+client = LlamaStackClient()
+
+client.files.create(
+    file=Path("/path/to/file"),
+    purpose="assistants",
+)
+```
+
+The async client uses the exact same interface. If you pass a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance, the file contents will be read asynchronously automatically.
 
 ## Handling errors
 
@@ -156,9 +206,14 @@ from llama_stack_client import LlamaStackClient
 client = LlamaStackClient()
 
 try:
-    client.datasetio.append_rows(
-        dataset_id="REPLACE_ME",
-        rows=[{"foo": True}],
+    client.inference.chat_completion(
+        messages=[
+            {
+                "content": "string",
+                "role": "user",
+            }
+        ],
+        model_id="model_id",
     )
 except llama_stack_client.APIConnectionError as e:
     print("The server could not be reached")
@@ -202,9 +257,14 @@ client = LlamaStackClient(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).datasetio.append_rows(
-    dataset_id="REPLACE_ME",
-    rows=[{"foo": True}],
+client.with_options(max_retries=5).inference.chat_completion(
+    messages=[
+        {
+            "content": "string",
+            "role": "user",
+        }
+    ],
+    model_id="model_id",
 )
 ```
 
@@ -228,9 +288,14 @@ client = LlamaStackClient(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).datasetio.append_rows(
-    dataset_id="REPLACE_ME",
-    rows=[{"foo": True}],
+client.with_options(timeout=5.0).inference.chat_completion(
+    messages=[
+        {
+            "content": "string",
+            "role": "user",
+        }
+    ],
+    model_id="model_id",
 )
 ```
 
@@ -244,10 +309,10 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `LLAMA_STACK_CLIENT_LOG` to `info`.
+You can enable logging by setting the environment variable `LLAMA_STACK_LOG` to `info`.
 
 ```shell
-$ export LLAMA_STACK_CLIENT_LOG=info
+$ export LLAMA_STACK_LOG=info
 ```
 
 Or to `debug` for more verbose logging.
@@ -272,16 +337,17 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from llama_stack_client import LlamaStackClient
 
 client = LlamaStackClient()
-response = client.datasetio.with_raw_response.append_rows(
-    dataset_id="REPLACE_ME",
-    rows=[{
-        "foo": True
+response = client.inference.with_raw_response.chat_completion(
+    messages=[{
+        "content": "string",
+        "role": "user",
     }],
+    model_id="model_id",
 )
 print(response.headers.get('X-My-Header'))
 
-datasetio = response.parse()  # get the object that `datasetio.append_rows()` would have returned
-print(datasetio)
+inference = response.parse()  # get the object that `inference.chat_completion()` would have returned
+print(inference.completion_message)
 ```
 
 These methods return an [`APIResponse`](https://github.com/llamastack/llama-stack-client-python/tree/main/src/llama_stack_client/_response.py) object.
@@ -295,9 +361,14 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.datasetio.with_streaming_response.append_rows(
-    dataset_id="REPLACE_ME",
-    rows=[{"foo": True}],
+with client.inference.with_streaming_response.chat_completion(
+    messages=[
+        {
+            "content": "string",
+            "role": "user",
+        }
+    ],
+    model_id="model_id",
 ) as response:
     print(response.headers.get("X-My-Header"))
 
@@ -354,7 +425,7 @@ import httpx
 from llama_stack_client import LlamaStackClient, DefaultHttpxClient
 
 client = LlamaStackClient(
-    # Or use the `LLAMA_STACK_CLIENT_BASE_URL` env var
+    # Or use the `LLAMA_STACK_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
         proxy="http://my.test.proxy.example.com",

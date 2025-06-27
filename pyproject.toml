@@ -5,7 +5,7 @@ description = "The official Python library for the llama-stack-client API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "Llama Stack Client", email = "" },
+{ name = "Llama Stack Client", email = "llamastack@meta.com" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",

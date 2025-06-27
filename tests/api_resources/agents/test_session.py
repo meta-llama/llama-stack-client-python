@@ -9,8 +9,10 @@ import pytest
 
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
-from llama_stack_client.types.agents import SessionCreateResponse
-from llama_stack_client.types.agents.session import Session
+from llama_stack_client.types.agents import (
+    Session,
+    SessionCreateResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -18,7 +20,6 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestSession:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_create(self, client: LlamaStackClient) -> None:
         session = client.agents.session.create(
@@ -27,7 +28,6 @@ class TestSession:
         )
         assert_matches_type(SessionCreateResponse, session, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_create(self, client: LlamaStackClient) -> None:
         response = client.agents.session.with_raw_response.create(
@@ -40,7 +40,6 @@ class TestSession:
         session = response.parse()
         assert_matches_type(SessionCreateResponse, session, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_create(self, client: LlamaStackClient) -> None:
         with client.agents.session.with_streaming_response.create(
@@ -55,7 +54,6 @@ class TestSession:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_create(self, client: LlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
@@ -64,7 +62,6 @@ class TestSession:
                 session_name="session_name",
             )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_retrieve(self, client: LlamaStackClient) -> None:
         session = client.agents.session.retrieve(
@@ -73,7 +70,6 @@ class TestSession:
         )
         assert_matches_type(Session, session, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_retrieve_with_all_params(self, client: LlamaStackClient) -> None:
         session = client.agents.session.retrieve(
@@ -83,7 +79,6 @@ class TestSession:
         )
         assert_matches_type(Session, session, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
         response = client.agents.session.with_raw_response.retrieve(
@@ -96,7 +91,6 @@ class TestSession:
         session = response.parse()
         assert_matches_type(Session, session, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_retrieve(self, client: LlamaStackClient) -> None:
         with client.agents.session.with_streaming_response.retrieve(
@@ -111,7 +105,6 @@ class TestSession:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_retrieve(self, client: LlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
@@ -126,7 +119,6 @@ class TestSession:
                 agent_id="agent_id",
             )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_delete(self, client: LlamaStackClient) -> None:
         session = client.agents.session.delete(
@@ -135,7 +127,6 @@ class TestSession:
         )
         assert session is None
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_delete(self, client: LlamaStackClient) -> None:
         response = client.agents.session.with_raw_response.delete(
@@ -148,7 +139,6 @@ class TestSession:
         session = response.parse()
         assert session is None
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_delete(self, client: LlamaStackClient) -> None:
         with client.agents.session.with_streaming_response.delete(
@@ -163,7 +153,6 @@ class TestSession:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_delete(self, client: LlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
@@ -184,7 +173,6 @@ class TestAsyncSession:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_create(self, async_client: AsyncLlamaStackClient) -> None:
         session = await async_client.agents.session.create(
@@ -193,7 +181,6 @@ class TestAsyncSession:
         )
         assert_matches_type(SessionCreateResponse, session, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.agents.session.with_raw_response.create(
@@ -206,7 +193,6 @@ class TestAsyncSession:
         session = await response.parse()
         assert_matches_type(SessionCreateResponse, session, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.agents.session.with_streaming_response.create(
@@ -221,7 +207,6 @@ class TestAsyncSession:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_create(self, async_client: AsyncLlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
@@ -230,7 +215,6 @@ class TestAsyncSession:
                 session_name="session_name",
             )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         session = await async_client.agents.session.retrieve(
@@ -239,7 +223,6 @@ class TestAsyncSession:
         )
         assert_matches_type(Session, session, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         session = await async_client.agents.session.retrieve(
@@ -249,7 +232,6 @@ class TestAsyncSession:
         )
         assert_matches_type(Session, session, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.agents.session.with_raw_response.retrieve(
@@ -262,7 +244,6 @@ class TestAsyncSession:
         session = await response.parse()
         assert_matches_type(Session, session, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.agents.session.with_streaming_response.retrieve(
@@ -277,7 +258,6 @@ class TestAsyncSession:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
@@ -292,7 +272,6 @@ class TestAsyncSession:
                 agent_id="agent_id",
             )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_delete(self, async_client: AsyncLlamaStackClient) -> None:
         session = await async_client.agents.session.delete(
@@ -301,7 +280,6 @@ class TestAsyncSession:
         )
         assert session is None
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.agents.session.with_raw_response.delete(
@@ -314,7 +292,6 @@ class TestAsyncSession:
         session = await response.parse()
         assert session is None
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.agents.session.with_streaming_response.delete(
@@ -329,7 +306,6 @@ class TestAsyncSession:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncLlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `agent_id` but received ''"):
