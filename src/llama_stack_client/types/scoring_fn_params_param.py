@@ -3,38 +3,41 @@
 from __future__ import annotations
 
 from typing import List, Union
-from typing_extensions import Required, TypeAlias, TypedDict
-
-from .scoring_fn_params_type import ScoringFnParamsType
-from .aggregation_function_type import AggregationFunctionType
+from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 __all__ = ["ScoringFnParamsParam", "LlmAsJudgeScoringFnParams", "RegexParserScoringFnParams", "BasicScoringFnParams"]
 
 
 class LlmAsJudgeScoringFnParams(TypedDict, total=False):
-    aggregation_functions: Required[List[AggregationFunctionType]]
+    aggregation_functions: Required[
+        List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
+    ]
 
     judge_model: Required[str]
 
     judge_score_regexes: Required[List[str]]
 
-    type: Required[ScoringFnParamsType]
+    type: Required[Literal["llm_as_judge"]]
 
     prompt_template: str
 
 
 class RegexParserScoringFnParams(TypedDict, total=False):
-    aggregation_functions: Required[List[AggregationFunctionType]]
+    aggregation_functions: Required[
+        List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
+    ]
 
     parsing_regexes: Required[List[str]]
 
-    type: Required[ScoringFnParamsType]
+    type: Required[Literal["regex_parser"]]
 
 
 class BasicScoringFnParams(TypedDict, total=False):
-    aggregation_functions: Required[List[AggregationFunctionType]]
+    aggregation_functions: Required[
+        List[Literal["average", "weighted_average", "median", "categorical_count", "accuracy"]]
+    ]
 
-    type: Required[ScoringFnParamsType]
+    type: Required[Literal["basic"]]
 
 
 ScoringFnParamsParam: TypeAlias = Union[LlmAsJudgeScoringFnParams, RegexParserScoringFnParams, BasicScoringFnParams]

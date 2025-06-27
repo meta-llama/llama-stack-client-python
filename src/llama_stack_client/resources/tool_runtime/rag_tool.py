@@ -17,9 +17,11 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.tool_runtime import rag_tool_query_context_params, rag_tool_insert_documents_params
-from ...types.interleaved_content_param import InterleavedContentParam
-from ...types.tool_runtime.rag_tool_query_context_response import RagToolQueryContextResponse
+from ...types.tool_runtime import rag_tool_query_params, rag_tool_insert_params
+from ...types.shared.query_result import QueryResult
+from ...types.shared_params.document import Document
+from ...types.shared_params.query_config import QueryConfig
+from ...types.shared_params.interleaved_content import InterleavedContent
 
 __all__ = ["RagToolResource", "AsyncRagToolResource"]
 
@@ -44,11 +46,11 @@ class RagToolResource(SyncAPIResource):
         """
         return RagToolResourceWithStreamingResponse(self)
 
-    def insert_documents(
+    def insert(
         self,
         *,
         chunk_size_in_tokens: int,
-        documents: Iterable[rag_tool_insert_documents_params.Document],
+        documents: Iterable[Document],
         vector_db_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -78,7 +80,7 @@ class RagToolResource(SyncAPIResource):
                     "documents": documents,
                     "vector_db_id": vector_db_id,
                 },
-                rag_tool_insert_documents_params.RagToolInsertDocumentsParams,
+                rag_tool_insert_params.RagToolInsertParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -86,24 +88,26 @@ class RagToolResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
-    def query_context(
+    def query(
         self,
         *,
-        content: InterleavedContentParam,
+        content: InterleavedContent,
         vector_db_ids: List[str],
-        query_config: rag_tool_query_context_params.QueryConfig | NotGiven = NOT_GIVEN,
+        query_config: QueryConfig | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> RagToolQueryContextResponse:
+    ) -> QueryResult:
         """
         Query the RAG system for context; typically invoked by the agent
 
         Args:
           content: A image content item
+
+          query_config: Configuration for the RAG query generation.
 
           extra_headers: Send extra headers
 
@@ -121,12 +125,12 @@ class RagToolResource(SyncAPIResource):
                     "vector_db_ids": vector_db_ids,
                     "query_config": query_config,
                 },
-                rag_tool_query_context_params.RagToolQueryContextParams,
+                rag_tool_query_params.RagToolQueryParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=RagToolQueryContextResponse,
+            cast_to=QueryResult,
         )
 
 
@@ -150,11 +154,11 @@ class AsyncRagToolResource(AsyncAPIResource):
         """
         return AsyncRagToolResourceWithStreamingResponse(self)
 
-    async def insert_documents(
+    async def insert(
         self,
         *,
         chunk_size_in_tokens: int,
-        documents: Iterable[rag_tool_insert_documents_params.Document],
+        documents: Iterable[Document],
         vector_db_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -184,7 +188,7 @@ class AsyncRagToolResource(AsyncAPIResource):
                     "documents": documents,
                     "vector_db_id": vector_db_id,
                 },
-                rag_tool_insert_documents_params.RagToolInsertDocumentsParams,
+                rag_tool_insert_params.RagToolInsertParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -192,24 +196,26 @@ class AsyncRagToolResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
-    async def query_context(
+    async def query(
         self,
         *,
-        content: InterleavedContentParam,
+        content: InterleavedContent,
         vector_db_ids: List[str],
-        query_config: rag_tool_query_context_params.QueryConfig | NotGiven = NOT_GIVEN,
+        query_config: QueryConfig | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> RagToolQueryContextResponse:
+    ) -> QueryResult:
         """
         Query the RAG system for context; typically invoked by the agent
 
         Args:
           content: A image content item
+
+          query_config: Configuration for the RAG query generation.
 
           extra_headers: Send extra headers
 
@@ -227,12 +233,12 @@ class AsyncRagToolResource(AsyncAPIResource):
                     "vector_db_ids": vector_db_ids,
                     "query_config": query_config,
                 },
-                rag_tool_query_context_params.RagToolQueryContextParams,
+                rag_tool_query_params.RagToolQueryParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=RagToolQueryContextResponse,
+            cast_to=QueryResult,
         )
 
 
@@ -240,11 +246,11 @@ class RagToolResourceWithRawResponse:
     def __init__(self, rag_tool: RagToolResource) -> None:
         self._rag_tool = rag_tool
 
-        self.insert_documents = to_raw_response_wrapper(
-            rag_tool.insert_documents,
+        self.insert = to_raw_response_wrapper(
+            rag_tool.insert,
         )
-        self.query_context = to_raw_response_wrapper(
-            rag_tool.query_context,
+        self.query = to_raw_response_wrapper(
+            rag_tool.query,
         )
 
 
@@ -252,11 +258,11 @@ class AsyncRagToolResourceWithRawResponse:
     def __init__(self, rag_tool: AsyncRagToolResource) -> None:
         self._rag_tool = rag_tool
 
-        self.insert_documents = async_to_raw_response_wrapper(
-            rag_tool.insert_documents,
+        self.insert = async_to_raw_response_wrapper(
+            rag_tool.insert,
         )
-        self.query_context = async_to_raw_response_wrapper(
-            rag_tool.query_context,
+        self.query = async_to_raw_response_wrapper(
+            rag_tool.query,
         )
 
 
@@ -264,11 +270,11 @@ class RagToolResourceWithStreamingResponse:
     def __init__(self, rag_tool: RagToolResource) -> None:
         self._rag_tool = rag_tool
 
-        self.insert_documents = to_streamed_response_wrapper(
-            rag_tool.insert_documents,
+        self.insert = to_streamed_response_wrapper(
+            rag_tool.insert,
         )
-        self.query_context = to_streamed_response_wrapper(
-            rag_tool.query_context,
+        self.query = to_streamed_response_wrapper(
+            rag_tool.query,
         )
 
 
@@ -276,9 +282,9 @@ class AsyncRagToolResourceWithStreamingResponse:
     def __init__(self, rag_tool: AsyncRagToolResource) -> None:
         self._rag_tool = rag_tool
 
-        self.insert_documents = async_to_streamed_response_wrapper(
-            rag_tool.insert_documents,
+        self.insert = async_to_streamed_response_wrapper(
+            rag_tool.insert,
         )
-        self.query_context = async_to_streamed_response_wrapper(
-            rag_tool.query_context,
+        self.query = async_to_streamed_response_wrapper(
+            rag_tool.query,
         )

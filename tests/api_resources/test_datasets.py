@@ -9,7 +9,12 @@ import pytest
 
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
-from llama_stack_client.types import Dataset, DatasetListResponse
+from llama_stack_client.types import (
+    DatasetListResponse,
+    DatasetIterrowsResponse,
+    DatasetRegisterResponse,
+    DatasetRetrieveResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -17,75 +22,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestDatasets:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
-    @parametrize
-    def test_method_create(self, client: LlamaStackClient) -> None:
-        dataset = client.datasets.create(
-            purpose="post-training/messages",
-            source={
-                "type": "uri",
-                "uri": "uri",
-            },
-        )
-        assert_matches_type(Dataset, dataset, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    def test_method_create_with_all_params(self, client: LlamaStackClient) -> None:
-        dataset = client.datasets.create(
-            purpose="post-training/messages",
-            source={
-                "type": "uri",
-                "uri": "uri",
-            },
-            dataset_id="dataset_id",
-            metadata={"foo": True},
-        )
-        assert_matches_type(Dataset, dataset, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    def test_raw_response_create(self, client: LlamaStackClient) -> None:
-        response = client.datasets.with_raw_response.create(
-            purpose="post-training/messages",
-            source={
-                "type": "uri",
-                "uri": "uri",
-            },
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        dataset = response.parse()
-        assert_matches_type(Dataset, dataset, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    def test_streaming_response_create(self, client: LlamaStackClient) -> None:
-        with client.datasets.with_streaming_response.create(
-            purpose="post-training/messages",
-            source={
-                "type": "uri",
-                "uri": "uri",
-            },
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            dataset = response.parse()
-            assert_matches_type(Dataset, dataset, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip()
     @parametrize
     def test_method_retrieve(self, client: LlamaStackClient) -> None:
         dataset = client.datasets.retrieve(
             "dataset_id",
         )
-        assert_matches_type(Dataset, dataset, path=["response"])
+        assert_matches_type(DatasetRetrieveResponse, dataset, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_retrieve(self, client: LlamaStackClient) -> None:
         response = client.datasets.with_raw_response.retrieve(
@@ -95,9 +38,8 @@ class TestDatasets:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         dataset = response.parse()
-        assert_matches_type(Dataset, dataset, path=["response"])
+        assert_matches_type(DatasetRetrieveResponse, dataset, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_retrieve(self, client: LlamaStackClient) -> None:
         with client.datasets.with_streaming_response.retrieve(
@@ -107,11 +49,10 @@ class TestDatasets:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             dataset = response.parse()
-            assert_matches_type(Dataset, dataset, path=["response"])
+            assert_matches_type(DatasetRetrieveResponse, dataset, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_retrieve(self, client: LlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `dataset_id` but received ''"):
@@ -119,13 +60,11 @@ class TestDatasets:
                 "",
             )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_list(self, client: LlamaStackClient) -> None:
         dataset = client.datasets.list()
         assert_matches_type(DatasetListResponse, dataset, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_list(self, client: LlamaStackClient) -> None:
         response = client.datasets.with_raw_response.list()
@@ -135,7 +74,6 @@ class TestDatasets:
         dataset = response.parse()
         assert_matches_type(DatasetListResponse, dataset, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_list(self, client: LlamaStackClient) -> None:
         with client.datasets.with_streaming_response.list() as response:
@@ -147,18 +85,119 @@ class TestDatasets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
-    def test_method_delete(self, client: LlamaStackClient) -> None:
-        dataset = client.datasets.delete(
+    def test_method_iterrows(self, client: LlamaStackClient) -> None:
+        dataset = client.datasets.iterrows(
+            dataset_id="dataset_id",
+        )
+        assert_matches_type(DatasetIterrowsResponse, dataset, path=["response"])
+
+    @parametrize
+    def test_method_iterrows_with_all_params(self, client: LlamaStackClient) -> None:
+        dataset = client.datasets.iterrows(
+            dataset_id="dataset_id",
+            limit=0,
+            start_index=0,
+        )
+        assert_matches_type(DatasetIterrowsResponse, dataset, path=["response"])
+
+    @parametrize
+    def test_raw_response_iterrows(self, client: LlamaStackClient) -> None:
+        response = client.datasets.with_raw_response.iterrows(
+            dataset_id="dataset_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        dataset = response.parse()
+        assert_matches_type(DatasetIterrowsResponse, dataset, path=["response"])
+
+    @parametrize
+    def test_streaming_response_iterrows(self, client: LlamaStackClient) -> None:
+        with client.datasets.with_streaming_response.iterrows(
+            dataset_id="dataset_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            dataset = response.parse()
+            assert_matches_type(DatasetIterrowsResponse, dataset, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_iterrows(self, client: LlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `dataset_id` but received ''"):
+            client.datasets.with_raw_response.iterrows(
+                dataset_id="",
+            )
+
+    @parametrize
+    def test_method_register(self, client: LlamaStackClient) -> None:
+        dataset = client.datasets.register(
+            purpose="post-training/messages",
+            source={
+                "type": "uri",
+                "uri": "uri",
+            },
+        )
+        assert_matches_type(DatasetRegisterResponse, dataset, path=["response"])
+
+    @parametrize
+    def test_method_register_with_all_params(self, client: LlamaStackClient) -> None:
+        dataset = client.datasets.register(
+            purpose="post-training/messages",
+            source={
+                "type": "uri",
+                "uri": "uri",
+            },
+            dataset_id="dataset_id",
+            metadata={"foo": True},
+        )
+        assert_matches_type(DatasetRegisterResponse, dataset, path=["response"])
+
+    @parametrize
+    def test_raw_response_register(self, client: LlamaStackClient) -> None:
+        response = client.datasets.with_raw_response.register(
+            purpose="post-training/messages",
+            source={
+                "type": "uri",
+                "uri": "uri",
+            },
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        dataset = response.parse()
+        assert_matches_type(DatasetRegisterResponse, dataset, path=["response"])
+
+    @parametrize
+    def test_streaming_response_register(self, client: LlamaStackClient) -> None:
+        with client.datasets.with_streaming_response.register(
+            purpose="post-training/messages",
+            source={
+                "type": "uri",
+                "uri": "uri",
+            },
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            dataset = response.parse()
+            assert_matches_type(DatasetRegisterResponse, dataset, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_unregister(self, client: LlamaStackClient) -> None:
+        dataset = client.datasets.unregister(
             "dataset_id",
         )
         assert dataset is None
 
-    @pytest.mark.skip()
     @parametrize
-    def test_raw_response_delete(self, client: LlamaStackClient) -> None:
-        response = client.datasets.with_raw_response.delete(
+    def test_raw_response_unregister(self, client: LlamaStackClient) -> None:
+        response = client.datasets.with_raw_response.unregister(
             "dataset_id",
         )
 
@@ -167,10 +206,9 @@ class TestDatasets:
         dataset = response.parse()
         assert dataset is None
 
-    @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_delete(self, client: LlamaStackClient) -> None:
-        with client.datasets.with_streaming_response.delete(
+    def test_streaming_response_unregister(self, client: LlamaStackClient) -> None:
+        with client.datasets.with_streaming_response.unregister(
             "dataset_id",
         ) as response:
             assert not response.is_closed
@@ -181,11 +219,10 @@ class TestDatasets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
-    def test_path_params_delete(self, client: LlamaStackClient) -> None:
+    def test_path_params_unregister(self, client: LlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `dataset_id` but received ''"):
-            client.datasets.with_raw_response.delete(
+            client.datasets.with_raw_response.unregister(
                 "",
             )
 
@@ -195,75 +232,13 @@ class TestAsyncDatasets:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
-    @parametrize
-    async def test_method_create(self, async_client: AsyncLlamaStackClient) -> None:
-        dataset = await async_client.datasets.create(
-            purpose="post-training/messages",
-            source={
-                "type": "uri",
-                "uri": "uri",
-            },
-        )
-        assert_matches_type(Dataset, dataset, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        dataset = await async_client.datasets.create(
-            purpose="post-training/messages",
-            source={
-                "type": "uri",
-                "uri": "uri",
-            },
-            dataset_id="dataset_id",
-            metadata={"foo": True},
-        )
-        assert_matches_type(Dataset, dataset, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_raw_response_create(self, async_client: AsyncLlamaStackClient) -> None:
-        response = await async_client.datasets.with_raw_response.create(
-            purpose="post-training/messages",
-            source={
-                "type": "uri",
-                "uri": "uri",
-            },
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        dataset = await response.parse()
-        assert_matches_type(Dataset, dataset, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncLlamaStackClient) -> None:
-        async with async_client.datasets.with_streaming_response.create(
-            purpose="post-training/messages",
-            source={
-                "type": "uri",
-                "uri": "uri",
-            },
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            dataset = await response.parse()
-            assert_matches_type(Dataset, dataset, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip()
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         dataset = await async_client.datasets.retrieve(
             "dataset_id",
         )
-        assert_matches_type(Dataset, dataset, path=["response"])
+        assert_matches_type(DatasetRetrieveResponse, dataset, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.datasets.with_raw_response.retrieve(
@@ -273,9 +248,8 @@ class TestAsyncDatasets:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         dataset = await response.parse()
-        assert_matches_type(Dataset, dataset, path=["response"])
+        assert_matches_type(DatasetRetrieveResponse, dataset, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.datasets.with_streaming_response.retrieve(
@@ -285,11 +259,10 @@ class TestAsyncDatasets:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             dataset = await response.parse()
-            assert_matches_type(Dataset, dataset, path=["response"])
+            assert_matches_type(DatasetRetrieveResponse, dataset, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncLlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `dataset_id` but received ''"):
@@ -297,13 +270,11 @@ class TestAsyncDatasets:
                 "",
             )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_list(self, async_client: AsyncLlamaStackClient) -> None:
         dataset = await async_client.datasets.list()
         assert_matches_type(DatasetListResponse, dataset, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.datasets.with_raw_response.list()
@@ -313,7 +284,6 @@ class TestAsyncDatasets:
         dataset = await response.parse()
         assert_matches_type(DatasetListResponse, dataset, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.datasets.with_streaming_response.list() as response:
@@ -325,18 +295,119 @@ class TestAsyncDatasets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_method_delete(self, async_client: AsyncLlamaStackClient) -> None:
-        dataset = await async_client.datasets.delete(
+    async def test_method_iterrows(self, async_client: AsyncLlamaStackClient) -> None:
+        dataset = await async_client.datasets.iterrows(
+            dataset_id="dataset_id",
+        )
+        assert_matches_type(DatasetIterrowsResponse, dataset, path=["response"])
+
+    @parametrize
+    async def test_method_iterrows_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        dataset = await async_client.datasets.iterrows(
+            dataset_id="dataset_id",
+            limit=0,
+            start_index=0,
+        )
+        assert_matches_type(DatasetIterrowsResponse, dataset, path=["response"])
+
+    @parametrize
+    async def test_raw_response_iterrows(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.datasets.with_raw_response.iterrows(
+            dataset_id="dataset_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        dataset = await response.parse()
+        assert_matches_type(DatasetIterrowsResponse, dataset, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_iterrows(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.datasets.with_streaming_response.iterrows(
+            dataset_id="dataset_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            dataset = await response.parse()
+            assert_matches_type(DatasetIterrowsResponse, dataset, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_iterrows(self, async_client: AsyncLlamaStackClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `dataset_id` but received ''"):
+            await async_client.datasets.with_raw_response.iterrows(
+                dataset_id="",
+            )
+
+    @parametrize
+    async def test_method_register(self, async_client: AsyncLlamaStackClient) -> None:
+        dataset = await async_client.datasets.register(
+            purpose="post-training/messages",
+            source={
+                "type": "uri",
+                "uri": "uri",
+            },
+        )
+        assert_matches_type(DatasetRegisterResponse, dataset, path=["response"])
+
+    @parametrize
+    async def test_method_register_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        dataset = await async_client.datasets.register(
+            purpose="post-training/messages",
+            source={
+                "type": "uri",
+                "uri": "uri",
+            },
+            dataset_id="dataset_id",
+            metadata={"foo": True},
+        )
+        assert_matches_type(DatasetRegisterResponse, dataset, path=["response"])
+
+    @parametrize
+    async def test_raw_response_register(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.datasets.with_raw_response.register(
+            purpose="post-training/messages",
+            source={
+                "type": "uri",
+                "uri": "uri",
+            },
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        dataset = await response.parse()
+        assert_matches_type(DatasetRegisterResponse, dataset, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_register(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.datasets.with_streaming_response.register(
+            purpose="post-training/messages",
+            source={
+                "type": "uri",
+                "uri": "uri",
+            },
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            dataset = await response.parse()
+            assert_matches_type(DatasetRegisterResponse, dataset, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_unregister(self, async_client: AsyncLlamaStackClient) -> None:
+        dataset = await async_client.datasets.unregister(
             "dataset_id",
         )
         assert dataset is None
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncLlamaStackClient) -> None:
-        response = await async_client.datasets.with_raw_response.delete(
+    async def test_raw_response_unregister(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.datasets.with_raw_response.unregister(
             "dataset_id",
         )
 
@@ -345,10 +416,9 @@ class TestAsyncDatasets:
         dataset = await response.parse()
         assert dataset is None
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncLlamaStackClient) -> None:
-        async with async_client.datasets.with_streaming_response.delete(
+    async def test_streaming_response_unregister(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.datasets.with_streaming_response.unregister(
             "dataset_id",
         ) as response:
             assert not response.is_closed
@@ -359,10 +429,9 @@ class TestAsyncDatasets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_path_params_delete(self, async_client: AsyncLlamaStackClient) -> None:
+    async def test_path_params_unregister(self, async_client: AsyncLlamaStackClient) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `dataset_id` but received ''"):
-            await async_client.datasets.with_raw_response.delete(
+            await async_client.datasets.with_raw_response.unregister(
                 "",
             )

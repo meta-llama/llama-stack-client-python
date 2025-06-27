@@ -9,9 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
-from llama_stack_client.types import (
-    VectorIoQueryResponse,
-)
+from llama_stack_client.types import QueryChunksResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -19,7 +17,6 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestVectorIo:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_insert(self, client: LlamaStackClient) -> None:
         vector_io = client.vector_io.insert(
@@ -33,7 +30,6 @@ class TestVectorIo:
         )
         assert vector_io is None
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_insert_with_all_params(self, client: LlamaStackClient) -> None:
         vector_io = client.vector_io.insert(
@@ -41,6 +37,21 @@ class TestVectorIo:
                 {
                     "content": "string",
                     "metadata": {"foo": True},
+                    "chunk_metadata": {
+                        "chunk_embedding_dimension": 0,
+                        "chunk_embedding_model": "chunk_embedding_model",
+                        "chunk_id": "chunk_id",
+                        "chunk_tokenizer": "chunk_tokenizer",
+                        "chunk_window": "chunk_window",
+                        "content_token_count": 0,
+                        "created_timestamp": 0,
+                        "document_id": "document_id",
+                        "metadata_token_count": 0,
+                        "source": "source",
+                        "updated_timestamp": 0,
+                    },
+                    "embedding": [0],
+                    "stored_chunk_id": "stored_chunk_id",
                 }
             ],
             vector_db_id="vector_db_id",
@@ -48,7 +59,6 @@ class TestVectorIo:
         )
         assert vector_io is None
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_insert(self, client: LlamaStackClient) -> None:
         response = client.vector_io.with_raw_response.insert(
@@ -66,7 +76,6 @@ class TestVectorIo:
         vector_io = response.parse()
         assert vector_io is None
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_insert(self, client: LlamaStackClient) -> None:
         with client.vector_io.with_streaming_response.insert(
@@ -86,16 +95,14 @@ class TestVectorIo:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_query(self, client: LlamaStackClient) -> None:
         vector_io = client.vector_io.query(
             query="string",
             vector_db_id="vector_db_id",
         )
-        assert_matches_type(VectorIoQueryResponse, vector_io, path=["response"])
+        assert_matches_type(QueryChunksResponse, vector_io, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_query_with_all_params(self, client: LlamaStackClient) -> None:
         vector_io = client.vector_io.query(
@@ -103,9 +110,8 @@ class TestVectorIo:
             vector_db_id="vector_db_id",
             params={"foo": True},
         )
-        assert_matches_type(VectorIoQueryResponse, vector_io, path=["response"])
+        assert_matches_type(QueryChunksResponse, vector_io, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_query(self, client: LlamaStackClient) -> None:
         response = client.vector_io.with_raw_response.query(
@@ -116,9 +122,8 @@ class TestVectorIo:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vector_io = response.parse()
-        assert_matches_type(VectorIoQueryResponse, vector_io, path=["response"])
+        assert_matches_type(QueryChunksResponse, vector_io, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_query(self, client: LlamaStackClient) -> None:
         with client.vector_io.with_streaming_response.query(
@@ -129,7 +134,7 @@ class TestVectorIo:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vector_io = response.parse()
-            assert_matches_type(VectorIoQueryResponse, vector_io, path=["response"])
+            assert_matches_type(QueryChunksResponse, vector_io, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -139,7 +144,6 @@ class TestAsyncVectorIo:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_insert(self, async_client: AsyncLlamaStackClient) -> None:
         vector_io = await async_client.vector_io.insert(
@@ -153,7 +157,6 @@ class TestAsyncVectorIo:
         )
         assert vector_io is None
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_insert_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         vector_io = await async_client.vector_io.insert(
@@ -161,6 +164,21 @@ class TestAsyncVectorIo:
                 {
                     "content": "string",
                     "metadata": {"foo": True},
+                    "chunk_metadata": {
+                        "chunk_embedding_dimension": 0,
+                        "chunk_embedding_model": "chunk_embedding_model",
+                        "chunk_id": "chunk_id",
+                        "chunk_tokenizer": "chunk_tokenizer",
+                        "chunk_window": "chunk_window",
+                        "content_token_count": 0,
+                        "created_timestamp": 0,
+                        "document_id": "document_id",
+                        "metadata_token_count": 0,
+                        "source": "source",
+                        "updated_timestamp": 0,
+                    },
+                    "embedding": [0],
+                    "stored_chunk_id": "stored_chunk_id",
                 }
             ],
             vector_db_id="vector_db_id",
@@ -168,7 +186,6 @@ class TestAsyncVectorIo:
         )
         assert vector_io is None
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_insert(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.vector_io.with_raw_response.insert(
@@ -186,7 +203,6 @@ class TestAsyncVectorIo:
         vector_io = await response.parse()
         assert vector_io is None
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_insert(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.vector_io.with_streaming_response.insert(
@@ -206,16 +222,14 @@ class TestAsyncVectorIo:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_query(self, async_client: AsyncLlamaStackClient) -> None:
         vector_io = await async_client.vector_io.query(
             query="string",
             vector_db_id="vector_db_id",
         )
-        assert_matches_type(VectorIoQueryResponse, vector_io, path=["response"])
+        assert_matches_type(QueryChunksResponse, vector_io, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_query_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
         vector_io = await async_client.vector_io.query(
@@ -223,9 +237,8 @@ class TestAsyncVectorIo:
             vector_db_id="vector_db_id",
             params={"foo": True},
         )
-        assert_matches_type(VectorIoQueryResponse, vector_io, path=["response"])
+        assert_matches_type(QueryChunksResponse, vector_io, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_query(self, async_client: AsyncLlamaStackClient) -> None:
         response = await async_client.vector_io.with_raw_response.query(
@@ -236,9 +249,8 @@ class TestAsyncVectorIo:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vector_io = await response.parse()
-        assert_matches_type(VectorIoQueryResponse, vector_io, path=["response"])
+        assert_matches_type(QueryChunksResponse, vector_io, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_query(self, async_client: AsyncLlamaStackClient) -> None:
         async with async_client.vector_io.with_streaming_response.query(
@@ -249,6 +261,6 @@ class TestAsyncVectorIo:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vector_io = await response.parse()
-            assert_matches_type(VectorIoQueryResponse, vector_io, path=["response"])
+            assert_matches_type(QueryChunksResponse, vector_io, path=["response"])
 
         assert cast(Any, response.is_closed) is True

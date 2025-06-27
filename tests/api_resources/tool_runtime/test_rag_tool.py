@@ -9,9 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
-from llama_stack_client.types.tool_runtime import (
-    RagToolQueryContextResponse,
-)
+from llama_stack_client.types.shared import QueryResult
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -19,10 +17,9 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestRagTool:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
     @parametrize
-    def test_method_insert_documents(self, client: LlamaStackClient) -> None:
-        rag_tool = client.tool_runtime.rag_tool.insert_documents(
+    def test_method_insert(self, client: LlamaStackClient) -> None:
+        rag_tool = client.tool_runtime.rag_tool.insert(
             chunk_size_in_tokens=0,
             documents=[
                 {
@@ -35,10 +32,9 @@ class TestRagTool:
         )
         assert rag_tool is None
 
-    @pytest.mark.skip()
     @parametrize
-    def test_raw_response_insert_documents(self, client: LlamaStackClient) -> None:
-        response = client.tool_runtime.rag_tool.with_raw_response.insert_documents(
+    def test_raw_response_insert(self, client: LlamaStackClient) -> None:
+        response = client.tool_runtime.rag_tool.with_raw_response.insert(
             chunk_size_in_tokens=0,
             documents=[
                 {
@@ -55,10 +51,9 @@ class TestRagTool:
         rag_tool = response.parse()
         assert rag_tool is None
 
-    @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_insert_documents(self, client: LlamaStackClient) -> None:
-        with client.tool_runtime.rag_tool.with_streaming_response.insert_documents(
+    def test_streaming_response_insert(self, client: LlamaStackClient) -> None:
+        with client.tool_runtime.rag_tool.with_streaming_response.insert(
             chunk_size_in_tokens=0,
             documents=[
                 {
@@ -77,36 +72,39 @@ class TestRagTool:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
-    def test_method_query_context(self, client: LlamaStackClient) -> None:
-        rag_tool = client.tool_runtime.rag_tool.query_context(
+    def test_method_query(self, client: LlamaStackClient) -> None:
+        rag_tool = client.tool_runtime.rag_tool.query(
             content="string",
             vector_db_ids=["string"],
         )
-        assert_matches_type(RagToolQueryContextResponse, rag_tool, path=["response"])
+        assert_matches_type(QueryResult, rag_tool, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
-    def test_method_query_context_with_all_params(self, client: LlamaStackClient) -> None:
-        rag_tool = client.tool_runtime.rag_tool.query_context(
+    def test_method_query_with_all_params(self, client: LlamaStackClient) -> None:
+        rag_tool = client.tool_runtime.rag_tool.query(
             content="string",
             vector_db_ids=["string"],
             query_config={
+                "chunk_template": "chunk_template",
                 "max_chunks": 0,
                 "max_tokens_in_context": 0,
                 "query_generator_config": {
                     "separator": "separator",
                     "type": "default",
                 },
+                "mode": "mode",
+                "ranker": {
+                    "impact_factor": 0,
+                    "type": "rrf",
+                },
             },
         )
-        assert_matches_type(RagToolQueryContextResponse, rag_tool, path=["response"])
+        assert_matches_type(QueryResult, rag_tool, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
-    def test_raw_response_query_context(self, client: LlamaStackClient) -> None:
-        response = client.tool_runtime.rag_tool.with_raw_response.query_context(
+    def test_raw_response_query(self, client: LlamaStackClient) -> None:
+        response = client.tool_runtime.rag_tool.with_raw_response.query(
             content="string",
             vector_db_ids=["string"],
         )
@@ -114,12 +112,11 @@ class TestRagTool:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         rag_tool = response.parse()
-        assert_matches_type(RagToolQueryContextResponse, rag_tool, path=["response"])
+        assert_matches_type(QueryResult, rag_tool, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_query_context(self, client: LlamaStackClient) -> None:
-        with client.tool_runtime.rag_tool.with_streaming_response.query_context(
+    def test_streaming_response_query(self, client: LlamaStackClient) -> None:
+        with client.tool_runtime.rag_tool.with_streaming_response.query(
             content="string",
             vector_db_ids=["string"],
         ) as response:
@@ -127,7 +124,7 @@ class TestRagTool:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             rag_tool = response.parse()
-            assert_matches_type(RagToolQueryContextResponse, rag_tool, path=["response"])
+            assert_matches_type(QueryResult, rag_tool, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -137,10 +134,9 @@ class TestAsyncRagTool:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_method_insert_documents(self, async_client: AsyncLlamaStackClient) -> None:
-        rag_tool = await async_client.tool_runtime.rag_tool.insert_documents(
+    async def test_method_insert(self, async_client: AsyncLlamaStackClient) -> None:
+        rag_tool = await async_client.tool_runtime.rag_tool.insert(
             chunk_size_in_tokens=0,
             documents=[
                 {
@@ -153,10 +149,9 @@ class TestAsyncRagTool:
         )
         assert rag_tool is None
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_insert_documents(self, async_client: AsyncLlamaStackClient) -> None:
-        response = await async_client.tool_runtime.rag_tool.with_raw_response.insert_documents(
+    async def test_raw_response_insert(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.tool_runtime.rag_tool.with_raw_response.insert(
             chunk_size_in_tokens=0,
             documents=[
                 {
@@ -173,10 +168,9 @@ class TestAsyncRagTool:
         rag_tool = await response.parse()
         assert rag_tool is None
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_insert_documents(self, async_client: AsyncLlamaStackClient) -> None:
-        async with async_client.tool_runtime.rag_tool.with_streaming_response.insert_documents(
+    async def test_streaming_response_insert(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.tool_runtime.rag_tool.with_streaming_response.insert(
             chunk_size_in_tokens=0,
             documents=[
                 {
@@ -195,36 +189,39 @@ class TestAsyncRagTool:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_method_query_context(self, async_client: AsyncLlamaStackClient) -> None:
-        rag_tool = await async_client.tool_runtime.rag_tool.query_context(
+    async def test_method_query(self, async_client: AsyncLlamaStackClient) -> None:
+        rag_tool = await async_client.tool_runtime.rag_tool.query(
             content="string",
             vector_db_ids=["string"],
         )
-        assert_matches_type(RagToolQueryContextResponse, rag_tool, path=["response"])
+        assert_matches_type(QueryResult, rag_tool, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_method_query_context_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
-        rag_tool = await async_client.tool_runtime.rag_tool.query_context(
+    async def test_method_query_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
+        rag_tool = await async_client.tool_runtime.rag_tool.query(
             content="string",
             vector_db_ids=["string"],
             query_config={
+                "chunk_template": "chunk_template",
                 "max_chunks": 0,
                 "max_tokens_in_context": 0,
                 "query_generator_config": {
                     "separator": "separator",
                     "type": "default",
                 },
+                "mode": "mode",
+                "ranker": {
+                    "impact_factor": 0,
+                    "type": "rrf",
+                },
             },
         )
-        assert_matches_type(RagToolQueryContextResponse, rag_tool, path=["response"])
+        assert_matches_type(QueryResult, rag_tool, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_query_context(self, async_client: AsyncLlamaStackClient) -> None:
-        response = await async_client.tool_runtime.rag_tool.with_raw_response.query_context(
+    async def test_raw_response_query(self, async_client: AsyncLlamaStackClient) -> None:
+        response = await async_client.tool_runtime.rag_tool.with_raw_response.query(
             content="string",
             vector_db_ids=["string"],
         )
@@ -232,12 +229,11 @@ class TestAsyncRagTool:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         rag_tool = await response.parse()
-        assert_matches_type(RagToolQueryContextResponse, rag_tool, path=["response"])
+        assert_matches_type(QueryResult, rag_tool, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_query_context(self, async_client: AsyncLlamaStackClient) -> None:
-        async with async_client.tool_runtime.rag_tool.with_streaming_response.query_context(
+    async def test_streaming_response_query(self, async_client: AsyncLlamaStackClient) -> None:
+        async with async_client.tool_runtime.rag_tool.with_streaming_response.query(
             content="string",
             vector_db_ids=["string"],
         ) as response:
@@ -245,6 +241,6 @@ class TestAsyncRagTool:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             rag_tool = await response.parse()
-            assert_matches_type(RagToolQueryContextResponse, rag_tool, path=["response"])
+            assert_matches_type(QueryResult, rag_tool, path=["response"])
 
         assert cast(Any, response.is_closed) is True

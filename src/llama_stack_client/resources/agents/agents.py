@@ -4,7 +4,31 @@ from __future__ import annotations
 
 import httpx
 
+from .turn import (
+    TurnResource,
+    AsyncTurnResource,
+    TurnResourceWithRawResponse,
+    AsyncTurnResourceWithRawResponse,
+    TurnResourceWithStreamingResponse,
+    AsyncTurnResourceWithStreamingResponse,
+)
+from .steps import (
+    StepsResource,
+    AsyncStepsResource,
+    StepsResourceWithRawResponse,
+    AsyncStepsResourceWithRawResponse,
+    StepsResourceWithStreamingResponse,
+    AsyncStepsResourceWithStreamingResponse,
+)
 from ...types import agent_create_params
+from .session import (
+    SessionResource,
+    AsyncSessionResource,
+    SessionResourceWithRawResponse,
+    AsyncSessionResourceWithRawResponse,
+    SessionResourceWithStreamingResponse,
+    AsyncSessionResourceWithStreamingResponse,
+)
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -15,20 +39,9 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...types.agent import Agent
 from ..._base_client import make_request_options
-from .session.session import (
-    SessionResource,
-    AsyncSessionResource,
-    SessionResourceWithRawResponse,
-    AsyncSessionResourceWithRawResponse,
-    SessionResourceWithStreamingResponse,
-    AsyncSessionResourceWithStreamingResponse,
-)
-from ...types.agent_config_param import AgentConfigParam
-from ...types.agent_list_response import AgentListResponse
 from ...types.agent_create_response import AgentCreateResponse
-from ...types.agent_list_sessions_response import AgentListSessionsResponse
+from ...types.shared_params.agent_config import AgentConfig
 
 __all__ = ["AgentsResource", "AsyncAgentsResource"]
 
@@ -37,6 +50,14 @@ class AgentsResource(SyncAPIResource):
     @cached_property
     def session(self) -> SessionResource:
         return SessionResource(self._client)
+
+    @cached_property
+    def steps(self) -> StepsResource:
+        return StepsResource(self._client)
+
+    @cached_property
+    def turn(self) -> TurnResource:
+        return TurnResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AgentsResourceWithRawResponse:
@@ -60,7 +81,7 @@ class AgentsResource(SyncAPIResource):
     def create(
         self,
         *,
-        agent_config: AgentConfigParam,
+        agent_config: AgentConfig,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -91,58 +112,6 @@ class AgentsResource(SyncAPIResource):
             cast_to=AgentCreateResponse,
         )
 
-    def retrieve(
-        self,
-        agent_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Agent:
-        """
-        Describe an agent by its ID.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        return self._get(
-            f"/v1/agents/{agent_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Agent,
-        )
-
-    def list(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentListResponse:
-        """List all agents."""
-        return self._get(
-            "/v1/agents",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=AgentListResponse,
-        )
-
     def delete(
         self,
         agent_id: str,
@@ -155,7 +124,7 @@ class AgentsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Delete an agent by its ID.
+        Delete an agent by its ID and its associated sessions and turns.
 
         Args:
           extra_headers: Send extra headers
@@ -177,44 +146,19 @@ class AgentsResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
-    def list_sessions(
-        self,
-        agent_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentListSessionsResponse:
-        """
-        List all session(s) of a given agent.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        return self._get(
-            f"/v1/agents/{agent_id}/sessions",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=AgentListSessionsResponse,
-        )
-
 
 class AsyncAgentsResource(AsyncAPIResource):
     @cached_property
     def session(self) -> AsyncSessionResource:
         return AsyncSessionResource(self._client)
+
+    @cached_property
+    def steps(self) -> AsyncStepsResource:
+        return AsyncStepsResource(self._client)
+
+    @cached_property
+    def turn(self) -> AsyncTurnResource:
+        return AsyncTurnResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncAgentsResourceWithRawResponse:
@@ -238,7 +182,7 @@ class AsyncAgentsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        agent_config: AgentConfigParam,
+        agent_config: AgentConfig,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -269,58 +213,6 @@ class AsyncAgentsResource(AsyncAPIResource):
             cast_to=AgentCreateResponse,
         )
 
-    async def retrieve(
-        self,
-        agent_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Agent:
-        """
-        Describe an agent by its ID.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        return await self._get(
-            f"/v1/agents/{agent_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Agent,
-        )
-
-    async def list(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentListResponse:
-        """List all agents."""
-        return await self._get(
-            "/v1/agents",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=AgentListResponse,
-        )
-
     async def delete(
         self,
         agent_id: str,
@@ -333,7 +225,7 @@ class AsyncAgentsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        Delete an agent by its ID.
+        Delete an agent by its ID and its associated sessions and turns.
 
         Args:
           extra_headers: Send extra headers
@@ -355,39 +247,6 @@ class AsyncAgentsResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
-    async def list_sessions(
-        self,
-        agent_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AgentListSessionsResponse:
-        """
-        List all session(s) of a given agent.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not agent_id:
-            raise ValueError(f"Expected a non-empty value for `agent_id` but received {agent_id!r}")
-        return await self._get(
-            f"/v1/agents/{agent_id}/sessions",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=AgentListSessionsResponse,
-        )
-
 
 class AgentsResourceWithRawResponse:
     def __init__(self, agents: AgentsResource) -> None:
@@ -396,22 +255,21 @@ class AgentsResourceWithRawResponse:
         self.create = to_raw_response_wrapper(
             agents.create,
         )
-        self.retrieve = to_raw_response_wrapper(
-            agents.retrieve,
-        )
-        self.list = to_raw_response_wrapper(
-            agents.list,
-        )
         self.delete = to_raw_response_wrapper(
             agents.delete,
-        )
-        self.list_sessions = to_raw_response_wrapper(
-            agents.list_sessions,
         )
 
     @cached_property
     def session(self) -> SessionResourceWithRawResponse:
         return SessionResourceWithRawResponse(self._agents.session)
+
+    @cached_property
+    def steps(self) -> StepsResourceWithRawResponse:
+        return StepsResourceWithRawResponse(self._agents.steps)
+
+    @cached_property
+    def turn(self) -> TurnResourceWithRawResponse:
+        return TurnResourceWithRawResponse(self._agents.turn)
 
 
 class AsyncAgentsResourceWithRawResponse:
@@ -421,22 +279,21 @@ class AsyncAgentsResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             agents.create,
         )
-        self.retrieve = async_to_raw_response_wrapper(
-            agents.retrieve,
-        )
-        self.list = async_to_raw_response_wrapper(
-            agents.list,
-        )
         self.delete = async_to_raw_response_wrapper(
             agents.delete,
-        )
-        self.list_sessions = async_to_raw_response_wrapper(
-            agents.list_sessions,
         )
 
     @cached_property
     def session(self) -> AsyncSessionResourceWithRawResponse:
         return AsyncSessionResourceWithRawResponse(self._agents.session)
+
+    @cached_property
+    def steps(self) -> AsyncStepsResourceWithRawResponse:
+        return AsyncStepsResourceWithRawResponse(self._agents.steps)
+
+    @cached_property
+    def turn(self) -> AsyncTurnResourceWithRawResponse:
+        return AsyncTurnResourceWithRawResponse(self._agents.turn)
 
 
 class AgentsResourceWithStreamingResponse:
@@ -446,22 +303,21 @@ class AgentsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             agents.create,
         )
-        self.retrieve = to_streamed_response_wrapper(
-            agents.retrieve,
-        )
-        self.list = to_streamed_response_wrapper(
-            agents.list,
-        )
         self.delete = to_streamed_response_wrapper(
             agents.delete,
-        )
-        self.list_sessions = to_streamed_response_wrapper(
-            agents.list_sessions,
         )
 
     @cached_property
     def session(self) -> SessionResourceWithStreamingResponse:
         return SessionResourceWithStreamingResponse(self._agents.session)
+
+    @cached_property
+    def steps(self) -> StepsResourceWithStreamingResponse:
+        return StepsResourceWithStreamingResponse(self._agents.steps)
+
+    @cached_property
+    def turn(self) -> TurnResourceWithStreamingResponse:
+        return TurnResourceWithStreamingResponse(self._agents.turn)
 
 
 class AsyncAgentsResourceWithStreamingResponse:
@@ -471,19 +327,18 @@ class AsyncAgentsResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(
             agents.create,
         )
-        self.retrieve = async_to_streamed_response_wrapper(
-            agents.retrieve,
-        )
-        self.list = async_to_streamed_response_wrapper(
-            agents.list,
-        )
         self.delete = async_to_streamed_response_wrapper(
             agents.delete,
-        )
-        self.list_sessions = async_to_streamed_response_wrapper(
-            agents.list_sessions,
         )
 
     @cached_property
     def session(self) -> AsyncSessionResourceWithStreamingResponse:
         return AsyncSessionResourceWithStreamingResponse(self._agents.session)
+
+    @cached_property
+    def steps(self) -> AsyncStepsResourceWithStreamingResponse:
+        return AsyncStepsResourceWithStreamingResponse(self._agents.steps)
+
+    @cached_property
+    def turn(self) -> AsyncTurnResourceWithStreamingResponse:
+        return AsyncTurnResourceWithStreamingResponse(self._agents.turn)

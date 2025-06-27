@@ -19,8 +19,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.message_param import MessageParam
-from ..types.synthetic_data_generation_generate_response import SyntheticDataGenerationGenerateResponse
+from ..types.shared_params.message import Message
+from ..types.synthetic_data_generation_response import SyntheticDataGenerationResponse
 
 __all__ = ["SyntheticDataGenerationResource", "AsyncSyntheticDataGenerationResource"]
 
@@ -48,7 +48,7 @@ class SyntheticDataGenerationResource(SyncAPIResource):
     def generate(
         self,
         *,
-        dialogs: Iterable[MessageParam],
+        dialogs: Iterable[Message],
         filtering_function: Literal["none", "random", "top_k", "top_p", "top_k_top_p", "sigmoid"],
         model: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -57,7 +57,7 @@ class SyntheticDataGenerationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SyntheticDataGenerationGenerateResponse:
+    ) -> SyntheticDataGenerationResponse:
         """
         Args:
           filtering_function: The type of filtering function.
@@ -83,7 +83,7 @@ class SyntheticDataGenerationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SyntheticDataGenerationGenerateResponse,
+            cast_to=SyntheticDataGenerationResponse,
         )
 
 
@@ -110,7 +110,7 @@ class AsyncSyntheticDataGenerationResource(AsyncAPIResource):
     async def generate(
         self,
         *,
-        dialogs: Iterable[MessageParam],
+        dialogs: Iterable[Message],
         filtering_function: Literal["none", "random", "top_k", "top_p", "top_k_top_p", "sigmoid"],
         model: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -119,7 +119,7 @@ class AsyncSyntheticDataGenerationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SyntheticDataGenerationGenerateResponse:
+    ) -> SyntheticDataGenerationResponse:
         """
         Args:
           filtering_function: The type of filtering function.
@@ -145,7 +145,7 @@ class AsyncSyntheticDataGenerationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SyntheticDataGenerationGenerateResponse,
+            cast_to=SyntheticDataGenerationResponse,
         )
 
 

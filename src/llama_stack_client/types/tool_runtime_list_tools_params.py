@@ -2,14 +2,18 @@
 
 from __future__ import annotations
 
-from typing_extensions import TypedDict
+from typing_extensions import Required, TypedDict
 
-from .url_param import URLParam
-
-__all__ = ["ToolRuntimeListToolsParams"]
+__all__ = ["ToolRuntimeListToolsParams", "McpEndpoint"]
 
 
 class ToolRuntimeListToolsParams(TypedDict, total=False):
-    mcp_endpoint: URLParam
+    mcp_endpoint: McpEndpoint
+    """The MCP endpoint to use for the tool group."""
 
     tool_group_id: str
+    """The ID of the tool group to list tools for."""
+
+
+class McpEndpoint(TypedDict, total=False):
+    uri: Required[str]

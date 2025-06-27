@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable
+from typing import Dict, Type, Union, Iterable, cast
 from typing_extensions import Literal
 
 import httpx
 
-from ..types import dataset_create_params
+from ..types import dataset_iterrows_params, dataset_register_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -18,10 +18,12 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .._wrappers import DataWrapper
 from .._base_client import make_request_options
-from ..types.dataset import Dataset
-from ..types.data_source_param import DataSourceParam
 from ..types.dataset_list_response import DatasetListResponse
+from ..types.dataset_iterrows_response import DatasetIterrowsResponse
+from ..types.dataset_register_response import DatasetRegisterResponse
+from ..types.dataset_retrieve_response import DatasetRetrieveResponse
 
 __all__ = ["DatasetsResource", "AsyncDatasetsResource"]
 
@@ -46,11 +48,125 @@ class DatasetsResource(SyncAPIResource):
         """
         return DatasetsResourceWithStreamingResponse(self)
 
-    def create(
+    def retrieve(
+        self,
+        dataset_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DatasetRetrieveResponse:
+        """
+        Get a dataset by its ID.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not dataset_id:
+            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
+        return self._get(
+            f"/v1/datasets/{dataset_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DatasetRetrieveResponse,
+        )
+
+    def list(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DatasetListResponse:
+        """List all datasets."""
+        return self._get(
+            "/v1/datasets",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[DatasetListResponse]._unwrapper,
+            ),
+            cast_to=cast(Type[DatasetListResponse], DataWrapper[DatasetListResponse]),
+        )
+
+    def iterrows(
+        self,
+        dataset_id: str,
+        *,
+        limit: int | NotGiven = NOT_GIVEN,
+        start_index: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DatasetIterrowsResponse:
+        """Get a paginated list of rows from a dataset.
+
+        Uses offset-based pagination where:
+
+        - start_index: The starting index (0-based). If None, starts from beginning.
+        - limit: Number of items to return. If None or -1, returns all items.
+
+        The response includes:
+
+        - data: List of items for the current page.
+        - has_more: Whether there are more items available after this set.
+
+        Args:
+          limit: The number of rows to get.
+
+          start_index: Index into dataset for the first row to get. Get all rows if None.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not dataset_id:
+            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
+        return self._get(
+            f"/v1/datasetio/iterrows/{dataset_id}",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "start_index": start_index,
+                    },
+                    dataset_iterrows_params.DatasetIterrowsParams,
+                ),
+            ),
+            cast_to=DatasetIterrowsResponse,
+        )
+
+    def register(
         self,
         *,
         purpose: Literal["post-training/messages", "eval/question-answer", "eval/messages-answer"],
-        source: DataSourceParam,
+        source: dataset_register_params.Source,
         dataset_id: str | NotGiven = NOT_GIVEN,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -59,13 +175,13 @@ class DatasetsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Dataset:
+    ) -> DatasetRegisterResponse:
         """Register a new dataset.
 
         Args:
           purpose: The purpose of the dataset.
 
-        One of - "post-training/messages": The dataset
+        One of: - "post-training/messages": The dataset
               contains a messages column with list of messages for post-training. {
               "messages": [ {"role": "user", "content": "Hello, world!"}, {"role":
               "assistant", "content": "Hello, world!"}, ] } - "eval/question-answer": The
@@ -88,7 +204,7 @@ class DatasetsResource(SyncAPIResource):
 
           dataset_id: The ID of the dataset. If not provided, an ID will be generated.
 
-          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}
+          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}.
 
           extra_headers: Send extra headers
 
@@ -107,64 +223,15 @@ class DatasetsResource(SyncAPIResource):
                     "dataset_id": dataset_id,
                     "metadata": metadata,
                 },
-                dataset_create_params.DatasetCreateParams,
+                dataset_register_params.DatasetRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Dataset,
+            cast_to=DatasetRegisterResponse,
         )
 
-    def retrieve(
-        self,
-        dataset_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Dataset:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not dataset_id:
-            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
-        return self._get(
-            f"/v1/datasets/{dataset_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Dataset,
-        )
-
-    def list(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DatasetListResponse:
-        return self._get(
-            "/v1/datasets",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=DatasetListResponse,
-        )
-
-    def delete(
+    def unregister(
         self,
         dataset_id: str,
         *,
@@ -176,6 +243,8 @@ class DatasetsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Unregister a dataset by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -217,11 +286,125 @@ class AsyncDatasetsResource(AsyncAPIResource):
         """
         return AsyncDatasetsResourceWithStreamingResponse(self)
 
-    async def create(
+    async def retrieve(
+        self,
+        dataset_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DatasetRetrieveResponse:
+        """
+        Get a dataset by its ID.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not dataset_id:
+            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
+        return await self._get(
+            f"/v1/datasets/{dataset_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DatasetRetrieveResponse,
+        )
+
+    async def list(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DatasetListResponse:
+        """List all datasets."""
+        return await self._get(
+            "/v1/datasets",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[DatasetListResponse]._unwrapper,
+            ),
+            cast_to=cast(Type[DatasetListResponse], DataWrapper[DatasetListResponse]),
+        )
+
+    async def iterrows(
+        self,
+        dataset_id: str,
+        *,
+        limit: int | NotGiven = NOT_GIVEN,
+        start_index: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DatasetIterrowsResponse:
+        """Get a paginated list of rows from a dataset.
+
+        Uses offset-based pagination where:
+
+        - start_index: The starting index (0-based). If None, starts from beginning.
+        - limit: Number of items to return. If None or -1, returns all items.
+
+        The response includes:
+
+        - data: List of items for the current page.
+        - has_more: Whether there are more items available after this set.
+
+        Args:
+          limit: The number of rows to get.
+
+          start_index: Index into dataset for the first row to get. Get all rows if None.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not dataset_id:
+            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
+        return await self._get(
+            f"/v1/datasetio/iterrows/{dataset_id}",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "limit": limit,
+                        "start_index": start_index,
+                    },
+                    dataset_iterrows_params.DatasetIterrowsParams,
+                ),
+            ),
+            cast_to=DatasetIterrowsResponse,
+        )
+
+    async def register(
         self,
         *,
         purpose: Literal["post-training/messages", "eval/question-answer", "eval/messages-answer"],
-        source: DataSourceParam,
+        source: dataset_register_params.Source,
         dataset_id: str | NotGiven = NOT_GIVEN,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -230,13 +413,13 @@ class AsyncDatasetsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Dataset:
+    ) -> DatasetRegisterResponse:
         """Register a new dataset.
 
         Args:
           purpose: The purpose of the dataset.
 
-        One of - "post-training/messages": The dataset
+        One of: - "post-training/messages": The dataset
               contains a messages column with list of messages for post-training. {
               "messages": [ {"role": "user", "content": "Hello, world!"}, {"role":
               "assistant", "content": "Hello, world!"}, ] } - "eval/question-answer": The
@@ -259,7 +442,7 @@ class AsyncDatasetsResource(AsyncAPIResource):
 
           dataset_id: The ID of the dataset. If not provided, an ID will be generated.
 
-          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}
+          metadata: The metadata for the dataset. - E.g. {"description": "My dataset"}.
 
           extra_headers: Send extra headers
 
@@ -278,64 +461,15 @@ class AsyncDatasetsResource(AsyncAPIResource):
                     "dataset_id": dataset_id,
                     "metadata": metadata,
                 },
-                dataset_create_params.DatasetCreateParams,
+                dataset_register_params.DatasetRegisterParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Dataset,
+            cast_to=DatasetRegisterResponse,
         )
 
-    async def retrieve(
-        self,
-        dataset_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Dataset:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not dataset_id:
-            raise ValueError(f"Expected a non-empty value for `dataset_id` but received {dataset_id!r}")
-        return await self._get(
-            f"/v1/datasets/{dataset_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Dataset,
-        )
-
-    async def list(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DatasetListResponse:
-        return await self._get(
-            "/v1/datasets",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=DatasetListResponse,
-        )
-
-    async def delete(
+    async def unregister(
         self,
         dataset_id: str,
         *,
@@ -347,6 +481,8 @@ class AsyncDatasetsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
+        Unregister a dataset by its ID.
+
         Args:
           extra_headers: Send extra headers
 
@@ -372,17 +508,20 @@ class DatasetsResourceWithRawResponse:
     def __init__(self, datasets: DatasetsResource) -> None:
         self._datasets = datasets
 
-        self.create = to_raw_response_wrapper(
-            datasets.create,
-        )
         self.retrieve = to_raw_response_wrapper(
             datasets.retrieve,
         )
         self.list = to_raw_response_wrapper(
             datasets.list,
         )
-        self.delete = to_raw_response_wrapper(
-            datasets.delete,
+        self.iterrows = to_raw_response_wrapper(
+            datasets.iterrows,
+        )
+        self.register = to_raw_response_wrapper(
+            datasets.register,
+        )
+        self.unregister = to_raw_response_wrapper(
+            datasets.unregister,
         )
 
 
@@ -390,17 +529,20 @@ class AsyncDatasetsResourceWithRawResponse:
     def __init__(self, datasets: AsyncDatasetsResource) -> None:
         self._datasets = datasets
 
-        self.create = async_to_raw_response_wrapper(
-            datasets.create,
-        )
         self.retrieve = async_to_raw_response_wrapper(
             datasets.retrieve,
         )
         self.list = async_to_raw_response_wrapper(
             datasets.list,
         )
-        self.delete = async_to_raw_response_wrapper(
-            datasets.delete,
+        self.iterrows = async_to_raw_response_wrapper(
+            datasets.iterrows,
+        )
+        self.register = async_to_raw_response_wrapper(
+            datasets.register,
+        )
+        self.unregister = async_to_raw_response_wrapper(
+            datasets.unregister,
         )
 
 
@@ -408,17 +550,20 @@ class DatasetsResourceWithStreamingResponse:
     def __init__(self, datasets: DatasetsResource) -> None:
         self._datasets = datasets
 
-        self.create = to_streamed_response_wrapper(
-            datasets.create,
-        )
         self.retrieve = to_streamed_response_wrapper(
             datasets.retrieve,
         )
         self.list = to_streamed_response_wrapper(
             datasets.list,
         )
-        self.delete = to_streamed_response_wrapper(
-            datasets.delete,
+        self.iterrows = to_streamed_response_wrapper(
+            datasets.iterrows,
+        )
+        self.register = to_streamed_response_wrapper(
+            datasets.register,
+        )
+        self.unregister = to_streamed_response_wrapper(
+            datasets.unregister,
         )
 
 
@@ -426,15 +571,18 @@ class AsyncDatasetsResourceWithStreamingResponse:
     def __init__(self, datasets: AsyncDatasetsResource) -> None:
         self._datasets = datasets
 
-        self.create = async_to_streamed_response_wrapper(
-            datasets.create,
-        )
         self.retrieve = async_to_streamed_response_wrapper(
             datasets.retrieve,
         )
         self.list = async_to_streamed_response_wrapper(
             datasets.list,
         )
-        self.delete = async_to_streamed_response_wrapper(
-            datasets.delete,
+        self.iterrows = async_to_streamed_response_wrapper(
+            datasets.iterrows,
+        )
+        self.register = async_to_streamed_response_wrapper(
+            datasets.register,
+        )
+        self.unregister = async_to_streamed_response_wrapper(
+            datasets.unregister,
         )

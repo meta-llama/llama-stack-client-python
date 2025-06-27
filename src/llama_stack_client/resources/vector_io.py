@@ -18,8 +18,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.vector_io_query_response import VectorIoQueryResponse
-from ..types.interleaved_content_param import InterleavedContentParam
+from ..types.query_chunks_response import QueryChunksResponse
+from ..types.shared_params.interleaved_content import InterleavedContent
 
 __all__ = ["VectorIoResource", "AsyncVectorIoResource"]
 
@@ -57,8 +57,21 @@ class VectorIoResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
-        """
+        """Insert chunks into a vector database.
+
         Args:
+          chunks: The chunks to insert.
+
+        Each `Chunk` should contain content which can be
+              interleaved text, images, or other types. `metadata`: `dict[str, Any]` and
+              `embedding`: `List[float]` are optional. If `metadata` is provided, you
+              configure how Llama Stack formats the chunk during generation. If `embedding` is
+              not provided, it will be computed later.
+
+          vector_db_id: The identifier of the vector database to insert the chunks into.
+
+          ttl_seconds: The time to live of the chunks.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -87,7 +100,7 @@ class VectorIoResource(SyncAPIResource):
     def query(
         self,
         *,
-        query: InterleavedContentParam,
+        query: InterleavedContent,
         vector_db_id: str,
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -96,10 +109,16 @@ class VectorIoResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VectorIoQueryResponse:
+    ) -> QueryChunksResponse:
         """
+        Query chunks from a vector database.
+
         Args:
-          query: A image content item
+          query: The query to search for.
+
+          vector_db_id: The identifier of the vector database to query.
+
+          params: The parameters of the query.
 
           extra_headers: Send extra headers
 
@@ -122,7 +141,7 @@ class VectorIoResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=VectorIoQueryResponse,
+            cast_to=QueryChunksResponse,
         )
 
 
@@ -159,8 +178,21 @@ class AsyncVectorIoResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
-        """
+        """Insert chunks into a vector database.
+
         Args:
+          chunks: The chunks to insert.
+
+        Each `Chunk` should contain content which can be
+              interleaved text, images, or other types. `metadata`: `dict[str, Any]` and
+              `embedding`: `List[float]` are optional. If `metadata` is provided, you
+              configure how Llama Stack formats the chunk during generation. If `embedding` is
+              not provided, it will be computed later.
+
+          vector_db_id: The identifier of the vector database to insert the chunks into.
+
+          ttl_seconds: The time to live of the chunks.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -189,7 +221,7 @@ class AsyncVectorIoResource(AsyncAPIResource):
     async def query(
         self,
         *,
-        query: InterleavedContentParam,
+        query: InterleavedContent,
         vector_db_id: str,
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -198,10 +230,16 @@ class AsyncVectorIoResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VectorIoQueryResponse:
+    ) -> QueryChunksResponse:
         """
+        Query chunks from a vector database.
+
         Args:
-          query: A image content item
+          query: The query to search for.
+
+          vector_db_id: The identifier of the vector database to query.
+
+          params: The parameters of the query.
 
           extra_headers: Send extra headers
 
@@ -224,7 +262,7 @@ class AsyncVectorIoResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=VectorIoQueryResponse,
+            cast_to=QueryChunksResponse,
         )
 
 

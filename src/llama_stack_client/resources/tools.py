@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Type, cast
+
 import httpx
 
 from ..types import tool_list_params
@@ -15,6 +17,7 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .._wrappers import DataWrapper
 from ..types.tool import Tool
 from .._base_client import make_request_options
 from ..types.tool_list_response import ToolListResponse
@@ -42,7 +45,45 @@ class ToolsResource(SyncAPIResource):
         """
         return ToolsResourceWithStreamingResponse(self)
 
-    def retrieve(
+    def list(
+        self,
+        *,
+        toolgroup_id: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ToolListResponse:
+        """
+        List tools with optional tool group.
+
+        Args:
+          toolgroup_id: The ID of the tool group to list tools for.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/v1/tools",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"toolgroup_id": toolgroup_id}, tool_list_params.ToolListParams),
+                post_parser=DataWrapper[ToolListResponse]._unwrapper,
+            ),
+            cast_to=cast(Type[ToolListResponse], DataWrapper[ToolListResponse]),
+        )
+
+    def get(
         self,
         tool_name: str,
         *,
@@ -54,6 +95,8 @@ class ToolsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Tool:
         """
+        Get a tool by its name.
+
         Args:
           extra_headers: Send extra headers
 
@@ -71,41 +114,6 @@ class ToolsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=Tool,
-        )
-
-    def list(
-        self,
-        *,
-        toolgroup_id: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ToolListResponse:
-        """
-        List tools with optional tool group
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._get(
-            "/v1/tools",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"toolgroup_id": toolgroup_id}, tool_list_params.ToolListParams),
-            ),
-            cast_to=ToolListResponse,
         )
 
 
@@ -129,7 +137,45 @@ class AsyncToolsResource(AsyncAPIResource):
         """
         return AsyncToolsResourceWithStreamingResponse(self)
 
-    async def retrieve(
+    async def list(
+        self,
+        *,
+        toolgroup_id: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ToolListResponse:
+        """
+        List tools with optional tool group.
+
+        Args:
+          toolgroup_id: The ID of the tool group to list tools for.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/v1/tools",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"toolgroup_id": toolgroup_id}, tool_list_params.ToolListParams),
+                post_parser=DataWrapper[ToolListResponse]._unwrapper,
+            ),
+            cast_to=cast(Type[ToolListResponse], DataWrapper[ToolListResponse]),
+        )
+
+    async def get(
         self,
         tool_name: str,
         *,
@@ -141,6 +187,8 @@ class AsyncToolsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Tool:
         """
+        Get a tool by its name.
+
         Args:
           extra_headers: Send extra headers
 
@@ -160,51 +208,16 @@ class AsyncToolsResource(AsyncAPIResource):
             cast_to=Tool,
         )
 
-    async def list(
-        self,
-        *,
-        toolgroup_id: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ToolListResponse:
-        """
-        List tools with optional tool group
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._get(
-            "/v1/tools",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"toolgroup_id": toolgroup_id}, tool_list_params.ToolListParams),
-            ),
-            cast_to=ToolListResponse,
-        )
-
 
 class ToolsResourceWithRawResponse:
     def __init__(self, tools: ToolsResource) -> None:
         self._tools = tools
 
-        self.retrieve = to_raw_response_wrapper(
-            tools.retrieve,
-        )
         self.list = to_raw_response_wrapper(
             tools.list,
+        )
+        self.get = to_raw_response_wrapper(
+            tools.get,
         )
 
 
@@ -212,11 +225,11 @@ class AsyncToolsResourceWithRawResponse:
     def __init__(self, tools: AsyncToolsResource) -> None:
         self._tools = tools
 
-        self.retrieve = async_to_raw_response_wrapper(
-            tools.retrieve,
-        )
         self.list = async_to_raw_response_wrapper(
             tools.list,
+        )
+        self.get = async_to_raw_response_wrapper(
+            tools.get,
         )
 
 
@@ -224,11 +237,11 @@ class ToolsResourceWithStreamingResponse:
     def __init__(self, tools: ToolsResource) -> None:
         self._tools = tools
 
-        self.retrieve = to_streamed_response_wrapper(
-            tools.retrieve,
-        )
         self.list = to_streamed_response_wrapper(
             tools.list,
+        )
+        self.get = to_streamed_response_wrapper(
+            tools.get,
         )
 
 
@@ -236,9 +249,9 @@ class AsyncToolsResourceWithStreamingResponse:
     def __init__(self, tools: AsyncToolsResource) -> None:
         self._tools = tools
 
-        self.retrieve = async_to_streamed_response_wrapper(
-            tools.retrieve,
-        )
         self.list = async_to_streamed_response_wrapper(
             tools.list,
+        )
+        self.get = async_to_streamed_response_wrapper(
+            tools.get,
         )

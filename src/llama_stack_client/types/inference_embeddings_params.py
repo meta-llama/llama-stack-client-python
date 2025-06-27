@@ -5,13 +5,13 @@ from __future__ import annotations
 from typing import List, Union, Iterable
 from typing_extensions import Literal, Required, TypedDict
 
-from .interleaved_content_item_param import InterleavedContentItemParam
+from .shared_params.interleaved_content_item import InterleavedContentItem
 
 __all__ = ["InferenceEmbeddingsParams"]
 
 
 class InferenceEmbeddingsParams(TypedDict, total=False):
-    contents: Required[Union[List[str], Iterable[InterleavedContentItemParam]]]
+    contents: Required[Union[List[str], Iterable[InterleavedContentItem]]]
     """List of contents to generate embeddings for.
 
     Each content can be a string or an InterleavedContentItem (and hence can be

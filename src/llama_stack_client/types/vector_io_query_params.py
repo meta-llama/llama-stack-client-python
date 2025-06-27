@@ -5,15 +5,17 @@ from __future__ import annotations
 from typing import Dict, Union, Iterable
 from typing_extensions import Required, TypedDict
 
-from .interleaved_content_param import InterleavedContentParam
+from .shared_params.interleaved_content import InterleavedContent
 
 __all__ = ["VectorIoQueryParams"]
 
 
 class VectorIoQueryParams(TypedDict, total=False):
-    query: Required[InterleavedContentParam]
-    """A image content item"""
+    query: Required[InterleavedContent]
+    """The query to search for."""
 
     vector_db_id: Required[str]
+    """The identifier of the vector database to query."""
 
     params: Dict[str, Union[bool, float, str, Iterable[object], object, None]]
+    """The parameters of the query."""

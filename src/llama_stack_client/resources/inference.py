@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import List, Union, Iterable
-from typing_extensions import Literal
+from typing_extensions import Literal, overload
 
 import httpx
 
@@ -15,7 +15,7 @@ from ..types import (
     inference_batch_chat_completion_params,
 )
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -24,18 +24,18 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .._streaming import Stream, AsyncStream
 from .._base_client import make_request_options
-from ..types.message_param import MessageParam
-from ..types.tool_config_param import ToolConfigParam
 from ..types.completion_response import CompletionResponse
-from ..types.response_format_param import ResponseFormatParam
-from ..types.sampling_params_param import SamplingParamsParam
-from ..types.tool_definition_param import ToolDefinitionParam
-from ..types.chat_completion_response import ChatCompletionResponse
-from ..types.interleaved_content_param import InterleavedContentParam
-from ..types.inference_embeddings_response import InferenceEmbeddingsResponse
-from ..types.interleaved_content_item_param import InterleavedContentItemParam
-from ..types.inference_batch_completion_response import InferenceBatchCompletionResponse
+from ..types.embeddings_response import EmbeddingsResponse
+from ..types.shared_params.message import Message
+from ..types.shared.batch_completion import BatchCompletion
+from ..types.shared_params.response_format import ResponseFormat
+from ..types.shared_params.sampling_params import SamplingParams
+from ..types.shared.chat_completion_response import ChatCompletionResponse
+from ..types.shared_params.interleaved_content import InterleavedContent
+from ..types.chat_completion_response_stream_chunk import ChatCompletionResponseStreamChunk
+from ..types.shared_params.interleaved_content_item import InterleavedContentItem
 from ..types.inference_batch_chat_completion_response import InferenceBatchChatCompletionResponse
 
 __all__ = ["InferenceResource", "AsyncInferenceResource"]
@@ -64,13 +64,13 @@ class InferenceResource(SyncAPIResource):
     def batch_chat_completion(
         self,
         *,
-        messages_batch: Iterable[Iterable[MessageParam]],
+        messages_batch: Iterable[Iterable[Message]],
         model_id: str,
         logprobs: inference_batch_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: ResponseFormatParam | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParamsParam | NotGiven = NOT_GIVEN,
-        tool_config: ToolConfigParam | NotGiven = NOT_GIVEN,
-        tools: Iterable[ToolDefinitionParam] | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        tool_config: inference_batch_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_batch_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -79,12 +79,24 @@ class InferenceResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceBatchChatCompletionResponse:
         """
+        Generate chat completions for a batch of messages using the specified model.
+
         Args:
-          response_format: Configuration for JSON schema-guided response generation.
+          messages_batch: The messages to generate completions for.
 
-          sampling_params: Sampling parameters.
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
 
-          tool_config: Configuration for tool use.
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
+
+          sampling_params: (Optional) Parameters to control the sampling strategy.
+
+          tool_config: (Optional) Configuration for tool use.
+
+          tools: (Optional) List of tool definitions available to the model.
 
           extra_headers: Send extra headers
 
@@ -117,23 +129,33 @@ class InferenceResource(SyncAPIResource):
     def batch_completion(
         self,
         *,
-        content_batch: List[InterleavedContentParam],
+        content_batch: List[InterleavedContent],
         model_id: str,
         logprobs: inference_batch_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: ResponseFormatParam | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParamsParam | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceBatchCompletionResponse:
+    ) -> BatchCompletion:
         """
-        Args:
-          response_format: Configuration for JSON schema-guided response generation.
+        Generate completions for a batch of content using the specified model.
 
-          sampling_params: Sampling parameters.
+        Args:
+          content_batch: The content to generate completions for.
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
+
+          sampling_params: (Optional) Parameters to control the sampling strategy.
 
           extra_headers: Send extra headers
 
@@ -158,22 +180,23 @@ class InferenceResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=InferenceBatchCompletionResponse,
+            cast_to=BatchCompletion,
         )
 
+    @overload
     def chat_completion(
         self,
         *,
-        messages: Iterable[MessageParam],
+        messages: Iterable[Message],
         model_id: str,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: ResponseFormatParam | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParamsParam | NotGiven = NOT_GIVEN,
-        stream: bool | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required", "none"] | NotGiven = NOT_GIVEN,
-        tool_config: ToolConfigParam | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
-        tools: Iterable[ToolDefinitionParam] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -185,7 +208,7 @@ class InferenceResource(SyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -198,7 +221,7 @@ class InferenceResource(SyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy
+          sampling_params: Parameters to control the sampling strategy.
 
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
@@ -216,7 +239,7 @@ class InferenceResource(SyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model
+          tools: (Optional) List of tool definitions available to the model.
 
           extra_headers: Send extra headers
 
@@ -226,6 +249,165 @@ class InferenceResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def chat_completion(
+        self,
+        *,
+        messages: Iterable[Message],
+        model_id: str,
+        stream: Literal[True],
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required", "none"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Stream[ChatCompletionResponseStreamChunk]:
+        """
+        Generate a chat completion for the given messages using the specified model.
+
+        Args:
+          messages: List of messages in the conversation.
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding. There are two
+              options: - `ResponseFormat.json_schema`: The grammar is a JSON schema. Most
+              providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
+              grammar. This format is more flexible, but not all providers support it.
+
+          sampling_params: Parameters to control the sampling strategy.
+
+          tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
+              ToolChoice.auto. .. deprecated:: Use tool_config instead.
+
+          tool_config: (Optional) Configuration for tool use.
+
+          tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
+              will attempt to use a format that is best adapted to the model. -
+              `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
+              `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+              <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+              are output as Python syntax -- a list of function calls. .. deprecated:: Use
+              tool_config instead.
+
+          tools: (Optional) List of tool definitions available to the model.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def chat_completion(
+        self,
+        *,
+        messages: Iterable[Message],
+        model_id: str,
+        stream: bool,
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required", "none"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ChatCompletionResponse | Stream[ChatCompletionResponseStreamChunk]:
+        """
+        Generate a chat completion for the given messages using the specified model.
+
+        Args:
+          messages: List of messages in the conversation.
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding. There are two
+              options: - `ResponseFormat.json_schema`: The grammar is a JSON schema. Most
+              providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
+              grammar. This format is more flexible, but not all providers support it.
+
+          sampling_params: Parameters to control the sampling strategy.
+
+          tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
+              ToolChoice.auto. .. deprecated:: Use tool_config instead.
+
+          tool_config: (Optional) Configuration for tool use.
+
+          tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
+              will attempt to use a format that is best adapted to the model. -
+              `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
+              `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+              <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+              are output as Python syntax -- a list of function calls. .. deprecated:: Use
+              tool_config instead.
+
+          tools: (Optional) List of tool definitions available to the model.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["messages", "model_id"], ["messages", "model_id", "stream"])
+    def chat_completion(
+        self,
+        *,
+        messages: Iterable[Message],
+        model_id: str,
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required", "none"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ChatCompletionResponse | Stream[ChatCompletionResponseStreamChunk]:
         return self._post(
             "/v1/inference/chat-completion",
             body=maybe_transform(
@@ -241,23 +423,28 @@ class InferenceResource(SyncAPIResource):
                     "tool_prompt_format": tool_prompt_format,
                     "tools": tools,
                 },
-                inference_chat_completion_params.InferenceChatCompletionParams,
+                inference_chat_completion_params.InferenceChatCompletionParamsStreaming
+                if stream
+                else inference_chat_completion_params.InferenceChatCompletionParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=ChatCompletionResponse,
+            stream=stream or False,
+            stream_cls=Stream[ChatCompletionResponseStreamChunk],
         )
 
+    @overload
     def completion(
         self,
         *,
-        content: InterleavedContentParam,
+        content: InterleavedContent,
         model_id: str,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: ResponseFormatParam | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParamsParam | NotGiven = NOT_GIVEN,
-        stream: bool | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -269,7 +456,7 @@ class InferenceResource(SyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for
+          content: The content to generate a completion for.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -277,9 +464,9 @@ class InferenceResource(SyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
 
-          sampling_params: (Optional) Parameters to control the sampling strategy
+          sampling_params: (Optional) Parameters to control the sampling strategy.
 
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
@@ -292,6 +479,117 @@ class InferenceResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def completion(
+        self,
+        *,
+        content: InterleavedContent,
+        model_id: str,
+        stream: Literal[True],
+        logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Stream[CompletionResponse]:
+        """
+        Generate a completion for the given content using the specified model.
+
+        Args:
+          content: The content to generate a completion for.
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
+
+          sampling_params: (Optional) Parameters to control the sampling strategy.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def completion(
+        self,
+        *,
+        content: InterleavedContent,
+        model_id: str,
+        stream: bool,
+        logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompletionResponse | Stream[CompletionResponse]:
+        """
+        Generate a completion for the given content using the specified model.
+
+        Args:
+          content: The content to generate a completion for.
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
+
+          sampling_params: (Optional) Parameters to control the sampling strategy.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["content", "model_id"], ["content", "model_id", "stream"])
+    def completion(
+        self,
+        *,
+        content: InterleavedContent,
+        model_id: str,
+        logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompletionResponse | Stream[CompletionResponse]:
         return self._post(
             "/v1/inference/completion",
             body=maybe_transform(
@@ -303,18 +601,22 @@ class InferenceResource(SyncAPIResource):
                     "sampling_params": sampling_params,
                     "stream": stream,
                 },
-                inference_completion_params.InferenceCompletionParams,
+                inference_completion_params.InferenceCompletionParamsStreaming
+                if stream
+                else inference_completion_params.InferenceCompletionParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=CompletionResponse,
+            stream=stream or False,
+            stream_cls=Stream[CompletionResponse],
         )
 
     def embeddings(
         self,
         *,
-        contents: Union[List[str], Iterable[InterleavedContentItemParam]],
+        contents: Union[List[str], Iterable[InterleavedContentItem]],
         model_id: str,
         output_dimension: int | NotGiven = NOT_GIVEN,
         task_type: Literal["query", "document"] | NotGiven = NOT_GIVEN,
@@ -325,7 +627,7 @@ class InferenceResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceEmbeddingsResponse:
+    ) -> EmbeddingsResponse:
         """
         Generate embeddings for content pieces using the specified model.
 
@@ -369,7 +671,7 @@ class InferenceResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=InferenceEmbeddingsResponse,
+            cast_to=EmbeddingsResponse,
         )
 
 
@@ -396,13 +698,13 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def batch_chat_completion(
         self,
         *,
-        messages_batch: Iterable[Iterable[MessageParam]],
+        messages_batch: Iterable[Iterable[Message]],
         model_id: str,
         logprobs: inference_batch_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: ResponseFormatParam | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParamsParam | NotGiven = NOT_GIVEN,
-        tool_config: ToolConfigParam | NotGiven = NOT_GIVEN,
-        tools: Iterable[ToolDefinitionParam] | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        tool_config: inference_batch_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_batch_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -411,12 +713,24 @@ class AsyncInferenceResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> InferenceBatchChatCompletionResponse:
         """
+        Generate chat completions for a batch of messages using the specified model.
+
         Args:
-          response_format: Configuration for JSON schema-guided response generation.
+          messages_batch: The messages to generate completions for.
 
-          sampling_params: Sampling parameters.
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
 
-          tool_config: Configuration for tool use.
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
+
+          sampling_params: (Optional) Parameters to control the sampling strategy.
+
+          tool_config: (Optional) Configuration for tool use.
+
+          tools: (Optional) List of tool definitions available to the model.
 
           extra_headers: Send extra headers
 
@@ -449,23 +763,33 @@ class AsyncInferenceResource(AsyncAPIResource):
     async def batch_completion(
         self,
         *,
-        content_batch: List[InterleavedContentParam],
+        content_batch: List[InterleavedContent],
         model_id: str,
         logprobs: inference_batch_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: ResponseFormatParam | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParamsParam | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceBatchCompletionResponse:
+    ) -> BatchCompletion:
         """
-        Args:
-          response_format: Configuration for JSON schema-guided response generation.
+        Generate completions for a batch of content using the specified model.
 
-          sampling_params: Sampling parameters.
+        Args:
+          content_batch: The content to generate completions for.
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
+
+          sampling_params: (Optional) Parameters to control the sampling strategy.
 
           extra_headers: Send extra headers
 
@@ -490,22 +814,23 @@ class AsyncInferenceResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=InferenceBatchCompletionResponse,
+            cast_to=BatchCompletion,
         )
 
+    @overload
     async def chat_completion(
         self,
         *,
-        messages: Iterable[MessageParam],
+        messages: Iterable[Message],
         model_id: str,
         logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: ResponseFormatParam | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParamsParam | NotGiven = NOT_GIVEN,
-        stream: bool | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | NotGiven = NOT_GIVEN,
         tool_choice: Literal["auto", "required", "none"] | NotGiven = NOT_GIVEN,
-        tool_config: ToolConfigParam | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
         tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
-        tools: Iterable[ToolDefinitionParam] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -517,7 +842,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a chat completion for the given messages using the specified model.
 
         Args:
-          messages: List of messages in the conversation
+          messages: List of messages in the conversation.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -530,7 +855,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
               grammar. This format is more flexible, but not all providers support it.
 
-          sampling_params: Parameters to control the sampling strategy
+          sampling_params: Parameters to control the sampling strategy.
 
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
@@ -548,7 +873,7 @@ class AsyncInferenceResource(AsyncAPIResource):
               are output as Python syntax -- a list of function calls. .. deprecated:: Use
               tool_config instead.
 
-          tools: (Optional) List of tool definitions available to the model
+          tools: (Optional) List of tool definitions available to the model.
 
           extra_headers: Send extra headers
 
@@ -558,6 +883,165 @@ class AsyncInferenceResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def chat_completion(
+        self,
+        *,
+        messages: Iterable[Message],
+        model_id: str,
+        stream: Literal[True],
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required", "none"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> AsyncStream[ChatCompletionResponseStreamChunk]:
+        """
+        Generate a chat completion for the given messages using the specified model.
+
+        Args:
+          messages: List of messages in the conversation.
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding. There are two
+              options: - `ResponseFormat.json_schema`: The grammar is a JSON schema. Most
+              providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
+              grammar. This format is more flexible, but not all providers support it.
+
+          sampling_params: Parameters to control the sampling strategy.
+
+          tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
+              ToolChoice.auto. .. deprecated:: Use tool_config instead.
+
+          tool_config: (Optional) Configuration for tool use.
+
+          tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
+              will attempt to use a format that is best adapted to the model. -
+              `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
+              `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+              <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+              are output as Python syntax -- a list of function calls. .. deprecated:: Use
+              tool_config instead.
+
+          tools: (Optional) List of tool definitions available to the model.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def chat_completion(
+        self,
+        *,
+        messages: Iterable[Message],
+        model_id: str,
+        stream: bool,
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required", "none"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ChatCompletionResponse | AsyncStream[ChatCompletionResponseStreamChunk]:
+        """
+        Generate a chat completion for the given messages using the specified model.
+
+        Args:
+          messages: List of messages in the conversation.
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding. There are two
+              options: - `ResponseFormat.json_schema`: The grammar is a JSON schema. Most
+              providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
+              grammar. This format is more flexible, but not all providers support it.
+
+          sampling_params: Parameters to control the sampling strategy.
+
+          tool_choice: (Optional) Whether tool use is required or automatic. Defaults to
+              ToolChoice.auto. .. deprecated:: Use tool_config instead.
+
+          tool_config: (Optional) Configuration for tool use.
+
+          tool_prompt_format: (Optional) Instructs the model how to format tool calls. By default, Llama Stack
+              will attempt to use a format that is best adapted to the model. -
+              `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
+              `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
+              <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
+              are output as Python syntax -- a list of function calls. .. deprecated:: Use
+              tool_config instead.
+
+          tools: (Optional) List of tool definitions available to the model.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["messages", "model_id"], ["messages", "model_id", "stream"])
+    async def chat_completion(
+        self,
+        *,
+        messages: Iterable[Message],
+        model_id: str,
+        logprobs: inference_chat_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        tool_choice: Literal["auto", "required", "none"] | NotGiven = NOT_GIVEN,
+        tool_config: inference_chat_completion_params.ToolConfig | NotGiven = NOT_GIVEN,
+        tool_prompt_format: Literal["json", "function_tag", "python_list"] | NotGiven = NOT_GIVEN,
+        tools: Iterable[inference_chat_completion_params.Tool] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ChatCompletionResponse | AsyncStream[ChatCompletionResponseStreamChunk]:
         return await self._post(
             "/v1/inference/chat-completion",
             body=await async_maybe_transform(
@@ -573,23 +1057,28 @@ class AsyncInferenceResource(AsyncAPIResource):
                     "tool_prompt_format": tool_prompt_format,
                     "tools": tools,
                 },
-                inference_chat_completion_params.InferenceChatCompletionParams,
+                inference_chat_completion_params.InferenceChatCompletionParamsStreaming
+                if stream
+                else inference_chat_completion_params.InferenceChatCompletionParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=ChatCompletionResponse,
+            stream=stream or False,
+            stream_cls=AsyncStream[ChatCompletionResponseStreamChunk],
         )
 
+    @overload
     async def completion(
         self,
         *,
-        content: InterleavedContentParam,
+        content: InterleavedContent,
         model_id: str,
         logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
-        response_format: ResponseFormatParam | NotGiven = NOT_GIVEN,
-        sampling_params: SamplingParamsParam | NotGiven = NOT_GIVEN,
-        stream: bool | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -601,7 +1090,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         Generate a completion for the given content using the specified model.
 
         Args:
-          content: The content to generate a completion for
+          content: The content to generate a completion for.
 
           model_id: The identifier of the model to use. The model must be registered with Llama
               Stack and available via the /models endpoint.
@@ -609,9 +1098,9 @@ class AsyncInferenceResource(AsyncAPIResource):
           logprobs: (Optional) If specified, log probabilities for each token position will be
               returned.
 
-          response_format: (Optional) Grammar specification for guided (structured) decoding
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
 
-          sampling_params: (Optional) Parameters to control the sampling strategy
+          sampling_params: (Optional) Parameters to control the sampling strategy.
 
           stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
               False.
@@ -624,6 +1113,117 @@ class AsyncInferenceResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def completion(
+        self,
+        *,
+        content: InterleavedContent,
+        model_id: str,
+        stream: Literal[True],
+        logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> AsyncStream[CompletionResponse]:
+        """
+        Generate a completion for the given content using the specified model.
+
+        Args:
+          content: The content to generate a completion for.
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
+
+          sampling_params: (Optional) Parameters to control the sampling strategy.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def completion(
+        self,
+        *,
+        content: InterleavedContent,
+        model_id: str,
+        stream: bool,
+        logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompletionResponse | AsyncStream[CompletionResponse]:
+        """
+        Generate a completion for the given content using the specified model.
+
+        Args:
+          content: The content to generate a completion for.
+
+          model_id: The identifier of the model to use. The model must be registered with Llama
+              Stack and available via the /models endpoint.
+
+          stream: (Optional) If True, generate an SSE event stream of the response. Defaults to
+              False.
+
+          logprobs: (Optional) If specified, log probabilities for each token position will be
+              returned.
+
+          response_format: (Optional) Grammar specification for guided (structured) decoding.
+
+          sampling_params: (Optional) Parameters to control the sampling strategy.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["content", "model_id"], ["content", "model_id", "stream"])
+    async def completion(
+        self,
+        *,
+        content: InterleavedContent,
+        model_id: str,
+        logprobs: inference_completion_params.Logprobs | NotGiven = NOT_GIVEN,
+        response_format: ResponseFormat | NotGiven = NOT_GIVEN,
+        sampling_params: SamplingParams | NotGiven = NOT_GIVEN,
+        stream: Literal[False] | Literal[True] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompletionResponse | AsyncStream[CompletionResponse]:
         return await self._post(
             "/v1/inference/completion",
             body=await async_maybe_transform(
@@ -635,18 +1235,22 @@ class AsyncInferenceResource(AsyncAPIResource):
                     "sampling_params": sampling_params,
                     "stream": stream,
                 },
-                inference_completion_params.InferenceCompletionParams,
+                inference_completion_params.InferenceCompletionParamsStreaming
+                if stream
+                else inference_completion_params.InferenceCompletionParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=CompletionResponse,
+            stream=stream or False,
+            stream_cls=AsyncStream[CompletionResponse],
         )
 
     async def embeddings(
         self,
         *,
-        contents: Union[List[str], Iterable[InterleavedContentItemParam]],
+        contents: Union[List[str], Iterable[InterleavedContentItem]],
         model_id: str,
         output_dimension: int | NotGiven = NOT_GIVEN,
         task_type: Literal["query", "document"] | NotGiven = NOT_GIVEN,
@@ -657,7 +1261,7 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> InferenceEmbeddingsResponse:
+    ) -> EmbeddingsResponse:
         """
         Generate embeddings for content pieces using the specified model.
 
@@ -701,7 +1305,7 @@ class AsyncInferenceResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=InferenceEmbeddingsResponse,
+            cast_to=EmbeddingsResponse,
         )
 
 

@@ -15,8 +15,8 @@ from .job import (
     AsyncJobResourceWithStreamingResponse,
 )
 from ...types import (
-    post_training_fine_tune_supervised_params,
-    post_training_optimize_preferences_params,
+    post_training_preference_optimize_params,
+    post_training_supervised_fine_tune_params,
 )
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import maybe_transform, async_maybe_transform
@@ -30,8 +30,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.post_training_job import PostTrainingJob
-from ...types.training_config_param import TrainingConfigParam
-from ...types.post_training_list_jobs_response import PostTrainingListJobsResponse
+from ...types.algorithm_config_param import AlgorithmConfigParam
 
 __all__ = ["PostTrainingResource", "AsyncPostTrainingResource"]
 
@@ -60,14 +59,73 @@ class PostTrainingResource(SyncAPIResource):
         """
         return PostTrainingResourceWithStreamingResponse(self)
 
-    def fine_tune_supervised(
+    def preference_optimize(
+        self,
+        *,
+        algorithm_config: post_training_preference_optimize_params.AlgorithmConfig,
+        finetuned_model: str,
+        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
+        job_uuid: str,
+        logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
+        training_config: post_training_preference_optimize_params.TrainingConfig,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> PostTrainingJob:
+        """
+        Run preference optimization of a model.
+
+        Args:
+          algorithm_config: The algorithm configuration.
+
+          finetuned_model: The model to fine-tune.
+
+          hyperparam_search_config: The hyperparam search configuration.
+
+          job_uuid: The UUID of the job to create.
+
+          logger_config: The logger configuration.
+
+          training_config: The training configuration.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/v1/post-training/preference-optimize",
+            body=maybe_transform(
+                {
+                    "algorithm_config": algorithm_config,
+                    "finetuned_model": finetuned_model,
+                    "hyperparam_search_config": hyperparam_search_config,
+                    "job_uuid": job_uuid,
+                    "logger_config": logger_config,
+                    "training_config": training_config,
+                },
+                post_training_preference_optimize_params.PostTrainingPreferenceOptimizeParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=PostTrainingJob,
+        )
+
+    def supervised_fine_tune(
         self,
         *,
         hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
-        training_config: TrainingConfigParam,
-        algorithm_config: post_training_fine_tune_supervised_params.AlgorithmConfig | NotGiven = NOT_GIVEN,
+        training_config: post_training_supervised_fine_tune_params.TrainingConfig,
+        algorithm_config: AlgorithmConfigParam | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
         model: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -78,7 +136,23 @@ class PostTrainingResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PostTrainingJob:
         """
+        Run supervised fine-tuning of a model.
+
         Args:
+          hyperparam_search_config: The hyperparam search configuration.
+
+          job_uuid: The UUID of the job to create.
+
+          logger_config: The logger configuration.
+
+          training_config: The training configuration.
+
+          algorithm_config: The algorithm configuration.
+
+          checkpoint_dir: The directory to save checkpoint(s) to.
+
+          model: The model to fine-tune.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -99,70 +173,7 @@ class PostTrainingResource(SyncAPIResource):
                     "checkpoint_dir": checkpoint_dir,
                     "model": model,
                 },
-                post_training_fine_tune_supervised_params.PostTrainingFineTuneSupervisedParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PostTrainingJob,
-        )
-
-    def list_jobs(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PostTrainingListJobsResponse:
-        return self._get(
-            "/v1/post-training/jobs",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PostTrainingListJobsResponse,
-        )
-
-    def optimize_preferences(
-        self,
-        *,
-        algorithm_config: post_training_optimize_preferences_params.AlgorithmConfig,
-        finetuned_model: str,
-        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
-        job_uuid: str,
-        logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
-        training_config: TrainingConfigParam,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PostTrainingJob:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._post(
-            "/v1/post-training/preference-optimize",
-            body=maybe_transform(
-                {
-                    "algorithm_config": algorithm_config,
-                    "finetuned_model": finetuned_model,
-                    "hyperparam_search_config": hyperparam_search_config,
-                    "job_uuid": job_uuid,
-                    "logger_config": logger_config,
-                    "training_config": training_config,
-                },
-                post_training_optimize_preferences_params.PostTrainingOptimizePreferencesParams,
+                post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -195,14 +206,73 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         """
         return AsyncPostTrainingResourceWithStreamingResponse(self)
 
-    async def fine_tune_supervised(
+    async def preference_optimize(
+        self,
+        *,
+        algorithm_config: post_training_preference_optimize_params.AlgorithmConfig,
+        finetuned_model: str,
+        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
+        job_uuid: str,
+        logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
+        training_config: post_training_preference_optimize_params.TrainingConfig,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> PostTrainingJob:
+        """
+        Run preference optimization of a model.
+
+        Args:
+          algorithm_config: The algorithm configuration.
+
+          finetuned_model: The model to fine-tune.
+
+          hyperparam_search_config: The hyperparam search configuration.
+
+          job_uuid: The UUID of the job to create.
+
+          logger_config: The logger configuration.
+
+          training_config: The training configuration.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/v1/post-training/preference-optimize",
+            body=await async_maybe_transform(
+                {
+                    "algorithm_config": algorithm_config,
+                    "finetuned_model": finetuned_model,
+                    "hyperparam_search_config": hyperparam_search_config,
+                    "job_uuid": job_uuid,
+                    "logger_config": logger_config,
+                    "training_config": training_config,
+                },
+                post_training_preference_optimize_params.PostTrainingPreferenceOptimizeParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=PostTrainingJob,
+        )
+
+    async def supervised_fine_tune(
         self,
         *,
         hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         job_uuid: str,
         logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
-        training_config: TrainingConfigParam,
-        algorithm_config: post_training_fine_tune_supervised_params.AlgorithmConfig | NotGiven = NOT_GIVEN,
+        training_config: post_training_supervised_fine_tune_params.TrainingConfig,
+        algorithm_config: AlgorithmConfigParam | NotGiven = NOT_GIVEN,
         checkpoint_dir: str | NotGiven = NOT_GIVEN,
         model: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -213,7 +283,23 @@ class AsyncPostTrainingResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PostTrainingJob:
         """
+        Run supervised fine-tuning of a model.
+
         Args:
+          hyperparam_search_config: The hyperparam search configuration.
+
+          job_uuid: The UUID of the job to create.
+
+          logger_config: The logger configuration.
+
+          training_config: The training configuration.
+
+          algorithm_config: The algorithm configuration.
+
+          checkpoint_dir: The directory to save checkpoint(s) to.
+
+          model: The model to fine-tune.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -234,70 +320,7 @@ class AsyncPostTrainingResource(AsyncAPIResource):
                     "checkpoint_dir": checkpoint_dir,
                     "model": model,
                 },
-                post_training_fine_tune_supervised_params.PostTrainingFineTuneSupervisedParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PostTrainingJob,
-        )
-
-    async def list_jobs(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PostTrainingListJobsResponse:
-        return await self._get(
-            "/v1/post-training/jobs",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PostTrainingListJobsResponse,
-        )
-
-    async def optimize_preferences(
-        self,
-        *,
-        algorithm_config: post_training_optimize_preferences_params.AlgorithmConfig,
-        finetuned_model: str,
-        hyperparam_search_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
-        job_uuid: str,
-        logger_config: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
-        training_config: TrainingConfigParam,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PostTrainingJob:
-        """
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._post(
-            "/v1/post-training/preference-optimize",
-            body=await async_maybe_transform(
-                {
-                    "algorithm_config": algorithm_config,
-                    "finetuned_model": finetuned_model,
-                    "hyperparam_search_config": hyperparam_search_config,
-                    "job_uuid": job_uuid,
-                    "logger_config": logger_config,
-                    "training_config": training_config,
-                },
-                post_training_optimize_preferences_params.PostTrainingOptimizePreferencesParams,
+                post_training_supervised_fine_tune_params.PostTrainingSupervisedFineTuneParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -310,14 +333,11 @@ class PostTrainingResourceWithRawResponse:
     def __init__(self, post_training: PostTrainingResource) -> None:
         self._post_training = post_training
 
-        self.fine_tune_supervised = to_raw_response_wrapper(
-            post_training.fine_tune_supervised,
+        self.preference_optimize = to_raw_response_wrapper(
+            post_training.preference_optimize,
         )
-        self.list_jobs = to_raw_response_wrapper(
-            post_training.list_jobs,
-        )
-        self.optimize_preferences = to_raw_response_wrapper(
-            post_training.optimize_preferences,
+        self.supervised_fine_tune = to_raw_response_wrapper(
+            post_training.supervised_fine_tune,
         )
 
     @cached_property
@@ -329,14 +349,11 @@ class AsyncPostTrainingResourceWithRawResponse:
     def __init__(self, post_training: AsyncPostTrainingResource) -> None:
         self._post_training = post_training
 
-        self.fine_tune_supervised = async_to_raw_response_wrapper(
-            post_training.fine_tune_supervised,
+        self.preference_optimize = async_to_raw_response_wrapper(
+            post_training.preference_optimize,
         )
-        self.list_jobs = async_to_raw_response_wrapper(
-            post_training.list_jobs,
-        )
-        self.optimize_preferences = async_to_raw_response_wrapper(
-            post_training.optimize_preferences,
+        self.supervised_fine_tune = async_to_raw_response_wrapper(
+            post_training.supervised_fine_tune,
         )
 
     @cached_property
@@ -348,14 +365,11 @@ class PostTrainingResourceWithStreamingResponse:
     def __init__(self, post_training: PostTrainingResource) -> None:
         self._post_training = post_training
 
-        self.fine_tune_supervised = to_streamed_response_wrapper(
-            post_training.fine_tune_supervised,
+        self.preference_optimize = to_streamed_response_wrapper(
+            post_training.preference_optimize,
         )
-        self.list_jobs = to_streamed_response_wrapper(
-            post_training.list_jobs,
-        )
-        self.optimize_preferences = to_streamed_response_wrapper(
-            post_training.optimize_preferences,
+        self.supervised_fine_tune = to_streamed_response_wrapper(
+            post_training.supervised_fine_tune,
         )
 
     @cached_property
@@ -367,14 +381,11 @@ class AsyncPostTrainingResourceWithStreamingResponse:
     def __init__(self, post_training: AsyncPostTrainingResource) -> None:
         self._post_training = post_training
 
-        self.fine_tune_supervised = async_to_streamed_response_wrapper(
-            post_training.fine_tune_supervised,
+        self.preference_optimize = async_to_streamed_response_wrapper(
+            post_training.preference_optimize,
         )
-        self.list_jobs = async_to_streamed_response_wrapper(
-            post_training.list_jobs,
-        )
-        self.optimize_preferences = async_to_streamed_response_wrapper(
-            post_training.optimize_preferences,
+        self.supervised_fine_tune = async_to_streamed_response_wrapper(
+            post_training.supervised_fine_tune,
         )
 
     @cached_property

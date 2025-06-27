@@ -1,25 +1,30 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from typing_extensions import Literal
+
 from .._models import BaseModel
 
 __all__ = ["File"]
 
 
 class File(BaseModel):
-    bucket: str
-    """Bucket under which the file is stored (valid chars: a-zA-Z0-9\\__-)"""
+    id: str
+    """The file identifier, which can be referenced in the API endpoints"""
 
     bytes: int
-    """Size of the file in bytes"""
+    """The size of the file, in bytes"""
 
     created_at: int
-    """Timestamp of when the file was created"""
+    """The Unix timestamp (in seconds) for when the file was created"""
 
-    key: str
-    """Key under which the file is stored (valid chars: a-zA-Z0-9\\__-/.)"""
+    expires_at: int
+    """The Unix timestamp (in seconds) for when the file expires"""
 
-    mime_type: str
-    """MIME type of the file"""
+    filename: str
+    """The name of the file"""
 
-    url: str
-    """Upload URL for the file contents"""
+    object: Literal["file"]
+    """The object type, which is always "file" """
+
+    purpose: Literal["assistants"]
+    """The intended purpose of the file"""

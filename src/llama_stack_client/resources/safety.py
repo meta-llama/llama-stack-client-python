@@ -18,8 +18,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.message_param import MessageParam
-from ..types.safety_run_shield_response import SafetyRunShieldResponse
+from ..types.run_shield_response import RunShieldResponse
+from ..types.shared_params.message import Message
 
 __all__ = ["SafetyResource", "AsyncSafetyResource"]
 
@@ -47,7 +47,7 @@ class SafetyResource(SyncAPIResource):
     def run_shield(
         self,
         *,
-        messages: Iterable[MessageParam],
+        messages: Iterable[Message],
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         shield_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -56,9 +56,17 @@ class SafetyResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SafetyRunShieldResponse:
+    ) -> RunShieldResponse:
         """
+        Run a shield.
+
         Args:
+          messages: The messages to run the shield on.
+
+          params: The parameters of the shield.
+
+          shield_id: The identifier of the shield to run.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -80,7 +88,7 @@ class SafetyResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SafetyRunShieldResponse,
+            cast_to=RunShieldResponse,
         )
 
 
@@ -107,7 +115,7 @@ class AsyncSafetyResource(AsyncAPIResource):
     async def run_shield(
         self,
         *,
-        messages: Iterable[MessageParam],
+        messages: Iterable[Message],
         params: Dict[str, Union[bool, float, str, Iterable[object], object, None]],
         shield_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -116,9 +124,17 @@ class AsyncSafetyResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SafetyRunShieldResponse:
+    ) -> RunShieldResponse:
         """
+        Run a shield.
+
         Args:
+          messages: The messages to run the shield on.
+
+          params: The parameters of the shield.
+
+          shield_id: The identifier of the shield to run.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -140,7 +156,7 @@ class AsyncSafetyResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SafetyRunShieldResponse,
+            cast_to=RunShieldResponse,
         )
 
 

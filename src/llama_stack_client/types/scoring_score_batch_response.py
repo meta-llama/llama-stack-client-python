@@ -1,21 +1,14 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Union, Optional
+from typing import Dict, Optional
 
 from .._models import BaseModel
+from .shared.scoring_result import ScoringResult
 
-__all__ = ["ScoringScoreBatchResponse", "Results"]
-
-
-class Results(BaseModel):
-    aggregated_results: Dict[str, Union[bool, float, str, List[object], object, None]]
-    """Map of metric name to aggregated value"""
-
-    score_rows: List[Dict[str, Union[bool, float, str, List[object], object, None]]]
-    """The scoring result for each row. Each row is a map of column name to value."""
+__all__ = ["ScoringScoreBatchResponse"]
 
 
 class ScoringScoreBatchResponse(BaseModel):
-    results: Dict[str, Results]
+    results: Dict[str, ScoringResult]
 
     dataset_id: Optional[str] = None

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Type, cast
+
 import httpx
 
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
@@ -13,6 +15,7 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .._wrappers import DataWrapper
 from .._base_client import make_request_options
 from ..types.provider_info import ProviderInfo
 from ..types.provider_list_response import ProviderListResponse
@@ -52,6 +55,8 @@ class ProvidersResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ProviderInfo:
         """
+        Get detailed information about a specific provider.
+
         Args:
           extra_headers: Send extra headers
 
@@ -81,12 +86,17 @@ class ProvidersResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ProviderListResponse:
+        """List all available providers."""
         return self._get(
             "/v1/providers",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[ProviderListResponse]._unwrapper,
             ),
-            cast_to=ProviderListResponse,
+            cast_to=cast(Type[ProviderListResponse], DataWrapper[ProviderListResponse]),
         )
 
 
@@ -122,6 +132,8 @@ class AsyncProvidersResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ProviderInfo:
         """
+        Get detailed information about a specific provider.
+
         Args:
           extra_headers: Send extra headers
 
@@ -151,12 +163,17 @@ class AsyncProvidersResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ProviderListResponse:
+        """List all available providers."""
         return await self._get(
             "/v1/providers",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                post_parser=DataWrapper[ProviderListResponse]._unwrapper,
             ),
-            cast_to=ProviderListResponse,
+            cast_to=cast(Type[ProviderListResponse], DataWrapper[ProviderListResponse]),
         )
 
 
