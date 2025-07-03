@@ -4,6 +4,7 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
+import json
 from typing import Optional
 
 import click
@@ -99,6 +100,7 @@ def get_model(ctx, model_id: str):
 @click.option("--provider-id", help="Provider ID for the model", default=None)
 @click.option("--provider-model-id", help="Provider's model ID", default=None)
 @click.option("--metadata", help="JSON metadata for the model", default=None)
+@click.option("--model-type", help="Model type", default="llm")
 @click.pass_context
 @handle_client_errors("register model")
 def register_model(
@@ -107,16 +109,29 @@ def register_model(
     provider_id: Optional[str],
     provider_model_id: Optional[str],
     metadata: Optional[str],
+    model_type: Optional[str],
 ):
     """Register a new model at distribution endpoint"""
     client = ctx.obj["client"]
     console = Console()
 
+    # Parse metadata JSON string to dictionary if provided
+    parsed_metadata = None
+    if metadata:
+        try:
+            parsed_metadata = json.loads(metadata)
+        except json.JSONDecodeError as e:
+            console.print(
+                f"[red]Error parsing metadata JSON: {e}[/red]"
+            )
+            return
+
     response = client.models.register(
         model_id=model_id,
         provider_id=provider_id,
         provider_model_id=provider_model_id,
-        metadata=metadata,
+        metadata=parsed_metadata,
+        model_type=model_type,
     )
     if response:
         console.print(f"[green]Successfully registered model {model_id}[/green]")
