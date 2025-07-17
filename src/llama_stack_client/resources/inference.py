@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import List, Union, Iterable
 from typing_extensions import Literal, overload
+import warnings
 
 import httpx
 
@@ -408,6 +409,11 @@ class InferenceResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ChatCompletionResponse | Stream[ChatCompletionResponseStreamChunk]:
+        warnings.warn(
+            "The chat_completion method is deprecated. Use chat.completions.create instead",
+            DeprecationWarning,
+            stacklevel=2
+        )
         if stream:
             extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return self._post(
@@ -592,6 +598,11 @@ class InferenceResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> CompletionResponse | Stream[CompletionResponse]:
+        warnings.warn(
+            "The completion method is deprecated. Use completions.create instead",
+            DeprecationWarning,
+            stacklevel=2
+        )
         if stream:
             extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return self._post(
@@ -632,6 +643,11 @@ class InferenceResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EmbeddingsResponse:
+        warnings.warn(
+            "The embeddings method is deprecated. Use embeddings.create instead",
+            DeprecationWarning,
+            stacklevel=2
+        )
         """
         Generate embeddings for content pieces using the specified model.
 
@@ -1046,6 +1062,11 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ChatCompletionResponse | AsyncStream[ChatCompletionResponseStreamChunk]:
+        warnings.warn(
+            "The chat_completion method is deprecated. Use chat.completions.create instead",
+            DeprecationWarning,
+            stacklevel=2
+        )
         if stream:
             extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return await self._post(
@@ -1230,6 +1251,11 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> CompletionResponse | AsyncStream[CompletionResponse]:
+        warnings.warn(
+            "The completion method is deprecated. Use completions.create instead",
+            DeprecationWarning,
+            stacklevel=2
+        )
         if stream:
             extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return await self._post(
@@ -1270,6 +1296,11 @@ class AsyncInferenceResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> EmbeddingsResponse:
+        warnings.warn(
+            "The embeddings method is deprecated. Use embeddings.create instead",
+            DeprecationWarning,
+            stacklevel=2
+        )
         """
         Generate embeddings for content pieces using the specified model.
 
