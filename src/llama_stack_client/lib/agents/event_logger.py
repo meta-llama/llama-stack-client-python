@@ -4,7 +4,7 @@
 # This source code is licensed under the terms described in the LICENSE file in
 # the root directory of this source tree.
 
-from typing import Any, Iterator, Optional, Tuple
+from typing import Any, AsyncIterator, Iterator, Optional, Tuple
 
 from termcolor import cprint
 
@@ -163,3 +163,11 @@ class EventLogger:
         printer = TurnStreamEventPrinter()
         for chunk in event_generator:
             yield from printer.yield_printable_events(chunk)
+
+
+class AsyncEventLogger:
+    async def log(self, event_generator: AsyncIterator[Any]) -> AsyncIterator[TurnStreamPrintableEvent]:
+        printer = TurnStreamEventPrinter()
+        async for chunk in event_generator:
+            for printable_event in printer.yield_printable_events(chunk):
+                yield printable_event
