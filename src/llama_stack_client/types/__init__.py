@@ -24,6 +24,7 @@ from .shared import (
     SamplingParams as SamplingParams,
     BatchCompletion as BatchCompletion,
     SafetyViolation as SafetyViolation,
+    ToolCallOrString as ToolCallOrString,
     CompletionMessage as CompletionMessage,
     InterleavedContent as InterleavedContent,
     ToolParamDefinition as ToolParamDefinition,

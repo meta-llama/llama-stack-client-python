@@ -22,6 +22,7 @@ from llama_stack_client.types import (
     ScoringResult,
     SystemMessage,
     ToolCall,
+    ToolCallOrString,
     ToolParamDefinition,
     ToolResponseMessage,
     UserMessage,

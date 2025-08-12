@@ -5,9 +5,9 @@ from typing_extensions import Literal, Annotated, TypeAlias
 
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
-from .tool_call import ToolCall
+from .tool_call_or_string import ToolCallOrString
 
-__all__ = ["ContentDelta", "TextDelta", "ImageDelta", "ToolCallDelta", "ToolCallDeltaToolCall"]
+__all__ = ["ContentDelta", "TextDelta", "ImageDelta", "ToolCallDelta"]
 
 
 class TextDelta(BaseModel):
@@ -26,14 +26,11 @@ class ImageDelta(BaseModel):
     """Discriminator type of the delta. Always "image" """
 
 
-ToolCallDeltaToolCall: TypeAlias = Union[str, ToolCall]
-
-
 class ToolCallDelta(BaseModel):
     parse_status: Literal["started", "in_progress", "failed", "succeeded"]
     """Current parsing status of the tool call"""
 
-    tool_call: ToolCallDeltaToolCall
+    tool_call: ToolCallOrString
     """Either an in-progress tool call string or the final parsed tool call"""
 
     type: Literal["tool_call"]
