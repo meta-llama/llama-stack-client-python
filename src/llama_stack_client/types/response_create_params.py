@@ -46,6 +46,9 @@ class ResponseCreateParamsBase(TypedDict, total=False):
     model: Required[str]
     """The underlying LLM used for completions."""
 
+    include: List[str]
+    """(Optional) Additional fields to include in the response."""
+
     instructions: str
 
     max_infer_iters: int

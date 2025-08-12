@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union, Iterable
+from typing import List, Union, Iterable
 from typing_extensions import Literal, overload
 
 import httpx
@@ -66,6 +66,7 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -88,6 +89,8 @@ class ResponsesResource(SyncAPIResource):
           input: Input message(s) to create the response.
 
           model: The underlying LLM used for completions.
+
+          include: (Optional) Additional fields to include in the response.
 
           previous_response_id: (Optional) if specified, the new response will be a continuation of the previous
               response. This can be used to easily fork-off new responses from existing
@@ -112,6 +115,7 @@ class ResponsesResource(SyncAPIResource):
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
         stream: Literal[True],
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -133,6 +137,8 @@ class ResponsesResource(SyncAPIResource):
           input: Input message(s) to create the response.
 
           model: The underlying LLM used for completions.
+
+          include: (Optional) Additional fields to include in the response.
 
           previous_response_id: (Optional) if specified, the new response will be a continuation of the previous
               response. This can be used to easily fork-off new responses from existing
@@ -157,6 +163,7 @@ class ResponsesResource(SyncAPIResource):
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
         stream: bool,
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -178,6 +185,8 @@ class ResponsesResource(SyncAPIResource):
           input: Input message(s) to create the response.
 
           model: The underlying LLM used for completions.
+
+          include: (Optional) Additional fields to include in the response.
 
           previous_response_id: (Optional) if specified, the new response will be a continuation of the previous
               response. This can be used to easily fork-off new responses from existing
@@ -201,6 +210,7 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -222,6 +232,7 @@ class ResponsesResource(SyncAPIResource):
                 {
                     "input": input,
                     "model": model,
+                    "include": include,
                     "instructions": instructions,
                     "max_infer_iters": max_infer_iters,
                     "previous_response_id": previous_response_id,
@@ -362,6 +373,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         *,
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -384,6 +396,8 @@ class AsyncResponsesResource(AsyncAPIResource):
           input: Input message(s) to create the response.
 
           model: The underlying LLM used for completions.
+
+          include: (Optional) Additional fields to include in the response.
 
           previous_response_id: (Optional) if specified, the new response will be a continuation of the previous
               response. This can be used to easily fork-off new responses from existing
@@ -408,6 +422,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
         stream: Literal[True],
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -429,6 +444,8 @@ class AsyncResponsesResource(AsyncAPIResource):
           input: Input message(s) to create the response.
 
           model: The underlying LLM used for completions.
+
+          include: (Optional) Additional fields to include in the response.
 
           previous_response_id: (Optional) if specified, the new response will be a continuation of the previous
               response. This can be used to easily fork-off new responses from existing
@@ -453,6 +470,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
         stream: bool,
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -474,6 +492,8 @@ class AsyncResponsesResource(AsyncAPIResource):
           input: Input message(s) to create the response.
 
           model: The underlying LLM used for completions.
+
+          include: (Optional) Additional fields to include in the response.
 
           previous_response_id: (Optional) if specified, the new response will be a continuation of the previous
               response. This can be used to easily fork-off new responses from existing
@@ -497,6 +517,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         *,
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -518,6 +539,7 @@ class AsyncResponsesResource(AsyncAPIResource):
                 {
                     "input": input,
                     "model": model,
+                    "include": include,
                     "instructions": instructions,
                     "max_infer_iters": max_infer_iters,
                     "previous_response_id": previous_response_id,
