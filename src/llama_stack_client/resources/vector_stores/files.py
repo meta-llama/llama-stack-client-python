@@ -17,10 +17,10 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import make_request_options
+from ...pagination import SyncOpenAICursorPagination, AsyncOpenAICursorPagination
+from ..._base_client import AsyncPaginator, make_request_options
 from ...types.vector_stores import file_list_params, file_create_params, file_update_params
 from ...types.vector_stores.vector_store_file import VectorStoreFile
-from ...types.vector_stores.file_list_response import FileListResponse
 from ...types.vector_stores.file_delete_response import FileDeleteResponse
 from ...types.vector_stores.file_content_response import FileContentResponse
 
@@ -188,7 +188,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> FileListResponse:
+    ) -> SyncOpenAICursorPagination[VectorStoreFile]:
         """
         List files in a vector store.
 
@@ -217,8 +217,9 @@ class FilesResource(SyncAPIResource):
         """
         if not vector_store_id:
             raise ValueError(f"Expected a non-empty value for `vector_store_id` but received {vector_store_id!r}")
-        return self._get(
+        return self._get_api_list(
             f"/v1/openai/v1/vector_stores/{vector_store_id}/files",
+            page=SyncOpenAICursorPagination[VectorStoreFile],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -235,7 +236,7 @@ class FilesResource(SyncAPIResource):
                     file_list_params.FileListParams,
                 ),
             ),
-            cast_to=FileListResponse,
+            model=VectorStoreFile,
         )
 
     def delete(
@@ -457,7 +458,7 @@ class AsyncFilesResource(AsyncAPIResource):
             cast_to=VectorStoreFile,
         )
 
-    async def list(
+    def list(
         self,
         vector_store_id: str,
         *,
@@ -472,7 +473,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> FileListResponse:
+    ) -> AsyncPaginator[VectorStoreFile, AsyncOpenAICursorPagination[VectorStoreFile]]:
         """
         List files in a vector store.
 
@@ -501,14 +502,15 @@ class AsyncFilesResource(AsyncAPIResource):
         """
         if not vector_store_id:
             raise ValueError(f"Expected a non-empty value for `vector_store_id` but received {vector_store_id!r}")
-        return await self._get(
+        return self._get_api_list(
             f"/v1/openai/v1/vector_stores/{vector_store_id}/files",
+            page=AsyncOpenAICursorPagination[VectorStoreFile],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "after": after,
                         "before": before,
@@ -519,7 +521,7 @@ class AsyncFilesResource(AsyncAPIResource):
                     file_list_params.FileListParams,
                 ),
             ),
-            cast_to=FileListResponse,
+            model=VectorStoreFile,
         )
 
     async def delete(

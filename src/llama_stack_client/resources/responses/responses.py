@@ -27,7 +27,8 @@ from .input_items import (
     AsyncInputItemsResourceWithStreamingResponse,
 )
 from ..._streaming import Stream, AsyncStream
-from ..._base_client import make_request_options
+from ...pagination import SyncOpenAICursorPagination, AsyncOpenAICursorPagination
+from ..._base_client import AsyncPaginator, make_request_options
 from ...types.response_object import ResponseObject
 from ...types.response_list_response import ResponseListResponse
 from ...types.response_object_stream import ResponseObjectStream
@@ -288,7 +289,7 @@ class ResponsesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ResponseListResponse:
+    ) -> SyncOpenAICursorPagination[ResponseListResponse]:
         """
         List all OpenAI responses.
 
@@ -309,8 +310,9 @@ class ResponsesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get(
+        return self._get_api_list(
             "/v1/openai/v1/responses",
+            page=SyncOpenAICursorPagination[ResponseListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -326,7 +328,7 @@ class ResponsesResource(SyncAPIResource):
                     response_list_params.ResponseListParams,
                 ),
             ),
-            cast_to=ResponseListResponse,
+            model=ResponseListResponse,
         )
 
 
@@ -570,7 +572,7 @@ class AsyncResponsesResource(AsyncAPIResource):
             cast_to=ResponseObject,
         )
 
-    async def list(
+    def list(
         self,
         *,
         after: str | NotGiven = NOT_GIVEN,
@@ -583,7 +585,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ResponseListResponse:
+    ) -> AsyncPaginator[ResponseListResponse, AsyncOpenAICursorPagination[ResponseListResponse]]:
         """
         List all OpenAI responses.
 
@@ -604,14 +606,15 @@ class AsyncResponsesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._get(
+        return self._get_api_list(
             "/v1/openai/v1/responses",
+            page=AsyncOpenAICursorPagination[ResponseListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "after": after,
                         "limit": limit,
@@ -621,7 +624,7 @@ class AsyncResponsesResource(AsyncAPIResource):
                     response_list_params.ResponseListParams,
                 ),
             ),
-            cast_to=ResponseListResponse,
+            model=ResponseListResponse,
         )
 
 

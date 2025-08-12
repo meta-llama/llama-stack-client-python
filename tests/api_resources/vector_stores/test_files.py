@@ -9,9 +9,9 @@ import pytest
 
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
+from llama_stack_client.pagination import SyncOpenAICursorPagination, AsyncOpenAICursorPagination
 from llama_stack_client.types.vector_stores import (
     VectorStoreFile,
-    FileListResponse,
     FileDeleteResponse,
     FileContentResponse,
 )
@@ -180,7 +180,7 @@ class TestFiles:
         file = client.vector_stores.files.list(
             vector_store_id="vector_store_id",
         )
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(SyncOpenAICursorPagination[VectorStoreFile], file, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
@@ -192,7 +192,7 @@ class TestFiles:
             limit=0,
             order="order",
         )
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(SyncOpenAICursorPagination[VectorStoreFile], file, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: LlamaStackClient) -> None:
@@ -203,7 +203,7 @@ class TestFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = response.parse()
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(SyncOpenAICursorPagination[VectorStoreFile], file, path=["response"])
 
     @parametrize
     def test_streaming_response_list(self, client: LlamaStackClient) -> None:
@@ -214,7 +214,7 @@ class TestFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = response.parse()
-            assert_matches_type(FileListResponse, file, path=["response"])
+            assert_matches_type(SyncOpenAICursorPagination[VectorStoreFile], file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -485,7 +485,7 @@ class TestAsyncFiles:
         file = await async_client.vector_stores.files.list(
             vector_store_id="vector_store_id",
         )
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(AsyncOpenAICursorPagination[VectorStoreFile], file, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
@@ -497,7 +497,7 @@ class TestAsyncFiles:
             limit=0,
             order="order",
         )
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(AsyncOpenAICursorPagination[VectorStoreFile], file, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncLlamaStackClient) -> None:
@@ -508,7 +508,7 @@ class TestAsyncFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = await response.parse()
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(AsyncOpenAICursorPagination[VectorStoreFile], file, path=["response"])
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncLlamaStackClient) -> None:
@@ -519,7 +519,7 @@ class TestAsyncFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = await response.parse()
-            assert_matches_type(FileListResponse, file, path=["response"])
+            assert_matches_type(AsyncOpenAICursorPagination[VectorStoreFile], file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
