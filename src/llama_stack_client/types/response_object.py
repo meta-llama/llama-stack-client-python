@@ -23,6 +23,7 @@ __all__ = [
     "OutputOpenAIResponseMessageContentUnionMember2AnnotationOpenAIResponseAnnotationFilePath",
     "OutputOpenAIResponseOutputMessageWebSearchToolCall",
     "OutputOpenAIResponseOutputMessageFileSearchToolCall",
+    "OutputOpenAIResponseOutputMessageFileSearchToolCallResult",
     "OutputOpenAIResponseOutputMessageFunctionToolCall",
     "OutputOpenAIResponseOutputMessageMcpCall",
     "OutputOpenAIResponseOutputMessageMcpListTools",
@@ -158,6 +159,23 @@ class OutputOpenAIResponseOutputMessageWebSearchToolCall(BaseModel):
     """Tool call type identifier, always "web_search_call" """
 
 
+class OutputOpenAIResponseOutputMessageFileSearchToolCallResult(BaseModel):
+    attributes: Dict[str, Union[bool, float, str, List[object], object, None]]
+    """(Optional) Key-value attributes associated with the file"""
+
+    file_id: str
+    """Unique identifier of the file containing the result"""
+
+    filename: str
+    """Name of the file containing the result"""
+
+    score: float
+    """Relevance score for this search result (between 0 and 1)"""
+
+    text: str
+    """Text content of the search result"""
+
+
 class OutputOpenAIResponseOutputMessageFileSearchToolCall(BaseModel):
     id: str
     """Unique identifier for this tool call"""
@@ -171,7 +189,7 @@ class OutputOpenAIResponseOutputMessageFileSearchToolCall(BaseModel):
     type: Literal["file_search_call"]
     """Tool call type identifier, always "file_search_call" """
 
-    results: Optional[List[Dict[str, Union[bool, float, str, List[object], object, None]]]] = None
+    results: Optional[List[OutputOpenAIResponseOutputMessageFileSearchToolCallResult]] = None
     """(Optional) Search results returned by the file search operation"""
 
 

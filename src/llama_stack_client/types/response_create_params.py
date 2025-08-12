@@ -10,6 +10,7 @@ __all__ = [
     "InputUnionMember1",
     "InputUnionMember1OpenAIResponseOutputMessageWebSearchToolCall",
     "InputUnionMember1OpenAIResponseOutputMessageFileSearchToolCall",
+    "InputUnionMember1OpenAIResponseOutputMessageFileSearchToolCallResult",
     "InputUnionMember1OpenAIResponseOutputMessageFunctionToolCall",
     "InputUnionMember1OpenAIResponseInputFunctionToolCallOutput",
     "InputUnionMember1OpenAIResponseMessage",
@@ -81,6 +82,23 @@ class InputUnionMember1OpenAIResponseOutputMessageWebSearchToolCall(TypedDict, t
     """Tool call type identifier, always "web_search_call" """
 
 
+class InputUnionMember1OpenAIResponseOutputMessageFileSearchToolCallResult(TypedDict, total=False):
+    attributes: Required[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+    """(Optional) Key-value attributes associated with the file"""
+
+    file_id: Required[str]
+    """Unique identifier of the file containing the result"""
+
+    filename: Required[str]
+    """Name of the file containing the result"""
+
+    score: Required[float]
+    """Relevance score for this search result (between 0 and 1)"""
+
+    text: Required[str]
+    """Text content of the search result"""
+
+
 class InputUnionMember1OpenAIResponseOutputMessageFileSearchToolCall(TypedDict, total=False):
     id: Required[str]
     """Unique identifier for this tool call"""
@@ -94,7 +112,7 @@ class InputUnionMember1OpenAIResponseOutputMessageFileSearchToolCall(TypedDict, 
     type: Required[Literal["file_search_call"]]
     """Tool call type identifier, always "file_search_call" """
 
-    results: Iterable[Dict[str, Union[bool, float, str, Iterable[object], object, None]]]
+    results: Iterable[InputUnionMember1OpenAIResponseOutputMessageFileSearchToolCallResult]
     """(Optional) Search results returned by the file search operation"""
 
 
