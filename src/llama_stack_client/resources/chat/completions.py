@@ -18,7 +18,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._streaming import Stream, AsyncStream
-from ...pagination import SyncOpenAICursorPagination, AsyncOpenAICursorPagination
+from ...pagination import SyncOpenAICursorPage, AsyncOpenAICursorPage
 from ...types.chat import completion_list_params, completion_create_params
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.chat_completion_chunk import ChatCompletionChunk
@@ -467,7 +467,7 @@ class CompletionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SyncOpenAICursorPagination[CompletionListResponse]:
+    ) -> SyncOpenAICursorPage[CompletionListResponse]:
         """
         List all chat completions.
 
@@ -490,7 +490,7 @@ class CompletionsResource(SyncAPIResource):
         """
         return self._get_api_list(
             "/v1/openai/v1/chat/completions",
-            page=SyncOpenAICursorPagination[CompletionListResponse],
+            page=SyncOpenAICursorPage[CompletionListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -948,7 +948,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncPaginator[CompletionListResponse, AsyncOpenAICursorPagination[CompletionListResponse]]:
+    ) -> AsyncPaginator[CompletionListResponse, AsyncOpenAICursorPage[CompletionListResponse]]:
         """
         List all chat completions.
 
@@ -971,7 +971,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         """
         return self._get_api_list(
             "/v1/openai/v1/chat/completions",
-            page=AsyncOpenAICursorPagination[CompletionListResponse],
+            page=AsyncOpenAICursorPage[CompletionListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

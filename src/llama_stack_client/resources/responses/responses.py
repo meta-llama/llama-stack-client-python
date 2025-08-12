@@ -27,7 +27,7 @@ from .input_items import (
     AsyncInputItemsResourceWithStreamingResponse,
 )
 from ..._streaming import Stream, AsyncStream
-from ...pagination import SyncOpenAICursorPagination, AsyncOpenAICursorPagination
+from ...pagination import SyncOpenAICursorPage, AsyncOpenAICursorPage
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.response_object import ResponseObject
 from ...types.response_list_response import ResponseListResponse
@@ -289,7 +289,7 @@ class ResponsesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SyncOpenAICursorPagination[ResponseListResponse]:
+    ) -> SyncOpenAICursorPage[ResponseListResponse]:
         """
         List all OpenAI responses.
 
@@ -312,7 +312,7 @@ class ResponsesResource(SyncAPIResource):
         """
         return self._get_api_list(
             "/v1/openai/v1/responses",
-            page=SyncOpenAICursorPagination[ResponseListResponse],
+            page=SyncOpenAICursorPage[ResponseListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -585,7 +585,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncPaginator[ResponseListResponse, AsyncOpenAICursorPagination[ResponseListResponse]]:
+    ) -> AsyncPaginator[ResponseListResponse, AsyncOpenAICursorPage[ResponseListResponse]]:
         """
         List all OpenAI responses.
 
@@ -608,7 +608,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         """
         return self._get_api_list(
             "/v1/openai/v1/responses",
-            page=AsyncOpenAICursorPagination[ResponseListResponse],
+            page=AsyncOpenAICursorPage[ResponseListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

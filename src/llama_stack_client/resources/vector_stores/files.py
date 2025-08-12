@@ -17,7 +17,7 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...pagination import SyncOpenAICursorPagination, AsyncOpenAICursorPagination
+from ...pagination import SyncOpenAICursorPage, AsyncOpenAICursorPage
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.vector_stores import file_list_params, file_create_params, file_update_params
 from ...types.vector_stores.vector_store_file import VectorStoreFile
@@ -188,7 +188,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SyncOpenAICursorPagination[VectorStoreFile]:
+    ) -> SyncOpenAICursorPage[VectorStoreFile]:
         """
         List files in a vector store.
 
@@ -219,7 +219,7 @@ class FilesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `vector_store_id` but received {vector_store_id!r}")
         return self._get_api_list(
             f"/v1/openai/v1/vector_stores/{vector_store_id}/files",
-            page=SyncOpenAICursorPagination[VectorStoreFile],
+            page=SyncOpenAICursorPage[VectorStoreFile],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -473,7 +473,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncPaginator[VectorStoreFile, AsyncOpenAICursorPagination[VectorStoreFile]]:
+    ) -> AsyncPaginator[VectorStoreFile, AsyncOpenAICursorPage[VectorStoreFile]]:
         """
         List files in a vector store.
 
@@ -504,7 +504,7 @@ class AsyncFilesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `vector_store_id` but received {vector_store_id!r}")
         return self._get_api_list(
             f"/v1/openai/v1/vector_stores/{vector_store_id}/files",
-            page=AsyncOpenAICursorPagination[VectorStoreFile],
+            page=AsyncOpenAICursorPage[VectorStoreFile],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

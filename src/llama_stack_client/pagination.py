@@ -5,7 +5,7 @@ from typing_extensions import override
 
 from ._base_client import BasePage, PageInfo, BaseSyncPage, BaseAsyncPage
 
-__all__ = ["SyncDatasetsIterrows", "AsyncDatasetsIterrows", "SyncOpenAICursorPagination", "AsyncOpenAICursorPagination"]
+__all__ = ["SyncDatasetsIterrows", "AsyncDatasetsIterrows", "SyncOpenAICursorPage", "AsyncOpenAICursorPage"]
 
 _T = TypeVar("_T")
 
@@ -50,7 +50,7 @@ class AsyncDatasetsIterrows(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
         return PageInfo(params={"start_index": next_index})
 
 
-class SyncOpenAICursorPagination(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
+class SyncOpenAICursorPage(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
     data: List[_T]
     has_more: Optional[bool] = None
     last_id: Optional[str] = None
@@ -79,7 +79,7 @@ class SyncOpenAICursorPagination(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
         return PageInfo(params={"after": last_id})
 
 
-class AsyncOpenAICursorPagination(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
+class AsyncOpenAICursorPage(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
     data: List[_T]
     has_more: Optional[bool] = None
     last_id: Optional[str] = None

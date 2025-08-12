@@ -30,7 +30,7 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...pagination import SyncOpenAICursorPagination, AsyncOpenAICursorPagination
+from ...pagination import SyncOpenAICursorPage, AsyncOpenAICursorPage
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.vector_store import VectorStore
 from ...types.vector_store_delete_response import VectorStoreDeleteResponse
@@ -228,7 +228,7 @@ class VectorStoresResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SyncOpenAICursorPagination[VectorStore]:
+    ) -> SyncOpenAICursorPage[VectorStore]:
         """Returns a list of vector stores.
 
         Args:
@@ -256,7 +256,7 @@ class VectorStoresResource(SyncAPIResource):
         """
         return self._get_api_list(
             "/v1/openai/v1/vector_stores",
-            page=SyncOpenAICursorPagination[VectorStore],
+            page=SyncOpenAICursorPage[VectorStore],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -562,7 +562,7 @@ class AsyncVectorStoresResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncPaginator[VectorStore, AsyncOpenAICursorPagination[VectorStore]]:
+    ) -> AsyncPaginator[VectorStore, AsyncOpenAICursorPage[VectorStore]]:
         """Returns a list of vector stores.
 
         Args:
@@ -590,7 +590,7 @@ class AsyncVectorStoresResource(AsyncAPIResource):
         """
         return self._get_api_list(
             "/v1/openai/v1/vector_stores",
-            page=AsyncOpenAICursorPagination[VectorStore],
+            page=AsyncOpenAICursorPage[VectorStore],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

@@ -18,7 +18,7 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..pagination import SyncOpenAICursorPagination, AsyncOpenAICursorPagination
+from ..pagination import SyncOpenAICursorPage, AsyncOpenAICursorPage
 from ..types.file import File
 from .._base_client import AsyncPaginator, make_request_options
 from ..types.delete_file_response import DeleteFileResponse
@@ -144,7 +144,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SyncOpenAICursorPagination[File]:
+    ) -> SyncOpenAICursorPage[File]:
         """
         Returns a list of files that belong to the user's organization.
 
@@ -172,7 +172,7 @@ class FilesResource(SyncAPIResource):
         """
         return self._get_api_list(
             "/v1/openai/v1/files",
-            page=SyncOpenAICursorPagination[File],
+            page=SyncOpenAICursorPage[File],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -376,7 +376,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncPaginator[File, AsyncOpenAICursorPagination[File]]:
+    ) -> AsyncPaginator[File, AsyncOpenAICursorPage[File]]:
         """
         Returns a list of files that belong to the user's organization.
 
@@ -404,7 +404,7 @@ class AsyncFilesResource(AsyncAPIResource):
         """
         return self._get_api_list(
             "/v1/openai/v1/files",
-            page=AsyncOpenAICursorPagination[File],
+            page=AsyncOpenAICursorPage[File],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

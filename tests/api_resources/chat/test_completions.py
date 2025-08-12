@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from llama_stack_client import LlamaStackClient, AsyncLlamaStackClient
-from llama_stack_client.pagination import SyncOpenAICursorPagination, AsyncOpenAICursorPagination
+from llama_stack_client.pagination import SyncOpenAICursorPage, AsyncOpenAICursorPage
 from llama_stack_client.types.chat import (
     CompletionListResponse,
     CompletionCreateResponse,
@@ -233,7 +233,7 @@ class TestCompletions:
     @parametrize
     def test_method_list(self, client: LlamaStackClient) -> None:
         completion = client.chat.completions.list()
-        assert_matches_type(SyncOpenAICursorPagination[CompletionListResponse], completion, path=["response"])
+        assert_matches_type(SyncOpenAICursorPage[CompletionListResponse], completion, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: LlamaStackClient) -> None:
@@ -243,7 +243,7 @@ class TestCompletions:
             model="model",
             order="asc",
         )
-        assert_matches_type(SyncOpenAICursorPagination[CompletionListResponse], completion, path=["response"])
+        assert_matches_type(SyncOpenAICursorPage[CompletionListResponse], completion, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: LlamaStackClient) -> None:
@@ -252,7 +252,7 @@ class TestCompletions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         completion = response.parse()
-        assert_matches_type(SyncOpenAICursorPagination[CompletionListResponse], completion, path=["response"])
+        assert_matches_type(SyncOpenAICursorPage[CompletionListResponse], completion, path=["response"])
 
     @parametrize
     def test_streaming_response_list(self, client: LlamaStackClient) -> None:
@@ -261,7 +261,7 @@ class TestCompletions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             completion = response.parse()
-            assert_matches_type(SyncOpenAICursorPagination[CompletionListResponse], completion, path=["response"])
+            assert_matches_type(SyncOpenAICursorPage[CompletionListResponse], completion, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -482,7 +482,7 @@ class TestAsyncCompletions:
     @parametrize
     async def test_method_list(self, async_client: AsyncLlamaStackClient) -> None:
         completion = await async_client.chat.completions.list()
-        assert_matches_type(AsyncOpenAICursorPagination[CompletionListResponse], completion, path=["response"])
+        assert_matches_type(AsyncOpenAICursorPage[CompletionListResponse], completion, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncLlamaStackClient) -> None:
@@ -492,7 +492,7 @@ class TestAsyncCompletions:
             model="model",
             order="asc",
         )
-        assert_matches_type(AsyncOpenAICursorPagination[CompletionListResponse], completion, path=["response"])
+        assert_matches_type(AsyncOpenAICursorPage[CompletionListResponse], completion, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncLlamaStackClient) -> None:
@@ -501,7 +501,7 @@ class TestAsyncCompletions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         completion = await response.parse()
-        assert_matches_type(AsyncOpenAICursorPagination[CompletionListResponse], completion, path=["response"])
+        assert_matches_type(AsyncOpenAICursorPage[CompletionListResponse], completion, path=["response"])
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncLlamaStackClient) -> None:
@@ -510,6 +510,6 @@ class TestAsyncCompletions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             completion = await response.parse()
-            assert_matches_type(AsyncOpenAICursorPagination[CompletionListResponse], completion, path=["response"])
+            assert_matches_type(AsyncOpenAICursorPage[CompletionListResponse], completion, path=["response"])
 
         assert cast(Any, response.is_closed) is True
