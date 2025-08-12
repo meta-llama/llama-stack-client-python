@@ -17,7 +17,7 @@ The REST API documentation can be found on [llama-stack.readthedocs.io](https://
 
 ```sh
 # install from PyPI
-pip install llama_stack_client
+pip install --pre llama_stack_client
 ```
 
 ## Usage
@@ -71,7 +71,7 @@ You can enable this by installing `aiohttp`:
 
 ```sh
 # install from PyPI
-pip install llama_stack_client[aiohttp]
+pip install --pre llama_stack_client[aiohttp]
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
