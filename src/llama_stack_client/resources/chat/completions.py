@@ -18,8 +18,9 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._streaming import Stream, AsyncStream
+from ...pagination import SyncOpenAICursorPage, AsyncOpenAICursorPage
 from ...types.chat import completion_list_params, completion_create_params
-from ..._base_client import make_request_options
+from ..._base_client import AsyncPaginator, make_request_options
 from ...types.chat_completion_chunk import ChatCompletionChunk
 from ...types.chat.completion_list_response import CompletionListResponse
 from ...types.chat.completion_create_response import CompletionCreateResponse
@@ -466,7 +467,7 @@ class CompletionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> CompletionListResponse:
+    ) -> SyncOpenAICursorPage[CompletionListResponse]:
         """
         List all chat completions.
 
@@ -487,8 +488,9 @@ class CompletionsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get(
+        return self._get_api_list(
             "/v1/openai/v1/chat/completions",
+            page=SyncOpenAICursorPage[CompletionListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -504,7 +506,7 @@ class CompletionsResource(SyncAPIResource):
                     completion_list_params.CompletionListParams,
                 ),
             ),
-            cast_to=CompletionListResponse,
+            model=CompletionListResponse,
         )
 
 
@@ -933,7 +935,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
             cast_to=CompletionRetrieveResponse,
         )
 
-    async def list(
+    def list(
         self,
         *,
         after: str | NotGiven = NOT_GIVEN,
@@ -946,7 +948,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> CompletionListResponse:
+    ) -> AsyncPaginator[CompletionListResponse, AsyncOpenAICursorPage[CompletionListResponse]]:
         """
         List all chat completions.
 
@@ -967,14 +969,15 @@ class AsyncCompletionsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._get(
+        return self._get_api_list(
             "/v1/openai/v1/chat/completions",
+            page=AsyncOpenAICursorPage[CompletionListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "after": after,
                         "limit": limit,
@@ -984,7 +987,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
                     completion_list_params.CompletionListParams,
                 ),
             ),
-            cast_to=CompletionListResponse,
+            model=CompletionListResponse,
         )
 
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union, Iterable
+from typing import List, Union, Iterable
 from typing_extensions import Literal, overload
 
 import httpx
@@ -27,7 +27,8 @@ from .input_items import (
     AsyncInputItemsResourceWithStreamingResponse,
 )
 from ..._streaming import Stream, AsyncStream
-from ..._base_client import make_request_options
+from ...pagination import SyncOpenAICursorPage, AsyncOpenAICursorPage
+from ..._base_client import AsyncPaginator, make_request_options
 from ...types.response_object import ResponseObject
 from ...types.response_list_response import ResponseListResponse
 from ...types.response_object_stream import ResponseObjectStream
@@ -65,6 +66,7 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -88,9 +90,13 @@ class ResponsesResource(SyncAPIResource):
 
           model: The underlying LLM used for completions.
 
+          include: (Optional) Additional fields to include in the response.
+
           previous_response_id: (Optional) if specified, the new response will be a continuation of the previous
               response. This can be used to easily fork-off new responses from existing
               responses.
+
+          text: Text response configuration for OpenAI responses.
 
           extra_headers: Send extra headers
 
@@ -109,6 +115,7 @@ class ResponsesResource(SyncAPIResource):
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
         stream: Literal[True],
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -131,9 +138,13 @@ class ResponsesResource(SyncAPIResource):
 
           model: The underlying LLM used for completions.
 
+          include: (Optional) Additional fields to include in the response.
+
           previous_response_id: (Optional) if specified, the new response will be a continuation of the previous
               response. This can be used to easily fork-off new responses from existing
               responses.
+
+          text: Text response configuration for OpenAI responses.
 
           extra_headers: Send extra headers
 
@@ -152,6 +163,7 @@ class ResponsesResource(SyncAPIResource):
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
         stream: bool,
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -174,9 +186,13 @@ class ResponsesResource(SyncAPIResource):
 
           model: The underlying LLM used for completions.
 
+          include: (Optional) Additional fields to include in the response.
+
           previous_response_id: (Optional) if specified, the new response will be a continuation of the previous
               response. This can be used to easily fork-off new responses from existing
               responses.
+
+          text: Text response configuration for OpenAI responses.
 
           extra_headers: Send extra headers
 
@@ -194,6 +210,7 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -215,6 +232,7 @@ class ResponsesResource(SyncAPIResource):
                 {
                     "input": input,
                     "model": model,
+                    "include": include,
                     "instructions": instructions,
                     "max_infer_iters": max_infer_iters,
                     "previous_response_id": previous_response_id,
@@ -282,7 +300,7 @@ class ResponsesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ResponseListResponse:
+    ) -> SyncOpenAICursorPage[ResponseListResponse]:
         """
         List all OpenAI responses.
 
@@ -303,8 +321,9 @@ class ResponsesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get(
+        return self._get_api_list(
             "/v1/openai/v1/responses",
+            page=SyncOpenAICursorPage[ResponseListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -320,7 +339,7 @@ class ResponsesResource(SyncAPIResource):
                     response_list_params.ResponseListParams,
                 ),
             ),
-            cast_to=ResponseListResponse,
+            model=ResponseListResponse,
         )
 
 
@@ -354,6 +373,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         *,
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -377,9 +397,13 @@ class AsyncResponsesResource(AsyncAPIResource):
 
           model: The underlying LLM used for completions.
 
+          include: (Optional) Additional fields to include in the response.
+
           previous_response_id: (Optional) if specified, the new response will be a continuation of the previous
               response. This can be used to easily fork-off new responses from existing
               responses.
+
+          text: Text response configuration for OpenAI responses.
 
           extra_headers: Send extra headers
 
@@ -398,6 +422,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
         stream: Literal[True],
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -420,9 +445,13 @@ class AsyncResponsesResource(AsyncAPIResource):
 
           model: The underlying LLM used for completions.
 
+          include: (Optional) Additional fields to include in the response.
+
           previous_response_id: (Optional) if specified, the new response will be a continuation of the previous
               response. This can be used to easily fork-off new responses from existing
               responses.
+
+          text: Text response configuration for OpenAI responses.
 
           extra_headers: Send extra headers
 
@@ -441,6 +470,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
         stream: bool,
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -463,9 +493,13 @@ class AsyncResponsesResource(AsyncAPIResource):
 
           model: The underlying LLM used for completions.
 
+          include: (Optional) Additional fields to include in the response.
+
           previous_response_id: (Optional) if specified, the new response will be a continuation of the previous
               response. This can be used to easily fork-off new responses from existing
               responses.
+
+          text: Text response configuration for OpenAI responses.
 
           extra_headers: Send extra headers
 
@@ -483,6 +517,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         *,
         input: Union[str, Iterable[response_create_params.InputUnionMember1]],
         model: str,
+        include: List[str] | NotGiven = NOT_GIVEN,
         instructions: str | NotGiven = NOT_GIVEN,
         max_infer_iters: int | NotGiven = NOT_GIVEN,
         previous_response_id: str | NotGiven = NOT_GIVEN,
@@ -504,6 +539,7 @@ class AsyncResponsesResource(AsyncAPIResource):
                 {
                     "input": input,
                     "model": model,
+                    "include": include,
                     "instructions": instructions,
                     "max_infer_iters": max_infer_iters,
                     "previous_response_id": previous_response_id,
@@ -558,7 +594,7 @@ class AsyncResponsesResource(AsyncAPIResource):
             cast_to=ResponseObject,
         )
 
-    async def list(
+    def list(
         self,
         *,
         after: str | NotGiven = NOT_GIVEN,
@@ -571,7 +607,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ResponseListResponse:
+    ) -> AsyncPaginator[ResponseListResponse, AsyncOpenAICursorPage[ResponseListResponse]]:
         """
         List all OpenAI responses.
 
@@ -592,14 +628,15 @@ class AsyncResponsesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._get(
+        return self._get_api_list(
             "/v1/openai/v1/responses",
+            page=AsyncOpenAICursorPage[ResponseListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "after": after,
                         "limit": limit,
@@ -609,7 +646,7 @@ class AsyncResponsesResource(AsyncAPIResource):
                     response_list_params.ResponseListParams,
                 ),
             ),
-            cast_to=ResponseListResponse,
+            model=ResponseListResponse,
         )
 
 

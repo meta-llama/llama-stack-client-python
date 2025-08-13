@@ -30,9 +30,9 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import make_request_options
+from ...pagination import SyncOpenAICursorPage, AsyncOpenAICursorPage
+from ..._base_client import AsyncPaginator, make_request_options
 from ...types.vector_store import VectorStore
-from ...types.list_vector_stores_response import ListVectorStoresResponse
 from ...types.vector_store_delete_response import VectorStoreDeleteResponse
 from ...types.vector_store_search_response import VectorStoreSearchResponse
 
@@ -66,15 +66,14 @@ class VectorStoresResource(SyncAPIResource):
     def create(
         self,
         *,
-        name: str,
         chunking_strategy: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         embedding_dimension: int | NotGiven = NOT_GIVEN,
         embedding_model: str | NotGiven = NOT_GIVEN,
         expires_after: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         file_ids: List[str] | NotGiven = NOT_GIVEN,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
-        provider_vector_db_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -86,8 +85,6 @@ class VectorStoresResource(SyncAPIResource):
         Creates a vector store.
 
         Args:
-          name: A name for the vector store.
-
           chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will use the `auto`
               strategy.
 
@@ -102,9 +99,9 @@ class VectorStoresResource(SyncAPIResource):
 
           metadata: Set of 16 key-value pairs that can be attached to an object.
 
-          provider_id: The ID of the provider to use for this vector store.
+          name: A name for the vector store.
 
-          provider_vector_db_id: The provider-specific vector database ID.
+          provider_id: The ID of the provider to use for this vector store.
 
           extra_headers: Send extra headers
 
@@ -118,15 +115,14 @@ class VectorStoresResource(SyncAPIResource):
             "/v1/openai/v1/vector_stores",
             body=maybe_transform(
                 {
-                    "name": name,
                     "chunking_strategy": chunking_strategy,
                     "embedding_dimension": embedding_dimension,
                     "embedding_model": embedding_model,
                     "expires_after": expires_after,
                     "file_ids": file_ids,
                     "metadata": metadata,
+                    "name": name,
                     "provider_id": provider_id,
-                    "provider_vector_db_id": provider_vector_db_id,
                 },
                 vector_store_create_params.VectorStoreCreateParams,
             ),
@@ -232,7 +228,7 @@ class VectorStoresResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ListVectorStoresResponse:
+    ) -> SyncOpenAICursorPage[VectorStore]:
         """Returns a list of vector stores.
 
         Args:
@@ -258,8 +254,9 @@ class VectorStoresResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get(
+        return self._get_api_list(
             "/v1/openai/v1/vector_stores",
+            page=SyncOpenAICursorPage[VectorStore],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -275,7 +272,7 @@ class VectorStoresResource(SyncAPIResource):
                     vector_store_list_params.VectorStoreListParams,
                 ),
             ),
-            cast_to=ListVectorStoresResponse,
+            model=VectorStore,
         )
 
     def delete(
@@ -403,15 +400,14 @@ class AsyncVectorStoresResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        name: str,
         chunking_strategy: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         embedding_dimension: int | NotGiven = NOT_GIVEN,
         embedding_model: str | NotGiven = NOT_GIVEN,
         expires_after: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
         file_ids: List[str] | NotGiven = NOT_GIVEN,
         metadata: Dict[str, Union[bool, float, str, Iterable[object], object, None]] | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
         provider_id: str | NotGiven = NOT_GIVEN,
-        provider_vector_db_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -423,8 +419,6 @@ class AsyncVectorStoresResource(AsyncAPIResource):
         Creates a vector store.
 
         Args:
-          name: A name for the vector store.
-
           chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will use the `auto`
               strategy.
 
@@ -439,9 +433,9 @@ class AsyncVectorStoresResource(AsyncAPIResource):
 
           metadata: Set of 16 key-value pairs that can be attached to an object.
 
-          provider_id: The ID of the provider to use for this vector store.
+          name: A name for the vector store.
 
-          provider_vector_db_id: The provider-specific vector database ID.
+          provider_id: The ID of the provider to use for this vector store.
 
           extra_headers: Send extra headers
 
@@ -455,15 +449,14 @@ class AsyncVectorStoresResource(AsyncAPIResource):
             "/v1/openai/v1/vector_stores",
             body=await async_maybe_transform(
                 {
-                    "name": name,
                     "chunking_strategy": chunking_strategy,
                     "embedding_dimension": embedding_dimension,
                     "embedding_model": embedding_model,
                     "expires_after": expires_after,
                     "file_ids": file_ids,
                     "metadata": metadata,
+                    "name": name,
                     "provider_id": provider_id,
-                    "provider_vector_db_id": provider_vector_db_id,
                 },
                 vector_store_create_params.VectorStoreCreateParams,
             ),
@@ -556,7 +549,7 @@ class AsyncVectorStoresResource(AsyncAPIResource):
             cast_to=VectorStore,
         )
 
-    async def list(
+    def list(
         self,
         *,
         after: str | NotGiven = NOT_GIVEN,
@@ -569,7 +562,7 @@ class AsyncVectorStoresResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ListVectorStoresResponse:
+    ) -> AsyncPaginator[VectorStore, AsyncOpenAICursorPage[VectorStore]]:
         """Returns a list of vector stores.
 
         Args:
@@ -595,14 +588,15 @@ class AsyncVectorStoresResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._get(
+        return self._get_api_list(
             "/v1/openai/v1/vector_stores",
+            page=AsyncOpenAICursorPage[VectorStore],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "after": after,
                         "before": before,
@@ -612,7 +606,7 @@ class AsyncVectorStoresResource(AsyncAPIResource):
                     vector_store_list_params.VectorStoreListParams,
                 ),
             ),
-            cast_to=ListVectorStoresResponse,
+            model=VectorStore,
         )
 
     async def delete(

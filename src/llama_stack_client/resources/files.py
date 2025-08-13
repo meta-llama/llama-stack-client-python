@@ -18,9 +18,9 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ..pagination import SyncOpenAICursorPage, AsyncOpenAICursorPage
 from ..types.file import File
-from .._base_client import make_request_options
-from ..types.list_files_response import ListFilesResponse
+from .._base_client import AsyncPaginator, make_request_options
 from ..types.delete_file_response import DeleteFileResponse
 
 __all__ = ["FilesResource", "AsyncFilesResource"]
@@ -144,7 +144,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ListFilesResponse:
+    ) -> SyncOpenAICursorPage[File]:
         """
         Returns a list of files that belong to the user's organization.
 
@@ -170,8 +170,9 @@ class FilesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get(
+        return self._get_api_list(
             "/v1/openai/v1/files",
+            page=SyncOpenAICursorPage[File],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -187,7 +188,7 @@ class FilesResource(SyncAPIResource):
                     file_list_params.FileListParams,
                 ),
             ),
-            cast_to=ListFilesResponse,
+            model=File,
         )
 
     def delete(
@@ -362,7 +363,7 @@ class AsyncFilesResource(AsyncAPIResource):
             cast_to=File,
         )
 
-    async def list(
+    def list(
         self,
         *,
         after: str | NotGiven = NOT_GIVEN,
@@ -375,7 +376,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ListFilesResponse:
+    ) -> AsyncPaginator[File, AsyncOpenAICursorPage[File]]:
         """
         Returns a list of files that belong to the user's organization.
 
@@ -401,14 +402,15 @@ class AsyncFilesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._get(
+        return self._get_api_list(
             "/v1/openai/v1/files",
+            page=AsyncOpenAICursorPage[File],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "after": after,
                         "limit": limit,
@@ -418,7 +420,7 @@ class AsyncFilesResource(AsyncAPIResource):
                     file_list_params.FileListParams,
                 ),
             ),
-            cast_to=ListFilesResponse,
+            model=File,
         )
 
     async def delete(
