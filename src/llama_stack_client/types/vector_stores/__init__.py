@@ -2,5 +2,9 @@
 
 from __future__ import annotations
 
+from .file_list_params import FileListParams as FileListParams
 from .vector_store_file import VectorStoreFile as VectorStoreFile
 from .file_create_params import FileCreateParams as FileCreateParams
+from .file_update_params import FileUpdateParams as FileUpdateParams
+from .file_delete_response import FileDeleteResponse as FileDeleteResponse
+from .file_content_response import FileContentResponse as FileContentResponse

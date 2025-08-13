@@ -14,7 +14,7 @@
       "extensions": [
         "ms-python.python"
       ],
-      "settings": {
+      "settings": { 
         "terminal.integrated.shell.linux": "/bin/bash",
         "python.pythonPath": ".venv/bin/python",
         "python.defaultInterpreterPath": ".venv/bin/python",
@@ -24,6 +24,9 @@
         }
       }
     }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {}
   }
 
   // Features to add to the dev container. More info: https://containers.dev/features.
