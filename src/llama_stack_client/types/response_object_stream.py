@@ -63,6 +63,14 @@ __all__ = [
     "OpenAIResponseObjectStreamResponseMcpCallInProgress",
     "OpenAIResponseObjectStreamResponseMcpCallFailed",
     "OpenAIResponseObjectStreamResponseMcpCallCompleted",
+    "OpenAIResponseObjectStreamResponseContentPartAdded",
+    "OpenAIResponseObjectStreamResponseContentPartAddedPart",
+    "OpenAIResponseObjectStreamResponseContentPartAddedPartOpenAIResponseContentPartOutputText",
+    "OpenAIResponseObjectStreamResponseContentPartAddedPartOpenAIResponseContentPartRefusal",
+    "OpenAIResponseObjectStreamResponseContentPartDone",
+    "OpenAIResponseObjectStreamResponseContentPartDonePart",
+    "OpenAIResponseObjectStreamResponseContentPartDonePartOpenAIResponseContentPartOutputText",
+    "OpenAIResponseObjectStreamResponseContentPartDonePartOpenAIResponseContentPartRefusal",
     "OpenAIResponseObjectStreamResponseCompleted",
 ]
 
@@ -813,6 +821,82 @@ class OpenAIResponseObjectStreamResponseMcpCallCompleted(BaseModel):
     """Event type identifier, always "response.mcp_call.completed" """
 
 
+class OpenAIResponseObjectStreamResponseContentPartAddedPartOpenAIResponseContentPartOutputText(BaseModel):
+    text: str
+
+    type: Literal["output_text"]
+
+
+class OpenAIResponseObjectStreamResponseContentPartAddedPartOpenAIResponseContentPartRefusal(BaseModel):
+    refusal: str
+
+    type: Literal["refusal"]
+
+
+OpenAIResponseObjectStreamResponseContentPartAddedPart: TypeAlias = Annotated[
+    Union[
+        OpenAIResponseObjectStreamResponseContentPartAddedPartOpenAIResponseContentPartOutputText,
+        OpenAIResponseObjectStreamResponseContentPartAddedPartOpenAIResponseContentPartRefusal,
+    ],
+    PropertyInfo(discriminator="type"),
+]
+
+
+class OpenAIResponseObjectStreamResponseContentPartAdded(BaseModel):
+    item_id: str
+    """Unique identifier of the output item containing this content part"""
+
+    part: OpenAIResponseObjectStreamResponseContentPartAddedPart
+    """The content part that was added"""
+
+    response_id: str
+    """Unique identifier of the response containing this content"""
+
+    sequence_number: int
+    """Sequential number for ordering streaming events"""
+
+    type: Literal["response.content_part.added"]
+    """Event type identifier, always "response.content_part.added" """
+
+
+class OpenAIResponseObjectStreamResponseContentPartDonePartOpenAIResponseContentPartOutputText(BaseModel):
+    text: str
+
+    type: Literal["output_text"]
+
+
+class OpenAIResponseObjectStreamResponseContentPartDonePartOpenAIResponseContentPartRefusal(BaseModel):
+    refusal: str
+
+    type: Literal["refusal"]
+
+
+OpenAIResponseObjectStreamResponseContentPartDonePart: TypeAlias = Annotated[
+    Union[
+        OpenAIResponseObjectStreamResponseContentPartDonePartOpenAIResponseContentPartOutputText,
+        OpenAIResponseObjectStreamResponseContentPartDonePartOpenAIResponseContentPartRefusal,
+    ],
+    PropertyInfo(discriminator="type"),
+]
+
+
+class OpenAIResponseObjectStreamResponseContentPartDone(BaseModel):
+    item_id: str
+    """Unique identifier of the output item containing this content part"""
+
+    part: OpenAIResponseObjectStreamResponseContentPartDonePart
+    """The completed content part"""
+
+    response_id: str
+    """Unique identifier of the response containing this content"""
+
+    sequence_number: int
+    """Sequential number for ordering streaming events"""
+
+    type: Literal["response.content_part.done"]
+    """Event type identifier, always "response.content_part.done" """
+
+
 class OpenAIResponseObjectStreamResponseCompleted(BaseModel):
     response: ResponseObject
     """The completed response object"""
@@ -841,6 +925,8 @@ ResponseObjectStream: TypeAlias = Annotated[
         OpenAIResponseObjectStreamResponseMcpCallInProgress,
         OpenAIResponseObjectStreamResponseMcpCallFailed,
         OpenAIResponseObjectStreamResponseMcpCallCompleted,
+        OpenAIResponseObjectStreamResponseContentPartAdded,
+        OpenAIResponseObjectStreamResponseContentPartDone,
         OpenAIResponseObjectStreamResponseCompleted,
     ],
     PropertyInfo(discriminator="type"),
