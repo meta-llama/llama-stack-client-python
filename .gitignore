@@ -1,5 +1,4 @@
 .prism.log
-.vscode
 _dev
 
 __pycache__
@@ -14,4 +13,3 @@ dist
 .envrc
 codegen.log
 Brewfile.lock.json
-.DS_Store
