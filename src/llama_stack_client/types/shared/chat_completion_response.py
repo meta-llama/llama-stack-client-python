@@ -3,8 +3,8 @@
 from typing import List, Optional
 
 from ..._models import BaseModel
-from ..token_log_probs import TokenLogProbs
 from .completion_message import CompletionMessage
+from .shared_token_log_probs import SharedTokenLogProbs
 
 __all__ = ["ChatCompletionResponse", "Metric"]
 
@@ -24,7 +24,7 @@ class ChatCompletionResponse(BaseModel):
     completion_message: CompletionMessage
     """The complete response message"""
 
-    logprobs: Optional[List[TokenLogProbs]] = None
+    logprobs: Optional[List[SharedTokenLogProbs]] = None
     """Optional log probabilities for generated tokens"""
 
     metrics: Optional[List[Metric]] = None
