@@ -4,8 +4,8 @@ from typing import List, Optional
 from typing_extensions import Literal
 
 from .._models import BaseModel
-from .token_log_probs import TokenLogProbs
 from .shared.content_delta import ContentDelta
+from .shared.shared_token_log_probs import SharedTokenLogProbs
 
 __all__ = ["ChatCompletionResponseStreamChunk", "Event", "Metric"]
 
@@ -20,7 +20,7 @@ class Event(BaseModel):
     event_type: Literal["start", "complete", "progress"]
     """Type of the event"""
 
-    logprobs: Optional[List[TokenLogProbs]] = None
+    logprobs: Optional[List[SharedTokenLogProbs]] = None
     """Optional log probabilities for generated tokens"""
 
     stop_reason: Optional[Literal["end_of_turn", "end_of_message", "out_of_tokens"]] = None
