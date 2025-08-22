@@ -509,12 +509,14 @@ Types:
 ```python
 from llama_stack_client.types import (
     Event,
+    Metric,
     QueryCondition,
     QuerySpansResponse,
     SpanWithStatus,
     Trace,
     TelemetryGetSpanResponse,
     TelemetryGetSpanTreeResponse,
+    TelemetryQueryMetricsResponse,
     TelemetryQuerySpansResponse,
     TelemetryQueryTracesResponse,
 )
@@ -526,6 +528,7 @@ Methods:
 - <code title="post /v1/telemetry/spans/{span_id}/tree">client.telemetry.<a href="./src/llama_stack_client/resources/telemetry.py">get_span_tree</a>(span_id, \*\*<a href="src/llama_stack_client/types/telemetry_get_span_tree_params.py">params</a>) -> <a href="./src/llama_stack_client/types/telemetry_get_span_tree_response.py">TelemetryGetSpanTreeResponse</a></code>
 - <code title="get /v1/telemetry/traces/{trace_id}">client.telemetry.<a href="./src/llama_stack_client/resources/telemetry.py">get_trace</a>(trace_id) -> <a href="./src/llama_stack_client/types/trace.py">Trace</a></code>
 - <code title="post /v1/telemetry/events">client.telemetry.<a href="./src/llama_stack_client/resources/telemetry.py">log_event</a>(\*\*<a href="src/llama_stack_client/types/telemetry_log_event_params.py">params</a>) -> None</code>
+- <code title="post /v1/telemetry/metrics/{metric_name}">client.telemetry.<a href="./src/llama_stack_client/resources/telemetry.py">query_metrics</a>(metric_name, \*\*<a href="src/llama_stack_client/types/telemetry_query_metrics_params.py">params</a>) -> <a href="./src/llama_stack_client/types/telemetry_query_metrics_response.py">TelemetryQueryMetricsResponse</a></code>
 - <code title="post /v1/telemetry/spans">client.telemetry.<a href="./src/llama_stack_client/resources/telemetry.py">query_spans</a>(\*\*<a href="src/llama_stack_client/types/telemetry_query_spans_params.py">params</a>) -> <a href="./src/llama_stack_client/types/telemetry_query_spans_response.py">TelemetryQuerySpansResponse</a></code>
 - <code title="post /v1/telemetry/traces">client.telemetry.<a href="./src/llama_stack_client/resources/telemetry.py">query_traces</a>(\*\*<a href="src/llama_stack_client/types/telemetry_query_traces_params.py">params</a>) -> <a href="./src/llama_stack_client/types/telemetry_query_traces_response.py">TelemetryQueryTracesResponse</a></code>
 - <code title="post /v1/telemetry/spans/export">client.telemetry.<a href="./src/llama_stack_client/resources/telemetry.py">save_spans_to_dataset</a>(\*\*<a href="src/llama_stack_client/types/telemetry_save_spans_to_dataset_params.py">params</a>) -> None</code>
