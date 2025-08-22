@@ -2,22 +2,12 @@
 
 from typing import List, Optional
 
+from ..metric import Metric
 from ..._models import BaseModel
 from .completion_message import CompletionMessage
 from .shared_token_log_probs import SharedTokenLogProbs
 
-__all__ = ["ChatCompletionResponse", "Metric"]
-
-
-class Metric(BaseModel):
-    metric: str
-    """The name of the metric"""
-
-    value: float
-    """The numeric value of the metric"""
-
-    unit: Optional[str] = None
-    """(Optional) The unit of measurement for the metric value"""
+__all__ = ["ChatCompletionResponse"]
 
 
 class ChatCompletionResponse(BaseModel):

@@ -3,21 +3,11 @@
 from typing import List, Optional
 from typing_extensions import Literal
 
+from ..metric import Metric
 from ..._models import BaseModel
 from .shared_token_log_probs import SharedTokenLogProbs
 
-__all__ = ["BatchCompletion", "Batch", "BatchMetric"]
-
-
-class BatchMetric(BaseModel):
-    metric: str
-    """The name of the metric"""
-
-    value: float
-    """The numeric value of the metric"""
-
-    unit: Optional[str] = None
-    """(Optional) The unit of measurement for the metric value"""
+__all__ = ["BatchCompletion", "Batch"]
 
 
 class Batch(BaseModel):
@@ -30,7 +20,7 @@ class Batch(BaseModel):
     logprobs: Optional[List[SharedTokenLogProbs]] = None
     """Optional log probabilities for generated tokens"""
 
-    metrics: Optional[List[BatchMetric]] = None
+    metrics: Optional[List[Metric]] = None
     """(Optional) List of metrics associated with the API response"""
 
 
