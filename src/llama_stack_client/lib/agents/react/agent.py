@@ -13,7 +13,7 @@ from llama_stack_client.types.shared_params.agent_config import ToolConfig
 from llama_stack_client.types.shared_params.response_format import ResponseFormat
 from llama_stack_client.types.shared_params.sampling_params import SamplingParams
 
-from ..._types import Headers
+from ...._types import Headers
 from ..agent import Agent, AgentUtils
 from ..client_tool import ClientTool
 from ..tool_parser import ToolParser
