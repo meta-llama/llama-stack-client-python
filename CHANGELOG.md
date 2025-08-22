@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.3.0-alpha.1 (2025-08-22)
+
+Full Changelog: [v0.2.18-alpha.3...v0.3.0-alpha.1](https://github.com/llamastack/llama-stack-client-python/compare/v0.2.18-alpha.3...v0.3.0-alpha.1)
+
+### Features
+
+* **api:** manual updates ([119bdb2](https://github.com/llamastack/llama-stack-client-python/commit/119bdb2a862fe772ca82770937aba49ffb039bf2))
+
+
+### Bug Fixes
+
+* **agent:** fix wrong module import in ReAct agent ([#262](https://github.com/llamastack/llama-stack-client-python/issues/262)) ([c17f3d6](https://github.com/llamastack/llama-stack-client-python/commit/c17f3d65af17d282785623864661ef2d16fcb1fc)), closes [#261](https://github.com/llamastack/llama-stack-client-python/issues/261)
+* **build:** kill explicit listing of python3.13 for now ([5284b4a](https://github.com/llamastack/llama-stack-client-python/commit/5284b4a93822e8900c05f63ddf342aab3b603aa3))
+
+
+### Chores
+
+* update github action ([af6b97e](https://github.com/llamastack/llama-stack-client-python/commit/af6b97e6ec55473a03682ea45e4bac9429fbdf78))
+
+
+### Build System
+
+* Bump version to 0.2.18 ([53d95ba](https://github.com/llamastack/llama-stack-client-python/commit/53d95bad01e4aaa8fa27438618aaa6082cd60275))
+
 ## 0.2.18-alpha.3 (2025-08-14)
 
 Full Changelog: [v0.2.18-alpha.2...v0.2.18-alpha.3](https://github.com/llamastack/llama-stack-client-python/compare/v0.2.18-alpha.2...v0.2.18-alpha.3)
