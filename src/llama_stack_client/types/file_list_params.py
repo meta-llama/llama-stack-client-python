@@ -29,5 +29,5 @@ class FileListParams(TypedDict, total=False):
     `asc` for ascending order and `desc` for descending order.
     """
 
-    purpose: Literal["assistants", "batch"]
+    purpose: Literal["assistants"]
     """Only return files with the given purpose."""
