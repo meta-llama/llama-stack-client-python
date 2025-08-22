@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.18-alpha.4 (2025-08-22)
+
+Full Changelog: [v0.2.18-alpha.3...v0.2.18-alpha.4](https://github.com/llamastack/llama-stack-client-python/compare/v0.2.18-alpha.3...v0.2.18-alpha.4)
+
+### Chores
+
+* sync repo ([759538d](https://github.com/llamastack/llama-stack-client-python/commit/759538def9839d814bad47beb0ba96e4aa571b04))
+
 ## 0.2.18-alpha.3 (2025-08-14)
 
 Full Changelog: [v0.2.18-alpha.2...v0.2.18-alpha.3](https://github.com/llamastack/llama-stack-client-python/compare/v0.2.18-alpha.2...v0.2.18-alpha.3)
