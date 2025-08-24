@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Type, cast
+from typing import Type, cast, Dict, Any
 
 import httpx
 
@@ -15,10 +15,15 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from .._wrappers import DataWrapper
 from .._base_client import make_request_options
 from ..types.provider_info import ProviderInfo
 from ..types.provider_list_response import ProviderListResponse
+from ..types import provider_update_params
 
 __all__ = ["ProvidersResource", "AsyncProvidersResource"]
 
@@ -42,6 +47,44 @@ class ProvidersResource(SyncAPIResource):
         For more information, see https://www.github.com/llamastack/llama-stack-client-python#with_streaming_response
         """
         return ProvidersResourceWithStreamingResponse(self)
+    
+    def update(
+        self,
+        api: str,
+        provider_id: str,
+        provider_type: str,
+        *,
+        config: Dict[str, Any],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ProviderInfo:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._put(
+            f"/v1/providers/{api}/{provider_id}/{provider_type}",
+            body=maybe_transform(
+                {
+                    "config": config,
+                },
+                provider_update_params.UpdateProviderRequest,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ProviderInfo,
+        )
 
     def retrieve(
         self,
@@ -119,6 +162,45 @@ class AsyncProvidersResource(AsyncAPIResource):
         For more information, see https://www.github.com/llamastack/llama-stack-client-python#with_streaming_response
         """
         return AsyncProvidersResourceWithStreamingResponse(self)
+    
+
+    async def update(
+        self,
+        api: str,
+        provider_id: str,
+        provider_type: str,
+        *,
+        config: Dict[str, Any],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ProviderInfo:
+        """
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._put(
+            f"/v1/providers/{api}/{provider_id}/{provider_type}",
+            body=async_maybe_transform(
+                {
+                    "config": config,
+                },
+                provider_update_params.UpdateProviderRequest,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ProviderInfo,
+        )
 
     async def retrieve(
         self,
@@ -181,6 +263,9 @@ class ProvidersResourceWithRawResponse:
     def __init__(self, providers: ProvidersResource) -> None:
         self._providers = providers
 
+        self.update = to_raw_response_wrapper(
+            providers.update,
+        )
         self.retrieve = to_raw_response_wrapper(
             providers.retrieve,
         )
@@ -193,6 +278,9 @@ class AsyncProvidersResourceWithRawResponse:
     def __init__(self, providers: AsyncProvidersResource) -> None:
         self._providers = providers
 
+        self.update = async_to_raw_response_wrapper(
+            providers.update,
+        )
         self.retrieve = async_to_raw_response_wrapper(
             providers.retrieve,
         )
@@ -205,6 +293,9 @@ class ProvidersResourceWithStreamingResponse:
     def __init__(self, providers: ProvidersResource) -> None:
         self._providers = providers
 
+        self.update = to_streamed_response_wrapper(
+            providers.update,
+        )
         self.retrieve = to_streamed_response_wrapper(
             providers.retrieve,
         )
@@ -217,6 +308,9 @@ class AsyncProvidersResourceWithStreamingResponse:
     def __init__(self, providers: AsyncProvidersResource) -> None:
         self._providers = providers
 
+        self.update = async_to_streamed_response_wrapper(
+            providers.update,
+        )
         self.retrieve = async_to_streamed_response_wrapper(
             providers.retrieve,
         )
